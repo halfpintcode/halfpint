@@ -1,0 +1,15 @@
+﻿@model List<hpMvc.Models.WebLog>
+@{
+    ViewBag.Title = "Web Logs";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Web Logs</h2>
+<div>
+
+@{    
+    var grid = new WebGrid(Model, defaultSort: "logDate", rowsPerPage: 50 );
+}
+
+@grid.GetHtml()
+</div>

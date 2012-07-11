@@ -1,0 +1,110 @@
+﻿#divSideBar
+{
+    float:left;
+    margin-right:0px;
+    padding-right:5px;
+    border-right: 1px solid #DEDEDE;
+}
+
+.hideStart {
+    display:none;
+}
+.mod {
+    display:none;
+}
+.noCheck
+{
+   background-image: "";
+    
+}
+.withCheck
+{
+   background-image: url(images/valid.png)  
+}
+#mainTitle
+{
+    float:left;
+    font-size:1.5em;
+    text-align: center;
+    width: 100%;
+    background-color:Aqua;
+}
+.square ul 
+{
+    list-style:square outside;
+    margin-left:55px;  
+}
+
+.square ul ul
+{
+    list-style:circle inside;
+        
+}
+
+.square ul ul ul
+{
+    list-style:disc inside;
+        
+}
+
+#divSideChecks
+{
+    float:left;
+}
+
+
+#div1Col
+{
+    float:left;
+    margin-left:10px;
+    padding-left:5px;
+    
+    width:80%;
+}
+#divInnerSensor  
+{
+    width:25%;
+    display: inline-block;
+    float: left; 
+}
+#sensorImage  
+{
+    width:50%;    
+    display: inline-block;
+    float: left; 
+}
+#divSensor p label  
+{
+    width: 10em; 
+    float: left; 
+}
+#divParams label  
+{
+    width: 15em; 
+    float: left; 
+}
+label.lblLogin  
+{
+    width: 5em; 
+    float: left; 
+}
+label.error  
+{
+    float: none; 
+    color: red; 
+    padding-left: .5em; 
+    vertical-align: top; 
+}
+fieldset
+{
+    width:78%;
+}
+
+p { clear: both; }
+
+.validError  
+{
+    color: red; 
+    padding-left: .5em; 
+    vertical-align: top; 
+}

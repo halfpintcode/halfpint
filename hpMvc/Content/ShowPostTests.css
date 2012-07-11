@@ -1,0 +1,27 @@
+﻿#tbl1
+{
+    border-collapse: collapse;
+    
+}
+#tbl1 tr td:first-child
+{
+    text-align:left; 
+    vertical-align: top;   
+    width:200px;        
+}
+#tbl1 tr td
+{
+    padding:5px;
+    border: 1px solid;    
+}
+
+#tbl1 th {
+	text-align: left;
+}
+
+.tName  
+{
+    display: inline-block;
+    width:150px;
+    border-right: 1px solid;
+}

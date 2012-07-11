@@ -1,0 +1,71 @@
+﻿@{
+    ViewBag.Title = "VampJr";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="@Url.Content("~/Content/Posttest.css")" rel="stylesheet" type="text/css" />
+<script src="@Url.Content("~/Scripts/PostTest.js")" type="text/javascript"></script>
+
+<h2>Online Modules and Testing - Vamp Jr.</h2>
+<hr />
+<form action="" method="post">    
+    <input id="name" name="name" type="hidden" value='@ViewBag.Name'/>
+    <input id="test" name="test" type="hidden" value='@ViewBag.Test'/> 
+    <input id="completed" name="completed" type="hidden" value='@ViewBag.Completed'/>   
+    <p id="testIntro">
+        After viewing the video, click on the 'Take the test' link (below the video). You must answer all questions correctly.
+    </p>
+    <iframe src="//player.vimeo.com/video/36693991?title=0&amp;byline=0&amp;portrait=0" 
+			width="533" height="300" 
+			frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen>
+	</iframe>
+	<p>
+		Module 5: Vamp Jr.
+	</p>							
+	<a href="" id="showHideTest">Take the test</a>
+    <div id="testForm">
+        <div class="question">
+            1) <span class="questionText"> While priming the VAMP Jr. system: </span>
+        </div>
+        <br />
+        <div class="answer">
+            <span class="spanswer"> a) </span> <input type="radio" name="question1" value="a" />  I keep the shut off valve in the open position and hold the sampling site below the VAMP Jr. 
+            <br /><span class="answerTextOver">reservoir at a 45 degree angle</span>            
+        </div>
+        <div class="answer">  
+            <span class="spanswer"> b) </span> <input type="radio" name="question1" value="b" />  I keep the shut off valve in the closed position and hold the sampling site above the VAMP Jr. 
+            <br /><span class="answerTextOver">reservoir at a 90 degree angle<span></span>
+        </div>
+        <div class="answer">
+            <span class="spanswer"> c) </span> <input type="radio" name="question1" value="c" />  I keep the shut off valve in the open position and hold the sampling site above the VAMP Jr. 
+            <br /><span class="answerTextOver">reservoir at a 45 degree angle</span>   
+        </div>
+        <br />
+        <div class="question">
+            2) <span class="questionText"> When drawing a sample from the VAMP Jr., I first attach the cannula to the sample site, then attach </span>
+            <br /><span class="questionTextOver">the syringe to the cannula </span>
+               
+        </div>
+        <br />
+        <div class="answer">
+            <input type="radio" name="question2" value="Yes" />  <span>Yes</span>            
+        </div>
+        <div class="answer">  
+            <input type="radio" name="question2" value="No" />  No
+        </div>
+        <br />
+        <div class="question">
+            3) <span class="questionText"> When removing the syringe from the sample site, I pull straight out, holding the cannula</span>                
+        </div>
+        <br />
+        <div class="answer">
+            <input type="radio" name="question3" value="Yes" />  <span>Yes</span>            
+        </div>
+        <div class="answer">  
+            <input type="radio" name="question3" value="No" />  No
+        </div>
+        <br />
+        <input type="button" id="btnSubmit" value="Submit Answers" /> 
+    </div>
+    <br />
+    @Html.ActionLink("Back to tests menu", "Initialize",  new { Controller = "PostTests", name = @ViewBag.Name })
+</form>

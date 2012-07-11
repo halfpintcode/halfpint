@@ -1,0 +1,48 @@
+﻿@{
+    ViewBag.Title = "BroadcastEmail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Halfpint Broadcast Email</h2>
+
+<form action="" method="post">
+    
+    <div>
+        <span class="firstLabel">Select sites:&nbsp;</span> @Html.ListBox("sites")
+        <input id="addSite" type="button" value=">>" /> &nbsp;&nbsp;
+        <input id="removeSite" type="button" value="<<" />
+        <select id="selectedSites" multiple="multiple"></select>
+        
+    </div>
+    <br />
+    <div>
+        <span class="firstLabel">Select roles:&nbsp;</span> @Html.ListBox("roles")
+        <input id="addRole" type="button" value=">>" /> &nbsp;&nbsp;
+        <input id="removeRole" type="button" value="<<" />
+        <select id="selectedRoles" multiple="multiple"></select>    
+    </div>
+    <br />
+    <br />
+    <div>
+        <span class="firstLabel">Select users:&nbsp;</span> @Html.ListBox("users")
+        <input id="addUser" type="button" value=">>" /> &nbsp;&nbsp;
+        <input id="removeUser" type="button" value="<<" />
+        <select id="selectedUsers" multiple="multiple"></select> 
+    </div>
+    <div>
+        <span class="firstLabel">Subject:&nbsp;</span> <input type="text" id="subject" />
+    </div>
+    <br />
+    <div>
+        <span class="firstLabel">Message:&nbsp;</span> <textarea cols="100" rows="5" id="message" ></textarea>
+    </div>
+    <br />
+    <br />
+    <div><input type="button" value="Send" id="btnSend" /></div>
+    @Html.ActionLink("Reset", "BroadcastEmail")
+    
+</form>
+
+<link href="@Url.Content("~/Content/Broadcast.css")" rel="stylesheet" type="text/css" />
+<script src="@Url.Content("~/Scripts/Broadcast.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/json2.js")" type="text/javascript"></script>

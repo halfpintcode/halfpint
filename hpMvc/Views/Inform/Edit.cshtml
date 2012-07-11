@@ -1,0 +1,27 @@
+﻿@model hpMvc.Models.InformPageModel
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit Inform Home Page</h2>
+
+<form method="post" action="">
+    <div>
+        <label>Header Content:</label>
+        <br />
+        <textarea id="HeaderContent" name="HeaderContent" cols="100" rows="4">@Model.HeaderContent</textarea>
+        <br /><br />
+        <label>Main Content:</label>
+        <br />
+        <textarea id="MainContent" name="MainContent" cols="100" rows="20">@Model.MainContent</textarea>
+        <br /><br />
+        <label>Footer Content:</label>
+        <br />
+        <textarea id="FooterContent" name="FooterContent" cols="100" rows="4">@Model.FooterContent</textarea>
+        <br /><br />        
+        <input type="button" id="btnSave" value="Save" />        
+    </div>    
+</form>
+
+<script src="@Url.Content("~/Scripts/InformEdit.js")" type="text/javascript"></script>

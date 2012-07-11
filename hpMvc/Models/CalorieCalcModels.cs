@@ -1,0 +1,114 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace hpMvc.Models
+{
+    public class CalInfuseColumn
+    {
+        public double DexValue { get; set; }
+        public int[] Volumes { get; set; }
+       
+    }
+
+    public class CalAllData
+    {
+        public CalStudyInfo callstudyInfo { get; set; }
+        public List<CalInfuseColumn> calInfusionCol { get; set; }
+        public List<CalParenteral> calParenterals { get; set; }
+        public List<CalEnteral> calEnterals { get; set; }
+        public List<CalAdditive> calAdditives { get; set; }
+        public CalOtherNutrition calOtherNutrition { get; set; }
+    }
+        
+    public class CalStudyInfo
+    {
+        public int ID { get; set; }
+        public int StudyID { get; set; }
+        public string SStudyID { get; set; }
+        public double Weight { get; set; }
+        public string CalcDate { get; set; }
+        public int TotalCals { get; set; }
+    }
+
+    public class CalOtherNutrition
+    {
+        public int ID { get; set; }
+        public int CalStudyID { get; set; }
+        public bool BreastFeeding { get; set; }
+        public bool SolidFoods { get; set; }
+        public bool Drinks { get; set; }
+        public bool Other { get; set; }
+        public string OtherText { get; set; }
+    }
+
+    public class CalEnteral
+    {
+        public int ID { get; set; }
+        public int CalStudyID { get; set; }
+        public int FormulaID { get; set; }
+        public int Volume { get; set; }
+    }
+
+    public class CalAdditive
+    {
+        public int ID { get; set; }
+        public int CalStudyID { get; set; }
+        public int AdditiveID { get; set; }
+        public int Volume { get; set; }
+    }
+        
+    public class CalInfusionDex
+    {
+        public int ID { get; set; }
+        public int CalStudyID { get; set; }
+        public double DexVal { get; set; }        
+    }
+
+    public class CalInfusionVol
+    {
+        public int ID { get; set; }
+        public int DexID { get; set; }
+        public int Volume { get; set; }
+    }
+
+    public class CalParenteral
+    {
+        public int ID { get; set; }
+        public int CalStudyID { get; set; }
+        public double DexPercent { get; set; }
+        public double AminoPercent { get; set; }
+        public double LipidPercent { get; set; }
+        public double Volume { get; set; }
+    }
+
+    public class DextroseConcentration
+    {
+        public int ID { get; set; }
+        public string Concentration { get; set; }
+        public double Kcal_ml { get; set; }
+    }
+
+    public class EnteralFormula
+    {
+        public int ID { get; set; }
+        public string Name { get; set; }
+        public double Kcal_ml { get; set; }
+        public double ProteinKcal { get; set; }
+        public double ChoKcal { get; set; }
+        public double LipidKcal { get; set; }
+    }
+
+    public class Additive
+    {
+        public int ID { get; set; }
+        public string Name { get; set; }
+        public int Unit { get; set; }
+        public string UnitName { get; set; }
+        public double Kcal_unit { get; set; }
+        public double ProteinKcal { get; set; }
+        public double ChoKcal { get; set; }
+        public double LipidKcal { get; set; }
+    }
+}

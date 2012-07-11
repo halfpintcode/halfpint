@@ -1,0 +1,27 @@
+﻿@using hpMvc.Models
+@using hpMvc.DataBase
+@if(Request.IsAuthenticated) {
+    <span>Welcome &nbsp;  
+        <span id="userStuff">
+            @User.Identity.Name
+            &nbsp;&nbsp;
+        </span>
+        &nbsp; 
+        <span id="userSite">@(DbUtils.GetSiteIDandNameForUser(@User.Identity.Name))</span>
+        [ @Html.ActionLink("Log Off", "LogOff", "Account") ]
+    </span>
+    
+    var role = AccountUtils.GetRolesForUser(@User.Identity.Name);
+    if(@role != "My role: Horse")    
+    {
+        <br /><span id="myRole">@role</span>
+    }  
+}
+else
+{
+    @:[ @Html.ActionLink("Log On", "LogOn", "Account") ]
+}
+
+<div id="divUserMenu">
+    <a id="aMyProfile" href="#">My profile</a>    
+</div>

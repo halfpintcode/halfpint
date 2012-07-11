@@ -1,0 +1,52 @@
+﻿@model IEnumerable<hpMvc.Models.PostTestExtended>
+
+@{
+    ViewBag.Title = "ShowPostTestsCompleted2";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Post Tests Completed</h2>
+<form action="" method="post">
+
+<div id="div1">
+<table id="ptTable">
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Test
+            </th>
+            <th>
+                Date Completed
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.PersonName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.sDateCompleted)
+        </td>
+    </tr>
+}
+</tbody>
+</table>
+</div>
+
+</form>
+
+<link href="@Url.Content("~/Content/jquery.dataTables.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/Content/TableTools.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/Content/ShowPostTests2.css")" rel="stylesheet" type="text/css" />
+<script src="@Url.Content("~/Scripts/ShowPostTestsCompleted.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.dataTables.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.dataTables.rowGrouping.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/TableTools.js")" type="text/javascript"></script>

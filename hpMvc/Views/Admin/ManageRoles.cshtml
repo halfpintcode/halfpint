@@ -1,0 +1,51 @@
+﻿@{
+	ViewBag.Title = "Manage Roles";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+	var roles = (String[])ViewBag.Roles;
+}
+	
+
+<h2>Manage Roles</h2>
+<div id="divSideBar">
+	<ul>
+		<li><a href="#" id="lnkNewRole">Add new role</a></li>
+        <li>@Html.ActionLink("Back to Manage Users", "Index")</li>
+	</ul>
+</div>
+
+<form action="" method="post">
+
+    <div id="div1Col">
+	    <div id="divMain">
+            @if (roles.Length == 0)
+            {
+                <text>There are no roles defined</text>
+            }
+            else
+            {
+                <text>Current Roles</text>
+                <hr />
+                foreach (var role in roles)
+                { 
+		            <div>
+			            @role
+		            </div>
+                }
+            }    
+        </div>
+        <div id="divNewRole" title="Add New Role">
+	        <label>Enter role name</label>
+	        <br />
+	        <input id="txtRole" type="text" />
+            <br />
+            <input type="button" id="btnSave" value="Save" />
+            &nbsp;&nbsp;
+            <input type="button" id="btnCancel" value="Cancel" /><img alt="" id="waitGif" src="@Url.Content("~/Content/images/wait.gif")" />
+
+        </div>
+        
+    </div>
+</form>
+
+<link href="@Url.Content("~/Content/Admin.css")" rel="stylesheet" type="text/css" />
+<script src="@Url.Content("~/Scripts/ManageRoles.js")" type="text/javascript"></script>

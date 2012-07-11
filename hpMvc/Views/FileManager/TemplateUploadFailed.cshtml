@@ -1,0 +1,14 @@
+﻿@{
+    ViewBag.Title = "TemplateUploadFailed";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>CHECKS Template Upload</h2>
+<p>
+    The CHECKS Template upload failed!
+</p>
+
+<br />
+@Html.RouteLink("Back to Admin", new { controller="Admin", Action = "Index" })
+<br />
+@Html.RouteLink("Back to CHECKS Template Upload", new { controller = "FileManager", Action = "TemplateUpload" })

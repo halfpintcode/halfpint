@@ -1,0 +1,28 @@
+﻿body {
+}
+
+
+#div1Col
+{
+    float:left;
+    margin-right:20px;
+    padding-right:20px;
+    border-right: 1px solid #DEDEDE;
+    width:30%;
+    
+}
+
+.tblRoles
+{
+    border-collapse:collapse;
+}
+
+#adminBottom
+{
+    clear:both;
+}
+
+#firstCellManage
+{
+    width:200px;
+}

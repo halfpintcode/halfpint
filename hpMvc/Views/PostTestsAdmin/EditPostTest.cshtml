@@ -1,0 +1,85 @@
+﻿@model hpMvc.Models.PostTestsModel
+
+@{
+    ViewBag.Title = "EditPostTest";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit Post Test</h2>
+<link href="@Url.Content("~/Content/postTestEdit.css")" rel="stylesheet" type="text/css" />
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/postTestEdit.js")" type="text/javascript"></script>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+    
+        <br />
+        <p>
+            Select the tests completed by <strong> @Model.Name </strong>  
+        </p>      
+        <input type="hidden" name="Name" value="@Model.Name" />
+        <div>
+            @Html.EditorFor(model => model.Overview) <label class='lbl1'>Overview</label>
+            @Html.ValidationMessageFor(model => model.Overview)
+            &nbsp;
+            <span id="spanOverview" class="spanDate">
+                @Html.LabelFor(model => model.OverviewCompleted)
+                @Html.EditorFor(model => model.OverviewCompleted)
+                @Html.ValidationMessageFor(model => model.OverviewCompleted)
+            </span>
+        </div>
+        
+        <div class="editor-label">
+            @Html.EditorFor(model => model.Checks)  <label class='lbl1'>Checks</label>
+            @Html.ValidationMessageFor(model => model.Checks)
+            &nbsp;
+            <span id="spanChecks" class="spanDate">
+                @Html.LabelFor(model => model.ChecksCompleted)
+                @Html.EditorFor(model => model.ChecksCompleted)
+                @Html.ValidationMessageFor(model => model.ChecksCompleted)
+            </span>
+        </div>
+        
+        <div class="editor-label">
+            @Html.EditorFor(model => model.Medtronic) <label class='lbl1'>Medtronic</label>
+            @Html.ValidationMessageFor(model => model.Medtronic)
+            &nbsp;
+            <span id="spanMedtronic" class="spanDate">
+                @Html.LabelFor(model => model.MedtronicCompleted)
+                @Html.EditorFor(model => model.MedtronicCompleted)
+                @Html.ValidationMessageFor(model => model.MedtronicCompleted)
+            </span>
+        </div>
+        
+        <div class="editor-label">
+            @Html.EditorFor(model => model.NovaStatStrip) <label class='lbl1'>Nova Stat Strip</label>
+            @Html.ValidationMessageFor(model => model.NovaStatStrip)
+            &nbsp;
+            <span id="spanNova" class="spanDate">
+                @Html.LabelFor(model => model.NovaStatStripCompleted)
+                @Html.EditorFor(model => model.NovaStatStripCompleted)
+                @Html.ValidationMessageFor(model => model.NovaStatStripCompleted)
+            </span>
+        </div>
+        
+        <div class="editor-label">
+            @Html.EditorFor(model => model.VampJr) <label class='lbl1'>Vamp Jr.</label>
+            @Html.ValidationMessageFor(model => model.VampJr)
+            &nbsp;
+            <span id="spanVampJr" class="spanDate">
+                @Html.LabelFor(model => model.VampJrCompleted)
+                @Html.EditorFor(model => model.VampJrCompleted)
+                @Html.ValidationMessageFor(model => model.VampJrCompleted)
+            </span>
+        </div>
+        
+        <p>
+            <input id="save" type="button" value="Save" />
+        </p>
+    
+}
+
+<div>
+    @Html.ActionLink("Back to Post Tests Admin", "Index")
+</div>

@@ -1,0 +1,12 @@
+﻿@{
+    ViewBag.Title = "DCC Menu";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>DCC Menu</h2>
+
+
+<ul id="ulMainMenu">
+	<li>@Html.ActionLink("InForm Admin", "Edit", "Inform")</li>	
+    <li>@Html.ActionLink("Show Randomized Studies", "RandomizedStudies")</li>			
+</ul>

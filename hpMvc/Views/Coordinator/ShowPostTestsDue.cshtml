@@ -1,0 +1,45 @@
+﻿@model IEnumerable<hpMvc.Models.PostTestNextDue>
+@{
+    ViewBag.Title = "ShowPostTestsDue";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Post Tests Next Due Date</h2>
+<form action="" method="post">
+
+<div id="div1">
+<table id="ptTable">
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Next Due Date
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.sNextDueDate)
+        </td>
+    </tr>
+}
+</tbody>
+</table>
+</div>
+
+</form>
+
+<link href="@Url.Content("~/Content/jquery.dataTables.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/Content/TableTools.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/Content/ShowPostTestsDue.css")" rel="stylesheet" type="text/css" />
+
+<script src="@Url.Content("~/Scripts/jquery.dataTables.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/TableTools.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/PostTestsDue.js")" type="text/javascript"></script>

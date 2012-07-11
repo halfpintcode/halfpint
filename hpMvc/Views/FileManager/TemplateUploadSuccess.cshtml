@@ -1,0 +1,12 @@
+﻿@{
+    ViewBag.Title = "TemplateUploadSuccess";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>CHECKS Template Upload</h2>
+<p>
+    The CHECKS Template was uploaded successfully!
+</p>
+
+<br />
+@Html.RouteLink("Back to Admin", new { controller="Admin", Action = "Index" })

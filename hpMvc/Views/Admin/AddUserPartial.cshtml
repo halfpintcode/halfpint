@@ -1,0 +1,48 @@
+﻿@model hpMvc.Models.AddUserModel
+
+@using (Ajax.BeginForm("AddUser", new AjaxOptions
+{
+    HttpMethod = "post",
+    UpdateTargetId = "formContent",
+    InsertionMode = InsertionMode.Replace,
+    OnBegin = "onBegin",
+    OnComplete = "onComplete"   
+
+}))
+{
+    @Html.ValidationSummary(true, "Account creation was unsuccessful. Please correct the errors and try again.")
+    <br />
+    
+    <fieldset>
+        <legend>User Information</legend>
+        
+        @Html.DropDownList("SelectedSite", Model.Site, 0)
+        @Html.ValidationMessageFor(model => model.SelectedSite)
+
+        <br /><br />
+        <div class="editor-label">
+            @Html.LabelFor(model => model.UserName)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.UserName)
+            @Html.ValidationMessageFor(model => model.UserName)
+        </div>
+
+        <br />
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Email)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.Email)
+            @Html.ValidationMessageFor(model => model.Email)
+        </div>
+               
+        <br />
+        <input checked="checked" type="checkbox" name="SendEmail" value="chkSendMail" />Send email to user
+        <br /><br />
+        <p>
+            <input type="submit" value="Save" />
+            <img alt="" id="waitGif" src="@Url.Content("~/Content/images/wait.gif")" />
+        </p>
+    </fieldset>
+}

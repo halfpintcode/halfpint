@@ -1,0 +1,423 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{05CE2E31-0092-4425-868D-0424A217E1C6}</ProjectGuid>
+    <ProjectTypeGuids>{E53F8FEA-EAE0-44A6-8774-FFD645390401};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>hpMvc</RootNamespace>
+    <AssemblyName>hpMvc</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>false</UseIISExpress>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PublishDatabases>false</PublishDatabases>
+    <IncludeIisSettings>true</IncludeIisSettings>
+    <DeployIisAppPath>Default Web Site/</DeployIisAppPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DocumentFormat.OpenXml, Version=2.0.5022.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework, Version=4.3.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.4.3.0\lib\net40\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="NLog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.2.0.0.2000\lib\net40\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="WindowsBase">
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\CalorieCalcController.cs" />
+    <Compile Include="Controllers\CoordinatorController.cs" />
+    <Compile Include="Controllers\DccController.cs" />
+    <Compile Include="Controllers\EmailController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\FamiliesController.cs" />
+    <Compile Include="Controllers\DownloadController.cs" />
+    <Compile Include="Controllers\FileManagerController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InformController.cs" />
+    <Compile Include="Controllers\InitializeSubjectController.cs" />
+    <Compile Include="Controllers\PostsTestsAdminController.cs" />
+    <Compile Include="Controllers\PostTestsController.cs" />
+    <Compile Include="Controllers\StaffController.cs" />
+    <Compile Include="Controllers\TestController.cs" />
+    <Compile Include="DataBase\DbCalorieCalc.cs" />
+    <Compile Include="DataBase\DbContext.cs" />
+    <Compile Include="DataBase\DbInform.cs" />
+    <Compile Include="DataBase\DbInitializeContext.cs" />
+    <Compile Include="DataBase\DbPostTests.cs" />
+    <Compile Include="DataBase\ssUtils.cs" />
+    <Compile Include="DataBase\Utility.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Helpers\AuthHelper.cs" />
+    <Compile Include="Helpers\ListHelpers.cs" />
+    <Compile Include="Helpers\PagedList.cs" />
+    <Compile Include="Infrastructure\FormsAuthTokenStore.cs" />
+    <Compile Include="Infrastructure\ListExtensions.cs" />
+    <Compile Include="Infrastructure\Logging\ILogger.cs" />
+    <Compile Include="Infrastructure\Logging\NLogger.cs" />
+    <Compile Include="Infrastructure\Massive.cs" />
+    <Compile Include="Infrastructure\RouteHelper.cs" />
+    <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\AdminModels.cs" />
+    <Compile Include="Models\CalorieCalcModels.cs" />
+    <Compile Include="Models\DataTransferObject.cs" />
+    <Compile Include="Models\InformPageModel.cs" />
+    <Compile Include="Models\InitializeSubject.cs" />
+    <Compile Include="Models\ManageRollsModel.cs" />
+    <Compile Include="Models\PostTestsModel.cs" />
+    <Compile Include="Models\SensorModel.cs" />
+    <Compile Include="Models\TestModels.cs" />
+    <Compile Include="Models\UtilityModels.cs" />
+    <Compile Include="Models\ValidationExtensions.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WebForm1.aspx.cs">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebForm1.aspx.designer.cs">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\Broadcast.css" />
+    <Content Include="Content\jquery.dataTables.css" />
+    <Content Include="Content\Images\mailLogo.gif" />
+    <Content Include="Content\Images\mailLogo.jpg" />
+    <Content Include="Content\Inform.css" />
+    <Content Include="Content\Admin.css" />
+    <Content Include="Content\calCalc.css" />
+    <Content Include="Content\Earthlingtwo\images\img01.jpg" />
+    <Content Include="Content\Earthlingtwo\images\img02.jpg" />
+    <Content Include="Content\Earthlingtwo\images\img03.jpg" />
+    <Content Include="Content\Earthlingtwo\images\img04.jpg" />
+    <Content Include="Content\Earthlingtwo\images\img05.jpg" />
+    <Content Include="Content\Earthlingtwo\images\img06.jpg" />
+    <Content Include="Content\Earthlingtwo\images\img07.jpg" />
+    <Content Include="Content\Earthlingtwo\images\img08.jpg" />
+    <Content Include="Content\Earthlingtwo\images\img09.jpg" />
+    <Content Include="Content\Earthlingtwo\images\img10.gif" />
+    <Content Include="Content\Earthlingtwo\images\img11.gif" />
+    <Content Include="Content\Earthlingtwo\images\img12.jpg" />
+    <Content Include="Content\Earthlingtwo\images\img15.jpg" />
+    <Content Include="Content\Earthlingtwo\license.txt" />
+    <Content Include="Content\Earthlingtwo\style.css" />
+    <Content Include="Content\Images\clinicaltrials.gif" />
+    <Content Include="Content\Images\home-showcase.png" />
+    <Content Include="Content\Images\logo.png" />
+    <Content Include="Content\Images\nhlbi.gif" />
+    <Content Include="Content\Images\nih.gif" />
+    <Content Include="Content\Images\placeholder.gif" />
+    <Content Include="Content\Images\valid.png" />
+    <Content Include="Content\Posttest.css" />
+    <Content Include="Content\PostTestCertificate.css" />
+    <Content Include="Content\postTestEdit.css" />
+    <Content Include="Content\PostTestsStart.css" />
+    <Content Include="Content\PrintIntiializePassword.css" />
+    <Content Include="Content\randomize.css" />
+    <Content Include="Content\ShowPostTests.css" />
+    <Content Include="Content\ShowPostTests2.css" />
+    <Content Include="Content\ShowPostTestsDue.css" />
+    <Content Include="Content\staff.css" />
+    <Content Include="Content\Superfish\Images\arrows-ffffff.png" />
+    <Content Include="Content\Superfish\Images\shadow.png" />
+    <Content Include="Content\Superfish\superfish-navbar.css" />
+    <Content Include="Content\Superfish\superfish-vertical.css" />
+    <Content Include="Content\Superfish\superfish.css" />
+    <Content Include="Content\TableTools.css" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\base\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\base\jquery.ui.accordion.css" />
+    <Content Include="Content\themes\base\jquery.ui.all.css" />
+    <Content Include="Content\themes\base\jquery.ui.autocomplete.css" />
+    <Content Include="Content\themes\base\jquery.ui.base.css" />
+    <Content Include="Content\themes\base\jquery.ui.button.css" />
+    <Content Include="Content\themes\base\jquery.ui.core.css" />
+    <Content Include="Content\themes\base\jquery.ui.datepicker.css" />
+    <Content Include="Content\themes\base\jquery.ui.dialog.css" />
+    <Content Include="Content\themes\base\jquery.ui.progressbar.css" />
+    <Content Include="Content\themes\base\jquery.ui.resizable.css" />
+    <Content Include="Content\themes\base\jquery.ui.selectable.css" />
+    <Content Include="Content\themes\base\jquery.ui.slider.css" />
+    <Content Include="Content\themes\base\jquery.ui.tabs.css" />
+    <Content Include="Content\themes\base\jquery.ui.theme.css" />
+    <Content Include="Content\webgrid.css" />
+    <Content Include="Global.asax" />
+    <Content Include="HTMLPage1.htm" />
+    <Content Include="README.jQuery.vsdoc.txt" />
+    <Content Include="Scripts\Broadcast.js" />
+    <Content Include="Scripts\jquery.dataTables.js" />
+    <Content Include="Scripts\jquery.dataTables.rowGrouping.js" />
+    <Content Include="Scripts\PostTestsDue.js" />
+    <Content Include="Scripts\ShowPostTestsCompleted.js" />
+    <Content Include="Scripts\InformEdit.js" />
+    <Content Include="Scripts\GetUploadSS.js" />
+    <Content Include="Scripts\ajaxfileupload.js" />
+    <Content Include="Scripts\calCalcEditSelect.js" />
+    <Content Include="Scripts\calorieCalc.js" />
+    <Content Include="Scripts\ChecksTest.js" />
+    <Content Include="Scripts\Common.js" />
+    <Content Include="Scripts\FileUpload.js" />
+    <Content Include="Scripts\ForgotPassword.js" />
+    <Content Include="Scripts\GetInitializePassword.js" />
+    <Content Include="Scripts\InitializePassword.js" />
+    <Content Include="Scripts\jquery-1.7.1-vsdoc.js" />
+    <Content Include="Scripts\jquery-1.7.1.js" />
+    <Content Include="Scripts\jquery-1.7.1.min.js" />
+    <Content Include="Scripts\jquery-ui-1.8.18.js" />
+    <Content Include="Scripts\jquery-ui-1.8.18.min.js" />
+    <Content Include="Scripts\jquery.bgiframe.js" />
+    <Content Include="Scripts\jquery.bgiframe.min.js" />
+    <Content Include="Scripts\jquery.hoverIntent.minified.js" />
+    <Content Include="Scripts\jquery.maskedinput-1.3.js" />
+    <Content Include="Scripts\jquery.maskedinput-1.3.min.js" />
+    <Content Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\json2.js" />
+    <Content Include="Scripts\Layout.js" />
+    <Content Include="Scripts\ManageRoles.js" />
+    <Content Include="Scripts\ManageUserRoles.js" />
+    <Content Include="Scripts\MedtronicTest.js" />
+    <Content Include="Scripts\modernizr-1.7.js" />
+    <Content Include="Scripts\modernizr-1.7.min.js" />
+    <Content Include="Scripts\modernizr-2.5.3.js" />
+    <Content Include="Scripts\PostTest.js" />
+    <Content Include="Scripts\postTestEdit.js" />
+    <Content Include="Scripts\postTestsAdminStart.js" />
+    <Content Include="Scripts\PostTestsStart.js" />
+    <Content Include="Scripts\profile.js" />
+    <Content Include="Scripts\randomize.js" />
+    <Content Include="Scripts\RecoverSS.js" />
+    <Content Include="Scripts\Register.js" />
+    <Content Include="Scripts\ResetPassword.js" />
+    <Content Include="Scripts\ResetUserPassword.js" />
+    <Content Include="Scripts\staff.js" />
+    <Content Include="Scripts\superfish.js" />
+    <Content Include="Scripts\supersubs.js" />
+    <Content Include="Scripts\TableTools.js" />
+    <Content Include="Scripts\Test.js" />
+    <Content Include="Scripts\UploadAjax.js" />
+    <Content Include="Scripts\UserManagement.js" />
+    <Content Include="Views\Admin\ManageUserRoles.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Content\Site.css" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\MicrosoftAjax.js" />
+    <Content Include="Scripts\MicrosoftAjax.debug.js" />
+    <Content Include="Scripts\MicrosoftMvcAjax.js" />
+    <Content Include="Scripts\MicrosoftMvcAjax.debug.js" />
+    <Content Include="Scripts\MicrosoftMvcValidation.js" />
+    <Content Include="Scripts\MicrosoftMvcValidation.debug.js" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Account\LogOn.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_LogOnPartial.cshtml" />
+    <Content Include="Views\Shared\_Layout2.cshtml" />
+    <Content Include="Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="WebForm1.aspx" />
+    <Content Include="Views\Account\UserProfile.cshtml" />
+    <Content Include="Views\Admin\AddUser.cshtml" />
+    <Content Include="Views\Test\Index.cshtml" />
+    <Content Include="Views\Account\ResetPassword.cshtml" />
+    <Content Include="Views\Test\Create.cshtml" />
+    <Content Include="Views\PostTests\Checks.cshtml" />
+    <Content Include="Views\PostTests\Medtronic.cshtml" />
+    <Content Include="Views\PostTests\Overview.cshtml" />
+    <Content Include="Views\PostTests\VampJr.cshtml" />
+    <Content Include="Views\PostTests\Initialize.cshtml" />
+    <Content Include="Views\PostTests\NovaStatStrip.cshtml" />
+    <Content Include="Views\Account\RegisterPartial.cshtml" />
+    <Content Include="Views\Account\RegisterSuccess.cshtml" />
+    <Content Include="Views\PostTests\PostTestCertificate.cshtml" />
+    <Content Include="Views\Staff\RecoverChecksSS.cshtml" />
+    <Content Include="Views\Admin\UserListPartial.cshtml" />
+    <Content Include="Views\Account\ForgotPassword.cshtml" />
+    <Content Include="Views\Admin\AddUserPartial.cshtml" />
+    <Content Include="Views\Admin\AddUserSuccessPartial.cshtml" />
+    <Content Include="Views\FileManager\Upload.cshtml" />
+    <Content Include="Views\CalorieCalc\Index.cshtml" />
+    <Content Include="Views\Shared\_Layout3.cshtml" />
+    <Content Include="Views\Test\Temp.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\CalorieCalc\EditSelect.cshtml" />
+    <Content Include="Views\FileManager\UploadAjax.cshtml" />
+    <Content Include="Views\Coordinator\StudyIdsNotRandomized.cshtml" />
+    <Content Include="Views\PostTestsAdmin\Index.cshtml" />
+    <Content Include="Views\PostTestsAdmin\EditPostTest.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\DateTime.cshtml" />
+    <Content Include="Views\Admin\GetSavedChecks.cshtml" />
+    <Content Include="Views\Admin\WebLogs.cshtml" />
+    <Content Include="Views\FileManager\TemplateUpload.cshtml" />
+    <Content Include="Views\FileManager\TemplateUploadSuccess.cshtml" />
+    <Content Include="Views\FileManager\TemplateUploadFailed.cshtml" />
+    <Content Include="Views\Download\Index.cshtml" />
+    <Content Include="Views\Inform\Index.cshtml" />
+    <Content Include="Views\Inform\Edit.cshtml" />
+    <Content Include="Views\Dcc\Index.cshtml" />
+    <Content Include="Views\Dcc\RandomizedStudies.cshtml" />
+    <Content Include="Views\Admin\TestEmail.cshtml" />
+    <Content Include="Views\Email\Index.cshtml" />
+    <Content Include="Views\Email\SendTestEmail.cshtml" />
+    <Content Include="Views\Coordinator\Index.cshtml" />
+    <Content Include="Views\Coordinator\ShowPostTestsCompleted.cshtml" />
+    <Content Include="Views\Coordinator\ShowPostTestsCompleted2.cshtml" />
+    <Content Include="Views\Admin\BroadcastEmail.cshtml" />
+    <Content Include="Views\Coordinator\RandomizedStudies.cshtml" />
+    <Content Include="Views\Admin\ShowUsers.cshtml" />
+    <Content Include="Views\Coordinator\ShowPostTestsDue.cshtml" />
+    <None Include="_bin_deployableAssemblies\Microsoft.Web.Infrastructure.dll" />
+    <None Include="_bin_deployableAssemblies\System.Web.WebPages.Razor.dll" />
+    <None Include="_bin_deployableAssemblies\System.Web.WebPages.dll" />
+    <None Include="_bin_deployableAssemblies\System.Web.WebPages.Deployment.dll" />
+    <None Include="_bin_deployableAssemblies\System.Web.Razor.dll" />
+    <None Include="_bin_deployableAssemblies\System.Web.Helpers.dll" />
+    <None Include="_bin_deployableAssemblies\System.Web.Mvc.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="NLog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Content\Earthlingtwo\earthlingtwo.zip" />
+    <None Include="NLog.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="Views\Staff\Index.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Families\Index.cshtml" />
+    <Content Include="Views\Admin\ResetUserPassword.cshtml" />
+    <Content Include="Views\InitializeSubject\InitializePassword.cshtml" />
+    <Content Include="Views\Admin\ManageRoles.cshtml" />
+    <Content Include="Views\InitializeSubject\Initialize.cshtml" />
+    <Content Include="Views\InitializeSubject\Sensor.cshtml" />
+    <Content Include="Views\Error\Unauthorized.cshtml" />
+    <Content Include="Views\Staff\GetInitializePassword.cshtml" />
+    <Content Include="Views\Error\Index.cshtml" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>4877</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost/hpMvc</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

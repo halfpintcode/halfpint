@@ -1,0 +1,18 @@
+﻿body {
+}
+#divName
+{
+    line-height:2.5em;
+}
+.fieldLabel
+{
+    display:inline-block; 
+    width:110px;    
+}
+
+.bg1 
+{ 
+  background-image: url(/content/Images/check.jpg) no-repeat; 
+  
+} 
+

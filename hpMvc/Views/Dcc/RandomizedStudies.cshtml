@@ -1,0 +1,42 @@
+﻿@model List<hpMvc.Models.Randomization>
+@{
+    ViewBag.Title = "Randomized Studies";
+}
+
+<script type="text/javascript">
+    $(function () {
+        $('#Sites').change(function () {
+            $.getJSON('@Url.Action("GetSiteRandomizedStudies")',
+                { siteID: $(this).val() },
+                function (result) {
+                    var grid = $('#grid');
+                    grid.empty();
+                    grid.append(result.Data);
+                });
+
+        });
+    });
+</script>
+
+<h2>Randomized Studies</h2>
+
+<span>Select a site:&nbsp;</span> @Html.DropDownList("Sites")
+<br /><br />
+
+<div id="grid">
+
+@{    
+    var grid = new WebGrid(Model, defaultSort: "Number", rowsPerPage: 50 );
+}
+
+@grid.GetHtml(tableStyle:"webgrid",
+    columns:grid.Columns(
+    grid.Column("SiteName", header:"Site"),
+    grid.Column("Number"),
+    grid.Column("StudyID", header: "Study  ID"),
+    grid.Column("Arm"),
+    grid.Column("DateRandomized",style:"text-align-right" , header:"Date Randomized", format: @<text>@item.DateRandomized.ToString("MM/dd/yyyy hh:mm tt")</text>))
+)
+</div>
+
+<link href="@Url.Content("~/Content/webgrid.css")" rel="stylesheet" type="text/css" />

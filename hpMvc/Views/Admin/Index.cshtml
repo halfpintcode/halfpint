@@ -1,0 +1,63 @@
+﻿@{
+    ViewBag.Title = "Index";
+}   
+
+<h2>User Management</h2>
+<hr />
+
+@using (Html.BeginForm("Index", "Admin", FormMethod.Post))
+{
+    <div id="divSideBar">
+        <ul>
+            <li>@Html.ActionLink("Add new user", "AddUser", "Admin")</li>
+            <li>@Html.ActionLink("Manage user roles", "ManageUserRoles", new{controller = "Admin"}, new { @class = "aLnkClick" })</li>
+            <li>@Html.ActionLink("Reset user password", "ResetUserPassword", new { controller = "Admin" }, new { @class = "aLnkClick" })</li>
+            <li>@Html.RouteLink("Show Study IDs Not Randomized", new { Controller = "Coordinator", Action = "StudyIdsNotRandomized" })</li>            
+            <li>@Html.ActionLink("Show Randomized Studies", "RandomizedStudies", "Dcc")</li>
+            <li>@Html.ActionLink("Show Web Logs", "WebLogs")</li>
+            <li>@Html.ActionLink("Download a Saved Spreadsheet", "GetSavedChecks")</li>
+            <li>@Html.RouteLink("Upload CHECKS Template", new { controller="FileManager", Action = "TemplateUpload" })</li>
+            <li>@Html.ActionLink("Broadcast Email", "BroadcastEmail")</li>
+            <li>@Html.ActionLink("Show All Users", "ShowUsers")</li>
+            
+            @if (@ViewBag.Role == "Admin")
+            { 
+                <li>@Html.ActionLink("Manage Roles", "ManageRoles")</li>
+                <li>@Html.ActionLink("Delete user", "DeleteUser", new { controller = "Admin" }, new { @id = "deleteUser" })</li>
+                
+            }
+            <li>@Html.ActionLink("Send Test Email", "TestEmail")</li>
+        </ul>
+    </div>
+
+    <div id="div1Col">
+        @if (@ViewBag.Role == "Admin")
+        {
+            <span>Select a site:&nbsp;</span> @Html.DropDownList("Sites")
+            <br /><br />
+        }
+        <span>Select a user: </span>&nbsp; @Html.DropDownList("Users")
+        <br /><br />
+            
+    </div>
+    <div id="div2Col">
+        <table class="tblRoles">
+            <thead>            
+                <tr>
+                    <th>
+                        Roles for selected user            
+                    </th>            
+                </tr>
+            </thead>
+            <tbody>
+                    
+            </tbody>        
+        </table>       
+    </div>
+}    
+    <link href="@Url.Content("~/Content/Admin.css")" rel="stylesheet" type="text/css" />
+    <script src="@Url.Content("~/Scripts/UserManagement.js")" type="text/javascript"></script>
+
+
+
+

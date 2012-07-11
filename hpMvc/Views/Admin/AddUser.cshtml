@@ -1,0 +1,28 @@
+﻿@model hpMvc.Models.AddUserModel
+
+@{
+    ViewBag.Title = "AddUser";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Add a User Account</h2>
+
+<script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Register.js")" type="text/javascript"></script>
+
+<p>
+        Add a new user by filling in the user name and email address below.
+        <br />The user will be assigned a tempory password that will require a password reset on first logon.  
+        <br />The user will be sent an email with their user name, tempory password and logon instructions.
+</p>
+<br />
+
+<div id="formContent">
+    @{Html.RenderPartial("AddUserPartial");}
+</div>
+
+<div>
+    @Html.ActionLink("Back to Admin", "Index")
+</div>

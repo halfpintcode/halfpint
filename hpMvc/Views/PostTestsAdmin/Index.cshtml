@@ -1,0 +1,36 @@
+﻿@{
+	ViewBag.Title = "Index";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Post-Tests Admin</h2>
+
+<form method="post" action="">  
+	<div id="listName">
+		Select the name from the dropdown list and click on 'Edit Tests Completed'.
+		<br /><br />
+		@Html.DropDownList("Users") &nbsp;&nbsp; <input type="button" id="btnEdit" value="Edit Tests Completed" />
+	</div>
+		  
+	<div id="divName">
+		<label class="fieldLabel">First Name:</label><input type="text" id="firstName" name="firstName" /><br />
+		<label class="fieldLabel">Last Name:</label><input type="text" id="lastName" name="lastName" /><br />
+        <label class="fieldLabel">Email:</label><input type="text" id="email" name="email" />
+        <div id="siteSpecific">            
+			<label class="fieldLabel">Employee ID:</label><input type="text" id="empID" name="empID" />
+			<span id="empIDmessage">&nbsp;(You must enter a @ViewBag.EmpIDMessage)</span>            
+		</div>  
+		<input type="button" id="btnCreate" value="Create Name" />
+        <input id="empIDRequired" value="@ViewBag.EmpIDRequired" name="empIDRequired" type="hidden"/>
+		<input id="empIDRegex" value="@ViewBag.EmpIDRegex" name="empIDRegex" type="hidden"/>
+		<input id="empIDMessage" value="@ViewBag.EmpIDMessage" name="empIDMessage" type="hidden"/>		
+	</div>
+	<div id="divClickHere">
+		<br />
+		<a id="clickHere" href="#"><strong>Click here</strong></a> <span id="spanClickHere">&nbsp; to create a new name.</span> 
+	</div> 
+
+</form>
+
+<link href="@Url.Content("~/Content/PostTestsStart.css")" rel="stylesheet" type="text/css" />
+<script src="@Url.Content("~/Scripts/postTestsAdminStart.js")" type="text/javascript"></script>

@@ -1,0 +1,9 @@
+﻿@{
+    ViewBag.Title = "RecoverChecksSS";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Recover Checks Spreadsheet</h2>
+@Html.DropDownList("SS") &nbsp;  <input id="btnDownload" type="button" value="Download" />
+
+<script src="@Url.Content("~/Scripts/RecoverSS.js")" type="text/javascript"></script>

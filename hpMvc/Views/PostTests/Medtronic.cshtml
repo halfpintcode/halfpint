@@ -1,0 +1,81 @@
+﻿@{
+	ViewBag.Title = "Medtronic";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="@Url.Content("~/Content/Posttest.css")" rel="stylesheet" type="text/css" />
+<script src="@Url.Content("~/Scripts/PostTest.js")" type="text/javascript"></script>
+
+<h2>Online Modules and Testing - Medtronic Enlite</h2>
+<hr />
+<form action="" method="post">    
+	<input id="name" name="name" type="hidden" value='@ViewBag.Name'/>
+	<input id="test" name="test" type="hidden" value='@ViewBag.Test'/>
+    <input id="completed" name="completed" type="hidden" value='@ViewBag.Completed'/>
+	<p id="testIntro">
+		After viewing the videos, click on the 'Take the test' link (below the video). You must answer all questions correctly.
+	</p>    
+	<iframe src="//player.vimeo.com/video/36000592?title=0&amp;byline=0&amp;portrait=0" 
+			width="533" height="300" 
+			frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen>
+	</iframe>
+	<p>
+		Module 4: Guardian Monitor
+	</p>
+	<iframe src="//player.vimeo.com/video/36001467?title=0&amp;byline=0&amp;portrait=0" 
+			width="533" height="300" 
+			frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen>
+	</iframe>
+	<p>
+		Module 4: Enlite Sensor
+	</p>    
+    
+	<a href="" id="showHideTest">Take the test</a>
+	
+    <div id="testForm">        
+		<div class="question">
+			1) <span class="questionText"> During sensor insertion, after I click and release the green button, I immediately click the button a</span> 
+			   <br /><span class="questionTextOver"> second time and pull up on the serter:</span>
+		</div>
+		<br />
+		<div class="answer">
+			<input type="radio" name="question1" value="Yes" />  <span>Yes</span>            
+		</div>
+		<div class="answer">  
+			<input type="radio" name="question1" value="No" />  No
+		</div>
+		<br />
+		<div class="question">
+			2) <span class="questionText"> To remove needle housing I must stabilize the sensor with one hand and pull straight up on the plastic</span> 
+			   <br /><span class="questionTextOver"> safety housing from the top, after which I must deposit it in a sharps container:</span>
+		</div>
+		<br />
+		<div class="answer">
+			<input type="radio" name="question2" value="Yes" />  <span>Yes</span>            
+		</div>
+		<div class="answer">  
+			<input type="radio" name="question2" value="No" />  No
+		</div>
+		<br />
+		<div class="question">
+			3) <span class="questionText"> The green charge light on the minilink transmitter, indicating a charge (which lasts up to 7 days when</span>
+			   <br /><span class="questionTextOver"> fully charged), should light (check all that apply):</span> 
+		</div>
+		<br />
+		<div class="answer">
+			<input type="checkbox" id="question3.1" name="question3.0" />  After being removed from the blue charger, just momentarily.            
+		</div>
+		<div class="answer">
+			<input type="checkbox" id="question3.2" name="question3.1"/>  After being removed from the charger, and continue to remain lit until charge is depleted.            
+		</div>
+		<div class="answer">
+			<input type="checkbox" id="question3.3" name="question3.2"/>  After being attached to the sensor, just momentarily.            
+		</div>
+		<div class="answer">
+			<input type="checkbox" id="question3.4" name="question3.3"/>  After being attached to the sensor, and continue to remain lit until charge is depleted.            
+		</div>
+		<br />
+		<input type="button" id="btnSubmit" value="Submit Answers" /> 
+	</div>
+    <br />
+    @Html.ActionLink("Back to tests menu", "Initialize",  new { Controller = "PostTests", name = @ViewBag.Name })
+</form>

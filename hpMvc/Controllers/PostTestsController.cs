@@ -1,0 +1,333 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using hpMvc.DataBase;
+using hpMvc.Models;
+using hpMvc.Infrastructure.Logging;
+using System.Text;
+
+namespace hpMvc.Controllers
+{
+    [Authorize]
+    public class PostTestsController : Controller
+    {
+        NLogger logger = new NLogger();
+
+        public ActionResult Initialize(string name)
+        {
+            int site = DbUtils.GetSiteidIDForUser(User.Identity.Name);
+            var users = DbPostTestsUtils.GetTestUsersForSite(site);
+
+            users.Insert(0, "Select Your Name");
+
+            //check if employee id required
+            var retDto = DbPostTestsUtils.CheckIfEmployeeIDRequired(User.Identity.Name);
+            ViewBag.EmpIDRequired = retDto.Stuff.EmpIDRequired;
+            ViewBag.EmpIDRegex = retDto.Stuff.EmpIDRegex;
+            ViewBag.EmpIDMessage = retDto.Stuff.EmpIDMessage;
+
+            if (name != null)
+            {
+                ViewBag.Users = new SelectList(users, name);
+                if (name != "Select Your Name")
+                {
+                    ViewBag.Email = DbPostTestsUtils.GetPostTestPersonEmail(name);
+                }
+            }
+            else
+            {
+                ViewBag.Users = new SelectList(users);
+            }
+            return View();
+        }
+
+        
+                
+        [HttpPost]
+        public JsonResult AddPostTestsCompleted(PostTestsModel ptm)
+        {
+            TryValidateModel(ptm);
+
+            var dto = new DTO();
+
+
+            return Json(dto);
+        }
+
+        
+        public JsonResult CreateName()
+        {
+            var dto = new DTO();
+
+            int siteID = DbUtils.GetSiteidIDForUser(HttpContext.User.Identity.Name);
+            string name = Request.Params["Name"];
+            string empID = Request.Params["EmpID"];
+            string email = Request.Params["Email"];
+
+            dto.ReturnValue = DbPostTestsUtils.DoesPostTestNameExist(name, siteID);
+            if (dto.ReturnValue != 0)
+            {
+                if (dto.ReturnValue == -1)
+                    dto.Message = "There was an error in determinig if this name was already in the database.";
+                if (dto.ReturnValue == 1)
+                    dto.Message = "This name already exists. Select your name from the drop down list." ;
+
+                logger.LogInfo("PostTests.CreateName - message: " + dto.Message + ", name: " + name + ", site: " + siteID.ToString());
+                return Json(dto);               
+            }
+            
+            dto.ReturnValue = DbPostTestsUtils.AddPostTestName(name,empID, siteID, email);
+
+            logger.LogInfo("PostTests.CreateName - message: " + dto.Message + ", name: " + name + ", site: " + siteID.ToString());
+            return Json(dto);
+        }
+
+        public ActionResult PostTestCertificate()
+        {
+            return View();
+        }
+                
+        public JsonResult GetTestsCompleted()
+        {
+            string name = Request.Params["Name"];
+            int site = DbUtils.GetSiteidIDForUser(User.Identity.Name);
+            var tests = DbPostTestsUtils.GetTestsCompleted(name);
+            var email = DbPostTestsUtils.GetPostTestPersonEmail(name);
+
+            var retVal = new { email = email, tests = tests };
+            return Json(retVal);
+        }
+
+        public JsonResult Submit()
+        {
+            string name = Request.Params["Name"];
+            string[] email = new string[] {Request.Params["Email"]};
+
+            var tests = DbPostTestsUtils.GetTestsCompleted(name);
+            if(tests.Count == 0)
+                return Json("no tests");
+            
+            int site = DbUtils.GetSiteidIDForUser(HttpContext.User.Identity.Name);            
+            var coordinators = DbUtils.GetUserInRole("Coordinator", site);
+                        
+            var toEmails = new List<string>();
+            foreach (var coord in coordinators)
+            {
+                toEmails.Add(coord.Email);
+            }
+            string siteName = DbUtils.GetSiteNameForUser(User.Identity.Name);
+
+            var u = new UrlHelper(this.Request.RequestContext);
+            string url = "http://" + this.Request.Url.Host + u.RouteUrl("Default", new { Controller = "Account", Action = "Logon" });            
+            Utility.SendPostTestsSubmittedMail(toEmails.ToArray(), email, tests, name, siteName, Server, url);
+
+            logger.LogInfo("Post-tests submitted: " + name);
+            return Json("");
+        }
+
+        public ActionResult Checks(string name)
+        {
+            if (Request.Params["completed"] != null)
+                ViewBag.Completed = "true";
+            else
+                ViewBag.Completed = "false";
+
+            ViewBag.Name = name;
+            ViewBag.Test = "Checks";
+            return View();
+        }
+        
+        [HttpPost]        
+        public JsonResult Checks()
+        {
+            string name = Request.Params["name"];
+            var dto = DbPostTestsUtils.VerifyPostTest("Checks", Request.Params);
+            if (dto.IsSuccessful)
+            {
+                //get the person id
+                int siteID = DbUtils.GetSiteidIDForUser(HttpContext.User.Identity.Name);
+                int nameID = DbPostTestsUtils.GetPostTestPersonID(name, siteID);
+                //save test as completed
+                DbPostTestsUtils.AddTestCompleted(nameID, "Checks");
+            }
+
+            string incorrect = "";
+            if (dto.Messages.Count > 0)
+            {
+                foreach (var s in dto.Messages)
+                {
+                    incorrect += s + ",";
+                }
+                incorrect = incorrect.Substring(0, incorrect.Length - 1);
+            }
+
+            logger.LogInfo("Post-tests Checks: " + name + ", " + dto.Message + incorrect);
+            return Json(dto);
+        }
+        
+        public ActionResult Medtronic(string name)
+        {
+            ViewBag.Name = name;
+            ViewBag.Test = "Medtronic";
+
+            if (Request.Params["completed"] != null)
+                ViewBag.Completed = "true";
+            else
+                ViewBag.Completed = "false";
+
+            return View();
+        }
+
+        [HttpPost]        
+        public JsonResult Medtronic()
+        {
+            string name = Request.Params["name"];
+            
+
+            var dto = DbPostTestsUtils.VerifyPostTest("Medtronic", Request.Params);
+            if (dto.IsSuccessful)
+            {
+                //get the person id
+                int siteID = DbUtils.GetSiteidIDForUser(HttpContext.User.Identity.Name);
+                int nameID = DbPostTestsUtils.GetPostTestPersonID(name, siteID);
+                //save test as completed
+                DbPostTestsUtils.AddTestCompleted(nameID, "Medtronic");
+            }
+
+            string incorrect = "";
+            if (dto.Messages.Count > 0)
+            {
+                foreach (var s in dto.Messages)
+                {
+                    incorrect += s + ",";
+                }
+                incorrect = incorrect.Substring(0, incorrect.Length - 1);
+            }
+
+            logger.LogInfo("Post-tests Medtronic: " + name + ", " + dto.Message + incorrect);
+            return Json(dto);
+        }
+        
+        public ActionResult Overview(string name)
+        {
+            if (Request.Params["completed"] != null)
+                ViewBag.Completed = "true";
+            else
+                ViewBag.Completed = "false";
+
+            ViewBag.Name = name;
+            ViewBag.Test = "Overview";            
+            return View();
+        }
+
+        [HttpPost]        
+        public JsonResult Overview()
+        {
+            string name = Request.Params["name"];
+            var dto = DbPostTestsUtils.VerifyPostTest("Overview", Request.Params);
+            if (dto.IsSuccessful)
+            {
+                //get the person id
+                int siteID = DbUtils.GetSiteidIDForUser(HttpContext.User.Identity.Name);
+                int nameID = DbPostTestsUtils.GetPostTestPersonID(name, siteID);
+                //save test as completed
+                DbPostTestsUtils.AddTestCompleted(nameID, "Overview");
+            }
+
+            string incorrect = "";
+            if (dto.Messages.Count > 0)
+            {
+                foreach (var s in dto.Messages)
+                {
+                    incorrect += s + ",";
+                }
+                incorrect = incorrect.Substring(0, incorrect.Length - 1);
+            }
+
+            logger.LogInfo("Post-tests Overview: " + name + ", " + dto.Message + incorrect);
+            return Json(dto);
+        }
+
+        public ActionResult NovaStatStrip(string name)
+        {
+            if (Request.Params["completed"] != null)
+                ViewBag.Completed = "true";
+            else
+                ViewBag.Completed = "false";
+
+            ViewBag.Name = name;
+            ViewBag.Test = "NovaStatStrip";            
+            return View();
+        }
+
+        [HttpPost]        
+        public JsonResult NovaStatStrip()
+        {
+            string name = Request.Params["name"];
+            var dto = DbPostTestsUtils.VerifyPostTest("NovaStatStrip", Request.Params);
+            if (dto.IsSuccessful)
+            {
+                //get the person id
+                int siteID = DbUtils.GetSiteidIDForUser(HttpContext.User.Identity.Name);
+                int nameID = DbPostTestsUtils.GetPostTestPersonID(name, siteID);
+                //save test as completed
+                DbPostTestsUtils.AddTestCompleted(nameID, "NovaStatStrip");
+            }
+
+            string incorrect = "";
+            if (dto.Messages.Count > 0)
+            {
+                foreach (var s in dto.Messages)
+                {
+                    incorrect += s + ",";
+                }
+                incorrect = incorrect.Substring(0, incorrect.Length - 1);
+            }
+
+            logger.LogInfo("Post-tests NovaStatStrip: " + name + ", " + dto.Message + incorrect);
+            return Json(dto);
+        }
+
+        public ActionResult VampJr(string name)
+        {
+            if (Request.Params["completed"] != null)
+                ViewBag.Completed = "true";
+            else
+                ViewBag.Completed = "false";
+
+            ViewBag.Name = name;
+            ViewBag.Test = "VampJr";            
+            return View();
+        }
+
+        [HttpPost]        
+        public JsonResult VampJr()
+        {
+            string name = Request.Params["name"];
+            var dto = DbPostTestsUtils.VerifyPostTest("VampJr", Request.Params);
+            if (dto.IsSuccessful)
+            {
+                //get the person id
+                int siteID = DbUtils.GetSiteidIDForUser(HttpContext.User.Identity.Name);
+                int nameID = DbPostTestsUtils.GetPostTestPersonID(name, siteID);
+                //save test as completed
+                DbPostTestsUtils.AddTestCompleted(nameID, "VampJr");
+            }
+
+            string incorrect = "";
+            if (dto.Messages.Count > 0)
+            {
+                foreach (var s in dto.Messages)
+                {
+                    incorrect += s + "," ;
+                }
+                incorrect = incorrect.Substring(0, incorrect.Length - 1);
+            }
+
+            logger.LogInfo("Post-tests VampJr: " + name + ", " + dto.Message + incorrect);
+            return Json(dto);
+        }
+    }
+}

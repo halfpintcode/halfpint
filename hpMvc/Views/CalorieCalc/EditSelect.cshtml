@@ -1,0 +1,17 @@
+﻿@{
+    ViewBag.Title = "EditSelect";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Correct Existing Caloric Entry</h2>
+<p>
+    Select a the study id and date then click submit.
+</p>
+Study ID: &nbsp;@Html.DropDownList("CalStudyList")
+<br />
+Date: &nbsp; <select id="calcDates"></select>
+<br />
+<br />
+<input type="button" value="Submit" id="btnSubmit"/>
+
+<script src="@Url.Content("~/Scripts/calCalcEditSelect.js")" type="text/javascript"></script>

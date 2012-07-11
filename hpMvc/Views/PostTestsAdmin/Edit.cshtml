@@ -1,0 +1,64 @@
+﻿@model hpMvc.Models.PostTestsModel
+
+@{
+    ViewBag.Title = "AddPostTestsCompleted";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>AddPostTestsCompleted</h2>
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>PostTestsModel</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Name):
+            <label>@Model.Name</label>
+        </div>
+        
+            
+        
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Overview)
+            @Html.EditorFor(model => model.Overview)
+            @Html.ValidationMessageFor(model => model.Overview)
+        </div>
+        
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Checks)
+            @Html.EditorFor(model => model.Checks)
+            @Html.ValidationMessageFor(model => model.Checks)
+        </div>
+        
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Medtronic)
+            @Html.EditorFor(model => model.Medtronic)
+            @Html.ValidationMessageFor(model => model.Medtronic)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.NovaStatStrip)
+            @Html.EditorFor(model => model.NovaStatStrip)
+            @Html.ValidationMessageFor(model => model.NovaStatStrip)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.VampJr)
+            @Html.EditorFor(model => model.VampJr)
+            @Html.ValidationMessageFor(model => model.VampJr)
+        </div>
+
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

@@ -1,0 +1,21 @@
+﻿@{
+    ViewBag.Title = "TestEmail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Test Email</h2>
+<form method="post" action="TestEmail">
+
+Url: <label >@ViewBag.Url</label><br />
+
+Host: <label>@ViewBag.Host</label><br />
+Authority: <label>@ViewBag.Authority</label><br />
+DnsSafeHost <label>@ViewBag.DnsSafeHost</label><br />
+
+Absolute Url: <label>@ViewBag.AbsoluteUri</label><br />
+Absolute Path: <label>@ViewBag.AbsolutePath</label><br />
+Local Path: <label>@ViewBag.LocalPath</label><br />
+Email: <input type="text" id="email" name="email" value='@ViewBag.Email'/>
+<input type="submit" id="btnSend" value="Send" />
+
+</form>

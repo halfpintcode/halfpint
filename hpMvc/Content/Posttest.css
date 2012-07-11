@@ -1,0 +1,48 @@
+﻿body 
+{
+    font-size:1.2em;
+}
+h2
+{
+    text-align:center
+}
+.question
+{
+    
+    margin-left:25px;
+}
+.questionText
+{
+    
+    margin-left:15px;
+}
+.questionTextOver
+{
+    
+    margin-left:37px;
+}
+.answerTextOver
+{
+    
+    margin-left:51px;
+}
+.answer
+{
+    
+    margin-left:63px;
+}
+.spanswer
+{ 
+    display:inline-block;   
+    width:20px;
+}
+input[type=checkbox]
+{
+    vertical-align:text-bottom;
+    margin-left:0px;
+}
+input[type=radio]
+{
+    vertical-align:top;
+    margin-left:5px;
+}

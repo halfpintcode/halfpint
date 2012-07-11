@@ -1,0 +1,20 @@
+﻿#selectedSites, #sites  
+{
+    height:114px;
+    width:120px;
+}
+#selectedRoles, #roles, #users, #selectedUsers  
+{
+    height:114px;
+    width:120px;
+}
+.firstLabel
+{
+    display:inline-block;
+    width: 100px;    
+}
+
+#subject
+{
+    width: 400px;    
+}

@@ -1,0 +1,24 @@
+﻿#div1
+{
+    width: 50%;
+}
+#ptTable
+{
+    border-collapse: collapse;    
+}
+#ptTable td
+{
+    padding:5px;
+    padding-left:17%;   
+}
+
+#ptTable td.group {
+    background-color: #D1CFD0;
+    border-bottom: 2px solid #A19B9E;
+    border-top: 2px solid #A19B9E;
+    padding-left:5px;
+}
+td.details {
+    background-color: #D1CFD0;
+    border: 2px solid #A19B9E;    
+}

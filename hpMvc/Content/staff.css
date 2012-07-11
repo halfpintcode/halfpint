@@ -1,0 +1,17 @@
+﻿#divBarMenu
+{    
+    float:right;
+}
+
+#divSideBar
+{
+    float:left;
+    margin-right:0px;
+    padding-right:5px;
+    border-right: 1px solid #DEDEDE;
+}
+
+#divSideBar li
+{
+    line-height: 12px;
+}

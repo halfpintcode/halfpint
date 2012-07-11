@@ -1,0 +1,21 @@
+﻿#header
+{
+    margin-top: 50px;
+    text-align: center;
+    font-family:Ariel,Helvetica,sans-serif;
+    font-size: 1.5em;
+}
+img {   display: block;   margin-left: auto;   margin-right: auto; }
+
+#main, #footer
+{
+    margin-left: 100px;
+    margin-right: 100px;    
+}
+
+h2 
+{
+    display:inline-block;
+    background-color: Aqua;
+    text-align: center;
+}
