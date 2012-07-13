@@ -30,6 +30,11 @@ $(document).ready(function () {
     if (userSite !== "01:CHB") {
         $('.CHBOnly').hide();
     }
+    if (userSite == "01:CHB") {
+        $('.CHBHide').hide();
+    }
+
+
 
     //this is one way to filter file downloads
     $('li .StaffOnly').click(function (e) {
