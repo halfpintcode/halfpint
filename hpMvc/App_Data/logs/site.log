@@ -1803,3 +1803,10 @@ TargetSite :Void OnError(System.Data.SqlClient.SqlException, Boolean)
 07/11/2012 10:51:02: PostTests.CreateName - message: , name: Al Spaced, site: 1
 07/11/2012 10:51:10: DeletePostTestsCompleted - name: Al Spaced
 07/11/2012 10:51:10: AddTestCompleted - test: Overview, name: Al Spaced
+07/13/2012 19:59:39: Logon Post - user:jrezuke
+07/13/2012 20:06:01: Logon Post - user:jrezuke
+07/13/2012 20:06:02: Logon Post Success - user:jrezuke
+07/13/2012 20:16:13: Logon Post - user:jrezuke
+07/13/2012 20:16:13: Logon Post Success - user:jrezuke
+07/13/2012 20:29:33: Logon Post - user:jrezuke
+07/13/2012 20:29:33: Logon Post Success - user:jrezuke
