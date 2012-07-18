@@ -44,12 +44,10 @@
 							<li class="StaffOnly">@Html.ActionLink("Nova StatStrip", "GetFile", new { Controller = "Download", filename = @"Nova StatStrip Competency.docx", folder = "Training~Competencies" })</li>
 							<li class="StaffOnly">@Html.ActionLink("Vamp Jr", "GetFile", new { Controller = "Download", filename = @"Vamp Jr Competency.docx", folder = "Training~Competencies" })</li>
 						</ul>                    
-					</li>
-					@*<li><a href="#">Training Checklist</a></li>*@
-					<li>@Html.ActionLink("Training Checklist", "GetFile", new { Controller = "Download", filename = @"Nurse Training Checklist.docx", folder = "Training" })</li>
+					</li>					
 					<li>@Html.ActionLink("Online Modules and Post-Tests", "Initialize", new { Controller = "PostTests", name = @"Select Your Name" })</li>
 					<li class="StaffOnly">@Html.ActionLink("Manual Entry Post-Tests Completed", "Index", new { Controller = "PostTestsAdmin"})</li>
-					<li><a href="#">Paper Format Module Post-Tests</a>
+					<li class="StaffOnly"><a href="#">Paper Format Module Post-Tests</a>
 						<ul>
 							<li>@Html.ActionLink("Overview Post-Test", "GetFile", new { Controller = "Download", filename = @"Overview Post-Test.docx", folder = @"Training~Paper Format Post-Tests" })</li>
 							<li class="StaffOnly">@Html.ActionLink("Overview Post-Test Master", "GetFile", new { Controller = "Download", filename = @"Overview Post-Test-MASTER.docx", folder = "Training~Paper Format Post-Tests" })</li>
@@ -69,6 +67,7 @@
 					</li>					
 					<li>@Html.ActionLink("Screening", "GetFile", new { Controller = "Download", filename = @"Screening Reference Sheet.docx", folder = "Training" })</li>									
 					<li>@Html.ActionLink("RN Daily Procedures", "GetFile", new { Controller = "Download", filename = @"Bedside RN Daily Overview.docx", folder = "Training" })</li>									
+					<li>@Html.ActionLink("Training Checklist", "GetFile", new { Controller = "Download", filename = @"Nurse Training Checklist.docx", folder = "Training" })</li>					
 				</ul>
 			</li>
 			<li><a href="#a">Resources</a>
@@ -88,21 +87,21 @@
 						</ul>                    
 					</li>
 					<li class="StaffOnly"><a href="#">Form Completion Guidelines</a>
-                        <ul>
-                            <li>@Html.ActionLink("Consented Subject Tracking Sheet", "GetFile", new { Controller = "Download", filename = @"Consented Subject Tracking Sheet.docx", folder = "Resources~Form Completion Guidelines" })</li>
-                            <li>@Html.ActionLink("DOV", "GetFile", new { Controller = "Download", filename = @"DOV.docx", folder = "Resources~Form Completion Guidelines" })</li>
-                            <li>@Html.ActionLink("Form 1 Inclusion and Exclusion Criteria", "GetFile", new { Controller = "Download", filename = @"Form 1 Inclusion and Exclusion Criteria.docx", folder = "Resources~Form Completion Guidelines" })</li>
-                            <li>@Html.ActionLink("Form 2 Tracking and Randomization", "GetFile", new { Controller = "Download", filename = @"Form 2 Tracking and Randomization.docx", folder = "Resources~Form Completion Guidelines" })</li>
-                            <li>@Html.ActionLink("Form 3 Medical History and Clinical Information", "GetFile", new { Controller = "Download", filename = @"Form 3 Medical History and Clinical Information.docx", folder = "Resources~Form Completion Guidelines" })</li>
-                            <li>@Html.ActionLink("Form 4 Risk of Mortality at ICU Admission", "GetFile", new { Controller = "Download", filename = @"Form 4 Risk of Mortality at ICU Admission.docx", folder = "Resources~Form Completion Guidelines" })</li>
-                            <li>@Html.ActionLink("Form 5 Daily ICU", "GetFile", new { Controller = "Download", filename = @"Form 5 Daily ICU.docx", folder = "Resources~Form Completion Guidelines" })</li>
-                            <li>@Html.ActionLink("Form 5N Daily Non-ICU Inpatient Unit", "GetFile", new { Controller = "Download", filename = @"Form 5N Daily Non-ICU Inpatient Unit.docx", folder = "Resources~Form Completion Guidelines" })</li>
-                            <li>@Html.ActionLink("Form 6 Discharge", "GetFile", new { Controller = "Download", filename = @"Form 6 Discharge.docx", folder = "Resources~Form Completion Guidelines" })</li>
-                            <li>@Html.ActionLink("Form 7 Adverse Event", "GetFile", new { Controller = "Download", filename = @"Form 7 Adverse Event.docx", folder = "Resources~Form Completion Guidelines" })</li>
-                            <li>@Html.ActionLink("Form 8 Protocol Deviation", "GetFile", new { Controller = "Download", filename = @"Form 8 Protocol Deviation.docx", folder = "Resources~Form Completion Guidelines" })</li>
-                        </ul>
-                    </li>
-                    <li><a href="#">Device Manuals</a>
+						<ul>
+							<li>@Html.ActionLink("Consented Subject Tracking Sheet", "GetFile", new { Controller = "Download", filename = @"Consented Subject Tracking Sheet.docx", folder = "Resources~Form Completion Guidelines" })</li>
+							<li>@Html.ActionLink("DOV", "GetFile", new { Controller = "Download", filename = @"DOV.docx", folder = "Resources~Form Completion Guidelines" })</li>
+							<li>@Html.ActionLink("Form 1 Inclusion and Exclusion Criteria", "GetFile", new { Controller = "Download", filename = @"Form 1 Inclusion and Exclusion Criteria.docx", folder = "Resources~Form Completion Guidelines" })</li>
+							<li>@Html.ActionLink("Form 2 Tracking and Randomization", "GetFile", new { Controller = "Download", filename = @"Form 2 Tracking and Randomization.docx", folder = "Resources~Form Completion Guidelines" })</li>
+							<li>@Html.ActionLink("Form 3 Medical History and Clinical Information", "GetFile", new { Controller = "Download", filename = @"Form 3 Medical History and Clinical Information.docx", folder = "Resources~Form Completion Guidelines" })</li>
+							<li>@Html.ActionLink("Form 4 Risk of Mortality at ICU Admission", "GetFile", new { Controller = "Download", filename = @"Form 4 Risk of Mortality at ICU Admission.docx", folder = "Resources~Form Completion Guidelines" })</li>
+							<li>@Html.ActionLink("Form 5 Daily ICU", "GetFile", new { Controller = "Download", filename = @"Form 5 Daily ICU.docx", folder = "Resources~Form Completion Guidelines" })</li>
+							<li>@Html.ActionLink("Form 5N Daily Non-ICU Inpatient Unit", "GetFile", new { Controller = "Download", filename = @"Form 5N Daily Non-ICU Inpatient Unit.docx", folder = "Resources~Form Completion Guidelines" })</li>
+							<li>@Html.ActionLink("Form 6 Discharge", "GetFile", new { Controller = "Download", filename = @"Form 6 Discharge.docx", folder = "Resources~Form Completion Guidelines" })</li>
+							<li>@Html.ActionLink("Form 7 Adverse Event", "GetFile", new { Controller = "Download", filename = @"Form 7 Adverse Event.docx", folder = "Resources~Form Completion Guidelines" })</li>
+							<li>@Html.ActionLink("Form 8 Protocol Deviation", "GetFile", new { Controller = "Download", filename = @"Form 8 Protocol Deviation.docx", folder = "Resources~Form Completion Guidelines" })</li>
+						</ul>
+					</li>
+					<li><a href="#">Device Manuals</a>
 						<ul>
 							<li>@Html.ActionLink("Enlite User Guide", "GetFile", new { Controller = "Download", filename = @"Enlite User Guide.pdf", folder = "Resources~Device Manuals" })</li>				    
 							<li>@Html.ActionLink("StatStrip Glucose Meter Manual", "GetFile", new { Controller = "Download", filename = @"StatStrip Glucose Meter Manual.pdf", folder = "Resources~Device Manuals" })</li>				    
