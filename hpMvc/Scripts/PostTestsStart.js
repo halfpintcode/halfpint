@@ -6,6 +6,27 @@ $(function () {
 
     var empIDReq = $('#empIDRequired').val();
     if (empIDReq === "true") {
+        var reg = $('#empIDRegex').val();
+        //check if leading digits
+        var leadDig = "";
+        var c = "";
+        for (var i = 0; i < reg.length; i++) {
+            //skip i=0
+            if (i === 0) {
+                continue;
+            }
+            c = reg[i];
+            if (isInteger(c)) {
+                leadDig = leadDig + c.toString();
+            }
+            else {
+                break;
+            }
+        }
+        if (leadDig.length) {
+            $('#empID').val(leadDig);
+        }
+
         $('#siteSpecific').show();
         $('#empIDmessage').hide();
         $('#empID').keydown(function (event) {
@@ -272,3 +293,11 @@ $(function () {
     }
 
 });
+
+
+ 
+function isInteger (s) 
+{
+    var reInteger = /^\d+$/;     
+    return reInteger.test(s) 
+}

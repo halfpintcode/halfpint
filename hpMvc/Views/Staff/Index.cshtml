@@ -133,12 +133,26 @@
 								</ul>
 							</li>
 							<li class="AdminDCC">
+								<a href="#">Cincinnati</a>
+								<ul>
+									<li>@Html.ActionLink("HalfPint Consent Form", "GetFile", new { Controller = "Download", filename = @"CCHMC HalfPint Consent Form.pdf", folder = "Enrollment~CHOP" })</li>							
+									<li>@Html.ActionLink("HalfPint Assent Form", "GetFile", new { Controller = "Download", filename = @"CCHMC HalfPint Assent Form.pdf", folder = "Enrollment~CHOP" })</li>
+								</ul>
+							</li>							
+                            <li class="AdminDCC">
 								<a href="#">Nationwide</a>
 								<ul>
 									<li>@Html.ActionLink("HalfPint Consent Form", "GetFile", new { Controller = "Download", filename = @"Nationwide HalfPint Consent Form.pdf", folder = "Enrollment~Nationwide" })</li>							
 									<li>@Html.ActionLink("HalfPint Assent Form", "GetFile", new { Controller = "Download", filename = @"Nationwide HalfPint Assent Form.pdf", folder = "Enrollment~Nationwide" })</li>
 								</ul>
 							</li>
+                            <li class="AdminDCC">
+								<a href="#">Penn State</a>
+								<ul>
+									<li>@Html.ActionLink("HalfPint Consent Form", "GetFile", new { Controller = "Download", filename = @"PennState HalfPint Consent Form.pdf", folder = "Enrollment~CHOP" })</li>							
+									<li>@Html.ActionLink("HalfPint Assent Form", "GetFile", new { Controller = "Download", filename = @"PennState HalfPint Assent Form.pdf", folder = "Enrollment~CHOP" })</li>
+								</ul>
+							</li>							
 						</ul>                    
 					</li>
 					<li>@Html.ActionLink("Inclusion/Exclusion Criteria", "GetFile", new { Controller = "Download", filename = @"Inclusion-Exclusion Criteria.docx", folder = "Enrollment" })</li>										
@@ -188,7 +202,7 @@
 							<li>@Html.ActionLink("Enrolled Subject Bedside Sheet-CHB", "GetFile", new { Controller = "Download", filename = @"Enrolled Subject Bedside Sheet-CHB.docx", folder = "Study Management~Study Materials and Logs" })</li>
 							<li>@Html.ActionLink("Enrolled Subject Bedside Sheet-Generic", "GetFile", new { Controller = "Download", filename = @"Enrolled Subject Bedside Sheet-Generic.docx", folder = "Study Management~Study Materials and Logs" })</li>
 							<li class="StaffOnly">@Html.ActionLink("Consent Log", "GetFile", new { Controller = "Download", filename = @"Consent Log.pdf", folder = "Study Management~Study Materials and Logs" })</li>
-							<li class="StaffOnly"><a href="#">Delegation Log</a></li>
+							<li class="StaffOnly">@Html.ActionLink("Delegation Log", "GetFile", new { Controller = "Download", filename = @"Delegation Log.docx", folder = "Study Management~Study Materials and Logs" })</li>
 							<li class="StaffOnly">@Html.ActionLink("Signature and Initials Log", "GetFile", new { Controller = "Download", filename = @"Signature and Initials Log.pdf", folder = "Study Management~Study Materials and Logs" })</li>
 							<li class="StaffOnly">@Html.ActionLink("Training Documentation Log", "GetFile", new { Controller = "Download", filename = @"Training Documentation Log.pdf", folder = "Study Management~Study Materials and Logs" })</li>					                                    						
 						</ul>

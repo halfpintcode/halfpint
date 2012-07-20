@@ -100,6 +100,33 @@ namespace hpMvc.Controllers
                         folder = "Enrollment~Nationwide";
                     }
                     break;
+                
+                case "06":
+                    if (fileName.Contains("Consent Form"))
+                    {
+                        fileName = "CCHMC HalfPint Consent Form.pdf";
+                        folder = "Enrollment~Cincinnati";
+                    }
+                    if (fileName.Contains("Assent Form"))
+                    {
+                        fileName = "CCHMC HalfPint Assent Form.pdf";
+                        folder = "Enrollment~Cincinnati";
+                    }
+                    break;
+
+                case "07":
+                    if (fileName.Contains("Consent Form"))
+                    {
+                        fileName = "PennState HalfPint Consent Form.pdf";
+                        folder = "Enrollment~Penn State";
+                    }
+                    if (fileName.Contains("Assent Form"))
+                    {
+                        fileName = "PennState HalfPint Assent Form.pdf";
+                        folder = "Enrollment~Penn State";
+                    }
+                    break;
+
                 default:
                     if (fileName.Contains("Consent Form"))
                     {
