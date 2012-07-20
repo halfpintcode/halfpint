@@ -3,13 +3,14 @@
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Coordinators Menu</h2>
+<h3>Coordinators Menu</h3>
 
-
-<ul id="ulMainMenu">    
-	<li>@Html.ActionLink("Show Study IDs Not Randomized", "StudyIdsNotRandomized")</li>
-    <li>@Html.ActionLink("Show Randomized Studies", "RandomizedStudies")</li>
-    <li>@Html.ActionLink("Show Post Tests Completed", "ShowPostTestsCompleted")</li>
-    <li>@Html.ActionLink("Show Post Tests Completed2", "ShowPostTestsCompleted2")</li>
-    <li>@Html.ActionLink("Show Post Tests Next Due", "ShowPostTestsDue")</li>			
-</ul>
+<div id="divSideBar">
+    <ul id="ulMainMenu">    
+	    <li>@Html.ActionLink("Show Study IDs Not Randomized", "StudyIdsNotRandomized")</li>
+        <li>@Html.ActionLink("Show Randomized Studies", "RandomizedStudies")</li>
+        <li>@Html.ActionLink("Show Post Tests Completed", "ShowPostTestsCompleted")</li>
+        <li>@Html.ActionLink("Show Post Tests Completed2", "ShowPostTestsCompleted2")</li>
+        <li>@Html.ActionLink("Show Post Tests Next Due", "ShowPostTestsDue")</li>			
+    </ul>
+</div>

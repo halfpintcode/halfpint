@@ -101,7 +101,7 @@ namespace hpMvc.Controllers
         public FilePathResult InitializeSS(string studyID)
         {
             SSInsertionData ssInsert = (SSInsertionData)TempData["InsertData"];
-            int iret = ssUtils.SetRandomization(studyID, ref ssInsert);
+            int iret = ssUtils.SetRandomization(studyID, ref ssInsert, User.Identity.Name);
             if (iret == -1)
             {
 

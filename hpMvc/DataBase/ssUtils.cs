@@ -91,9 +91,9 @@ namespace hpMvc.DataBase
             return true;
         }
 
-        public static int SetRandomization(string studyID, ref SSInsertionData ssInsert)
+        public static int SetRandomization(string studyID, ref SSInsertionData ssInsert, string user)
         {
-            int site = int.Parse(studyID.Substring(0, 2));
+            int site = DbUtils.GetSiteidIDForUser(user);
             int arm = 0;
             int randomizationID = 0;
             string sArm = "";
