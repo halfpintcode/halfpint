@@ -6,14 +6,16 @@ using System.Web.Mvc;
 using hpMvc.Models;
 using hpMvc.DataBase;
 using System.Web.Helpers;
+using System.Configuration;
+using System.IO;
+using hpMvc.Infrastructure.Logging;
 
 namespace hpMvc.Controllers
 {
     [Authorize]
     public class CoordinatorController : Controller
     {
-        //
-        // GET: /Coordinator/
+        NLogger nlogger = new NLogger();
 
         public ActionResult Index()
         {
@@ -102,6 +104,18 @@ namespace hpMvc.Controllers
                             grid.Column("DateRandomized", header: "Date Randomized", format: x => x.DateRandomized.ToString("MM/dd/yyyy hh:mm tt"))));
 
             return Json(new { Data = htmlString.ToHtmlString() }, JsonRequestBehavior.AllowGet);
+        }
+
+        public FilePathResult DownloadStatStripList()
+        {
+            string siteName = DbUtils.GetSiteNameForUser(User.Identity.Name);
+            var folderPath = ConfigurationManager.AppSettings["StatStripListPath"].ToString();
+            string fileName = siteName + " " + ConfigurationManager.AppSettings["StatStripListName"].ToString();
+                        
+            var fullpath = Path.Combine(folderPath, fileName);
+
+            nlogger.LogInfo("DownloadStatStripList: " + fileName);
+            return this.File(fullpath, "application/csv", fileName);
         }
     }
 }
