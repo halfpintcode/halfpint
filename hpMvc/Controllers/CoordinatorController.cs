@@ -19,7 +19,25 @@ namespace hpMvc.Controllers
 
         public ActionResult Index()
         {
-            return View();
+            string role = "";
+
+            if (HttpContext.User.IsInRole("Admin"))
+            {
+                role = "Admin";
+
+                List<Site> sites = new List<Site>();
+
+                sites = DbUtils.GetSites();
+                if (sites.Count == 0)
+                    throw new Exception("There was an error retreiving the sites list from the database");
+                sites.Insert(0, new Site { ID = 0, Name = "Select a site", SiteID = "" });
+                ViewBag.Sites = new SelectList(sites, "ID", "Name");
+            }
+            ViewBag.Role = role;
+            
+            int siteID = DbUtils.GetSiteidIDForUser(User.Identity.Name);
+            var list = DbUtils.GetSiteRandomizedStudiesActive(siteID);
+            return View(list);            
         }
 
         public ActionResult StudyIdsNotRandomized(string siteID)
@@ -43,6 +61,13 @@ namespace hpMvc.Controllers
             int site = DbUtils.GetSiteidIDForUser(User.Identity.Name);
             var list = DbUtils.GetStudyIDsNotRandomized(site);
             return View(list);
+        }
+
+        public JsonResult GetActiveStudies(string siteID)
+        {
+            int site = int.Parse(siteID);
+            var list = DbUtils.GetSiteRandomizedStudiesActive(site);
+            return Json(list);
         }
 
         public JsonResult GetNonradomizedStudies(string siteID)

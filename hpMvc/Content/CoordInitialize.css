@@ -1,0 +1,16 @@
+﻿#tblActive
+{
+    border-collapse: collapse;
+    
+}
+#tblActive tr td:first-child
+{
+    text-align:left; 
+    vertical-align: top;   
+    width:200px;        
+}
+#tblActive tr th, td
+{
+    padding:5px;
+    border: 1px solid;    
+}

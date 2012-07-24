@@ -1,17 +1,31 @@
-﻿@{
+﻿@model List<hpMvc.Models.Randomization>
+@{
 	ViewBag.Title = "Index";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h3>Coordinators Menu</h3>
-
 <div id="divSideBar">
-    <ul id="ulMainMenu">    
-	    <li>@Html.ActionLink("Show Study IDs Not Randomized", "StudyIdsNotRandomized")</li>
-        <li>@Html.ActionLink("Show Randomized Studies", "RandomizedStudies")</li>
-        <li>@Html.ActionLink("Show Post Tests Completed", "ShowPostTestsCompleted")</li>
-        <li>@Html.ActionLink("Show Post Tests Completed2", "ShowPostTestsCompleted2")</li>
-        <li>@Html.ActionLink("Show Post Tests Next Due", "ShowPostTestsDue")</li>
-        <li>@Html.ActionLink("Download StatStrip Operators List", "DownloadStatStripList")</li>			
-    </ul>
+	<h3>Quick Links</h3>
+	<ul id="ulMainMenu">    
+		<li>@Html.ActionLink("Show Study IDs Not Randomized", "StudyIdsNotRandomized")</li>
+		<li>@Html.ActionLink("Show Randomized Studies", "RandomizedStudies")</li>
+		<li>@Html.ActionLink("Show Post Tests Completed", "ShowPostTestsCompleted")</li>
+		<li>@Html.ActionLink("Show Post Tests Completed2", "ShowPostTestsCompleted2")</li>
+		<li>@Html.ActionLink("Show Post Tests Next Due", "ShowPostTestsDue")</li>
+		<li>@Html.ActionLink("Download StatStrip Operators List", "DownloadStatStripList")</li>			
+	</ul>
 </div>
+
+<div id="div1Col">
+    <h3>Active Studies</h3>
+	@if (@ViewBag.Role == "Admin")
+    {
+        <span>Select a site:&nbsp;</span> @Html.DropDownList("Sites")
+        <br /><br />
+    }
+    @{Html.RenderPartial("ActiveStudiesPartial");}
+    
+</div>
+
+<link href="@Url.Content("~/Content/CoordInitialize.css")" rel="stylesheet" type="text/css" />
+    <script src="@Url.Content("~/Scripts/CoordInitialize.js")" type="text/javascript"></script>

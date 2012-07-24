@@ -1,0 +1,21 @@
+﻿@model List<hpMvc.Models.Randomization>
+
+<table id="tblActive">
+	<thead>
+		<tr>
+			<th>Study ID</th>
+			<th>Date Randomized</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach(var m in Model)                
+		{
+			<tr>
+				<td>@m.StudyID</td>
+				<td>@m.DateRandomized.ToShortDateString()</td>
+				<td><input class="btnComplete" type="button" value="Set Completed" /></td>
+			</tr>
+		}
+	</tbody>
+</table>

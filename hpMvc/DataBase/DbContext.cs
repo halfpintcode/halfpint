@@ -148,6 +148,58 @@ namespace hpMvc.DataBase
             return list;
         }
 
+        public static List<Randomization> GetSiteRandomizedStudiesActive(int siteID)
+        {
+            var list = new List<Randomization>();
+            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            using (SqlConnection conn = new SqlConnection(strConn))
+            {
+                try
+                {
+                    SqlCommand cmd = new SqlCommand("", conn);
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.CommandText = ("GetSiteRandomizedStudiesActive");
+                    SqlParameter param = new SqlParameter("@siteID", siteID);
+                    cmd.Parameters.Add(param);
+
+                    conn.Open();
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    int pos = 0;
+
+                    while (rdr.Read())
+                    {
+                        var rndm = new Randomization();
+                        pos = rdr.GetOrdinal("Name");
+                        rndm.SiteName = rdr.GetString(pos);
+
+                        pos = rdr.GetOrdinal("Number");
+                        rndm.Number = rdr.GetString(pos);
+
+                        pos = rdr.GetOrdinal("StudyID");
+                        rndm.StudyID = rdr.GetString(pos);
+
+                        pos = rdr.GetOrdinal("Arm");
+                        rndm.Arm = rdr.GetString(pos);
+
+                        pos = rdr.GetOrdinal("DateRandomized");
+                        rndm.DateRandomized = rdr.GetDateTime(pos);
+                        rndm.sDateRandomized = rndm.DateRandomized.ToShortDateString();
+
+                        list.Add(rndm);
+                    }
+                    rdr.Close();
+                }
+                catch (Exception ex)
+                {
+                    nlogger.LogError(ex);
+                }
+            }
+
+
+            return list;
+        }
+
+
         public static List<Randomization> GetSiteRandomizedStudies(int siteID)
         {
             var list = new List<Randomization>();
@@ -197,7 +249,6 @@ namespace hpMvc.DataBase
 
             return list;
         }
-
         public static List<StudyID> GetStudyIDsNotRandomized(int site)
         {
             List<StudyID> sls = new List<StudyID>();

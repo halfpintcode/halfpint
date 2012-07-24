@@ -33,5 +33,23 @@ namespace hpMvc.Models
         public string StudyID { get; set; }
         public string Arm { get; set; }
         public DateTime DateRandomized { get; set; }
+        public string sDateRandomized { get; set; }
+        public DateTime DateCompleted { get; set; }
+    }
+
+    public class StudyCompleted
+    {
+        public string StudyID { get; set; }
+        public DateTime DateRandomized { get; set; }
+        public DateTime DateCompleted { get; set; }
+        public string MonitorID { get; set; }
+        public bool CgmUpload { get; set; }
+        public bool Older2 { get; set; }
+        public bool Cbcl { get; set; }
+        public bool PedsQL { get; set; }
+        public bool Demographics { get; set; }
+        public bool ContactInfo { get; set; }
+        public bool Cleared { get; set; }
+        public string NotCompletedReason { get; set; }
     }
 }

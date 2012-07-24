@@ -7,7 +7,12 @@
 	<div id="divSideBar">
 		<h3>Quick Links</h3>
 		<ul class="sf-menu sf-vertical">            
-			<li><a href="#">Important Contacts</a></li>
+			<li><a href="#">Important Contacts</a>
+				<ul>
+					<li>@Html.ActionLink("National Contacts", "GetFile", new { Controller = "Download", filename = @"HalfPint National Contact Info.docx", folder = "Quick Links~Important Contacts" })</li>    
+					<li>@Html.ActionLink("Local Contacts - Boston", "GetFile", new { Controller = "Download", filename = @"HalfPint Local Contact Info-Boston.docx", folder = "Quick Links~Important Contacts" })</li>    
+				</ul>
+			</li>
 			<li>@Html.ActionLink("Permission to Approach", "GetFile", new { Controller = "Download", filename = @"Permission to Approach.docx", folder = "Quick Links" })</li>
 			<li class="StaffOnly NotDcc" >@Html.ActionLink("Randomize Password", "InitializePassword", new { controller = "InitializeSubject" })</li>
 			<li class="StaffOnly">@Html.ActionLink("Password Look-up", "GetInitializePassword", new { controller = "Staff" })</li>
@@ -208,15 +213,16 @@
 						</ul>
 					</li>
 					<li class="StaffOnly">@Html.ActionLink("Document Management", "GetFile", new { Controller = "Download", filename = @"Document Management Recommendations.pdf", folder = "Study Management" })</li>							    															
-					<li class="StaffOnly"><a href="#">Comittees</a></li>					
+					<li class="StaffOnly">@Html.ActionLink("Committees", "GetFile", new { Controller = "Download", filename = @"Committees.docx", folder = "Study Management~Committees" })</li>							    																				
 					<li class="StaffOnly"><a href="#">Standard Operating Procedures</a>
 						<ul>
 							<li>@Html.ActionLink("AE and UP SOP", "GetFile", new { Controller = "Download", filename = @"AE and UP SOP.docx", folder = "Study Management~Standard Operating Procedures" })</li>
 							<li>@Html.ActionLink("Central IRB SOP", "GetFile", new { Controller = "Download", filename = @"Central IRB SOP.docx", folder = "Study Management~Standard Operating Procedures" })</li>
+							<li>@Html.ActionLink("Central IRB SOP - Appendix 1", "GetFile", new { Controller = "Download", filename = @"Central IRB SOP - Appendix 1.pdf", folder = "Study Management~Standard Operating Procedures" })</li>
 							<li>@Html.ActionLink("Nova StatStrip SOP", "GetFile", new { Controller = "Download", filename = @"Nova StatStrip SOP.doc", folder = "Study Management~Standard Operating Procedures" })</li>							
 						</ul>
 					</li>				
-					<li class="StaffOnly"><a href="#">Supplies</a></li>
+					<li class="StaffOnly">@Html.ActionLink("Supplies", "GetFile", new { Controller = "Download", filename = @"HalfPint Supply Ordering Info.docx", folder = "Study Management" })</li>
 					@*<li class="StaffOnly"><a href="#">Nursing Workload Survey</a></li>*@																	                    								
 				</ul>
 			</li>
