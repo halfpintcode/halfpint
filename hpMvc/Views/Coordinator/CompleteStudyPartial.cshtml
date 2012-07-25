@@ -1,0 +1,36 @@
+﻿@model hpMvc.Models.StudyCompleted
+
+@using (Ajax.BeginForm("CompleteStudy", new AjaxOptions
+{
+    HttpMethod = "post",
+    UpdateTargetId = "formContent",
+    InsertionMode = InsertionMode.Replace,
+    OnBegin = "onBegin",
+    OnComplete = "onComplete"
+
+}))
+{
+     @Html.ValidationSummary(true, "Account creation was unsuccessful. Please correct the errors and try again.")
+    <br />
+    
+    @Html.LabelFor(m => m.StudyID) <text>: &nbsp;  @Model.StudyID </text>
+    <br />
+    @Html.LabelFor(m => m.DateRandomized); <text>: &nbsp;  @Model.sDateRandomized </text>
+    <br />
+    
+    @Html.LabelFor(m => m.DateCompleted) 
+    <br />
+    @Html.EditorFor(m => m.DateCompleted)
+    <br />
+    @Html.LabelFor(m => m.MonitorID); 
+    <br />
+    @Html.EditorFor(m => m.MonitorID);
+    <br />
+    @Html.LabelFor(m => m.CgmUpload); 
+    <br />
+    @Html.EditorFor(m => m.CgmUpload);
+
+
+
+}          
+

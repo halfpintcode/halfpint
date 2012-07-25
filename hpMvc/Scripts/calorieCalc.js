@@ -196,7 +196,7 @@ $(function () {
 		var CalStudyInfo = {
 			ID: 0,
 			StudyID: $('#StudyList').val(),
-            SStudyID: $('#StudyList option:selected').text(),
+			SStudyID: $('#StudyList option:selected').text(),
 			Weight: $('#bodyWeight').val(),
 			CalcDate: $('#calcDate').val(),
 			TotalCals: $('#totalCalIntake').text()

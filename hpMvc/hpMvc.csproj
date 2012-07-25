@@ -359,6 +359,8 @@
     <Content Include="Views\Admin\ShowUsers.cshtml" />
     <Content Include="Views\Coordinator\ShowPostTestsDue.cshtml" />
     <Content Include="Views\Coordinator\ActiveStudiesPartial.cshtml" />
+    <Content Include="Views\Coordinator\CompleteStudy.cshtml" />
+    <Content Include="Views\Coordinator\CompleteStudyPartial.cshtml" />
     <None Include="_bin_deployableAssemblies\Microsoft.Web.Infrastructure.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.Razor.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.dll" />

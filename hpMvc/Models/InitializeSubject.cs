@@ -39,17 +39,22 @@ namespace hpMvc.Models
 
     public class StudyCompleted
     {
+        [ScaffoldColumn(false)]
+        public int ID { get; set; }
+        [Display(Name="Study ID")]
         public string StudyID { get; set; }
         public DateTime DateRandomized { get; set; }
+        public string sDateRandomized { get; set; }
         public DateTime DateCompleted { get; set; }
+        public string sDateCompleted { get; set; }
         public string MonitorID { get; set; }
         public bool CgmUpload { get; set; }
         public bool Older2 { get; set; }
-        public bool Cbcl { get; set; }
+        public bool CBCL { get; set; }
         public bool PedsQL { get; set; }
         public bool Demographics { get; set; }
         public bool ContactInfo { get; set; }
         public bool Cleared { get; set; }
-        public string NotCompletedReason { get; set; }
+        public string NotCompletedReason { get; set; }        
     }
 }

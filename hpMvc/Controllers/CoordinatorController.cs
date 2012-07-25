@@ -20,6 +20,7 @@ namespace hpMvc.Controllers
         public ActionResult Index()
         {
             string role = "";
+            int siteID = DbUtils.GetSiteidIDForUser(User.Identity.Name);
 
             if (HttpContext.User.IsInRole("Admin"))
             {
@@ -31,15 +32,27 @@ namespace hpMvc.Controllers
                 if (sites.Count == 0)
                     throw new Exception("There was an error retreiving the sites list from the database");
                 sites.Insert(0, new Site { ID = 0, Name = "Select a site", SiteID = "" });
-                ViewBag.Sites = new SelectList(sites, "ID", "Name");
+
+                ViewBag.Sites = new SelectList(sites, "ID", "Name", siteID);
             }
             ViewBag.Role = role;
+                       
             
-            int siteID = DbUtils.GetSiteidIDForUser(User.Identity.Name);
             var list = DbUtils.GetSiteRandomizedStudiesActive(siteID);
             return View(list);            
         }
+                
+        public ActionResult CompleteStudy(string id)
+        {
+            var ra = DbUtils.GetRandomizedStudyActive(id);
+            return View(ra);
+        }
 
+        [HttpPost]
+        public ActionResult AddUser(StudyCompleted model)
+        {
+            return PartialView("CompleteStudyPartial", model);
+        }
         public ActionResult StudyIdsNotRandomized(string siteID)
         {
             string role = "";
