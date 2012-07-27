@@ -1,17 +1,26 @@
 ﻿/// <reference path="jquery-1.7.1-vsdoc.js" />
 $(function () {
     //alert('');
-    getActiveStudies();
+    var site = $('#SiteID').val();
+    getActiveSubjects(site);
 
     $('#Sites').change(function () {
         getActiveStudies();
     });
 
-    function getActiveStudies() {
+    function getActiveSubjects(site) {
+        var siteID = "";
+        if (site) {
+            siteID = site;
+        }
+        else {
+            siteID = $('#Sites').val();
+        }
+
         $.ajax({
-            url: urlRoot + '/Coordinator/GetActiveStudies',
+            url: urlRoot + '/Coordinator/GetActiveSubjects',
             type: 'POST',
-            data: { siteID: $('#Sites').val() },
+            data: { siteID: siteID },
             success: function (data) {
                 var tbl = $('#tblActive tbody');
                 tbl.empty();
@@ -27,9 +36,9 @@ $(function () {
 
     $('.btnComplete').live("click", function () {
         var data = $(this).parent().parent().data('rowData');
-        window.location = urlRoot + '/Coordinator/CompleteStudy/?id=' + data.ID;
+        window.location = urlRoot + '/Coordinator/CompleteSubject/?id=' + data.ID;
         //        $.ajax({
-        //            url: urlRoot + '/Coordinator/CompleteStudy',
+        //            url: urlRoot + '/Coordinator/CompleteSubject',
         //            type: 'POST',
         //            data: data,
         //            success: function (data) {

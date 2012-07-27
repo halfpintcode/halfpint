@@ -1,0 +1,32 @@
+﻿@model hpMvc.Models.SubjectCompleted
+@{
+    ViewBag.Title = "Complete Subject";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Subject Completed Form</h2>
+
+<h3>Instructions</h3>
+<p>
+    All fields are required.  
+    <br />If however you can not complete one or more required fields then you must provide a reason.
+</p>
+
+
+<label class="lblmain">Study ID:</label><label>@Model.StudyID</label><br />
+<label class="lblmain">Date Randomized: </label><label>@Model.DateRandomized.ToShortDateString()</label><br />
+<label class="lblmain">MonitorID</label> <label>@Model.MonitorID</label>
+
+<div id="formContent">
+    @{Html.RenderPartial("CompleteSubjectPartial");}
+</div>
+
+<div>
+    @Html.ActionLink("Back to Coordinator", "Index")
+</div>
+
+<link href="@Url.Content("~/Content/CompleteSubject.css")" rel="stylesheet" type="text/css" />
+<script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/CompleteSubject.js")" type="text/javascript"></script>

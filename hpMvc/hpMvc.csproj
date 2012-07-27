@@ -142,6 +142,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Broadcast.css" />
+    <Content Include="Content\CompleteSubject.css" />
     <Content Include="Content\CoordInitialize.css" />
     <Content Include="Content\jquery.dataTables.css" />
     <Content Include="Content\Images\mailLogo.gif" />
@@ -219,6 +220,7 @@
     <Content Include="HTMLPage1.htm" />
     <Content Include="README.jQuery.vsdoc.txt" />
     <Content Include="Scripts\Broadcast.js" />
+    <Content Include="Scripts\CompleteSubject.js" />
     <Content Include="Scripts\CoordInitialize.js" />
     <Content Include="Scripts\jquery.dataTables.js" />
     <Content Include="Scripts\jquery.dataTables.rowGrouping.js" />
@@ -358,9 +360,9 @@
     <Content Include="Views\Coordinator\RandomizedStudies.cshtml" />
     <Content Include="Views\Admin\ShowUsers.cshtml" />
     <Content Include="Views\Coordinator\ShowPostTestsDue.cshtml" />
-    <Content Include="Views\Coordinator\ActiveStudiesPartial.cshtml" />
-    <Content Include="Views\Coordinator\CompleteStudy.cshtml" />
-    <Content Include="Views\Coordinator\CompleteStudyPartial.cshtml" />
+    <Content Include="Views\Coordinator\ActiveSubjectsPartial.cshtml" />
+    <Content Include="Views\Coordinator\CompleteSubjectPartial.cshtml" />
+    <Content Include="Views\Coordinator\CompleteSubject.cshtml" />
     <None Include="_bin_deployableAssemblies\Microsoft.Web.Infrastructure.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.Razor.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.dll" />

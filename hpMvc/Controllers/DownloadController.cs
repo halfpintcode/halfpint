@@ -88,6 +88,19 @@ namespace hpMvc.Controllers
                     }
                     break;
 
+                case "04":
+                    if (fileName.Contains("Consent Form"))
+                    {
+                        fileName = "Denver HalfPint Consent Form.pdf";
+                        folder = "Enrollment~Denver";
+                    }
+                    if (fileName.Contains("Assent Form"))
+                    {
+                        fileName = "Denver HalfPint Assent Form.pdf";
+                        folder = "Enrollment~Denver";
+                    }
+                    break;
+
                 case "05":
                     if (fileName.Contains("Consent Form"))
                     {

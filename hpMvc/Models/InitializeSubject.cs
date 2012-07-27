@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace hpMvc.Models
 {
@@ -37,23 +38,36 @@ namespace hpMvc.Models
         public DateTime DateCompleted { get; set; }
     }
 
-    public class StudyCompleted
-    {
-        [ScaffoldColumn(false)]
+    public class SubjectCompleted
+    {       
         public int ID { get; set; }
         [Display(Name="Study ID")]
         public string StudyID { get; set; }
+        [Display(Name = "Date Randomized")]
+        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yy}", ApplyFormatInEditMode = true)]
         public DateTime DateRandomized { get; set; }
+        [Display(Name = "Date Randomized")]
         public string sDateRandomized { get; set; }
-        public DateTime DateCompleted { get; set; }
+        [Display(Name = "Date Completed")]
+        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yy}", ApplyFormatInEditMode = true)]
+        public DateTime? DateCompleted { get; set; }
+        [Display(Name = "Date Completed")]
         public string sDateCompleted { get; set; }
+        [Display(Name = "Monitor ID")]
         public string MonitorID { get; set; }
+        [Display(Name = "CGM Upload")]
         public bool CgmUpload { get; set; }
+        
         public bool Older2 { get; set; }
+        [Display(Name = "CGM Upload")]
         public bool CBCL { get; set; }
+        
         public bool PedsQL { get; set; }
+        
         public bool Demographics { get; set; }
+        
         public bool ContactInfo { get; set; }
+        
         public bool Cleared { get; set; }
         public string NotCompletedReason { get; set; }        
     }

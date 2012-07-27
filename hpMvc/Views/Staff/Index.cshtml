@@ -9,7 +9,7 @@
 		<ul class="sf-menu sf-vertical">            
 			<li><a href="#">Important Contacts</a>
 				<ul>
-					<li>@Html.ActionLink("National Contacts", "GetFile", new { Controller = "Download", filename = @"HalfPint National Contact Info.docx", folder = "Quick Links~Important Contacts" })</li>    
+					<li class="StaffOnly">@Html.ActionLink("National Contacts", "GetFile", new { Controller = "Download", filename = @"HalfPint National Contact Info.docx", folder = "Quick Links~Important Contacts" })</li>    
 					<li>@Html.ActionLink("Local Contacts - Boston", "GetFile", new { Controller = "Download", filename = @"HalfPint Local Contact Info-Boston.docx", folder = "Quick Links~Important Contacts" })</li>    
 				</ul>
 			</li>
@@ -140,8 +140,15 @@
 							<li class="AdminDCC">
 								<a href="#">Cincinnati</a>
 								<ul>
-									<li>@Html.ActionLink("HalfPint Consent Form", "GetFile", new { Controller = "Download", filename = @"CCHMC HalfPint Consent Form.pdf", folder = "Enrollment~CHOP" })</li>							
-									<li>@Html.ActionLink("HalfPint Assent Form", "GetFile", new { Controller = "Download", filename = @"CCHMC HalfPint Assent Form.pdf", folder = "Enrollment~CHOP" })</li>
+									<li>@Html.ActionLink("HalfPint Consent Form", "GetFile", new { Controller = "Download", filename = @"CCHMC HalfPint Consent Form.pdf", folder = "Enrollment~Cincinnati" })</li>							
+									<li>@Html.ActionLink("HalfPint Assent Form", "GetFile", new { Controller = "Download", filename = @"CCHMC HalfPint Assent Form.pdf", folder = "Enrollment~Cincinnati" })</li>
+								</ul>
+							</li>	
+							<li class="AdminDCC">
+								<a href="#">Denver</a>
+								<ul>
+									<li>@Html.ActionLink("HalfPint Consent Form", "GetFile", new { Controller = "Download", filename = @"Denver HalfPint Consent Form.pdf", folder = "Enrollment~Denver" })</li>							
+									<li>@Html.ActionLink("HalfPint Assent Form", "GetFile", new { Controller = "Download", filename = @"Denver HalfPint Assent Form.pdf", folder = "Enrollment~Denver" })</li>
 								</ul>
 							</li>							
 							<li class="AdminDCC">
@@ -154,8 +161,8 @@
 							<li class="AdminDCC">
 								<a href="#">Penn State</a>
 								<ul>
-									<li>@Html.ActionLink("HalfPint Consent Form", "GetFile", new { Controller = "Download", filename = @"PennState HalfPint Consent Form.pdf", folder = "Enrollment~CHOP" })</li>							
-									<li>@Html.ActionLink("HalfPint Assent Form", "GetFile", new { Controller = "Download", filename = @"PennState HalfPint Assent Form.pdf", folder = "Enrollment~CHOP" })</li>
+									<li>@Html.ActionLink("HalfPint Consent Form", "GetFile", new { Controller = "Download", filename = @"PennState HalfPint Consent Form.pdf", folder = "Enrollment~Penn State" })</li>							
+									<li>@Html.ActionLink("HalfPint Assent Form", "GetFile", new { Controller = "Download", filename = @"PennState HalfPint Assent Form.pdf", folder = "Enrollment~Penn State" })</li>
 								</ul>
 							</li>							
 						</ul>                    

@@ -148,9 +148,9 @@ namespace hpMvc.DataBase
             return list;
         }
 
-        public static StudyCompleted GetRandomizedStudyActive(string id)
+        public static SubjectCompleted GetRandomizedStudyActive(string id)
         {
-            var rndm = new StudyCompleted();
+            var rndm = new SubjectCompleted();
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
             using (SqlConnection conn = new SqlConnection(strConn))
             {
@@ -183,7 +183,7 @@ namespace hpMvc.DataBase
                         if (!rdr.IsDBNull(pos))
                         {
                             rndm.DateCompleted = rdr.GetDateTime(pos);
-                            rndm.sDateCompleted = rndm.DateCompleted.ToShortDateString();
+                            rndm.sDateCompleted = rndm.DateCompleted !=null ? rndm.DateCompleted.Value.ToString("MM/dd/yyyy") : "";
                         }
 
                         pos = rdr.GetOrdinal("CgmUpload");
@@ -235,9 +235,9 @@ namespace hpMvc.DataBase
             return rndm;
         }
 
-        public static List<StudyCompleted> GetSiteRandomizedStudiesActive(int siteID)
+        public static List<SubjectCompleted> GetSiteRandomizedStudiesActive(int siteID)
         {
-            var list = new List<StudyCompleted>();
+            var list = new List<SubjectCompleted>();
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
             using (SqlConnection conn = new SqlConnection(strConn))
             {
@@ -255,7 +255,7 @@ namespace hpMvc.DataBase
 
                     while (rdr.Read())
                     {
-                        var rndm = new StudyCompleted();
+                        var rndm = new SubjectCompleted();
                         pos = rdr.GetOrdinal("ID");
                         rndm.ID = rdr.GetInt32(pos);
 
@@ -270,7 +270,7 @@ namespace hpMvc.DataBase
                         if (!rdr.IsDBNull(pos))
                         {
                             rndm.DateCompleted = rdr.GetDateTime(pos);
-                            rndm.sDateCompleted = rndm.DateCompleted.ToShortDateString();
+                            rndm.sDateCompleted = rndm.DateCompleted != null ? rndm.DateCompleted.Value.ToString("MM/dd/yyyy") : ""; ;
                         }
 
                         pos = rdr.GetOrdinal("CgmUpload");

@@ -36,22 +36,37 @@ namespace hpMvc.Controllers
                 ViewBag.Sites = new SelectList(sites, "ID", "Name", siteID);
             }
             ViewBag.Role = role;
-                       
+            ViewBag.SiteID = siteID;            
             
-            var list = DbUtils.GetSiteRandomizedStudiesActive(siteID);
-            return View(list);            
+            //var list = DbUtils.GetSiteRandomizedStudiesActive(siteID);
+            return View();            
         }
                 
-        public ActionResult CompleteStudy(string id)
+        public ActionResult CompleteSubject(string id)
         {
             var ra = DbUtils.GetRandomizedStudyActive(id);
             return View(ra);
         }
 
         [HttpPost]
-        public ActionResult AddUser(StudyCompleted model)
+        public ActionResult CompleteSubject(SubjectCompleted model, HttpPostedFileBase file)
         {
-            return PartialView("CompleteStudyPartial", model);
+            //if (file != null && file.ContentLength > 0)
+            //{
+            //    var fileName = Path.GetFileName(file.FileName);
+            //    var path = Path.Combine(Server.MapPath("~/Docs"), fileName);
+            //    file.SaveAs(path);
+            //}
+            //else
+            //{
+            //    ModelState["CgmUpload"].Errors.Add("File not uploaded");
+            //}
+
+            //if(!ModelState.IsValid)
+            return View("CompleteSubject", model);
+            
+            //return View(model);
+
         }
         public ActionResult StudyIdsNotRandomized(string siteID)
         {
@@ -76,7 +91,7 @@ namespace hpMvc.Controllers
             return View(list);
         }
 
-        public JsonResult GetActiveStudies(string siteID)
+        public JsonResult GetActiveSubjects(string siteID)
         {
             int site = int.Parse(siteID);
             var list = DbUtils.GetSiteRandomizedStudiesActive(site);
