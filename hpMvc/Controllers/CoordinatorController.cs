@@ -51,18 +51,25 @@ namespace hpMvc.Controllers
         [HttpPost]
         public ActionResult CompleteSubject(SubjectCompleted model, HttpPostedFileBase file)
         {
-            //if (file != null && file.ContentLength > 0)
-            //{
-            //    var fileName = Path.GetFileName(file.FileName);
-            //    var path = Path.Combine(Server.MapPath("~/Docs"), fileName);
-            //    file.SaveAs(path);
-            //}
-            //else
-            //{
-            //    ModelState["CgmUpload"].Errors.Add("File not uploaded");
-            //}
+            //file upload
+            if (file != null && file.ContentLength > 0)
+            {
+                var fileName = Path.GetFileName(file.FileName);
+                //todo validate file type
+                var folderPath = ConfigurationManager.AppSettings["CgmUploadPath"].ToString();
+                
+                var fullPath = Path.Combine(Server.MapPath(folderPath), fileName);
+                file.SaveAs(fullPath);
+                model.CgmUpload = true;
+            }
+            else
+            {                
+                ModelState["CgmUpload"].Errors.Add("File not uploaded");
+            }
 
+            
             //if(!ModelState.IsValid)
+            
             return View("CompleteSubject", model);
             
             //return View(model);

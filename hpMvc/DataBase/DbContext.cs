@@ -148,6 +148,50 @@ namespace hpMvc.DataBase
             return list;
         }
 
+        public static void SaveRandomizedSubjectActive(SubjectCompleted sc)
+        {
+            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            using (SqlConnection conn = new SqlConnection(strConn))
+            {
+                try
+                {
+                    SqlCommand cmd = new SqlCommand("", conn);
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.CommandText = ("SaveRandomizedSubjectActive");
+                    SqlParameter param = new SqlParameter("@id", sc.ID);
+                    cmd.Parameters.Add(param);
+                    param = new SqlParameter("@dateCompleted", sc.DateCompleted);
+                    cmd.Parameters.Add(param);
+                    param = new SqlParameter("@cgmUpload", sc.CgmUpload);
+                    cmd.Parameters.Add(param);
+                    param = new SqlParameter("@older2", sc.Older2);
+                    cmd.Parameters.Add(param);
+                    param = new SqlParameter("@cbcl", sc.CBCL);
+                    cmd.Parameters.Add(param);
+                    param = new SqlParameter("@pedsQL", sc.PedsQL);
+                    cmd.Parameters.Add(param);
+                    param = new SqlParameter("@demographics", sc.Demographics);
+                    cmd.Parameters.Add(param);
+                    param = new SqlParameter("@contactInfo", sc.ContactInfo);
+                    cmd.Parameters.Add(param);
+                    param = new SqlParameter("@notCompletedReason", sc.NotCompletedReason);
+                    cmd.Parameters.Add(param);
+                    param = new SqlParameter("@cleared", sc.Cleared);
+                    cmd.Parameters.Add(param);
+
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                    
+                }
+                catch (Exception ex)
+                {
+                    nlogger.LogError(ex);
+                }
+            }
+
+
+        }
+
         public static SubjectCompleted GetRandomizedStudyActive(string id)
         {
             var rndm = new SubjectCompleted();
@@ -221,6 +265,9 @@ namespace hpMvc.DataBase
                         pos = rdr.GetOrdinal("NotCompletedReason");
                         if (!rdr.IsDBNull(pos))
                             rndm.NotCompletedReason = rdr.GetString(pos);
+
+                        pos = rdr.GetOrdinal("SiteName");
+                        rndm.SiteName = rdr.GetString(pos);
                                                 
                     }
                     rdr.Close();

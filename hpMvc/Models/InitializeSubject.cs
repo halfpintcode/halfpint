@@ -56,19 +56,15 @@ namespace hpMvc.Models
         [Display(Name = "Monitor ID")]
         public string MonitorID { get; set; }
         [Display(Name = "CGM Upload")]
-        public bool CgmUpload { get; set; }
-        
+        public bool CgmUpload { get; set; }        
         public bool Older2 { get; set; }
         [Display(Name = "CGM Upload")]
-        public bool CBCL { get; set; }
-        
-        public bool PedsQL { get; set; }
-        
-        public bool Demographics { get; set; }
-        
-        public bool ContactInfo { get; set; }
-        
+        public bool CBCL { get; set; }        
+        public bool PedsQL { get; set; }        
+        public bool Demographics { get; set; }        
+        public bool ContactInfo { get; set; }        
         public bool Cleared { get; set; }
-        public string NotCompletedReason { get; set; }        
+        public string NotCompletedReason { get; set; }
+        public string SiteName { get; set; }
     }
 }
