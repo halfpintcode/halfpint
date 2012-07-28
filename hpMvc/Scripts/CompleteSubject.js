@@ -7,6 +7,13 @@ $(function () {
         $('#overTwo').hide();
     }
 
+    if ($('#CgmUpload').val() === 'true') {
+        $('#spanUpload').show();
+    }
+    else {
+        $('#spanUpload').hide();
+    }
+
     $('#Older2').click(function () {
         $('#overTwo').slideToggle('slow', function () {
             if (!$(this).is(":visible")) {

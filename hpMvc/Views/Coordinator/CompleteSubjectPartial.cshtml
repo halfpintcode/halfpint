@@ -5,31 +5,34 @@
         <input id="StudyID" name="StudyID" type="hidden" value='@Model.StudyID' />
         <input id="DateRandomized" name="DateRandomized" type="hidden" value='@Model.DateRandomized' />
         <input id="MonitorID" name="MonitorID" type="hidden" value='@Model.MonitorID' />
-        <input id="CgmUpload" name="CgmUpload" type="hidden" value="false"/>
-        
-     @Html.ValidationSummary(true, "You must either provide all required fields or give a reaon for not being able to.")  
+        <input id="CgmUpload" name="CgmUpload" type="hidden" value="@ViewBag.CgmUpload"/>
+       
+     
      <fieldset>
         <legend>Required Fields For Completed Subject</legend>
             
         <label class="lblmain">DateCompleted</label>  @Html.EditorFor(m => m.DateCompleted)
         <br />
-        
+        <span id="spanUpload">
+            The CGM csv file has been uploaded. Uploading another file will overwrite the previous upload.
+            <br />
+        </span>
         <label class="lblmain">CGM upload:</label>&nbsp;
-        <input id="upload" type="file" name="file" /> @Html.ValidationMessageFor(m => m.CgmUpload)
+        <input id="upload" type="file" name="file" /> 
         <br />
         <span style="text-decoration:underline">Neurodevelopmental Follow-Up Questionnaires</span>
         <br />
-        <input type="checkbox" id="Older2" name="Older2" value='@Model.Older2' /><span>Subject was older than the age of 2 at the time of randomization</span>
+        @Html.EditorFor(m => m.Older2) <span>Subject was older than the age of 2 at the time of randomization</span>
         <div id="overTwo">
             <label class="older2">Certify with a check mark that the following have been collected and sent to the CCC</label><br />            
-            <label class="certify">(a)</label><input type="checkbox" id="CBCL" name="CBCL" value='@Model.CBCL' /><span>CBCL</span><br />
-            <label class="certify">(b)</label><input type="checkbox" id="PedsQL" name="PedsQL" value='@Model.PedsQL' /><span>Peds-QL</span><br />
-            <label class="certify">(c)</label><input type="checkbox" id="Demographics" name="Demographics" value='@Model.Demographics' /><span>Subject Demographics</span><br />
-            <input class="older2" type="checkbox" id="ContactInfo" name="ContactInfo" value='@Model.ContactInfo' /><span>Subject contact information has been collected and stored at site</span>
+            <label class="certify">(a) </label>@Html.EditorFor(m => m.CBCL) <span>CBCL</span><br />
+            <label class="certify">(b) </label>@Html.EditorFor(m => m.PedsQL) <span>Peds-QL</span><br />
+            <label class="certify">(c) </label>@Html.EditorFor(m => m.Demographics) <span>Subject Demographics</span><br />
+            @Html.CheckBoxFor(m => m.ContactInfo, new { @class = "older2" }) <span>Subject contact information has been collected and stored at site</span>
         </div>
         <br />
         <label>Reason for not completing all required fields</label><br />
-        <textarea name="otherText" id="otherText" cols="100" rows="5"></textarea>
+        <textarea name="NotCompletedReason" id="NotCompletedReason" cols="100" rows="5"></textarea>
         <br /><br />
         <input type="submit" value="Save" />
     </fieldset>

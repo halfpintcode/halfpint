@@ -40,25 +40,15 @@ namespace hpMvc.Models
 
     public class SubjectCompleted
     {       
-        public int ID { get; set; }
-        [Display(Name="Study ID")]
+        public int ID { get; set; }        
         public string StudyID { get; set; }
-        [Display(Name = "Date Randomized")]
-        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yy}", ApplyFormatInEditMode = true)]
         public DateTime DateRandomized { get; set; }
-        [Display(Name = "Date Randomized")]
         public string sDateRandomized { get; set; }
-        [Display(Name = "Date Completed")]
-        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yy}", ApplyFormatInEditMode = true)]
         public DateTime? DateCompleted { get; set; }
-        [Display(Name = "Date Completed")]
         public string sDateCompleted { get; set; }
-        [Display(Name = "Monitor ID")]
         public string MonitorID { get; set; }
-        [Display(Name = "CGM Upload")]
         public bool CgmUpload { get; set; }        
         public bool Older2 { get; set; }
-        [Display(Name = "CGM Upload")]
         public bool CBCL { get; set; }        
         public bool PedsQL { get; set; }        
         public bool Demographics { get; set; }        

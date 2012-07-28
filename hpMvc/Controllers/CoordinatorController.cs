@@ -37,7 +37,7 @@ namespace hpMvc.Controllers
             }
             ViewBag.Role = role;
             ViewBag.SiteID = siteID;            
-            
+            ViewBag.CgmUpload = "false";
             //var list = DbUtils.GetSiteRandomizedStudiesActive(siteID);
             return View();            
         }
@@ -58,9 +58,10 @@ namespace hpMvc.Controllers
                 //todo validate file type
                 var folderPath = ConfigurationManager.AppSettings["CgmUploadPath"].ToString();
                 
-                var fullPath = Path.Combine(Server.MapPath(folderPath), fileName);
-                file.SaveAs(fullPath);
+                var fullPath = Path.Combine(folderPath, fileName);
+                //file.SaveAs(fullPath);
                 model.CgmUpload = true;
+                ViewBag.CgmUpload = "true";
             }
             else
             {                
