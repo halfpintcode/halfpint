@@ -60,7 +60,7 @@ namespace hpMvc.Controllers
                 
                 var fullPath = Path.Combine(folderPath, fileName);
                 //file.SaveAs(fullPath);
-                model.CgmUpload = true;
+                //model.CgmUpload = true;
                 ViewBag.CgmUpload = "true";
             }
             else

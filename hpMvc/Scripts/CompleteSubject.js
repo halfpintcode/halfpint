@@ -25,4 +25,12 @@ $(function () {
         });
     });
 
+    $('#btnSubmit').click(function () {
+        var val = $('#upload').val();
+        if (val) {
+            $('#CgmUpload').val('true');
+
+        }
+        //return false;
+    })
 });
