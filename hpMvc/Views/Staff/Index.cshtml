@@ -93,6 +93,7 @@
 					</li>
 					<li class="StaffOnly"><a href="#">Form Completion Guidelines</a>
 						<ul>
+							<li>@Html.ActionLink("Daily Screening Form", "GetFile", new { Controller = "Download", filename = @"Daily Screening Form.pdf", folder = "Resources~Form Completion Guidelines" })</li>
 							<li>@Html.ActionLink("Consented Subject Tracking Sheet", "GetFile", new { Controller = "Download", filename = @"Consented Subject Tracking Sheet.pdf", folder = "Resources~Form Completion Guidelines" })</li>
 							<li>@Html.ActionLink("DOV", "GetFile", new { Controller = "Download", filename = @"DOV.pdf", folder = "Resources~Form Completion Guidelines" })</li>
 							<li>@Html.ActionLink("Form 1 Inclusion and Exclusion Criteria", "GetFile", new { Controller = "Download", filename = @"Form 1 Inclusion and Exclusion Criteria.pdf", folder = "Resources~Form Completion Guidelines" })</li>
