@@ -162,3 +162,22 @@ function validateEmployeeID(reg, empID) {
     var re = new RegExp(reg); 
     return re.test(empID);
 }
+
+//this is not tested
+//function isValidDate(date) {
+//    var valid = true;
+
+//    date = date.replace('/-/g', '');
+
+//    var month = parseInt(date.substring(0, 2));
+//    var day = parseInt(date.substring(2, 4));
+//    var year = parseInt(date.substring(4, 8));
+
+//    if ((month < 1) || (month > 12)) valid = false;
+//    else if ((day < 1) || (day > 31)) valid = false;
+//    else if (((month == 4) || (month == 6) || (month == 9) || (month == 11)) && (day > 30)) valid = false;
+//    else if ((month == 2) && (((year % 400) == 0) || ((year % 4) == 0)) && ((year % 100) != 0) && (day > 29)) valid = false;
+//    else if ((month == 2) && ((year % 100) == 0) && (day > 28)) valid = false;
+
+//    return valid;
+//} 

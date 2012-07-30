@@ -29,8 +29,18 @@ $(function () {
         var val = $('#upload').val();
         if (val) {
             $('#CgmUpload').val('true');
-
         }
+        if(!
         //return false;
     })
 });
+
+function validateSave(){
+    var val = $.trim($('#NotCompletedReason').val());
+    if(val){
+        return true;
+    }
+
+    val = $().val 
+    return true;
+}

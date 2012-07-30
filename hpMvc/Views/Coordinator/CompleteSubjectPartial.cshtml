@@ -11,13 +11,13 @@
      <fieldset>
         <legend>Required Fields For Completed Subject</legend>
             
-        <label class="lblmain">DateCompleted</label>  @Html.EditorFor(m => m.DateCompleted)
+        <label class="lblmain">DateCompleted:</label>  @Html.EditorFor(m => m.DateCompleted) <span>(i.e., the last day that a BG value was entered into CHECKS)</span>
         <br />
         <span id="spanUpload">
             The CGM csv file has been uploaded. Uploading another file will overwrite the previous upload.
             <br />
         </span>
-        <label class="lblmain">CGM upload:</label>&nbsp;
+        <label class="lblmain">CGM (csv file) upload:</label>
         <input id="upload" type="file" name="file" /> 
         <br />
         <span style="text-decoration:underline">Neurodevelopmental Follow-Up Questionnaires</span>
