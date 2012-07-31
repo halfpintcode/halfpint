@@ -79,41 +79,74 @@ namespace hpMvc.Controllers
             }
 
             bool isOkToClear = true;
-            
+
             if (!model.CgmUpload)
+            {
                 isOkToClear = false;
-            
+                ModelState["CgmUpload"].Errors.Clear();
+                ModelState["CgmUpload"].Errors.Add("The CGM file upload is required.  Enter a reason if you can not provide this data.");
+            }
             if(model.DateCompleted == null)
                 isOkToClear = false;
 
             if (model.Older2)
             {
-                if(!model.CBCL)
+                if (!model.CBCL)
+                {
                     isOkToClear = false;
-                if(!model.Demographics)
+                    ModelState["CBCL"].Errors.Clear();
+                    ModelState["CBCL"].Errors.Add("You must certify with a check mark that CBCL has been collected and sent to the CCC.  Enter a reason if you can not provide this data.");
+                }
+                if (!model.Demographics)
+                {
                     isOkToClear = false;
-                if(!model.PedsQL)
+                    ModelState["Demographics"].Errors.Clear();
+                    ModelState["Demographics"].Errors.Add("You must certify with a check mark that subject demographics has been collected and sent to the CCC.  Enter a reason if you can not provide this data.");
+                }
+                if (!model.PedsQL)
+                {
                     isOkToClear = false;
-                if(!model.ContactInfo)
+                    ModelState["PedsQL"].Errors.Clear();
+                    ModelState["PedsQL"].Errors.Add("You must certify with a check mark that Peds-QL has been collected and sent to the CCC.  Enter a reason if you can not provide this data.");
+                }
+                if (!model.ContactInfo)
+                {
                     isOkToClear = false;
+                    ModelState["ContactInfo"].Errors.Clear();
+                    ModelState["ContactInfo"].Errors.Add("You must certify with a check mark that subject contact information has been collected.  Enter a reason if you can not provide this data.");
+                }
             }
 
+            if (!isOkToClear)
+            {
+                //the client shoud catch this - if we get this far then
+                //the user did not provide all required fields and didn't 
+                //give a reason
+                if (model.NotCompletedReason.Trim().Length == 0)
+                {
+                    ModelState["NotCompletedReason"].Errors.Clear();
+                    ModelState["NotCompletedReason"].Errors.Add("Enter a reason if you can not provide all required data.");
+                }
 
+                //send email for non completion
+
+                string role = "";
+                if (HttpContext.User.IsInRole("Admin"))
+                {
+                    role = "Admin";
+                }
+                ViewBag.Role = role;
+
+
+                return View(model);
+            }
             
             if (isOkToClear)
                 model.Cleared = true;
 
-            DbUtils.SaveRandomizedSubjectActive(model);
+            //DbUtils.SaveRandomizedSubjectActive(model);
 
-            string role = "";
-            if (HttpContext.User.IsInRole("Admin"))
-            {
-                role = "Admin";
-            }
-            ViewBag.Role = role;
-            
-            return View(model);          
-
+            return View(model);
         }
 
         public ActionResult StudyIdsNotRandomized(string siteID)

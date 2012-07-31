@@ -363,6 +363,7 @@
     <Content Include="Views\Coordinator\ActiveSubjectsPartial.cshtml" />
     <Content Include="Views\Coordinator\CompleteSubjectPartial.cshtml" />
     <Content Include="Views\Coordinator\CompleteSubject.cshtml" />
+    <Content Include="Views\Coordinator\CompleteSubjectConfirmationPartial.cshtml" />
     <None Include="_bin_deployableAssemblies\Microsoft.Web.Infrastructure.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.Razor.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.dll" />
