@@ -7,11 +7,13 @@ $(function () {
         $('#overTwo').hide();
     }
 
-    if ($('#CgmUpload').val() === 'true') {
+    if ($('#CgmUpload').val() === 'True') {
         $('#spanUpload').show();
+        $('#upload').hide();
     }
     else {
         $('#spanUpload').hide();
+        $('#upload').show();
     }
 
     $('#Older2').click(function () {
@@ -25,22 +27,64 @@ $(function () {
         });
     });
 
-    $('#btnSubmit').click(function () {
-        var val = $('#upload').val();
-        if (val) {
-            $('#CgmUpload').val('true');
+    $('#btnSubmit').click(function () {        
+        if (!validateSave()) {
+            return false;
         }
-        if(!
-        //return false;
     })
 });
 
 function validateSave(){
+    var message = '';
     var val = $.trim($('#NotCompletedReason').val());
     if(val){
         return true;
     }
 
-    val = $().val 
+    if (!$('#DateCompleted').val()) {
+        message = 'Date completed is required.  Enter a reason if you can not provide this data.'
+        alert(message);
+        $('#DateCompleted').focus();
+        return false;
+    }
+
+    if ($('#CgmUpload').val() === 'False') {
+        if (!$('#upload').val()) {
+            message = 'The CGM file upload is required.  Enter a reason if you can not provide this data.'
+            alert(message);
+            $('#upload').focus();
+            return false;
+        }
+        else {
+            $('#CgmUpload').val('True');
+        }
+    }
+
+    if (($('#Older2').is(':checked'))) {
+        if (!($('#CBCL').is(':checked'))) {
+            message = 'You must certify with a check mark that CBCL has been collected and sent to the CCC.  Enter a reason if you can not provide this data.'
+            alert(message);
+            $('#CBCL').focus();
+            return false;
+        }
+        if (!($('#PedsQL').is(':checked'))) {
+            message = 'You must certify with a check mark that Peds-QL has been collected and sent to the CCC.  Enter a reason if you can not provide this data.'
+            alert(message);
+            $('#PedsQL').focus();
+            return false;
+        }
+        if (!($('#Demographics').is(':checked'))) {
+            message = 'You must certify with a check mark that subject demographics has been collected and sent to the CCC.  Enter a reason if you can not provide this data.'
+            alert(message);
+            $('#Demographics').focus();
+            return false;
+        }
+        if (!($('#ContactInfo').is(':checked'))) {
+            message = 'You must certify with a check mark that subject contact information has been collected.  Enter a reason if you can not provide this data.'
+            alert(message);
+            $('#ContactInfo').focus();
+            return false;
+        }
+    }
     return true;
 }

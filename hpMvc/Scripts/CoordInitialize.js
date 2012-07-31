@@ -5,7 +5,7 @@ $(function () {
     getActiveSubjects(site);
 
     $('#Sites').change(function () {
-        getActiveStudies();
+        getActiveSubjects();
     });
 
     function getActiveSubjects(site) {

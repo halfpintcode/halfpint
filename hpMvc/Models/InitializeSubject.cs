@@ -55,6 +55,6 @@ namespace hpMvc.Models
         public bool ContactInfo { get; set; }        
         public bool Cleared { get; set; }
         public string NotCompletedReason { get; set; }
-        public string SiteName { get; set; }
+        public string SiteName { get; set; }        
     }
 }

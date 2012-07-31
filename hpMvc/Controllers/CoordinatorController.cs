@@ -37,45 +37,85 @@ namespace hpMvc.Controllers
             }
             ViewBag.Role = role;
             ViewBag.SiteID = siteID;            
-            ViewBag.CgmUpload = "false";
+            //ViewBag.CgmUpload = "false";
             //var list = DbUtils.GetSiteRandomizedStudiesActive(siteID);
             return View();            
         }
                 
         public ActionResult CompleteSubject(string id)
         {
+            string role = "";
+            if (HttpContext.User.IsInRole("Admin"))
+            {
+                role = "Admin";
+            }
+
+            ViewBag.Role = role;
             var ra = DbUtils.GetRandomizedStudyActive(id);
+            
             return View(ra);
         }
 
         [HttpPost]
         public ActionResult CompleteSubject(SubjectCompleted model, HttpPostedFileBase file)
-        {
+        {            
             //file upload
             if (file != null && file.ContentLength > 0)
             {
-                var fileName = Path.GetFileName(file.FileName);
                 //todo validate file type
-                var folderPath = ConfigurationManager.AppSettings["CgmUploadPath"].ToString();
+                var fileName = Path.GetFileName(file.FileName);
+                nlogger.LogInfo("CGM Upload - fileName: " + fileName);
                 
-                var fullPath = Path.Combine(folderPath, fileName);
-                //file.SaveAs(fullPath);
-                //model.CgmUpload = true;
-                ViewBag.CgmUpload = "true";
-            }
-            else
-            {                
-                ModelState["CgmUpload"].Errors.Add("File not uploaded");
+                var folderPath = ConfigurationManager.AppSettings["CgmUploadPath"].ToString();
+                var folderSitePath = Path.Combine(folderPath, model.SiteName);
+                nlogger.LogInfo("CGM Upload - path: " + folderSitePath);
+                if (!Directory.Exists(folderSitePath))
+                    Directory.CreateDirectory(folderSitePath);
+
+                var newName = model.StudyID.Trim() + "_CGM.csv";
+                var fullPath = Path.Combine(folderSitePath, newName);
+                file.SaveAs(fullPath);
+                model.CgmUpload = true;                
             }
 
+            bool isOkToClear = true;
             
-            //if(!ModelState.IsValid)
+            if (!model.CgmUpload)
+                isOkToClear = false;
             
-            return View("CompleteSubject", model);
+            if(model.DateCompleted == null)
+                isOkToClear = false;
+
+            if (model.Older2)
+            {
+                if(!model.CBCL)
+                    isOkToClear = false;
+                if(!model.Demographics)
+                    isOkToClear = false;
+                if(!model.PedsQL)
+                    isOkToClear = false;
+                if(!model.ContactInfo)
+                    isOkToClear = false;
+            }
+
+
             
-            //return View(model);
+            if (isOkToClear)
+                model.Cleared = true;
+
+            DbUtils.SaveRandomizedSubjectActive(model);
+
+            string role = "";
+            if (HttpContext.User.IsInRole("Admin"))
+            {
+                role = "Admin";
+            }
+            ViewBag.Role = role;
+            
+            return View(model);          
 
         }
+
         public ActionResult StudyIdsNotRandomized(string siteID)
         {
             string role = "";
