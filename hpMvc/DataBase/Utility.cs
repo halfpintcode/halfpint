@@ -34,6 +34,30 @@ namespace hpMvc.DataBase
 			return request.Url.Scheme + Uri.SchemeDelimiter + request.Url.Host + u.RouteUrl("Default", new { Controller = "Account", Action = "Logon" });
 		}
 
+        public static void SendCompleteSubjectMail(string[] toAddress, string[] ccAddress, string url, HttpServerUtilityBase server, SubjectCompleted sc)
+        {
+            string subject = "";
+            if (sc.Cleared)
+                subject = "Subject completed - " + sc.SiteName + " - SubjectID: " + sc.StudyID;
+            else
+                subject = "Subject completed (did not enter all required info) - " + sc.SiteName + " - SubjectID: " + sc.StudyID;
+            
+            StringBuilder sbBody = new StringBuilder("<div>Site: " + sc.SiteName + " - Subject ID: " + sc.StudyID + "</div>");
+            sbBody.Append("<br/>");
+            sbBody.Append("Date Completed: " + (sc.DateCompleted !=null ? sc.DateCompleted.Value.ToString("MM/dd/yyyy") : ""));
+            sbBody.Append("<br/>");
+            sbBody.Append("Older than 2: " + sc.Older2.ToString());
+            sbBody.Append("<br/>");
+            if (sc.NotCompletedReason.Trim().Length > 0)
+            {
+                sbBody.Append("Reason for Not providing all required data:");
+                sbBody.Append("<br/>");
+                sbBody.Append(sc.NotCompletedReason);
+            }
+            string siteUrl = "Click here to logon to the website: <a href='" + url + "'>HalfpintStudy.org</a>";
+            SendHtmlEmail(subject, toAddress, ccAddress, sbBody.ToString(), server, siteUrl, "");
+        }
+
 		public static void SendBroadcastMail(string[] toAddress, string[] ccAddress, string url, HttpServerUtilityBase server, string subject, string body)
 		{
 			string bodyHeader = "<h3 style='display:inline-block;background-color:Aqua;text-align:center;'>This is a Halfpint broadcast email</h3>";

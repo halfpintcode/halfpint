@@ -20,21 +20,21 @@
 	<h3>Active Studies</h3>
 	@if (@ViewBag.Role == "Admin")
 	{
-		<span>Select a site:&nbsp;</span> @Html.DropDownList("Sites")
+		<span>Select a site:&nbsp;</span> @Html.DropDownList("Sites") <span>&nbsp; &nbsp;</span><input id="showCleared" name="showCleared" type="checkbox" value="false" /><span id="spanCleared">Show cleared subjects</span> 
 		<br /><br />
 	}
-    <input type="hidden" value='@ViewBag.SiteID' id="SiteID" />
+	<input type="hidden" value='@ViewBag.SiteID' id="SiteID" />
 	<table id="tblActive">
-	    <thead>
-		    <tr>			
-			    <th>Study ID</th>
-			    <th>Date Randomized</th>
-			    <th></th>
-		    </tr>
-	    </thead>
-	    <tbody>		
-	    </tbody>
-    </table>
+		<thead>
+			<tr>			
+				<th>Study ID</th>
+				<th>Date Randomized</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>		
+		</tbody>
+	</table>
 	
 </div>
 

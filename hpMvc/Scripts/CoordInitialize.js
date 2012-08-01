@@ -8,6 +8,16 @@ $(function () {
         getActiveSubjects();
     });
 
+    $('#showCleared').change(function () {
+        //        if (($(this).is(':checked'))) {
+        //            $('#spanCleared').text('show non-cleared subjects');
+        //        }
+        //        else {
+        //            $('#spanCleared').text('show cleared subjects');
+        //        }
+        getActiveSubjects();
+    });
+
     function getActiveSubjects(site) {
         var siteID = "";
         if (site) {
@@ -17,15 +27,24 @@ $(function () {
             siteID = $('#Sites').val();
         }
 
+        var showCleared = false;
+        if (($('#showCleared').is(':checked'))) {
+            showCleared = true;
+        }
+
         $.ajax({
             url: urlRoot + '/Coordinator/GetActiveSubjects',
             type: 'POST',
-            data: { siteID: siteID },
+            data: { siteID: siteID, showCleared: showCleared },
             success: function (data) {
+                var buttonText = "Set Completed"
+                if (showCleared) {
+                    buttonText = "Edit Completed"
+                }
                 var tbl = $('#tblActive tbody');
                 tbl.empty();
                 $.each(data, function (index, d) {
-                    var tr = $('<tr><td>' + d.StudyID + '</td><td>' + d.sDateRandomized + '</td><td><input class="btnComplete" type="button" value="Set Completed" /></td></tr>')
+                    var tr = $('<tr><td>' + d.StudyID + '</td><td>' + d.sDateRandomized + '</td><td><input class="btnComplete" type="button" value="' + buttonText + '" /></td></tr>')
                     tbl.append(tr);
                     $(tr).data('rowData', d);
 

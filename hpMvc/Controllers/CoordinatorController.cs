@@ -9,6 +9,7 @@ using System.Web.Helpers;
 using System.Configuration;
 using System.IO;
 using hpMvc.Infrastructure.Logging;
+using System.Web.Security;
 
 namespace hpMvc.Controllers
 {
@@ -41,7 +42,19 @@ namespace hpMvc.Controllers
             //var list = DbUtils.GetSiteRandomizedStudiesActive(siteID);
             return View();            
         }
-                
+
+        public JsonResult GetActiveSubjects(string siteID, bool showCleared)
+        {
+            int site = int.Parse(siteID);
+            List<SubjectCompleted> list;
+
+            if(showCleared)
+                list = DbUtils.GetSiteRandomizedStudiesCleared(site);    
+            else
+                list = DbUtils.GetSiteRandomizedStudiesActive(site);    
+            return Json(list);
+        }
+
         public ActionResult CompleteSubject(string id)
         {
             string role = "";
@@ -51,6 +64,7 @@ namespace hpMvc.Controllers
             }
 
             ViewBag.Role = role;
+            ViewBag.Confirmation = "false";
             var ra = DbUtils.GetRandomizedStudyActive(id);
             
             return View(ra);
@@ -58,8 +72,11 @@ namespace hpMvc.Controllers
 
         [HttpPost]
         public ActionResult CompleteSubject(SubjectCompleted model, HttpPostedFileBase file)
-        {            
+        {
+            ViewBag.Confirmation = "true";
             //file upload
+            if (model.NotCompletedReason == null)
+                model.NotCompletedReason = "";
             if (file != null && file.ContentLength > 0)
             {
                 //todo validate file type
@@ -84,36 +101,41 @@ namespace hpMvc.Controllers
             {
                 isOkToClear = false;
                 ModelState["CgmUpload"].Errors.Clear();
-                ModelState["CgmUpload"].Errors.Add("The CGM file upload is required.  Enter a reason if you can not provide this data.");
+                //ModelState["CgmUpload"].Errors.Add("*The CGM file upload is required.  Enter a reason if you can not provide this data.");
+                ModelState.AddModelError("" ,"*The CGM file upload is required.  Enter a reason if you can not provide this data.");
             }
-            if(model.DateCompleted == null)
+            if (model.DateCompleted == null)
+            {
                 isOkToClear = false;
-
+                ModelState["DateCompleted"].Errors.Clear();
+                //ModelState["DateCompleted"].Errors.Add("*Date completed  is required.  Enter a reason if you can not provide this data.");
+                ModelState.AddModelError("", "*Date completed  is required.  Enter a reason if you can not provide this data.");
+            }
             if (model.Older2)
             {
                 if (!model.CBCL)
                 {
                     isOkToClear = false;
                     ModelState["CBCL"].Errors.Clear();
-                    ModelState["CBCL"].Errors.Add("You must certify with a check mark that CBCL has been collected and sent to the CCC.  Enter a reason if you can not provide this data.");
+                    ModelState.AddModelError("", "You must certify with a check mark that CBCL has been collected and sent to the CCC.  Enter a reason if you can not provide this data.");
                 }
                 if (!model.Demographics)
                 {
                     isOkToClear = false;
                     ModelState["Demographics"].Errors.Clear();
-                    ModelState["Demographics"].Errors.Add("You must certify with a check mark that subject demographics has been collected and sent to the CCC.  Enter a reason if you can not provide this data.");
+                    ModelState.AddModelError("", "You must certify with a check mark that subject demographics has been collected and sent to the CCC.  Enter a reason if you can not provide this data.");
                 }
                 if (!model.PedsQL)
                 {
                     isOkToClear = false;
                     ModelState["PedsQL"].Errors.Clear();
-                    ModelState["PedsQL"].Errors.Add("You must certify with a check mark that Peds-QL has been collected and sent to the CCC.  Enter a reason if you can not provide this data.");
+                    ModelState.AddModelError("", "You must certify with a check mark that Peds-QL has been collected and sent to the CCC.  Enter a reason if you can not provide this data.");
                 }
                 if (!model.ContactInfo)
                 {
                     isOkToClear = false;
                     ModelState["ContactInfo"].Errors.Clear();
-                    ModelState["ContactInfo"].Errors.Add("You must certify with a check mark that subject contact information has been collected.  Enter a reason if you can not provide this data.");
+                    ModelState.AddModelError("", "You must certify with a check mark that subject contact information has been collected.  Enter a reason if you can not provide this data.");
                 }
             }
 
@@ -122,30 +144,50 @@ namespace hpMvc.Controllers
                 //the client shoud catch this - if we get this far then
                 //the user did not provide all required fields and didn't 
                 //give a reason
-                if (model.NotCompletedReason.Trim().Length == 0)
+                bool isReason = false;
+                if ( model.NotCompletedReason != null)
                 {
-                    ModelState["NotCompletedReason"].Errors.Clear();
-                    ModelState["NotCompletedReason"].Errors.Add("Enter a reason if you can not provide all required data.");
+                    if (model.NotCompletedReason.Trim().Length > 0)
+                        isReason = true;
                 }
 
-                //send email for non completion
+                if (!isReason)
+                {                
+                    string role = "";
+                    if (HttpContext.User.IsInRole("Admin"))
+                    {
+                        role = "Admin";
+                    }
+                    ViewBag.Role = role;
+                    ViewBag.Confirmation = "false";
 
-                string role = "";
-                if (HttpContext.User.IsInRole("Admin"))
-                {
-                    role = "Admin";
+                    return View(model);
                 }
-                ViewBag.Role = role;
-
-
-                return View(model);
             }
             
             if (isOkToClear)
                 model.Cleared = true;
 
-            //DbUtils.SaveRandomizedSubjectActive(model);
+            DbUtils.SaveRandomizedSubjectActive(model);
 
+            //send email for non completion
+            string[] users = ConfigurationManager.AppSettings["NewFormulaNotify"].ToString().Split(new[] { ',' }, StringSplitOptions.None);
+
+            List<string> toEmails = new List<string>();
+            foreach (var user in users)
+            {
+                var mUser = Membership.GetUser(user);
+                if (mUser == null)
+                    continue;
+                toEmails.Add(mUser.Email);
+            }
+                                
+
+            var u = new UrlHelper(this.Request.RequestContext);
+            string url = "http://" + this.Request.Url.Host + u.RouteUrl("Default", new { Controller = "Home", Action = "Index" });
+
+            Utility.SendCompleteSubjectMail(toEmails.ToArray(), null, url, Server, model);
+            
             return View(model);
         }
 
@@ -172,12 +214,7 @@ namespace hpMvc.Controllers
             return View(list);
         }
 
-        public JsonResult GetActiveSubjects(string siteID)
-        {
-            int site = int.Parse(siteID);
-            var list = DbUtils.GetSiteRandomizedStudiesActive(site);
-            return Json(list);
-        }
+        
 
         public JsonResult GetNonradomizedStudies(string siteID)
         {

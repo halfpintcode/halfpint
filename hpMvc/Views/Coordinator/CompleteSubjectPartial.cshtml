@@ -9,10 +9,12 @@
         <input id="SiteName" name="SiteName" type="hidden" value='@Model.SiteName'/>
         <input id="Role" name="Role" type="hidden" value='@ViewBag.Role'/>
      
+     @Html.ValidationSummary(true, "Subject completion was unsuccessful. Please correct the errors and try again.")
      <fieldset>
         <legend>Required Fields For Completed Subject</legend>
             
         <label class="lblmain">DateCompleted:</label>  @Html.EditorFor(m => m.DateCompleted) <span>(i.e., the last day that a BG value was entered into CHECKS)</span>
+        @Html.ValidationMessageFor(model => model.DateCompleted)
         <br />
         
         <label class="lblmain">CGM (csv file) upload:</label>
@@ -32,10 +34,11 @@
             <label class="certify">(c) </label>@Html.EditorFor(m => m.Demographics) <span>Subject Demographics</span><br />
             @Html.CheckBoxFor(m => m.ContactInfo, new { @class = "older2" }) <span>Subject contact information has been collected and stored at site</span>
         </div>
+        
         <br />
         <label>Reason for not completing all required fields</label><br />
         @Html.TextAreaFor(m => m.NotCompletedReason, new { cols = "100", rows = "5" });
-        @*<textarea name="NotCompletedReason" id="NotCompletedReason" cols="100" rows="5"></textarea>*@
+        
         <br />
         @if (@ViewBag.Role == "Admin"){
             <span id="spanCleared">@Html.EditorFor(m => m.Cleared)<label>Cleared by administrator</label></span>

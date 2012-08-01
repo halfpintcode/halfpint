@@ -174,7 +174,10 @@ namespace hpMvc.DataBase
                     cmd.Parameters.Add(param);
                     param = new SqlParameter("@contactInfo", sc.ContactInfo);
                     cmd.Parameters.Add(param);
-                    param = new SqlParameter("@notCompletedReason", sc.NotCompletedReason);
+                    if(sc.NotCompletedReason == null)
+                        param = new SqlParameter("@notCompletedReason", DBNull.Value);
+                    else
+                        param = new SqlParameter("@notCompletedReason", sc.NotCompletedReason);
                     cmd.Parameters.Add(param);
                     param = new SqlParameter("@cleared", sc.Cleared);
                     cmd.Parameters.Add(param);
@@ -265,6 +268,8 @@ namespace hpMvc.DataBase
                         pos = rdr.GetOrdinal("NotCompletedReason");
                         if (!rdr.IsDBNull(pos))
                             rndm.NotCompletedReason = rdr.GetString(pos);
+                        else
+                            rndm.NotCompletedReason = "";
 
                         pos = rdr.GetOrdinal("SiteName");
                         rndm.SiteName = rdr.GetString(pos);
@@ -370,7 +375,95 @@ namespace hpMvc.DataBase
 
             return list;
         }
-        
+
+        public static List<SubjectCompleted> GetSiteRandomizedStudiesCleared(int siteID)
+        {
+            var list = new List<SubjectCompleted>();
+            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            using (SqlConnection conn = new SqlConnection(strConn))
+            {
+                try
+                {
+                    SqlCommand cmd = new SqlCommand("", conn);
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.CommandText = ("GetSiteRandomizedStudiesCleared");
+                    SqlParameter param = new SqlParameter("@siteID", siteID);
+                    cmd.Parameters.Add(param);
+
+                    conn.Open();
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    int pos = 0;
+
+                    while (rdr.Read())
+                    {
+                        var rndm = new SubjectCompleted();
+                        pos = rdr.GetOrdinal("ID");
+                        rndm.ID = rdr.GetInt32(pos);
+
+                        pos = rdr.GetOrdinal("StudyID");
+                        rndm.StudyID = rdr.GetString(pos);
+
+                        pos = rdr.GetOrdinal("DateRandomized");
+                        rndm.DateRandomized = rdr.GetDateTime(pos);
+                        rndm.sDateRandomized = rndm.DateRandomized.ToShortDateString();
+
+                        pos = rdr.GetOrdinal("DateCompleted");
+                        if (!rdr.IsDBNull(pos))
+                        {
+                            rndm.DateCompleted = rdr.GetDateTime(pos);
+                            rndm.sDateCompleted = rndm.DateCompleted != null ? rndm.DateCompleted.Value.ToString("MM/dd/yyyy") : ""; ;
+                        }
+
+                        pos = rdr.GetOrdinal("CgmUpload");
+                        if (!rdr.IsDBNull(pos))
+                            rndm.CgmUpload = rdr.GetBoolean(pos);
+
+                        pos = rdr.GetOrdinal("Older2");
+                        if (!rdr.IsDBNull(pos))
+                            rndm.Older2 = rdr.GetBoolean(pos);
+
+                        pos = rdr.GetOrdinal("CBCL");
+                        if (!rdr.IsDBNull(pos))
+                            rndm.CBCL = rdr.GetBoolean(pos);
+
+                        pos = rdr.GetOrdinal("PedsQL");
+                        if (!rdr.IsDBNull(pos))
+                            rndm.PedsQL = rdr.GetBoolean(pos);
+
+                        pos = rdr.GetOrdinal("Demographics");
+                        if (!rdr.IsDBNull(pos))
+                            rndm.Demographics = rdr.GetBoolean(pos);
+
+                        pos = rdr.GetOrdinal("ContactInfo");
+                        if (!rdr.IsDBNull(pos))
+                            rndm.ContactInfo = rdr.GetBoolean(pos);
+
+                        pos = rdr.GetOrdinal("Cleared");
+                        if (!rdr.IsDBNull(pos))
+                            rndm.Cleared = rdr.GetBoolean(pos);
+
+                        pos = rdr.GetOrdinal("MonitorID");
+                        if (!rdr.IsDBNull(pos))
+                            rndm.MonitorID = rdr.GetString(pos);
+
+                        pos = rdr.GetOrdinal("NotCompletedReason");
+                        if (!rdr.IsDBNull(pos))
+                            rndm.NotCompletedReason = rdr.GetString(pos);
+
+
+                        list.Add(rndm);
+                    }
+                    rdr.Close();
+                }
+                catch (Exception ex)
+                {
+                    nlogger.LogError(ex);
+                }
+            }
+
+
+            return list;
+        }
         public static List<Randomization> GetSiteRandomizedStudies(int siteID)
         {
             var list = new List<Randomization>();

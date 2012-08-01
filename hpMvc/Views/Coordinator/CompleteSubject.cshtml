@@ -18,15 +18,15 @@
 <label class="lblmain">MonitorID</label> <label>@Model.MonitorID</label>
 
 <div id="formContent">
-    @{Html.RenderPartial("CompleteSubjectPartial");}
-   @* @if(ViewBag.Confirmation == "true")
+    
+    @if(ViewBag.Confirmation == "true")
     {
-        @{Html.RenderPartial("CompleteSubjectConfirmPartial");}
+        { Html.RenderPartial("CompleteSubjectConfirmationPartial"); }
     }
     else
     {
-        
-    }  *@   
+        {Html.RenderPartial("CompleteSubjectPartial");}
+    }   
 </div>
 
 <div>

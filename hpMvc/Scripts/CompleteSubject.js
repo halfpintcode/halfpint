@@ -28,9 +28,9 @@ $(function () {
     });
 
     $('#btnSubmit').click(function () {        
-        if (!validateSave()) {
-            return false;
-        }
+//        if (!validateSave()) {
+//            return false;
+//        }
     })
 });
 
