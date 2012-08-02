@@ -160,7 +160,10 @@ namespace hpMvc.DataBase
                     cmd.CommandText = ("SaveRandomizedSubjectActive");
                     SqlParameter param = new SqlParameter("@id", sc.ID);
                     cmd.Parameters.Add(param);
-                    param = new SqlParameter("@dateCompleted", sc.DateCompleted);
+                    if(sc.DateCompleted == null)
+                        param = new SqlParameter("@dateCompleted", DBNull.Value);
+                    else
+                        param = new SqlParameter("@dateCompleted", sc.DateCompleted);
                     cmd.Parameters.Add(param);
                     param = new SqlParameter("@cgmUpload", sc.CgmUpload);
                     cmd.Parameters.Add(param);

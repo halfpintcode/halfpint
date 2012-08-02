@@ -1,5 +1,6 @@
 ﻿/// <reference path="jquery-1.7.1-vsdoc.js" />
 $(function () {
+    var role = $('#Role').val();
     if ($('#Older2').is(':checked')) {
         $('#overTwo').show();
     }
@@ -8,10 +9,18 @@ $(function () {
     }
 
     if ($('#CgmUpload').val() === 'True') {
-        $('#spanUpload').show();
-        $('#upload').hide();
+        if (role === 'Admin') {
+            $('#spanUploadAdmin').show();
+            $('#spanUpload').hide();
+        }
+        else {
+            $('#spanUpload').show();
+            $('#upload').hide();
+            $('#spanUploadAdmin').hide();
+        }
     }
     else {
+        $('#spanUploadAdmin').hide();
         $('#spanUpload').hide();
         $('#upload').show();
     }
@@ -27,10 +36,10 @@ $(function () {
         });
     });
 
-    $('#btnSubmit').click(function () {        
-//        if (!validateSave()) {
-//            return false;
-//        }
+    $('#btnSubmit').click(function () {
+        if (!validateSave()) {
+            return false;
+        }
     })
 });
 
