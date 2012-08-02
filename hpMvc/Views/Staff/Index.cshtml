@@ -13,8 +13,66 @@
 					<li>@Html.ActionLink("Local Contacts - Boston", "GetFile", new { Controller = "Download", filename = @"HalfPint Local Contact Info-Boston.pdf", folder = "Quick Links~Important Contacts" })</li>    
 				</ul>
 			</li>
-			<li>@Html.ActionLink("Permission to Approach", "GetFile", new { Controller = "Download", filename = @"Permission to Approach.pdf", folder = "Quick Links" })</li>
-			<li class="StaffOnly NotDcc" >@Html.ActionLink("Randomize Password", "InitializePassword", new { controller = "InitializeSubject" })</li>
+			<li><a href="#">Permission to Approach</a>
+				<ul>
+                    <li class="NotDcc NotAdmin">@Html.ActionLink("Permission to Approach", "GetFile", new { Controller = "Download", filename = @"Site~ Permission to Approach.pdf", folder = "Quick Links" })</li>
+                    <li class="AdminDCC">
+						<a href="#">CHB</a>
+						<ul>
+                            <li class="AdminDCC">@Html.ActionLink("CHB Permission to Approach", "GetFile", new { Controller = "Download", filename = @"CHB Permission to Approach.pdf", folder = "Quick Links~Permission to Approach~CHB" })</li>																	
+                        </ul>                        
+                    </li>
+                    <li class="AdminDCC">
+                        <a href="#">CHLA</a>
+						<ul>
+                            <li class="AdminDCC">@Html.ActionLink("CHLA Permission to Approach", "GetFile", new { Controller = "Download", filename = @"CHLA Permission to Approach.pdf", folder = "Quick Links~Permission to Approach~CHLA" })</li>																	
+                        </ul>
+                    </li>
+                    <li class="AdminDCC">
+                        <a href="#">CHOP</a>
+						<ul>
+                            <li class="AdminDCC">@Html.ActionLink("CHOP Permission to Approach", "GetFile", new { Controller = "Download", filename = @"CHOP Permission to Approach.pdf", folder = "Quick Links~Permission to Approach~CHOP" })</li>																	
+                        </ul>
+                    </li>
+                    <li class="AdminDCC">
+                        <a href="#">Cincinnati</a>
+						<ul>
+                            <li class="AdminDCC">@Html.ActionLink("Cincinnati Permission to Approach", "GetFile", new { Controller = "Download", filename = @"Cincinnati Permission to Approach.pdf", folder = "Quick Links~Permission to Approach~Cincinnati" })</li>																	
+                        </ul>
+                    </li>
+                    <li class="AdminDCC">
+                        <a href="#">Columbia</a>
+						<ul>
+                            <li class="AdminDCC">@Html.ActionLink("Columbia Permission to Approach", "GetFile", new { Controller = "Download", filename = @"Columbia Permission to Approach.pdf", folder = "Quick Links~Permission to Approach~Columbia" })</li>																	
+                        </ul>
+                    </li>
+                    <li class="AdminDCC">
+                        <a href="#">Denver</a>
+						<ul>
+                            <li class="AdminDCC">@Html.ActionLink("Denver Permission to Approach", "GetFile", new { Controller = "Download", filename = @"Denver Permission to Approach.pdf", folder = "Quick Links~Permission to Approach~Denver" })</li>																	
+                        </ul>
+                    </li>
+                    <li class="AdminDCC">
+                        <a href="#">Nationwide</a>
+						<ul>
+                            <li class="AdminDCC">@Html.ActionLink("Nationwide Permission to Approach", "GetFile", new { Controller = "Download", filename = @"Nationwide Permission to Approach.pdf", folder = "Quick Links~Permission to Approach~Nationwide" })</li>																	
+                        </ul>
+                    </li>
+                    <li class="AdminDCC">
+                        <a href="#">Penn State</a>
+						<ul>
+                            <li class="AdminDCC">@Html.ActionLink("Penn State Permission to Approach", "GetFile", new { Controller = "Download", filename = @"PennState Permission to Approach.pdf", folder = "Quick Links~Permission to Approach~Penn State" })</li>																	
+                        </ul>
+                    </li>
+                    <li class="AdminDCC">
+                        <a href="#">Westchester</a>
+						<ul>
+                            <li class="AdminDCC">@Html.ActionLink("Westchester Permission to Approach", "GetFile", new { Controller = "Download", filename = @"Westchester Permission to Approach.pdf", folder = "Quick Links~Permission to Approach~Westchester" })</li>																	
+                        </ul>
+                    </li>                    
+			    </ul>
+            </li>
+            <li class="StaffOnly NotDcc" >@Html.ActionLink("Randomize Password", "InitializePassword", new { controller = "InitializeSubject" })</li>
 			<li class="StaffOnly">@Html.ActionLink("Password Look-up", "GetInitializePassword", new { controller = "Staff" })</li>
 			<li>@Html.ActionLink("Initialize Subject", "Initialize", new { controller = "InitializeSubject" })</li>
 			<li class="StaffOnly">@Html.ActionLink("Recover CHECKS file", "RecoverChecksSS", new { controller = "Staff" })</li>
@@ -58,8 +116,8 @@
 							<li class="StaffOnly">@Html.ActionLink("Overview Post-Test Master", "GetFile", new { Controller = "Download", filename = @"Overview Post-Test-MASTER.pdf", folder = "Training~Paper Format Post-Tests" })</li>
 							<li>@Html.ActionLink("Medtronic Enlite Post-Test", "GetFile", new { Controller = "Download", filename = @"Medtronic Enlite Post-Test.pdf", folder = "Training~Paper Format Post-Tests" })</li>
 							<li class="StaffOnly">@Html.ActionLink("Medtronic Enlite Post-Test Master", "GetFile", new { Controller = "Download", filename = @"Medtronic Enlite Post-Test-MASTER.pdf", folder = "Training~Paper Format Post-Tests" })</li>
-							<li>@Html.ActionLink("Paradigm Veo Post-Test", "GetFile", new { Controller = "Download", filename = @"Paradigm Veo Post-Test.pdf", folder = "Training~Paper Format Post-Tests" })</li>
-							<li class="StaffOnly">@Html.ActionLink("Paradigm Veo Post-Test Master", "GetFile", new { Controller = "Download", filename = @"Paradigm Veo Post-Test-MASTER.pdf", folder = "Training~Paper Format Post-Tests" })</li>
+							<li>@Html.ActionLink("Guardian CS Post-Test", "GetFile", new { Controller = "Download", filename = @"Guardian CS Post-Test.pdf", folder = "Training~Paper Format Post-Tests" })</li>
+							<li class="StaffOnly">@Html.ActionLink("Guardian CS Post-Test Master", "GetFile", new { Controller = "Download", filename = @"Guardian CS Post-Test-MASTER.pdf", folder = "Training~Paper Format Post-Tests" })</li>
 							<li>@Html.ActionLink("Nova StatStrip Post-Test", "GetFile", new { Controller = "Download", filename = @"Nova StatStrip Post-Test.pdf", folder = "Training~Paper Format Post-Tests" })</li>
 							<li class="StaffOnly">@Html.ActionLink("Nova StatStrip Post-Test Master", "GetFile", new { Controller = "Download", filename = @"Nova StatStrip Post-Test-MASTER.pdf", folder = "Training~Paper Format Post-Tests" })</li>
 							<li>@Html.ActionLink("Vamp Jr. Post-Test", "GetFile", new { Controller = "Download", filename = @"VAMP Jr Post-Test.pdf", folder = "Training~Paper Format Post-Tests" })</li>
@@ -112,6 +170,7 @@
 							<li>@Html.ActionLink("Enlite User Guide", "GetFile", new { Controller = "Download", filename = @"Enlite User Guide.pdf", folder = "Resources~Device Manuals" })</li>				    
 							<li>@Html.ActionLink("StatStrip Glucose Meter Manual", "GetFile", new { Controller = "Download", filename = @"StatStrip Glucose Meter Manual.pdf", folder = "Resources~Device Manuals" })</li>				    
 							<li>@Html.ActionLink("VAMP Jr Inservice Bulletin", "GetFile", new { Controller = "Download", filename = @"VAMP Jr Inservice Bulletin.pdf", folder = "Resources~Device Manuals" })</li>					                      
+                            <li>@Html.ActionLink("Guardian CS User Guide", "GetFile", new { Controller = "Download", filename = @"Guardian CS User Guide.pdf", folder = "Resources~Device Manuals" })</li>					                      
 						</ul>
 					</li>
 					<li>@Html.ActionLink("Bedside Binder", "GetFile", new { Controller = "Download", filename = @"HALF-PINT Bedside Reference Binder.pdf", folder = "Resources" })</li>				    
@@ -128,7 +187,7 @@
 				<ul>										
 					<li><a href="#">Consent and Assent Forms</a>
 						<ul>
-							<li class="CHBHide">@Html.ActionLink("HalfPint Consent Form", "GetFile", new { Controller = "Download", filename = @"Site~ Consent Form", folder = "Enrollment" })</li>
+							<li class="CHBHide">@Html.ActionLink("HalfPint Consent Form", "GetFile", new { Controller = "Download", filename = @"Site~ Consent Form.pdf", folder = "Enrollment" })</li>
 							<li class="AdminDCCInvestigator CHBOnly">@Html.ActionLink("HalfPint Consent Form for Relying Sites", "GetFile", new { Controller = "Download", filename = @"HalfPint Consent Form for Relying Sites.pdf", folder = "Enrollment" })</li>
 							<li class="CHBHide">@Html.ActionLink("HalfPint Assent Form", "GetFile", new { Controller = "Download", filename = @"Site~ Assent Form.pdf", folder = "Enrollment" })</li>					    
 							<li class="AdminDCC">

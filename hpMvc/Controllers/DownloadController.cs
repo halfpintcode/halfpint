@@ -75,6 +75,14 @@ namespace hpMvc.Controllers
             var si = DbUtils.GetSiteInfoForUser(User.Identity.Name);
             switch (si.SiteID)
             {
+                case "01":
+                    if (fileName.Contains("Permission to Approach"))
+                    {
+                        fileName = "CHB Permission to Approach.pdf";
+                        folder = "Quick Links~Permission to Approach~CHB";
+                    }
+                    break;
+
                 case "02":
                     if (fileName.Contains("Consent Form"))
                     {
@@ -85,8 +93,14 @@ namespace hpMvc.Controllers
                     {
                         fileName = "CHOP HalfPint Assent Form.pdf";
                         folder = "Enrollment~CHOP";
+                    }                    
+                    if (fileName.Contains("Permission to Approach"))
+                    {
+                        fileName = "CHOP Permission to Approach.pdf";
+                        folder = "QuickLinks~Permission to Approach~CHOP";
                     }
                     break;
+
 
                 case "04":
                     if (fileName.Contains("Consent Form"))
