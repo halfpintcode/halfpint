@@ -34,20 +34,68 @@ namespace hpMvc.DataBase
 			return request.Url.Scheme + Uri.SchemeDelimiter + request.Url.Host + u.RouteUrl("Default", new { Controller = "Account", Action = "Logon" });
 		}
 
-        public static void SendCompleteSubjectMail(string[] toAddress, string[] ccAddress, string url, HttpServerUtilityBase server, SubjectCompleted sc)
+        public static void SendCompleteSubjectMail(string[] toAddress, string[] ccAddress, string url, HttpServerUtilityBase server, SubjectCompleted sc, string user)
         {
             string subject = "";
+            string yesNo = "";
             if (sc.Cleared)
                 subject = "Subject completed - " + sc.SiteName + " - SubjectID: " + sc.StudyID;
             else
                 subject = "Subject completed (did not enter all required info) - " + sc.SiteName + " - SubjectID: " + sc.StudyID;
             
-            StringBuilder sbBody = new StringBuilder("<div>Site: " + sc.SiteName + " - Subject ID: " + sc.StudyID + "</div>");
+            StringBuilder sbBody = new StringBuilder("<div>Site: " + sc.SiteName + " - Subject ID: " + sc.StudyID + " - User name: " + user + "</div>");
+            
             sbBody.Append("<br/>");
             sbBody.Append("Date Completed: " + (sc.DateCompleted !=null ? sc.DateCompleted.Value.ToString("MM/dd/yyyy") : ""));
             sbBody.Append("<br/>");
-            sbBody.Append("Older than 2: " + sc.Older2.ToString());
+
+            if (sc.CgmUpload)
+                yesNo = "yes";
+            else
+                yesNo = "no";
+            sbBody.Append("CGM file upload: " + yesNo);
             sbBody.Append("<br/>");
+                        
+            if (sc.Older2)
+                yesNo = "yes";
+            else
+                yesNo = "no";
+            sbBody.Append("Older than 2 and less than 17: " + yesNo);
+            sbBody.Append("<br/>");
+            if (sc.Older2)
+            {
+                sbBody.Append("The following have been collected and sent to the CCC:");
+                sbBody.Append("<br/>");
+                
+                if (sc.CBCL)
+                    yesNo = "yes";
+                else
+                    yesNo = "no";
+                sbBody.Append("CBCL: " + yesNo);
+                sbBody.Append("<br/>");
+
+                if (sc.PedsQL)
+                    yesNo = "yes";
+                else
+                    yesNo = "no";
+                sbBody.Append("PedsQL: " + yesNo);
+                sbBody.Append("<br/>");
+
+                if (sc.Demographics)
+                    yesNo = "yes";
+                else
+                    yesNo = "no";
+                sbBody.Append("Subject demographics: " + yesNo);
+                sbBody.Append("<br/>");
+
+                
+                if (sc.ContactInfo)
+                    yesNo = "yes";
+                else
+                    yesNo = "no";
+                sbBody.Append("Subject contact information has been collected and stored at site: " + yesNo);
+                sbBody.Append("<br/>");
+            }
             if (sc.NotCompletedReason.Trim().Length > 0)
             {
                 sbBody.Append("Reason for Not providing all required data:");

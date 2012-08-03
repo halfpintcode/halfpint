@@ -148,7 +148,7 @@ namespace hpMvc.DataBase
             return list;
         }
 
-        public static void SaveRandomizedSubjectActive(SubjectCompleted sc)
+        public static void SaveRandomizedSubjectActive(SubjectCompleted sc, string user)
         {
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
             using (SqlConnection conn = new SqlConnection(strConn))
@@ -184,7 +184,8 @@ namespace hpMvc.DataBase
                     cmd.Parameters.Add(param);
                     param = new SqlParameter("@cleared", sc.Cleared);
                     cmd.Parameters.Add(param);
-
+                    param = new SqlParameter("@user", user);
+                    cmd.Parameters.Add(param);
                     conn.Open();
                     cmd.ExecuteNonQuery();
                     

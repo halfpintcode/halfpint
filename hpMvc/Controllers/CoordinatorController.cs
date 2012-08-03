@@ -167,8 +167,8 @@ namespace hpMvc.Controllers
             
             if (isOkToClear)
                 model.Cleared = true;
-
-            DbUtils.SaveRandomizedSubjectActive(model);
+            
+            DbUtils.SaveRandomizedSubjectActive(model, User.Identity.Name);
 
             //send email for non completion
             string[] users = ConfigurationManager.AppSettings["NewFormulaNotify"].ToString().Split(new[] { ',' }, StringSplitOptions.None);
@@ -186,7 +186,7 @@ namespace hpMvc.Controllers
             var u = new UrlHelper(this.Request.RequestContext);
             string url = "http://" + this.Request.Url.Host + u.RouteUrl("Default", new { Controller = "Home", Action = "Index" });
 
-            Utility.SendCompleteSubjectMail(toEmails.ToArray(), null, url, Server, model);
+            Utility.SendCompleteSubjectMail(toEmails.ToArray(), null, url, Server, model, User.Identity.Name);
             
             return View(model);
         }

@@ -275,7 +275,6 @@
 							<li>@Html.ActionLink("Enrolled Subject Bedside Sheet-Generic", "GetFile", new { Controller = "Download", filename = @"Enrolled Subject Bedside Sheet-Generic.docx", folder = "Study Management~Study Materials and Logs" })</li>
 							<li class="StaffOnly">@Html.ActionLink("Consent Log", "GetFile", new { Controller = "Download", filename = @"Consent Log.pdf", folder = "Study Management~Study Materials and Logs" })</li>
 							<li class="StaffOnly">@Html.ActionLink("Delegation Log", "GetFile", new { Controller = "Download", filename = @"Delegation Log.pdf", folder = "Study Management~Study Materials and Logs" })</li>
-							<li class="StaffOnly">@Html.ActionLink("Signature and Initials Log", "GetFile", new { Controller = "Download", filename = @"Signature and Initials Log.pdf", folder = "Study Management~Study Materials and Logs" })</li>
 							<li class="StaffOnly">@Html.ActionLink("Training Documentation Log", "GetFile", new { Controller = "Download", filename = @"Training Documentation Log.pdf", folder = "Study Management~Study Materials and Logs" })</li>					                                    						
 						</ul>
 					</li>
@@ -303,7 +302,7 @@
 				<a href="#">Regulatory</a>
 				<ul>
 					<li>@Html.ActionLink("Protocol", "GetFile", new { Controller = "Download", filename = @"HalfPint Protocol.pdf", folder = "Regulatory" })</li>					                                    																
-					<li class="StaffOnly"><a href="#">DSMB</a></li>					
+                    <li>@Html.ActionLink("DSMB", "GetFile", new { Controller = "Download", filename = @"HALF-PINT DSMB Charter.pdf", folder = "Regulatory" })</li>					                                    																					
 				</ul>
 			</li>            		
 		</ul>
