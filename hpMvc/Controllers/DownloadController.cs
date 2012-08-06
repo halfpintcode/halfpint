@@ -97,7 +97,7 @@ namespace hpMvc.Controllers
                     if (fileName.Contains("Permission to Approach"))
                     {
                         fileName = "CHOP Permission to Approach.pdf";
-                        folder = "QuickLinks~Permission to Approach~CHOP";
+                        folder = "Quick Links~Permission to Approach~CHOP";
                     }
                     break;
 
@@ -113,6 +113,11 @@ namespace hpMvc.Controllers
                         fileName = "Denver HalfPint Assent Form.pdf";
                         folder = "Enrollment~Denver";
                     }
+                    if (fileName.Contains("Permission to Approach"))
+                    {
+                        fileName = "Denver Permission to Approach.pdf";
+                        folder = "Quick Links~Permission to Approach~Denver";
+                    }
                     break;
 
                 case "05":
@@ -125,6 +130,11 @@ namespace hpMvc.Controllers
                     {
                         fileName = "Nationwide HalfPint Assent Form.pdf";
                         folder = "Enrollment~Nationwide";
+                    }
+                    if (fileName.Contains("Permission to Approach"))
+                    {
+                        fileName = "Nationwide Permission to Approach.pdf";
+                        folder = "Quick Links~Permission to Approach~Nationwide";
                     }
                     break;
                 
@@ -139,6 +149,11 @@ namespace hpMvc.Controllers
                         fileName = "CCHMC HalfPint Assent Form.pdf";
                         folder = "Enrollment~Cincinnati";
                     }
+                    if (fileName.Contains("Permission to Approach"))
+                    {
+                        fileName = "CCHMC Permission to Approach.pdf";
+                        folder = "Quick Links~Permission to Approach~CCHMC";
+                    }
                     break;
 
                 case "07":
@@ -151,6 +166,27 @@ namespace hpMvc.Controllers
                     {
                         fileName = "PennState HalfPint Assent Form.pdf";
                         folder = "Enrollment~Penn State";
+                    }
+                    if (fileName.Contains("Permission to Approach"))
+                    {
+                        fileName = "PennState Permission to Approach.pdf";
+                        folder = "Quick Links~Permission to Approach~Penn State";
+                    }
+                    break;
+
+                case "08":
+                    if (fileName.Contains("Permission to Approach"))
+                    {
+                        fileName = "Westchester Permission to Approach.pdf";
+                        folder = "Quick Links~Permission to Approach~Westchester";
+                    }
+                    break;
+
+                case "09":
+                    if (fileName.Contains("Permission to Approach"))
+                    {
+                        fileName = "CHLA Permission to Approach.pdf";
+                        folder = "Quick Links~Permission to Approach~CHLA";
                     }
                     break;
 
