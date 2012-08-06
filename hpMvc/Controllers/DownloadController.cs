@@ -152,7 +152,7 @@ namespace hpMvc.Controllers
                     if (fileName.Contains("Permission to Approach"))
                     {
                         fileName = "CCHMC Permission to Approach.pdf";
-                        folder = "Quick Links~Permission to Approach~CCHMC";
+                        folder = "Quick Links~Permission to Approach~Cincinnati";
                     }
                     break;
 
