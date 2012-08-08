@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using hpMvc.Models;
 using hpMvc.DataBase;
+using Telerik.Web.Mvc;
 
 namespace hpMvc.Controllers
 {
@@ -30,9 +31,19 @@ namespace hpMvc.Controllers
 
             base.OnAuthorization(filterContext);
         }
-        
+
+        [Telerik.Web.Mvc.PopulateSiteMap(SiteMapName = "staff", ViewDataKey = "staff")]
+        [Telerik.Web.Mvc.PopulateSiteMap(SiteMapName = "quick", ViewDataKey = "quick")]
         public ActionResult Index()
         {
+            if (!SiteMapManager.SiteMaps.ContainsKey("staff"))
+            {
+                SiteMapManager.SiteMaps.Register<XmlSiteMap>("staff", sitmap => sitmap.LoadFrom("~/staff.sitemap"));
+            }
+            if (!SiteMapManager.SiteMaps.ContainsKey("quick"))
+            {
+                SiteMapManager.SiteMaps.Register<XmlSiteMap>("quick", sitmap => sitmap.LoadFrom("~/QuickLinks.sitemap"));
+            }
             return View();
         }
 

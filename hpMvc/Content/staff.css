@@ -1,17 +1,35 @@
 ﻿#divBarMenu
 {    
-    float:right;
+    float:left;
 }
 
-#divSideBar
+#divSideBar2
 {
+    clear:both;
     float:left;
     margin-right:0px;
     padding-right:5px;
     border-right: 1px solid #DEDEDE;
 }
 
-#divSideBar li
+#divSideBar2 li 
 {
-    line-height: 12px;
+	background:		#BDD2FF;
+	line-height: 12px;
+	margin: 0px;
+	padding: 2px 0px;
+	border:1px solid #DEDEDE;	
+}
+
+#divSideBar2 ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;	
+}
+.QuickLinks
+{
+    text-align:center;
+    font-size:2em;
+    line-height: 18px;
+    color:			#13a;
 }

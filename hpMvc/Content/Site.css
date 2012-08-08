@@ -1,337 +1,300 @@
-﻿*
+﻿/*----------------------------------------------------------
+The base color for this template is #5c87b2. If you'd like
+to use a different color start by replacing all instances of
+#5c87b2 with your new color.
+----------------------------------------------------------*/
+body
 {
-	margin: 0px;
-	padding: 0px;
-	border: none;
+    background-color: #5c87b2;
+    font-size: 75%;
+    font-family: Verdana, Tahoma, Arial, "Helvetica Neue", Helvetica, Sans-Serif;
+    margin: 0;
+    padding: 0;
+    color: #696969;
 }
 
-body{
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: 14px;
-	background-color: #FBF9EF;
-	padding: 0px 6%;
+header,
+footer,
+nav,
+section 
+{
+    display: block;
 }
 
-#container
+/* HEADINGS   
+----------------------------------------------------------*/
+h1, h2, h3, h4, h5, h6
 {
-	float: left;
+    font-size: 1.5em;
+    color: #000;
 }
 
-#header
+h1
 {
-	float: left;
-	width: 100%;
-	border-bottom: 1px dotted #5D5A53;
-	margin-bottom: 10px;
+    font-size: 2em;
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+h2
+{
+    padding: 0 0 10px 0;
+}
+h3
+{
+    font-size: 1.2em;
+}
+h4
+{
+    font-size: 1.1em;
+}
+h5, h6
+{
+    font-size: 1em;
 }
 
-#header h1
+a
 {
-	font-size: 18px;
-	float: left;
-	background: url(/content/Images/logo.png) no-repeat;
-	padding: 45px 0px 5px 0px;
-}
-#header h2
-{
-	clear:both;
-	float:left;
-}
-#promotion
-{
-	height: 300px; 
-	width: 700px; 
-	background: url(/content/Images/home-showcase.png) no-repeat;
+    color: #696969;
 }
 
-ul li a
+li
 {
-	font-size: 16px;
+    line-height: 1.6;
+}
+
+/* this rule styles <h2> tags that are the 
+first child of the left and right table columns */
+.rightColumn > h1, .rightColumn > h2, .leftColumn > h1, .leftColumn > h2
+{
+    margin-top: 0;
+}
+
+/* PRIMARY LAYOUT ELEMENTS   
+----------------------------------------------------------*/
+
+/* you can specify a greater or lesser percentage for the 
+page width. Or, you can specify an exact pixel width. */
+.page
+{
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+header, #header
+{
+    position: relative;
+    margin-bottom: 0px;
+    color: #000;
+    padding: 0;
+}
+
+header h1, #header h1
+{
+    font-weight: bold;
+    padding: 5px 0;
+    margin: 0;
+    color: #fff;
+    border: none;
+    line-height: 2em;
+    font-size: 32px !important;
 }
 
 #main
 {
-	overflow: hidden;
-	padding: 0 0 15px 10px;
-	float: left;
+    background: #fff;
+    padding: 30px 30px 15px 30px;
+    margin-bottom: 30px;
+    _height: 1px; /* only IE6 applies CSS properties starting with an underscore */
 }
 
-ul
+footer, #footer
 {
-	list-style-type: square;
-	margin-left: 25px;
-	font-size: 14px;
+    color: #999;
+    padding: 10px 0;
+    text-align: center;
+    line-height: normal;
+    margin: 0;
+    font-size: .9em;
 }
 
-ul#album-list
+/* MENU   
+----------------------------------------------------------*/
+#menu
 {
-	list-style: none;
-	margin-left: 0px;
+    position: relative;
+    margin: 0;
+    text-align: right;
 }
 
-ul#album-list li
+#menu .t-item
 {
-	height: 130px;
-	width: 100px;
-	float: left;
-	margin: 10px;
-	text-align: center;
+    border-width: 0 0 0 1px;
 }
 
-ul#album-list li a, ul#album-list li .button
+#menu .t-link
 {
-	font-size: 13px;
-	float: left;
+    padding: 5px 20px;
+    font-weight: bold;
+    text-decoration: none;
+    line-height: 1.8em;
 }
 
-ul#album-list li a span
+/* FORM LAYOUT ELEMENTS   
+----------------------------------------------------------*/
+
+fieldset 
 {
-	color: #9b9993;
-	text-decoration: underline;
+    border:1px solid #ddd;
+    padding:0 1.4em 1.4em 1.4em;
+    margin:0 0 1.5em 0;
 }
 
-#cart
+legend 
 {
-	float: right;
+    font-size:1.2em;
+    font-weight: bold;
 }
 
-#update-message
+textarea 
 {
-	color: #F6855E;
-	font-weight: bold;
+    min-height: 75px;
 }
 
-.button, input[type=submit]
+input[type="text"] 
 {
-	clear: both;
-	display: inline-block;
-	padding: 5px;
-	margin-top: 10px; 
-	border: 1px;
-	background: #5e5b54;
-	color: #fff;
-	font-weight: bold;
+    width: 200px;
+    border: 1px solid #CCC;
 }
 
-.button a
+input[type="password"] 
 {
-	color: #fff !important;
+    width: 200px;
+    border: 1px solid #CCC;
 }
 
-#footer
+/* TABLE
+----------------------------------------------------------*/
+
+table 
 {
-	clear: both;
-	padding: 10px;
-	text-align: right;
-	border-top: 1px dotted #8A8575;
-	border-bottom: 1px dotted #8A8575;
-	font-family: Constantia, Georgia, serif;
+  border: solid 1px #e8eef4;
+  border-collapse: collapse;
 }
 
-/*#logon
+table td 
 {
-	clear: both;
-	float: right;	
+  padding: 5px;   
+  border: solid 1px #e8eef4;
 }
-*/
 
-/******************** Top Navigation ************************/
-ul#navlist
+table th
 {
-	float: right;
+  padding: 6px 5px;
+  text-align: left;
+  background-color: #e8eef4; 
+  border: solid 1px #e8eef4;   
 }
 
-ul#navlist li
+/* MISC  
+----------------------------------------------------------*/
+.clear
 {
-	display: inline;
+    clear: both;
 }
 
-ul#navlist li a
+.error
 {
-	border-left: 1px dotted #8A8575;
-	padding: 10px;
-	margin-top: 10px;
-	color: #8A8575;
-	text-decoration: none;
-	float: left;
+    color:Red;
 }
 
-ul#navlist li:first-child a
+div#title
 {
-	border: none;
+    display:block;
+    text-align:left;
 }
 
-ul#navlist li a:hover
+#logindisplay
 {
-	color: #F6855E;
+    font-size:1.1em;
+    display:block;
+    text-align:right;
+    margin:10px;
+    color:White;
 }
 
-/********************* End top navigation ***************************/
-
-p
+#logindisplay a:link
 {
-	margin-bottom: 15px;
-	margin-top: 0px;
+    color: white;
+    text-decoration: underline;
 }
 
-h2
+#logindisplay a:visited
 {
-	color: #5e5b54;
+    color: white;
+    text-decoration: underline;
 }
 
-h2, h3
+#logindisplay a:hover
 {
-	margin-bottom: 10px;
-	font-size: 16px;
-	font-style: italic;
-	font-weight: bold;
+    color: white;
+    text-decoration: none;
 }
 
-h3
+/* Styles for validation helpers
+-----------------------------------------------------------*/
+.field-validation-error
 {
-	color: #9B9993;
+    color: #ff0000;
 }
 
-#header h1 a, h3 em
+.field-validation-valid
 {
-	color: #5E5B54;
+    display: none;
 }
 
-a:link, a:visited
+.input-validation-error
 {
-	color: #F6855E;
-	text-decoration: none;
-	font-weight: bold;
+    border: 1px solid #ff0000;
+    background-color: #ffeeee;
 }
 
-a:hover
+.validation-summary-errors
 {
-	color: #333333;
-	text-decoration: none;
-	font-weight: bold;
+    font-weight: bold;
+    color: #ff0000;
 }
 
-a:active
+.validation-summary-valid
 {
-	color: #006633;
-	text-decoration: none;
-	font-weight: bold;
+    display: none;
 }
 
-/***************************** sidebar navigation ****************************/
-
-#categories
+/* Styles for editor and display helpers
+----------------------------------------------------------*/
+.display-label,
+.editor-label
 {
-	font-family: Constantia, Georgia, serif;
-	list-style-type: none;
-	border-right: #5d5a53 1px dotted;
-	padding-right: 10px;
-	margin: 0 25px 0 0;
-	float: left;
+    margin: 1em 0 0 0;
 }
 
-#categories a:link, #categories a:visited
+.display-field,
+.editor-field
 {
-	color: #9B9993;
-	text-decoration: none;
+    margin:0.5em 0 0 0;
 }
 
-#categories a:hover
+.text-box
 {
-	color: #F46739;
+    width: 30em;
 }
 
-div#album-details p
+.text-box.multi-line
 {
-	margin-bottom: 5px;
-	color: #5e5b54;
-	font-weight: bold;
+    height: 6.5em;
 }
 
-p em
+.tri-state
 {
-	color: #9b9993;
-}
-
-/* Form styles */
-legend
-{
-	padding: 10px;
-	font-weight: bold;
-}
-
-fieldset
-{
-	border: #9b9993 1px solid;
-	padding: 0 10px;
-	margin-bottom: 10px;
-	clear: left;
-}
-
-div.editor-field
-{
-	margin-bottom: 10px;
-}
-
-input[type=text], input[type=password], select
-{
-	border: 1px solid #8A8575;
-	width: 300px;
-}
-
-/* Styles for validation helpers */
-.field-validation-error {
-	color: #ff0000;
-}
-
-.field-validation-valid {
-	display: none;
-}
-
-.input-validation-error {
-	border: 1px solid #ff0000;
-	background-color: #ffeeee;
-}
-
-.validation-summary-errors {
-	font-weight: bold;
-	color: #ff0000;
-}
-
-.validation-summary-valid {
-	display: none;
-}
-
-/* Tables */
-table
-{
-	border: 1px solid #000;
-	border-collapse: collapse;
-	color: #666666;
-	min-width: 500px;
-	width: 100%;
-}
-
-tr
-{
-	border: 1px solid #000;
-	line-height: 25px;
-}
-
-th
-{
-	background-color: #9b9993;
-	color: #000;
-	font-size: 13px;
-	text-align: left;
-}
-
-th, td
-{
-	padding-left: 5px;
-}
-
-tr:hover
-{
-	background-color: #fff;
+    width: 6em;
 }

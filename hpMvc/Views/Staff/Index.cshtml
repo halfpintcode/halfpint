@@ -1,317 +1,61 @@
-﻿@{
+﻿@using Telerik.Web.Mvc.UI
+@{
 	ViewBag.Title = "Index";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <form action="" method="post">
-	<div id="divSideBar">
-		<h3>Quick Links</h3>
-		<ul class="sf-menu sf-vertical">            
-			<li><a href="#">Important Contacts</a>
-				<ul>
-					<li class="StaffOnly">@Html.ActionLink("National Contacts", "GetFile", new { Controller = "Download", filename = @"HalfPint National Contact Info.pdf", folder = "Quick Links~Important Contacts" })</li>    
-					<li>@Html.ActionLink("Local Contacts - Boston", "GetFile", new { Controller = "Download", filename = @"HalfPint Local Contact Info-Boston.pdf", folder = "Quick Links~Important Contacts" })</li>    
-				</ul>
-			</li>
-			<li><a href="#">Permission to Approach</a>
-				<ul>
-                    <li class="NotDcc NotAdmin">@Html.ActionLink("Permission to Approach", "GetFile", new { Controller = "Download", filename = @"Site~ Permission to Approach.pdf", folder = "Quick Links" })</li>
-                    <li class="AdminDCC">
-						<a href="#">CHB</a>
-						<ul>
-                            <li class="AdminDCC">@Html.ActionLink("CHB Permission to Approach", "GetFile", new { Controller = "Download", filename = @"CHB Permission to Approach.pdf", folder = "Quick Links~Permission to Approach~CHB" })</li>																	
-                        </ul>                        
-                    </li>
-                    <li class="AdminDCC">
-                        <a href="#">CHLA</a>
-						<ul>
-                            <li class="AdminDCC">@Html.ActionLink("CHLA Permission to Approach", "GetFile", new { Controller = "Download", filename = @"CHLA Permission to Approach.pdf", folder = "Quick Links~Permission to Approach~CHLA" })</li>																	
-                        </ul>
-                    </li>
-                    <li class="AdminDCC">
-                        <a href="#">CHOP</a>
-						<ul>
-                            <li class="AdminDCC">@Html.ActionLink("CHOP Permission to Approach", "GetFile", new { Controller = "Download", filename = @"CHOP Permission to Approach.pdf", folder = "Quick Links~Permission to Approach~CHOP" })</li>																	
-                        </ul>
-                    </li>
-                    <li class="AdminDCC">
-                        <a href="#">Cincinnati</a>
-						<ul>
-                            <li class="AdminDCC">@Html.ActionLink("Cincinnati Permission to Approach", "GetFile", new { Controller = "Download", filename = @"Cincinnati Permission to Approach.pdf", folder = "Quick Links~Permission to Approach~Cincinnati" })</li>																	
-                        </ul>
-                    </li>
-                    <li class="AdminDCC">
-                        <a href="#">Columbia</a>
-						<ul>
-                            <li class="AdminDCC">@Html.ActionLink("Columbia Permission to Approach", "GetFile", new { Controller = "Download", filename = @"Columbia Permission to Approach.pdf", folder = "Quick Links~Permission to Approach~Columbia" })</li>																	
-                        </ul>
-                    </li>
-                    <li class="AdminDCC">
-                        <a href="#">Denver</a>
-						<ul>
-                            <li class="AdminDCC">@Html.ActionLink("Denver Permission to Approach", "GetFile", new { Controller = "Download", filename = @"Denver Permission to Approach.pdf", folder = "Quick Links~Permission to Approach~Denver" })</li>																	
-                        </ul>
-                    </li>
-                    <li class="AdminDCC">
-                        <a href="#">Nationwide</a>
-						<ul>
-                            <li class="AdminDCC">@Html.ActionLink("Nationwide Permission to Approach", "GetFile", new { Controller = "Download", filename = @"Nationwide Permission to Approach.pdf", folder = "Quick Links~Permission to Approach~Nationwide" })</li>																	
-                        </ul>
-                    </li>
-                    <li class="AdminDCC">
-                        <a href="#">Penn State</a>
-						<ul>
-                            <li class="AdminDCC">@Html.ActionLink("Penn State Permission to Approach", "GetFile", new { Controller = "Download", filename = @"PennState Permission to Approach.pdf", folder = "Quick Links~Permission to Approach~Penn State" })</li>																	
-                        </ul>
-                    </li>
-                    <li class="AdminDCC">
-                        <a href="#">Westchester</a>
-						<ul>
-                            <li class="AdminDCC">@Html.ActionLink("Westchester Permission to Approach", "GetFile", new { Controller = "Download", filename = @"Westchester Permission to Approach.pdf", folder = "Quick Links~Permission to Approach~Westchester" })</li>																	
-                        </ul>
-                    </li>                    
-			    </ul>
-            </li>
-            <li class="StaffOnly NotDcc" >@Html.ActionLink("Randomize Password", "InitializePassword", new { controller = "InitializeSubject" })</li>
-			<li class="StaffOnly">@Html.ActionLink("Password Look-up", "GetInitializePassword", new { controller = "Staff" })</li>
-			<li>@Html.ActionLink("Initialize Subject", "Initialize", new { controller = "InitializeSubject" })</li>
-			<li class="StaffOnly">@Html.ActionLink("Recover CHECKS file", "RecoverChecksSS", new { controller = "Staff" })</li>
-			<li class="StaffOnly"><a href="https://study.tch.harvard.edu/halfpint">InForm</a></li>
-			<li class="StaffOnly NotDcc">@Html.ActionLink("Calorie Calculator", "Index", new { controller = "CalorieCalc" })
-				<ul>
-					<li class="StaffOnly">@Html.ActionLink("New Caloric Entry", "Index", new { controller = "CalorieCalc" })</li>
-					<li class="StaffOnly">@Html.ActionLink("Correct an Existing Entry", "EditSelect", new { controller = "CalorieCalc" })</li>
-				</ul>            
-			</li>
-			<li class="StaffOnly NotDcc"><a href="#">Add Study Staff</a></li>
-		</ul>
+	
+	<div id="divSideBar2">
+		@(Html.Telerik().Menu()
+            .Orientation(MenuOrientation.Vertical)
+            .Name("MenuQ")            
+            .BindTo("quick", (item, node) =>
+       {
+           string roles = node.Attributes["role"] as string;
+           if (roles == "nurse")
+               item.Visible = false;
+           if (node.Attributes["name"] != null)
+               item.RouteValues.Add("name", node.Attributes["name"]);
+           if (node.Attributes["fileName"] != null)
+               item.RouteValues.Add("fileName", node.Attributes["fileName"]);
+           if (node.Attributes["folder"] != null)
+               item.RouteValues.Add("folder", node.Attributes["folder"]);
+           if (node.Attributes["class"] != null)
+               item.HtmlAttributes.Add("class", node.Attributes["class"]);
+
+       }))
 	</div>
-	<div id="divBarMenu">
-		<ul class="sf-menu">
-			<li class="current">
-				<a href="#a">Training</a>
-				<ul class="subMenu">				    
-					<li class="StaffOnly"><a href="#">Data Entry Training</a>
-						<ul>
-							<li>@Html.ActionLink("Data Entry Screening and Tracking Slides", "GetFile", new { Controller = "Download", filename = @"Data Entry-Screening and Tracking Slides.pdf", folder = "Training~Data Entry Training" })</li>
-							<li><a href="#">Screening and Tracking Video</a></li>
-							<li>@Html.ActionLink("Data Entry InForm Slides", "GetFile", new { Controller = "Download", filename = @"Data Entry-Inform Slides.pdf", folder = "Training~Data Entry Training" })</li>
-							<li><a href="#">InForm Video</a></li>
-							<li>@Html.ActionLink("Demonstration Mock Patients", "GetFile", new { Controller = "Download", filename = @"Demonstration Mock Patients.pdf", folder = "Training~Data Entry Training" })</li>
-							<li class="StaffOnly"><a href="https://study.tch.harvard.edu/halfpinttrain">InForm Training Database</a></li>
-						</ul>					
-					</li>
-					<li class="StaffOnly"><a href="#">Competencies</a>
-						<ul>
-							<li class="StaffOnly">@Html.ActionLink("Medtronic Enlite", "GetFile", new { Controller = "Download", filename = @"Medtronic Enlite Competency.pdf", folder = "Training~Competencies" })</li>
-							<li class="StaffOnly">@Html.ActionLink("Nova StatStrip", "GetFile", new { Controller = "Download", filename = @"Nova StatStrip Competency.pdf", folder = "Training~Competencies" })</li>
-							<li class="StaffOnly">@Html.ActionLink("Vamp Jr", "GetFile", new { Controller = "Download", filename = @"Vamp Jr Competency.pdf", folder = "Training~Competencies" })</li>
-						</ul>                    
-					</li>					
-					<li>@Html.ActionLink("Online Modules and Post-Tests", "Initialize", new { Controller = "PostTests", name = @"Select Your Name" })</li>
-					<li class="StaffOnly">@Html.ActionLink("Manual Entry Post-Tests Completed", "Index", new { Controller = "PostTestsAdmin"})</li>
-					<li class="StaffOnly"><a href="#">Paper Format Module Post-Tests</a>
-						<ul>
-							<li>@Html.ActionLink("Overview Post-Test", "GetFile", new { Controller = "Download", filename = @"Overview Post-Test.pdf", folder = @"Training~Paper Format Post-Tests" })</li>
-							<li class="StaffOnly">@Html.ActionLink("Overview Post-Test Master", "GetFile", new { Controller = "Download", filename = @"Overview Post-Test-MASTER.pdf", folder = "Training~Paper Format Post-Tests" })</li>
-							<li>@Html.ActionLink("Medtronic Enlite Post-Test", "GetFile", new { Controller = "Download", filename = @"Medtronic Enlite Post-Test.pdf", folder = "Training~Paper Format Post-Tests" })</li>
-							<li class="StaffOnly">@Html.ActionLink("Medtronic Enlite Post-Test Master", "GetFile", new { Controller = "Download", filename = @"Medtronic Enlite Post-Test-MASTER.pdf", folder = "Training~Paper Format Post-Tests" })</li>
-							<li>@Html.ActionLink("Guardian CS Post-Test", "GetFile", new { Controller = "Download", filename = @"Guardian CS Post-Test.pdf", folder = "Training~Paper Format Post-Tests" })</li>
-							<li class="StaffOnly">@Html.ActionLink("Guardian CS Post-Test Master", "GetFile", new { Controller = "Download", filename = @"Guardian CS Post-Test-MASTER.pdf", folder = "Training~Paper Format Post-Tests" })</li>
-							<li>@Html.ActionLink("Nova StatStrip Post-Test", "GetFile", new { Controller = "Download", filename = @"Nova StatStrip Post-Test.pdf", folder = "Training~Paper Format Post-Tests" })</li>
-							<li class="StaffOnly">@Html.ActionLink("Nova StatStrip Post-Test Master", "GetFile", new { Controller = "Download", filename = @"Nova StatStrip Post-Test-MASTER.pdf", folder = "Training~Paper Format Post-Tests" })</li>
-							<li>@Html.ActionLink("Vamp Jr. Post-Test", "GetFile", new { Controller = "Download", filename = @"VAMP Jr Post-Test.pdf", folder = "Training~Paper Format Post-Tests" })</li>
-							<li class="StaffOnly">@Html.ActionLink("Vamp Jr. Post-Test Master", "GetFile", new { Controller = "Download", filename = @"VAMP Jr Post-Test-MASTER.pdf", folder = "Training~Paper Format Post-Tests" })</li>				
-							<li><a href="#">Website Post-Test</a></li>
-							<li><a href="#">Website Post-Test Master</a></li>                            
-							<li>@Html.ActionLink("CHECKS Post-Test", "GetFile", new { Controller = "Download", filename = @"CHECKS Post-Test.pdf", folder = "Training~Paper Format Post-Tests" })</li>
-							<li class="StaffOnly">@Html.ActionLink("CHECKS Post-Test Master", "GetFile", new { Controller = "Download", filename = @"CHECKS Post-Test-MASTER.pdf", folder = "Training~Paper Format Post-Tests" })</li>						    
-						</ul>	
-					</li>					
-					<li>@Html.ActionLink("Screening", "GetFile", new { Controller = "Download", filename = @"Screening Reference Sheet.pdf", folder = "Training" })</li>									
-					<li>@Html.ActionLink("RN Daily Procedures", "GetFile", new { Controller = "Download", filename = @"Bedside RN Daily Overview.pdf", folder = "Training" })</li>									
-					<li>@Html.ActionLink("Training Checklist", "GetFile", new { Controller = "Download", filename = @"Nurse Training Checklist.pdf", folder = "Training" })</li>					
-				</ul>
-			</li>
-			<li><a href="#a">Resources</a>
-				<ul class="subMenu">
-					<li class="StaffOnly"><a href="#">eCRFs</a>
-						<ul>
-							<li>@Html.ActionLink("HALF-PINT Form 1 Version 1", "GetFile", new { Controller = "Download", filename = @"HALF-PINT Form 1 Version 1.pdf", folder = "Resources~eCRFs" })</li>
-							<li>@Html.ActionLink("HALF-PINT Form 2 Version 1", "GetFile", new { Controller = "Download", filename = @"HALF-PINT Form 2 Version 1.pdf", folder = "Resources~eCRFs" })</li>
-							<li>@Html.ActionLink("HALF-PINT Form 3 Version 1", "GetFile", new { Controller = "Download", filename = @"HALF-PINT Form 3 Version 1.pdf", folder = "Resources~eCRFs" })</li>
-							<li>@Html.ActionLink("HALF-PINT Form 4 Version 1", "GetFile", new { Controller = "Download", filename = @"HALF-PINT Form 4 Version 1.pdf", folder = "Resources~eCRFs" })</li>
-							<li>@Html.ActionLink("HALF-PINT Form 5 Version 1", "GetFile", new { Controller = "Download", filename = @"HALF-PINT Form 5 Version 1.pdf", folder = "Resources~eCRFs" })</li>
-							<li>@Html.ActionLink("HALF-PINT Form 5N Version 1", "GetFile", new { Controller = "Download", filename = @"HALF-PINT Form 5N Version 1.pdf", folder = "Resources~eCRFs" })</li>
-							<li>@Html.ActionLink("HALF-PINT Form 6 Version 1", "GetFile", new { Controller = "Download", filename = @"HALF-PINT Form 6 Version 1.pdf", folder = "Resources~eCRFs" })</li>
-							<li>@Html.ActionLink("HALF-PINT Form 7 Version 1", "GetFile", new { Controller = "Download", filename = @"HALF-PINT Form 7 Version 1.pdf", folder = "Resources~eCRFs" })</li>
-							<li>@Html.ActionLink("HALF-PINT Form 8 Version 1", "GetFile", new { Controller = "Download", filename = @"HALF-PINT Form 8 Version 1.pdf", folder = "Resources~eCRFs" })</li>
-							<li>@Html.ActionLink("HALF-PINT Form DOV Version 1", "GetFile", new { Controller = "Download", filename = @"HALF-PINT Form DOV Version 1.pdf", folder = "Resources~eCRFs" })</li>                            					        
-						</ul>                    
-					</li>
-					<li class="StaffOnly"><a href="#">Form Completion Guidelines</a>
-						<ul>
-							<li>@Html.ActionLink("Daily Screening Form", "GetFile", new { Controller = "Download", filename = @"Daily Screening Form.pdf", folder = "Resources~Form Completion Guidelines" })</li>
-							<li>@Html.ActionLink("Consented Subject Tracking Sheet", "GetFile", new { Controller = "Download", filename = @"Consented Subject Tracking Sheet.pdf", folder = "Resources~Form Completion Guidelines" })</li>
-							<li>@Html.ActionLink("DOV", "GetFile", new { Controller = "Download", filename = @"DOV.pdf", folder = "Resources~Form Completion Guidelines" })</li>
-							<li>@Html.ActionLink("Form 1 Inclusion and Exclusion Criteria", "GetFile", new { Controller = "Download", filename = @"Form 1 Inclusion and Exclusion Criteria.pdf", folder = "Resources~Form Completion Guidelines" })</li>
-							<li>@Html.ActionLink("Form 2 Tracking and Randomization", "GetFile", new { Controller = "Download", filename = @"Form 2 Tracking and Randomization.pdf", folder = "Resources~Form Completion Guidelines" })</li>
-							<li>@Html.ActionLink("Form 3 Medical History and Clinical Information", "GetFile", new { Controller = "Download", filename = @"Form 3 Medical History and Clinical Information.pdf", folder = "Resources~Form Completion Guidelines" })</li>
-							<li>@Html.ActionLink("Form 4 Risk of Mortality at ICU Admission", "GetFile", new { Controller = "Download", filename = @"Form 4 Risk of Mortality at ICU Admission.pdf", folder = "Resources~Form Completion Guidelines" })</li>
-							<li>@Html.ActionLink("Form 5 Daily ICU", "GetFile", new { Controller = "Download", filename = @"Form 5 Daily ICU.pdf", folder = "Resources~Form Completion Guidelines" })</li>
-							<li>@Html.ActionLink("Form 5N Daily Non-ICU Inpatient Unit", "GetFile", new { Controller = "Download", filename = @"Form 5N Daily Non-ICU Inpatient Unit.pdf", folder = "Resources~Form Completion Guidelines" })</li>
-							<li>@Html.ActionLink("Form 6 Discharge", "GetFile", new { Controller = "Download", filename = @"Form 6 Discharge.pdf", folder = "Resources~Form Completion Guidelines" })</li>
-							<li>@Html.ActionLink("Form 7 Adverse Event", "GetFile", new { Controller = "Download", filename = @"Form 7 Adverse Event.pdf", folder = "Resources~Form Completion Guidelines" })</li>
-							<li>@Html.ActionLink("Form 8 Protocol Deviation", "GetFile", new { Controller = "Download", filename = @"Form 8 Protocol Deviation.pdf", folder = "Resources~Form Completion Guidelines" })</li>
-						</ul>
-					</li>
-					<li><a href="#">Device Manuals</a>
-						<ul>
-							<li>@Html.ActionLink("Enlite User Guide", "GetFile", new { Controller = "Download", filename = @"Enlite User Guide.pdf", folder = "Resources~Device Manuals" })</li>				    
-							<li>@Html.ActionLink("StatStrip Glucose Meter Manual", "GetFile", new { Controller = "Download", filename = @"StatStrip Glucose Meter Manual.pdf", folder = "Resources~Device Manuals" })</li>				    
-							<li>@Html.ActionLink("VAMP Jr Inservice Bulletin", "GetFile", new { Controller = "Download", filename = @"VAMP Jr Inservice Bulletin.pdf", folder = "Resources~Device Manuals" })</li>					                      
-                            <li>@Html.ActionLink("Guardian CS User Guide", "GetFile", new { Controller = "Download", filename = @"Guardian CS User Guide.pdf", folder = "Resources~Device Manuals" })</li>					                      
-						</ul>
-					</li>
-					<li>@Html.ActionLink("Bedside Binder", "GetFile", new { Controller = "Download", filename = @"HALF-PINT Bedside Reference Binder.pdf", folder = "Resources" })</li>				    
-					<li><a href="#">Feeding Guidelines</a></li>
-					<li>@Html.ActionLink("Insulin Order Template", "GetFile", new { Controller = "Download", filename = @"Insulin Order Template.pdf", folder = "Resources" })</li>				    					
-					<li>@Html.ActionLink("VAMP Line Placement Recommendations", "GetFile", new { Controller = "Download", filename = @"VAMP Placement.pdf", folder = "Resources" })</li>				    
-					<li class="StaffOnly">@Html.ActionLink("Screening and Study Management FAQ", "GetFile", new { Controller = "Download", filename = @"HALF-PINT Screening and Study Management FAQ.pdf", folder = "Resources" })</li>				    
-					<li>@Html.ActionLink("Study Overview", "GetFile", new { Controller = "Download", filename = @"Study Overview.pdf", folder = "Resources" })</li>				    					
-										
-				</ul>
-			</li>			
-			<li>
-				<a href="#">Enrollment</a>
-				<ul>										
-					<li><a href="#">Consent and Assent Forms</a>
-						<ul>
-							<li class="CHBHide">@Html.ActionLink("HalfPint Consent Form", "GetFile", new { Controller = "Download", filename = @"Site~ Consent Form.pdf", folder = "Enrollment" })</li>
-							<li class="AdminDCCInvestigator CHBOnly">@Html.ActionLink("HalfPint Consent Form for Relying Sites", "GetFile", new { Controller = "Download", filename = @"HalfPint Consent Form for Relying Sites.pdf", folder = "Enrollment" })</li>
-							<li class="CHBHide">@Html.ActionLink("HalfPint Assent Form", "GetFile", new { Controller = "Download", filename = @"Site~ Assent Form.pdf", folder = "Enrollment" })</li>					    
-							<li class="AdminDCC">
-								<a href="#">CHOP</a>
-								<ul>
-									<li>@Html.ActionLink("HalfPint Consent Form", "GetFile", new { Controller = "Download", filename = @"CHOP HalfPint Consent Form.pdf", folder = "Enrollment~CHOP" })</li>							
-									<li>@Html.ActionLink("HalfPint Assent Form", "GetFile", new { Controller = "Download", filename = @"CHOP HalfPint Assent Form.pdf", folder = "Enrollment~CHOP" })</li>
-								</ul>
-							</li>
-							<li class="AdminDCC">
-								<a href="#">Cincinnati</a>
-								<ul>
-									<li>@Html.ActionLink("HalfPint Consent Form", "GetFile", new { Controller = "Download", filename = @"CCHMC HalfPint Consent Form.pdf", folder = "Enrollment~Cincinnati" })</li>							
-									<li>@Html.ActionLink("HalfPint Assent Form", "GetFile", new { Controller = "Download", filename = @"CCHMC HalfPint Assent Form.pdf", folder = "Enrollment~Cincinnati" })</li>
-								</ul>
-							</li>	
-							<li class="AdminDCC">
-								<a href="#">Denver</a>
-								<ul>
-									<li>@Html.ActionLink("HalfPint Consent Form", "GetFile", new { Controller = "Download", filename = @"Denver HalfPint Consent Form.pdf", folder = "Enrollment~Denver" })</li>							
-									<li>@Html.ActionLink("HalfPint Assent Form", "GetFile", new { Controller = "Download", filename = @"Denver HalfPint Assent Form.pdf", folder = "Enrollment~Denver" })</li>
-								</ul>
-							</li>							
-							<li class="AdminDCC">
-								<a href="#">Nationwide</a>
-								<ul>
-									<li>@Html.ActionLink("HalfPint Consent Form", "GetFile", new { Controller = "Download", filename = @"Nationwide HalfPint Consent Form.pdf", folder = "Enrollment~Nationwide" })</li>							
-									<li>@Html.ActionLink("HalfPint Assent Form", "GetFile", new { Controller = "Download", filename = @"Nationwide HalfPint Assent Form.pdf", folder = "Enrollment~Nationwide" })</li>
-								</ul>
-							</li>
-							<li class="AdminDCC">
-								<a href="#">Penn State</a>
-								<ul>
-									<li>@Html.ActionLink("HalfPint Consent Form", "GetFile", new { Controller = "Download", filename = @"PennState HalfPint Consent Form.pdf", folder = "Enrollment~Penn State" })</li>							
-									<li>@Html.ActionLink("HalfPint Assent Form", "GetFile", new { Controller = "Download", filename = @"PennState HalfPint Assent Form.pdf", folder = "Enrollment~Penn State" })</li>
-								</ul>
-							</li>							
-						</ul>                    
-					</li>
-					<li>@Html.ActionLink("Inclusion/Exclusion Criteria", "GetFile", new { Controller = "Download", filename = @"Inclusion-Exclusion Criteria.pdf", folder = "Enrollment" })</li>										
-					@*<li><a href="#">Enrollment Flowchart</a></li>*@
-					<li class="StaffOnly"><a href="#">Good Clinical Practice</a></li>									
-				</ul>
-			</li>
-			<li class="StaffOnly">
-				<a href="#">Study Management</a>
-				<ul>
-					<li><a href="#">Neurodevelopmental</a>
-						<ul>
-							<li class="StaffOnly"><a href="#">Contact and Demographic Information Form</a></li>
-							<li><a href="#">CBCL</a>
-								<ul>
-									<li class="InvestigatorOnly">@Html.ActionLink("CBCL Ages 1.5-5", "GetFile", new { Controller = "Download", filename = @"CBCL Age 1.5-5.pdf", folder = "Study Management~Neurodevelopmental~CBCL" })</li>
-									<li class="InvestigatorOnly">@Html.ActionLink("CBCL Ages 6-18", "GetFile", new { Controller = "Download", filename = @"CBCL Age 6-18.pdf", folder = "Study Management~Neurodevelopmental~CBCL" })</li>							
-								</ul>
-							</li>
-							<li><a href="#">PedsQL</a>
-								<ul>
-									<li class="InvestigatorOnly">@Html.ActionLink("PedsQL4 Age 5 to 7 Child Report", "GetFile", new { Controller = "Download", filename = @"PedsQL4 Age 5 to 7 Child Report.pdf", folder = "Study Management~Neurodevelopmental~PedsQL" })</li>
-									<li class="InvestigatorOnly">@Html.ActionLink("PedsQL4 Age 5 to 7 Parent Report", "GetFile", new { Controller = "Download", filename = @"PedsQL4 Age 5 to 7 Parent Report.pdf", folder = "Study Management~Neurodevelopmental~PedsQL" })</li>
-									<li class="InvestigatorOnly">@Html.ActionLink("PedsQL4 Age 8 to 12 Child Report", "GetFile", new { Controller = "Download", filename = @"PedsQL4 Age 8 to 12 Child Report.pdf", folder = "Study Management~Neurodevelopmental~PedsQL" })</li>
-									<li class="InvestigatorOnly">@Html.ActionLink("PedsQL4 Age 8 to 12 Parent Report", "GetFile", new { Controller = "Download", filename = @"PedsQL4 Age 8 to 12 Parent Report.pdf", folder = "Study Management~Neurodevelopmental~PedsQL" })</li>
-								</ul>
-							</li>
-							<li class="InvestigatorOnly">@Html.ActionLink("Vineland II", "GetFile", new { Controller = "Download", filename = @"Vineland II.pdf", folder = "Study Management~Neurodevelopmental~Vineland II" })</li>					        								
-						</ul>
-					</li>
-					<li><a href="#">Study Materials & Logs</a>
-						<ul>
-							<li><a href="#">Daily Screening Form</a>
-								<ul>
-									<li class="StaffOnly">@Html.ActionLink("Daily Screening Form - 6 columns", "GetFile", new { Controller = "Download", filename = @"Daily Screening Form - 6 columns.pdf", folder = "Study Management~Study Materials and Logs~Daily Screening Form" })</li>
-									<li class="StaffOnly">@Html.ActionLink("Daily Screening Form - 20 columns", "GetFile", new { Controller = "Download", filename = @"Daily Screening Form - 20 columns.pdf", folder = "Study Management~Study Materials and Logs~Daily Screening Form" })</li>							
-								</ul>
-							</li>
-							@*<li><a href="#">Nurse Workload Surveys</a>
-								<ul>
-									<li class="StaffOnly">@Html.ActionLink("Nurse Workload Baseline Survey", "GetFile", new { Controller = "Download", filename = @"Nurse Workload Baseline Survey.pdf", folder = "Study Management~Study Materials and Logs~Nurse Workload Surveys" })</li>
-									<li class="StaffOnly">@Html.ActionLink("Nurse Workload Practice Survey", "GetFile", new { Controller = "Download", filename = @"Nurse Workload Practice Survey.pdf", folder = "Study Management~Study Materials and Logs~Nurse Workload Surveys" })</li>
-									<li class="StaffOnly">@Html.ActionLink("Nurse Workload Survey SOP", "GetFile", new { Controller = "Download", filename = @"Nurse Workload Survey SOP.pdf", folder = "Study Management~Study Materials and Logs~Nurse Workload Surveys" })</li>                                    
-								</ul>
-							</li>       *@                
-							<li class="StaffOnly">@Html.ActionLink("Consented Subject Tracking Sheet", "GetFile", new { Controller = "Download", filename = @"Consented Subject Tracking Sheet.pdf", folder = "Study Management~Study Materials and Logs" })</li>
-							<li>@Html.ActionLink("Enrolled Subject Bedside Sheet-CHB", "GetFile", new { Controller = "Download", filename = @"Enrolled Subject Bedside Sheet-CHB.pdf", folder = "Study Management~Study Materials and Logs" })</li>
-							<li>@Html.ActionLink("Enrolled Subject Bedside Sheet-Generic", "GetFile", new { Controller = "Download", filename = @"Enrolled Subject Bedside Sheet-Generic.docx", folder = "Study Management~Study Materials and Logs" })</li>
-							<li class="StaffOnly">@Html.ActionLink("Consent Log", "GetFile", new { Controller = "Download", filename = @"Consent Log.pdf", folder = "Study Management~Study Materials and Logs" })</li>
-							<li class="StaffOnly">@Html.ActionLink("Delegation Log", "GetFile", new { Controller = "Download", filename = @"Delegation Log.pdf", folder = "Study Management~Study Materials and Logs" })</li>
-							<li class="StaffOnly">@Html.ActionLink("Training Documentation Log", "GetFile", new { Controller = "Download", filename = @"Training Documentation Log.pdf", folder = "Study Management~Study Materials and Logs" })</li>					                                    						
-						</ul>
-					</li>
-					<li class="StaffOnly">@Html.ActionLink("Document Management", "GetFile", new { Controller = "Download", filename = @"Document Management Recommendations.pdf", folder = "Study Management" })</li>							    															
-					<li class="StaffOnly">@Html.ActionLink("Committees", "GetFile", new { Controller = "Download", filename = @"Committees.pdf", folder = "Study Management~Committees" })</li>							    																				
-					<li class="StaffOnly"><a href="#">Standard Operating Procedures</a>
-						<ul>
-							<li>@Html.ActionLink("AE and UP SOP", "GetFile", new { Controller = "Download", filename = @"AE and UP SOP.pdf", folder = "Study Management~Standard Operating Procedures" })</li>
-							<li>@Html.ActionLink("Central IRB SOP", "GetFile", new { Controller = "Download", filename = @"Central IRB SOP.pdf", folder = "Study Management~Standard Operating Procedures" })</li>
-							<li>@Html.ActionLink("Central IRB SOP - Appendix 1", "GetFile", new { Controller = "Download", filename = @"Central IRB SOP - Appendix 1.pdf", folder = "Study Management~Standard Operating Procedures" })</li>
-							<li>@Html.ActionLink("Nova StatStrip SOP", "GetFile", new { Controller = "Download", filename = @"Nova StatStrip SOP.pdf", folder = "Study Management~Standard Operating Procedures" })</li>							
-						</ul>
-					</li>				
-					<li class="StaffOnly">@Html.ActionLink("Supplies", "GetFile", new { Controller = "Download", filename = @"HalfPint Supply Ordering Info.pdf", folder = "Study Management" })</li>
-					@*<li class="StaffOnly"><a href="#">Nursing Workload Survey</a></li>*@																	                    								
-				</ul>
-			</li>
-			<li  class="StaffOnly">
-				<a href="#">Ancillary Studies</a>
-				<ul>										
-					<li>@Html.ActionLink("Ancillary Studies Guidelines", "GetFile", new { Controller = "Download", filename = @"Ancillary Study Guidelines.pdf", folder = "Ancillary Studies" })</li>															
-				</ul>
-			</li>
-			<li class="StaffOnly">
-				<a href="#">Regulatory</a>
-				<ul>
-					<li>@Html.ActionLink("Protocol", "GetFile", new { Controller = "Download", filename = @"HalfPint Protocol.pdf", folder = "Regulatory" })</li>					                                    																
-                    <li>@Html.ActionLink("DSMB", "GetFile", new { Controller = "Download", filename = @"HALF-PINT DSMB Charter.pdf", folder = "Regulatory" })</li>					                                    																					
-				</ul>
-			</li>            		
-		</ul>
-	</div>	
+    <div id="divBarMenu">
+		@(Html.Telerik().Menu()
+            .Name("Menu")
+            
+            .BindTo("staff", (item, node) =>
+       {
+           string roles = node.Attributes["role"] as string;
+           if (roles == "nurse")
+               item.Visible = false;
+           if (node.Attributes["name"] != null)
+               item.RouteValues.Add("name", node.Attributes["name"]);
+           if (node.Attributes["fileName"] != null)
+               item.RouteValues.Add("fileName", node.Attributes["fileName"]);
+           if (node.Attributes["folder"] != null)
+               item.RouteValues.Add("folder", node.Attributes["folder"]);
+           if (node.Attributes["class"] != null)
+               item.HtmlAttributes.Add("class", node.Attributes["class"]);
+
+       })
+)
+	</div>
+    	
 </form>		
-  
+
 <link href="@Url.Content("~/Content/Superfish/superfish.css")" rel="stylesheet" type="text/css" />
 <link href="@Url.Content("~/Content/Superfish/superfish-vertical.css")" rel="stylesheet" type="text/css" />
 <link href="@Url.Content("~/Content/staff.css")" rel="stylesheet" type="text/css" />
+ 
 <script src="@Url.Content("~/Scripts/jquery.hoverIntent.minified.js")" type="text/javascript"></script>
 <script src="@Url.Content("~/Scripts/superfish.js")" type="text/javascript"></script>
 <script src="@Url.Content("~/Scripts/staff.js")" type="text/javascript"></script>
+@(Html.Telerik().StyleSheetRegistrar().DefaultGroup(group => group.Add("telerik.common.css").Add("telerik.office2010blue.css")))
+@(Html.Telerik().ScriptRegistrar().jQuery(false))
