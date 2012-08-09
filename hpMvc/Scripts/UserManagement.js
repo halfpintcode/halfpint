@@ -74,12 +74,12 @@ $(function () {
 
         var path = '';
         if ($(this).text() === "Reset user password") {
-            path = urlRoot + '/Admin/ResetUserPassword/' + userName;
+            window.location = urlRoot + '/Admin/ResetUserPassword/' + userName;
         }
         else {
-            path = urlRoot + '/Admin/ManageUserRoles/' + userName;
+            window.location = urlRoot + '/Admin/ManageUserRoles/' + userName;
         }
-        $(this).attr('href', path);
+        //$(this).attr('href', path);
 
 
     });

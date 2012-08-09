@@ -11,6 +11,7 @@ using hpMvc.Infrastructure;
 using System.Web.Helpers;
 using System.IO;
 using System.Configuration;
+using Telerik.Web.Mvc;
 
 namespace hpMvc.Controllers
 {
@@ -40,6 +41,7 @@ namespace hpMvc.Controllers
         }
 
         #region Index        
+        [Telerik.Web.Mvc.PopulateSiteMap(SiteMapName = "admin", ViewDataKey = "admin")]
         public ActionResult Index()
         {
             string role = "Coordinator";
@@ -73,6 +75,10 @@ namespace hpMvc.Controllers
             }
                 
             ViewBag.Users = new SelectList(users, "UserName", "UserName");
+            if (!SiteMapManager.SiteMaps.ContainsKey("admin"))
+            {
+                SiteMapManager.SiteMaps.Register<XmlSiteMap>("admin", sitmap => sitmap.LoadFrom("~/admin.sitemap"));
+            }
             return View();
         }
 

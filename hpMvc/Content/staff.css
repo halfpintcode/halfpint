@@ -12,4 +12,10 @@
     border-right: 1px solid #DEDEDE;
 }
 
-
+.QuickLinks
+{
+    text-decoration:underline;
+    font-weight:bold;
+    font-size:large;
+    
+}

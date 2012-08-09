@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<siteMap>
+    <siteMapNode title="admin">
+      <siteMapNode title="Admin Quick Links" class="QuickLinks">
+      </siteMapNode>
+      <siteMapNode title="User Management">
+        <siteMapNode title="Add new user" controller="Admin" action="AddUser" />
+        <siteMapNode title="Manage user roles" class = "aLnkClick"/>
+        <siteMapNode title="Reset user password" class = "aLnkClick"/>
+        <siteMapNode title="Manage Roles" controller="Admin" action="ManageRoles" />
+        <siteMapNode title="Delete user" id="deleteUser" />
+        <siteMapNode title="Show All Users" controller="Admin" action="ShowUsers" />
+      </siteMapNode>
+      <siteMapNode title="CHECKS">
+        <siteMapNode title="Download a Saved CHECKS" controller="Admin" action="GetSavedChecks" />
+        <siteMapNode title="Upload CHECKS Template" controller="FileManager" action="TemplateUpload" />
+      </siteMapNode>
+      <siteMapNode title="Randomization">
+        <siteMapNode title="Show Randomized Studies" controller="Dcc" action="RandomizedStudies" />
+        <siteMapNode title="Show Study IDs Not Randomized" controller="Coordinator" action="StudyIdsNotRandomized" />
+      </siteMapNode>
+      <siteMapNode title="Show Web Logs" controller="Admin" action="WebLogs" />
+      <siteMapNode title="Broadcast Email" controller="Admin" action="BroadcastEmail" />
+      <siteMapNode title="Send Test Email" controller="Admin" action="TestEmail" />
+    </siteMapNode>
+</siteMap>
