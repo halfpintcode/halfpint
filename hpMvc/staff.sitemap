@@ -103,7 +103,7 @@
         <siteMapNode title="HalfPint Assent Form" controller="Download" action="GetFile" fileName="PennState HalfPint Assent Form.pdf" folder="Enrollment~Penn State" />
       </siteMapNode>
       <siteMapNode title="Inclusion/Exclusion Criteria" controller="Download" action="GetFile" fileName="Inclusion-Exclusion Criteria.pdf" folder="Enrollment" />
-      <siteMapNode title="Enrollment Flowchart" />
+      <siteMapNode title="Enrollment Flowchart" class="StaffOnly"/>
       <siteMapNode title="Good Clinical Practice" />
     </siteMapNode>
     <siteMapNode title="Study Management" class="StaffOnly" >

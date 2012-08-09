@@ -594,8 +594,12 @@
     <Content Include="Views\Coordinator\CompleteSubjectPartial.cshtml" />
     <Content Include="Views\Coordinator\CompleteSubject.cshtml" />
     <Content Include="Views\Coordinator\CompleteSubjectConfirmationPartial.cshtml" />
-    <Content Include="staff.sitemap" />
-    <Content Include="QuickLinks.sitemap" />
+    <Content Include="staff.sitemap">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="QuickLinks.sitemap">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="_bin_deployableAssemblies\Microsoft.Web.Infrastructure.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.Razor.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.dll" />
