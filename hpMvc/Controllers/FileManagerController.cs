@@ -83,8 +83,16 @@ namespace hpMvc.Controllers
                 {
                     string key = Request.Form["key"];
                     string institID = Request.Form["institID"];
+                    //filename template : 01-0030-7copy.xlsm
                     var fileName = Path.GetFileName(file.FileName);
-
+                    var studyID = fileName.Substring(0, 9);
+                    
+                    int iRetVal = DbUtils.IsStudyIDCleared(studyID);
+                    if (iRetVal != 0)
+                    {
+                        nlogger.LogInfo("ChecksUpload - file name: " + fileName + ", IsStudyCleared: " + iRetVal);
+                        return Content("IsStudyCleared: " + iRetVal);
+                    }
                     nlogger.LogInfo("ChecksUpload - file name: " + fileName + ", key: " + key);
 
                     if (!ssUtils.VerifyKey(key, fileName, institID))

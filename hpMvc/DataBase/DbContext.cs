@@ -828,6 +828,35 @@ namespace hpMvc.DataBase
             }
         }
 
+        public static int IsStudyIDCleared(string studyID)
+        {
+            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+
+            using (SqlConnection conn = new SqlConnection(strConn))
+            {
+                try
+                {
+                    //throw new Exception("test error");
+                    SqlCommand cmd = new SqlCommand("", conn);
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.CommandText = "IsStudyIDCleared";
+                    SqlParameter param = new SqlParameter("@studyID", studyID);
+                    cmd.Parameters.Add(param);
+
+                    conn.Open();
+                    int count = (Int32)cmd.ExecuteScalar();
+                    if (count == 1)
+                        return 1;
+                    return 0;
+                }
+                catch (Exception ex)
+                {
+                    nlogger.LogError(ex, "StudyID:" + studyID);
+                    return -1;
+                }
+            }
+        }
+
         public static string GetInitializePassword(string studyID)
         {
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
