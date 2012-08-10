@@ -505,6 +505,9 @@
     <Content Include="Scripts\Test.js" />
     <Content Include="Scripts\UploadAjax.js" />
     <Content Include="Scripts\UserManagement.js" />
+    <Content Include="staff.sitemap">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\Admin\ManageUserRoles.cshtml">
       <SubType>Code</SubType>
     </Content>
@@ -594,9 +597,6 @@
     <Content Include="Views\Coordinator\CompleteSubjectPartial.cshtml" />
     <Content Include="Views\Coordinator\CompleteSubject.cshtml" />
     <Content Include="Views\Coordinator\CompleteSubjectConfirmationPartial.cshtml" />
-    <Content Include="staff.sitemap">
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="QuickLinks.sitemap">
       <SubType>Designer</SubType>
     </Content>
