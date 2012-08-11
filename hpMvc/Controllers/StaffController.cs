@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using hpMvc.Models;
 using hpMvc.DataBase;
+using hpMvc.Models;
 using Telerik.Web.Mvc;
+
 
 namespace hpMvc.Controllers
 {
@@ -44,6 +46,34 @@ namespace hpMvc.Controllers
             {
                 SiteMapManager.SiteMaps.Register<XmlSiteMap>("quick", sitmap => sitmap.LoadFrom("~/QuickLinks.sitemap"));
             }
+            return View();
+        }
+
+        public ActionResult Regulatory()
+        {
+            DirectoryInfo di = new DirectoryInfo(@"C:\Dropbox\HalfPint Website Docs Library\Regulatory");
+            var files = from f in di.EnumerateFiles()
+                      select new
+                      {
+                          FileInf = f,
+                      };
+            foreach (var f in files)
+            {
+                Console.WriteLine("{0}", f.FileInf.Name );
+            }
+
+
+            var dirs = from d in  di.EnumerateDirectories()
+                      select new
+                      {
+                          ProgDir = d,
+                      };
+
+            foreach (var d in dirs)
+            {
+                Console.WriteLine("{0}", d.ProgDir.Name);
+            }
+
             return View();
         }
 
