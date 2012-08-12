@@ -51,30 +51,59 @@ namespace hpMvc.Controllers
 
         public ActionResult Regulatory()
         {
-            DirectoryInfo di = new DirectoryInfo(@"C:\Dropbox\HalfPint Website Docs Library\Regulatory");
-            var files = from f in di.EnumerateFiles()
-                      select new
-                      {
-                          FileInf = f,
-                      };
-            foreach (var f in files)
-            {
-                Console.WriteLine("{0}", f.FileInf.Name );
-            }
+            var folderList = new List<StaffFolder>();
+
+            GetFolderFiles(@"C:\Dropbox\HalfPint Website Docs Library\Regulatory", folderList);
 
 
-            var dirs = from d in  di.EnumerateDirectories()
-                      select new
-                      {
-                          ProgDir = d,
-                      };
+            //string[] dircts = Directory.GetDirectories(@"C:\Dropbox\HalfPint Website Docs Library\Regulatory");
+            //foreach (var dir in dircts)
+            //{
+                
+            //}
+                      
 
-            foreach (var d in dirs)
-            {
-                Console.WriteLine("{0}", d.ProgDir.Name);
-            }
+            //var dirs = from d in  di.EnumerateDirectories()
+            //          select new
+            //          {
+            //              ProgDir = d,
+            //          };
+
+            //foreach (var d in dirs)
+            //{
+            //    Console.WriteLine("{0}", d.ProgDir.Name);
+            //}
 
             return View();
+        }
+
+        public void GetFolderFiles(string folderName, List<StaffFolder> folderList)
+        {            
+            var sf = new StaffFolder(Path.GetFileName(folderName));
+            List<StaffFile> files = new List<StaffFile>();
+            sf.Files = files;
+
+            DirectoryInfo di = new DirectoryInfo(folderName);
+            var dFiles = from f in di.EnumerateFiles()
+                         select new
+                         {
+                             FileInf = f,
+                         };
+            foreach (var f in dFiles)
+            {
+
+                StaffFile file = new StaffFile(f.FileInf.Name);
+                file.FolderName = sf.FolderName;
+                files.Add(file);
+            }
+
+        }
+
+        public StaffFolder GetFolderFiles()
+        {
+            StaffFolder sf = new StaffFolder();
+
+            return sf;
         }
 
         public ActionResult GetInitializePassword()

@@ -127,6 +127,7 @@
     <Compile Include="Models\ManageRollsModel.cs" />
     <Compile Include="Models\PostTestsModel.cs" />
     <Compile Include="Models\SensorModel.cs" />
+    <Compile Include="Models\StaffFolderModel.cs" />
     <Compile Include="Models\TestModels.cs" />
     <Compile Include="Models\UtilityModels.cs" />
     <Compile Include="Models\ValidationExtensions.cs" />
