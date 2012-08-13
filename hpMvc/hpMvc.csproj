@@ -604,7 +604,7 @@
     <Content Include="admin.sitemap">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Views\Staff\Regulatory.cshtml" />
+    <Content Include="Views\Staff\FolderDisplay.cshtml" />
     <None Include="_bin_deployableAssemblies\Microsoft.Web.Infrastructure.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.Razor.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.dll" />

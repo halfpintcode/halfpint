@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <siteMap>
   <siteMapNode title="QuickLinks">
-    <siteMapNode title="Quick Links" class="QuickLinks">      
+    <siteMapNode title="Staff Quick Links" class="QuickLinks">      
     </siteMapNode>
     <siteMapNode title="Important Contacts">
       <siteMapNode title="National Contacts" controller="Download" action="GetFile" fileName="HalfPint National Contact Info.pdf" folder="Quick Links~Important Contacts" class="StaffOnly" />

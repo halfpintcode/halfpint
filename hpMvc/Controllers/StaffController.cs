@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using hpMvc.DataBase;
 using hpMvc.Models;
 using Telerik.Web.Mvc;
+using System.Configuration;
 
 
 namespace hpMvc.Controllers
@@ -49,53 +50,52 @@ namespace hpMvc.Controllers
             return View();
         }
 
-        public ActionResult Regulatory()
+        public ActionResult FolderDisplay(string folderName)
         {
             var folderList = new List<StaffFolder>();
 
-            GetFolderFiles(@"C:\Dropbox\HalfPint Website Docs Library\Regulatory", folderList);
-
-
-            //string[] dircts = Directory.GetDirectories(@"C:\Dropbox\HalfPint Website Docs Library\Regulatory");
-            //foreach (var dir in dircts)
-            //{
-                
-            //}
-                      
-
-            //var dirs = from d in  di.EnumerateDirectories()
-            //          select new
-            //          {
-            //              ProgDir = d,
-            //          };
-
-            //foreach (var d in dirs)
-            //{
-            //    Console.WriteLine("{0}", d.ProgDir.Name);
-            //}
-
-            return View();
+            string path = ConfigurationManager.AppSettings["FileRepositoryPath"].ToString();
+            path = Path.Combine(path, folderName);
+            GetFolderFiles(path, folderName, folderList);
+            ViewBag.FolderName = folderName;
+            
+            return View(folderList);
         }
 
-        public void GetFolderFiles(string folderName, List<StaffFolder> folderList)
-        {            
-            var sf = new StaffFolder(Path.GetFileName(folderName));
+        public void GetFolderFiles(string path, string topFolder, List<StaffFolder> folderList)
+        {  
+            //DirectoryInfo di = new DirectoryInfo(path);
+            string staffFolder = topFolder;
+                        
+            string[] parts = path.Split(new string[] { "\\" }, StringSplitOptions.None);
+            int iStart =100;
+            for (int i = 3; i < parts.Length; i++)
+            {
+                if (parts[i] == topFolder)
+                {
+                    iStart = i;
+                }
+                if (i > iStart)
+                    staffFolder += "/" + parts[i];
+
+            }
+            
+            var sf = new StaffFolder(staffFolder);
             List<StaffFile> files = new List<StaffFile>();
             sf.Files = files;
+            folderList.Add(sf);
 
-            DirectoryInfo di = new DirectoryInfo(folderName);
-            var dFiles = from f in di.EnumerateFiles()
-                         select new
-                         {
-                             FileInf = f,
-                         };
-            foreach (var f in dFiles)
+            string fileFolder = staffFolder.Replace("/", "~");
+
+            foreach (string f in Directory.GetFiles(path))
             {
-
-                StaffFile file = new StaffFile(f.FileInf.Name);
-                file.FolderName = sf.FolderName;
+                StaffFile file = new StaffFile(Path.GetFileName(f));
+                file.FolderName = fileFolder;
                 files.Add(file);
-            }
+            } 
+
+            foreach (string d in Directory.GetDirectories(path))
+                GetFolderFiles(d, topFolder, folderList);                       
 
         }
 

@@ -51,6 +51,12 @@ namespace hpMvc
             );
 
             routes.MapRoute(
+                "Staff", // Route name
+                "Staff/{action}/{folderName}", // URL with parameters
+                new { controller = "Staff", action = "Index", folderName = UrlParameter.Optional } // Parameter defaults
+            );
+
+            routes.MapRoute(
                 "Default", // Route name
                 "{controller}/{action}/{id}", // URL with parameters
                 new { controller = "Home", action = "Index", id = UrlParameter.Optional } // Parameter defaults

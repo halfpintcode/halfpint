@@ -1,0 +1,37 @@
+﻿@using Telerik.Web.Mvc.UI
+@using hpMvc.Models;
+@model IEnumerable<StaffFolder>
+
+
+@{
+    ViewBag.Title = "Regulatory";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.FolderName</h2>
+@(Html.Telerik().PanelBar()
+        .Name("PanelBar")
+        .HtmlAttributes(new { style = "width: 500px;" })
+        .BindTo(Model, mappings => 
+        {
+            mappings.For<StaffFolder>(binding => binding
+                    .ItemDataBound((item, folder) =>
+                    {
+                        item.Text = folder.FolderName;
+                        
+                    })
+                    .Children(folder => folder.Files));
+            mappings.For<StaffFile>(binding => binding
+                    .ItemDataBound((item, file) =>
+                    {
+                        item.Text = file.FileName;
+                        item.ControllerName = "Download";
+                        item.ActionName = "GetFile";
+                        item.RouteValues.Add("fileName", file.FileName);
+                        item.RouteValues.Add("folder", file.FolderName);
+                    }));
+        })
+)
+
+@(Html.Telerik().StyleSheetRegistrar().DefaultGroup(group => group.Add("telerik.common.css").Add("telerik.vista.css")))
+@(Html.Telerik().ScriptRegistrar().jQuery(false))

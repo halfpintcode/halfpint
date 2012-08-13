@@ -160,8 +160,14 @@
       <siteMapNode title="CAF-PINT Summary" controller="Download" action="GetFile" fileName="CAF-PINT Ancillary Summary 080712.pdf" folder="Ancillary Studies" />
     </siteMapNode>
     <siteMapNode title="Regulatory" class="StaffOnly" >
-      <siteMapNode title="Protocol" controller="Download" action="GetFile" fileName="HalfPint Protocol.pdf" folder="Regulatory" />
-      <siteMapNode title="DSMB" controller="Download" action="GetFile" fileName="HALF-PINT DSMB Charter.pdf" folder="Regulatory" />
+      <siteMapNode title="DSMB" >
+        <siteMapNode title="HALF-PINT DSMB Charter" class="StaffOnly" controller="Download" action="GetFile" fileName="HALF-PINT DSMB Charter.pdf" folder="Regulatory~DSMB" />        
+      </siteMapNode>
+      <siteMapNode title="Protocol" >
+        <siteMapNode title="Protocol" controller="Download" action="GetFile" fileName="HalfPint Protocol.pdf" folder="Regulatory~Protocol" />
+      </siteMapNode>
+      <siteMapNode title="FDA Exemption Letter" controller="Download" action="GetFile" fileName="FDA Exemption Letter.pdf" folder="Regulatory" />
+      <siteMapNode title="NSR Determination" controller="Download" action="GetFile" fileName="NSR Determination.pdf" folder="Regulatory" />
     </siteMapNode>
   </siteMapNode>
 </siteMap>
