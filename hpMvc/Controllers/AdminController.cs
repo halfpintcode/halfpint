@@ -332,6 +332,14 @@ namespace hpMvc.Controllers
             return this.File(fullpath, "application/vnd.ms-excel.sheet.macroEnabled.12", fileName.Replace("copy", ""));
         }
 
+        public FilePathResult DownloadChecksTemplate()
+        {
+            var fileName = "Checks_tmpl.xlsm";
+            var fullpath = Path.Combine(Server.MapPath("~/ssTemplate"), fileName);
+            nlogger.LogInfo("GetChecksTemplate");
+            return this.File(fullpath, "application/vnd.ms-excel.sheet.macroEnabled.12", fileName.Replace("copy", ""));
+        }
+
         public ActionResult TestEmail()
         {
             MembershipUser user = Membership.GetUser(User.Identity.Name);

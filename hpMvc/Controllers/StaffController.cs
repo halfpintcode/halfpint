@@ -50,19 +50,19 @@ namespace hpMvc.Controllers
             return View();
         }
 
-        public ActionResult FolderDisplay(string folderName)
+        public ActionResult FolderDisplay(string folder)
         {
             var folderList = new List<StaffFolder>();
 
             string path = ConfigurationManager.AppSettings["FileRepositoryPath"].ToString();
-            path = Path.Combine(path, folderName);
-            GetFolderFiles(path, folderName, folderList);
-            ViewBag.FolderName = folderName;
+            path = Path.Combine(path, folder);
+            GetFolderFiles(path, folder, folderList);
+            ViewBag.FolderName = folder;
             
             return View(folderList);
         }
 
-        public void GetFolderFiles(string path, string topFolder, List<StaffFolder> folderList)
+        private void GetFolderFiles(string path, string topFolder, List<StaffFolder> folderList)
         {  
             //DirectoryInfo di = new DirectoryInfo(path);
             string staffFolder = topFolder;
@@ -99,7 +99,7 @@ namespace hpMvc.Controllers
 
         }
 
-        public StaffFolder GetFolderFiles()
+        private StaffFolder GetFolderFiles()
         {
             StaffFolder sf = new StaffFolder();
 

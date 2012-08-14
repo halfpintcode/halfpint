@@ -506,9 +506,6 @@
     <Content Include="Scripts\Test.js" />
     <Content Include="Scripts\UploadAjax.js" />
     <Content Include="Scripts\UserManagement.js" />
-    <Content Include="staff.sitemap">
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="Views\Admin\ManageUserRoles.cshtml">
       <SubType>Code</SubType>
     </Content>
@@ -605,6 +602,9 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\Staff\FolderDisplay.cshtml" />
+    <Content Include="staff.sitemap2">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="_bin_deployableAssemblies\Microsoft.Web.Infrastructure.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.Razor.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.dll" />

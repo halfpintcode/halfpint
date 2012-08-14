@@ -14,6 +14,7 @@
       <siteMapNode title="CHECKS">
         <siteMapNode title="Download a Saved CHECKS" controller="Admin" action="GetSavedChecks" />
         <siteMapNode title="Upload CHECKS Template" controller="FileManager" action="TemplateUpload" />
+        <siteMapNode title="Download CHECKS Template" controller="Admin" action="DownloadChecksTemplate" />
       </siteMapNode>
       <siteMapNode title="Randomization">
         <siteMapNode title="Show Randomized Studies" controller="Dcc" action="RandomizedStudies" />

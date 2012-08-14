@@ -52,7 +52,7 @@ namespace hpMvc
 
             routes.MapRoute(
                 "Staff", // Route name
-                "Staff/{action}/{folderName}", // URL with parameters
+                "Staff/{action}/{folder}", // URL with parameters
                 new { controller = "Staff", action = "Index", folderName = UrlParameter.Optional } // Parameter defaults
             );
 

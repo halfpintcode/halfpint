@@ -1,0 +1,167 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<siteMap>
+  <siteMapNode title="Staff">
+      <siteMapNode title="Training">
+        <siteMapNode title="Data Entry Training">
+          <siteMapNode title="Data Entry Screening and Tracking Slides" controller="Download" action="GetFile" fileName="Data Entry-Screening and Tracking Slides.pdf" folder="Training~Data Entry Training" />
+          <siteMapNode title="Screening and Tracking Video" />
+          <siteMapNode title="Data Entry InForm Slides" controller="Download" action="GetFile" fileName="Data Entry-Screening and Tracking Slides.pdf" folder="Training~Data Entry Training" />
+          <siteMapNode title="InForm Video" />
+          <siteMapNode title="Demonstration Mock Patients" controller="Download" action="GetFile" fileName="Demonstration Mock Patients.pdf" folder="Training~Data Entry Training" />
+          <siteMapNode title="InForm Training Database" url="https://study.tch.harvard.edu/halfpinttrain" class="StaffOnly"/>
+        </siteMapNode>
+        <siteMapNode title="Competencies" class="StaffOnly">
+          <siteMapNode title="Medtronic Enlite" controller="Download" action="GetFile" fileName="Medtronic Enlite Competency.pdf" folder="Training~Competencies" />
+          <siteMapNode title="Nova StatStrip" controller="Download" action="GetFile" fileName="Nova StatStrip Competency.pdf" folder="Training~Competencies" />
+          <siteMapNode title="Vamp Jr" controller="Download" action="GetFile" fileName="Vamp Jr Competency.pdf" folder="Training~Competencies" />          
+        </siteMapNode>
+        <siteMapNode title="Online Modules and Post-Tests" controller="PostTests" action="Initialize" name="Select Your Name" />
+        <siteMapNode title="Manual Entry Post-Tests Completed" controller="PostTestsAdmin" action="Index" class="StaffOnly" />
+        <siteMapNode title="Paper Format Post-Tests" class="StaffOnly">
+          <siteMapNode title="Overview Post-Test" controller="Download" action="GetFile" fileName="Overview Post-Test.pdf" folder="Training~Paper Format Post-Tests" />
+          <siteMapNode title="Medtronic Enlite Post-Test" controller="Download" action="GetFile" fileName="Medtronic Enlite Post-Test.pdf" folder="Training~Paper Format Post-Tests" />
+          <siteMapNode title="Guardian CS Post-Test" controller="Download" action="GetFile" fileName="Guardian CS Post-Test.pdf" folder="Training~Paper Format Post-Tests" />
+          <siteMapNode title="Nova StatStrip Post-Test" controller="Download" action="GetFile" fileName="Nova StatStrip Post-Test.pdf" folder="Training~Paper Format Post-Tests" />
+          <siteMapNode title="Vamp Jr Post-Test" controller="Download" action="GetFile" fileName="Vamp Jr Post-Test.pdf" folder="Training~Paper Format Post-Tests" />
+          <siteMapNode title="CHECKS Post-Test" controller="Download" action="GetFile" fileName="CHECKS Post-Test.pdf" folder="Training~Paper Format Post-Tests" />
+        </siteMapNode>
+        <siteMapNode title="Paper Format Master Post-Tests" class="StaffOnly">
+          <siteMapNode title="Overview Post-Test Master" controller="Download" action="GetFile" fileName="Overview Post-Test-MASTER.pdf" folder="Training~Paper Format Master Post-Tests" />
+          <siteMapNode title="Medtronic Enlite Post-Test Master" controller="Download" action="GetFile" fileName="Medtronic Enlite Post-Test-MASTER.pdf" folder="Training~Paper Format Master Post-Tests" />
+          <siteMapNode title="Guardian CS Post-Test Master" controller="Download" action="GetFile" fileName="Guardian CS Post-Test-MASTER.pdf" folder="Training~Paper Format Master Post-Tests" />
+          <siteMapNode title="Nova StatStrip Post-Test Master" controller="Download" action="GetFile" fileName="Nova StatStrip Post-Test-MASTER.pdf" folder="Training~Paper Format Master Post-Tests" />
+          <siteMapNode title="Vamp Jr Post-Test Master" controller="Download" action="GetFile" fileName="Vamp Jr Post-Test-MASTER.pdf" folder="Training~Paper Format Master Post-Tests" />
+          <siteMapNode title="CHECKS Post-Test Master" controller="Download" action="GetFile" fileName="CHECKS Post-Test-MASTER.pdf" folder="Training~Paper Format Master Post-Tests" />
+        </siteMapNode>
+        <siteMapNode title="Screening" controller="Download" action="GetFile" fileName="Screening Reference Sheet.pdf" folder="Training" />
+        <siteMapNode title="RN Daily Procedures" controller="Download" action="GetFile" fileName="Bedside RN Daily Overview.pdf" folder="Training" />
+        <siteMapNode title="Training Checklist" controller="Download" action="GetFile" fileName="Nurse Training Checklist.pdf" folder="Training" />
+      </siteMapNode>
+    <siteMapNode title="Resources" >
+      <siteMapNode title="Form Completion Guidelines" class="StaffOnly" >
+        <siteMapNode title="Daily Screening Form" controller="Download" action="GetFile" fileName="Daily Screening Form.pdf" folder="Resources~Form Completion Guidelines" />
+        <siteMapNode title="Consented Subject Tracking Sheet" controller="Download" action="GetFile" fileName="Consented Subject Tracking Sheet.pdf" folder="Resources~Form Completion Guidelines" />
+        <siteMapNode title="DOV" controller="Download" action="GetFile" fileName="DOV.pdf" folder="Resources~Form Completion Guidelines" />
+        <siteMapNode title="Form 1 Inclusion and Exclusion Criteria" controller="Download" action="GetFile" fileName="Form 1 Inclusion and Exclusion Criteria.pdf" folder="Resources~Form Completion Guidelines" />
+        <siteMapNode title="Form 2 Tracking and Randomization" controller="Download" action="GetFile" fileName="Form 2 Tracking and Randomization.pdf" folder="Resources~Form Completion Guidelines" />
+        <siteMapNode title="Form 3 Medical History and Clinical Information" controller="Download" action="GetFile" fileName="Form 3 Medical History and Clinical Information.pdf" folder="Resources~Form Completion Guidelines" />
+        <siteMapNode title="Form 4 Risk of Mortality at ICU Admission" controller="Download" action="GetFile" fileName="Form 4 Risk of Mortality at ICU Admission.pdf" folder="Resources~Form Completion Guidelines" />
+        <siteMapNode title="Form 5 Daily ICU" controller="Download" action="GetFile" fileName="Form 5 Daily ICU.pdf" folder="Resources~Form Completion Guidelines" />
+        <siteMapNode title="Form 5N Daily Non-ICU Inpatient Unit" controller="Download" action="GetFile" fileName="Form 5N Daily Non-ICU Inpatient Unit.pdf" folder="Resources~Form Completion Guidelines" />
+        <siteMapNode title="Form 6 Discharge" controller="Download" action="GetFile" fileName="Form 6 Discharge.pdf" folder="Resources~Form Completion Guidelines" />
+        <siteMapNode title="Form 7 Adverse Event" controller="Download" action="GetFile" fileName="Form 7 Adverse Event.pdf" folder="Resources~Form Completion Guidelines" />
+        <siteMapNode title="Form 8 Protocol Deviation" controller="Download" action="GetFile" fileName="Form 8 Protocol Deviation.pdf" folder="Resources~Form Completion Guidelines" />
+      </siteMapNode>
+      <siteMapNode title="eCRFs" class="StaffOnly" >
+        <siteMapNode title="HALF-PINT Form 1 Version 1" controller="Download" action="GetFile" fileName="HALF-PINT Form 1 Version 1.pdf" folder="Resources~eCRFs" />
+        <siteMapNode title="HALF-PINT Form 2 Version 1" controller="Download" action="GetFile" fileName="HALF-PINT Form 2 Version 1.pdf" folder="Resources~eCRFs" />
+        <siteMapNode title="HALF-PINT Form 3 Version 1" controller="Download" action="GetFile" fileName="HALF-PINT Form 3 Version 1.pdf" folder="Resources~eCRFs" />
+        <siteMapNode title="HALF-PINT Form 4 Version 1" controller="Download" action="GetFile" fileName="HALF-PINT Form 4 Version 1.pdf" folder="Resources~eCRFs" />
+        <siteMapNode title="HALF-PINT Form 5 Version 1" controller="Download" action="GetFile" fileName="HALF-PINT Form 5 Version 1.pdf" folder="Resources~eCRFs" />
+        <siteMapNode title="HALF-PINT Form 5N Version 1" controller="Download" action="GetFile" fileName="HALF-PINT Form 5N Version 1.pdf" folder="Resources~eCRFs" />
+        <siteMapNode title="HALF-PINT Form 6 Version 1" controller="Download" action="GetFile" fileName="HALF-PINT Form 6 Version 1.pdf" folder="Resources~eCRFs" />
+        <siteMapNode title="HALF-PINT Form 7 Version 1" controller="Download" action="GetFile" fileName="HALF-PINT Form 7 Version 1.pdf" folder="Resources~eCRFs" />
+        <siteMapNode title="HALF-PINT Form 8 Version 1" controller="Download" action="GetFile" fileName="HALF-PINT Form 8 Version 1.pdf" folder="Resources~eCRFs" />
+        <siteMapNode title="HALF-PINT Form DOV Version 1" controller="Download" action="GetFile" fileName="HALF-PINT Form DOV Version 1.pdf" folder="Resources~eCRFs" />
+      </siteMapNode>
+      <siteMapNode title="Device Manuals" class="StaffOnly" >
+        <siteMapNode title="Enlite User Guide" controller="Download" action="GetFile" fileName="Enlite User Guide.pdf" folder="Resources~Device Manuals" />
+        <siteMapNode title="StatStrip Glucose Meter Manual" controller="Download" action="GetFile" fileName="StatStrip Glucose Meter Manual.pdf" folder="Resources~Device Manuals" />
+        <siteMapNode title="VAMP Jr Inservice Bulletin" controller="Download" action="GetFile" fileName="VAMP Jr Inservice Bulletin.pdf" folder="Resources~Device Manuals" />
+        <siteMapNode title="Guardian CS User Guide" controller="Download" action="GetFile" fileName="Guardian CS User Guide.pdf" folder="Resources~Device Manuals" />
+      </siteMapNode>
+      <siteMapNode title="Insulin Labeling" >
+        <siteMapNode title="Humulin R Labeling" controller="Download" action="GetFile" fileName="Humulin R Labeling.pdf" folder="Resources~Insulin Labeling" />
+        <siteMapNode title="Novolin R Labeling " controller="Download" action="GetFile" fileName="Novolin R Labeling.pdf" folder="Resources~Insulin Labeling" />
+      </siteMapNode>
+      <siteMapNode title="Bedside Binder" class="StaffOnly" controller="Download" action="GetFile" fileName="BedsideReferenceBinder.pdf" folder="Resources" />
+      <siteMapNode title="Feeding Guidelines" class="StaffOnly" />
+      <siteMapNode title="Insulin Order Template" class="StaffOnly" controller="Download" action="GetFile" fileName="Insulin Order Template.pdf" folder="Resources" />
+      <siteMapNode title="VAMP Line Placement Recommendations" class="StaffOnly" controller="Download" action="GetFile" fileName="VAMP Placement.pdf" folder="Resources" />
+      <siteMapNode title="Screening and Study Management FAQ" class="StaffOnly" controller="Download" action="GetFile" fileName="HALF-PINT Screening and Study Management FAQ.pdf" folder="Resources" />
+      <siteMapNode title="Study Overview" class="StaffOnly" controller="Download" action="GetFile" fileName="Study Overview.pdf" folder="Resources" />
+      <siteMapNode title="Common Call Questions" class="StaffOnly" controller="Download" action="GetFile" fileName="Common Call Questions.pdf" folder="Resources" />
+    </siteMapNode>
+    <siteMapNode title="Enrollment" >
+      <siteMapNode title="HalfPint Consent Form" controller="Download" action="GetFile" fileName="Site~ Consent Form.pdf" folder="Enrollment" class="CHBHide" />
+      <siteMapNode title="HalfPint Assent Form" controller="Download" action="GetFile" fileName="Site~ Assent Form.pdf" folder="Enrollment" class="CHBHide" />
+      <siteMapNode title="HalfPint Consent Form for Relying Sites" controller="Download" action="GetFile" fileName="HalfPint Consent Form for Relying Sites.pdf" folder="Enrollment" class="AdminDCCInvestigator CHBOnly" />
+      <siteMapNode title="CHOP" class="AdminDCC">
+        <siteMapNode title="HalfPint Consent Form" controller="Download" action="GetFile" fileName="CHOP HalfPint Consent Form.pdf" folder="Enrollment~CHOP" />
+        <siteMapNode title="HalfPint Assent Form" controller="Download" action="GetFile" fileName="CHOP HalfPint Assent Form.pdf" folder="Enrollment~CHOP" />
+      </siteMapNode>
+      <siteMapNode title="Cincinnati" class="AdminDCC">
+        <siteMapNode title="HalfPint Consent Form" controller="Download" action="GetFile" fileName="CCHMC HalfPint Consent Form.pdf" folder="Enrollment~Cincinnati" />
+        <siteMapNode title="HalfPint Assent Form" controller="Download" action="GetFile" fileName="CCHMC HalfPint Assent Form.pdf" folder="Enrollment~Cincinnati" />
+      </siteMapNode>
+      <siteMapNode title="Denver" class="AdminDCC">
+        <siteMapNode title="HalfPint Consent Form" controller="Download" action="GetFile" fileName="Denver HalfPint Consent Form.pdf" folder="Enrollment~Denver" />
+        <siteMapNode title="HalfPint Assent Form" controller="Download" action="GetFile" fileName="Denver HalfPint Assent Form.pdf" folder="Enrollment~Denver" />
+      </siteMapNode>
+      <siteMapNode title="Nationwide" class="AdminDCC">
+        <siteMapNode title="HalfPint Consent Form" controller="Download" action="GetFile" fileName="Nationwide HalfPint Consent Form.pdf" folder="Enrollment~Nationwide" />
+        <siteMapNode title="HalfPint Assent Form" controller="Download" action="GetFile" fileName="Nationwide HalfPint Assent Form.pdf" folder="Enrollment~Nationwide" />
+      </siteMapNode>
+      <siteMapNode title="Penn State" class="AdminDCC">
+        <siteMapNode title="HalfPint Consent Form" controller="Download" action="GetFile" fileName="PennState HalfPint Consent Form.pdf" folder="Enrollment~Penn State" />
+        <siteMapNode title="HalfPint Assent Form" controller="Download" action="GetFile" fileName="PennState HalfPint Assent Form.pdf" folder="Enrollment~Penn State" />
+      </siteMapNode>
+      <siteMapNode title="Inclusion/Exclusion Criteria" controller="Download" action="GetFile" fileName="Inclusion-Exclusion Criteria.pdf" folder="Enrollment" />
+      <siteMapNode title="Enrollment Flowchart" class="StaffOnly"/>      
+    </siteMapNode>
+    <siteMapNode title="Study Management" class="StaffOnly" >
+      <siteMapNode title="Neurodevelopmental" class="StaffOnly" >
+        <siteMapNode title="Contact and Demographic Information Form" />
+        <siteMapNode title="CBCL" >
+          <siteMapNode title="CBCL Ages 1.5-5" controller="Download" action="GetFile" fileName="CBCL Age 1.5-5.pdf" folder="Study Management~Neurodevelopmental~CBCL" class="InvestigatorOnly" />
+          <siteMapNode title="CBCL Ages 6-18" controller="Download" action="GetFile" fileName="CBCL Age 6-18.pdf" folder="Study Management~Neurodevelopmental~CBCL" class="InvestigatorOnly" />
+        </siteMapNode>
+        <siteMapNode title="PedsQL" >
+          <siteMapNode title="PedsQL4 Age 5 to 7 Child Report" controller="Download" action="GetFile" fileName="PedsQL4 Age 5 to 7 Child Report.pdf" folder="Study Management~Neurodevelopmental~PedsQL" class="InvestigatorOnly" />
+          <siteMapNode title="PedsQL4 Age 5 to 7 Parent Report" controller="Download" action="GetFile" fileName="PedsQL4 Age 5 to 7 Parent Report.pdf" folder="Study Management~Neurodevelopmental~PedsQL" class="InvestigatorOnly" />
+          <siteMapNode title="PedsQL4 Age 8 to 12 Child Report" controller="Download" action="GetFile" fileName="PedsQL4 Age 8 to 12 Child Report.pdf" folder="Study Management~Neurodevelopmental~PedsQL" class="InvestigatorOnly" />
+          <siteMapNode title="PedsQL4 Age 8 to 12 Parent Report" controller="Download" action="GetFile" fileName="PedsQL4 Age 8 to 12 Parent Report.pdf" folder="Study Management~Neurodevelopmental~PedsQL" class="InvestigatorOnly" />
+        </siteMapNode>
+        <siteMapNode title="Age 2-4" />
+        <siteMapNode title="Age 5" />
+        <siteMapNode title="Age 6-7" />
+        <siteMapNode title="Age 8-12" />
+        <siteMapNode title="Age 13-16" />
+        <siteMapNode title="Vineland II" class="InvestigatorOnly" />
+      </siteMapNode>
+      <siteMapNode title="Study Materials and Logs" >
+        <siteMapNode title="Daily Screening Form" >
+          <siteMapNode title="Daily Screening Form - 6 columns" controller="Download" action="GetFile" fileName="Daily Screening Form - 6 columns.pdf" folder="Study Management~Study Materials and Logs~Daily Screening Form" />
+          <siteMapNode title="Daily Screening Form - 20 columns" controller="Download" action="GetFile" fileName="Daily Screening Form - 20 columns.pdf" folder="Study Management~Study Materials and Logs~Daily Screening Form" />
+        </siteMapNode>
+        <siteMapNode title="Enrolled Subject Bedside Sheet" >
+          <siteMapNode title="Enrolled Subject Bedside Sheet-CHB" controller="Download" action="GetFile" fileName="Enrolled Subject Bedside Sheet-CHB.pdf" folder="Study Management~Study Materials and Logs~Enrolled Subject Bedside Sheet" />
+          <siteMapNode title="Enrolled Subject Bedside Sheet-Generic" controller="Download" action="GetFile" fileName="Enrolled Subject Bedside Sheet-Generic.docx" folder="Study Management~Study Materials and Logs~Enrolled Subject Bedside Sheet" />
+        </siteMapNode>
+        <siteMapNode title="Study Logs" >
+          <siteMapNode title="Consent Log" controller="Download" action="GetFile" fileName="Consent Log.pdf" folder="Study Management~Study Materials and Logs~Study Logs" />
+          <siteMapNode title="Delegation Log" controller="Download" action="GetFile" fileName="Delegation Log.pdf" folder="Study Management~Study Materials and Logs~Study Logs" />
+          <siteMapNode title="Training Documentation Log" controller="Download" action="GetFile" fileName="Training Documentation Log.pdf" folder="Study Management~Study Materials and Logs~Study Logs" />
+        </siteMapNode>
+        <siteMapNode title="Consented Subject Tracking Sheet" controller="Download" action="GetFile" fileName="Consented Subject Tracking Sheet.pdf" folder="Study Management~Study Materials and Logs" />
+      </siteMapNode>
+      <siteMapNode title="Standard Operating Procedures" >
+        <siteMapNode title="AE and UP SOP" controller="Download" action="GetFile" fileName="AE and UP SOP.pdf" folder="Study Management~Standard Operating Procedures" />
+        <siteMapNode title="Central IRB SOP" controller="Download" action="GetFile" fileName="Central IRB SOP.pdf" folder="Study Management~Standard Operating Procedures" />
+        <siteMapNode title="Central IRB SOP - Appendix 1" controller="Download" action="GetFile" fileName="Central IRB SOP - Appendix 1.pdf" folder="Study Management~Standard Operating Procedures" />
+        <siteMapNode title="Nova StatStrip SOP" controller="Download" action="GetFile" fileName="Nova StatStrip SOP.pdf" folder="Study Management~Standard Operating Procedures" />
+      </siteMapNode>
+      <siteMapNode title="Document Management" controller="Download" action="GetFile" fileName="Document Management Recommendations.pdf" folder="Study Management" />
+      <siteMapNode title="Committees" controller="Download" action="GetFile" fileName="Committees.pdf" folder="Study Management~Committees" />
+      <siteMapNode title="Supplies" controller="Download" action="GetFile" fileName="HalfPint Supply Ordering Info.pdf" folder="Study Management" />
+    </siteMapNode>
+    <siteMapNode title="Ancillary Studies" >
+      <siteMapNode title="Ancillary Studies Guidelines" class="StaffOnly" controller="Download" action="GetFile" fileName="Ancillary Study Guidelines.pdf" folder="Ancillary Studies" />
+      <siteMapNode title="CAF-PINT Summary" controller="Download" action="GetFile" fileName="CAF-PINT Ancillary Summary 080712.pdf" folder="Ancillary Studies" />
+    </siteMapNode>
+    <siteMapNode title="Regulatory" controller="Staff" action="FolderDisplay" folder="Regulatory" class="StaffOnly" >
+      
+    </siteMapNode>
+  </siteMapNode>
+</siteMap>
+
