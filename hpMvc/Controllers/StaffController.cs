@@ -62,6 +62,15 @@ namespace hpMvc.Controllers
             return View(folderList);
         }
 
+        public ActionResult FolderDisplayTree(string folder)
+        {            
+            string path = ConfigurationManager.AppSettings["FileRepositoryPath"].ToString();
+            path = Path.Combine(path, folder);
+            
+            ViewBag.FolderName = folder;
+            var list = DynamicFolderFile.GetFileFolderModel(path, folder);
+            return View(list);
+        }
         private void GetFolderFiles(string path, string topFolder, List<StaffFolder> folderList)
         {  
             //DirectoryInfo di = new DirectoryInfo(path);
@@ -98,14 +107,7 @@ namespace hpMvc.Controllers
                 GetFolderFiles(d, topFolder, folderList);                       
 
         }
-
-        private StaffFolder GetFolderFiles()
-        {
-            StaffFolder sf = new StaffFolder();
-
-            return sf;
-        }
-
+                
         public ActionResult GetInitializePassword()
         {
             int siteID = DbUtils.GetSiteidIDForUser(HttpContext.User.Identity.Name);

@@ -345,6 +345,9 @@
     <Content Include="Content\Broadcast.css" />
     <Content Include="Content\CompleteSubject.css" />
     <Content Include="Content\CoordInitialize.css" />
+    <Content Include="Content\Images\contact.png" />
+    <Content Include="Content\Images\file.png" />
+    <Content Include="Content\Images\folder.png" />
     <Content Include="Content\jquery.dataTables.css" />
     <Content Include="Content\Images\mailLogo.gif" />
     <Content Include="Content\Images\mailLogo.jpg" />
@@ -605,6 +608,7 @@
     <Content Include="staff.sitemap2">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Views\Staff\FolderDisplayTree.cshtml" />
     <None Include="_bin_deployableAssemblies\Microsoft.Web.Infrastructure.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.Razor.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.dll" />
