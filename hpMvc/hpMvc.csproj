@@ -609,7 +609,9 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\Staff\FolderDisplayTree.cshtml" />
-    <Content Include="staff.sitemap" />
+    <Content Include="staff.sitemap">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="QuickLinks2.sitemap" />
     <None Include="_bin_deployableAssemblies\Microsoft.Web.Infrastructure.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.Razor.dll" />

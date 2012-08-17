@@ -9,6 +9,7 @@
         <siteMapNode title="Reset user password" class = "aLnkClick"/>
         <siteMapNode title="Manage Roles" controller="Admin" action="ManageRoles" />
         <siteMapNode title="Delete user" id="deleteUser" />
+        <siteMapNode title="Unlock user" id="unlockUser" />
         <siteMapNode title="Show All Users" controller="Admin" action="ShowUsers" />
       </siteMapNode>
       <siteMapNode title="CHECKS">

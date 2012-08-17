@@ -37,27 +37,47 @@ $(function () {
 
     });
 
-    $('#deleteUser').click(function (e) {
-        var userName = $('#Users').val();
-        if (userName === 'Select user') {
-            alert('Select a user')
+        $('#deleteUser').click(function (e) {
+            var userName = $('#Users').val();
+            if (userName === 'Select user') {
+                alert('Select a user')
+                e.preventDefault();
+                return false;
+            }
+            if (!confirm('Are you sure you want to delete user ' + userName)) {
+                alert('cancel');
+                e.preventDefault();
+                return false;
+            }
             e.preventDefault();
-            return false;
-        }
-        if (!confirm('Are you sure you want to delete user ' + userName)) {
-            alert('cancel');
-            e.preventDefault();
-            return false;
-        }
-        e.preventDefault();
-        var url = urlRoot + '/Admin/RemoveUser/' + userName;
-        $.post(url + '',
+            var url = urlRoot + '/Admin/RemoveUser/' + userName;
+            $.post(url + '',
             {},
             function (data) {
                 alert(data.Message);
                 if (data.ReturnValue == 1) {
                     top.location.href = urlRoot + '/Admin/Index';
                 }
+            });
+        });
+
+
+    $('#unlockUser').click(function (e) {
+        var userName = $('#Users').val();
+        if (userName === 'Select user') {
+            alert('Select a user')
+            e.preventDefault();
+            return false;
+        }        
+        e.preventDefault();
+        var url = urlRoot + '/Admin/UnlockUser/' + userName;
+        $.post(url + '',
+            {},
+            function (data) {
+                alert(userName + " has been unlocked!");
+//                if (data.ReturnValue == 1) {
+//                    top.location.href = urlRoot + '/Admin/Index';
+//                }
             });
 
 

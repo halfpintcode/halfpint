@@ -160,6 +160,7 @@ namespace hpMvc.Controllers
             return View();
         }
 
+        
         [HttpPost]
         public ActionResult ResetUserPassword(string userName, ResetPasswordModel rpm, bool reset)
         {
@@ -183,6 +184,16 @@ namespace hpMvc.Controllers
         #endregion
 
         [HttpPost]
+        public ActionResult UnlockUser(string userName)
+        {
+            nlogger.LogInfo("UnlockUser Post - user: " + userName);
+
+            bool retVal = UserRolesUtils.UnlockUser(userName);
+            
+            return Json(retVal);
+        }
+
+        [HttpPost]
         public ActionResult RemoveUser(string userName)
         {
             nlogger.LogInfo("RemoveUser Post - user: " + userName);
@@ -199,10 +210,9 @@ namespace hpMvc.Controllers
                 if (dto.ReturnValue == -1)
                     dto.Message = @"There was an error removing the user-site from the database";
             }
-            nlogger.LogInfo("RemoveUser - user: " + userName + ", message: " +dto.Message);
+            nlogger.LogInfo("RemoveUser - user: " + userName + ", message: " + dto.Message);
             return Json(dto);
         }
-
         #region AddUser        
         public ActionResult AddUser()
         {

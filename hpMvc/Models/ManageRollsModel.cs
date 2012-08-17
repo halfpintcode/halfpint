@@ -101,6 +101,15 @@ namespace hpMvc.Models
             string resetPassword = user.ResetPassword();
             return user.ChangePassword(resetPassword, newPassword);
         }
+
+        public static bool UnlockUser(string userName)
+        {
+            MembershipUser user = Membership.GetUser(userName);
+            if (user.IsLockedOut)
+                user.UnlockUser();            
+            Membership.UpdateUser(user);
+            return true;           
+        }
     }    
 
     public class ResetPasswordModel
