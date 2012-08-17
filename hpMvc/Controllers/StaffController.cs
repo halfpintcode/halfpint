@@ -68,7 +68,9 @@ namespace hpMvc.Controllers
             path = Path.Combine(path, folder);
             
             ViewBag.FolderName = folder;
-            var list = DynamicFolderFile.GetFileFolderModel(path, folder);
+
+            string user = User.Identity.Name;
+            var list = DynamicFolderFile.GetFileFolderModel(path, folder, user);
             return View(list);
         }
         private void GetFolderFiles(string path, string topFolder, List<StaffFolder> folderList)

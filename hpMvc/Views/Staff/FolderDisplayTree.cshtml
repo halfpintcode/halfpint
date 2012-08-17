@@ -13,6 +13,8 @@
          mappings.For<TreeViewItemModel>(binding =>
              binding
                  .ItemDataBound((item, node) => {
+                     if (node.Expanded)
+                         item.Expanded = true;
                      if (node.NavigateUrl != null)
                      {
                          item.Url = node.NavigateUrl;

@@ -109,7 +109,7 @@
       <siteMapNode title="Inclusion/Exclusion Criteria" controller="Download" action="GetFile" fileName="Inclusion-Exclusion Criteria.pdf" folder="Enrollment" />
       <siteMapNode title="Enrollment Flowchart" class="StaffOnly"/>      
     </siteMapNode>
-    <siteMapNode title="Study Management" class="StaffOnly" >
+    <siteMapNode title="Study Management" class="StaffOnly" >      
       <siteMapNode title="Neurodevelopmental" class="StaffOnly" >
         <siteMapNode title="Contact and Demographic Information Form" />
         <siteMapNode title="CBCL" >
@@ -159,15 +159,8 @@
       <siteMapNode title="Ancillary Studies Guidelines" class="StaffOnly" controller="Download" action="GetFile" fileName="Ancillary Study Guidelines.pdf" folder="Ancillary Studies" />
       <siteMapNode title="CAF-PINT Summary" controller="Download" action="GetFile" fileName="CAF-PINT Ancillary Summary 080712.pdf" folder="Ancillary Studies" />
     </siteMapNode>
-    <siteMapNode title="Regulatory" class="StaffOnly" >
-      <siteMapNode title="DSMB" >
-        <siteMapNode title="HALF-PINT DSMB Charter" class="StaffOnly" controller="Download" action="GetFile" fileName="HALF-PINT DSMB Charter.pdf" folder="Regulatory~DSMB" />        
-      </siteMapNode>
-      <siteMapNode title="Protocol" >
-        <siteMapNode title="Protocol" controller="Download" action="GetFile" fileName="HalfPint Protocol.pdf" folder="Regulatory~Protocol" />
-      </siteMapNode>
-      <siteMapNode title="FDA Exemption Letter" controller="Download" action="GetFile" fileName="FDA Exemption Letter.pdf" folder="Regulatory" />
-      <siteMapNode title="NSR Determination" controller="Download" action="GetFile" fileName="NSR Determination.pdf" folder="Regulatory" />
+    <siteMapNode title="Regulatory" class="StaffOnly" >      
+      <siteMapNode title="Regulatory Documents" controller="Staff" action="FolderDisplayTree" folder="Regulatory"/>              
     </siteMapNode>
   </siteMapNode>
 </siteMap>

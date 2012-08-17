@@ -4,17 +4,24 @@ using System.Linq;
 using System.Web;
 using System.IO;
 using Telerik.Web.Mvc.UI;
+using System.Web.Security;
+using hpMvc.DataBase;
 
 namespace hpMvc.Models
 {
     public static class DynamicFolderFile
     {
-        public static List<TreeViewItemModel> GetFileFolderModel(string path, string topFolder)
+        public static List<TreeViewItemModel> GetFileFolderModel(string path, string topFolder, string user)
         {
+            string[] roles = Roles.GetRolesForUser(user);
+            string role = roles[0];
+            string site = DbUtils.GetSiteNameForUser(user);
+            
             var list = new List<TreeViewItemModel>();
             var tvParent = new TreeViewItemModel();
             tvParent.Text = topFolder;
             tvParent.ImageUrl = "~/Content/Images/folder.png";
+            tvParent.Expanded = true;
 
             list.Add(tvParent);
             foreach (string f in Directory.GetFiles(path))
@@ -26,21 +33,44 @@ namespace hpMvc.Models
                 tvParent.Items.Add(tvChild);
             }
 
-            GetFolderFiles(path, topFolder, tvParent);
+            GetFolderFiles(path, topFolder, tvParent, role, site);
             return list;
         }
 
-        public static void GetFolderFiles(string path, string topFolder, TreeViewItemModel parentTvi)
+        public static void GetFolderFiles(string path, string topFolder, TreeViewItemModel parentTvi, string role, string site)
         {
-                        
+            bool isSiteSpecific = false;
+            if (Path.GetFileName(path) == "Sites")
+                isSiteSpecific = true;
+            
             foreach (string d in Directory.GetDirectories(path))
             {
                 string fileFolder = topFolder;
-            
+                string folderName = Path.GetFileName(d);
+                                
+                if (isSiteSpecific)
+                {
+                    if (!((role == "Admin") || role == "DCC"))
+                    {
+                        if (folderName != site)
+                            continue;
+                    }
+
+                }
+
+                var tvParent = new TreeViewItemModel();
                 var tvFolder = new TreeViewItemModel();
                 tvFolder.ImageUrl = "~/Content/Images/folder.png";
-                tvFolder.Text = Path.GetFileName(d);
-                parentTvi.Items.Add(tvFolder);
+                tvFolder.Text = folderName;
+
+                if (folderName == "Sites" || isSiteSpecific)
+                    tvParent = parentTvi;
+                else
+                {
+                    
+                    parentTvi.Items.Add(tvFolder);
+                    tvParent = tvFolder;
+                }
 
                 string[] parts = d.Split(new string[] { "\\" }, StringSplitOptions.None);
                 int iStart = 100;
@@ -54,26 +84,18 @@ namespace hpMvc.Models
                         fileFolder += "~" + parts[i];
                 }
                                 
+                
                 foreach (string f in Directory.GetFiles(d))
                 {
                     var tvChild = new TreeViewItemModel();
                     tvChild.Text = Path.GetFileName(f);
                     tvChild.ImageUrl = "~/Content/Images/file.png";
                     tvChild.NavigateUrl = "~/Download/Getfile/" + tvChild.Text + "/" + fileFolder;
-                    tvFolder.Items.Add(tvChild);
-                } 
+                    tvParent.Items.Add(tvChild);
+                }
 
-                GetFolderFiles(d, topFolder, tvFolder);
-
-
+                GetFolderFiles(d, topFolder, tvParent, role, site);
             }
-            
-            
-
-            
-
-            
-            
         }
     }
 
