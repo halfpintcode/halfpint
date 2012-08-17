@@ -15,6 +15,8 @@
            string roles = node.Attributes["role"] as string;
            if (roles == "nurse")
                item.Visible = false;
+           if (node.Attributes["ImageUrl"] != null)
+               item.ImageUrl = node.Attributes["ImageUrl"].ToString();
            if (node.Attributes["name"] != null)
                item.RouteValues.Add("name", node.Attributes["name"]);
            if (node.Attributes["fileName"] != null)
@@ -43,6 +45,8 @@
                item.RouteValues.Add("folder", node.Attributes["folder"]);
            if (node.Attributes["class"] != null)
                item.HtmlAttributes.Add("class", node.Attributes["class"]);
+           if (node.Attributes["ImageUrl"] != null)
+               item.ImageUrl = node.Attributes["ImageUrl"].ToString();
 
        })
 )

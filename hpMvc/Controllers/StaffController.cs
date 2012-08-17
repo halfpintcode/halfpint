@@ -45,7 +45,7 @@ namespace hpMvc.Controllers
             }
             if (!SiteMapManager.SiteMaps.ContainsKey("quick"))
             {
-                SiteMapManager.SiteMaps.Register<XmlSiteMap>("quick", sitmap => sitmap.LoadFrom("~/QuickLinks.sitemap"));
+                SiteMapManager.SiteMaps.Register<XmlSiteMap>("quick", sitmap => sitmap.LoadFrom("~/QuickLinks2.sitemap"));
             }
             return View();
         }

@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<siteMap>
+  <siteMapNode title="QuickLinks">
+    <siteMapNode title="Staff Quick Links" class="QuickLinks">      
+    </siteMapNode>
+    <siteMapNode title="Important Contacts">
+      <siteMapNode title="National Contacts" controller="Download" action="GetFile" fileName="HalfPint National Contact Info.pdf" folder="Quick Links~Important Contacts" class="StaffOnly" />
+      <siteMapNode title="Local Contacts - Boston" controller="Download" action="GetFile" fileName="HalfPint Local Contact Info-Boston.pdf" folder="Quick Links~Important Contacts" />
+    </siteMapNode>
+    <siteMapNode title="Training" class="NurseOnly">   
+      <siteMapNode title="Online Modules and Post-Tests" controller="PostTests" action="Initialize" name="Select Your Name" />      
+      <siteMapNode title="Screening" controller="Download" action="GetFile" fileName="Screening Reference Sheet.pdf" folder="Training" />
+      <siteMapNode title="RN Daily Procedures" controller="Download" action="GetFile" fileName="Bedside RN Daily Overview.pdf" folder="Training" />
+      <siteMapNode title="Training Checklist" controller="Download" action="GetFile" fileName="Nurse Training Checklist.pdf" folder="Training" />
+    </siteMapNode>
+    <siteMapNode title="Resources" class="NurseOnly">
+      <siteMapNode title="Insulin Labeling" >
+        <siteMapNode title="Humulin R Labeling" controller="Download" action="GetFile" fileName="Humulin R Labeling.pdf" folder="Resources~Insulin Labeling" />
+        <siteMapNode title="Novolin R Labeling " controller="Download" action="GetFile" fileName="Novolin R Labeling.pdf" folder="Resources~Insulin Labeling" />
+      </siteMapNode>
+    </siteMapNode>
+    <siteMapNode title="Enrollment" class="NurseOnly">
+      <siteMapNode title="HalfPint Consent Form" controller="Download" action="GetFile" fileName="Site~ Consent Form.pdf" folder="Enrollment" class="CHBHide" />
+      <siteMapNode title="HalfPint Assent Form" controller="Download" action="GetFile" fileName="Site~ Assent Form.pdf" folder="Enrollment" class="CHBHide" />
+      <siteMapNode title="HalfPint Consent Form for Relying Sites" controller="Download" action="GetFile" fileName="HalfPint Consent Form for Relying Sites.pdf" folder="Enrollment" class="AdminDCCInvestigator CHBOnly" />
+      <siteMapNode title="CHOP" class="AdminDCC">
+        <siteMapNode title="HalfPint Consent Form" controller="Download" action="GetFile" fileName="CHOP HalfPint Consent Form.pdf" folder="Enrollment~CHOP" />
+        <siteMapNode title="HalfPint Assent Form" controller="Download" action="GetFile" fileName="CHOP HalfPint Assent Form.pdf" folder="Enrollment~CHOP" />
+      </siteMapNode>
+      <siteMapNode title="Cincinnati" class="AdminDCC">
+        <siteMapNode title="HalfPint Consent Form" controller="Download" action="GetFile" fileName="CCHMC HalfPint Consent Form.pdf" folder="Enrollment~Cincinnati" />
+        <siteMapNode title="HalfPint Assent Form" controller="Download" action="GetFile" fileName="CCHMC HalfPint Assent Form.pdf" folder="Enrollment~Cincinnati" />
+      </siteMapNode>
+      <siteMapNode title="Denver" class="AdminDCC">
+        <siteMapNode title="HalfPint Consent Form" controller="Download" action="GetFile" fileName="Denver HalfPint Consent Form.pdf" folder="Enrollment~Denver" />
+        <siteMapNode title="HalfPint Assent Form" controller="Download" action="GetFile" fileName="Denver HalfPint Assent Form.pdf" folder="Enrollment~Denver" />
+      </siteMapNode>
+      <siteMapNode title="Nationwide" class="AdminDCC">
+        <siteMapNode title="HalfPint Consent Form" controller="Download" action="GetFile" fileName="Nationwide HalfPint Consent Form.pdf" folder="Enrollment~Nationwide" />
+        <siteMapNode title="HalfPint Assent Form" controller="Download" action="GetFile" fileName="Nationwide HalfPint Assent Form.pdf" folder="Enrollment~Nationwide" />
+      </siteMapNode>
+      <siteMapNode title="Penn State" class="AdminDCC">
+        <siteMapNode title="HalfPint Consent Form" controller="Download" action="GetFile" fileName="PennState HalfPint Consent Form.pdf" folder="Enrollment~Penn State" />
+        <siteMapNode title="HalfPint Assent Form" controller="Download" action="GetFile" fileName="PennState HalfPint Assent Form.pdf" folder="Enrollment~Penn State" />
+      </siteMapNode>
+      <siteMapNode title="Inclusion/Exclusion Criteria" controller="Download" action="GetFile" fileName="Inclusion-Exclusion Criteria.pdf" folder="Enrollment" />
+    </siteMapNode>
+    <siteMapNode title="Ancillary Studies" class="NurseOnly">
+      <siteMapNode title="CAF-PINT Summary" controller="Download" action="GetFile" fileName="CAF-PINT Ancillary Summary 080712.pdf" folder="Ancillary Studies" />
+    </siteMapNode>
+    <siteMapNode title="Permission to Approach">
+      <siteMapNode title="Permission to Approach" controller="Download" action="GetFile" fileName="Site~ Permission to Approach.pdf" folder="Quick Links" class="NotDcc NotAdmin" />
+      <siteMapNode title="CHB" class="AdminDCC">
+        <siteMapNode title="CHB Permission to Approach" controller="Download" action="GetFile" fileName="CHB Permission to Approach.pdf" folder="Quick Links~Permission to Approach~CHB" />        
+      </siteMapNode>
+      <siteMapNode title="CHLA" class="AdminDCC">
+        <siteMapNode title="CHLA Permission to Approach" controller="Download" action="GetFile" fileName="CHLA Permission to Approach.pdf" folder="Quick Links~Permission to Approach~CHLA" />
+      </siteMapNode>
+      <siteMapNode title="CHOP" class="AdminDCC">
+        <siteMapNode title="CHOP Permission to Approach" controller="Download" action="GetFile" fileName="CHOP Permission to Approach.pdf" folder="Quick Links~Permission to Approach~CHOP" />
+      </siteMapNode>
+      <siteMapNode title="CCHMC" class="AdminDCC">
+        <siteMapNode title="CCHMC Permission to Approach" controller="Download" action="GetFile" fileName="CCHMC Permission to Approach.pdf" folder="Quick Links~Permission to Approach~Cincinnati" />
+      </siteMapNode>
+      <siteMapNode title="Columbia" class="AdminDCC">
+        <siteMapNode title="Columbia Permission to Approach" controller="Download" action="GetFile" fileName="Columbia Permission to Approach.pdf" folder="Quick Links~Permission to Approach~Columbia" />
+      </siteMapNode>
+      <siteMapNode title="Denver" class="AdminDCC">
+        <siteMapNode title="Denver Permission to Approach" controller="Download" action="GetFile" fileName="Denver Permission to Approach.pdf" folder="Quick Links~Permission to Approach~Denver" />
+      </siteMapNode>
+      <siteMapNode title="Nationwide" class="AdminDCC">
+        <siteMapNode title="Nationwide Permission to Approach" controller="Download" action="GetFile" fileName="Nationwide Permission to Approach.pdf" folder="Quick Links~Permission to Approach~Nationwide" />
+      </siteMapNode>
+      <siteMapNode title="Penn State" class="AdminDCC">
+        <siteMapNode title="Penn State Permission to Approach" controller="Download" action="GetFile" fileName="PennState Permission to Approach.pdf" folder="Quick Links~Permission to Approach~Penn State" />
+      </siteMapNode>
+      <siteMapNode title="Westchester" class="AdminDCC">
+        <siteMapNode title="Westchester Permission to Approach" controller="Download" action="GetFile" fileName="Westchester Permission to Approach.pdf" folder="Quick Links~Permission to Approach~Westchester" />
+      </siteMapNode>      
+    </siteMapNode>
+    <siteMapNode title="Protocol" class="NurseOnly">
+      <siteMapNode title="HalfPint Protocol" controller="Download" action="GetFile" fileName="HalfPint Protocol.pdf" folder="Regulatory~Protocol" />
+    </siteMapNode>  
+    <siteMapNode title="Randomize Password" controller="InitializeSubject" action="InitializePassword" class="StaffOnly NotDcc" />
+    <siteMapNode title="Password Look-up" controller="Staff" action="GetInitializePassword" class="StaffOnly" />
+    <siteMapNode title="Initialize Subject" controller="InitializeSubject" action="Initialize" />
+    <siteMapNode title="Recover CHECKS file" controller="Staff" action="RecoverChecksSS" class="StaffOnly" />
+    <siteMapNode title="InForm" url="https://study.tch.harvard.edu/halfpint" class="StaffOnly" />
+    <siteMapNode title="Calorie Calculator" class="StaffOnly NotDcc">
+      <siteMapNode title="New Caloric Entry" controller="CalorieCalc" action="Index" />
+      <siteMapNode title="Correct an Existing Entry" controller="CalorieCalc" action="EditSelect" />
+    </siteMapNode>
+    <siteMapNode title="Add Study Staff" class="StaffOnly NotDcc" />
+  </siteMapNode>
+</siteMap>
