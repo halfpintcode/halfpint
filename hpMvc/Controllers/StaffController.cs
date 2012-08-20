@@ -50,6 +50,28 @@ namespace hpMvc.Controllers
             return View();
         }
 
+        public ActionResult New()
+        {
+            string role = "Coordinator";
+            if (HttpContext.User.IsInRole("Admin"))
+                role = "Admin";
+            ViewBag.Role = role;
+
+            List<Site> sites = new List<Site>();
+
+            if (role == "Admin")
+            {
+                sites = DbUtils.GetSites();
+                if (sites.Count == 0)
+                    throw new Exception("There was an error retreiving the sites list from the database");
+                sites.Insert(0, new Site { ID = 0, Name = "Select a site", SiteID = "" });
+                ViewBag.Sites = new SelectList(sites, "ID", "Name");
+            }
+
+
+            return View();
+        }
+
         public ActionResult FolderDisplay(string folder)
         {
             var folderList = new List<StaffFolder>();
@@ -73,6 +95,7 @@ namespace hpMvc.Controllers
             var list = DynamicFolderFile.GetFileFolderModel(path, folder, user);
             return View(list);
         }
+        
         private void GetFolderFiles(string path, string topFolder, List<StaffFolder> folderList)
         {  
             //DirectoryInfo di = new DirectoryInfo(path);

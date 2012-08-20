@@ -128,6 +128,7 @@
     <Compile Include="Models\PostTestsModel.cs" />
     <Compile Include="Models\SensorModel.cs" />
     <Compile Include="Models\StaffFolderModel.cs" />
+    <Compile Include="Models\StaffModel.cs" />
     <Compile Include="Models\TestModels.cs" />
     <Compile Include="Models\UtilityModels.cs" />
     <Compile Include="Models\ValidationExtensions.cs" />
@@ -342,6 +343,7 @@
     <Content Include="Content\2012.2.607\Windows7\slider-v.gif" />
     <Content Include="Content\2012.2.607\Windows7\sprite-vertical.png" />
     <Content Include="Content\2012.2.607\Windows7\sprite.png" />
+    <Content Include="Content\AddNewStaff.css" />
     <Content Include="Content\Broadcast.css" />
     <Content Include="Content\CompleteSubject.css" />
     <Content Include="Content\CoordInitialize.css" />
@@ -613,6 +615,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="QuickLinks2.sitemap" />
+    <Content Include="Views\Staff\New.cshtml" />
     <None Include="_bin_deployableAssemblies\Microsoft.Web.Infrastructure.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.Razor.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.dll" />
