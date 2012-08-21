@@ -63,7 +63,7 @@ namespace hpMvc.Models
                 tvFolder.ImageUrl = "~/Content/Images/folder.png";
                 tvFolder.Text = folderName;
 
-                if (folderName == "Sites" || isSiteSpecific)
+                if (folderName == "Sites" )
                     tvParent = parentTvi;
                 else
                 {

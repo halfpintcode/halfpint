@@ -1,0 +1,36 @@
+﻿@using Telerik.Web.Mvc.UI;
+@model IEnumerable<TreeViewItemModel>
+@{
+    ViewBag.Title = "Display Folder" + ViewBag.FolderName;
+}
+
+@(Html.Telerik().TreeView()
+     .Name("TreeView")
+     .BindTo(Model, mappings =>
+     {
+         mappings.For<TreeViewItemModel>(binding =>
+             binding
+                 .ItemDataBound((item, node) =>
+                 {
+                     if (node.Expanded)
+                         item.Expanded = true;
+                     if (node.NavigateUrl != null)
+                     {
+                         item.Url = node.NavigateUrl;
+                     }
+                     if (node.ImageUrl != null)
+                     {
+                         item.ImageUrl = node.ImageUrl;
+                     }
+                     item.Text = node.Text;
+
+                 })
+                 .Children(node => node.Items)
+
+         );
+     })
+ )
+  
+@(Html.Telerik().StyleSheetRegistrar().DefaultGroup(group => group.Add("telerik.common.css").Add("telerik.vista.css")))
+@(Html.Telerik().ScriptRegistrar().jQuery(false))
+

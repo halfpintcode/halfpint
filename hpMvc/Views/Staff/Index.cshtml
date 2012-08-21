@@ -28,6 +28,7 @@
 
        }))
 	</div>
+
     <div id="divBarMenu">
 		@(Html.Telerik().Menu()
             .Name("Menu")
@@ -36,7 +37,7 @@
        {
            string roles = node.Attributes["role"] as string;
            if (roles == "nurse")
-               item.Visible = false;
+               item.Visible = false;           
            if (node.Attributes["name"] != null)
                item.RouteValues.Add("name", node.Attributes["name"]);
            if (node.Attributes["fileName"] != null)
@@ -51,8 +52,17 @@
        })
 )
 	</div>
-    	
+    
+    <div id="formContent">
+    
+    @if(ViewBag.ShowFolder == "true")
+    {
+        { Html.RenderPartial("DisplayFolderPartial"); }
+    }       
+</div>	
 </form>		
+
+
 
 <link href="@Url.Content("~/Content/staff.css")" rel="stylesheet" type="text/css" />
  

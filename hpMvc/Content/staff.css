@@ -1,21 +1,23 @@
-﻿#divBarMenu
+﻿#divSideBar2
 {    
-    float:left;
-}
-
-#divSideBar2
-{
-    clear:both;
     float:left;
     margin-right:0px;
     padding-right:5px;
     border-right: 1px solid #DEDEDE;
 }
-
+#divBarMenu
+{    
+    
+}
+#formContent
+{      
+    margin-left:25px; 
+    margin-top:20px;    
+    float:left;
+}
 .QuickLinks
 {
     text-decoration:underline;
     font-weight:bold;
-    font-size:large;
-    
+    font-size:large;    
 }

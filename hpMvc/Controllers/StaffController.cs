@@ -37,7 +37,7 @@ namespace hpMvc.Controllers
 
         [Telerik.Web.Mvc.PopulateSiteMap(SiteMapName = "staff", ViewDataKey = "staff")]
         [Telerik.Web.Mvc.PopulateSiteMap(SiteMapName = "quick", ViewDataKey = "quick")]
-        public ActionResult Index()
+        public ActionResult Index(string folder)
         {
             if (!SiteMapManager.SiteMaps.ContainsKey("staff"))
             {
@@ -47,8 +47,27 @@ namespace hpMvc.Controllers
             {
                 SiteMapManager.SiteMaps.Register<XmlSiteMap>("quick", sitmap => sitmap.LoadFrom("~/QuickLinks2.sitemap"));
             }
+            
+            if(folder != null)
+            {
+                string path = ConfigurationManager.AppSettings["FileRepositoryPath"].ToString();
+                path = Path.Combine(path, folder);
+
+                string user = User.Identity.Name;
+                var list = DynamicFolderFile.GetFileFolderModel(path, folder, user);
+
+                ViewBag.ShowFolder = "true";
+                ViewBag.FolderName = folder;
+                return View(list);
+            }
+            
+            ViewBag.ShowFolder = "false";
+            
             return View();
         }
+
+        
+            
 
         public ActionResult New()
         {

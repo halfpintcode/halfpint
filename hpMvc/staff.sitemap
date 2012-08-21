@@ -2,7 +2,7 @@
 <siteMap>
   <siteMapNode title="Staff" >
       <siteMapNode title="Training" class="StaffOnly">
-        <siteMapNode title="Training Documents" ImageUrl="~/Content/Images/folder.png"  controller="Staff" action="FolderDisplayTree"  folder="Training" class="StaffOnly"/>
+        <siteMapNode title="Training Documents" ImageUrl="~/Content/Images/folder.png"  url ="~/Staff/Index/Training" class="StaffOnly"/>
         <siteMapNode title="InForm Training Database" url="https://study.tch.harvard.edu/halfpinttrain" class="StaffOnly"/>
         <siteMapNode title="Online Modules and Post-Tests" controller="PostTests" action="Initialize" name="Select Your Name" />
         <siteMapNode title="Manual Entry Post-Tests Completed" controller="PostTestsAdmin" action="Index" class="StaffOnly" />        
@@ -11,19 +11,19 @@
         <siteMapNode title="Training Checklist" controller="Download" action="GetFile" fileName="Nurse Training Checklist.pdf" folder="Training" class="NurseOnly"/>
       </siteMapNode>
     <siteMapNode title="Resources" class="StaffOnly">
-      <siteMapNode title="Resources Documents" ImageUrl="~/Content/Images/folder.png"  controller="Staff" action="FolderDisplayTree"  folder="Resources" class="StaffOnly"/>      
+      <siteMapNode title="Resources Documents" ImageUrl="~/Content/Images/folder.png"  url ="~/Staff/Index/Resources" class="StaffOnly"/>      
     </siteMapNode>
     <siteMapNode title="Enrollment" class="StaffOnly">
-      <siteMapNode title="Enrollment Documents" ImageUrl="~/Content/Images/folder.png"  controller="Staff" action="FolderDisplayTree"  folder="Enrollment" class="StaffOnly"/>                 
+      <siteMapNode title="Enrollment Documents" ImageUrl="~/Content/Images/folder.png"  url ="~/Staff/Index/Enrollment" class="StaffOnly"/>                 
     </siteMapNode>
     <siteMapNode title="Study Management" class="StaffOnly" >
-      <siteMapNode title="Study Management Documents" ImageUrl="~/Content/Images/folder.png"  controller="Staff" action="FolderDisplayTree" folder="Study Management" class="StaffOnly"/>
+      <siteMapNode title="Study Management Documents" ImageUrl="~/Content/Images/folder.png"  url ="~/Staff/Index/Study Management" class="StaffOnly"/>
     </siteMapNode>
     <siteMapNode title="Ancillary Studies" class="StaffOnly">
-      <siteMapNode title="Ancillary Studies Documents" ImageUrl="~/Content/Images/folder.png"  controller="Staff" action="FolderDisplayTree" folder="Ancillary Studies" class="StaffOnly"/>      
+      <siteMapNode title="Ancillary Studies Documents" ImageUrl="~/Content/Images/folder.png"  url ="~/Staff/Index/Ancillary Studies" class="StaffOnly"/>      
     </siteMapNode>
     <siteMapNode title="Regulatory" class="StaffOnly" >      
-      <siteMapNode title="Regulatory Documents" ImageUrl="~/Content/Images/folder.png"  controller="Staff" action="FolderDisplayTree" folder="Regulatory" class="StaffOnly"/>              
+      <siteMapNode title="Regulatory Documents" ImageUrl="~/Content/Images/folder.png"  url ="~/Staff/Index/Regulatory" class="StaffOnly"/>              
     </siteMapNode>
   </siteMapNode>
 </siteMap>

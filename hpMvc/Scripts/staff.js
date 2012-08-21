@@ -30,14 +30,6 @@ $(document).ready(function () {
     }
     if (userSite == "01:CHB") {
         $('.CHBHide').hide();
-    }
-
-
-
-    //this is one way to filter file downloads
-    $('li .StaffOnly').click(function (e) {
-        //        e.preventDefault();
-        //        alert('staff only')
-    });
+    }   
 });
 

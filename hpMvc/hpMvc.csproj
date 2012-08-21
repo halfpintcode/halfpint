@@ -616,6 +616,7 @@
     </Content>
     <Content Include="QuickLinks2.sitemap" />
     <Content Include="Views\Staff\New.cshtml" />
+    <Content Include="Views\Staff\DisplayFolderPartial.cshtml" />
     <None Include="_bin_deployableAssemblies\Microsoft.Web.Infrastructure.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.Razor.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.dll" />
