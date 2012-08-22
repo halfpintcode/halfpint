@@ -90,6 +90,9 @@
       <siteMapNode title="New Caloric Entry" controller="CalorieCalc" action="Index" />
       <siteMapNode title="Correct an Existing Entry" controller="CalorieCalc" action="EditSelect" />
     </siteMapNode>
-    <siteMapNode title="Add Study Staff" class="StaffOnly NotDcc" />
+    <siteMapNode title="Add Study Staff" class="StaffOnly NotDcc">
+      <siteMapNode title="Add New Nurse" controller="Staff" action="New" type="Nurse" />
+      <siteMapNode title="Add New Staff" controller="Staff" action="New" type="Staff"/>
+    </siteMapNode>
   </siteMapNode>
 </siteMap>

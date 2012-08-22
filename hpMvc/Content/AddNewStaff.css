@@ -1,4 +1,10 @@
-﻿.lblMain 
+﻿form
+{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	line-height:2.2em;    
+}
+.lblMain 
 { 
     display:inline-block;       
     width: 100px;    

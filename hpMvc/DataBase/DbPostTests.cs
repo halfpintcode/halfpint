@@ -302,6 +302,55 @@ namespace hpMvc.DataBase
 
         }
 
+        public static DynamicDTO GetSiteInfoForSite(string site)
+        {
+            var dto = new DynamicDTO();
+            dto.IsSuccessful = true;
+
+            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            using (SqlConnection conn = new SqlConnection(strConn))
+            {
+                try
+                {
+                    SqlCommand cmd = new SqlCommand("", conn);
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.CommandText = "GetSiteInfoForSite";
+                    SqlParameter param = new SqlParameter("@id", site);
+                    cmd.Parameters.Add(param);
+
+                    conn.Open();
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    int pos = 0;
+                    rdr.Read();
+
+                    dto.Stuff.EmpIDRequired = "false";
+                    dto.Stuff.EmpIDRegex = "";
+                    dto.Stuff.EmpIDMessage = "";
+                    pos = rdr.GetOrdinal("EmpIDRequired");
+                    bool bEmpIDRequired = rdr.GetBoolean(pos);
+                    if (bEmpIDRequired)
+                    {
+                        dto.Stuff.EmpIDRequired = "true";
+
+                        pos = rdr.GetOrdinal("EmpIDRegex");
+                        string regEx = rdr.GetString(pos);
+                        dto.Stuff.EmpIDRegex = regEx;
+
+                        pos = rdr.GetOrdinal("EmpIDMessage");
+                        string message = rdr.GetString(pos);
+                        dto.Stuff.EmpIDMessage = message;
+                    }
+                    rdr.Close();
+                }
+                catch (Exception ex)
+                {
+                    nlogger.LogError(ex);
+                    return null;
+                }
+            }
+            return dto;
+        }
+
         public static DynamicDTO CheckIfEmployeeIDRequired(string user)
         {
             var dto = new DynamicDTO();

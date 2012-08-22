@@ -69,7 +69,7 @@ namespace hpMvc.Controllers
         
             
 
-        public ActionResult New()
+        public ActionResult New(string type)
         {
             string role = "Coordinator";
             if (HttpContext.User.IsInRole("Admin"))
@@ -87,8 +87,26 @@ namespace hpMvc.Controllers
                 ViewBag.Sites = new SelectList(sites, "ID", "Name");
             }
 
+            if (type == "Nurse")
+            {
+                ViewBag.Type = "Nurse";
+            }
+            else
+                ViewBag.Type = "Staff";
 
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult New(StaffModel model)
+        {
+            return View();
+        }
+
+        public JsonResult GetSiteEmployeeInfo(string site)
+        {
+            var retDto = DbPostTestsUtils.GetSiteInfoForSite(site);
+            return Json(retDto);
         }
 
         public ActionResult FolderDisplay(string folder)

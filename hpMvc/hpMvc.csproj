@@ -458,6 +458,7 @@
     <Content Include="Scripts\2012.2.607\telerik.treeview.min.js" />
     <Content Include="Scripts\2012.2.607\telerik.upload.min.js" />
     <Content Include="Scripts\2012.2.607\telerik.window.min.js" />
+    <Content Include="Scripts\AddNewStaff.js" />
     <Content Include="Scripts\Broadcast.js" />
     <Content Include="Scripts\CompleteSubject.js" />
     <Content Include="Scripts\CoordInitialize.js" />
@@ -617,6 +618,7 @@
     <Content Include="QuickLinks2.sitemap" />
     <Content Include="Views\Staff\New.cshtml" />
     <Content Include="Views\Staff\DisplayFolderPartial.cshtml" />
+    <Content Include="Views\Staff\NewPartial.cshtml" />
     <None Include="_bin_deployableAssemblies\Microsoft.Web.Infrastructure.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.Razor.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.dll" />

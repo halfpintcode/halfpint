@@ -23,6 +23,8 @@
                item.RouteValues.Add("fileName", node.Attributes["fileName"]);
            if (node.Attributes["folder"] != null)
                item.RouteValues.Add("folder", node.Attributes["folder"]);
+           if (node.Attributes["type"] != null)
+               item.RouteValues.Add("type", node.Attributes["type"]);
            if (node.Attributes["class"] != null)
                item.HtmlAttributes.Add("class", node.Attributes["class"]);
 

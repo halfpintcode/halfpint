@@ -85,7 +85,7 @@ $(function () {
             return;
         }
 
-        var email = $('#sEmail').val();
+        var email = $.trim($('#sEmail').val());
         if (email.length === 0) {
             alert('Enter an email address')
             return;

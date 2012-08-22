@@ -15,5 +15,18 @@ namespace hpMvc.Models
         public string Email { get; set; }
         public string EmployeeID { get; set; }
         public string Phone { get; set; }
+        public bool NovaStatStrip { get; set; }
+        public DateTime? NovaStatStripDoc { get; set; }
+        public bool Vamp { get; set; }
+        public DateTime? Doc { get; set; }
+        public bool Cgm { get; set; }
+        public DateTime? VampDoc { get; set; }
+        public bool Inform { get; set; }
+        public DateTime? InformDoc { get; set; }
+        public bool OnCall { get; set; }
+        public DateTime? OnCallDoc { get; set; }
+        public bool HumanSubj { get; set; }
+        public DateTime? HumanSubjStart { get; set; }
+        public DateTime? HumanSubjExp { get; set; }
     }
 }

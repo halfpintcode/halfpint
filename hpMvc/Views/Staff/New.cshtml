@@ -1,31 +1,19 @@
 ﻿@model hpMvc.Models.StaffModel
 
 @{
-    ViewBag.Title = "Add New Staff";
+    ViewBag.Title = "Add New " + ViewBag.Type;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Add New Staff</h2>
+<h2>Add New @ViewBag.Type</h2>
 <div>
     @if (@ViewBag.Role == "Admin")
     {
         <span>Select a site:&nbsp;</span> @Html.DropDownList("Sites")
         <br /><br />
     }
-        
-    <div><label class="lblMain">First Name</label><input type="text" id="FirstName" name="FirstName" /></div>
-    <br />
-    <div><label class="lblMain">Last Name</label><input type="text" id="LastName" name="LastName" /></div>
-    <br />
-    <div><label class="lblMain">Email</label><input type="text" id="Email" name="Email" /></div>
-    <br />
-    <div><label class="lblMain">EmployeeID</label><input type="text" id="EmployeeID" name="EmployeeID" /></div>
-    <br />
-    <div><label class="lblMain">Phone</label><input type="text" id="Phone" name="Phone" /></div>
-    
-    
-    <br /><input type="button" id="btnSave" value="Save" />&nbsp;&nbsp;&nbsp;<input type="button" id="btnClose" value="Cancel" />
-            
 </div>
+@{ Html.RenderPartial("NewPartial"); }
 
 <link href="@Url.Content("~/Content/AddNewStaff.css")" rel="stylesheet" type="text/css" />
+<script src="@Url.Content("~/Scripts/AddNewStaff.js")" type="text/javascript"></script>
