@@ -18,9 +18,9 @@ namespace hpMvc.Models
         public bool NovaStatStrip { get; set; }
         public DateTime? NovaStatStripDoc { get; set; }
         public bool Vamp { get; set; }
-        public DateTime? Doc { get; set; }
-        public bool Cgm { get; set; }
         public DateTime? VampDoc { get; set; }
+        public bool Cgm { get; set; }
+        public DateTime? CgmDoc { get; set; }
         public bool Inform { get; set; }
         public DateTime? InformDoc { get; set; }
         public bool OnCall { get; set; }

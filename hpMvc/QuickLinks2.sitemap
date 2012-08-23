@@ -20,33 +20,32 @@
       </siteMapNode>
     </siteMapNode>
     <siteMapNode title="Enrollment" class="NurseOnly">
-      <siteMapNode title="HalfPint Consent Form" controller="Download" action="GetFile" fileName="Site~ Consent Form.pdf" folder="Enrollment" class="CHBHide" />
-      <siteMapNode title="HalfPint Assent Form" controller="Download" action="GetFile" fileName="Site~ Assent Form.pdf" folder="Enrollment" class="CHBHide" />
-      <siteMapNode title="HalfPint Consent Form for Relying Sites" controller="Download" action="GetFile" fileName="HalfPint Consent Form for Relying Sites.pdf" folder="Enrollment" class="AdminDCCInvestigator CHBOnly" />
+      <siteMapNode title="HalfPint Consent Form" controller="Download" action="GetFile" fileName="Site~ Consent Form.pdf" folder="Enrollment~Sites" class="CHBHide" />
+      <siteMapNode title="HalfPint Assent Form" controller="Download" action="GetFile" fileName="Site~ Assent Form.pdf" folder="Enrollment~Sites" class="CHBHide" />
       <siteMapNode title="CHOP" class="AdminDCC">
-        <siteMapNode title="HalfPint Consent Form" controller="Download" action="GetFile" fileName="CHOP HalfPint Consent Form.pdf" folder="Enrollment~CHOP" />
-        <siteMapNode title="HalfPint Assent Form" controller="Download" action="GetFile" fileName="CHOP HalfPint Assent Form.pdf" folder="Enrollment~CHOP" />
+        <siteMapNode title="HalfPint Consent Form" controller="Download" action="GetFile" fileName="CHOP HalfPint Consent Form.pdf" folder="Enrollment~Sites~CHOP" />
+        <siteMapNode title="HalfPint Assent Form" controller="Download" action="GetFile" fileName="CHOP HalfPint Assent Form.pdf" folder="Enrollment~Sites~CHOP" />
       </siteMapNode>
       <siteMapNode title="Cincinnati" class="AdminDCC">
-        <siteMapNode title="HalfPint Consent Form" controller="Download" action="GetFile" fileName="CCHMC HalfPint Consent Form.pdf" folder="Enrollment~Cincinnati" />
-        <siteMapNode title="HalfPint Assent Form" controller="Download" action="GetFile" fileName="CCHMC HalfPint Assent Form.pdf" folder="Enrollment~Cincinnati" />
+        <siteMapNode title="HalfPint Consent Form" controller="Download" action="GetFile" fileName="CCHMC HalfPint Consent Form.pdf" folder="Enrollment~Sites~Cincinnati" />
+        <siteMapNode title="HalfPint Assent Form" controller="Download" action="GetFile" fileName="CCHMC HalfPint Assent Form.pdf" folder="Enrollment~Sites~Cincinnati" />
       </siteMapNode>
       <siteMapNode title="Denver" class="AdminDCC">
-        <siteMapNode title="HalfPint Consent Form" controller="Download" action="GetFile" fileName="Denver HalfPint Consent Form.pdf" folder="Enrollment~Denver" />
-        <siteMapNode title="HalfPint Assent Form" controller="Download" action="GetFile" fileName="Denver HalfPint Assent Form.pdf" folder="Enrollment~Denver" />
+        <siteMapNode title="HalfPint Consent Form" controller="Download" action="GetFile" fileName="Denver HalfPint Consent Form.pdf" folder="Enrollment~Sites~Denver" />
+        <siteMapNode title="HalfPint Assent Form" controller="Download" action="GetFile" fileName="Denver HalfPint Assent Form.pdf" folder="Enrollment~Sites~Denver" />
       </siteMapNode>
       <siteMapNode title="Nationwide" class="AdminDCC">
-        <siteMapNode title="HalfPint Consent Form" controller="Download" action="GetFile" fileName="Nationwide HalfPint Consent Form.pdf" folder="Enrollment~Nationwide" />
-        <siteMapNode title="HalfPint Assent Form" controller="Download" action="GetFile" fileName="Nationwide HalfPint Assent Form.pdf" folder="Enrollment~Nationwide" />
+        <siteMapNode title="HalfPint Consent Form" controller="Download" action="GetFile" fileName="Nationwide HalfPint Consent Form.pdf" folder="Enrollment~Sites~Nationwide" />
+        <siteMapNode title="HalfPint Assent Form" controller="Download" action="GetFile" fileName="Nationwide HalfPint Assent Form.pdf" folder="Enrollment~Sites~Nationwide" />
       </siteMapNode>
       <siteMapNode title="Penn State" class="AdminDCC">
-        <siteMapNode title="HalfPint Consent Form" controller="Download" action="GetFile" fileName="PennState HalfPint Consent Form.pdf" folder="Enrollment~Penn State" />
-        <siteMapNode title="HalfPint Assent Form" controller="Download" action="GetFile" fileName="PennState HalfPint Assent Form.pdf" folder="Enrollment~Penn State" />
+        <siteMapNode title="HalfPint Consent Form" controller="Download" action="GetFile" fileName="PennState HalfPint Consent Form.pdf" folder="Enrollment~Sites~Penn State" />
+        <siteMapNode title="HalfPint Assent Form" controller="Download" action="GetFile" fileName="PennState HalfPint Assent Form.pdf" folder="Enrollment~Sites~Penn State" />
       </siteMapNode>
       <siteMapNode title="Inclusion/Exclusion Criteria" controller="Download" action="GetFile" fileName="Inclusion-Exclusion Criteria.pdf" folder="Enrollment" />
     </siteMapNode>
     <siteMapNode title="Ancillary Studies" class="NurseOnly">
-      <siteMapNode title="CAF-PINT Summary" controller="Download" action="GetFile" fileName="CAF-PINT Ancillary Summary 080712.pdf" folder="Ancillary Studies" />
+      <siteMapNode title="CAF-PINT Summary" controller="Download" action="GetFile" fileName="CAF-PINT Summary 16 Aug 2012.pdf" folder="Ancillary Studies~CAF-PINT" />
     </siteMapNode>
     <siteMapNode title="Permission to Approach">
       <siteMapNode title="Permission to Approach" controller="Download" action="GetFile" fileName="Site~ Permission to Approach.pdf" folder="Quick Links" class="NotDcc NotAdmin" />

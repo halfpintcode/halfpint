@@ -9,3 +9,13 @@
     display:inline-block;       
     width: 100px;    
 }
+span
+{
+    display:inline-block;
+    width:200px;
+}
+.lblDoc 
+{    
+    display:inline-block;       
+    width:110px;    
+}

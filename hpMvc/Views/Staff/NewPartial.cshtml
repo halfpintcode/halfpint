@@ -18,6 +18,26 @@
 			<label class="lblMain">EmployeeID</label><input type="text" id="EmployeeID" name="EmployeeID" />
 			<span id="empIDmessage"></span>            
 		</div>
+        <br />
+        @Html.EditorFor(m => m.NovaStatStrip) <span>Nova Stat Strip</span>
+        <label class="lblDoc">Date Completed:</label>  @Html.EditorFor(m => m.NovaStatStripDoc) 
+        <br />
+        @Html.EditorFor(m => m.Vamp) <span>VAMP</span>
+        <label class="lblDoc">Date Completed:</label>  @Html.EditorFor(m => m.VampDoc) 
+        <br />
+        @Html.EditorFor(m => m.Cgm) <span>CGM Sensor Insertion</span>
+        <label class="lblDoc">Date Completed:</label>  @Html.EditorFor(m => m.CgmDoc) 
+        <br />
+        @Html.EditorFor(m => m.Inform) <span>Inform Training</span>
+        <label class="lblDoc">Date Completed:</label>  @Html.EditorFor(m => m.InformDoc) 
+        <br />
+        @Html.EditorFor(m => m.OnCall) <span>On-Call</span>
+        <label class="lblDoc">Date Completed:</label>  @Html.EditorFor(m => m.OnCallDoc) 
+        <br />
+        @Html.EditorFor(m => m.HumanSubj) <span>Human Subjuct Training</span>
+        <label class="lblDoc">Date Started:</label>  @Html.EditorFor(m => m.HumanSubjStart) 
+        <label class="lblDoc">Date Expired:</label>  @Html.EditorFor(m => m.HumanSubjExp) 
+        <br />
     </fieldset>
     <br /><input type="submit" id="btnSubmit" value="Save" />&nbsp;&nbsp;&nbsp;<input type="button" id="btnClose" value="Cancel" />
 </form>

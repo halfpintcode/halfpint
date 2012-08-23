@@ -87,12 +87,12 @@ namespace hpMvc.Controllers
                     if (fileName.Contains("Consent Form"))
                     {
                         fileName = "CHOP HalfPint Consent Form.pdf";
-                        folder = "Enrollment~CHOP";
+                        folder = "Enrollment~Sites~CHOP";
                     }
                     if (fileName.Contains("Assent Form"))
                     {
                         fileName = "CHOP HalfPint Assent Form.pdf";
-                        folder = "Enrollment~CHOP";
+                        folder = "Enrollment~Sites~CHOP";
                     }                    
                     if (fileName.Contains("Permission to Approach"))
                     {
@@ -106,12 +106,12 @@ namespace hpMvc.Controllers
                     if (fileName.Contains("Consent Form"))
                     {
                         fileName = "Denver HalfPint Consent Form.pdf";
-                        folder = "Enrollment~Denver";
+                        folder = "Enrollment~Sites~Denver";
                     }
                     if (fileName.Contains("Assent Form"))
                     {
                         fileName = "Denver HalfPint Assent Form.pdf";
-                        folder = "Enrollment~Denver";
+                        folder = "Enrollment~Sites~Denver";
                     }
                     if (fileName.Contains("Permission to Approach"))
                     {
@@ -124,12 +124,12 @@ namespace hpMvc.Controllers
                     if (fileName.Contains("Consent Form"))
                     {
                         fileName = "Nationwide HalfPint Consent Form.pdf";
-                        folder = "Enrollment~Nationwide";
+                        folder = "Enrollment~Sites~Nationwide";
                     }
                     if (fileName.Contains("Assent Form"))
                     {
                         fileName = "Nationwide HalfPint Assent Form.pdf";
-                        folder = "Enrollment~Nationwide";
+                        folder = "Enrollment~Sites~Nationwide";
                     }
                     if (fileName.Contains("Permission to Approach"))
                     {
@@ -142,12 +142,12 @@ namespace hpMvc.Controllers
                     if (fileName.Contains("Consent Form"))
                     {
                         fileName = "CCHMC HalfPint Consent Form.pdf";
-                        folder = "Enrollment~Cincinnati";
+                        folder = "Enrollment~Sites~Cincinnati";
                     }
                     if (fileName.Contains("Assent Form"))
                     {
                         fileName = "CCHMC HalfPint Assent Form.pdf";
-                        folder = "Enrollment~Cincinnati";
+                        folder = "Enrollment~Sites~Cincinnati";
                     }
                     if (fileName.Contains("Permission to Approach"))
                     {
@@ -160,12 +160,12 @@ namespace hpMvc.Controllers
                     if (fileName.Contains("Consent Form"))
                     {
                         fileName = "PennState HalfPint Consent Form.pdf";
-                        folder = "Enrollment~Penn State";
+                        folder = "Enrollment~Sites~Penn State";
                     }
                     if (fileName.Contains("Assent Form"))
                     {
                         fileName = "PennState HalfPint Assent Form.pdf";
-                        folder = "Enrollment~Penn State";
+                        folder = "Enrollment~Sites~Penn State";
                     }
                     if (fileName.Contains("Permission to Approach"))
                     {
@@ -193,13 +193,13 @@ namespace hpMvc.Controllers
                 default:
                     if (fileName.Contains("Consent Form"))
                     {
-                        fileName = "HalfPint Consent Form for CHB.doc";
-                        folder = "Enrollment";
+                        fileName = "BCH HalfPint Consent Form.pdf";
+                        folder = "Enrollment~Sites~CHB";
                     }
                     if (fileName.Contains("Assent Form"))
                     {
-                        fileName = "HalfPint Assent Form.docx";
-                        folder = "Enrollment";
+                        fileName = "BCH HalfPint Assent Form.pdf";
+                        folder = "Enrollment~Sites~CHB";
                     }
                     break;
                     
