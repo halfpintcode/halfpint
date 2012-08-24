@@ -43,10 +43,7 @@
         <siteMapNode title="HalfPint Assent Form" controller="Download" action="GetFile" fileName="PennState HalfPint Assent Form.pdf" folder="Enrollment~Sites~Penn State" />
       </siteMapNode>
       <siteMapNode title="Inclusion/Exclusion Criteria" controller="Download" action="GetFile" fileName="Inclusion-Exclusion Criteria.pdf" folder="Enrollment" />
-    </siteMapNode>
-    <siteMapNode title="Ancillary Studies" class="NurseOnly">
-      <siteMapNode title="CAF-PINT Summary" controller="Download" action="GetFile" fileName="CAF-PINT Summary 16 Aug 2012.pdf" folder="Ancillary Studies~CAF-PINT" />
-    </siteMapNode>
+    </siteMapNode>    
     <siteMapNode title="Permission to Approach">
       <siteMapNode title="Permission to Approach" controller="Download" action="GetFile" fileName="Site~ Permission to Approach.pdf" folder="Quick Links" class="NotDcc NotAdmin" />
       <siteMapNode title="CHB" class="AdminDCC">
