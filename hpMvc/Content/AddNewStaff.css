@@ -9,12 +9,12 @@
     display:inline-block;       
     width: 100px;    
 }
-span
+.spanChk
 {
     display:inline-block;
     width:200px;
 }
-.lblDoc 
+.lblDoc
 {    
     display:inline-block;       
     width:110px;    
