@@ -350,6 +350,7 @@
     <Content Include="Content\Images\contact.png" />
     <Content Include="Content\Images\file.png" />
     <Content Include="Content\Images\folder.png" />
+    <Content Include="Content\InitializePassword.css" />
     <Content Include="Content\jquery.dataTables.css" />
     <Content Include="Content\Images\mailLogo.gif" />
     <Content Include="Content\Images\mailLogo.jpg" />

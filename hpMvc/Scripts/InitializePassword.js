@@ -2,11 +2,30 @@
 /// <reference path="jquery.validate-vsdoc.js" />
 
 $(function () {
+    if (urlRoot.indexOf("hpTest") !== -1) {
+        if (!confirm("Please confirm that this is an actual patient \u0028not a test subject\u0029.\nYou will need the date and time the consent was obtained if this is an actual patient.")) {
+            window.location = urlRoot + '/Staff/Index';
+        }
+    }
+    else {
+        $('.hpProd').hide();
+    }
+
     $('#divPassword').hide();
     var password;
     var studyID;
 
     $('#StudyID').mask("99-9999-9");
+    $('#ConsentTime').mask("99:99");
+
+    $('#ConsentDate').datepicker({
+        beforeShow: function (input, inst) {
+            $.datepicker._pos = $.datepicker._findPos(input); //this is the default position 
+            var pos = $(this).position();
+            $.datepicker._pos[0] = pos.left + 100; //left              
+        }
+    });
+
     //extend validator
     $.validator.addMethod("StudyID", function (value, element) {
         return this.optional(element) || /\d{2}-\d{4}-\d$/.test(value);
@@ -28,6 +47,10 @@ $(function () {
         window.open(urlRoot + '/InitializeSubject/ShowInitializePassword?studyID=' + studyID + '&password=' + password, '_blank');
     });
 
+    $('#btnCancel').click(function () {
+        window.location = urlRoot + '/Staff/Index';
+    });
+
     $('#btnSubmit').click(function () {
         var $isValid = $validator.form();
         if (!$isValid) {
@@ -42,13 +65,25 @@ $(function () {
             return false;
         }
 
+        if (urlRoot.indexOf("hpTest") !== -1) {
+            var time = $.trim($('#ConsentTime').val());
+            if (time.length === 0) {
+                alert("Consent time is required");
+                return false;
+            }
+            if (!isValidTime(time)) {
+                alert("Invalid time! Time format example: 23:59");
+                return false;
+            }
+        }
+
 
         var url = urlRoot + '/InitializeSubject/InitializePassword/' + studyID;
-
+        var data = $("form").serialize();
         $.ajax({
             url: url,
             type: 'POST',
-            data: { StudyID: studyID },
+            data: data,
             success: function (data) {
                 if (data.IsSuccessful) {
                     $('#yourPassword').remove();
@@ -56,6 +91,7 @@ $(function () {
                     $('#divPassword').prepend("<p id='yourPassword'>Your password is: <b>" + password + "</b> </p>");
                     $('#divPassword').show();
                     $('#btnSubmit').attr('disabled', 'disabled');
+                    $('#btnCancel').attr('disabled', 'disabled');
                 }
                 else {
 

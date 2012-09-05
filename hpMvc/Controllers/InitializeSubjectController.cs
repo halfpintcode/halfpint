@@ -76,7 +76,7 @@ namespace hpMvc.Controllers
 
             TempData["InsertData"] = ssInsert;
 
-            string[] users = ConfigurationManager.AppSettings["NewFormulaNotify"].ToString().Split(new[] { ',' }, StringSplitOptions.None);
+            string[] users = ConfigurationManager.AppSettings["InitializeSubject"].ToString().Split(new[] { ',' }, StringSplitOptions.None);
 
             List<string> toEmails = new List<string>();
             foreach (var user in users)
@@ -216,6 +216,10 @@ namespace hpMvc.Controllers
         {
             logger.LogInfo("InitializePassword: Post");
 
+            //Request.ApplicationPath;
+            string consentDate = this.Request.Form["ConsentDate"].ToString();
+            string consentTime = this.Request.Form["ConsentTime"].ToString();
+
             RandomizePaswordDTO dto = new RandomizePaswordDTO();
             dto.IsSuccessful = true;
             dto.Message = "";
@@ -261,7 +265,7 @@ namespace hpMvc.Controllers
 
 
             //add the randomization password / studyid to the db           
-            dto.ReturnValue =DbUtils.AddRandomizationPassword(studyID, animal.ID);
+            dto.ReturnValue =DbUtils.AddRandomizationPassword(studyID, animal.ID, consentDate, consentTime);
             if (dto.ReturnValue != 1)
             {
                 dto.IsSuccessful = false;

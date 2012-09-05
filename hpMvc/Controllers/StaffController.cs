@@ -66,8 +66,6 @@ namespace hpMvc.Controllers
             return View();
         }
 
-        
-            
 
         public ActionResult New(string type)
         {

@@ -163,6 +163,26 @@ function validateEmployeeID(reg, empID) {
     return re.test(empID);
 }
 
+function isValidTime(input) {
+    var timeReg = /^([0-1]?[0-9]|2[0-3]):([0-5][0-9])(:[0-5][0-9])?$/;
+    return timeReg.test(input);
+}
+
+function isValidDate(input) {
+    var validformat = /^\d{2}\/\d{2}\/\d{4}$/ //Basic check for format validity
+    if (!validformat.test(input))
+        return "InvalidFormat";
+    
+    var monthfield = input.split("/")[0]
+    var dayfield = input.split("/")[1]
+    var yearfield = input.split("/")[2]
+    var dayobj = new Date(yearfield, monthfield - 1, dayfield)
+    if ((dayobj.getMonth() + 1 != monthfield) || (dayobj.getDate() != dayfield) || (dayobj.getFullYear() != yearfield))
+        return "InvalidDate";
+    else
+        return true;
+}
+
 //this is not tested
 //function isValidDate(date) {
 //    var valid = true;

@@ -870,7 +870,7 @@ namespace hpMvc.DataBase
                     cmd.CommandText = "GetRandomizationPassword";
                     SqlParameter param = new SqlParameter("@studyID", studyID);
                     cmd.Parameters.Add(param);
-
+                    
                     conn.Open();
                     return cmd.ExecuteScalar().ToString();                   
 
@@ -883,7 +883,7 @@ namespace hpMvc.DataBase
             }            
         }
         
-        public static int AddRandomizationPassword(string studyID, int animalID)
+        public static int AddRandomizationPassword(string studyID, int animalID, string consentDate, string consentTime)
         {            
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
 
@@ -898,6 +898,15 @@ namespace hpMvc.DataBase
                     SqlParameter param = new SqlParameter("@animalID", animalID);
                     cmd.Parameters.Add(param);
                     param = new SqlParameter("@studyID", studyID);
+                    cmd.Parameters.Add(param);
+
+                    if (consentDate.Length == 0)
+                        param = new SqlParameter("@consentDate", DBNull.Value);
+                    else
+                        param = new SqlParameter("@consentDate", DateTime.Parse(consentDate));
+                    cmd.Parameters.Add(param);
+
+                    param = new SqlParameter("@consentTime", consentTime);
                     cmd.Parameters.Add(param);
 
                     conn.Open();
