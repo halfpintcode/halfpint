@@ -2,13 +2,13 @@
 /// <reference path="jquery.validate-vsdoc.js" />
 
 $(function () {
-    if (urlRoot.indexOf("hpTest") !== -1) {
-        if (!confirm("Please confirm that this is an actual patient \u0028not a test subject\u0029.\nYou will need the date and time the consent was obtained if this is an actual patient.")) {
-            window.location = urlRoot + '/Staff/Index';
-        }
+    if (urlRoot.indexOf("hpTest") > -1) {
+        $('.hpProd').hide();
     }
     else {
-        $('.hpProd').hide();
+        if (!confirm("Please confirm that this is an actual patient \u0028not a test subject\u0029.\nYou will need the date and time the consent was obtained if this is an actual patient.")) {
+            window.location = urlRoot + '/Staff/Index';
+        }        
     }
 
     $('#divPassword').hide();
@@ -65,7 +65,7 @@ $(function () {
             return false;
         }
 
-        if (urlRoot.indexOf("hpTest") !== -1) {
+        if (urlRoot.indexOf("hpProd") > -1) {
             var time = $.trim($('#ConsentTime').val());
             if (time.length === 0) {
                 alert("Consent time is required");
