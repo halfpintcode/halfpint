@@ -9,6 +9,10 @@
     @Html.ValidationSummary(true, "Subject completion was unsuccessful. Please correct the errors and try again.")
     <fieldset>
         <legend>New @ViewBag.Type Information</legend>
+        <label>Study role:</label> @Html.DropDownList("Roles")
+        <br />
+        <label class="lblMain">User Name</label><input type="text" id="UserName" name="UserName" />
+        <br />        
         <label class="lblMain">First Name</label><input type="text" id="FirstName" name="FirstName" />
         <br />
         <label class="lblMain">Last Name</label><input type="text" id="LastName" name="LastName" />

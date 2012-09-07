@@ -8,6 +8,7 @@ using hpMvc.DataBase;
 using hpMvc.Models;
 using Telerik.Web.Mvc;
 using System.Configuration;
+using System.Web.Security;
 
 
 namespace hpMvc.Controllers
@@ -84,6 +85,11 @@ namespace hpMvc.Controllers
                 sites.Insert(0, new Site { ID = 0, Name = "Select a site", SiteID = "" });
                 ViewBag.Sites = new SelectList(sites, "ID", "Name");
             }
+
+            var roles = Roles.GetAllRoles().ToList();
+            roles.Insert(0, "Select a role");
+
+            ViewBag.Roles = new SelectList(roles);
 
             if (type == "Nurse")
             {
