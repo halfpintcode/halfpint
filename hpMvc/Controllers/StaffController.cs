@@ -104,6 +104,8 @@ namespace hpMvc.Controllers
         [HttpPost]
         public ActionResult New(StaffModel model)
         {
+            //validate model
+
             return View();
         }
 
