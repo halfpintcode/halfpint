@@ -2,21 +2,31 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.ComponentModel.DataAnnotations;
 
 namespace hpMvc.Models
 {
     public class StaffModel
     {
         public int ID { get; set; }
+        [Range(1,100,ErrorMessage="Site is required")]
         public int SiteID { get; set; }
+        [Required]
         public string Role { get; set; }
         public bool Active { get; set; }
         public bool SendEmail { get; set; }
+        [Required]
         public string UserName { get; set; }
+        [Required]
         public string FirstName { get; set; }
+        [Required]
         public string LastName { get; set; }
+        [Required]
+        [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
         public string EmployeeID { get; set; }
+        [Required]
+        [DataType(DataType.PhoneNumber)]
         public string Phone { get; set; }
         public bool NovaStatStrip { get; set; }
         public DateTime? NovaStatStripDoc { get; set; }

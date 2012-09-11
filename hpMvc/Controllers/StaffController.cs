@@ -65,49 +65,7 @@ namespace hpMvc.Controllers
             ViewBag.ShowFolder = "false";
             
             return View();
-        }
-
-
-        public ActionResult New(string type)
-        {
-            string role = "Coordinator";
-            if (HttpContext.User.IsInRole("Admin"))
-                role = "Admin";
-            ViewBag.Role = role;
-
-            List<Site> sites = new List<Site>();
-
-            if (role == "Admin")
-            {
-                sites = DbUtils.GetSites();
-                if (sites.Count == 0)
-                    throw new Exception("There was an error retreiving the sites list from the database");
-                sites.Insert(0, new Site { ID = 0, Name = "Select a site", SiteID = "" });
-                ViewBag.Sites = new SelectList(sites, "ID", "Name");
-            }
-
-            var roles = Roles.GetAllRoles().ToList();
-            roles.Insert(0, "Select a role");
-
-            ViewBag.Roles = new SelectList(roles);
-
-            if (type == "Nurse")
-            {
-                ViewBag.Type = "Nurse";
-            }
-            else
-                ViewBag.Type = "Staff";
-
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult New(StaffModel model)
-        {
-            //validate model
-
-            return View();
-        }
+        }        
 
         public JsonResult GetSiteEmployeeInfo(string site)
         {

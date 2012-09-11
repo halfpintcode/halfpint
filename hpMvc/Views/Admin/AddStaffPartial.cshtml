@@ -15,17 +15,17 @@
         &nbsp;&nbsp;&nbsp;&nbsp;
         @Html.EditorFor(m => m.SendEmail) <span class="spanChk">Send notification to new user</span>
         <br />
-        <label class="lblMain">User Name</label><input type="text" id="UserName" name="UserName" />
+        <label class="lblMain">User Name</label> @Html.EditorFor(m => m.UserName) 
         <br />        
-        <label class="lblMain">First Name</label><input type="text" id="FirstName" name="FirstName" />
+        <label class="lblMain">First Name</label> @Html.EditorFor(m => m.FirstName) 
         <br />
-        <label class="lblMain">Last Name</label><input type="text" id="LastName" name="LastName" />
+        <label class="lblMain">Last Name</label> @Html.EditorFor(m => m.LastName) 
         <br />
-        <label class="lblMain">Email</label><input type="text" id="Email" name="Email" />                
+        <label class="lblMain">Email</label> @Html.EditorFor(m => m.Email)                 
         <br />
-        <label class="lblMain">Phone</label><input type="text" id="Phone" name="Phone" />                        
+        <label class="lblMain">Phone</label> @Html.EditorFor(m => m.Phone)                         
         <div id="siteSpecific">            
-			<label class="lblMain">EmployeeID</label><input type="text" id="EmployeeID" name="EmployeeID" />
+			<label class="lblMain">EmployeeID</label> @Html.EditorFor(m => m.EmployeeID) 
 			<span id="empIDmessage"></span>            
 		</div>
         <br />

@@ -4,8 +4,9 @@
       <siteMapNode title="Admin Quick Links" class="QuickLinks">
       </siteMapNode>
       <siteMapNode title="User Management">
-        <siteMapNode title="Add new user" controller="Admin" action="AddUser" />
-        <siteMapNode title="Manage user roles" class = "aLnkClick"/>
+        <siteMapNode title="Add new staff" controller="Admin" action="AddStaff" />
+        <siteMapNode title="Add new user - 'depricated'" controller="Admin" action="AddUser" />
+        <siteMapNode title="Manage user roles - 'depricated'" class = "aLnkClick"/>
         <siteMapNode title="Reset user password" class = "aLnkClick"/>
         <siteMapNode title="Manage Roles" controller="Admin" action="ManageRoles" />
         <siteMapNode title="Delete user" id="deleteUser" />

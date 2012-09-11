@@ -1511,6 +1511,155 @@ namespace hpMvc.DataBase
             }
 
         }
+
+        public static MessageListDTO AddStaff(StaffModel model)
+        {
+            MessageListDTO dto = new MessageListDTO();
+            
+            // Attempt to add the user to the membership db
+            string password = DbUtils.GetRandomPassword();            
+            MembershipCreateStatus createStatus;
+            MembershipUser user = Membership.CreateUser(model.UserName, password, model.Email, null, null, true, null, out createStatus);
+
+            if (createStatus == MembershipCreateStatus.Success)
+            {
+                //FormsAuthentication.SetAuthCookie(model.UserName, false /* createPersistentCookie */);                    
+                if (!DbUtils.AddUserSite(model.UserName, model.SiteID))
+                {
+                    dto.Messages.Add("There was an error adding the user and site to the database");
+                    dto.IsSuccessful = false;
+                    return dto;
+                }
+
+                //this will tell us that user needs to reset
+                user.Comment = "Reset";
+                Membership.UpdateUser(user);                                
+                nlogger.LogInfo("AddUser - userName: " + model.UserName + ", site: " + model.SiteID.ToString() + ", password: " + password);                
+            }
+            else
+            {
+                dto.Messages.Add("Membership user not created for reason: " + ErrorCodeToString(createStatus));
+                dto.IsSuccessful = false;
+                return dto;
+            }
+            dto.Messages.Add("New user, " + model.UserName + ", was created successfully!");
+
+            //add the user role
+            Roles.AddUserToRole(model.UserName, model.Role);
+            dto.Messages.Add("The role of " + model.Role + " was assigned successfully!");
+
+            //add the user to the staff table
+            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            using (SqlConnection conn = new SqlConnection(strConn))
+            {
+                try
+                {
+                    SqlCommand cmd = new SqlCommand("", conn);
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.CommandText = "GetSiteInfoForUser";
+
+                    SqlParameter param = new SqlParameter("@siteID", model.SiteID);
+                    cmd.Parameters.Add(param);
+                    param = new SqlParameter("@role", model.Role);
+                    cmd.Parameters.Add(param);
+                    param = new SqlParameter("@userName", model.UserName);
+                    cmd.Parameters.Add(param);
+                    param = new SqlParameter("@firstName", model.FirstName);
+                    cmd.Parameters.Add(param);
+                    param = new SqlParameter("@lastName", model.LastName);
+                    cmd.Parameters.Add(param);
+                    param = new SqlParameter("@email", model.Email);
+                    cmd.Parameters.Add(param);
+                    param = new SqlParameter("@employeeID", model.EmployeeID);
+                    cmd.Parameters.Add(param);
+                    param = new SqlParameter("@phone", model.Phone);
+                    cmd.Parameters.Add(param);
+                    param = new SqlParameter("@novaStatStrip", model.NovaStatStrip);
+                    cmd.Parameters.Add(param);
+                    param = new SqlParameter("@novaStatStripDoc", model.NovaStatStripDoc);
+                    cmd.Parameters.Add(param);
+                    param = new SqlParameter("@vamp", model.Vamp);
+                    cmd.Parameters.Add(param);
+                    param = new SqlParameter("@vampDoc", model.VampDoc);
+                    cmd.Parameters.Add(param);
+                    param = new SqlParameter("@cgm", model.Cgm);
+                    cmd.Parameters.Add(param);
+                    param = new SqlParameter("@cgmDoc", model.CgmDoc);
+                    cmd.Parameters.Add(param);
+                    param = new SqlParameter("@inform", model.Inform);
+                    cmd.Parameters.Add(param);
+                    param = new SqlParameter("@informDoc", model.InformDoc);
+                    cmd.Parameters.Add(param);
+                    param = new SqlParameter("@onCall", model.OnCall);
+                    cmd.Parameters.Add(param);
+                    param = new SqlParameter("@onCallDoc", model.OnCallDoc);
+                    cmd.Parameters.Add(param);
+                    param = new SqlParameter("@humanSubj", model.HumanSubj);
+                    cmd.Parameters.Add(param);
+                    if (model.HumanSubj)
+                    {
+                        param = new SqlParameter("@humanSubjStart", model.HumanSubjStart);
+                        cmd.Parameters.Add(param);
+                        param = new SqlParameter("@humanSubjExp", model.HumanSubjExp);
+                        cmd.Parameters.Add(param);
+                    }
+                    else
+                    {
+                        param = new SqlParameter("@humanSubjStart", DBNull.Value);
+                        cmd.Parameters.Add(param);
+                        param = new SqlParameter("@humanSubjExp", DBNull.Value;
+                        cmd.Parameters.Add(param);                        
+                    }
+                }
+                catch (Exception ex)
+                {
+                    nlogger.LogError(ex);
+                    return dto;
+                }
+            }
+            
+            return dto;
+        }
+
+        #region Status Codes
+        public static string ErrorCodeToString(MembershipCreateStatus createStatus)
+        {
+            // See http://go.microsoft.com/fwlink/?LinkID=177550 for
+            // a full list of status codes.
+            switch (createStatus)
+            {
+                case MembershipCreateStatus.DuplicateUserName:
+                    return "User name already exists. Please enter a different user name.";
+
+                case MembershipCreateStatus.DuplicateEmail:
+                    return "A user name for that e-mail address already exists. Please enter a different e-mail address.";
+
+                case MembershipCreateStatus.InvalidPassword:
+                    return "The password provided is invalid. Please enter a valid password value.";
+
+                case MembershipCreateStatus.InvalidEmail:
+                    return "The e-mail address provided is invalid. Please check the value and try again.";
+
+                case MembershipCreateStatus.InvalidAnswer:
+                    return "The password retrieval answer provided is invalid. Please check the value and try again.";
+
+                case MembershipCreateStatus.InvalidQuestion:
+                    return "The password retrieval question provided is invalid. Please check the value and try again.";
+
+                case MembershipCreateStatus.InvalidUserName:
+                    return "The user name provided is invalid. Please check the value and try again.";
+
+                case MembershipCreateStatus.ProviderError:
+                    return "The authentication provider returned an error. Please verify your entry and try again. If the problem persists, please contact your system administrator.";
+
+                case MembershipCreateStatus.UserRejected:
+                    return "The user creation request has been canceled. Please verify your entry and try again. If the problem persists, please contact your system administrator.";
+
+                default:
+                    return "An unknown error occurred. Please verify your entry and try again. If the problem persists, please contact your system administrator.";
+            }
+        }
+        #endregion
     }
     
 }
