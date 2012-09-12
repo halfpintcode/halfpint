@@ -514,6 +514,7 @@
     <Content Include="Scripts\supersubs.js" />
     <Content Include="Scripts\TableTools.js" />
     <Content Include="Scripts\Test.js" />
+    <Content Include="Scripts\UpdateStaffInfo.js" />
     <Content Include="Scripts\UploadAjax.js" />
     <Content Include="Scripts\UserManagement.js" />
     <Content Include="Views\Admin\ManageUserRoles.cshtml">
@@ -621,6 +622,7 @@
     <Content Include="Views\Admin\AddStaffPartial.cshtml" />
     <Content Include="Views\Admin\NewStaffConfirmation.cshtml" />
     <Content Include="Views\Admin\AddStaff.cshtml" />
+    <Content Include="Views\Coordinator\UpdateStaffInformation.cshtml" />
     <None Include="_bin_deployableAssemblies\Microsoft.Web.Infrastructure.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.Razor.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.dll" />

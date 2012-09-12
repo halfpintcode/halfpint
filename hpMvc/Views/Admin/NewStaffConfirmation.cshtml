@@ -1,5 +1,26 @@
-﻿<div>    
-    <h3>
-        The new staff member has been successfully added.
-    </h3>
+﻿@model hpMvc.Models.MessageListDTO
+           
+@{
+    ViewBag.Title = "AddStaff";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>
+    @if (Model.IsSuccessful)
+    {
+        <text> The new staff member has been successfully added.</text>
+    }
+    else
+    {
+        <text> There was an error adding the new staff member.</text>
+    }
+</h3>
+
+<div>   
+    <ul> 
+    @foreach (var message in Model.Messages)
+    {
+        <li>@message</li>
+    }   
+    </ul> 
 </div>

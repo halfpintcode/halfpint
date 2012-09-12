@@ -10,6 +10,14 @@ namespace hpMvc.Models
 {
     public class AccountUtils
     {
+        public static MembershipUser GetUserByUserName(string userName)
+        {
+            MembershipUser user = null;
+            user = Membership.GetUser(userName);
+
+            return user;
+        }
+
         public static MembershipUser GetUserByEmail(string email)
         {
             MembershipUser user = null;

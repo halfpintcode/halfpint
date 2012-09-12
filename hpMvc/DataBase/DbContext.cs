@@ -468,6 +468,7 @@ namespace hpMvc.DataBase
 
             return list;
         }
+
         public static List<Randomization> GetSiteRandomizedStudies(int siteID)
         {
             var list = new List<Randomization>();
@@ -517,6 +518,7 @@ namespace hpMvc.DataBase
 
             return list;
         }
+
         public static List<StudyID> GetStudyIDsNotRandomized(int site)
         {
             List<StudyID> sls = new List<StudyID>();
@@ -1151,7 +1153,45 @@ namespace hpMvc.DataBase
             }
             return items;
         }
-        
+
+        public static List<IDandName> GetStaffLookupForSite(string siteID)
+        {
+            List<IDandName> items = new List<IDandName>();
+            IDandName item = null;
+            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            using (SqlConnection conn = new SqlConnection(strConn))
+            {
+                try
+                {
+                    SqlCommand cmd = new SqlCommand("", conn);
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.CommandText = ("GetStaffLookupForSite");
+                    SqlParameter param = new SqlParameter("@siteID", siteID);
+                    cmd.Parameters.Add(param);
+
+                    conn.Open();
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    int pos = 0;
+                    while (rdr.Read())
+                    {
+                        item = new IDandName();
+
+                        pos = rdr.GetOrdinal("ID");
+                        item.ID = rdr.GetInt32(pos);
+                        pos = rdr.GetOrdinal("UserName");
+                        item.Name = rdr.GetString(pos);
+                        items.Add(item);
+                    }
+                    rdr.Close();
+                }
+                catch (Exception ex)
+                {
+                    nlogger.LogError(ex);
+                }
+            }
+            return items;
+        }
+
         public static Dictionary<string,string> GetInitializeStudyIDsWithPassword(int siteID)
         {
             var dict = new Dictionary<string, string>();
@@ -1543,9 +1583,10 @@ namespace hpMvc.DataBase
                 return dto;
             }
             dto.Messages.Add("New user, " + model.UserName + ", was created successfully!");
+            dto.Bag = password;
 
             //add the user role
-            Roles.AddUserToRole(model.UserName, model.Role);
+            Roles.AddUserToRole(model.UserName, model.Role); 
             dto.Messages.Add("The role of " + model.Role + " was assigned successfully!");
 
             //add the user to the staff table
@@ -1556,44 +1597,75 @@ namespace hpMvc.DataBase
                 {
                     SqlCommand cmd = new SqlCommand("", conn);
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "GetSiteInfoForUser";
-
+                    cmd.CommandText = "AddStaff";
+                                        
                     SqlParameter param = new SqlParameter("@siteID", model.SiteID);
                     cmd.Parameters.Add(param);
+                    
                     param = new SqlParameter("@role", model.Role);
                     cmd.Parameters.Add(param);
+                    
                     param = new SqlParameter("@userName", model.UserName);
                     cmd.Parameters.Add(param);
+                    
                     param = new SqlParameter("@firstName", model.FirstName);
                     cmd.Parameters.Add(param);
+                    
                     param = new SqlParameter("@lastName", model.LastName);
                     cmd.Parameters.Add(param);
+                    
                     param = new SqlParameter("@email", model.Email);
                     cmd.Parameters.Add(param);
-                    param = new SqlParameter("@employeeID", model.EmployeeID);
+                    
+                    if(model.EmployeeID == null)
+                        param = new SqlParameter("@employeeID", DBNull.Value);
+                    else
+                        param = new SqlParameter("@employeeID", model.EmployeeID);
                     cmd.Parameters.Add(param);
+                    
                     param = new SqlParameter("@phone", model.Phone);
                     cmd.Parameters.Add(param);
+
                     param = new SqlParameter("@novaStatStrip", model.NovaStatStrip);
                     cmd.Parameters.Add(param);
-                    param = new SqlParameter("@novaStatStripDoc", model.NovaStatStripDoc);
+                    if(model.NovaStatStrip)
+                        param = new SqlParameter("@novaStatStripDoc", model.NovaStatStripDoc);
+                    else
+                        param = new SqlParameter("@novaStatStripDoc", DBNull.Value);
                     cmd.Parameters.Add(param);
+
                     param = new SqlParameter("@vamp", model.Vamp);
                     cmd.Parameters.Add(param);
-                    param = new SqlParameter("@vampDoc", model.VampDoc);
+                    if(model.Vamp)
+                        param = new SqlParameter("@vampDoc", model.VampDoc);
+                    else
+                        param = new SqlParameter("@vampDoc", DBNull.Value);
                     cmd.Parameters.Add(param);
+
                     param = new SqlParameter("@cgm", model.Cgm);
                     cmd.Parameters.Add(param);
-                    param = new SqlParameter("@cgmDoc", model.CgmDoc);
+                    if(model.Cgm)
+                        param = new SqlParameter("@cgmDoc", model.CgmDoc);
+                    else
+                        param = new SqlParameter("@cgmDoc", DBNull.Value);
                     cmd.Parameters.Add(param);
+                    
                     param = new SqlParameter("@inform", model.Inform);
                     cmd.Parameters.Add(param);
-                    param = new SqlParameter("@informDoc", model.InformDoc);
+                    if(model.Inform)                                       
+                        param = new SqlParameter("@informDoc", model.InformDoc);
+                    else
+                        param = new SqlParameter("@informDoc", DBNull.Value);
                     cmd.Parameters.Add(param);
+
                     param = new SqlParameter("@onCall", model.OnCall);
                     cmd.Parameters.Add(param);
-                    param = new SqlParameter("@onCallDoc", model.OnCallDoc);
+                    if(model.OnCall)                    
+                        param = new SqlParameter("@onCallDoc", model.OnCallDoc);                                            
+                    else
+                        param = new SqlParameter("@onCallDoc", DBNull.Value);                        
                     cmd.Parameters.Add(param);
+
                     param = new SqlParameter("@humanSubj", model.HumanSubj);
                     cmd.Parameters.Add(param);
                     if (model.HumanSubj)
@@ -1607,17 +1679,23 @@ namespace hpMvc.DataBase
                     {
                         param = new SqlParameter("@humanSubjStart", DBNull.Value);
                         cmd.Parameters.Add(param);
-                        param = new SqlParameter("@humanSubjExp", DBNull.Value;
+                        param = new SqlParameter("@humanSubjExp", DBNull.Value);
                         cmd.Parameters.Add(param);                        
                     }
+
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
                 }
                 catch (Exception ex)
                 {
                     nlogger.LogError(ex);
+                    dto.IsSuccessful = false;
+                    dto.Messages.Add("There was an error adding the new staff info into the staff database");
                     return dto;
                 }
             }
-            
+            dto.Messages.Add("New staff information was successfully entered into the database!");
+            dto.IsSuccessful = true;
             return dto;
         }
 

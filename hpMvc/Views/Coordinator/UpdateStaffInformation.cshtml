@@ -1,0 +1,20 @@
+﻿@{
+    ViewBag.Title = "UpdateStaffInformation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Update Staff Information</h2>
+
+@if (@ViewBag.Role == "Admin"){
+    <span>Select a site:&nbsp;</span> @Html.DropDownList("Sites")
+    <br /><br />
+}
+
+<form id="newForm" action="" method="post" >
+    <input id="SiteID" name="SiteID" type="hidden" value='@ViewBag.Site' />
+    <input id="Role" name="Role" type="hidden" value='@ViewBag.Role' />
+
+    @Html.DropDownList("Users")
+</form>
+
+<script src="@Url.Content("~/Scripts/UpdateStaffInfo.js")" type="text/javascript"></script>

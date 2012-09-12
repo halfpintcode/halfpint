@@ -214,7 +214,37 @@ namespace hpMvc.Controllers
             return View(list);
         }
 
-        
+        public ActionResult UpdateStaffInformation()
+        {
+            string role = "";
+
+            if (HttpContext.User.IsInRole("Admin"))
+            {
+                role = "Admin";
+
+                List<Site> sites = new List<Site>();
+
+                sites = DbUtils.GetSites();
+                if (sites.Count == 0)
+                    throw new Exception("There was an error retreiving the sites list from the database");
+                sites.Insert(0, new Site { ID = 0, Name = "Select a site", SiteID = "" });
+                ViewBag.Sites = new SelectList(sites, "ID", "Name");
+            }
+            ViewBag.Role = role;
+
+            int site = DbUtils.GetSiteidIDForUser(User.Identity.Name);
+            ViewBag.Site = site;
+
+            var list = DbUtils.GetStaffLookupForSite(site.ToString());
+            ViewBag.Users = new SelectList(list, "ID", "Name");
+            return View();
+        }
+
+        public JsonResult GetStaffForSite(string siteID)
+        {
+            var list = DbUtils.GetStaffLookupForSite(siteID);
+            return Json(list);
+        }
 
         public JsonResult GetNonradomizedStudies(string siteID)
         {

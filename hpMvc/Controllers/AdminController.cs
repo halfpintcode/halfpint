@@ -240,7 +240,14 @@ namespace hpMvc.Controllers
             if (ModelState.IsValid)
             {
                 MessageListDTO dto = DbUtils.AddStaff(model);
-                return View("NewStaffConfirmation");
+                if (dto.IsSuccessful)
+                {
+                    //send email notification
+                    if(model.SendEmail)
+                        Utility.SendAccountCreatedMail(new string[] { model.Email }, null, dto.Bag.ToString(), model.UserName, Utility.GetSiteLogonUrl(this.Request), this.Server);
+
+                }
+                return View("NewStaffConfirmation", dto);
             }
 
             List<Site> sites = new List<Site>();
@@ -256,6 +263,24 @@ namespace hpMvc.Controllers
 
             ViewBag.Roles = new SelectList(roles, model.Role);
             return View(model);
+        }
+
+        public JsonResult IsUserNameDuplicate(string userName)
+        {
+            bool retVal = true;
+
+            if (AccountUtils.GetUserByUserName(userName) == null)
+                retVal = false;
+            return Json(retVal);
+        }
+
+        public JsonResult IsUserEmailDuplicate(string email)
+        {
+            bool retVal = true;
+
+            if (AccountUtils.GetUserByEmail(email) == null)
+                retVal = false;
+            return Json(retVal);
         }
 
         public ActionResult AddUser()
