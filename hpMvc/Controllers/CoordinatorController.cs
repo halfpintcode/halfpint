@@ -236,14 +236,23 @@ namespace hpMvc.Controllers
             ViewBag.Site = site;
 
             var list = DbUtils.GetStaffLookupForSite(site.ToString());
+            list.Insert(0, new Site { ID = 0, Name = "Select a member", SiteID = "" });
             ViewBag.Users = new SelectList(list, "ID", "Name");
             return View();
         }
 
-        public JsonResult GetStaffForSite(string siteID)
+        public JsonResult GetStaffForSite(string site)
         {
-            var list = DbUtils.GetStaffLookupForSite(siteID);
+            var list = DbUtils.GetStaffLookupForSite(site);
+            list.Insert(0, new Site { ID = 0, Name = "Select a member", SiteID = "" });
             return Json(list);
+        }
+
+        [HttpPost]
+        public ActionResult GetStaffInfo(string user)
+        {
+            StaffModel model = DbUtils.GetStaffInfo(int.Parse(user));
+            return PartialView("UpdateStaffPartial", model);
         }
 
         public JsonResult GetNonradomizedStudies(string siteID)

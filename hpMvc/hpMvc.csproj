@@ -623,6 +623,7 @@
     <Content Include="Views\Admin\NewStaffConfirmation.cshtml" />
     <Content Include="Views\Admin\AddStaff.cshtml" />
     <Content Include="Views\Coordinator\UpdateStaffInformation.cshtml" />
+    <Content Include="Views\Coordinator\UpdateStaffPartial.cshtml" />
     <None Include="_bin_deployableAssemblies\Microsoft.Web.Infrastructure.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.Razor.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.dll" />

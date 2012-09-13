@@ -7,14 +7,13 @@
 
 @if (@ViewBag.Role == "Admin"){
     <span>Select a site:&nbsp;</span> @Html.DropDownList("Sites")
-    <br /><br />
+    <br />
+    <span>Select a member:&nbsp;</span>@Html.DropDownList("Users")
+    <br />
 }
 
-<form id="newForm" action="" method="post" >
-    <input id="SiteID" name="SiteID" type="hidden" value='@ViewBag.Site' />
-    <input id="Role" name="Role" type="hidden" value='@ViewBag.Role' />
+<div id="staffInfo">
 
-    @Html.DropDownList("Users")
-</form>
+</div>
 
 <script src="@Url.Content("~/Scripts/UpdateStaffInfo.js")" type="text/javascript"></script>

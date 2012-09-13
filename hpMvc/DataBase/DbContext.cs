@@ -1738,6 +1738,115 @@ namespace hpMvc.DataBase
             }
         }
         #endregion
+
+        public static StaffModel GetStaffInfo(int userID)
+        {
+            StaffModel model = new StaffModel();
+            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            using (SqlConnection conn = new SqlConnection(strConn))
+            {
+                try
+                {
+                    SqlCommand cmd = new SqlCommand("", conn);
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.CommandText = "GetStaffInfo";
+
+                    SqlParameter param = new SqlParameter("@id", userID);
+                    cmd.Parameters.Add(param);
+
+                    conn.Open();
+                    int pos = 0;
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.Read())
+                    {
+                        pos = rdr.GetOrdinal("ID");
+                        model.ID = rdr.GetInt32(pos);
+                        
+                        pos = rdr.GetOrdinal("Active");
+                        model.Active = rdr.GetBoolean(pos);
+                        
+                        pos = rdr.GetOrdinal("SiteID");
+                        model.SiteID = rdr.GetInt32(pos);
+                        
+                        pos = rdr.GetOrdinal("Role");
+                        if(!rdr.IsDBNull(pos))
+                            model.Role = rdr.GetString(pos);
+                        
+                        pos = rdr.GetOrdinal("UserName");
+                        if(!rdr.IsDBNull(pos))
+                            model.UserName = rdr.GetString(pos);
+                        
+                        pos = rdr.GetOrdinal("FirstName");
+                        if (!rdr.IsDBNull(pos))
+                            model.FirstName = rdr.GetString(pos);
+                        
+                        pos = rdr.GetOrdinal("LastName");
+                        if (!rdr.IsDBNull(pos))
+                            model.LastName = rdr.GetString(pos);
+                        
+                        pos = rdr.GetOrdinal("Email");
+                        if (!rdr.IsDBNull(pos))
+                            model.Email = rdr.GetString(pos);
+                        
+                        pos = rdr.GetOrdinal("EmployeeID");
+                        if (!rdr.IsDBNull(pos))
+                            model.EmployeeID = rdr.GetString(pos);
+                        
+                        pos = rdr.GetOrdinal("Phone");
+                        if (!rdr.IsDBNull(pos))
+                            model.Phone = rdr.GetString(pos);
+
+                        pos = rdr.GetOrdinal("NovaStatStrip");
+                        model.NovaStatStrip = rdr.GetBoolean(pos);
+                        pos = rdr.GetOrdinal("NovaStatStripDoc");
+                        if (!rdr.IsDBNull(pos))
+                            model.NovaStatStripDoc = rdr.GetDateTime(pos);
+
+                        pos = rdr.GetOrdinal("Vamp");
+                        model.Vamp = rdr.GetBoolean(pos);
+                        pos = rdr.GetOrdinal("VampDoc");
+                        if (!rdr.IsDBNull(pos))
+                            model.VampDoc = rdr.GetDateTime(pos);
+
+                        pos = rdr.GetOrdinal("Cgm");
+                        model.Cgm = rdr.GetBoolean(pos);
+                        pos = rdr.GetOrdinal("CgmDoc");
+                        if (!rdr.IsDBNull(pos))
+                            model.CgmDoc = rdr.GetDateTime(pos);
+
+                        pos = rdr.GetOrdinal("Inform");
+                        model.Inform = rdr.GetBoolean(pos);
+                        pos = rdr.GetOrdinal("InformDoc");
+                        if (!rdr.IsDBNull(pos))
+                            model.InformDoc = rdr.GetDateTime(pos);
+
+                        pos = rdr.GetOrdinal("OnCall");
+                        model.OnCall = rdr.GetBoolean(pos);
+                        pos = rdr.GetOrdinal("OnCallDoc");
+                        if (!rdr.IsDBNull(pos))
+                            model.OnCallDoc = rdr.GetDateTime(pos);
+
+                        pos = rdr.GetOrdinal("HumanSubj");
+                        model.HumanSubj = rdr.GetBoolean(pos);
+                        pos = rdr.GetOrdinal("HumanSubjStart");
+                        if (!rdr.IsDBNull(pos))
+                            model.HumanSubjStart = rdr.GetDateTime(pos);
+                        pos = rdr.GetOrdinal("HumanSubjExp");
+                        if (!rdr.IsDBNull(pos))
+                            model.HumanSubjExp = rdr.GetDateTime(pos);
+
+                    }
+                    rdr.Close();
+                    return model;
+                }
+                catch (Exception ex)
+                {
+                    nlogger.LogError(ex);
+                    return null;
+                }
+            }
+            
+        }
     }
     
 }
