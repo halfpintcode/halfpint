@@ -11,7 +11,7 @@ $(function () {
             $('#waitGif').hide();
         }
     });
-    
+
     //get the current user email
     var url = urlRoot + '/Account/GetUserEmail';
 
@@ -46,7 +46,9 @@ $(function () {
                 if (data.IsSuccessful) {
                     alert('Your email address has been updated.');
                 }
-
+                else {
+                    alert(data.Message);
+                }
             }
         });
     });

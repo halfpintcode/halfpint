@@ -1,7 +1,6 @@
 ﻿@model hpMvc.Models.StaffModel
 
-<form id="newForm" action="" method="post" >
-    <input id="SiteID" name="SiteID" type="hidden" />
+<form id="newForm" action="" method="post" >    
     <input id="Role" name="Role" type="hidden" />
     <input id="UserID" name="Role" type="hidden" />
     <input id="empIDRequired" value="" name="empIDRequired" type="hidden"/>
@@ -10,20 +9,19 @@
     
     @Html.ValidationSummary(true, "Subject completion was unsuccessful. Please correct the errors and try again.")
     <fieldset>
-        <legend>New @ViewBag.Type Information</legend>        
-        
-        <label>Study role:</label> <label>@Model.Role</label>
-        &nbsp;&nbsp;&nbsp;&nbsp;
-        @Html.EditorFor(m => m.SendEmail) <span class="spanChk">Send notification to new user</span>
+        <legend>Update @ViewBag.Type Information</legend>        
+        @Html.EditorFor(m => m.Active) <span class="spanChk">Active</span>
         <br />
-        <label class="lblMain">User Name</label> @Html.EditorFor(m => m.UserName) 
+        <label class="lblMain">Study role:</label> <label>@Model.Role</label>        
+        <br />
+        <label class="lblMain">User Name</label> <label>@Model.UserName</label>          
+        <br />
+        <label class="lblMain">Email</label> <label>@Model.Email</label>                
         <br />        
         <label class="lblMain">First Name</label> @Html.EditorFor(m => m.FirstName) 
         <br />
         <label class="lblMain">Last Name</label> @Html.EditorFor(m => m.LastName) 
-        <br />
-        <label class="lblMain">Email</label> @Html.EditorFor(m => m.Email)                 
-        <br />
+        <br />        
         <label class="lblMain">Phone</label> @Html.EditorFor(m => m.Phone)                         
         <div id="siteSpecific">            
 			<label class="lblMain">EmployeeID</label> @Html.EditorFor(m => m.EmployeeID) 

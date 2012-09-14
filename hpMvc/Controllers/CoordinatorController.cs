@@ -241,6 +241,25 @@ namespace hpMvc.Controllers
             return View();
         }
 
+        [HttpPost]
+        public ActionResult UpdateStaffInformation(StaffModel model)
+        {
+            //validate model
+            if (ModelState.IsValid)
+            {
+                MessageListDTO dto = DbUtils.UpdateStaff(model);
+                if (dto.IsSuccessful)
+                {
+                    //send email notification
+                    if (model.SendEmail)
+                        Utility.SendAccountCreatedMail(new string[] { model.Email }, null, dto.Bag.ToString(), model.UserName, Utility.GetSiteLogonUrl(this.Request), this.Server);
+
+                }
+                return View("UpdateStaffConfirmation", dto);
+            }
+            return View();
+        }
+
         public JsonResult GetStaffForSite(string site)
         {
             var list = DbUtils.GetStaffLookupForSite(site);

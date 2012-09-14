@@ -180,26 +180,15 @@ namespace hpMvc.Controllers
         public JsonResult UpdateUserEmail()
         {
             string newEmail = Request.Params["NewEmail"];
-            //todo check for valid email
-
-
-            DTO dto = new DTO();
-            MembershipUser user = Membership.GetUser(HttpContext.User.Identity.Name);
-            string oldEmail = user.Email;
-            user.Email = newEmail;
-            Membership.UpdateUser(user);
-
-            dto.IsSuccessful = true;
-            dto.Message = "You email has been changed to " + newEmail + ". Contact your coordinator if you did not request this change";
-
-            nlogger.LogInfo("UpdateUserEmail - user:" + user.UserName + ", message: " + dto.Message);
-
+            
+            DTO dto = AccountUtils.UpdateUserEmail(newEmail, User.Identity.Name);
+            
             var u = new UrlHelper(this.Request.RequestContext);
             string url = "http://" + this.Request.Url.Host + u.RouteUrl("Default", new { Controller = "Account", Action = "Logon" });
             
             //send to old and new emails
             Utility.SendHtmlEmail("Halfpint - Email Change", new string[] { newEmail }, null, dto.Message, Server, url);
-            Utility.SendHtmlEmail("Halfpint - Email Change", new string[] { oldEmail }, null, dto.Message, Server, url);
+            Utility.SendHtmlEmail("Halfpint - Email Change", new string[] { dto.Bag.ToString() }, null, dto.Message, Server, url);
 
             return Json(dto);
         }

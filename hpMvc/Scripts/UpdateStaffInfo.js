@@ -6,6 +6,9 @@ $(function () {
         var site = $(this).val();
         $('#SiteID').val(site);
 
+        $('#staffInfo').slideUp('slow');
+        $('#staffInfo').empty();
+
         //employee ID 
         if (site === "0") {
             $('#EmployeeID').val("");
@@ -69,19 +72,29 @@ $(function () {
 
     $('#Users').change(function () {
         var user = $(this).val();
-        $('#staffInfo').empty();
 
+        $('#staffInfo').slideUp('slow', function(){
+            $('#staffInfo').empty();
+
+            if (user === "0") {
+                return;
+            }
+            getUserInfo(user);
+        });       
+
+    });
+
+    function getUserInfo(user) {
         var url = urlRoot + '/Coordinator/GetStaffInfo/?user=' + user
-        
+
         $.ajax({
             url: url,
             type: 'POST',
             data: {},
             success: function (data) {
                 if (data) {
-                    $('#staffInfo').slideUp();
                     $('#staffInfo').append(data);
-                    $('#staffInfo').slideDown();
+                    $('#staffInfo').slideDown('slow');
                 }
                 else {
                     alert(data);
@@ -89,6 +102,5 @@ $(function () {
             }
         });
 
-    });
-
+    }
 });

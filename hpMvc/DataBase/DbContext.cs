@@ -1847,6 +1847,14 @@ namespace hpMvc.DataBase
             }
             
         }
+
+        public static MessageListDTO UpdateStaff(StaffModel model)
+        {
+            MessageListDTO dto = new MessageListDTO();
+
+
+            return dto;
+        }
     }
     
 }

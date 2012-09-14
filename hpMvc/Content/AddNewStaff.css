@@ -4,10 +4,20 @@
 	font-size: 14px;
 	line-height:2.2em;    
 }
+#divSelects
+{
+    font-size: 14px;
+	line-height:2.2em;
+}
 .lblMain 
 { 
     display:inline-block;       
     width: 100px;    
+}
+.spnMain 
+{ 
+    display:inline-block;       
+    width: 120px;    
 }
 .spanChk
 {

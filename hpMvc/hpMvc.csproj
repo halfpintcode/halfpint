@@ -99,6 +99,7 @@
     <Compile Include="Controllers\PostTestsController.cs" />
     <Compile Include="Controllers\StaffController.cs" />
     <Compile Include="Controllers\TestController.cs" />
+    <Compile Include="DataBase\AccountUtils.cs" />
     <Compile Include="DataBase\DbCalorieCalc.cs" />
     <Compile Include="DataBase\DbContext.cs" />
     <Compile Include="DataBase\DbInform.cs" />
