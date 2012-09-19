@@ -11,21 +11,21 @@
     <fieldset>
         <legend>New @ViewBag.Type Information</legend>        
         
-        <label>Study role:</label> @Html.DropDownList("Roles")
+        <label>Study role:</label> @Html.DropDownList("Roles") @Html.ValidationMessageFor(m => m.Role)
         &nbsp;&nbsp;&nbsp;&nbsp;
         @Html.EditorFor(m => m.SendEmail) <span class="spanChk">Send notification to new user</span>
         <br />
-        <label class="lblMain">User Name</label> @Html.EditorFor(m => m.UserName) 
+        <label class="lblMain">User Name</label> @Html.EditorFor(m => m.UserName) @Html.ValidationMessageFor(m => m.UserName) 
         <br />        
-        <label class="lblMain">First Name</label> @Html.EditorFor(m => m.FirstName) 
+        <label class="lblMain">First Name</label> @Html.EditorFor(m => m.FirstName) @Html.ValidationMessageFor(m => m.FirstName)
         <br />
-        <label class="lblMain">Last Name</label> @Html.EditorFor(m => m.LastName) 
+        <label class="lblMain">Last Name</label> @Html.EditorFor(m => m.LastName) @Html.ValidationMessageFor(m => m.LastName)
         <br />
-        <label class="lblMain">Email</label> @Html.EditorFor(m => m.Email)                 
+        <label class="lblMain">Email</label> @Html.EditorFor(m => m.Email) @Html.ValidationMessageFor(m => m.Email)                
         <br />
-        <label class="lblMain">Phone</label> @Html.EditorFor(m => m.Phone)                         
+        <label class="lblMain">Phone</label> @Html.EditorFor(m => m.Phone) @Html.ValidationMessageFor(m => m.Phone)                        
         <div id="siteSpecific">            
-			<label class="lblMain">EmployeeID</label> @Html.EditorFor(m => m.EmployeeID) 
+			<label class="lblMain">EmployeeID</label> @Html.EditorFor(m => m.EmployeeID) @Html.ValidationMessageFor(m => m.EmployeeID)
 			<span id="empIDmessage"></span>            
 		</div>
         <br />

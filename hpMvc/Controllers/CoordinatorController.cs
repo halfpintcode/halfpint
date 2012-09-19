@@ -238,26 +238,53 @@ namespace hpMvc.Controllers
             var list = DbUtils.GetStaffLookupForSite(site.ToString());
             list.Insert(0, new Site { ID = 0, Name = "Select a member", SiteID = "" });
             ViewBag.Users = new SelectList(list, "ID", "Name");
-            return View();
+            ViewBag.IsValid = "true";
+            return View(new StaffEditModel());
         }
 
         [HttpPost]
-        public ActionResult UpdateStaffInformation(StaffModel model)
+        public ActionResult UpdateStaffInformation(StaffEditModel model)
         {
+            if (model.Role == "Nurse")
+            {
+                ModelState["Phone"].Errors.Clear();
+            }
+
             //validate model
             if (ModelState.IsValid)
             {
                 MessageListDTO dto = DbUtils.UpdateStaff(model);
                 if (dto.IsSuccessful)
                 {
-                    //send email notification
-                    if (model.SendEmail)
-                        Utility.SendAccountCreatedMail(new string[] { model.Email }, null, dto.Bag.ToString(), model.UserName, Utility.GetSiteLogonUrl(this.Request), this.Server);
 
                 }
                 return View("UpdateStaffConfirmation", dto);
             }
-            return View();
+            
+            string role = "";
+
+            if (HttpContext.User.IsInRole("Admin"))
+            {
+                role = "Admin";
+
+                List<Site> sites = new List<Site>();
+
+                sites = DbUtils.GetSites();
+                if (sites.Count == 0)
+                    throw new Exception("There was an error retreiving the sites list from the database");
+                sites.Insert(0, new Site { ID = 0, Name = "Select a site", SiteID = "" });
+                ViewBag.Sites = new SelectList(sites, "ID", "Name");
+            }
+            ViewBag.Role = role;
+
+            int site = DbUtils.GetSiteidIDForUser(User.Identity.Name);
+            ViewBag.Site = site;
+
+            var list = DbUtils.GetStaffLookupForSite(site.ToString());
+            list.Insert(0, new Site { ID = 0, Name = "Select a member", SiteID = "" });
+            ViewBag.Users = new SelectList(list, "ID", "Name", model.ID.ToString());
+            ViewBag.IsValid = "false";
+            return View(model);
         }
 
         public JsonResult GetStaffForSite(string site)
@@ -270,7 +297,7 @@ namespace hpMvc.Controllers
         [HttpPost]
         public ActionResult GetStaffInfo(string user)
         {
-            StaffModel model = DbUtils.GetStaffInfo(int.Parse(user));
+            StaffEditModel model = DbUtils.GetStaffInfo(int.Parse(user));
             return PartialView("UpdateStaffPartial", model);
         }
 

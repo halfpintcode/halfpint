@@ -236,6 +236,10 @@ namespace hpMvc.Controllers
         [HttpPost]
         public ActionResult AddStaff(StaffModel model)
         {
+            if (model.Role == "Select a role")
+            {
+                ModelState["Role"].Errors.Add("Role is required");
+            }            
             //validate model
             if (ModelState.IsValid)
             {

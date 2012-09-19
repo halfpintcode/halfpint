@@ -1,4 +1,5 @@
-﻿@{
+﻿@model hpMvc.Models.StaffEditModel
+@{
     ViewBag.Title = "UpdateStaffInformation";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -13,10 +14,14 @@
     <span class="spnMain">Select a member:&nbsp;</span>@Html.DropDownList("Users")
     <br />
     <input id="SiteID" name="SiteID" type="hidden" value='@ViewBag.Site' />
+    <input id="IsValid" name="IsValid" type="hidden" value='@ViewBag.IsValid' />
 </div>
 
 <div id="staffInfo">
-
+    @if(ViewBag.IsValid == "false")
+    {
+        { Html.RenderPartial("UpdateStaffPartial"); }
+    }  
 </div>
 
 <link href="@Url.Content("~/Content/AddNewStaff.css")" rel="stylesheet" type="text/css" />

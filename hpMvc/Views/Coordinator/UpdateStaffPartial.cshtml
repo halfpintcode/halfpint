@@ -1,8 +1,10 @@
-﻿@model hpMvc.Models.StaffModel
+﻿@model hpMvc.Models.StaffEditModel
 
-<form id="newForm" action="" method="post" >    
-    <input id="Role" name="Role" type="hidden" />
-    <input id="UserID" name="Role" type="hidden" />
+<form id="updateForm" action="" method="post" >    
+    <input id="Role" name="Role" type="hidden" value='@Model.Role'/>
+    <input id="UserID" name="ID" type="hidden" value='@Model.ID'/>
+    <input id="UserName" name="UserName" type="hidden" value='@Model.UserName' />
+    <input id="Email" name="Email" type="hidden" value='@Model.Email' />
     <input id="empIDRequired" value="" name="empIDRequired" type="hidden"/>
 	<input id="empIDRegex" value="" name="empIDRegex" type="hidden"/>
 	<input id="empIDMessage" value="" name="empIDMessage" type="hidden"/>
@@ -12,9 +14,9 @@
         <legend>Update @ViewBag.Type Information</legend>        
         @Html.EditorFor(m => m.Active) <span class="spanChk">Active</span>
         <br />
-        <label class="lblMain">Study role:</label> <label>@Model.Role</label>        
+        <label class="lblMain">Study role:</label> <label >@Model.Role</label>        
         <br />
-        <label class="lblMain">User Name</label> <label>@Model.UserName</label>          
+        <label class="lblMain">User Name</label> <label >@Model.UserName</label>          
         <br />
         <label class="lblMain">Email</label> <label>@Model.Email</label>                
         <br />        
@@ -22,7 +24,10 @@
         <br />
         <label class="lblMain">Last Name</label> @Html.EditorFor(m => m.LastName) 
         <br />        
-        <label class="lblMain">Phone</label> @Html.EditorFor(m => m.Phone)                         
+        @if (@Model.Role != "Nurse")
+        {            
+            <label class="lblMain">Phone</label> @Html.EditorFor(m => m.Phone)                         
+        }
         <div id="siteSpecific">            
 			<label class="lblMain">EmployeeID</label> @Html.EditorFor(m => m.EmployeeID) 
 			<span id="empIDmessage"></span>            
@@ -37,7 +42,7 @@
         @Html.EditorFor(m => m.Cgm) <span class="spanChk">CGM Sensor Insertion</span>
         <label class="lblDoc">Date Completed:</label>  @Html.EditorFor(m => m.CgmDoc) 
         <br />
-        @if (@ViewBag.Role != "Nurse")
+        @if (@Model.Role != "Nurse")
         {
             @Html.EditorFor(m => m.Inform) <span class="spanChk">Inform Training</span>
             <label class="lblDoc">Date Completed:</label>  @Html.EditorFor(m => m.InformDoc) 
@@ -51,5 +56,5 @@
             <br />
         }
     </fieldset>
-    <br /><input type="submit" id="btnSubmit" value="Save" />&nbsp;&nbsp;&nbsp;<input type="button" id="btnClose" value="Cancel" />
+    <br /><input type="submit" id="btnSubmit" value="Save" />&nbsp;&nbsp;&nbsp;<input type="button" id="btnCancel" value="Cancel"/>
 </form>
