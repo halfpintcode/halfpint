@@ -258,7 +258,7 @@ namespace hpMvc.Controllers
                 {
 
                 }
-                return View("UpdateStaffConfirmation", dto);
+                return View("UpdateStaffConfirmationPartial", dto);
             }
             
             string role = "";

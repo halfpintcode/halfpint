@@ -1,38 +1,86 @@
 ﻿/// <reference path="jquery-1.7.1-vsdoc.js" />
 $(function () {
-    $('#Sites').val($('#SiteID').val());
+    $('#Phone').mask("999-999-9999");
 
+    $('#Sites').val($('#SiteID').val());
     var isValid = $('#IsValid').val();
 
-    if (isValid === "true") {
-        $('#Sites').change(function () {
-            var site = $(this).val();
-            $('#SiteID').val(site);
+    $('#Sites').change(function () {
+        var site = $(this).val();
+        $('#SiteID').val(site);
 
-            $('#staffInfo').slideUp('slow');
-            $('#staffInfo').empty();
+        $('#staffInfo').slideUp('slow');
+        $('#staffInfo').empty();
 
-            //employee ID 
-            if (site === "0") {
-                $('#EmployeeID').val("");
-                $('#empIDRequired').val("");
-                $('#empIDRegex').val("");
-                $('#empIDMessage').val("");
-                $('#siteSpecific').hide();
-            }
-            else {
-                siteChange(site);
-            } //else site/employee ID
+        //employee ID 
+        if (site === "0") {
+            $('#EmployeeID').val("");
+            $('#empIDRequired').val("");
+            $('#empIDRegex').val("");
+            $('#empIDMessage').val("");
+            $('#siteSpecific').hide();
+        }
+        else {
+            siteChange(site);
+        } //else site/employee ID
 
-        }); //$('#Sites').change
-    }
-    else {
+    }); //$('#Sites').change
+       
+    if (isValid === "false") {    
         $('#btnCancel').click(function () {
             window.location = urlRoot + '/Coordinator/Index';
         });
 
         $('#updateForm').submit(function () {
             return updateFormSubmit();
+        });
+
+        //handle date completed enable and disable (enable only when checked)
+        $(':input[type="checkbox"]').each(function () {
+            var id = $(this).attr('id');
+            if (id === "Active") {
+                return;
+            }
+
+            if ($(this).is(":checked")) {
+                $(this).next().next().next().next().attr('disabled', false);
+                if ($(this).attr("id") === "HumanSubj") {
+                    $(this).next().next().next().next().next().next().next().attr('disabled', false);
+                }
+            }
+            else {
+                $(this).next().next().next().next().val('');
+                $(this).next().next().next().next().attr('disabled', 'disabled');
+                if ($(this).attr("id") === "HumanSubj") {
+                    $(this).next().next().next().next().next().next().next().val('');
+                    $(this).next().next().next().next().next().next().next().attr('disabled', 'disabled');
+                }
+            }
+        });
+
+        $(':input[type="checkbox"]').change(function () {
+            var id = $(this).attr('id');
+            if (id === "Active") {
+                return;
+            }
+
+            if ($(this).is(":checked")) {
+                $(this).next().next().next().next().attr('disabled', false);
+                if ($(this).attr("id") === "HumanSubj") {
+                    var doc = $.trim($(this).next().next().next().next().val());
+                    //                if (doc.length > 0) {
+                    $(this).next().next().next().next().next().next().next().attr('disabled', false);
+                    //                }
+                }
+            }
+            else {
+                $(this).next().next().next().next().val('');
+                $(this).next().next().next().next().attr('disabled', 'disabled');
+                if ($(this).attr("id") === "HumanSubj") {
+                    $(this).next().next().next().next().next().next().next().val('');
+                    $(this).next().next().next().next().next().next().next().attr('disabled', 'disabled');
+                }
+            }
         });
     }
 
@@ -115,6 +163,54 @@ $(function () {
 
                     $('#updateForm').submit(function () {
                         return updateFormSubmit();
+                    });
+
+                    //handle date completed enable and disable (enable only when checked)
+                    $(':input[type="checkbox"]').each(function () {
+                        var id = $(this).attr('id');
+                        if (id === "Active") {
+                            return;
+                        }
+
+                        if ($(this).is(":checked")) {
+                            $(this).next().next().next().next().attr('disabled', false);
+                            if ($(this).attr("id") === "HumanSubj") {
+                                $(this).next().next().next().next().next().next().attr('disabled', false);
+                            }
+                        }
+                        else {
+                            $(this).next().next().next().next().val('');
+                            $(this).next().next().next().next().attr('disabled', 'disabled');
+                            if ($(this).attr("id") === "HumanSubj") {
+                                $(this).next().next().next().next().next().next().val('');
+                                $(this).next().next().next().next().next().next().attr('disabled', 'disabled');
+                            }
+                        }
+                    });
+
+                    $(':input[type="checkbox"]').change(function () {
+                        var id = $(this).attr('id');
+                        if (id === "Active") {
+                            return;
+                        }
+
+                        if ($(this).is(":checked")) {
+                            $(this).next().next().next().next().attr('disabled', false);
+                            if ($(this).attr("id") === "HumanSubj") {
+                                var doc = $.trim($(this).next().next().next().next().val());
+                                //if (doc.length > 0) {
+                                    $(this).next().next().next().next().next().next().attr('disabled', false);
+                                //}
+                            }
+                        }
+                        else {
+                            $(this).next().next().next().next().val('');
+                            $(this).next().next().next().next().attr('disabled', 'disabled');
+                            if ($(this).attr("id") === "HumanSubj") {
+                                $(this).next().next().next().next().next().next().val('');
+                                $(this).next().next().next().next().next().next().attr('disabled', 'disabled');
+                            }
+                        }
                     });
 
                 }
