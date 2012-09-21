@@ -22,9 +22,8 @@ namespace hpMvc.Controllers
             //if (site == 0)
             //    site = 1;
             
-            var users = DbPostTestsUtils.GetTestUsersForSite(site);
-
-            users.Insert(0, "Select Your Name");
+            var users = DbPostTestsUtils.GetTestUsersForSite(site);            
+            users.Insert(0, new IDandName(0, "Select Your Name"));
 
             //check if employee id required
             var retDto = DbPostTestsUtils.CheckIfEmployeeIDRequired(User.Identity.Name);
@@ -33,18 +32,19 @@ namespace hpMvc.Controllers
             ViewBag.EmpIDMessage = retDto.Stuff.EmpIDMessage;
             
                         
-            ViewBag.Users = new SelectList(users);
+            ViewBag.Users = new SelectList(users, "ID", "Name");
             return View();
         }
 
-        public ActionResult EditPostTest(string name)
+        public ActionResult EditPostTest(string id)
         {
             PostTestsModel ptm = new PostTestsModel();
 
             int site = DbUtils.GetSiteidIDForUser(User.Identity.Name);
-            var tests = DbPostTestsUtils.GetTestsCompleted(name);
+            var tests = DbPostTestsUtils.GetTestsCompleted(id);
 
-            ptm.Name = name;
+            //todo - staff change - ptm needs a name
+            ptm.Name = "";
             foreach (var test in tests)
             {
                 switch (test.Name)

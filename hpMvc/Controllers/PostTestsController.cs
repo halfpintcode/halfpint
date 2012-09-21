@@ -15,12 +15,12 @@ namespace hpMvc.Controllers
     {
         NLogger logger = new NLogger();
 
-        public ActionResult Initialize(string name)
+        public ActionResult Initialize(string id)
         {
             int site = DbUtils.GetSiteidIDForUser(User.Identity.Name);
             var users = DbPostTestsUtils.GetTestUsersForSite(site);
 
-            users.Insert(0, "Select Your Name");
+            users.Insert(0, new IDandName(0, "Select Your Name"));
 
             //check if employee id required
             var retDto = DbPostTestsUtils.CheckIfEmployeeIDRequired(User.Identity.Name);
@@ -28,23 +28,16 @@ namespace hpMvc.Controllers
             ViewBag.EmpIDRegex = retDto.Stuff.EmpIDRegex;
             ViewBag.EmpIDMessage = retDto.Stuff.EmpIDMessage;
 
-            if (name != null)
-            {
-                ViewBag.Users = new SelectList(users, name);
-                if (name != "Select Your Name")
-                {
-                    ViewBag.Email = DbPostTestsUtils.GetPostTestPersonEmail(name);
-                }
+            
+            ViewBag.Users = new SelectList(users, "ID", "Name", id);
+            if (id != "0")
+            {                
+                ViewBag.Email = DbPostTestsUtils.GetPostTestPersonEmail(id);
             }
-            else
-            {
-                ViewBag.Users = new SelectList(users);
-            }
+            
             return View();
         }
-
-        
-                
+                        
         [HttpPost]
         public JsonResult AddPostTestsCompleted(PostTestsModel ptm)
         {
@@ -55,32 +48,32 @@ namespace hpMvc.Controllers
 
             return Json(dto);
         }
-
-        
+                
         public JsonResult CreateName()
         {
             var dto = new DTO();
 
             int siteID = DbUtils.GetSiteidIDForUser(HttpContext.User.Identity.Name);
-            string name = Request.Params["Name"];
+            string lastName = Request.Params["LastName"];
+            string firstName = Request.Params["FirstName"];            
             string empID = Request.Params["EmpID"];
             string email = Request.Params["Email"];
 
-            dto.ReturnValue = DbPostTestsUtils.DoesPostTestNameExist(name, siteID);
+            dto.ReturnValue = DbPostTestsUtils.DoesPostTestNameExist(lastName, firstName, siteID);
             if (dto.ReturnValue != 0)
             {
                 if (dto.ReturnValue == -1)
                     dto.Message = "There was an error in determinig if this name was already in the database.";
-                if (dto.ReturnValue == 1)
+                if (dto.ReturnValue == 0)
                     dto.Message = "This name already exists. Select your name from the drop down list." ;
 
-                logger.LogInfo("PostTests.CreateName - message: " + dto.Message + ", name: " + name + ", site: " + siteID.ToString());
+                logger.LogInfo("PostTests.CreateName - message: " + dto.Message + ", name: " + lastName + "," + firstName + ", site: " + siteID.ToString());
                 return Json(dto);               
             }
             
-            dto.ReturnValue = DbPostTestsUtils.AddPostTestName(name,empID, siteID, email);
+            dto.ReturnValue = DbPostTestsUtils.AddPostTestName(lastName, firstName, empID, siteID, email);
 
-            logger.LogInfo("PostTests.CreateName - message: " + dto.Message + ", name: " + name + ", site: " + siteID.ToString());
+            logger.LogInfo("PostTests.CreateName - message: " + dto.Message + ", name: " + lastName + "," + firstName + ", site: " + siteID.ToString());
             return Json(dto);
         }
 
@@ -91,10 +84,10 @@ namespace hpMvc.Controllers
                 
         public JsonResult GetTestsCompleted()
         {
-            string name = Request.Params["Name"];
+            string id = Request.Params["ID"];
             int site = DbUtils.GetSiteidIDForUser(User.Identity.Name);
-            var tests = DbPostTestsUtils.GetTestsCompleted(name);
-            var email = DbPostTestsUtils.GetPostTestPersonEmail(name);
+            var tests = DbPostTestsUtils.GetTestsCompleted(id);
+            var email = DbPostTestsUtils.GetPostTestPersonEmail(id);
 
             var retVal = new { email = email, tests = tests };
             return Json(retVal);
@@ -102,10 +95,11 @@ namespace hpMvc.Controllers
 
         public JsonResult Submit()
         {
+            string id = Request.Params["ID"];
             string name = Request.Params["Name"];
             string[] email = new string[] {Request.Params["Email"]};
 
-            var tests = DbPostTestsUtils.GetTestsCompleted(name);
+            var tests = DbPostTestsUtils.GetTestsCompleted(id);
             if(tests.Count == 0)
                 return Json("no tests");
             
@@ -127,14 +121,15 @@ namespace hpMvc.Controllers
             return Json("");
         }
 
-        public ActionResult Checks(string name)
+        public ActionResult Checks(string id)
         {
             if (Request.Params["completed"] != null)
                 ViewBag.Completed = "true";
             else
                 ViewBag.Completed = "false";
 
-            ViewBag.Name = name;
+            ViewBag.Name = Request.Params["name"]; 
+            ViewBag.ID = id;
             ViewBag.Test = "Checks";
             return View();
         }
@@ -142,13 +137,14 @@ namespace hpMvc.Controllers
         [HttpPost]        
         public JsonResult Checks()
         {
-            string name = Request.Params["name"];
+            string id = Request.Params["id"];
+            string name = Request.Params["name"]; 
             var dto = DbPostTestsUtils.VerifyPostTest("Checks", Request.Params);
             if (dto.IsSuccessful)
             {
                 //get the person id
                 int siteID = DbUtils.GetSiteidIDForUser(HttpContext.User.Identity.Name);
-                int nameID = DbPostTestsUtils.GetPostTestPersonID(name, siteID);
+                int nameID = int.Parse(id);
                 //save test as completed
                 DbPostTestsUtils.AddTestCompleted(nameID, "Checks");
             }

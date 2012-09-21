@@ -49,8 +49,11 @@ namespace hpMvc.DataBase
 
         public static MembershipUser GetUserByUserName(string userName)
         {
+            
+                
             MembershipUser user = null;
-            user = Membership.GetUser(userName);
+            if (userName != null)
+                user = Membership.GetUser(userName);
 
             return user;
         }
@@ -58,10 +61,14 @@ namespace hpMvc.DataBase
         public static MembershipUser GetUserByEmail(string email)
         {
             MembershipUser user = null;
-            string userName = Membership.GetUserNameByEmail(email);
-            if (userName != null)
+            if (email != null)
             {
-                user = Membership.GetUser(userName);
+                string userName = Membership.GetUserNameByEmail(email);
+
+                if (userName != null)
+                {
+                    user = Membership.GetUser(userName);
+                }
             }
             return user;
         }

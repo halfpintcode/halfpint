@@ -152,19 +152,21 @@ $(function () {
                 return;
             }
         }
-
-        var name = firstName + ' ' + lastName;
+                
         var url = urlRoot + '/PostTests/CreateName'
         $('#btnCreate').attr('disabled', 'disabled');
         $.ajax({
             url: url,
             type: 'POST',
-            data: { Name: name, EmpID: empID, Email: email },
+            data: { LastName: lastName, FirstName:firstName, EmpID: empID, Email: email },
             success: function (data) {
-                if (data.ReturnValue === 0) {
-                    alert(name + ' created successfully');
+                //data.ReturnValue contains the id for the new staff record
+                if (data.ReturnValue > 0) {
+                    alert(firstName + ' ' + lastName + ' created successfully');
+                    $('#ID').val(data.ReturnValue);
                     $('#testMenu').show();
                     $('#divClickHere').hide();
+                    $('#sEmail').val($('#email').val());
                 }
                 else {
                     alert(data.Message);
@@ -183,7 +185,8 @@ $(function () {
         $('#btnStart').attr('disabled', 'disabled')
 
         var url = urlRoot + '/PostTests/GetTestsCompleted'
-        var name = $('#Users').val();
+        var name = $("option:selected", $('#Users')).text();
+        var id = $('#Users').val();
         var srcUrl = urlRoot + "/Content/images/check2.jpg";
         var img = '<img alt="" src=' + srcUrl + ' />'
         var text = '';
@@ -191,7 +194,7 @@ $(function () {
         $.ajax({
             url: url,
             type: 'POST',
-            data: { Name: name },
+            data: { Name: name, ID: id },
             success: function (data) {
                 $('#sEmail').val(data.email);
                 $.each(data.tests, function (index, d) {
@@ -246,23 +249,24 @@ $(function () {
     });
 
     //if a name was passed as part of the url then automatically click start
-    if ($('#Users').val() !== 'Select Your Name') {
+    if ($('#Users').val() !== "0") {
         $('#btnStart').click();
     }
 
     $('.aLnk').click(function (e) {
 
         var userName = isNameSelected();
-
+        
         if (userName.length === 0) {
             e.preventDefault();
             alert('Select or create a name')
             return;
         }
 
-        var path = urlRoot + '/PostTests/' + $(this).parent().attr('id') + '/' + userName;
+        var id = $('#Users').val();
+        var path = urlRoot + '/PostTests/' + $(this).parent().attr('id') + '/' + id + '?name=' + userName;
         if ($(this).parent().hasClass('completed')) {
-            path = path + '?completed=true';
+            path = path + '&completed=true';
         }
 
         $(this).attr('href', path);
@@ -272,15 +276,17 @@ $(function () {
 
     function isNameSelected() {
         var userName = '';
+        var val = '';
 
         //if selected from list
         if ($('#listName').is(':visible')) {
-            userName = $('#Users').val();
-            if (userName === 'Select Your Name') {
+            val = $('#Users').val();
+            if (val === '0') {
                 e.preventDefault();
                 alert('Select your name from the list');
                 return;
             }
+            userName = $("option:selected", $('#Users')).text();
         }
         else {
             //check first and last names

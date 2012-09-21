@@ -1178,7 +1178,7 @@ namespace hpMvc.DataBase
 
                         pos = rdr.GetOrdinal("ID");
                         item.ID = rdr.GetInt32(pos);
-                        pos = rdr.GetOrdinal("UserName");
+                        pos = rdr.GetOrdinal("Name");
                         item.Name = rdr.GetString(pos);
                         items.Add(item);
                     }
@@ -1771,7 +1771,7 @@ namespace hpMvc.DataBase
                         pos = rdr.GetOrdinal("Role");
                         if(!rdr.IsDBNull(pos))
                             model.Role = rdr.GetString(pos);
-                        
+                     
                         pos = rdr.GetOrdinal("UserName");
                         if(!rdr.IsDBNull(pos))
                             model.UserName = rdr.GetString(pos);

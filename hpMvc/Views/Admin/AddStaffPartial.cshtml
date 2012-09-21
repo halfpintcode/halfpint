@@ -15,7 +15,7 @@
         &nbsp;&nbsp;&nbsp;&nbsp;
         @Html.EditorFor(m => m.SendEmail) <span class="spanChk">Send notification to new user</span>
         <br />
-        <label class="lblMain">User Name</label> @Html.EditorFor(m => m.UserName) @Html.ValidationMessageFor(m => m.UserName) 
+        <label class="lblMain">User Name</label> @Html.EditorFor(m => m.UserName) @Html.ValidationMessageFor(m => m.UserName) <span>(User name must be at least 6 characters long and contain 1 upper case letter and 1 number)</span> 
         <br />        
         <label class="lblMain">First Name</label> @Html.EditorFor(m => m.FirstName) @Html.ValidationMessageFor(m => m.FirstName)
         <br />

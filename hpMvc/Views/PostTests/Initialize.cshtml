@@ -12,9 +12,10 @@
 
 <form method="post" action="">    
 	<div id="listName">
-		If you are already created a name for testing, select your name from the list and click on 'Start Testing'.
+		If your role is other than Nurse or you are a nurse and have are already created a name for testing, select your name from the list and click on 'Start Testing'.
 		<br /><br />
 		@Html.DropDownList("Users") &nbsp;&nbsp; <input type="button" id="btnStart" value="Start Testing" />
+        <input type="hidden" id="ID" name="ID" />
 	</div>
 		  
 	<div id="divName">

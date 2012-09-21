@@ -9,7 +9,8 @@
 <hr />
 <form action="" method="post">    
 	<input id="name" name="name" type="hidden" value='@ViewBag.Name'/>
-	<input id="test" name="test" type="hidden" value='@ViewBag.Test'/>
+	<input id="id" name="id" type="hidden" value='@ViewBag.ID'/>
+    <input id="test" name="test" type="hidden" value='@ViewBag.Test'/>
     <input id="completed" name="completed" type="hidden" value='@ViewBag.Completed'/>
 	<p id="testIntro">
 		After viewing the videos, click on the 'Take the test' link (below the video). You must answer all questions correctly.
@@ -77,5 +78,5 @@
 		<input type="button" id="btnSubmit" value="Submit Answers" /> 
 	</div>
     <br />
-    @Html.ActionLink("Back to tests menu", "Initialize",  new { Controller = "PostTests", name = @ViewBag.Name })
+    @Html.ActionLink("Back to tests menu", "Initialize", new { Controller = "PostTests", id = @ViewBag.ID })
 </form>

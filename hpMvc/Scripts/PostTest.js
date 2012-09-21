@@ -27,6 +27,7 @@ $(function () {
         var test = $('#test').val();
         var url = urlRoot + '/PostTests/' + test;
         var data = $("form").serialize();
+        
         $.ajax({
             url: url,
             type: 'POST',
@@ -34,8 +35,8 @@ $(function () {
             success: function (data) {
                 if (data.IsSuccessful) {
                     alert('Congratulations! ' + data.Message);
-                    var name = $('#name').val();
-                    url = urlRoot + '/PostTests/Initialize/' + name;
+                    var id = $('#id').val();
+                    url = urlRoot + '/PostTests/Initialize/' + id;
                     window.location = url;
                 }
                 else {

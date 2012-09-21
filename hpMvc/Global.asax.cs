@@ -28,14 +28,14 @@ namespace hpMvc
 
             routes.MapRoute(
                "PostTestsAdmin", // Route name
-               "PostTestsAdmin/{action}/{name}", // URL with parameters
-               new { controller = "PostTestsAdmin", action = "Index", name = "Select Your Name" } // Parameter defaults
+               "PostTestsAdmin/{action}/{id}", // URL with parameters
+               new { controller = "PostTestsAdmin", action = "Index", id = "0" } // Parameter defaults
             );
 
             routes.MapRoute(
                "PostTests", // Route name
-               "PostTests/{action}/{name}", // URL with parameters
-               new { controller = "PostTests", action = "Index", name = "Select Your Name" } // Parameter defaults
+               "PostTests/{action}/{id}", // URL with parameters
+               new { controller = "PostTests", action = "Index", id = "0" } // Parameter defaults
             );
            
             routes.MapRoute(

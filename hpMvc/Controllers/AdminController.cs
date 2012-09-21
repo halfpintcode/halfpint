@@ -254,6 +254,7 @@ namespace hpMvc.Controllers
                 return View("NewStaffConfirmation", dto);
             }
 
+
             List<Site> sites = new List<Site>();
 
             sites = DbUtils.GetSites();
