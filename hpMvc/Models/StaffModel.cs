@@ -73,6 +73,7 @@ namespace hpMvc.Models
         public bool HumanSubj { get; set; }
         public DateTime? HumanSubjStart { get; set; }
         public DateTime? HumanSubjExp { get; set; }
+        public PostTestPersonTestsCompleted PostTestsCompleted { get; set; }
     }
 
 }
