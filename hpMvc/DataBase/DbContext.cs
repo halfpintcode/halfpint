@@ -1837,6 +1837,32 @@ namespace hpMvc.DataBase
 
                     }
                     rdr.Close();
+
+                    //get tests completed
+                    cmd = new SqlCommand("", conn);
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.CommandText = "GetStaffInfo";
+                    param = new SqlParameter("@id", userID);
+                    cmd.Parameters.Add(param);
+                    
+                    rdr = cmd.ExecuteReader();
+
+                    PostTestPersonTestsCompleted ptpc = new PostTestPersonTestsCompleted();
+                    while (rdr.Read())
+                    {
+                        PostTest pt = new PostTest();
+                        pos = rdr.GetOrdinal("Name");
+                        pt.Name = rdr.GetString(pos);
+                        pos = rdr.GetOrdinal("DateCompleted");
+                        if (!rdr.IsDBNull(pos))
+                        {
+                            pt.DateCompleted = rdr.GetDateTime(pos);
+                            pt.sDateCompleted = pt.DateCompleted != null ? pt.DateCompleted.Value.ToString("MM/dd/yyyy") : "";
+                        }
+                        ptpc.PostTestsCompleted.Add(pt);
+                    }
+                    rdr.Close();
+                    model.PostTestsCompleted = ptpc;
                     return model;
                 }
                 catch (Exception ex)

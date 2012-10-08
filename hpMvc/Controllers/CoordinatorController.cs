@@ -298,6 +298,7 @@ namespace hpMvc.Controllers
         public ActionResult GetStaffInfo(string user)
         {
             StaffEditModel model = DbUtils.GetStaffInfo(int.Parse(user));
+
             return PartialView("UpdateStaffPartial", model);
         }
 
