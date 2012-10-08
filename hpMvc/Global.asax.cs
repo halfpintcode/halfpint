@@ -35,7 +35,7 @@ namespace hpMvc
             routes.MapRoute(
                "PostTests", // Route name
                "PostTests/{action}/{id}", // URL with parameters
-               new { controller = "PostTests", action = "Index", id = "0" } // Parameter defaults
+               new { controller = "PostTests", action = "Initialize", id = "0" } // Parameter defaults
             );
            
             routes.MapRoute(

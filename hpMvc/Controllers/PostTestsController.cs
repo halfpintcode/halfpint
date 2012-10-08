@@ -121,16 +121,17 @@ namespace hpMvc.Controllers
             return Json("");
         }
 
-        public ActionResult Checks(string id)
+        public ActionResult Checks(string id, string name)
         {
+            ViewBag.Name = name;
+            ViewBag.Test = "Checks";
+            ViewBag.ID = id;
+
             if (Request.Params["completed"] != null)
                 ViewBag.Completed = "true";
             else
                 ViewBag.Completed = "false";
-
-            ViewBag.Name = Request.Params["name"]; 
-            ViewBag.ID = id;
-            ViewBag.Test = "Checks";
+                        
             return View();
         }
         
@@ -139,6 +140,7 @@ namespace hpMvc.Controllers
         {
             string id = Request.Params["id"];
             string name = Request.Params["name"]; 
+
             var dto = DbPostTestsUtils.VerifyPostTest("Checks", Request.Params);
             if (dto.IsSuccessful)
             {
@@ -163,10 +165,11 @@ namespace hpMvc.Controllers
             return Json(dto);
         }
         
-        public ActionResult Medtronic(string name)
+        public ActionResult Medtronic(string id, string name)
         {
             ViewBag.Name = name;
             ViewBag.Test = "Medtronic";
+            ViewBag.ID = id;
 
             if (Request.Params["completed"] != null)
                 ViewBag.Completed = "true";
@@ -179,15 +182,15 @@ namespace hpMvc.Controllers
         [HttpPost]        
         public JsonResult Medtronic()
         {
+            string id = Request.Params["id"];
             string name = Request.Params["name"];
-            
 
             var dto = DbPostTestsUtils.VerifyPostTest("Medtronic", Request.Params);
             if (dto.IsSuccessful)
             {
                 //get the person id
                 int siteID = DbUtils.GetSiteidIDForUser(HttpContext.User.Identity.Name);
-                int nameID = DbPostTestsUtils.GetPostTestPersonID(name, siteID);
+                int nameID = int.Parse(id);
                 //save test as completed
                 DbPostTestsUtils.AddTestCompleted(nameID, "Medtronic");
             }
@@ -205,29 +208,35 @@ namespace hpMvc.Controllers
             logger.LogInfo("Post-tests Medtronic: " + name + ", " + dto.Message + incorrect);
             return Json(dto);
         }
-        
-        public ActionResult Overview(string name)
+
+        public ActionResult Overview(string id, string name)
         {
+            ViewBag.Name = name;
+            ViewBag.Test = "Overview";
+            ViewBag.ID = id;
+
             if (Request.Params["completed"] != null)
                 ViewBag.Completed = "true";
             else
                 ViewBag.Completed = "false";
 
-            ViewBag.Name = name;
-            ViewBag.Test = "Overview";            
+                     
             return View();
         }
 
         [HttpPost]        
         public JsonResult Overview()
         {
+
+            string id = Request.Params["id"]; 
             string name = Request.Params["name"];
+
             var dto = DbPostTestsUtils.VerifyPostTest("Overview", Request.Params);
             if (dto.IsSuccessful)
             {
                 //get the person id
                 int siteID = DbUtils.GetSiteidIDForUser(HttpContext.User.Identity.Name);
-                int nameID = DbPostTestsUtils.GetPostTestPersonID(name, siteID);
+                int nameID = int.Parse(id);
                 //save test as completed
                 DbPostTestsUtils.AddTestCompleted(nameID, "Overview");
             }
@@ -246,28 +255,33 @@ namespace hpMvc.Controllers
             return Json(dto);
         }
 
-        public ActionResult NovaStatStrip(string name)
+        public ActionResult NovaStatStrip(string id, string name)
         {
+            ViewBag.Name = name;
+            ViewBag.Test = "NovaStatStrip";
+            ViewBag.ID = id;
+
             if (Request.Params["completed"] != null)
                 ViewBag.Completed = "true";
             else
                 ViewBag.Completed = "false";
 
-            ViewBag.Name = name;
-            ViewBag.Test = "NovaStatStrip";            
+                     
             return View();
         }
 
         [HttpPost]        
         public JsonResult NovaStatStrip()
         {
+            string id = Request.Params["id"];
             string name = Request.Params["name"];
+
             var dto = DbPostTestsUtils.VerifyPostTest("NovaStatStrip", Request.Params);
             if (dto.IsSuccessful)
             {
                 //get the person id
                 int siteID = DbUtils.GetSiteidIDForUser(HttpContext.User.Identity.Name);
-                int nameID = DbPostTestsUtils.GetPostTestPersonID(name, siteID);
+                int nameID = int.Parse(id);
                 //save test as completed
                 DbPostTestsUtils.AddTestCompleted(nameID, "NovaStatStrip");
             }
@@ -286,28 +300,32 @@ namespace hpMvc.Controllers
             return Json(dto);
         }
 
-        public ActionResult VampJr(string name)
+        public ActionResult VampJr(string id, string name)
         {
+            ViewBag.Name = name;
+            ViewBag.Test = "VampJr";
+            ViewBag.ID = id;
+            
             if (Request.Params["completed"] != null)
                 ViewBag.Completed = "true";
             else
                 ViewBag.Completed = "false";
 
-            ViewBag.Name = name;
-            ViewBag.Test = "VampJr";            
             return View();
         }
 
         [HttpPost]        
         public JsonResult VampJr()
         {
+            string id = Request.Params["id"];
             string name = Request.Params["name"];
+                        
             var dto = DbPostTestsUtils.VerifyPostTest("VampJr", Request.Params);
             if (dto.IsSuccessful)
             {
                 //get the person id
                 int siteID = DbUtils.GetSiteidIDForUser(HttpContext.User.Identity.Name);
-                int nameID = DbPostTestsUtils.GetPostTestPersonID(name, siteID);
+                int nameID = int.Parse(id);
                 //save test as completed
                 DbPostTestsUtils.AddTestCompleted(nameID, "VampJr");
             }

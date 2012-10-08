@@ -78,5 +78,5 @@
 		<input type="button" id="btnSubmit" value="Submit Answers" /> 
 	</div>
     <br />
-    @Html.ActionLink("Back to tests menu", "Initialize", new { Controller = "PostTests", id = @ViewBag.ID })
+    @Html.ActionLink("Back to tests menu", "Initialize", new { id = (string)ViewBag.ID })
 </form>
