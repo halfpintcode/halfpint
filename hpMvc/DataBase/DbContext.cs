@@ -1841,7 +1841,7 @@ namespace hpMvc.DataBase
                     //get tests completed
                     cmd = new SqlCommand("", conn);
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "GetStaffInfo";
+                    cmd.CommandText = "GetStaffTestsCompleted";
                     param = new SqlParameter("@id", userID);
                     cmd.Parameters.Add(param);
                     

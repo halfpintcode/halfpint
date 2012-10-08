@@ -1,5 +1,25 @@
 ﻿@model hpMvc.Models.StaffEditModel
 
+<h3>Post Tests Completed Summary</h3>
+
+<div>
+    <table>
+        <thead>
+            <tr>
+                <th>Test</th><th>Date Completed</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var pt in Model.PostTestsCompleted.PostTestsCompleted)
+            {
+                <tr>
+                    <td>@pt.Name</td><td>@pt.sDateCompleted</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
 <form id="updateForm" action="" method="post" >    
     <input id="Role" name="Role" type="hidden" value='@Model.Role'/>
     <input id="UserID" name="ID" type="hidden" value='@Model.ID'/>
@@ -58,3 +78,4 @@
     </fieldset>
     <br /><input type="submit" id="btnSubmit" value="Save" />&nbsp;&nbsp;&nbsp;<input type="button" id="btnCancel" value="Cancel"/>
 </form>
+

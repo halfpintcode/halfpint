@@ -29,3 +29,13 @@
     display:inline-block;       
     width:110px;    
 }
+table
+{    
+    margin-left: 50px;
+    border-collapse: collapse;     
+}
+td, th  
+{
+    border: 1px solid; 
+    padding: 5px;    
+} 
