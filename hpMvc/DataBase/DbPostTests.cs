@@ -36,8 +36,8 @@ namespace hpMvc.DataBase
                         SqlCommand cmd = new SqlCommand("", conn);
                         cmd.Transaction = trn;
                         cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                        cmd.CommandText = "DeletePostTestsCompleted";
-                        SqlParameter param = new SqlParameter("@name", ptm.Name);
+                        cmd.CommandText = "DeleteStaffPostTestsCompleted";
+                        SqlParameter param = new SqlParameter("@id", ptm.ID);
                         cmd.Parameters.Add(param);
                         
                         cmd.ExecuteNonQuery();
@@ -48,8 +48,8 @@ namespace hpMvc.DataBase
                             cmd = new SqlCommand("", conn);
                             cmd.Transaction = trn;
                             cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                            cmd.CommandText = ("AddPostTestCompleted");
-                            param = new SqlParameter("@name", ptm.Name);
+                            cmd.CommandText = ("AddStaffPostTestCompleted");
+                            param = new SqlParameter("@staffID", ptm.ID);
                             cmd.Parameters.Add(param);
                             param = new SqlParameter("@test", "Checks");
                             cmd.Parameters.Add(param);
@@ -65,8 +65,8 @@ namespace hpMvc.DataBase
                             cmd = new SqlCommand("", conn);
                             cmd.Transaction = trn;
                             cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                            cmd.CommandText = ("AddPostTestCompleted");
-                            param = new SqlParameter("@name", ptm.Name);
+                            cmd.CommandText = ("AddStaffPostTestCompleted");
+                            param = new SqlParameter("@staffID", ptm.ID);
                             cmd.Parameters.Add(param);
                             param = new SqlParameter("@test", "Overview");
                             cmd.Parameters.Add(param);
@@ -82,8 +82,8 @@ namespace hpMvc.DataBase
                             cmd = new SqlCommand("", conn);
                             cmd.Transaction = trn;
                             cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                            cmd.CommandText = ("AddPostTestCompleted");
-                            param = new SqlParameter("@name", ptm.Name);
+                            cmd.CommandText = ("AddStaffPostTestCompleted");
+                            param = new SqlParameter("@staffID", ptm.ID);
                             cmd.Parameters.Add(param);
                             param = new SqlParameter("@test", "Medtronic");
                             cmd.Parameters.Add(param);
@@ -99,8 +99,8 @@ namespace hpMvc.DataBase
                             cmd = new SqlCommand("", conn);
                             cmd.Transaction = trn;
                             cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                            cmd.CommandText = ("AddPostTestCompleted");
-                            param = new SqlParameter("@name", ptm.Name);
+                            cmd.CommandText = ("AddStaffPostTestCompleted");
+                            param = new SqlParameter("@staffID", ptm.ID);
                             cmd.Parameters.Add(param);
                             param = new SqlParameter("@test", "NovaStatStrip");
                             cmd.Parameters.Add(param);
@@ -116,8 +116,8 @@ namespace hpMvc.DataBase
                             cmd = new SqlCommand("", conn);
                             cmd.Transaction = trn;
                             cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                            cmd.CommandText = ("AddPostTestCompleted");
-                            param = new SqlParameter("@name", ptm.Name);
+                            cmd.CommandText = ("AddStaffPostTestCompleted");
+                            param = new SqlParameter("@staffID", ptm.ID);
                             cmd.Parameters.Add(param);
                             param = new SqlParameter("@test", "VampJr");
                             cmd.Parameters.Add(param);
@@ -172,7 +172,7 @@ namespace hpMvc.DataBase
             }
         }
 
-        public static int AddPostTestName(string lastName, string firstName, string empID, int siteID, string email)
+        public static int AddStaffName(string lastName, string firstName, string empID, int siteID, string email)
         {
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
             using (SqlConnection conn = new SqlConnection(strConn))
@@ -245,37 +245,37 @@ namespace hpMvc.DataBase
             }
         }
 
-        public static int GetPostTestPersonID(string name, int siteID)
-        {
-            int retVal = 0;
-             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-             using (SqlConnection conn = new SqlConnection(strConn))
-             {
-                 try
-                 {
-                     SqlCommand cmd = new SqlCommand("", conn);
-                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                     cmd.CommandText = ("GetPostTestPersonID");
+        //public static int GetPostTestPersonID(string name, int siteID)
+        //{
+        //    int retVal = 0;
+        //     String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+        //     using (SqlConnection conn = new SqlConnection(strConn))
+        //     {
+        //         try
+        //         {
+        //             SqlCommand cmd = new SqlCommand("", conn);
+        //             cmd.CommandType = System.Data.CommandType.StoredProcedure;
+        //             cmd.CommandText = ("GetPostTestPersonID");
 
-                     SqlParameter param = new SqlParameter("@name", name);
-                     cmd.Parameters.Add(param);
-                     param = new SqlParameter("@siteID", siteID);
-                     cmd.Parameters.Add(param);
+        //             SqlParameter param = new SqlParameter("@name", name);
+        //             cmd.Parameters.Add(param);
+        //             param = new SqlParameter("@siteID", siteID);
+        //             cmd.Parameters.Add(param);
 
-                     conn.Open();
+        //             conn.Open();
                      
-                     object o = cmd.ExecuteScalar();
-                     if (o != null)
-                         retVal = (int)o;
-                 }
-                 catch (Exception ex)
-                 {
-                     nlogger.LogError(ex);
-                     return -1;
-                 }
-                 return retVal;
-             }
-        }
+        //             object o = cmd.ExecuteScalar();
+        //             if (o != null)
+        //                 retVal = (int)o;
+        //         }
+        //         catch (Exception ex)
+        //         {
+        //             nlogger.LogError(ex);
+        //             return -1;
+        //         }
+        //         return retVal;
+        //     }
+        //}
 
         public static int AddTestCompleted(int nameID, string test)
         {
@@ -661,7 +661,7 @@ namespace hpMvc.DataBase
             return ptpcl;
         }
 
-        public static List<PostTestNextDue> GetPostTestPeopleFirstDateCompleted(int siteID)
+        public static List<PostTestNextDue> GetStaffPostTestsFirstDateCompletedBySite(int siteID)
         {
             var ptndl = new List<PostTestNextDue>();
             var ptnd = new PostTestNextDue();
@@ -673,7 +673,7 @@ namespace hpMvc.DataBase
                 {
                     SqlCommand cmd = new SqlCommand("", conn);
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = ("GetPostTestPeopleFirstDateCompleted");
+                    cmd.CommandText = ("GetStaffPostTestsFirstDateCompletedBySite");
                     SqlParameter param = new SqlParameter("@siteID", siteID);
                     cmd.Parameters.Add(param);
 

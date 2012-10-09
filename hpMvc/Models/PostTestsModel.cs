@@ -19,7 +19,8 @@ namespace hpMvc.Models
         }
 
         public string Name { get; set; }
-        
+        public int ID { get; set; }
+
         public bool Overview { get; set; }
         [Display(Name = "Enter date completed")]
         public DateTime? OverviewCompleted { get  ; set; }

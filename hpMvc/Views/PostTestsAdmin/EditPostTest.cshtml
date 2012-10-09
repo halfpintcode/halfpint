@@ -19,6 +19,7 @@
             Select the tests completed by <strong> @Model.Name </strong>  
         </p>      
         <input type="hidden" name="Name" value="@Model.Name" />
+        <input type="hidden" name="ID" value="@Model.ID" />
         <div>
             @Html.EditorFor(model => model.Overview) <label class='lbl1'>Overview</label>
             @Html.ValidationMessageFor(model => model.Overview)

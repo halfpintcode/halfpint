@@ -27,8 +27,7 @@ namespace hpMvc.Controllers
             ViewBag.EmpIDRequired = retDto.Stuff.EmpIDRequired;
             ViewBag.EmpIDRegex = retDto.Stuff.EmpIDRegex;
             ViewBag.EmpIDMessage = retDto.Stuff.EmpIDMessage;
-
-            
+                        
             ViewBag.Users = new SelectList(users, "ID", "Name", id);
             if (id != "0")
             {                
@@ -38,17 +37,6 @@ namespace hpMvc.Controllers
             return View();
         }
                         
-        [HttpPost]
-        public JsonResult AddPostTestsCompleted(PostTestsModel ptm)
-        {
-            TryValidateModel(ptm);
-
-            var dto = new DTO();
-
-
-            return Json(dto);
-        }
-                
         public JsonResult CreateName()
         {
             var dto = new DTO();
@@ -71,7 +59,7 @@ namespace hpMvc.Controllers
                 return Json(dto);               
             }
             
-            dto.ReturnValue = DbPostTestsUtils.AddPostTestName(lastName, firstName, empID, siteID, email);
+            dto.ReturnValue = DbPostTestsUtils.AddStaffName(lastName, firstName, empID, siteID, email);
 
             logger.LogInfo("PostTests.CreateName - message: " + dto.Message + ", name: " + lastName + "," + firstName + ", site: " + siteID.ToString());
             return Json(dto);

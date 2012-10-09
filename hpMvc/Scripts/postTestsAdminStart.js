@@ -103,10 +103,10 @@ $(function () {
         $.ajax({
             url: url,
             type: 'POST',
-            data: { Name: name, EmpID: empID, Email: email },
+            data: { LastName: lastName, FirstName:firstName, EmpID: empID, Email: email },
             success: function (data) {
-                if (data.ReturnValue === 0) {                    
-                    var url = urlRoot + '/PostTestsAdmin/EditPostTest/' + name;
+                if (data.ReturnValue > 0) {                    
+                    var url = urlRoot + '/PostTestsAdmin/EditPostTest/' + data.ReturnValue;
                     window.location = url;
                 }
                 else {

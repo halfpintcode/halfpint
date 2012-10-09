@@ -1,12 +1,32 @@
-﻿@model List<hpMvc.Models.SubjectCompleted>
+﻿@using Telerik.Web.Mvc.UI
+@model List<hpMvc.Models.SubjectCompleted>
 @{
 	ViewBag.Title = "Index";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div id="divSideBar">
-	<h3>Quick Links</h3>
-	<ul id="ulMainMenu">    
+<div id="divSideBar2">	
+	@(Html.Telerik().Menu()
+        .Orientation(MenuOrientation.Vertical)
+        .Name("MenuC")            
+        .BindTo("coord", (item, node) =>
+    {
+        string roles = node.Attributes["role"] as string;
+        if (roles == "nurse")
+            item.Visible = false;
+        if (node.Attributes["name"] != null)
+            item.RouteValues.Add("name", node.Attributes["name"]);
+        if (node.Attributes["fileName"] != null)
+            item.RouteValues.Add("fileName", node.Attributes["fileName"]);
+        if (node.Attributes["folder"] != null)
+            item.RouteValues.Add("folder", node.Attributes["folder"]);
+        if (node.Attributes["class"] != null)
+            item.HtmlAttributes.Add("class", node.Attributes["class"]);
+        if (node.Attributes["id"] != null)
+            item.HtmlAttributes.Add("id", node.Attributes["id"]);
+
+    }))
+    @*<ul id="ulMainMenu">    
 		<li>@Html.ActionLink("Show Study IDs Not Randomized", "StudyIdsNotRandomized")</li>
 		<li>@Html.ActionLink("Show Randomized Studies", "RandomizedStudies")</li>
 		<li>@Html.ActionLink("Show Post Tests Completed", "ShowPostTestsCompleted")</li>
@@ -14,7 +34,7 @@
 		<li>@Html.ActionLink("Show Post Tests Next Due", "ShowPostTestsDue")</li>
 		<li>@Html.ActionLink("Download StatStrip Operators List", "DownloadStatStripList")</li>
         <li>@Html.ActionLink("Update Staff Member Information", "UpdateStaffInformation")</li>			
-	</ul>
+	</ul>*@
 </div>
 
 <div id="div1Col">
@@ -41,3 +61,5 @@
 
 <link href="@Url.Content("~/Content/CoordInitialize.css")" rel="stylesheet" type="text/css" />
 <script src="@Url.Content("~/Scripts/CoordInitialize.js")" type="text/javascript"></script>
+@(Html.Telerik().StyleSheetRegistrar().DefaultGroup(group => group.Add("telerik.common.css").Add("telerik.office2010blue.css")))
+@(Html.Telerik().ScriptRegistrar().jQuery(false))

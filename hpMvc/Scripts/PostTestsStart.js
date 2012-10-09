@@ -163,10 +163,12 @@ $(function () {
                 //data.ReturnValue contains the id for the new staff record
                 if (data.ReturnValue > 0) {
                     alert(firstName + ' ' + lastName + ' created successfully');
-                    $('#ID').val(data.ReturnValue);
-                    $('#testMenu').show();
-                    $('#divClickHere').hide();
-                    $('#sEmail').val($('#email').val());
+                    //$('#ID').val(data.ReturnValue);
+                    url = urlRoot + '/PostTests/Initialize/' + data.ReturnValue;
+                    window.location = url;
+//                    $('#testMenu').show();
+//                    $('#divClickHere').hide();
+//                    $('#sEmail').val($('#email').val());
                 }
                 else {
                     alert(data.Message);

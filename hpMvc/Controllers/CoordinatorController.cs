@@ -10,6 +10,7 @@ using System.Configuration;
 using System.IO;
 using hpMvc.Infrastructure.Logging;
 using System.Web.Security;
+using Telerik.Web.Mvc;
 
 namespace hpMvc.Controllers
 {
@@ -18,6 +19,7 @@ namespace hpMvc.Controllers
     {
         NLogger nlogger = new NLogger();
 
+        [Telerik.Web.Mvc.PopulateSiteMap(SiteMapName = "coord", ViewDataKey = "coord")]
         public ActionResult Index()
         {
             string role = "";
@@ -40,6 +42,10 @@ namespace hpMvc.Controllers
             ViewBag.SiteID = siteID;            
             //ViewBag.CgmUpload = "false";
             //var list = DbUtils.GetSiteRandomizedStudiesActive(siteID);
+            if (!SiteMapManager.SiteMaps.ContainsKey("coord"))
+            {
+                SiteMapManager.SiteMaps.Register<XmlSiteMap>("coord", sitmap => sitmap.LoadFrom("~/coord.sitemap"));
+            }
             return View();            
         }
 
@@ -328,7 +334,7 @@ namespace hpMvc.Controllers
         public ActionResult ShowPostTestsDue()
         {
             int siteID = DbUtils.GetSiteidIDForUser(User.Identity.Name);
-            var ptndl = DbPostTestsUtils.GetPostTestPeopleFirstDateCompleted(siteID);
+            var ptndl = DbPostTestsUtils.GetStaffPostTestsFirstDateCompletedBySite(siteID);
             return View(ptndl);
         }
 

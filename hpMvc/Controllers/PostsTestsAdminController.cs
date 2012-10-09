@@ -30,21 +30,23 @@ namespace hpMvc.Controllers
             ViewBag.EmpIDRequired = retDto.Stuff.EmpIDRequired;
             ViewBag.EmpIDRegex = retDto.Stuff.EmpIDRegex;
             ViewBag.EmpIDMessage = retDto.Stuff.EmpIDMessage;
-            
-                        
+                                    
             ViewBag.Users = new SelectList(users, "ID", "Name");
+                        
             return View();
         }
 
         public ActionResult EditPostTest(string id)
         {
-            PostTestsModel ptm = new PostTestsModel();
+            PostTestsModel ptm = new PostTestsModel();            
+            ptm.ID = int.Parse(id);
 
             int site = DbUtils.GetSiteidIDForUser(User.Identity.Name);
             var tests = DbPostTestsUtils.GetTestsCompleted(id);
 
             //todo - staff change - ptm needs a name
-            ptm.Name = "";
+            var staffInfo = DbUtils.GetStaffInfo(int.Parse(id));
+            ptm.Name = staffInfo.LastName + "," + staffInfo.FirstName;
             foreach (var test in tests)
             {
                 switch (test.Name)
