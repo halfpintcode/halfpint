@@ -566,7 +566,6 @@
     <Content Include="Views\PostTests\NovaStatStrip.cshtml" />
     <Content Include="Views\Account\RegisterPartial.cshtml" />
     <Content Include="Views\Account\RegisterSuccess.cshtml" />
-    <Content Include="Views\PostTests\PostTestCertificate.cshtml" />
     <Content Include="Views\Staff\RecoverChecksSS.cshtml" />
     <Content Include="Views\Admin\UserListPartial.cshtml" />
     <Content Include="Views\Account\ForgotPassword.cshtml" />

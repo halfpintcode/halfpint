@@ -136,6 +136,10 @@ $(function () {
             alert('Enter a valid email address')
             return;
         }
+        if (isEmailDuplicate(email)) {
+            return;
+        }
+
 
         if (!($('#empID').is(':hidden'))) {
             var empID = $.trim($('#empID').val());
@@ -152,13 +156,16 @@ $(function () {
                 return;
             }
         }
-                
+        if (isEmployeeIDDuplicate(empID)) {
+            rerurn;
+        }
+
         var url = urlRoot + '/PostTests/CreateName'
         $('#btnCreate').attr('disabled', 'disabled');
         $.ajax({
             url: url,
             type: 'POST',
-            data: { LastName: lastName, FirstName:firstName, EmpID: empID, Email: email },
+            data: { LastName: lastName, FirstName: firstName, EmpID: empID, Email: email },
             success: function (data) {
                 //data.ReturnValue contains the id for the new staff record
                 if (data.ReturnValue > 0) {
@@ -166,9 +173,9 @@ $(function () {
                     //$('#ID').val(data.ReturnValue);
                     url = urlRoot + '/PostTests/Initialize/' + data.ReturnValue;
                     window.location = url;
-//                    $('#testMenu').show();
-//                    $('#divClickHere').hide();
-//                    $('#sEmail').val($('#email').val());
+                    //                    $('#testMenu').show();
+                    //                    $('#divClickHere').hide();
+                    //                    $('#sEmail').val($('#email').val());
                 }
                 else {
                     alert(data.Message);
@@ -258,7 +265,7 @@ $(function () {
     $('.aLnk').click(function (e) {
 
         var userName = isNameSelected();
-        
+
         if (userName.length === 0) {
             e.preventDefault();
             alert('Select or create a name')
@@ -300,6 +307,57 @@ $(function () {
         return userName;
     }
 
+    $('#email').blur(function () {
+        var email = $.trim($('#email').val());
+
+        if (email.length === 0) {
+            return;
+        }
+        isEmailDuplicate(email);
+    });
+
+    //made as an async funtion because this is used in validation
+    function isEmailDuplicate(email) {
+        var retVal = false;
+        $.ajax({
+            async: false,
+            url: urlRoot + '/PostTests/IsUserEmailDuplicate/?email=' + email,
+            type: 'POST',
+            data: {},
+            success: function (data) {
+                if (data) {
+                    alert('This email address has previously been used!\nCheck for your name in the list.');
+                    retVal = true;
+                }
+            }
+        });
+        return retVal;
+    }
+
+    $('#empID').blur(function () {
+        var empID = $.trim($('#empID').val());
+        if (empID.length === 0) {
+            return;
+        }
+        isEmployeeIDDuplicate(empID);
+    });
+
+    function isEmployeeIDDuplicate(empID) {
+        var retVal = false;
+        $.ajax({
+            async: false,
+            url: urlRoot + '/PostTests/IsUserEmployeeIDDuplicate/?employeeID=' + empID,
+            type: 'POST',
+            data: {},
+            success: function (data) {
+                if (data) {
+                    alert('This employee ID has previously been used!\nCheck for your name in the list.');
+                    retVal = true;
+                }
+            }
+        });
+        return retVal;
+    }
 });
 
 

@@ -108,6 +108,7 @@ $(function () {
             success: function (data) {
                 if (data) {
                     alert('This email address is already used!');
+                    $('#Email').focus();
                 }
             }
         });
@@ -144,22 +145,21 @@ $(function () {
 
     $('#newForm').submit(function () {
         var staffModel = {};
+        
         //validation
+        var role = $('#Roles').val();
+        if (role === "Select a role") {
+            alert('Role is required')
+            return false;
+        }
+        staffModel.Role = role;
 
-
-        //        var role = $('#Roles').val();
-        //        if (role === "Select a role") {
-        //            alert('Role is required')
-        //            return false;
-        //        }
-        //        staffModel.Role = role;
-
-        //        var uName = $.trim($('#UserName').val());
-        //        if (uName.length === 0) {
-        //            alert('User name is required')
-        //            return false;
-        //        }
-        //        staffModel.UserName = uName;
+        var uName = $.trim($('#UserName').val());
+        if (uName.length === 0) {
+            alert('User name is required')
+            return false;
+        }
+        staffModel.UserName = uName;
 
         //        var fName = $.trim($('#FirstName').val());
         //        if (fName.length === 0) {

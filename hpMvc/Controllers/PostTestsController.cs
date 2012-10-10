@@ -47,7 +47,7 @@ namespace hpMvc.Controllers
             string empID = Request.Params["EmpID"];
             string email = Request.Params["Email"];
 
-            dto.ReturnValue = DbPostTestsUtils.DoesPostTestNameExist(lastName, firstName, siteID);
+            dto.ReturnValue = DbPostTestsUtils.DoesStaffNameExist(lastName, firstName, siteID);
             if (dto.ReturnValue != 0)
             {
                 if (dto.ReturnValue == -1)
@@ -58,18 +58,31 @@ namespace hpMvc.Controllers
                 logger.LogInfo("PostTests.CreateName - message: " + dto.Message + ", name: " + lastName + "," + firstName + ", site: " + siteID.ToString());
                 return Json(dto);               
             }
-            
-            dto.ReturnValue = DbPostTestsUtils.AddStaffName(lastName, firstName, empID, siteID, email);
+
+            dto.ReturnValue = DbPostTestsUtils.AddNurseStaff(lastName, firstName, empID, siteID, email);
 
             logger.LogInfo("PostTests.CreateName - message: " + dto.Message + ", name: " + lastName + "," + firstName + ", site: " + siteID.ToString());
             return Json(dto);
         }
 
-        public ActionResult PostTestCertificate()
+        public JsonResult IsUserEmailDuplicate(string email)
         {
-            return View();
+            bool retVal = true;
+
+            if (AccountUtils.GetUserByEmail(email) == null)
+                retVal = false;
+            return Json(retVal);
         }
-                
+
+        public JsonResult IsUserEmployeeIDDuplicate(string employeeID)
+        {
+            bool retVal = true;
+            int site = DbUtils.GetSiteidIDForUser(User.Identity.Name);
+            int iRetVal = DbPostTestsUtils.DoesStaffEmployeeIDExist(employeeID, site);
+            
+            return Json(retVal);
+        }
+        
         public JsonResult GetTestsCompleted()
         {
             string id = Request.Params["ID"];

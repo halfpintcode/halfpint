@@ -10,10 +10,19 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var pt in Model.PostTestsCompleted.PostTestsCompleted)
+            @if (Model.PostTestsCompleted.PostTestsCompleted.Count > 0)
+            {
+                foreach (var pt in Model.PostTestsCompleted.PostTestsCompleted)
+                {
+                    <tr>
+                        <td>@pt.Name</td><td>@pt.sDateCompleted</td>
+                    </tr>
+                }
+            }
+            else
             {
                 <tr>
-                    <td>@pt.Name</td><td>@pt.sDateCompleted</td>
+                    <td colspan="2">There are no tests completed</td>
                 </tr>
             }
         </tbody>
@@ -44,7 +53,7 @@
         <br />
         <label class="lblMain">Last Name</label> @Html.EditorFor(m => m.LastName) 
         <br />        
-        @if (@Model.Role != "Nurse")
+        @if (! (@Model.Role == "Nurse" || @Model.Role == null ))
         {            
             <label class="lblMain">Phone</label> @Html.EditorFor(m => m.Phone)                         
         }
@@ -62,7 +71,7 @@
         @Html.EditorFor(m => m.Cgm) <span class="spanChk">CGM Sensor Insertion</span>
         <label class="lblDoc">Date Completed:</label>  @Html.EditorFor(m => m.CgmDoc) 
         <br />
-        @if (@Model.Role != "Nurse")
+        @if (!(@Model.Role == "Nurse" || @Model.Role == null))
         {
             @Html.EditorFor(m => m.Inform) <span class="spanChk">Inform Training</span>
             <label class="lblDoc">Date Completed:</label>  @Html.EditorFor(m => m.InformDoc) 

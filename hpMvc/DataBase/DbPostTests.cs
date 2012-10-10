@@ -140,7 +140,7 @@ namespace hpMvc.DataBase
             return 1;
         }
 
-        public static int DoesPostTestNameExist(string lastName, string firstName, int site)
+        public static int DoesStaffNameExist(string lastName, string firstName, int site)
         {
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
 
@@ -172,7 +172,44 @@ namespace hpMvc.DataBase
             }
         }
 
-        public static int AddStaffName(string lastName, string firstName, string empID, int siteID, string email)
+        public static int DoesStaffEmployeeIDExist(string employeeID, int site)
+        {
+            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+
+            using (SqlConnection conn = new SqlConnection(strConn))
+            {
+                try
+                {
+                    SqlCommand cmd = new SqlCommand("", conn);
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.CommandText = ("DoesStaffEmployeeIDExist");
+                    SqlParameter param = new SqlParameter("@siteID", site);
+                    cmd.Parameters.Add(param);
+                    param = new SqlParameter("@employeeID", employeeID);
+                    cmd.Parameters.Add(param);
+                    //SqlParameter param = new SqlParameter("@Identity", System.Data.SqlDbType.Int, 0, "ID");
+                    param = new SqlParameter("@name",System.Data.SqlDbType.NVarChar,50);
+                    param.Direction = System.Data.ParameterDirection.Output;
+                    cmd.Parameters.Add(param);
+
+                    conn.Open();
+                    int count = (Int32)cmd.ExecuteScalar();
+                    if (count == 1)
+                    {
+                        string s = cmd.Parameters["@name"].Value.ToString();
+                        return 1;
+                    }
+                        return 0;
+                }
+                catch (Exception ex)
+                {
+                    nlogger.LogError(ex);
+                    return -1;
+                }
+            }
+        }
+
+        public static int AddNurseStaff(string lastName, string firstName, string empID, int siteID, string email)
         {
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
             using (SqlConnection conn = new SqlConnection(strConn))
@@ -181,7 +218,7 @@ namespace hpMvc.DataBase
                 {
                     SqlCommand cmd = new SqlCommand("", conn);
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = ("AddStaffName");
+                    cmd.CommandText = ("AddNurseStaff");
 
                     SqlParameter param = new SqlParameter("@Identity", System.Data.SqlDbType.Int, 0, "ID");
                     param.Direction = System.Data.ParameterDirection.Output;
@@ -277,7 +314,7 @@ namespace hpMvc.DataBase
         //     }
         //}
 
-        public static int AddTestCompleted(int nameID, string test)
+        public static int AddTestCompleted(int staffID, string test)
         {
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
 
@@ -288,8 +325,8 @@ namespace hpMvc.DataBase
                     //throw new Exception("Test error");
                     SqlCommand cmd = new SqlCommand("", conn);
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = ("AddPostTestCompleted2");
-                    SqlParameter param = new SqlParameter("@nameID", nameID);
+                    cmd.CommandText = ("AddPostTestCompleted");
+                    SqlParameter param = new SqlParameter("@staffID", staffID);
                     cmd.Parameters.Add(param);
                     param = new SqlParameter("@test", test);
                     cmd.Parameters.Add(param);
@@ -299,12 +336,12 @@ namespace hpMvc.DataBase
                     conn.Open();
                     cmd.ExecuteNonQuery();
 
-                    nlogger.LogInfo("AddTestCompleted - test: " + test + ", nameID: " + nameID);
+                    nlogger.LogInfo("AddTestCompleted - test: " + test + ", staffID: " + staffID);
                     return 1;
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError("AddTestCompleted nameID: " + nameID + ", " + ex.Message);                    
+                    nlogger.LogError("AddTestCompleted staffID: " + staffID + ", " + ex.Message);                    
                     return -1;
                 }
             }            
