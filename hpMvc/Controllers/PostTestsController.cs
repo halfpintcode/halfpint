@@ -75,12 +75,11 @@ namespace hpMvc.Controllers
         }
 
         public JsonResult IsUserEmployeeIDDuplicate(string employeeID)
-        {
-            bool retVal = true;
+        {            
             int site = DbUtils.GetSiteidIDForUser(User.Identity.Name);
-            int iRetVal = DbPostTestsUtils.DoesStaffEmployeeIDExist(employeeID, site);
-            
-            return Json(retVal);
+            var dto = DbPostTestsUtils.DoesStaffEmployeeIDExist(employeeID, site);
+
+            return Json(dto);
         }
         
         public JsonResult GetTestsCompleted()

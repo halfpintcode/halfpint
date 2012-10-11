@@ -172,8 +172,11 @@ namespace hpMvc.DataBase
             }
         }
 
-        public static int DoesStaffEmployeeIDExist(string employeeID, int site)
+        public static DTO DoesStaffEmployeeIDExist(string employeeID, int site)
         {
+            var dto = new DTO();
+            dto.IsSuccessful = false;
+
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
 
             using (SqlConnection conn = new SqlConnection(strConn))
@@ -188,24 +191,28 @@ namespace hpMvc.DataBase
                     param = new SqlParameter("@employeeID", employeeID);
                     cmd.Parameters.Add(param);
                     //SqlParameter param = new SqlParameter("@Identity", System.Data.SqlDbType.Int, 0, "ID");
-                    param = new SqlParameter("@name",System.Data.SqlDbType.NVarChar,50);
+                    param = new SqlParameter("@name", System.Data.SqlDbType.NVarChar, 50);
                     param.Direction = System.Data.ParameterDirection.Output;
                     cmd.Parameters.Add(param);
 
                     conn.Open();
                     int count = (Int32)cmd.ExecuteScalar();
+                    dto.IsSuccessful = true;
                     if (count == 1)
                     {
                         string s = cmd.Parameters["@name"].Value.ToString();
-                        return 1;
+                        dto.Message = s;
+                        dto.ReturnValue = 1;
                     }
-                        return 0;
+                    dto.ReturnValue = 0;
+                    return dto;
                 }
                 catch (Exception ex)
                 {
                     nlogger.LogError(ex);
-                    return -1;
-                }
+                    dto.ReturnValue = -1;
+                    return dto;
+                }                
             }
         }
 
