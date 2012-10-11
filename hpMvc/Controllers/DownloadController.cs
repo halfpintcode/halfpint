@@ -52,8 +52,12 @@ namespace hpMvc.Controllers
                 case ".doc":
                     contentType = "application/msword";
                     break;
-
-                    
+                case ".ppt":
+                    contentType = "applica​tion/vnd.m​s-powerpoi​nt";
+                    break;
+                case ".pptx":
+                    contentType = "application/vnd.openxmlformats-officedocument.presentationml.presentation";
+                    break;
                 case ".xlsx":
                     contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
                     break;
