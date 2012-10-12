@@ -12,16 +12,25 @@
 
 <form method="post" action="">    
 	<div id="listName">
-		@if (ViewBag.Role == "Nurse")
+		@if (ViewBag.ID == 0)
         {
-            <text>Select your name from the list and click on 'Start Testing' if you previously created your name.</text>
+            if (ViewBag.Role == "Nurse")
+            {
+                    <text>Select your name from the list and click on 'Start Testing' if you previously created your name.</text>
+            }
+            else
+            {
+                    <text>Select your name from the list and click on 'Start Testing'.</text>
+            }
+            
+        
         }
         else
         {
-            <text>Select your name from the list and click on 'Start Testing'.</text>
+            
         }
         <br /><br />
-		@Html.DropDownList("Users") &nbsp;&nbsp; <input type="button" id="btnStart" value="Start Testing" />
+		@Html.DropDownList("Users") &nbsp; &nbsp; <input type="button" id="btnStart" value="Start Testing" />
         <input type="hidden" id="ID" name="ID" />
 	</div>
 		  
@@ -40,12 +49,12 @@
 		
 	</div>
 	@if (ViewBag.Role == "Nurse")
-     {
+ {
         <div id="divClickHere">
 		    <br />
 		    <a id="clickHere" href="#"><strong>Click here</strong></a> <span id="spanClickHere">&nbsp; if you have not previously created a name.</span> 
 	    </div>
-     }
+ }
 	<div id="testMenu">
 		<hr />
 		<h3>List of tests</h3>

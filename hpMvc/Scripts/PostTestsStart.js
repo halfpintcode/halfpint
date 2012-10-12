@@ -260,6 +260,7 @@ $(function () {
     //if a name was passed as part of the url then automatically click start
     if ($('#Users').val() !== "0") {
         $('#btnStart').click();
+        $('#btnStart').hide();
     }
 
     $('.aLnk').click(function (e) {

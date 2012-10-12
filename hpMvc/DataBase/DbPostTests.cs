@@ -263,6 +263,39 @@ namespace hpMvc.DataBase
             }
         }
 
+        public static DTO GetStaffIDByUserName(string userName)
+        {
+            var dto = new DTO();
+            dto.IsSuccessful = false;
+            dto.ReturnValue = 0;
+
+            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+
+            using (SqlConnection conn = new SqlConnection(strConn))
+            {
+                try
+                {
+                    SqlCommand cmd = new SqlCommand("", conn);
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.CommandText = ("GetStaffIDByUserName");
+                    SqlParameter param = new SqlParameter("@userName", userName);
+                    cmd.Parameters.Add(param);
+                    
+                    conn.Open();
+                    dto.ReturnValue = (Int32)cmd.ExecuteScalar();
+                    dto.IsSuccessful = true;
+                    
+                    return dto;
+                }
+                catch (Exception ex)
+                {
+                    nlogger.LogError(ex);
+                    dto.ReturnValue = -1;
+                    return dto;
+                }
+            }
+        }
+
         public static int AddNurseStaff(string lastName, string firstName, string empID, int siteID, string email)
         {
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();

@@ -87,24 +87,24 @@ namespace hpMvc.DataBase
             string message = "";
             DTO dto = new DTO();
             dto.ReturnValue = 1;
-            ifp.HeaderContent = ifp.HeaderContent.ToLower();
-            if (! IsValidContent(ifp.HeaderContent, ref message))
+            string headerContent = ifp.HeaderContent.ToLower();
+            if (!IsValidContent(headerContent, ref message))
             {
                 dto.Message = "Header Content: " + message;
                 dto.ReturnValue = 0;
                 return dto;
             }
 
-            ifp.MainContent = ifp.MainContent.ToLower();
-            if (! IsValidContent(ifp.MainContent, ref message))
+            string mainContent = ifp.MainContent.ToLower();
+            if (! IsValidContent(mainContent, ref message))
             {
                 dto.Message = "Main Content: " + message; ;
                 dto.ReturnValue = 0;
                 return dto;
             }
 
-            ifp.FooterContent = ifp.FooterContent.ToLower();
-            if (! IsValidContent(ifp.FooterContent, ref message))
+            string footerContent = ifp.FooterContent.ToLower();
+            if (! IsValidContent(footerContent, ref message))
             {
                 dto.Message = "Footer Content: " + message; ;
                 dto.ReturnValue = 0;

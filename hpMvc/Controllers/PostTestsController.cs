@@ -17,8 +17,20 @@ namespace hpMvc.Controllers
 
         public ActionResult Initialize(string id)
         {
-            ViewBag.Role = AccountUtils.GetRoleForUser(User.Identity.Name);
-            
+            string role = AccountUtils.GetRoleForUser(User.Identity.Name);
+            ViewBag.Role = role;
+
+            DTO dto = null;
+            if (role != "Nurse")
+            {
+                if (id == "0")
+                {
+                    dto = DbPostTestsUtils.GetStaffIDByUserName(User.Identity.Name);
+                    id = dto.ReturnValue.ToString();
+                }
+            }
+            ViewBag.UserID = int.Parse(id);
+
             int site = DbUtils.GetSiteidIDForUser(User.Identity.Name);
             var users = DbPostTestsUtils.GetTestUsersForSite(site);
 
