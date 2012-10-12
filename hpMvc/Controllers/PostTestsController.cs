@@ -17,6 +17,8 @@ namespace hpMvc.Controllers
 
         public ActionResult Initialize(string id)
         {
+            ViewBag.Role = AccountUtils.GetRoleForUser(User.Identity.Name);
+            
             int site = DbUtils.GetSiteidIDForUser(User.Identity.Name);
             var users = DbPostTestsUtils.GetTestUsersForSite(site);
 
@@ -67,11 +69,10 @@ namespace hpMvc.Controllers
 
         public JsonResult IsUserEmailDuplicate(string email)
         {
-            bool retVal = true;
+            int site = DbUtils.GetSiteidIDForUser(User.Identity.Name);
+            var dto = DbPostTestsUtils.DoesStaffEmailExist(email, site);
 
-            if (AccountUtils.GetUserByEmail(email) == null)
-                retVal = false;
-            return Json(retVal);
+            return Json(dto);
         }
 
         public JsonResult IsUserEmployeeIDDuplicate(string employeeID)

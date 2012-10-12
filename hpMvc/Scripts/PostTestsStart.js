@@ -325,9 +325,13 @@ $(function () {
             type: 'POST',
             data: {},
             success: function (data) {
-                if (data) {
-                    alert('This email address has previously been used!\nCheck for your name in the list.');
+                if (data.ReturnValue == 1) {
+                    alert('This email is being used by ' + data.Message + '!\nIf this is you then select your name from the list.\nIf it\'s not you then contact the coordinator.');
                     retVal = true;
+                }
+                if (data.ReturnValue == -1) {
+                    alert('There was an error cheking the database for a duplicate email.\nPlease contact the coordinator if this error continues.');
+                    retVal = false;
                 }
             }
         });
@@ -350,9 +354,13 @@ $(function () {
             type: 'POST',
             data: {},
             success: function (data) {
-                if (data) {
-                    alert('This employee ID has previously been used!\nCheck for your name in the list.');
+                if (data.ReturnValue == 1) {
+                    alert('This employee ID is being used by ' + data.Message + '!\nIf this is you then select your name from the list.\nIf it\'s not you then contact the coordinator.');
                     retVal = true;
+                }
+                if (data.ReturnValue == -1) {
+                    alert('There was an error cheking the database for a duplicate employee ID.\nPlease contact the coordinator if this error continues.');
+                    retVal = false;
                 }
             }
         });

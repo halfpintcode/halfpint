@@ -176,13 +176,15 @@ namespace hpMvc.DataBase
         {
             var dto = new DTO();
             dto.IsSuccessful = false;
-
+            dto.ReturnValue = 0;
+            
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
 
             using (SqlConnection conn = new SqlConnection(strConn))
             {
                 try
                 {
+                    
                     SqlCommand cmd = new SqlCommand("", conn);
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     cmd.CommandText = ("DoesStaffEmployeeIDExist");
@@ -204,7 +206,7 @@ namespace hpMvc.DataBase
                         dto.Message = s;
                         dto.ReturnValue = 1;
                     }
-                    dto.ReturnValue = 0;
+                    
                     return dto;
                 }
                 catch (Exception ex)
@@ -213,6 +215,51 @@ namespace hpMvc.DataBase
                     dto.ReturnValue = -1;
                     return dto;
                 }                
+            }
+        }
+
+        public static DTO DoesStaffEmailExist(string email, int site)
+        {
+            var dto = new DTO();
+            dto.IsSuccessful = false;
+            dto.ReturnValue = 0;
+
+            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+
+            using (SqlConnection conn = new SqlConnection(strConn))
+            {
+                try
+                {                    
+                    SqlCommand cmd = new SqlCommand("", conn);
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.CommandText = ("DoesStaffEmailExist");
+                    SqlParameter param = new SqlParameter("@siteID", site);
+                    cmd.Parameters.Add(param);
+                    param = new SqlParameter("@email", email);
+                    cmd.Parameters.Add(param);
+                    //SqlParameter param = new SqlParameter("@Identity", System.Data.SqlDbType.Int, 0, "ID");
+                    param = new SqlParameter("@name", System.Data.SqlDbType.NVarChar, 50);
+                    param.Direction = System.Data.ParameterDirection.Output;
+                    cmd.Parameters.Add(param);
+
+                    conn.Open();
+                    int count = (Int32)cmd.ExecuteScalar();
+                    dto.IsSuccessful = true;
+                    if (count == 1)
+                    {
+                        string s = cmd.Parameters["@name"].Value.ToString();
+                        dto.Message = s;
+                        dto.ReturnValue = 1;
+                    }
+                    
+                    return dto;
+                }
+                catch (Exception ex)
+                {
+                    nlogger.LogError(ex);
+                    dto.ReturnValue = -1;
+                    return dto;
+                }
             }
         }
 
