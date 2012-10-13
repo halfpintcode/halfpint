@@ -21,8 +21,8 @@ namespace hpMvc.Controllers
             //for testing
             //if (site == 0)
             //    site = 1;
-            
-            var users = DbPostTestsUtils.GetTestUsersForSite(site);            
+
+            var users = DbPostTestsUtils.GetStaffTestUsersForSite(site);            
             users.Insert(0, new IDandName(0, "Select Your Name"));
 
             //check if employee id required

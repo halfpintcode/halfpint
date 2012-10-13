@@ -320,14 +320,14 @@ namespace hpMvc.Controllers
         public ActionResult ShowPostTestsCompleted()
         {
             int siteID = DbUtils.GetSiteidIDForUser(User.Identity.Name);
-            var ptpcl = DbPostTestsUtils.GetPostTestPeoplesTestsCompleted(siteID);
+            var ptpcl = DbPostTestsUtils.GetPostTestStaffsTestsCompleted(siteID);
             return View(ptpcl);
         }
 
         public ActionResult ShowPostTestsCompleted2()
         {
             int siteID = DbUtils.GetSiteidIDForUser(User.Identity.Name);
-            var ptel = DbPostTestsUtils.GetPostTestPeoplesTestsExtended(siteID);
+            var ptel = DbPostTestsUtils.GetPostTestStaffsTestsCompletedExtended(siteID);
             return View(ptel);
         }
 

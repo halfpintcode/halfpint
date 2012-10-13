@@ -269,14 +269,12 @@ namespace hpMvc.Controllers
             ViewBag.Roles = new SelectList(roles, model.Role);
             return View(model);
         }
-
+                
         public JsonResult IsUserNameDuplicate(string userName)
         {
-            bool retVal = true;
+            var dto = DbPostTestsUtils.DoesStaffUserNameExist(userName);
 
-            if (AccountUtils.GetUserByUserName(userName) == null)
-                retVal = false;
-            return Json(retVal);
+            return Json(dto);
         }
 
         public JsonResult IsUserEmailDuplicate(string email)

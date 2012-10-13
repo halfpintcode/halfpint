@@ -97,8 +97,13 @@ $(function () {
             type: 'POST',
             data: {},
             success: function (data) {
-                if (data) {
-                    alert('This user name is already used!');
+                if (data.ReturnValue == 1) {
+                    alert('This user name is being used by ' + data.Message + '!');
+                    retVal = true;
+                }
+                if (data.ReturnValue == -1) {
+                    alert('There was an error cheking the database for a duplicate user name.');
+                    retVal = false;
                 }
             }
         });
@@ -113,7 +118,7 @@ $(function () {
             async: false,
             url: urlRoot + '/Admin/IsUserEmailDuplicate/?email=' + email,
             type: 'POST',
-            data: {},            
+            data: {},
             success: function (data) {
                 if (data.ReturnValue == 1) {
                     alert('This email is being used by ' + data.Message + '!');
@@ -123,7 +128,7 @@ $(function () {
                     alert('There was an error cheking the database for a duplicate email.');
                     retVal = false;
                 }
-            }            
+            }
         });
     }
 
@@ -201,6 +206,9 @@ $(function () {
             alert('User name is required')
             return false;
         }
+        if (isUserNameDuplicate(uName)) {
+            return false;
+        }
         staffModel.UserName = uName;
 
         var fName = $.trim($('#FirstName').val());
@@ -227,6 +235,9 @@ $(function () {
             alert('Enter a valid email address')
             return false;
         }
+        if (isEmailDuplicate(email)) {
+            return;
+        }
         staffModel.Email = email;
 
         if (!($('#EmployeeID').is(':hidden'))) {
@@ -243,6 +254,9 @@ $(function () {
                 $('#empIDmessage').show();
                 return false;
             }
+        }
+        if (isEmployeeIDDuplicate(empID)) {
+            return false;
         }
         staffModel.EmployeeID = empID;
 

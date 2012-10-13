@@ -263,6 +263,49 @@ namespace hpMvc.DataBase
             }
         }
 
+        public static DTO DoesStaffUserNameExist(string userName)
+        {
+            var dto = new DTO();
+            dto.IsSuccessful = false;
+            dto.ReturnValue = 0;
+
+            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+
+            using (SqlConnection conn = new SqlConnection(strConn))
+            {
+                try
+                {
+                    SqlCommand cmd = new SqlCommand("", conn);
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.CommandText = ("DoesStaffUserNameExist");
+                    SqlParameter param = new SqlParameter("@userName", userName);
+                    cmd.Parameters.Add(param);
+                    //SqlParameter param = new SqlParameter("@Identity", System.Data.SqlDbType.Int, 0, "ID");
+                    param = new SqlParameter("@name", System.Data.SqlDbType.NVarChar, 50);
+                    param.Direction = System.Data.ParameterDirection.Output;
+                    cmd.Parameters.Add(param);
+
+                    conn.Open();
+                    int count = (Int32)cmd.ExecuteScalar();
+                    dto.IsSuccessful = true;
+                    if (count == 1)
+                    {
+                        string s = cmd.Parameters["@name"].Value.ToString();
+                        dto.Message = s;
+                        dto.ReturnValue = 1;
+                    }
+
+                    return dto;
+                }
+                catch (Exception ex)
+                {
+                    nlogger.LogError(ex);
+                    dto.ReturnValue = -1;
+                    return dto;
+                }
+            }
+        }
+
         public static DTO GetStaffIDByUserName(string userName)
         {
             var dto = new DTO();
@@ -338,7 +381,7 @@ namespace hpMvc.DataBase
             }
         }
 
-        public static string GetPostTestPersonEmail(string id)
+        public static string GetPostTestStaffEmail(string id)
         {
             string email = "";
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
@@ -367,39 +410,7 @@ namespace hpMvc.DataBase
                 }
                 return email;
             }
-        }
-
-        //public static int GetPostTestPersonID(string name, int siteID)
-        //{
-        //    int retVal = 0;
-        //     String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-        //     using (SqlConnection conn = new SqlConnection(strConn))
-        //     {
-        //         try
-        //         {
-        //             SqlCommand cmd = new SqlCommand("", conn);
-        //             cmd.CommandType = System.Data.CommandType.StoredProcedure;
-        //             cmd.CommandText = ("GetPostTestPersonID");
-
-        //             SqlParameter param = new SqlParameter("@name", name);
-        //             cmd.Parameters.Add(param);
-        //             param = new SqlParameter("@siteID", siteID);
-        //             cmd.Parameters.Add(param);
-
-        //             conn.Open();
-                     
-        //             object o = cmd.ExecuteScalar();
-        //             if (o != null)
-        //                 retVal = (int)o;
-        //         }
-        //         catch (Exception ex)
-        //         {
-        //             nlogger.LogError(ex);
-        //             return -1;
-        //         }
-        //         return retVal;
-        //     }
-        //}
+        }              
 
         public static int AddTestCompleted(int staffID, string test)
         {
@@ -656,7 +667,7 @@ namespace hpMvc.DataBase
             return dto;
         }
 
-        public static List<IDandName> GetTestUsersForSite(int site)
+        public static List<IDandName> GetStaffTestUsersForSite(int site)
         {
             var users = new List<IDandName>();
             
@@ -731,7 +742,7 @@ namespace hpMvc.DataBase
             return tests;
         }
 
-        public static List<PostTestPersonTestsCompleted> GetPostTestPeoplesTestsCompleted(int siteID)
+        public static List<PostTestPersonTestsCompleted> GetPostTestStaffsTestsCompleted(int siteID)
         {
             var ptpcl = new List<PostTestPersonTestsCompleted>();
             var ptpc = new PostTestPersonTestsCompleted();
@@ -745,7 +756,7 @@ namespace hpMvc.DataBase
                 {
                     SqlCommand cmd = new SqlCommand("", conn);
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = ("GetPostTestPeoplesTestsCompleted");
+                    cmd.CommandText = ("GetPostTestStaffsTestsCompleted");
                     SqlParameter param = new SqlParameter("@siteID", siteID);
                     cmd.Parameters.Add(param);
 
@@ -831,7 +842,7 @@ namespace hpMvc.DataBase
             return ptndl;
         }
 
-        public static List<PostTestExtended> GetPostTestPeoplesTestsExtended(int siteID)
+        public static List<PostTestExtended> GetPostTestStaffsTestsCompletedExtended(int siteID)
         {
             var ptel = new List<PostTestExtended>();
             var pte = new PostTestExtended();
@@ -843,7 +854,7 @@ namespace hpMvc.DataBase
                 {
                     SqlCommand cmd = new SqlCommand("", conn);
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = ("GetPostTestPeoplesTestsCompleted");
+                    cmd.CommandText = ("GetPostTestStaffsTestsCompleted");
                     SqlParameter param = new SqlParameter("@siteID", siteID);
                     cmd.Parameters.Add(param);
 

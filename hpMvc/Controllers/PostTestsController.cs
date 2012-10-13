@@ -32,7 +32,7 @@ namespace hpMvc.Controllers
             ViewBag.UserID = int.Parse(id);
 
             int site = DbUtils.GetSiteidIDForUser(User.Identity.Name);
-            var users = DbPostTestsUtils.GetTestUsersForSite(site);
+            var users = DbPostTestsUtils.GetStaffTestUsersForSite(site);
 
             users.Insert(0, new IDandName(0, "Select Your Name"));
 
@@ -44,8 +44,8 @@ namespace hpMvc.Controllers
                         
             ViewBag.Users = new SelectList(users, "ID", "Name", id);
             if (id != "0")
-            {                
-                ViewBag.Email = DbPostTestsUtils.GetPostTestPersonEmail(id);
+            {
+                ViewBag.Email = DbPostTestsUtils.GetPostTestStaffEmail(id);
             }
             
             return View();
@@ -100,7 +100,7 @@ namespace hpMvc.Controllers
             string id = Request.Params["ID"];
             int site = DbUtils.GetSiteidIDForUser(User.Identity.Name);
             var tests = DbPostTestsUtils.GetTestsCompleted(id);
-            var email = DbPostTestsUtils.GetPostTestPersonEmail(id);
+            var email = DbPostTestsUtils.GetPostTestStaffEmail(id);
 
             var retVal = new { email = email, tests = tests };
             return Json(retVal);
