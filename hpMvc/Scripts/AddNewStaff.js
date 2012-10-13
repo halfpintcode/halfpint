@@ -106,18 +106,55 @@ $(function () {
 
     $('#Email').blur(function () {
         var email = $.trim($('#Email').val());
+        isEmailDuplicate(email);
+    });
+    function isEmailDuplicate(email) {
         $.ajax({
+            async: false,
             url: urlRoot + '/Admin/IsUserEmailDuplicate/?email=' + email,
+            type: 'POST',
+            data: {},            
+            success: function (data) {
+                if (data.ReturnValue == 1) {
+                    alert('This email is being used by ' + data.Message + '!');
+                    retVal = true;
+                }
+                if (data.ReturnValue == -1) {
+                    alert('There was an error cheking the database for a duplicate email.');
+                    retVal = false;
+                }
+            }            
+        });
+    }
+
+    $('#EmployeeID').blur(function () {
+        var empID = $.trim($('#EmployeeID').val());
+        if (empID.length === 0) {
+            return;
+        }
+        isEmployeeIDDuplicate(empID);
+    });
+
+    function isEmployeeIDDuplicate(empID) {
+        var retVal = false;
+        $.ajax({
+            async: false,
+            url: urlRoot + '/Admin/IsUserEmployeeIDDuplicate/?employeeID=' + empID,
             type: 'POST',
             data: {},
             success: function (data) {
-                if (data) {
-                    alert('This email address is already used!');
-                    $('#Email').focus();
+                if (data.ReturnValue == 1) {
+                    alert('This employee ID is being used by ' + data.Message + '!');
+                    retVal = true;
+                }
+                if (data.ReturnValue == -1) {
+                    alert('There was an error cheking the database for a duplicate employee ID.');
+                    retVal = false;
                 }
             }
         });
-    });
+        return retVal;
+    }
 
     $(':input[type="checkbox"]').change(function () {
         var id = $(this).attr('id');

@@ -281,14 +281,19 @@ namespace hpMvc.Controllers
 
         public JsonResult IsUserEmailDuplicate(string email)
         {
-            bool retVal = true;
+            int site = DbUtils.GetSiteidIDForUser(User.Identity.Name);
+            var dto = DbPostTestsUtils.DoesStaffEmailExist(email, site);
 
-            if (AccountUtils.GetUserByEmail(email) == null)
-                retVal = false;
-            return Json(retVal);
+            return Json(dto);
         }
 
-        
+        public JsonResult IsUserEmployeeIDDuplicate(string employeeID)
+        {
+            int site = DbUtils.GetSiteidIDForUser(User.Identity.Name);
+            var dto = DbPostTestsUtils.DoesStaffEmployeeIDExist(employeeID, site);
+
+            return Json(dto);
+        }
 
         public ActionResult AddUser()
         {
