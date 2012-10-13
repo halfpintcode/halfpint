@@ -81,6 +81,9 @@ $(function () {
             alert('Enter a valid email address')
             return;
         }
+        if (isEmailDuplicate(email)) {
+            return;
+        }
 
         if (!($('#empID').is(':hidden'))) {
             var empID = $.trim($('#empID').val());
@@ -96,6 +99,9 @@ $(function () {
                 $('#empIDmessage').show();
                 return;
             }
+            if (isEmployeeIDDuplicate(empID)) {
+                return;
+            }
         }
 
         var name = firstName + ' ' + lastName;
@@ -103,9 +109,9 @@ $(function () {
         $.ajax({
             url: url,
             type: 'POST',
-            data: { LastName: lastName, FirstName:firstName, EmpID: empID, Email: email },
+            data: { LastName: lastName, FirstName: firstName, EmpID: empID, Email: email },
             success: function (data) {
-                if (data.ReturnValue > 0) {                    
+                if (data.ReturnValue > 0) {
                     var url = urlRoot + '/PostTestsAdmin/EditPostTest/' + data.ReturnValue;
                     window.location = url;
                 }
@@ -117,4 +123,64 @@ $(function () {
 
 
     });
+
+    $('#email').blur(function () {
+        var email = $.trim($('#email').val());
+
+        if (email.length === 0) {
+            return;
+        }
+        isEmailDuplicate(email);
+    });
+
+    //made as an async funtion because this is used in validation
+    function isEmailDuplicate(email) {
+        var retVal = false;
+        $.ajax({
+            async: false,
+            url: urlRoot + '/PostTests/IsUserEmailDuplicate/?email=' + email,
+            type: 'POST',
+            data: {},
+            success: function (data) {
+                if (data.ReturnValue == 1) {
+                    alert('This email is being used by ' + data.Message + '!\nIf this is the person you want then select this name from the list.\nIf it\'s not then contact the web master with the information.');
+                    retVal = true;
+                }
+                if (data.ReturnValue == -1) {
+                    alert('There was an error cheking the database for a duplicate email.\nPlease contact the coordinator if this error continues.');
+                    retVal = false;
+                }
+            }
+        });
+        return retVal;
+    }
+
+    $('#empID').blur(function () {
+        var empID = $.trim($('#empID').val());
+        if (empID.length === 0) {
+            return;
+        }
+        isEmployeeIDDuplicate(empID);
+    });
+
+    function isEmployeeIDDuplicate(empID) {
+        var retVal = false;
+        $.ajax({
+            async: false,
+            url: urlRoot + '/PostTests/IsUserEmployeeIDDuplicate/?employeeID=' + empID,
+            type: 'POST',
+            data: {},
+            success: function (data) {
+                if (data.ReturnValue == 1) {
+                    alert('This employee ID is being used by ' + data.Message + '!\nIf this is the person you want then select this name from the list.\nIf it\'s not then contact the web master with the information.');
+                    retVal = true;
+                }
+                if (data.ReturnValue == -1) {
+                    alert('There was an error cheking the database for a duplicate employee ID.\nPlease contact the coordinator if this error continues.');
+                    retVal = false;
+                }
+            }
+        });
+        return retVal;
+    }
 });
