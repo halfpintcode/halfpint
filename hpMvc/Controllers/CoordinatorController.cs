@@ -245,17 +245,19 @@ namespace hpMvc.Controllers
             list.Insert(0, new Site { ID = 0, Name = "Select a member", SiteID = "" });
             ViewBag.Users = new SelectList(list, "ID", "Name");
             ViewBag.IsValid = "true";
+            //ViewBag.Error = "";
             return View(new StaffEditModel());
         }
 
         [HttpPost]
         public ActionResult UpdateStaffInformation(StaffEditModel model)
         {
-            if (model.Role == "Nurse")
-            {
-                ModelState["Phone"].Errors.Clear();
-            }
+            //if (model.Role == "Nurse")
+            //{
+            //    ModelState["Phone"].Errors.Clear();
+            //}
 
+            
             //validate model
             if (ModelState.IsValid)
             {
@@ -266,7 +268,20 @@ namespace hpMvc.Controllers
                 }
                 return View("UpdateStaffConfirmationPartial", dto);
             }
+
+            //ModelState.AddModelError("FirstName", "Test Error");
+            //string key1 = "";
+            //string error = "";
+            //foreach (var m in ModelState)
+            //{
+            //    if (m.Value.Errors.Count > 0)
+            //    {
+            //        key1 = m.Key;
+            //        error = key1 + ":" + m.Value.Errors[0].ErrorMessage;
+            //    }
+            //}
             
+           //ViewBag.Error = error;
             string role = "";
 
             if (HttpContext.User.IsInRole("Admin"))
@@ -290,6 +305,12 @@ namespace hpMvc.Controllers
             list.Insert(0, new Site { ID = 0, Name = "Select a member", SiteID = "" });
             ViewBag.Users = new SelectList(list, "ID", "Name", model.ID.ToString());
             ViewBag.IsValid = "false";
+
+            //need to get tests completed for model - this was not returned from the client
+            var postTestsCompleted = DbPostTestsUtils.GetTestsCompleted(model.ID.ToString());
+            PostTestPersonTestsCompleted ptpc = new PostTestPersonTestsCompleted();
+            ptpc.PostTestsCompleted = postTestsCompleted;
+            model.PostTestsCompleted = ptpc;
             return View(model);
         }
 

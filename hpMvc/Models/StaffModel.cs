@@ -56,8 +56,7 @@ namespace hpMvc.Models
         [Required]
         public string LastName { get; set; }
         public string Email { get; set; }
-        public string EmployeeID { get; set; }
-        [Required]
+        public string EmployeeID { get; set; }        
         [DataType(DataType.PhoneNumber)]
         public string Phone { get; set; }
         public bool NovaStatStrip { get; set; }
