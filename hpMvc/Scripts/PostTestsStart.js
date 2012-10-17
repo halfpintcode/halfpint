@@ -79,6 +79,7 @@ $(function () {
     //submit after complete
     $('#btnSubmit').click(function () {
         var userName = isNameSelected();
+        var id = $('#Users').val();
 
         if (userName.length === 0) {
             alert('Select or create a name')
@@ -96,7 +97,7 @@ $(function () {
         }
 
         $('#btnSubmit').attr('disabled', 'disabled');
-        var data = { Name: userName, Email: email };
+        var data = { Name: userName, Email: email, ID:id };
         var url = urlRoot + '/PostTests/Submit'
         $.ajax({
             url: url,
