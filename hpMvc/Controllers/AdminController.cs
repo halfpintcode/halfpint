@@ -363,6 +363,105 @@ namespace hpMvc.Controllers
         }
         #endregion //AddUser
 
+        public ActionResult UpdateStaffInformation()
+        {
+            string role = "";
+
+            if (HttpContext.User.IsInRole("Admin"))
+            {
+                role = "Admin";
+
+                var sites = DbUtils.GetSites();
+                if (sites.Count == 0)
+                    throw new Exception("There was an error retreiving the sites list from the database");
+                sites.Insert(0, new Site { ID = 0, Name = "Select a site", SiteID = "" });
+                ViewBag.Sites = new SelectList(sites, "ID", "Name");
+            }
+            ViewBag.Role = role;
+
+            int site = DbUtils.GetSiteidIDForUser(User.Identity.Name);
+            ViewBag.Site = site;
+
+            var list = DbUtils.GetStaffLookupForSite(site.ToString());
+            list.Insert(0, new Site { ID = 0, Name = "Select a member", SiteID = "" });            
+            ViewBag.Users = new SelectList(list, "ID", "Name");
+            
+            ViewBag.IsValid = "true";              
+            
+            return View(new StaffEditModel());
+        }
+
+        [HttpPost]
+        public ActionResult UpdateStaffInformation(StaffEditModel model)
+        {            
+            //validate model
+            if (ModelState.IsValid)
+            {
+                MessageListDTO dto = DbUtils.UpdateStaffAdmin(model);
+                if (dto.IsSuccessful)
+                {
+
+                }
+
+                if (model.Email != model.OldEmail)
+                {
+                    var dtoEmail = AccountUtils.UpdateUserEmail(model.Email, model.UserName);
+                }
+                if (model.Role != model.OldRole)
+                {
+                    string [] newroles = {model.Role};
+                    UserRolesUtils.SaveAsignedRoles(newroles, model.UserName);
+                }
+                return View("UpdateStaffConfirmationPartial", dto);
+            }
+
+            //ViewBag.Error = error;
+            string role = "";
+
+            if (HttpContext.User.IsInRole("Admin"))
+            {
+                role = "Admin";
+
+                var sites = DbUtils.GetSites();
+                if (sites.Count == 0)
+                    throw new Exception("There was an error retreiving the sites list from the database");
+                sites.Insert(0, new Site { ID = 0, Name = "Select a site", SiteID = "" });
+                ViewBag.Sites = new SelectList(sites, "ID", "Name");
+            }
+            ViewBag.Role = role;
+
+            int site = DbUtils.GetSiteidIDForUser(User.Identity.Name);
+            ViewBag.Site = site;
+
+            var list = DbUtils.GetStaffLookupForSite(site.ToString());
+            list.Insert(0, new Site { ID = 0, Name = "Select a member", SiteID = "" });
+            ViewBag.Users = new SelectList(list, "ID", "Name", model.ID.ToString());
+            ViewBag.IsValid = "false";
+
+            //need to get tests completed for model - this was not returned from the client
+            var postTestsCompleted = DbPostTestsUtils.GetTestsCompleted(model.ID.ToString());
+            PostTestPersonTestsCompleted ptpc = new PostTestPersonTestsCompleted();
+            ptpc.PostTestsCompleted = postTestsCompleted;
+            model.PostTestsCompleted = ptpc;
+
+            var roles = Roles.GetAllRoles().ToList();
+            ViewBag.Roles = new SelectList(roles, model.Role);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult GetStaffInfo(string user)
+        {
+            StaffEditModel model = DbUtils.GetStaffInfo(int.Parse(user));
+            
+            var roles = Roles.GetAllRoles().ToList();            
+            ViewBag.Roles = new SelectList(roles,model.Role);
+            model.OldRole = model.Role;
+            model.OldEmail = model.Email;
+            return PartialView("UpdateStaffPartial", model);
+        }
+
         public ActionResult WebLogs()
         {            
             var list = DbUtils.GetWebLogs();

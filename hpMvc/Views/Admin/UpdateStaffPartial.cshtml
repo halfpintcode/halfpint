@@ -1,0 +1,91 @@
+﻿@model hpMvc.Models.StaffEditModel
+
+<h3>Post Tests Completed Summary</h3>
+
+<div>
+    <table id="tblptc">
+        <thead>
+            <tr>
+                <th>Test</th><th>Date Completed</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.PostTestsCompleted.PostTestsCompleted.Count > 0)
+            {
+                foreach (var pt in Model.PostTestsCompleted.PostTestsCompleted)
+                {
+                    <tr>
+                        <td>@pt.Name</td><td>@pt.sDateCompleted</td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="2">There are no tests completed</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<form id="updateForm" action="" method="post" >        
+    <input id="OldRole" name="OldRole" type="hidden" value='@Model.OldRole'/> 
+    <input id="OldEmail" name="OldEmail" type="hidden" value='@Model.OldEmail'/> 
+    <input id="Role" name="Role" type="hidden" />       
+    <input id="UserID" name="ID" type="hidden" value='@Model.ID'/>
+    <input id="UserName" name="UserName" type="hidden" value='@Model.UserName' />
+    <input id="empIDRequired" value="" name="empIDRequired" type="hidden"/>
+	<input id="empIDRegex" value="" name="empIDRegex" type="hidden"/>
+	<input id="empIDMessage" value="" name="empIDMessage" type="hidden"/>
+    
+    @Html.ValidationSummary(true, "Subject completion was unsuccessful. Please correct the errors and try again.")
+    <fieldset>
+        <legend>Update @ViewBag.Type Information</legend>        
+        @Html.EditorFor(m => m.Active) <span class="spanChk">Active</span>
+        <br />
+        <label class="lblMain">Study role:</label> @Html.DropDownList("Roles") @Html.ValidationMessageFor(m => m.Role)
+        <br />        
+        <label class="lblMain">User Name</label> <label >@Model.UserName</label>          
+        <br />
+        <label class="lblMain">Email</label> @Html.EditorFor(m => m.Email) @Html.ValidationMessageFor(m => m.Email)                
+        <br />        
+        <label class="lblMain">First Name</label> @Html.EditorFor(m => m.FirstName) 
+        <br />
+        <label class="lblMain">Last Name</label> @Html.EditorFor(m => m.LastName) 
+        <br />        
+        @if (! (@Model.Role == "Nurse" || @Model.Role == null ))
+        {            
+            <label class="lblMain">Phone</label> @Html.EditorFor(m => m.Phone)                         
+        }
+        <div id="siteSpecific">            
+			<label class="lblMain">EmployeeID</label> @Html.EditorFor(m => m.EmployeeID) 
+			<span id="empIDmessage"></span>            
+		</div>
+        <br />
+        @Html.EditorFor(m => m.NovaStatStrip) <span class="spanChk">Nova Stat Strip</span>
+        <label class="lblDoc">Date Completed:</label>  @Html.EditorFor(m => m.NovaStatStripDoc) 
+        <br />
+        @Html.EditorFor(m => m.Vamp) <span class="spanChk">VAMP</span>
+        <label class="lblDoc">Date Completed:</label>  @Html.EditorFor(m => m.VampDoc) 
+        <br />
+        @Html.EditorFor(m => m.Cgm) <span class="spanChk">CGM Sensor Insertion</span>
+        <label class="lblDoc">Date Completed:</label>  @Html.EditorFor(m => m.CgmDoc) 
+        <br />
+        @if (!(@Model.Role == "Nurse" || @Model.Role == null))
+        {
+            @Html.EditorFor(m => m.Inform) <span class="spanChk">Inform Training</span>
+            <label class="lblDoc">Date Completed:</label>  @Html.EditorFor(m => m.InformDoc) 
+            <br />
+            @Html.EditorFor(m => m.OnCall) <span class="spanChk">On-Call</span>
+            <label class="lblDoc">Date Completed:</label>  @Html.EditorFor(m => m.OnCallDoc) 
+            <br />
+            @Html.EditorFor(m => m.HumanSubj) <span class="spanChk">Human Subject Training</span>
+            <label class="lblDoc">Date Started:</label>  @Html.EditorFor(m => m.HumanSubjStart) 
+            <label class="lblDoc">Date Expired:</label>  @Html.EditorFor(m => m.HumanSubjExp) 
+            <br />
+        }
+    </fieldset>
+    <br /><input type="submit" id="btnSubmit" value="Save" />&nbsp;&nbsp;&nbsp;<input type="button" id="btnCancel" value="Cancel"/>
+</form>
+

@@ -464,6 +464,7 @@
     <Content Include="Scripts\Broadcast.js" />
     <Content Include="Scripts\CompleteSubject.js" />
     <Content Include="Scripts\CoordInitialize.js" />
+    <Content Include="Scripts\UpdateStaffInfoAdmin.js" />
     <Content Include="Scripts\jquery.dataTables.js" />
     <Content Include="Scripts\jquery.dataTables.rowGrouping.js" />
     <Content Include="Scripts\PostTestsDue.js" />
@@ -626,6 +627,9 @@
     <Content Include="Views\Coordinator\UpdateStaffPartial.cshtml" />
     <Content Include="Views\Coordinator\UpdateStaffConfirmationPartial.cshtml" />
     <Content Include="coord.sitemap" />
+    <Content Include="Views\Admin\UpdateStaffInformation.cshtml" />
+    <Content Include="Views\Admin\UpdateStaffPartial.cshtml" />
+    <Content Include="Views\Admin\UpdateStaffConfirmationPartial.cshtml" />
     <None Include="_bin_deployableAssemblies\Microsoft.Web.Infrastructure.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.Razor.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.dll" />

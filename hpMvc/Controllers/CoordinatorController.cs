@@ -227,10 +227,8 @@ namespace hpMvc.Controllers
             if (HttpContext.User.IsInRole("Admin"))
             {
                 role = "Admin";
-
-                List<Site> sites = new List<Site>();
-
-                sites = DbUtils.GetSites();
+                
+                var sites = DbUtils.GetSites();
                 if (sites.Count == 0)
                     throw new Exception("There was an error retreiving the sites list from the database");
                 sites.Insert(0, new Site { ID = 0, Name = "Select a site", SiteID = "" });
@@ -288,9 +286,7 @@ namespace hpMvc.Controllers
             {
                 role = "Admin";
 
-                List<Site> sites = new List<Site>();
-
-                sites = DbUtils.GetSites();
+                var sites = DbUtils.GetSites();
                 if (sites.Count == 0)
                     throw new Exception("There was an error retreiving the sites list from the database");
                 sites.Insert(0, new Site { ID = 0, Name = "Select a site", SiteID = "" });

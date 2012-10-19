@@ -1,0 +1,32 @@
+﻿@model hpMvc.Models.StaffEditModel
+@{
+    ViewBag.Title = "UpdateStaffInformation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Update Staff Information</h2>
+
+<div id="divSelects">
+    <span class="spnMain">Select a site:&nbsp;</span> @Html.DropDownList("Sites")
+    <br />  
+    <span class="spnMain">Select a member:&nbsp;</span>@Html.DropDownList("Users")
+    <br />
+    <input id="SiteID" name="SiteID" type="hidden" value='@ViewBag.Site' />
+    <input id="IsValid" name="IsValid" type="hidden" value='@ViewBag.IsValid' />
+</div>
+
+<div id="staffInfo">
+    @if(ViewBag.IsValid == "false")
+    {
+        { Html.RenderPartial("UpdateStaffPartial"); }
+    }  
+</div>
+
+
+
+<link href="@Url.Content("~/Content/AddNewStaff.css")" rel="stylesheet" type="text/css" />
+<script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.maskedinput-1.3.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/UpdateStaffInfoAdmin.js")" type="text/javascript"></script>

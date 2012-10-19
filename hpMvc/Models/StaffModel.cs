@@ -48,6 +48,7 @@ namespace hpMvc.Models
         public int ID { get; set; }
         public int SiteID { get; set; }
         public string Role { get; set; }
+        public string OldRole { get; set; }
         public bool Active { get; set; }
         public bool SendEmail { get; set; }
         public string UserName { get; set; }
@@ -56,6 +57,7 @@ namespace hpMvc.Models
         [Required]
         public string LastName { get; set; }
         public string Email { get; set; }
+        public string OldEmail { get; set; }
         public string EmployeeID { get; set; }        
         [DataType(DataType.PhoneNumber)]
         public string Phone { get; set; }

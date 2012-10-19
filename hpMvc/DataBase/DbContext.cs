@@ -1982,6 +1982,121 @@ namespace hpMvc.DataBase
             dto.IsSuccessful = true;
             return dto;
         }
+
+        public static MessageListDTO UpdateStaffAdmin(StaffEditModel model)
+        {
+            MessageListDTO dto = new MessageListDTO();
+            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            using (SqlConnection conn = new SqlConnection(strConn))
+            {
+                try
+                {
+                    SqlCommand cmd = new SqlCommand("", conn);
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.CommandText = "UpdateStaffAdmin";
+
+                    SqlParameter param = new SqlParameter("@id", model.ID);
+                    cmd.Parameters.Add(param);
+
+                    param = new SqlParameter("@active", model.Active);
+                    cmd.Parameters.Add(param);
+
+                    param = new SqlParameter("@firstName", model.FirstName);
+                    cmd.Parameters.Add(param);
+
+                    param = new SqlParameter("@lastName", model.LastName);
+                    cmd.Parameters.Add(param);
+
+                    param = new SqlParameter("@role", model.Role);
+                    cmd.Parameters.Add(param);
+
+                    param = new SqlParameter("@email", model.Email);
+                    cmd.Parameters.Add(param);
+                    
+                    if (model.EmployeeID == null)
+                        param = new SqlParameter("@employeeID", DBNull.Value);
+                    else
+                        param = new SqlParameter("@employeeID", model.EmployeeID);
+                    cmd.Parameters.Add(param);
+                        
+                    if (model.Phone == null)
+                        param = new SqlParameter("@phone", DBNull.Value);
+                    else
+                        param = new SqlParameter("@phone", model.Phone);
+                    cmd.Parameters.Add(param);
+
+                    param = new SqlParameter("@novaStatStrip", model.NovaStatStrip);
+                    cmd.Parameters.Add(param);
+                    if (model.NovaStatStrip)
+                        param = new SqlParameter("@novaStatStripDoc", model.NovaStatStripDoc);
+                    else
+                        param = new SqlParameter("@novaStatStripDoc", DBNull.Value);
+                    cmd.Parameters.Add(param);
+
+                    param = new SqlParameter("@vamp", model.Vamp);
+                    cmd.Parameters.Add(param);
+                    if (model.Vamp)
+                        param = new SqlParameter("@vampDoc", model.VampDoc);
+                    else
+                        param = new SqlParameter("@vampDoc", DBNull.Value);
+                    cmd.Parameters.Add(param);
+
+                    param = new SqlParameter("@cgm", model.Cgm);
+                    cmd.Parameters.Add(param);
+                    if (model.Cgm)
+                        param = new SqlParameter("@cgmDoc", model.CgmDoc);
+                    else
+                        param = new SqlParameter("@cgmDoc", DBNull.Value);
+                    cmd.Parameters.Add(param);
+
+                    param = new SqlParameter("@inform", model.Inform);
+                    cmd.Parameters.Add(param);
+                    if (model.Inform)
+                        param = new SqlParameter("@informDoc", model.InformDoc);
+                    else
+                        param = new SqlParameter("@informDoc", DBNull.Value);
+                    cmd.Parameters.Add(param);
+
+                    param = new SqlParameter("@onCall", model.OnCall);
+                    cmd.Parameters.Add(param);
+                    if (model.OnCall)
+                        param = new SqlParameter("@onCallDoc", model.OnCallDoc);
+                    else
+                        param = new SqlParameter("@onCallDoc", DBNull.Value);
+                    cmd.Parameters.Add(param);
+
+                    param = new SqlParameter("@humanSubj", model.HumanSubj);
+                    cmd.Parameters.Add(param);
+                    if (model.HumanSubj)
+                    {
+                        param = new SqlParameter("@humanSubjStart", model.HumanSubjStart);
+                        cmd.Parameters.Add(param);
+                        param = new SqlParameter("@humanSubjExp", model.HumanSubjExp);
+                        cmd.Parameters.Add(param);
+                    }
+                    else
+                    {
+                        param = new SqlParameter("@humanSubjStart", DBNull.Value);
+                        cmd.Parameters.Add(param);
+                        param = new SqlParameter("@humanSubjExp", DBNull.Value);
+                        cmd.Parameters.Add(param);
+                    }
+
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    nlogger.LogError(ex);
+                    dto.IsSuccessful = false;
+                    dto.Messages.Add("There was an error adding the new staff info into the staff database");
+                    return dto;
+                }
+            }
+            dto.Messages.Add("New staff information was successfully entered into the database!");
+            dto.IsSuccessful = true;
+            return dto;
+        }
     }
     
 }

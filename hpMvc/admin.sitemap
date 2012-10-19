@@ -5,6 +5,7 @@
       </siteMapNode>
       <siteMapNode title="User Management">
         <siteMapNode title="Add new staff" controller="Admin" action="AddStaff" />
+        <siteMapNode title="Update Staff Member Information" controller="Admin" action="UpdateStaffInformation" />
         <siteMapNode title="Add new user - 'depricated'" controller="Admin" action="AddUser" />
         <siteMapNode title="Manage user roles - 'depricated'" class = "aLnkClick"/>
         <siteMapNode title="Reset user password" class = "aLnkClick"/>
