@@ -242,20 +242,17 @@ namespace hpMvc.Controllers
             var list = DbUtils.GetStaffLookupForSite(site.ToString());
             list.Insert(0, new Site { ID = 0, Name = "Select a member", SiteID = "" });
             ViewBag.Users = new SelectList(list, "ID", "Name");
+            
+            //show partial if false
             ViewBag.IsValid = "true";
+            
             //ViewBag.Error = "";
             return View(new StaffEditModel());
         }
 
         [HttpPost]
         public ActionResult UpdateStaffInformation(StaffEditModel model)
-        {
-            //if (model.Role == "Nurse")
-            //{
-            //    ModelState["Phone"].Errors.Clear();
-            //}
-
-            
+        {   
             //validate model
             if (ModelState.IsValid)
             {
@@ -264,6 +261,19 @@ namespace hpMvc.Controllers
                 {
 
                 }
+                if (model.OldActive != model.Active)
+                {
+                    if (model.UserName != null)
+                    {
+                        var mUser = Membership.GetUser(model.UserName);
+                        if (mUser != null)
+                        {
+                            mUser.IsApproved = model.Active;
+                            Membership.UpdateUser(mUser);
+                        }
+                    }
+                }
+
                 return View("UpdateStaffConfirmationPartial", dto);
             }
 
@@ -321,7 +331,7 @@ namespace hpMvc.Controllers
         public ActionResult GetStaffInfo(string user)
         {
             StaffEditModel model = DbUtils.GetStaffInfo(int.Parse(user));
-
+            model.OldActive = model.Active;
             return PartialView("UpdateStaffPartial", model);
         }
 

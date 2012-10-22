@@ -8,7 +8,6 @@ using hpMvc.Models;
 using hpMvc.DataBase;
 using hpMvc.Infrastructure.Logging;
 using hpMvc.Infrastructure;
-using System.Web.Helpers;
 using System.IO;
 using System.Configuration;
 using Telerik.Web.Mvc;
@@ -412,6 +411,18 @@ namespace hpMvc.Controllers
                     string [] newroles = {model.Role};
                     UserRolesUtils.SaveAsignedRoles(newroles, model.UserName);
                 }
+                if (model.OldActive != model.Active)
+                {
+                    if (model.UserName != null)
+                    {
+                        var mUser = Membership.GetUser(model.UserName);
+                        if (mUser != null)
+                        {
+                            mUser.IsApproved = model.Active;
+                            Membership.UpdateUser(mUser);
+                        }
+                    }
+                }
                 return View("UpdateStaffConfirmationPartial", dto);
             }
 
@@ -459,6 +470,7 @@ namespace hpMvc.Controllers
             ViewBag.Roles = new SelectList(roles,model.Role);
             model.OldRole = model.Role;
             model.OldEmail = model.Email;
+            model.OldActive = model.Active;
             return PartialView("UpdateStaffPartial", model);
         }
 

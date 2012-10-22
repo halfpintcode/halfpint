@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<siteMap>
+    <siteMapNode title="admin">
+      <siteMapNode title="Admin Backdoor Quick Links" class="QuickLinks">
+      </siteMapNode>
+      <siteMapNode title="Add new user - back door" controller="Admin" action="AddUser" />
+      <siteMapNode title="Manage user roles - back door" class = "aLnkClick"/>
+      <siteMapNode title="Delete user - back door" id="deleteUser" />            
+    </siteMapNode>
+</siteMap>

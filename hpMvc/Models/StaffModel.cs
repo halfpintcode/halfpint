@@ -50,8 +50,10 @@ namespace hpMvc.Models
         public string Role { get; set; }
         public string OldRole { get; set; }
         public bool Active { get; set; }
+        public bool OldActive { get; set; }
         public bool SendEmail { get; set; }
         public string UserName { get; set; }
+        public string OldUserName { get; set; }
         [Required]
         public string FirstName { get; set; }
         [Required]

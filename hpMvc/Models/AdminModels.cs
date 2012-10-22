@@ -48,7 +48,8 @@ namespace hpMvc.Models
         public string Email { get; set; }
         public string Role { get; set; }
         public string Site { get; set; }
-        public bool IsLockedOut { get; set; }
-        public bool IsOnline { get; set; }
+        public bool LockedOut { get; set; }
+        public bool Online { get; set; }
+        public bool Active { get; set; }
     }
 }

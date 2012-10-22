@@ -45,7 +45,7 @@
         <button type="button" id="btnSave" >Save</button>  <img alt="" id="waitGif" src="@Url.Content("~/Content/images/wait.gif")" />
     </div>    
     <div>
-        @Html.ActionLink("Back to Manage Users", "Index")
+        @Html.RouteLink("Back to Admin Backdoor", new { Action = "Index", Controller = "AdminBackDoor" })        
     </div>
 </form>
 <script src="@Url.Content("~/Scripts/ManageUserRoles.js")" type="text/javascript"></script>

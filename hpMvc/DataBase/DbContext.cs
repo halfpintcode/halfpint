@@ -579,8 +579,9 @@ namespace hpMvc.DataBase
                 var userInfo = new UserInfo();
                 userInfo.UserName = user.UserName;
                 userInfo.Email = user.Email;
-                userInfo.IsLockedOut = user.IsLockedOut;
-                userInfo.IsOnline = user.IsOnline;
+                userInfo.Active = user.IsApproved;
+                userInfo.LockedOut = user.IsLockedOut;
+                userInfo.Online = user.IsOnline;
                 userInfo.Role = AccountUtils.GetRoleForUser(user.UserName);
                 userInfo.Site = DbUtils.GetSiteNameForUser(user.UserName);
                 lUsers.Add(userInfo);
@@ -618,8 +619,8 @@ namespace hpMvc.DataBase
                         userInfo.Email = user.Email;
                         userInfo.Role = AccountUtils.GetRoleForUser(userInfo.UserName);
                         userInfo.Site = GetSiteNameForUser(userInfo.UserName);
-                        userInfo.IsLockedOut = user.IsLockedOut;
-                        userInfo.IsOnline = user.IsOnline;
+                        userInfo.LockedOut = user.IsLockedOut;
+                        userInfo.Online = user.IsOnline;
                         lUsers.Add(userInfo);
                     }
                     rdr.Close();

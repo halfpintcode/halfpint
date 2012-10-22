@@ -1,7 +1,5 @@
 ﻿/// <reference path="jquery-1.7.1-vsdoc.js" />
 $(function () {
-    $('#Phone').mask("999-999-9999");
-
     $('#Sites').val($('#SiteID').val());
     var isValid = $('#IsValid').val();
     
@@ -25,8 +23,9 @@ $(function () {
         } //else site/employee ID
 
     }); //$('#Sites').change
-       
-    if (isValid === "false") {    
+
+    if (isValid === "false") {
+        $('#Phone').mask("999-999-9999");  
         $('#btnCancel').click(function () {
             window.location = urlRoot + '/Coordinator/Index';
         });
@@ -153,9 +152,10 @@ $(function () {
             type: 'POST',
             data: {},
             success: function (data) {
-                if (data) {
+                if (data) {                    
                     $('#staffInfo').append(data);
                     $('#staffInfo').slideDown('slow');
+                    $('#Phone').mask("999-999-9999");
 
                     $('#btnCancel').click(function () {
                         window.location = urlRoot + '/Admin/Index';

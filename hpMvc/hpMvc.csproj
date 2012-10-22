@@ -83,6 +83,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdminBackDoorController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CalorieCalcController.cs" />
     <Compile Include="Controllers\CoordinatorController.cs" />
@@ -607,9 +608,6 @@
     <Content Include="Views\Coordinator\CompleteSubjectPartial.cshtml" />
     <Content Include="Views\Coordinator\CompleteSubject.cshtml" />
     <Content Include="Views\Coordinator\CompleteSubjectConfirmationPartial.cshtml" />
-    <Content Include="admin.sitemap">
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="Views\Staff\FolderDisplay.cshtml" />
     <Content Include="staff.sitemap2">
       <SubType>Designer</SubType>
@@ -630,6 +628,10 @@
     <Content Include="Views\Admin\UpdateStaffInformation.cshtml" />
     <Content Include="Views\Admin\UpdateStaffPartial.cshtml" />
     <Content Include="Views\Admin\UpdateStaffConfirmationPartial.cshtml" />
+    <Content Include="adminbackdoor.sitemap">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\AdminBackDoor\Index.cshtml" />
     <None Include="_bin_deployableAssemblies\Microsoft.Web.Infrastructure.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.Razor.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.dll" />
