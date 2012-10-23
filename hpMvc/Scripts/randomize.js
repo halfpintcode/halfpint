@@ -1,6 +1,7 @@
 ﻿/// <reference path="jquery-1.7-vsdoc.js" />
 
 $(document).ready(function () {
+    $('#downloadDialog').dialog({ autoOpen: false });
     $('#altDownload').hide();
     $('#divMain').hide();
     $('.mod').hide();
@@ -125,6 +126,7 @@ $(document).ready(function () {
             return;
         }
 
+        $('#btnInitialize').attr('disabled', 'disabled');
         $('#divValidResults').empty();
 
         var studyID = $('#studyID').val();
@@ -135,13 +137,22 @@ $(document).ready(function () {
             type: 'POST',
             data: data,
             success: function (data) {
-                if (data.IsSuccessful) {
-                    $('#btnInitialize').attr('disabled', 'disabled');
+                if (data.IsSuccessful) {                    
                     window.location = urlRoot + '/InitializeSubject/InitializeSS/' + studyID;
                     //                    setTimeout(function () {
                     //                        window.location = urlRoot
                     //                    }, 30000);
                     $('#altDownload').show();
+                    $('#downloadDialog').dialog(
+                    {
+                        title: 'Processing - Please Wait',
+                        height: 200,
+                        width: 300,
+                        show: 'blind',
+                        hide: 'explode'
+                    });
+                    $('#downloadDialog').dialog('open');
+                    //alert('Please wait... This download could take a few minutes/n');
                 }
                 else {
                     var message = "<p>Summary of invalid entries</p><hr/>";
