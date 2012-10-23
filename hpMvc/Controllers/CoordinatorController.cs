@@ -117,7 +117,7 @@ namespace hpMvc.Controllers
                 //ModelState["DateCompleted"].Errors.Add("*Date completed  is required.  Enter a reason if you can not provide this data.");
                 ModelState.AddModelError("", "*Date completed  is required.  Enter a reason if you can not provide this data.");
             }
-            if (model.Older2)
+            if (model.Age2to16)
             {
                 if (!model.CBCL)
                 {

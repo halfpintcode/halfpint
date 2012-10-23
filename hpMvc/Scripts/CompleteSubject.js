@@ -1,7 +1,7 @@
 ﻿/// <reference path="jquery-1.7.1-vsdoc.js" />
 $(function () {
     var role = $('#Role').val();
-    if ($('#Older2').is(':checked')) {
+    if ($('#Age2to16').is(':checked')) {
         $('#overTwo').show();
     }
     else {
@@ -25,7 +25,10 @@ $(function () {
         $('#upload').show();
     }
 
-    $('#Older2').click(function () {
+    $('#Age2to16').click(function () {
+        if ($(this).is(':checked')) {
+            $('#AgeNot2to16').attr('checked', false);
+        }
         $('#overTwo').slideToggle('slow', function () {
             if (!$(this).is(":visible")) {
                 $('#CBCL').attr('checked', false);
@@ -36,6 +39,14 @@ $(function () {
         });
     });
 
+    $('#AgeNot2to16').click(function () {
+        if ($(this).is(':checked')) {
+            if ($('#Age2to16').is(':checked')) {
+                $('#Age2to16').attr('checked', false);
+                $('#overTwo').slideUp('slow');
+            }
+        }
+    });
     $('#btnSubmit').click(function () {
         if (!validateSave()) {
             return false;
@@ -69,7 +80,7 @@ function validateSave(){
         }
     }
 
-    if (($('#Older2').is(':checked'))) {
+    if (($('#Age2to16').is(':checked'))) {
         if (!($('#CBCL').is(':checked'))) {
             message = 'You must certify with a check mark that CBCL has been collected and sent to the CCC.  Enter a reason if you can not provide this data.'
             alert(message);

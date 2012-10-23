@@ -127,6 +127,15 @@ $(document).ready(function () {
         }
 
         $('#btnInitialize').attr('disabled', 'disabled');
+        $('#downloadDialog').dialog(
+                    {
+                        title: 'Processing - Please Wait',
+                        height: 150,
+                        width: 450,
+                        show: 'blind',
+                        hide: 'explode'
+                    });
+        $('#downloadDialog').dialog('open');
         $('#divValidResults').empty();
 
         var studyID = $('#studyID').val();
@@ -142,17 +151,7 @@ $(document).ready(function () {
                     //                    setTimeout(function () {
                     //                        window.location = urlRoot
                     //                    }, 30000);
-                    $('#altDownload').show();
-                    $('#downloadDialog').dialog(
-                    {
-                        title: 'Processing - Please Wait',
-                        height: 200,
-                        width: 300,
-                        show: 'blind',
-                        hide: 'explode'
-                    });
-                    $('#downloadDialog').dialog('open');
-                    //alert('Please wait... This download could take a few minutes/n');
+                    $('#altDownload').show();                    
                 }
                 else {
                     var message = "<p>Summary of invalid entries</p><hr/>";

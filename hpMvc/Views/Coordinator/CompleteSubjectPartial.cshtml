@@ -30,15 +30,16 @@
         
         <span style="text-decoration:underline">Neurodevelopmental Follow-Up Questionnaires</span>
         <br />
-        @Html.EditorFor(m => m.Older2) <span>Subject was older than the age of 2 and less than 17 at the time of randomization</span>
+        @Html.EditorFor(m => m.Age2to16) <span>Subject was 2 to 16 years old at the time of randomization (had 2nd birthday, has not had 17th birthday)</span>
         <div id="overTwo">
-            <label class="older2">Certify with a check mark that the following have been collected and sent to the CCC</label><br />            
+            <label class="age2to16">Certify with a check mark that the following have been collected and sent to the CCC</label><br />            
             <label class="certify">(a) </label>@Html.EditorFor(m => m.CBCL) <span>CBCL</span><br />
-            <label class="certify">(b) </label>@Html.EditorFor(m => m.PedsQL) <span>Peds-QL</span><br />
-            <label class="certify">(c) </label>@Html.EditorFor(m => m.Demographics) <span>Subject Demographics</span><br />
-            @Html.CheckBoxFor(m => m.ContactInfo, new { @class = "older2" }) <span>Subject contact information has been collected and stored at site</span>
+            <label class="certify">(b) </label>@Html.EditorFor(m => m.PedsQL) <span>PedsQL</span><br />
+            <label class="certify">(c) </label>@Html.EditorFor(m => m.Demographics) <span>Demographic and SES Information Form</span><br />
+            @Html.CheckBoxFor(m => m.ContactInfo, new { @class = "age2to16" }) <span>Contact Information Form has been collected and stored securely at site</span>
         </div>
-        
+        <br />
+        @Html.EditorFor(m => m.AgeNot2to16) <span>Subject was not 2 to 16 years old at the time of randomization.</span>
         <br />
         <label>Reason for not completing all required fields</label><br />
         @Html.TextAreaFor(m => m.NotCompletedReason, new { cols = "100", rows = "5" });

@@ -167,7 +167,9 @@ namespace hpMvc.DataBase
                     cmd.Parameters.Add(param);
                     param = new SqlParameter("@cgmUpload", sc.CgmUpload);
                     cmd.Parameters.Add(param);
-                    param = new SqlParameter("@older2", sc.Older2);
+                    param = new SqlParameter("@age2to16", sc.Age2to16);
+                    cmd.Parameters.Add(param);
+                    param = new SqlParameter("@ageNot2to16", sc.AgeNot2to16);
                     cmd.Parameters.Add(param);
                     param = new SqlParameter("@cbcl", sc.CBCL);
                     cmd.Parameters.Add(param);
@@ -241,9 +243,13 @@ namespace hpMvc.DataBase
                         if (!rdr.IsDBNull(pos))
                             rndm.CgmUpload = rdr.GetBoolean(pos);
 
-                        pos = rdr.GetOrdinal("Older2");
+                        pos = rdr.GetOrdinal("Age2to16");
                         if (!rdr.IsDBNull(pos))
-                            rndm.Older2 = rdr.GetBoolean(pos);
+                            rndm.Age2to16 = rdr.GetBoolean(pos);
+
+                        pos = rdr.GetOrdinal("AgeNot2to16");
+                        if (!rdr.IsDBNull(pos))
+                            rndm.AgeNot2to16 = rdr.GetBoolean(pos);
 
                         pos = rdr.GetOrdinal("CBCL");
                         if (!rdr.IsDBNull(pos))
@@ -333,9 +339,9 @@ namespace hpMvc.DataBase
                         if (!rdr.IsDBNull(pos))
                             rndm.CgmUpload = rdr.GetBoolean(pos);
 
-                        pos = rdr.GetOrdinal("Older2");
+                        pos = rdr.GetOrdinal("Age2to16");
                         if (!rdr.IsDBNull(pos))
-                            rndm.Older2 = rdr.GetBoolean(pos);
+                            rndm.Age2to16 = rdr.GetBoolean(pos);
 
                         pos = rdr.GetOrdinal("CBCL");
                         if (!rdr.IsDBNull(pos))
@@ -422,9 +428,13 @@ namespace hpMvc.DataBase
                         if (!rdr.IsDBNull(pos))
                             rndm.CgmUpload = rdr.GetBoolean(pos);
 
-                        pos = rdr.GetOrdinal("Older2");
+                        pos = rdr.GetOrdinal("Age2to16");
                         if (!rdr.IsDBNull(pos))
-                            rndm.Older2 = rdr.GetBoolean(pos);
+                            rndm.Age2to16 = rdr.GetBoolean(pos);
+
+                        pos = rdr.GetOrdinal("AgeNot2to16");
+                        if (!rdr.IsDBNull(pos))
+                            rndm.AgeNot2to16 = rdr.GetBoolean(pos);
 
                         pos = rdr.GetOrdinal("CBCL");
                         if (!rdr.IsDBNull(pos))

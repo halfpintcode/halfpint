@@ -56,13 +56,13 @@ namespace hpMvc.DataBase
             sbBody.Append("CGM file upload: " + yesNo);
             sbBody.Append("<br/>");
                         
-            if (sc.Older2)
+            if (sc.Age2to16)
                 yesNo = "yes";
             else
                 yesNo = "no";
             sbBody.Append("Older than 2 and less than 17: " + yesNo);
             sbBody.Append("<br/>");
-            if (sc.Older2)
+            if (sc.Age2to16)
             {
                 sbBody.Append("The following have been collected and sent to the CCC:");
                 sbBody.Append("<br/>");

@@ -48,7 +48,8 @@ namespace hpMvc.Models
         public string sDateCompleted { get; set; }
         public string MonitorID { get; set; }
         public bool CgmUpload { get; set; }      
-        public bool Older2 { get; set; }          
+        public bool Age2to16 { get; set; }
+        public bool AgeNot2to16 { get; set; }          
         public bool CBCL { get; set; }        
         public bool PedsQL { get; set; }        
         public bool Demographics { get; set; }        
