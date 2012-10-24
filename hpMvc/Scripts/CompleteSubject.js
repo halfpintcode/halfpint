@@ -42,6 +42,11 @@ $(function () {
     $('#AgeNot2to16').click(function () {
         if ($(this).is(':checked')) {
             if ($('#Age2to16').is(':checked')) {
+                $('#CBCL').attr('checked', false);
+                $('#PedsQL').attr('checked', false);
+                $('#Demographics').attr('checked', false);
+                $('#ContactInfo').attr('checked', false);
+                
                 $('#Age2to16').attr('checked', false);
                 $('#overTwo').slideUp('slow');
             }

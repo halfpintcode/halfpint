@@ -218,7 +218,7 @@ namespace hpMvc.DataBase
             }
         }
 
-        public static DTO DoesStaffEmailExist(string email, int site)
+        public static DTO DoesStaffEmailExist(string email)
         {
             var dto = new DTO();
             dto.IsSuccessful = false;
@@ -233,9 +233,7 @@ namespace hpMvc.DataBase
                     SqlCommand cmd = new SqlCommand("", conn);
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     cmd.CommandText = ("DoesStaffEmailExist");
-                    SqlParameter param = new SqlParameter("@siteID", site);
-                    cmd.Parameters.Add(param);
-                    param = new SqlParameter("@email", email);
+                    SqlParameter param = new SqlParameter("@email", email);
                     cmd.Parameters.Add(param);
                     //SqlParameter param = new SqlParameter("@Identity", System.Data.SqlDbType.Int, 0, "ID");
                     param = new SqlParameter("@name", System.Data.SqlDbType.NVarChar, 50);
