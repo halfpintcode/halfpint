@@ -1,6 +1,6 @@
 ﻿/// <reference path="jquery-1.7.1-vsdoc.js" />
 $(function () {
-   $('#Sites').val($('#SiteID').val());
+    $('#Sites').val($('#SiteID').val());
     var isValid = $('#IsValid').val();
 
     $('#Sites').change(function () {
@@ -25,7 +25,7 @@ $(function () {
     }); //$('#Sites').change
 
     if (isValid === "false") {
-        $('#Phone').mask("999-999-9999");   
+        $('#Phone').mask("999-999-9999");
         $('#btnCancel').click(function () {
             window.location = urlRoot + '/Coordinator/Index';
         });
@@ -33,6 +33,30 @@ $(function () {
         $('#updateForm').submit(function () {
             return updateFormSubmit();
         });
+
+        $('#Email').blur(function () {
+            var email = $.trim($('#Email').val());
+            isEmailDuplicate(email);
+        });
+        function isEmailDuplicate(email) {
+            var id = $('#UserID').val();
+            $.ajax({
+                async: false,
+                url: urlRoot + '/Admin/IsUserEmailDuplicateOtherThan/?id=' + id + '&email=' + email,
+                type: 'POST',
+                data: {},
+                success: function (data) {
+                    if (data.ReturnValue == 1) {
+                        alert('This email is being used by ' + data.Message + '!');
+                        retVal = true;
+                    }
+                    if (data.ReturnValue == -1) {
+                        alert('There was an error cheking the database for a duplicate email.');
+                        retVal = false;
+                    }
+                }
+            });
+        }
 
         //handle date completed enable and disable (enable only when checked)
         $(':input[type="checkbox"]').each(function () {
@@ -165,6 +189,30 @@ $(function () {
                         return updateFormSubmit();
                     });
 
+                    $('#Email').blur(function () {
+                        var email = $.trim($('#Email').val());
+                        isEmailDuplicate(email);
+                    });
+                    function isEmailDuplicate(email) {
+                        var id = $('#UserID').val();
+                        $.ajax({
+                            async: false,
+                            url: urlRoot + '/Admin/IsUserEmailDuplicateOtherThan/?id=' + id + '&email=' + email,
+                            type: 'POST',
+                            data: {},
+                            success: function (data) {
+                                if (data.ReturnValue == 1) {
+                                    alert('This email is being used by ' + data.Message + '!');
+                                    retVal = true;
+                                }
+                                if (data.ReturnValue == -1) {
+                                    alert('There was an error cheking the database for a duplicate email.');
+                                    retVal = false;
+                                }
+                            }
+                        });
+                    }
+
                     //handle date completed enable and disable (enable only when checked)
                     $(':input[type="checkbox"]').each(function () {
                         var id = $(this).attr('id');
@@ -199,7 +247,7 @@ $(function () {
                             if ($(this).attr("id") === "HumanSubj") {
                                 var doc = $.trim($(this).next().next().next().next().val());
                                 //if (doc.length > 0) {
-                                    $(this).next().next().next().next().next().next().attr('disabled', false);
+                                $(this).next().next().next().next().next().next().attr('disabled', false);
                                 //}
                             }
                         }

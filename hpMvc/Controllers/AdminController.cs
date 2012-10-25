@@ -282,11 +282,21 @@ namespace hpMvc.Controllers
             return Json(dto);
         }
 
-        public JsonResult IsUserEmployeeIDDuplicate(string employeeID)
+        public JsonResult IsUserEmailDuplicateOtherThan(int id, string email)
         {
-            int site = DbUtils.GetSiteidIDForUser(User.Identity.Name);
-            var dto = DbPostTestsUtils.DoesStaffEmployeeIDExist(employeeID, site);
+            var dto = DbPostTestsUtils.DoesStaffEmailExistOtherThan(id, email);
+            return Json(dto);
+        }
 
+        public JsonResult IsUserEmployeeIDDuplicate(string employeeID, int site)
+        {            
+            var dto = DbPostTestsUtils.DoesStaffEmployeeIDExist(employeeID, site);
+            return Json(dto);
+        }
+
+        public JsonResult IsUserEmployeeIDDuplicateOtherThan(int id, string employeeID, int site)
+        {           
+            var dto = DbPostTestsUtils.DoesStaffEmployeeIDExistOtherThan(id, employeeID, site);
             return Json(dto);
         }
 
@@ -402,17 +412,22 @@ namespace hpMvc.Controllers
 
                 if (model.Email != model.OldEmail)
                 {
-                    var dtoEmail = AccountUtils.UpdateUserEmail(model.Email, model.UserName);
+                    DTO dtoEmail = null; 
+                    if(model.UserName != null)
+                        dtoEmail = AccountUtils.UpdateUserEmail(model.Email, model.UserName);
                 }
                 if (model.Role != model.OldRole)
                 {
-                    string [] newroles = {model.Role};
-                    UserRolesUtils.SaveAsignedRoles(newroles, model.UserName);
+                    if (model.UserName != null)
+                    {
+                        string[] newroles = { model.Role };
+                        UserRolesUtils.SaveAsignedRoles(newroles, model.UserName);
+                    }
                 }
                 if (model.OldActive != model.Active)
                 {
                     if (model.UserName != null)
-                    {
+                    {                        
                         var mUser = Membership.GetUser(model.UserName);
                         if (mUser != null)
                         {
@@ -469,6 +484,7 @@ namespace hpMvc.Controllers
             model.OldRole = model.Role;
             model.OldEmail = model.Email;
             model.OldActive = model.Active;
+            model.OldEmployeeID = model.EmployeeID;
             return PartialView("UpdateStaffPartial", model);
         }
 

@@ -34,6 +34,7 @@
     <input id="UserID" name="ID" type="hidden" value='@Model.ID'/>
     <input id="UserName" name="UserName" type="hidden" value='@Model.UserName' />
     <input id="Email" name="Email" type="hidden" value='@Model.Email' />
+    <input id="OldEmail" name="OldEmail" type="hidden" value='@Model.OldEmail'/>
     <input id="OldActive" name="OldActive" type="hidden" value='@Model.OldActive'/>
     <input id="empIDRequired" value="" name="empIDRequired" type="hidden"/>
 	<input id="empIDRegex" value="" name="empIDRegex" type="hidden"/>
@@ -56,9 +57,13 @@
         @if (Model.Role != "Nurse")
         {
             <label class="lblMain">User Name</label> <label >@Model.UserName</label>          
-            <br />
+            <br />            
+            <label class="lblMain">Email</label> <label>@Model.Email</label>
         }
-        <label class="lblMain">Email</label> <label>@Model.Email</label>                
+        else
+        {
+            <label class="lblMain">Email</label> @Html.EditorFor(m => m.Email) @Html.ValidationMessageFor(m => m.Email) 
+        }
         <br />        
         <label class="lblMain">First Name</label> @Html.EditorFor(m => m.FirstName) 
         <br />

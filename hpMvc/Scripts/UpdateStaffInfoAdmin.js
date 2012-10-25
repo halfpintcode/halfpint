@@ -2,7 +2,7 @@
 $(function () {
     $('#Sites').val($('#SiteID').val());
     var isValid = $('#IsValid').val();
-    
+
     $('#Sites').change(function () {
         var site = $(this).val();
         $('#SiteID').val(site);
@@ -25,7 +25,7 @@ $(function () {
     }); //$('#Sites').change
 
     if (isValid === "false") {
-        $('#Phone').mask("999-999-9999");  
+        $('#Phone').mask("999-999-9999");
         $('#btnCancel').click(function () {
             window.location = urlRoot + '/Coordinator/Index';
         });
@@ -33,6 +33,61 @@ $(function () {
         $('#updateForm').submit(function () {
             return updateFormSubmit();
         });
+
+        $('#Email').blur(function () {
+            var email = $.trim($('#Email').val());
+            isEmailDuplicate(email);
+        });
+        function isEmailDuplicate(email) {
+            var id = $('#UserID').val();
+            $.ajax({
+                async: false,
+                url: urlRoot + '/Admin/IsUserEmailDuplicateOtherThan/?id=' + id + '&email=' + email,
+                type: 'POST',
+                data: {},
+                success: function (data) {
+                    if (data.ReturnValue == 1) {
+                        alert('This email is being used by ' + data.Message + '!');
+                        retVal = true;
+                    }
+                    if (data.ReturnValue == -1) {
+                        alert('There was an error cheking the database for a duplicate email.');
+                        retVal = false;
+                    }
+                }
+            });
+        }
+
+        $('#EmployeeID').blur(function () {
+            var empID = $.trim($('#EmployeeID').val());
+            if (empID.length === 0) {
+                return;
+            }
+            isEmployeeIDDuplicate(empID);
+        });
+
+        function isEmployeeIDDuplicate(empID) {
+            var site = $('#Sites').val();
+            var id = $('#UserID').val();
+            var retVal = false;
+            $.ajax({
+                async: false,
+                url: urlRoot + '/Admin/IsUserEmployeeIDDuplicateOtherThan/?id=' + id + '&employeeID=' + empID + '&site=' + site,
+                type: 'POST',
+                data: {},
+                success: function (data) {
+                    if (data.ReturnValue == 1) {
+                        alert('This employee ID is being used by ' + data.Message + '!');
+                        retVal = true;
+                    }
+                    if (data.ReturnValue == -1) {
+                        alert('There was an error cheking the database for a duplicate employee ID.');
+                        retVal = false;
+                    }
+                }
+            });
+            return retVal;
+        }
 
         //handle date completed enable and disable (enable only when checked)
         $(':input[type="checkbox"]').each(function () {
@@ -143,7 +198,7 @@ $(function () {
         });
 
     });
-    
+
     function getUserInfo(user) {
         var url = urlRoot + '/Admin/GetStaffInfo/?user=' + user
 
@@ -152,7 +207,7 @@ $(function () {
             type: 'POST',
             data: {},
             success: function (data) {
-                if (data) {                    
+                if (data) {
                     $('#staffInfo').append(data);
                     $('#staffInfo').slideDown('slow');
                     $('#Phone').mask("999-999-9999");
@@ -160,14 +215,65 @@ $(function () {
                     $('#btnCancel').click(function () {
                         window.location = urlRoot + '/Admin/Index';
                     });
-
-                    $('#updateForm').submit(function () {
-                        return updateFormSubmit();
-                    });
-
+                                        
                     $('#Roles').change(function () {
                         $('#Role').val($('#Roles').val());
                     });
+
+                    $('#Email').blur(function () {
+                        var email = $.trim($('#Email').val());
+                        isEmailDuplicate(email);
+                    });
+                    function isEmailDuplicate(email) {
+                        var id = $('#UserID').val();
+                        $.ajax({
+                            async: false,
+                            url: urlRoot + '/Admin/IsUserEmailDuplicateOtherThan/?id=' + id + '&email=' + email,
+                            type: 'POST',
+                            data: {},
+                            success: function (data) {
+                                if (data.ReturnValue == 1) {
+                                    alert('This email is being used by ' + data.Message + '!');
+                                    retVal = true;
+                                }
+                                if (data.ReturnValue == -1) {
+                                    alert('There was an error cheking the database for a duplicate email.');
+                                    retVal = false;
+                                }
+                            }
+                        });
+                    }
+
+                    $('#EmployeeID').blur(function () {
+                        var empID = $.trim($('#EmployeeID').val());
+                        if (empID.length === 0) {
+                            return;
+                        }
+                        isEmployeeIDDuplicate(empID);
+                    });
+
+                    function isEmployeeIDDuplicate(empID) {
+                        var site = $('#Sites').val();
+                        var id = $('#UserID').val();
+                        var retVal = false;
+                        $.ajax({
+                            async: false,
+                            url: urlRoot + '/Admin/IsUserEmployeeIDDuplicateOtherThan/?id=' + id + '&employeeID=' + empID + '&site=' + site,
+                            type: 'POST',
+                            data: {},
+                            success: function (data) {
+                                if (data.ReturnValue == 1) {
+                                    alert('This employee ID is being used by ' + data.Message + '!');
+                                    retVal = true;
+                                }
+                                if (data.ReturnValue == -1) {
+                                    alert('There was an error cheking the database for a duplicate employee ID.');
+                                    retVal = false;
+                                }
+                            }
+                        });
+                        return retVal;
+                    }
 
                     //handle date completed enable and disable (enable only when checked)
                     $(':input[type="checkbox"]').each(function () {
@@ -203,7 +309,7 @@ $(function () {
                             if ($(this).attr("id") === "HumanSubj") {
                                 var doc = $.trim($(this).next().next().next().next().val());
                                 //if (doc.length > 0) {
-                                    $(this).next().next().next().next().next().next().attr('disabled', false);
+                                $(this).next().next().next().next().next().next().attr('disabled', false);
                                 //}
                             }
                         }
@@ -217,6 +323,153 @@ $(function () {
                         }
                     });
 
+                    $('#updateForm').submit(function () {
+                        return updateFormSubmit();
+                    });
+
+                    function updateFormSubmit() {
+                        var model = {};
+                        //validation
+                        //model.OldRole = $('#OldRole').val();
+                        //model.Role = $('#Roles').val();
+
+                        var fName = $.trim($('#FirstName').val());
+                        if (fName.length === 0) {
+                            alert('First name is required')
+
+                            return false;
+                        }
+                        model.FirstName = fName;
+
+                        var lName = $.trim($('#LastName').val());
+                        if (lName.length === 0) {
+                            alert('Last name is required')
+                            return false;
+                        }
+                        model.LastName = lName;
+
+                        if (!($('#EmployeeID').is(':hidden'))) {
+                            var empID = $.trim($('#EmployeeID').val());
+                            if (empID.length === 0) {
+                                alert('Employee id is required');
+                                return false;
+                            }
+                            var regex = $('#empIDRegex').val();
+
+                            if (!validateEmployeeID(regex, empID)) {
+                                var message = 'Employee id must be a ' + $('#empIDMessage').val();
+                                alert(message);
+                                $('#empIDmessage').show();
+                                return false;
+                            }
+                            //            if (isEmployeeIDDuplicate(empID)) {
+                            //                return false;
+                            //            }
+                        }
+                        model.EmployeeID = empID;
+
+                        var email = $.trim($('#Email').val());
+                        if (email.length === 0) {
+                            alert('Email address is required')
+                            return false;
+                        }
+                        if (!validateEmail(email)) {
+                            alert('Enter a valid email address')
+                            return false;
+                        }
+                        if (isEmailDuplicate(email)) {
+                            return false;
+                        }
+                        staffModel.Email = email;
+
+                        var isValid = true;
+                        $(':input[type="checkbox"]').each(function () {
+
+                            var doc = "";
+                            var doc2 = "";
+                            var dateLable = "";
+                            var docId = "";
+                            var retVal = "";
+
+                            var id = $(this).attr('id');
+                            if (id === "Active") {
+                                return true; //continue
+                            }
+
+                            var lable = $(this).next().next().text();
+
+                            model[id] = false;
+                            if ($(this).is(":checked")) {
+                                model[id] = true;
+
+                                if (id === "HumanSubj") {
+                                    dateLable = "Date started";
+                                }
+                                else {
+                                    dateLable = "Date completed";
+                                }
+
+                                doc = $.trim($(this).next().next().next().next().val());
+                                docId = $(this).next().next().next().next().attr('id')
+                                if (doc.length === 0) {
+                                    alert(dateLable + " is required for " + lable);
+                                    isValid = false;
+                                    return false;
+                                }
+                                else {
+                                    retVal = isValidDate(doc);
+                                    if (retVal === "InvalidFormat") {
+                                        alert(dateLable + " is not a valid format for " + lable + " - valid format: mm/dd/yyyy");
+                                        isValid = false;
+                                        return false;
+                                    }
+                                    if (retVal === "InvalidDate") {
+                                        alert(dateLable + " is not a valid date for " + lable);
+                                        isValid = false;
+                                        return false;
+                                    }
+                                }
+                                model[docId] = doc;
+
+                                if ($(this).attr("id") === "HumanSubj") {
+                                    doc2 = $.trim($(this).next().next().next().next().next().next().next().val());
+                                    if (doc2.length === 0) {
+                                        alert("Date expired is required for " + lable);
+                                        isValid = false;
+                                        return false;
+                                    }
+                                    else {
+                                        if (retVal === "InvalidDate") {
+                                            alert("Date expired is not a valid date for " + lable);
+                                            isValid = false;
+                                            return false;
+                                        }
+                                    }
+
+                                    //if we made it to here then we have dates for both start and expired
+                                    var dStart = new Date(doc);
+                                    var dExpir = new Date(doc2);
+                                    if (doc > doc2) {
+                                        alert("Date expired must be later than date started for Human Subject Training");
+                                        isValid = false;
+                                        return false;
+                                    }
+                                    model.HumanSubExp = doc2;
+                                }
+                            }
+                        });
+
+                        if (!isValid) {
+                            return false;
+                        }
+
+                        var site = $('#Sites').val();
+                        if (site === "0") {
+                            alert('Site is required')
+                            return false;
+                        }
+                    }
+
                 }
                 else {
                     alert(data);
@@ -226,144 +479,6 @@ $(function () {
 
     }
 
-    function updateFormSubmit() {
-        var model = {};
-        //validation
-        //model.OldRole = $('#OldRole').val();
-        //model.Role = $('#Roles').val();
-
-        var fName = $.trim($('#FirstName').val());
-        if (fName.length === 0) {
-            alert('First name is required')
-
-            return false;
-        }
-        model.FirstName = fName;
-
-        var lName = $.trim($('#LastName').val());
-        if (lName.length === 0) {
-            alert('Last name is required')
-            return false;
-        }
-        model.LastName = lName;
-
-        if (!($('#EmployeeID').is(':hidden'))) {
-            var empID = $.trim($('#EmployeeID').val());
-            if (empID.length === 0) {
-                alert('Employee id is required');
-                return false;
-            }
-            var regex = $('#empIDRegex').val();
-
-            if (!validateEmployeeID(regex, empID)) {
-                var message = 'Employee id must be a ' + $('#empIDMessage').val();
-                alert(message);
-                $('#empIDmessage').show();
-                return false;
-            }
-        }
-        model.EmployeeID = empID;
-
-        var email = $.trim($('#Email').val());
-        if (email.length === 0) {
-            alert('Email address is required')
-            return false;
-        }
-        if (!validateEmail(email)) {
-            alert('Enter a valid email address')
-            return false;
-        }
-//        if (isEmailDuplicate(email)) {
-//            return;
-//        }
-        staffModel.Email = email;
-
-        var isValid = true;
-        $(':input[type="checkbox"]').each(function () {
-
-            var doc = "";
-            var doc2 = "";
-            var dateLable = "";
-            var docId = "";
-            var retVal = "";
-
-            var id = $(this).attr('id');
-            if (id === "Active") {
-                return true; //continue
-            }
-
-            var lable = $(this).next().next().text();
-
-            model[id] = false;
-            if ($(this).is(":checked")) {
-                model[id] = true;
-
-                if (id === "HumanSubj") {
-                    dateLable = "Date started";
-                }
-                else {
-                    dateLable = "Date completed";
-                }
-
-                doc = $.trim($(this).next().next().next().next().val());
-                docId = $(this).next().next().next().next().attr('id')
-                if (doc.length === 0) {
-                    alert(dateLable + " is required for " + lable);
-                    isValid = false;
-                    return false;
-                }
-                else {
-                    retVal = isValidDate(doc);
-                    if (retVal === "InvalidFormat") {
-                        alert(dateLable + " is not a valid format for " + lable + " - valid format: mm/dd/yyyy");
-                        isValid = false;
-                        return false;
-                    }
-                    if (retVal === "InvalidDate") {
-                        alert(dateLable + " is not a valid date for " + lable);
-                        isValid = false;
-                        return false;
-                    }
-                }
-                model[docId] = doc;
-
-                if ($(this).attr("id") === "HumanSubj") {
-                    doc2 = $.trim($(this).next().next().next().next().next().next().next().val());
-                    if (doc2.length === 0) {
-                        alert("Date expired is required for " + lable);
-                        isValid = false;
-                        return false;
-                    }
-                    else {
-                        if (retVal === "InvalidDate") {
-                            alert("Date expired is not a valid date for " + lable);
-                            isValid = false;
-                            return false;
-                        }
-                    }
-
-                    //if we made it to here then we have dates for both start and expired
-                    var dStart = new Date(doc);
-                    var dExpir = new Date(doc2);
-                    if (doc > doc2) {
-                        alert("Date expired must be later than date started for Human Subject Training");
-                        isValid = false;
-                        return false;
-                    }
-                    model.HumanSubExp = doc2;
-                }
-            }
-        });
-
-        if (!isValid) {
-            return false;
-        }
-
-        var site = $('#Sites').val();
-        if (site === "0") {
-            alert('Site is required')
-            return false;
-        }
-    }
+    
 
 });

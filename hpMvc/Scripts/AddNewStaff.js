@@ -141,10 +141,11 @@ $(function () {
     });
 
     function isEmployeeIDDuplicate(empID) {
+        var site = $('#SiteID').val();
         var retVal = false;
         $.ajax({
             async: false,
-            url: urlRoot + '/Admin/IsUserEmployeeIDDuplicate/?employeeID=' + empID,
+            url: urlRoot + '/Admin/IsUserEmployeeIDDuplicate/?employeeID=' + empID + '&site=' + site,
             type: 'POST',
             data: {},
             success: function (data) {

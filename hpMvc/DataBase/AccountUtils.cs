@@ -19,7 +19,7 @@ namespace hpMvc.DataBase
         public static DTO UpdateUserEmail(string newEmail, string userName)
         {
             DTO dto = new DTO();
-
+                        
             MembershipUser user = Membership.GetUser(userName);
             string oldEmail = user.Email;
 
