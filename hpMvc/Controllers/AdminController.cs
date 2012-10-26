@@ -388,6 +388,18 @@ namespace hpMvc.Controllers
 
             int site = DbUtils.GetSiteidIDForUser(User.Identity.Name);
             ViewBag.Site = site;
+            var retDto = DbPostTestsUtils.GetSiteInfoForSite(site.ToString());
+            ViewBag.EmpRequired = retDto.Stuff.EmpIDRequired;
+            if (retDto.Stuff.EmpIDRequired == "true")
+            {
+                ViewBag.EmpRegex = retDto.Stuff.EmpIDRegex;
+                ViewBag.EmpMessage = retDto.Stuff.EmpIDMessage;
+            }
+            else
+            {
+                ViewBag.EmpRegex = "";
+                ViewBag.EmpMessage = "";
+            }
 
             var list = DbUtils.GetStaffLookupForSite(site.ToString());
             list.Insert(0, new Site { ID = 0, Name = "Select a member", SiteID = "" });            
@@ -456,6 +468,18 @@ namespace hpMvc.Controllers
 
             int site = DbUtils.GetSiteidIDForUser(User.Identity.Name);
             ViewBag.Site = site;
+            var retDto = DbPostTestsUtils.GetSiteInfoForSite(site.ToString());
+            ViewBag.EmpRequired = retDto.Stuff.EmpIDRequired;
+            if (retDto.Stuff.EmpIDRequired == "true")
+            {
+                ViewBag.EmpRegex = retDto.Stuff.EmpIDRegex;
+                ViewBag.EmpMessage = retDto.Stuff.EmpIDMessage;
+            }
+            else
+            {
+                ViewBag.EmpRegex = "";
+                ViewBag.EmpMessage = "";
+            }
 
             var list = DbUtils.GetStaffLookupForSite(site.ToString());
             list.Insert(0, new Site { ID = 0, Name = "Select a member", SiteID = "" });
