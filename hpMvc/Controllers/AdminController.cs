@@ -388,6 +388,7 @@ namespace hpMvc.Controllers
 
             int site = DbUtils.GetSiteidIDForUser(User.Identity.Name);
             ViewBag.Site = site;
+            
             var retDto = DbPostTestsUtils.GetSiteInfoForSite(site.ToString());
             ViewBag.EmpRequired = retDto.Stuff.EmpIDRequired;
             if (retDto.Stuff.EmpIDRequired == "true")

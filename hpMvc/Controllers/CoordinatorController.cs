@@ -222,22 +222,21 @@ namespace hpMvc.Controllers
 
         public ActionResult UpdateStaffInformation()
         {
-            string role = "";
-
-            if (HttpContext.User.IsInRole("Admin"))
-            {
-                role = "Admin";
-                
-                var sites = DbUtils.GetSites();
-                if (sites.Count == 0)
-                    throw new Exception("There was an error retreiving the sites list from the database");
-                sites.Insert(0, new Site { ID = 0, Name = "Select a site", SiteID = "" });
-                ViewBag.Sites = new SelectList(sites, "ID", "Name");
-            }
-            ViewBag.Role = role;
-
             int site = DbUtils.GetSiteidIDForUser(User.Identity.Name);
             ViewBag.Site = site;
+
+            var retDto = DbPostTestsUtils.GetSiteInfoForSite(site.ToString());
+            ViewBag.EmpRequired = retDto.Stuff.EmpIDRequired;
+            if (retDto.Stuff.EmpIDRequired == "true")
+            {
+                ViewBag.EmpRegex = retDto.Stuff.EmpIDRegex;
+                ViewBag.EmpMessage = retDto.Stuff.EmpIDMessage;
+            }
+            else
+            {
+                ViewBag.EmpRegex = "";
+                ViewBag.EmpMessage = "";
+            }
 
             var list = DbUtils.GetStaffLookupForSite(site.ToString());
             list.Insert(0, new Site { ID = 0, Name = "Select a member", SiteID = "" });
@@ -318,6 +317,18 @@ namespace hpMvc.Controllers
             ptpc.PostTestsCompleted = postTestsCompleted;
             model.PostTestsCompleted = ptpc;
             return View(model);
+        }
+
+        public JsonResult IsUserEmailDuplicateOtherThan(int id, string email)
+        {
+            var dto = DbPostTestsUtils.DoesStaffEmailExistOtherThan(id, email);
+            return Json(dto);
+        }
+
+        public JsonResult IsUserEmployeeIDDuplicateOtherThan(int id, string employeeID, int site)
+        {
+            var dto = DbPostTestsUtils.DoesStaffEmployeeIDExistOtherThan(id, employeeID, site);
+            return Json(dto);
         }
 
         public JsonResult GetStaffForSite(string site)

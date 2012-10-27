@@ -7,14 +7,13 @@
 <h2>Update Staff Information</h2>
 
 <div id="divSelects">
-    @if (@ViewBag.Role == "Admin"){
-        <span class="spnMain">Select a site:&nbsp;</span> @Html.DropDownList("Sites")
-        <br />        
-    }
     <span class="spnMain">Select a member:&nbsp;</span>@Html.DropDownList("Users")
     <br />
     <input id="SiteID" name="SiteID" type="hidden" value='@ViewBag.Site' />
     <input id="IsValid" name="IsValid" type="hidden" value='@ViewBag.IsValid' />
+    <input id="empIDRequired" value='@ViewBag.EmpRequired' name="empIDRequired" type="hidden"/>
+	<input id="empIDRegex" value='@ViewBag.EmpRegex' name="empIDRegex" type="hidden"/>
+	<input id="empIDMessage" value='@ViewBag.EmpMessage' name="empIDMessage" type="hidden"/>
 </div>
 
 <div id="staffInfo">
