@@ -141,7 +141,7 @@ $(function () {
     });
 
     function isEmployeeIDDuplicate(empID) {
-        var site = $('#SiteID').val();
+        var site = $('#Sites').val();
         var retVal = false;
         $.ajax({
             async: false,
@@ -255,10 +255,10 @@ $(function () {
                 $('#empIDmessage').show();
                 return false;
             }
-        }
-        if (isEmployeeIDDuplicate(empID)) {
-            return false;
-        }
+            if (isEmployeeIDDuplicate(empID)) {
+                return false;
+            }
+        }        
         staffModel.EmployeeID = empID;
 
         var isValid = true;

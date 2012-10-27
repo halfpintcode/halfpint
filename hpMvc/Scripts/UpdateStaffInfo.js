@@ -48,7 +48,7 @@ $(function () {
         });
 
         function isEmployeeIDDuplicate(empID) {
-            var site = $('#Sites').val();
+            var site = $('#SiteID').val();
             var id = $('#UserID').val();
             var retVal = false;
             $.ajax({
@@ -361,7 +361,7 @@ $(function () {
                     });
 
                     function isEmployeeIDDuplicate(empID) {
-                        var site = $('#Sites').val();
+                        var site = $('#SiteID').val();
                         var id = $('#UserID').val();
                         var retVal = false;
                         $.ajax({
