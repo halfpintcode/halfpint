@@ -1915,6 +1915,12 @@ namespace hpMvc.DataBase
                         param = new SqlParameter("@employeeID", model.EmployeeID);
                     cmd.Parameters.Add(param);
 
+                    if (model.Email == null)
+                        param = new SqlParameter("@email", DBNull.Value);
+                    else
+                        param = new SqlParameter("@email", model.Email);
+                    cmd.Parameters.Add(param);
+
                     if(model.Phone == null)
                         param = new SqlParameter("@phone", DBNull.Value);
                     else

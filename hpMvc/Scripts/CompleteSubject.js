@@ -85,7 +85,7 @@ function validateSave(){
         }
     }
 
-    if (($('#Age2to16').is(':checked'))) {
+    if ($('#Age2to16').is(':checked')) {
         if (!($('#CBCL').is(':checked'))) {
             message = 'You must certify with a check mark that CBCL has been collected and sent to the CCC.  Enter a reason if you can not provide this data.'
             alert(message);
@@ -110,6 +110,13 @@ function validateSave(){
             $('#ContactInfo').focus();
             return false;
         }
+    }
+
+    if (!($('#Age2to16').is(':checked')) && !($('#AgeNot2to16').is(':checked'))) {
+        message = 'You must select one of the age checkboxes.'
+        alert(message);
+        $('#ContactInfo').focus();
+        return false;
     }
     return true;
 }
