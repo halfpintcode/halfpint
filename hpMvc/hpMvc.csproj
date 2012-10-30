@@ -390,6 +390,7 @@
     <Content Include="Content\ShowPostTests.css" />
     <Content Include="Content\ShowPostTests2.css" />
     <Content Include="Content\ShowPostTestsDue.css" />
+    <Content Include="Content\ShowWebLogs.css" />
     <Content Include="Content\staff.css" />
     <Content Include="Content\Superfish\Images\arrows-ffffff.png" />
     <Content Include="Content\Superfish\Images\shadow.png" />
