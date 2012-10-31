@@ -34,10 +34,6 @@
         <siteMapNode title="HalfPint Consent Form" controller="Download" action="GetFile" fileName="Denver HalfPint Consent Form.pdf" folder="Enrollment~Sites~Denver" />
         <siteMapNode title="HalfPint Assent Form" controller="Download" action="GetFile" fileName="Denver HalfPint Assent Form.pdf" folder="Enrollment~Sites~Denver" />
       </siteMapNode>
-      <siteMapNode title="Nationwide" class="AdminDCC">
-        <siteMapNode title="HalfPint Consent Form" controller="Download" action="GetFile" fileName="Nationwide HalfPint Consent Form.pdf" folder="Enrollment~Sites~Nationwide" />
-        <siteMapNode title="HalfPint Assent Form" controller="Download" action="GetFile" fileName="Nationwide HalfPint Assent Form.pdf" folder="Enrollment~Sites~Nationwide" />
-      </siteMapNode>
       <siteMapNode title="Penn State" class="AdminDCC">
         <siteMapNode title="HalfPint Consent Form" controller="Download" action="GetFile" fileName="PennState HalfPint Consent Form.pdf" folder="Enrollment~Sites~Penn State" />
         <siteMapNode title="HalfPint Assent Form" controller="Download" action="GetFile" fileName="PennState HalfPint Assent Form.pdf" folder="Enrollment~Sites~Penn State" />
@@ -63,9 +59,6 @@
       </siteMapNode>
       <siteMapNode title="Denver" class="AdminDCC">
         <siteMapNode title="Denver Permission to Approach" controller="Download" action="GetFile" fileName="Denver Permission to Approach.pdf" folder="Quick Links~Permission to Approach~Denver" />
-      </siteMapNode>
-      <siteMapNode title="Nationwide" class="AdminDCC">
-        <siteMapNode title="Nationwide Permission to Approach" controller="Download" action="GetFile" fileName="Nationwide Permission to Approach.pdf" folder="Quick Links~Permission to Approach~Nationwide" />
       </siteMapNode>
       <siteMapNode title="Penn State" class="AdminDCC">
         <siteMapNode title="Penn State Permission to Approach" controller="Download" action="GetFile" fileName="PennState Permission to Approach.pdf" folder="Quick Links~Permission to Approach~Penn State" />
