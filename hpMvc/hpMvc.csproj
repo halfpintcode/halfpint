@@ -428,9 +428,6 @@
     <Content Include="Content\webgrid.css" />
     <Content Include="Global.asax" />
     <Content Include="HTMLPage1.htm" />
-    <Content Include="QuickLinks.sitemap">
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="README.jQuery.vsdoc.txt" />
     <Content Include="Scripts\2012.2.607\jquery-1.7.1.min.js" />
     <Content Include="Scripts\2012.2.607\jquery.validate.min.js" />
