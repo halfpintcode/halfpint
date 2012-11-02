@@ -16,7 +16,9 @@ $(function () {
 
         $('#Email').blur(function () {
             var email = $.trim($('#Email').val());
-            isEmailDuplicate(email);
+            if (email.length > 0) {
+                isEmailDuplicate(email);
+            }
         });
 
         function isEmailDuplicate(email) {
@@ -113,15 +115,15 @@ $(function () {
             if ($(this).is(":checked")) {
                 $(this).next().next().next().next().attr('disabled', false);
                 if ($(this).attr("id") === "HumanSubj") {
-                    $(this).next().next().next().next().next().next().next().attr('disabled', false);
+                    $(this).next().next().next().next().next().next().attr('disabled', false);
                 }
             }
             else {
                 $(this).next().next().next().next().val('');
                 $(this).next().next().next().next().attr('disabled', 'disabled');
                 if ($(this).attr("id") === "HumanSubj") {
-                    $(this).next().next().next().next().next().next().next().val('');
-                    $(this).next().next().next().next().next().next().next().attr('disabled', 'disabled');
+                    $(this).next().next().next().next().next().next().val('');
+                    $(this).next().next().next().next().next().next().attr('disabled', 'disabled');
                 }
             }
         });
@@ -137,7 +139,7 @@ $(function () {
                 if ($(this).attr("id") === "HumanSubj") {
                     var doc = $.trim($(this).next().next().next().next().val());
                     //                if (doc.length > 0) {
-                    $(this).next().next().next().next().next().next().next().attr('disabled', false);
+                    $(this).next().next().next().next().next().next().attr('disabled', false);
                     //                }
                 }
             }
@@ -145,8 +147,8 @@ $(function () {
                 $(this).next().next().next().next().val('');
                 $(this).next().next().next().next().attr('disabled', 'disabled');
                 if ($(this).attr("id") === "HumanSubj") {
-                    $(this).next().next().next().next().next().next().next().val('');
-                    $(this).next().next().next().next().next().next().next().attr('disabled', 'disabled');
+                    $(this).next().next().next().next().next().next().val('');
+                    $(this).next().next().next().next().next().next().attr('disabled', 'disabled');
                 }
             }
         });
@@ -190,19 +192,23 @@ $(function () {
             }
             staffModel.EmployeeID = empID;
 
-            var email = $.trim($('#Email').val());
-            if (email.length === 0) {
-                alert('Email address is required')
-                return false;
+            var role = $('#Role').val();
+            if (role == "Nurse") {
+
+                var email = $.trim($('#Email').val());
+                if (email.length === 0) {
+                    alert('Email address is required')
+                    return false;
+                }
+                if (!validateEmail(email)) {
+                    alert('Enter a valid email address')
+                    return false;
+                }
+                if (isEmailDuplicate(email)) {
+                    return false;
+                }
+                staffModel.Email = email;
             }
-            if (!validateEmail(email)) {
-                alert('Enter a valid email address')
-                return false;
-            }
-            if (isEmailDuplicate(email)) {
-                return false;
-            }
-            staffModel.Email = email;
 
             var isValid = true;
             $(':input[type="checkbox"]').each(function () {
@@ -332,7 +338,9 @@ $(function () {
 
                     $('#Email').blur(function () {
                         var email = $.trim($('#Email').val());
-                        isEmailDuplicate(email);
+                        if (email.length > 0) {
+                            isEmailDuplicate(email);
+                        }
                     });
                     function isEmailDuplicate(email) {
                         var id = $('#UserID').val();
@@ -472,19 +480,23 @@ $(function () {
                         }
                         staffModel.EmployeeID = empID;
 
-                        var email = $.trim($('#Email').val());
-                        if (email.length === 0) {
-                            alert('Email address is required')
-                            return false;
+                        var role = $('#Role').val();
+                        if (role == "Nurse") {
+
+                            var email = $.trim($('#Email').val());
+                            if (email.length === 0) {
+                                alert('Email address is required')
+                                return false;
+                            }
+                            if (!validateEmail(email)) {
+                                alert('Enter a valid email address')
+                                return false;
+                            }
+                            if (isEmailDuplicate(email)) {
+                                return false;
+                            }
+                            staffModel.Email = email;
                         }
-                        if (!validateEmail(email)) {
-                            alert('Enter a valid email address')
-                            return false;
-                        }
-                        if (isEmailDuplicate(email)) {
-                            return false;
-                        }
-                        staffModel.Email = email;
 
                         var isValid = true;
                         $(':input[type="checkbox"]').each(function () {
@@ -536,7 +548,7 @@ $(function () {
                                 staffModel[docId] = doc;
 
                                 if ($(this).attr("id") === "HumanSubj") {
-                                    doc2 = $.trim($(this).next().next().next().next().next().next().next().val());
+                                    doc2 = $.trim($(this).next().next().next().next().next().next().val());
                                     if (doc2.length === 0) {
                                         alert("Date expired is required for " + lable);
                                         isValid = false;

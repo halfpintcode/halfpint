@@ -255,6 +255,11 @@ namespace hpMvc.Controllers
             //validate model
             if (ModelState.IsValid)
             {
+                if (model.Role != "Nurse")
+                {
+                    model.Email = model.OldEmail;
+                    model.Active = model.OldActive;
+                }
                 MessageListDTO dto = DbUtils.UpdateStaff(model);
                 if (dto.IsSuccessful)
                 {
@@ -343,6 +348,8 @@ namespace hpMvc.Controllers
         {
             StaffEditModel model = DbUtils.GetStaffInfo(int.Parse(user));
             model.OldActive = model.Active;
+            model.OldEmail = model.Email;
+            model.OldEmployeeID = model.EmployeeID;
             return PartialView("UpdateStaffPartial", model);
         }
 

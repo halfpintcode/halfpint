@@ -95,7 +95,9 @@ $(function () {
 
         $('#Email').blur(function () {
             var email = $.trim($('#Email').val());
-            isEmailDuplicate(email);
+            if (email.length > 0) {
+                isEmailDuplicate(email);
+            }
         });
         function isEmailDuplicate(email) {
             var id = $('#UserID').val();
@@ -377,7 +379,9 @@ $(function () {
 
                     $('#Email').blur(function () {
                         var email = $.trim($('#Email').val());
-                        isEmailDuplicate(email);
+                        if (email.length > 0) {
+                            isEmailDuplicate(email);
+                        }
                     });
                     function isEmailDuplicate(email) {
                         var id = $('#UserID').val();
