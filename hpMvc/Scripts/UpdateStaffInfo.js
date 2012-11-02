@@ -2,10 +2,10 @@
 $(function () {
     $('#Sites').val($('#SiteID').val());
     var isValid = $('#IsValid').val();
-    
+
     if (isValid === "false") {
         $('#Phone').mask("999-999-9999");
-        
+
         $('#btnCancel').click(function () {
             window.location = urlRoot + '/Coordinator/Index';
         });
@@ -18,12 +18,13 @@ $(function () {
             var email = $.trim($('#Email').val());
             isEmailDuplicate(email);
         });
-        
+
         function isEmailDuplicate(email) {
             var id = $('#UserID').val();
+            var retVal = false;
             $.ajax({
                 async: false,
-                url: urlRoot + '/Admin/IsUserEmailDuplicateOtherThan/?id=' + id + '&email=' + email,
+                url: urlRoot + '/Coordinator/IsUserEmailDuplicateOtherThan/?id=' + id + '&email=' + email,
                 type: 'POST',
                 data: {},
                 success: function (data) {
@@ -37,6 +38,7 @@ $(function () {
                     }
                 }
             });
+            return retVal;
         }
 
         $('#EmployeeID').blur(function () {
@@ -284,7 +286,7 @@ $(function () {
             }
         }
     }
-    
+
     $('#Users').change(function () {
         var user = $(this).val();
 
@@ -563,7 +565,7 @@ $(function () {
 
                         if (!isValid) {
                             return false;
-                        }                        
+                        }
                     }
                 }
                 else {
