@@ -100,6 +100,8 @@ $(function () {
             }
         });
         function isEmailDuplicate(email) {
+            if (null == email)
+                return false;
             var id = $('#UserID').val();
             var retVal = false;
             $.ajax({
@@ -130,6 +132,8 @@ $(function () {
         });
 
         function isEmployeeIDDuplicate(empID) {
+            if (null == empID)
+                return false;
             var site = $('#Sites').val();
             var id = $('#UserID').val();
             var retVal = false;
@@ -384,6 +388,8 @@ $(function () {
                         }
                     });
                     function isEmailDuplicate(email) {
+                        if (null == email)
+                            return false;
                         var id = $('#UserID').val();
                         var retVal = false;
                         $.ajax({
@@ -414,6 +420,8 @@ $(function () {
                     });
 
                     function isEmployeeIDDuplicate(empID) {
+                        if (null == empID)
+                            return false;
                         var site = $('#Sites').val();
                         var id = $('#UserID').val();
                         var retVal = false;

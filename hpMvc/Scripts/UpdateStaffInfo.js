@@ -22,6 +22,8 @@ $(function () {
         });
 
         function isEmailDuplicate(email) {
+            if (null == email)
+                return false;
             var id = $('#UserID').val();
             var retVal = false;
             $.ajax({
@@ -52,37 +54,8 @@ $(function () {
         });
 
         function isEmployeeIDDuplicate(empID) {
-            var site = $('#SiteID').val();
-            var id = $('#UserID').val();
-            var retVal = false;
-            $.ajax({
-                async: false,
-                url: urlRoot + '/Coordinator/IsUserEmployeeIDDuplicateOtherThan/?id=' + id + '&employeeID=' + empID + '&site=' + site,
-                type: 'POST',
-                data: {},
-                success: function (data) {
-                    if (data.ReturnValue == 1) {
-                        alert('This employee ID is being used by ' + data.Message + '!');
-                        retVal = true;
-                    }
-                    if (data.ReturnValue == -1) {
-                        alert('There was an error cheking the database for a duplicate employee ID.');
-                        retVal = false;
-                    }
-                }
-            });
-            return retVal;
-        }
-
-        $('#EmployeeID').blur(function () {
-            var empID = $.trim($('#EmployeeID').val());
-            if (empID.length === 0) {
-                return;
-            }
-            isEmployeeIDDuplicate(empID);
-        });
-
-        function isEmployeeIDDuplicate(empID) {
+            if (null == empID)
+                return false;
             var site = $('#SiteID').val();
             var id = $('#UserID').val();
             var retVal = false;
@@ -342,8 +315,12 @@ $(function () {
                             isEmailDuplicate(email);
                         }
                     });
+                    
                     function isEmailDuplicate(email) {
+                        if (null == email)
+                            return false;
                         var id = $('#UserID').val();
+                        var retVal = false;
                         $.ajax({
                             async: false,
                             url: urlRoot + '/Coordinator/IsUserEmailDuplicateOtherThan/?id=' + id + '&email=' + email,
@@ -360,6 +337,7 @@ $(function () {
                                 }
                             }
                         });
+                        return retVal;
                     }
 
                     $('#EmployeeID').blur(function () {
@@ -371,6 +349,8 @@ $(function () {
                     });
 
                     function isEmployeeIDDuplicate(empID) {
+                        if (null !== empID)
+                            return false;
                         var site = $('#SiteID').val();
                         var id = $('#UserID').val();
                         var retVal = false;
