@@ -1,6 +1,8 @@
 ﻿/// <reference path="jquery-1.7-vsdoc.js" />
 
 $(document).ready(function () {
+    var useSensor = $('#useSensor').val();
+
     $('#downloadDialog').dialog({ autoOpen: false });
     $('#altDownload').hide();
     $('#divMain').hide();
@@ -47,6 +49,10 @@ $(document).ready(function () {
                     $('#divLogin').slideUp();
                     $('#divMain').slideDown();
                     $('#lnkInfo').parent().addClass("sfHover");
+                    if (useSensor !== "1") {
+                        $('#divSensor').hide();
+                        $('#liSensor').hide();
+                    }
                 }
                 else {
                     if (data.ReturnValue === -1) {
@@ -58,6 +64,7 @@ $(document).ready(function () {
         });
     });
 
+
     $('.nextButton').click(function () {
         var id = this.id;
         $('.mod').hide();
@@ -68,8 +75,14 @@ $(document).ready(function () {
                 $('#lnkInstruc').parent().addClass("sfHover");
                 break;
             case "btnInstrucNext":
-                $('#lnkSensor').click();
-                $('#lnkSensor').parent().addClass("sfHover");
+                if (useSensor !== 1) {
+                    $('#lnkParams').click();
+                    $('#lnkParams').parent().addClass("sfHover");
+                }
+                else {
+                    $('#lnkSensor').click();
+                    $('#lnkSensor').parent().addClass("sfHover");
+                }
                 break;
             case "btnSensorNext":
                 $('#lnkParams').click();
@@ -146,12 +159,12 @@ $(document).ready(function () {
             type: 'POST',
             data: data,
             success: function (data) {
-                if (data.IsSuccessful) {                    
+                if (data.IsSuccessful) {
                     window.location = urlRoot + '/InitializeSubject/InitializeSS/' + studyID;
                     //                    setTimeout(function () {
                     //                        window.location = urlRoot
                     //                    }, 30000);
-                    $('#altDownload').show();                    
+                    $('#altDownload').show();
                 }
                 else {
                     var message = "<p>Summary of invalid entries</p><hr/>";
@@ -175,70 +188,72 @@ $(document).ready(function () {
     });
 
     function validate() {
+        if (useSensor === "1") {
+            var val = $('#MonitorDate').val();
+            if (!val) {
+                alert('Monitor Date is required');
+                $('.mod').hide();
+                $('#divSensor').show();
+                $('#MonitorDate').focus();
+                return false;
+            }
+            val = $('#MonitorTime').val();
+            if (!val) {
+                alert('Monitor Time is required');
+                $('.mod').hide();
+                $('#divSensor').show();
+                $('#MonitorTime').focus();
+                return false;
+            }
+            val = $('#MonitorID').val();
+            if (!val) {
+                alert('Monitor ID is required');
+                $('.mod').hide();
+                $('#divSensor').show();
+                $('#MonitorID').focus();
+                return false;
+            }
+            val = $('#TransmitterID').val();
+            if (!val) {
+                alert('Transmitter ID is required');
+                $('.mod').hide();
+                $('#divSensor').show();
+                $('#TransmitterID').focus();
+                return false;
+            }
+            val = $('#SensorLot').val();
+            if (!val) {
+                alert('Sensor Lot is required');
+                $('.mod').hide();
+                $('#divSensor').show();
+                $('#SensorLot').focus();
+                return false;
+            }
 
-        var val = $('#MonitorDate').val();
-        if (!val) {
-            alert('Monitor Date is required');
-            $('.mod').hide();
-            $('#divSensor').show();
-            $('#MonitorDate').focus();
-            return false;
-        }
-        val = $('#MonitorTime').val();
-        if (!val) {
-            alert('Monitor Time is required');
-            $('.mod').hide();
-            $('#divSensor').show();
-            $('#MonitorTime').focus();
-            return false;
-        }
-        val = $('#MonitorID').val();
-        if (!val) {
-            alert('Monitor ID is required');
-            $('.mod').hide();
-            $('#divSensor').show();
-            $('#MonitorID').focus();
-            return false;
-        }
-        val = $('#TransmitterID').val();
-        if (!val) {
-            alert('Transmitter ID is required');
-            $('.mod').hide();
-            $('#divSensor').show();
-            $('#TransmitterID').focus();
-            return false;
-        }
-        val = $('#SensorLot').val();
-        if (!val) {
-            alert('Sensor Lot is required');
-            $('.mod').hide();
-            $('#divSensor').show();
-            $('#SensorLot').focus();
-            return false;
-        }
-        val = $('#InserterFirstName').val();
-        if (!val) {
-            alert('Inserter First Name is required');
-            $('.mod').hide();
-            $('#divSensor').show();
-            $('#InserterFirstName').focus();
-            return false;
-        }
-        val = $('#InserterLastName').val();
-        if (!val) {
-            alert('Inserter Last Name is required');
-            $('.mod').hide();
-            $('#divSensor').show();
-            $('#InserterLastName').focus();
-            return false;
-        }
-        val = $('#SensorLocations').val();
-        if (val === '0') {
-            alert('Sensor Location is required');
-            $('.mod').hide();
-            $('#divSensor').show();
-            $('#SensorLocations').focus();
-            return false;
+            val = $('#InserterFirstName').val();
+            if (!val) {
+                alert('Inserter First Name is required');
+                $('.mod').hide();
+                $('#divSensor').show();
+                $('#InserterFirstName').focus();
+                return false;
+            }
+            val = $('#InserterLastName').val();
+            if (!val) {
+                alert('Inserter Last Name is required');
+                $('.mod').hide();
+                $('#divSensor').show();
+                $('#InserterLastName').focus();
+                return false;
+            }
+            val = $('#SensorLocations').val();
+            if (val === '0') {
+                alert('Sensor Location is required');
+                $('.mod').hide();
+                $('#divSensor').show();
+                $('#SensorLocations').focus();
+                return false;
+            }
         }
         val = $('#BodyWeight').val();
         if (!val) {

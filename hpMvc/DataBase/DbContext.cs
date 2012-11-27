@@ -870,30 +870,35 @@ namespace hpMvc.DataBase
             }
         }
 
-        public static string GetInitializePassword(string studyID)
+        public static int DoesSiteUseSensor(int siteId)
         {
-            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
 
-            using (SqlConnection conn = new SqlConnection(strConn))
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "GetRandomizationPassword";
-                    SqlParameter param = new SqlParameter("@studyID", studyID);
+                    var cmd = new SqlCommand("", conn)
+                    {
+                        CommandType = System.Data.CommandType.StoredProcedure,
+                        CommandText = "DoesSiteUseSensor"
+                    };
+                    var param = new SqlParameter("@siteId", siteId);
                     cmd.Parameters.Add(param);
-                    
+
                     conn.Open();
-                    return cmd.ExecuteScalar().ToString();                   
+                    var count = (Int32)cmd.ExecuteScalar();
+                    if (count == 1)
+                        return 1;
+                    return 0;
 
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex, "StudyID:" + studyID);
-                    return "error";                   
+                    nlogger.LogError(ex, "StudyID:" + siteId);
+                    return -1;
                 }
-            }            
+            }
         }
         
         public static int AddRandomizationPassword(string studyID, int animalID, string consentDate, string consentTime)

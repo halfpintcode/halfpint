@@ -19,15 +19,15 @@
 	</div>
 
 <div id="divMain" class="hideStart">
-	
 	<div id="mainTitle">
-		Initialize Study ID        
-	</div>
+        Initialize Study ID        
+        <input type="hidden" value='@ViewBag.UseSensor' name="useSensor" id="useSensor"/>
+    </div>
 	<div id="divSideBar">		
 		<ul>			
 			<li><a href="#" id="lnkInfo">Information</a></li>
 			<li><a href="#" id="lnkInstruc">Instructions</a></li>
-			<li><a href="#" id="lnkSensor">Start Sensor</a></li>
+			<li id="liSensor"><a href="#" id="lnkSensor">Start Sensor</a></li>
 			<li><a href="#" id="lnkParams">Order Insulin</a></li>
 			<li><a href="#" id="lnkVamp">Place Vamp Jr.</a></li>
 			<li><a href="#" id="lnkCalGluc">QC Glucose Meter</a></li>

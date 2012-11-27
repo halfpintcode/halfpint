@@ -19,90 +19,124 @@ namespace hpMvc.DataBase
             nlogger = new NLogger();
         }
 
-        public static bool IsValidInitialize(NameValueCollection formParams, out List<ValidationMessages> messages, out SSInsertionData insertData)
+        public static bool IsValidInitialize(NameValueCollection formParams, int useSensor, out List<ValidationMessages> messages, out SSInsertionData insertData)
         {
             messages = new List<ValidationMessages>();
             insertData = new SSInsertionData();
-            string monitorDate = formParams["MonitorDate"];
-            monitorDate = monitorDate.Trim();
-            if (monitorDate.Length == 0)
+
+            if (useSensor == 1)
             {
-                messages.Add(new ValidationMessages { FieldName = "MonitorDate", DisplayName = "Monitor Date", Message = "is required" });
-            }
-            else
-            {
-                try
+                string monitorDate = formParams["MonitorDate"];
+                monitorDate = monitorDate.Trim();
+
+                if (monitorDate.Length == 0)
                 {
-                    DateTime dtMonitorDate = DateTime.Parse(monitorDate);                    
+                    messages.Add(new ValidationMessages
+                                     {FieldName = "MonitorDate", DisplayName = "Monitor Date", Message = "is required"});
                 }
-                catch (Exception ex)
+                else
                 {
-                    messages.Add(new ValidationMessages { FieldName = "MonitorDate", Message = "is not a valid date" });
+                    try
+                    {
+                        DateTime dtMonitorDate = DateTime.Parse(monitorDate);
+                    }
+                    catch (Exception ex)
+                    {
+                        messages.Add(new ValidationMessages {FieldName = "MonitorDate", Message = "is not a valid date"});
+                    }
                 }
-            }
-            insertData.MonitorDate = monitorDate;
+                insertData.MonitorDate = monitorDate;
 
-            string monitorTime = formParams["MonitorTime"];
-            monitorTime = monitorTime.Trim();
-            if (monitorTime.Length == 0)
-            {
-                messages.Add(new ValidationMessages { FieldName = "MonitorTime", DisplayName = "Monitor Time", Message = "is required" });
-            }
-            else
-            {
-                if(! IsValidTime(monitorTime))
+                string monitorTime = formParams["MonitorTime"];
+                monitorTime = monitorTime.Trim();
+                if (monitorTime.Length == 0)
                 {
-                    messages.Add(new ValidationMessages { FieldName = "MonitorTime", DisplayName = "Monitor Time", Message = "is not a valid time" });
+                    messages.Add(new ValidationMessages
+                                     {FieldName = "MonitorTime", DisplayName = "Monitor Time", Message = "is required"});
                 }
-            }
-            insertData.MonitorTime = monitorTime;
+                else
+                {
+                    if (!IsValidTime(monitorTime))
+                    {
+                        messages.Add(new ValidationMessages
+                                         {
+                                             FieldName = "MonitorTime",
+                                             DisplayName = "Monitor Time",
+                                             Message = "is not a valid time"
+                                         });
+                    }
+                }
+                insertData.MonitorTime = monitorTime;
 
-            string monitorID = formParams["MonitorID"];
-            monitorID = monitorID.Trim();
-            if (monitorID.Length == 0)
-            {
-                messages.Add(new ValidationMessages { FieldName = "MonitorID", DisplayName = "Monitor ID", Message = "is required" });
-            }
-            insertData.MonitorID = monitorID;
+                string monitorID = formParams["MonitorID"];
+                monitorID = monitorID.Trim();
+                if (monitorID.Length == 0)
+                {
+                    messages.Add(new ValidationMessages
+                                     {FieldName = "MonitorID", DisplayName = "Monitor ID", Message = "is required"});
+                }
+                insertData.MonitorID = monitorID;
 
-            string transmitterID = formParams["TransmitterID"];
-            transmitterID = transmitterID.Trim();
-            if (transmitterID.Length == 0)
-            {
-                messages.Add(new ValidationMessages { FieldName = "TransmitterID", DisplayName = "Transmitter ID", Message = "is required" });
-            }
-            insertData.TransmitterID = transmitterID;
+                string transmitterID = formParams["TransmitterID"];
+                transmitterID = transmitterID.Trim();
+                if (transmitterID.Length == 0)
+                {
+                    messages.Add(new ValidationMessages
+                                     {
+                                         FieldName = "TransmitterID",
+                                         DisplayName = "Transmitter ID",
+                                         Message = "is required"
+                                     });
+                }
+                insertData.TransmitterID = transmitterID;
 
-            string sensorLot = formParams["SensorLot"];
-            sensorLot = sensorLot.Trim();
-            if (sensorLot.Length == 0)
-            {
-                messages.Add(new ValidationMessages { FieldName = "SensorLot", DisplayName = "Sensor Lot", Message = "is required" });
-            }
-            insertData.SensorLot = sensorLot;
+                string sensorLot = formParams["SensorLot"];
+                sensorLot = sensorLot.Trim();
+                if (sensorLot.Length == 0)
+                {
+                    messages.Add(new ValidationMessages
+                                     {FieldName = "SensorLot", DisplayName = "Sensor Lot", Message = "is required"});
+                }
+                insertData.SensorLot = sensorLot;
 
-            string inserterFirstName = formParams["InserterFirstName"];
-            inserterFirstName = inserterFirstName.Trim();
-            if (inserterFirstName.Length == 0)
-            {
-                messages.Add(new ValidationMessages { FieldName = "InserterFirstName", DisplayName = "Inserter First Name", Message = "is required" });
-            }
-            insertData.InserterFirstName = inserterFirstName;
-            
-            string inserterLastName = formParams["InserterLastName"];
-            inserterLastName = inserterLastName.Trim();
-            if (inserterLastName.Length == 0)
-            {
-                messages.Add(new ValidationMessages { FieldName = "InserterLastName", DisplayName = "Inserter Last Name", Message = "is required" });
-            }
-            insertData.InserterLastName = inserterLastName;
+                string inserterFirstName = formParams["InserterFirstName"];
+                inserterFirstName = inserterFirstName.Trim();
+                if (inserterFirstName.Length == 0)
+                {
+                    messages.Add(new ValidationMessages
+                                     {
+                                         FieldName = "InserterFirstName",
+                                         DisplayName = "Inserter First Name",
+                                         Message = "is required"
+                                     });
+                }
+                insertData.InserterFirstName = inserterFirstName;
 
-            string sensorLocations = formParams["SensorLocations"];            
-            if (sensorLocations == "0")
-            {
-                messages.Add(new ValidationMessages { FieldName = "SensorLocations", DisplayName = "Sensor Location", Message = "is required" });
-            }
-            insertData.SensorLocation = sensorLocations;
+                string inserterLastName = formParams["InserterLastName"];
+                inserterLastName = inserterLastName.Trim();
+                if (inserterLastName.Length == 0)
+                {
+                    messages.Add(new ValidationMessages
+                                     {
+                                         FieldName = "InserterLastName",
+                                         DisplayName = "Inserter Last Name",
+                                         Message = "is required"
+                                     });
+                }
+                insertData.InserterLastName = inserterLastName;
+
+                string sensorLocations = formParams["SensorLocations"];
+                if (sensorLocations == "0")
+                {
+                    messages.Add(new ValidationMessages
+                                     {
+                                         FieldName = "SensorLocations",
+                                         DisplayName = "Sensor Location",
+                                         Message = "is required"
+                                     });
+                }
+                insertData.SensorLocation = sensorLocations;
+            }//if userSensor == 1
 
             string bodyWeight = formParams["BodyWeight"];
             bodyWeight = bodyWeight.Trim();
