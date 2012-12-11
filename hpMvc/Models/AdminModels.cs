@@ -35,13 +35,6 @@ namespace hpMvc.Models
 
     }
 
-    public class SiteInfo
-    {
-        public int ID { get; set; }
-        public string SiteID { get; set; }
-        public string Name { get; set; }
-    }
-
     public class UserInfo
     {
         public string UserName { get; set; }

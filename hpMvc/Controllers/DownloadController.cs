@@ -77,7 +77,7 @@ namespace hpMvc.Controllers
         private void GetSiteFileNameAndFolder(ref string fileName, ref string folder)
         {
             var si = DbUtils.GetSiteInfoForUser(User.Identity.Name);
-            switch (si.SiteID)
+            switch (si.SiteId)
             {
                 case "01":
                     if (fileName.Contains("Permission to Approach"))

@@ -24,7 +24,7 @@ namespace hpMvc.Controllers
         {
             List<Site> sites = new List<Site>();
                         
-            sites = DbUtils.GetSites();
+            sites = DbUtils.GetSitesActive();
             if (sites.Count == 0)
                 throw new Exception("There was an error retreiving the sites list from the database");
             sites.Insert(0, new Site { ID = 0, Name = "Select a site", SiteID = "" });

@@ -1,0 +1,23 @@
+﻿@model List<hpMvc.Models.SiteInfo>
+
+@{
+    ViewBag.Title = "Halfpint Sites";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Halfpint Sites</h2>
+<div>
+@{
+ 
+    var grid = new WebGrid(Model, defaultSort: "Name", rowsPerPage: 50);
+}
+ 
+@grid.GetHtml(columns:grid.Columns(
+            grid.Column("Id", header:"Internal Id"),
+            grid.Column("Name", format: @<text>@Html.ActionLink((string)item.Name,"SiteDetails","Sites", new {id=item.Id}, null)</text>),
+            grid.Column("SiteId", header:"Site Id"),
+            grid.Column("IsEmployeeIdRequired", header: "Employee Id Required"),
+            grid.Column("IsActive", header: "Active"),
+            grid.Column("UseSensor", header: "Use Sensor")
+))
+</div>

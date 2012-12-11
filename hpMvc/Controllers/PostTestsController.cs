@@ -37,7 +37,7 @@ namespace hpMvc.Controllers
             users.Insert(0, new IDandName(0, "Select Your Name"));
 
             //check if employee id required
-            var retDto = DbPostTestsUtils.CheckIfEmployeeIDRequired(User.Identity.Name);
+            var retDto = DbPostTestsUtils.CheckIfEmployeeIdRequired(User.Identity.Name);
             ViewBag.EmpIDRequired = retDto.Stuff.EmpIDRequired;
             ViewBag.EmpIDRegex = retDto.Stuff.EmpIDRegex;
             ViewBag.EmpIDMessage = retDto.Stuff.EmpIDMessage;

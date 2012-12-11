@@ -1,0 +1,76 @@
+﻿@model hpMvc.Models.SiteInfo
+
+@{
+    ViewBag.Title = "SiteDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style rel="stylesheet" type="text/css" >
+    fieldset {
+        line-height: 25px;
+    }
+    .lbleditor {
+        width: 160px;
+        display: inline-block;
+    }
+    .col2 
+    {
+        display: inline-block;
+        margin-left: 5px;
+    }
+    
+</style>
+<h2>Site Details for @Html.DisplayFor(model => model.Name) - Site Id:&nbsp;@Html.DisplayFor(model => model.SiteId) </h2>
+<form method="POST" action="">
+<fieldset>
+    <legend>Site Details</legend>
+    
+    <div>
+        <span class="lbleditor">Internal Id:</span>
+        <span class="col2"> @Html.DisplayFor(model => model.Id) </span>
+    </div>
+
+    <div>
+        <span class="lbleditor">Is Employee Id Required:</span>
+        <span class="col2"> 
+            @Html.EditorFor(model => model.IsEmployeeIdRequired)
+            @Html.ValidationMessageFor(model => model.IsEmployeeIdRequired) 
+        </span>
+    </div>
+    
+    <div>
+        <span class="lbleditor">Employee Id RegEx:</span>
+        <span class="col2"> 
+            @Html.EditorFor(model => model.EmployeeIdRegEx)
+            @Html.ValidationMessageFor(model => model.EmployeeIdRegEx) 
+        </span>
+    </div>
+
+    <div>
+        <span class="lbleditor">Employee Id Message:</span>
+        <span class="col2"> 
+            @Html.EditorFor(model => model.EmployeeIdMessage)
+            @Html.ValidationMessageFor(model => model.EmployeeIdMessage)
+        </span>
+    </div>
+
+    <div>
+        <span class="lbleditor">Active:</span>
+        <span class="col2"> 
+            @Html.EditorFor(model => model.IsActive)
+            @Html.ValidationMessageFor(model => model.IsActive)
+        </span>
+    </div>
+
+    <div>
+        <span class="lbleditor">Use Sensor:</span>
+        <span class="col2"> 
+            @Html.EditorFor(model => model.UseSensor)
+            @Html.ValidationMessageFor(model => model.UseSensor)
+        </span>
+    </div>
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+</fieldset>
+</form>

@@ -9,11 +9,12 @@ using System.Web.Security;
 using hpMvc.Models;
 
 namespace hpMvc.DataBase
-{    
+{
 
     public static class DbUtils
     {
         public static NLogger nlogger;
+
         static DbUtils()
         {
             nlogger = new NLogger();
@@ -55,8 +56,8 @@ namespace hpMvc.DataBase
 
             return emails;
         }
-            
-        public static List<WebLog> GetWebLogs(int numRows=500)
+
+        public static List<WebLog> GetWebLogs(int numRows = 500)
         {
 
             var list = new List<WebLog>();
@@ -85,7 +86,7 @@ namespace hpMvc.DataBase
 
                         pos = rdr.GetOrdinal("logMessage");
                         log.LogMessage = rdr.GetString(pos);
-                        
+
                         list.Add(log);
                     }
                     rdr.Close();
@@ -111,7 +112,7 @@ namespace hpMvc.DataBase
                     SqlCommand cmd = new SqlCommand("", conn);
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     cmd.CommandText = ("GetAllRandomizedStudies");
-                    
+
                     conn.Open();
                     SqlDataReader rdr = cmd.ExecuteReader();
                     int pos = 0;
@@ -120,7 +121,7 @@ namespace hpMvc.DataBase
                     {
                         var rndm = new Randomization();
                         pos = rdr.GetOrdinal("Name");
-                        rndm.SiteName = rdr.GetString(pos);                       
+                        rndm.SiteName = rdr.GetString(pos);
 
                         pos = rdr.GetOrdinal("Number");
                         rndm.Number = rdr.GetString(pos);
@@ -160,7 +161,7 @@ namespace hpMvc.DataBase
                     cmd.CommandText = ("SaveRandomizedSubjectActive");
                     SqlParameter param = new SqlParameter("@id", sc.ID);
                     cmd.Parameters.Add(param);
-                    if(sc.DateCompleted == null)
+                    if (sc.DateCompleted == null)
                         param = new SqlParameter("@dateCompleted", DBNull.Value);
                     else
                         param = new SqlParameter("@dateCompleted", sc.DateCompleted);
@@ -179,7 +180,7 @@ namespace hpMvc.DataBase
                     cmd.Parameters.Add(param);
                     param = new SqlParameter("@contactInfo", sc.ContactInfo);
                     cmd.Parameters.Add(param);
-                    if(sc.NotCompletedReason == null)
+                    if (sc.NotCompletedReason == null)
                         param = new SqlParameter("@notCompletedReason", DBNull.Value);
                     else
                         param = new SqlParameter("@notCompletedReason", sc.NotCompletedReason);
@@ -190,7 +191,7 @@ namespace hpMvc.DataBase
                     cmd.Parameters.Add(param);
                     conn.Open();
                     cmd.ExecuteNonQuery();
-                    
+
                 }
                 catch (Exception ex)
                 {
@@ -221,7 +222,7 @@ namespace hpMvc.DataBase
 
                     while (rdr.Read())
                     {
-                        
+
                         pos = rdr.GetOrdinal("ID");
                         rndm.ID = rdr.GetInt32(pos);
 
@@ -236,7 +237,9 @@ namespace hpMvc.DataBase
                         if (!rdr.IsDBNull(pos))
                         {
                             rndm.DateCompleted = rdr.GetDateTime(pos);
-                            rndm.sDateCompleted = rndm.DateCompleted !=null ? rndm.DateCompleted.Value.ToString("MM/dd/yyyy") : "";
+                            rndm.sDateCompleted = rndm.DateCompleted != null
+                                                      ? rndm.DateCompleted.Value.ToString("MM/dd/yyyy")
+                                                      : "";
                         }
 
                         pos = rdr.GetOrdinal("CgmUpload");
@@ -283,7 +286,7 @@ namespace hpMvc.DataBase
 
                         pos = rdr.GetOrdinal("SiteName");
                         rndm.SiteName = rdr.GetString(pos);
-                                                
+
                     }
                     rdr.Close();
                 }
@@ -332,7 +335,10 @@ namespace hpMvc.DataBase
                         if (!rdr.IsDBNull(pos))
                         {
                             rndm.DateCompleted = rdr.GetDateTime(pos);
-                            rndm.sDateCompleted = rndm.DateCompleted != null ? rndm.DateCompleted.Value.ToString("MM/dd/yyyy") : ""; ;
+                            rndm.sDateCompleted = rndm.DateCompleted != null
+                                                      ? rndm.DateCompleted.Value.ToString("MM/dd/yyyy")
+                                                      : "";
+                            ;
                         }
 
                         pos = rdr.GetOrdinal("CgmUpload");
@@ -364,14 +370,14 @@ namespace hpMvc.DataBase
                             rndm.Cleared = rdr.GetBoolean(pos);
 
                         pos = rdr.GetOrdinal("MonitorID");
-                        if (!rdr.IsDBNull(pos))    
+                        if (!rdr.IsDBNull(pos))
                             rndm.MonitorID = rdr.GetString(pos);
 
                         pos = rdr.GetOrdinal("NotCompletedReason");
-                        if(!rdr.IsDBNull(pos))
+                        if (!rdr.IsDBNull(pos))
                             rndm.NotCompletedReason = rdr.GetString(pos);
 
-                        
+
                         list.Add(rndm);
                     }
                     rdr.Close();
@@ -421,7 +427,10 @@ namespace hpMvc.DataBase
                         if (!rdr.IsDBNull(pos))
                         {
                             rndm.DateCompleted = rdr.GetDateTime(pos);
-                            rndm.sDateCompleted = rndm.DateCompleted != null ? rndm.DateCompleted.Value.ToString("MM/dd/yyyy") : ""; ;
+                            rndm.sDateCompleted = rndm.DateCompleted != null
+                                                      ? rndm.DateCompleted.Value.ToString("MM/dd/yyyy")
+                                                      : "";
+                            ;
                         }
 
                         pos = rdr.GetOrdinal("CgmUpload");
@@ -546,7 +555,7 @@ namespace hpMvc.DataBase
                     conn.Open();
                     SqlDataReader rdr = cmd.ExecuteReader();
                     int pos = 0;
-                    
+
                     while (rdr.Read())
                     {
                         var stid = new StudyID();
@@ -555,10 +564,10 @@ namespace hpMvc.DataBase
 
                         pos = rdr.GetOrdinal("SiteID");
                         stid.SiteID = rdr.GetInt32(pos);
-                        
+
                         pos = rdr.GetOrdinal("StudyID");
                         stid.SstudyID = rdr.GetString(pos);
-                        
+
                         sls.Add(stid);
                     }
                     rdr.Close();
@@ -603,7 +612,7 @@ namespace hpMvc.DataBase
         {
             List<UserInfo> lUsers = new List<UserInfo>();
             MembershipUser user = null;
-            
+
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
             using (SqlConnection conn = new SqlConnection(strConn))
             {
@@ -618,7 +627,7 @@ namespace hpMvc.DataBase
                     conn.Open();
                     SqlDataReader rdr = cmd.ExecuteReader();
                     int pos = 0;
-                                        
+
                     while (rdr.Read())
                     {
                         var userInfo = new UserInfo();
@@ -647,7 +656,8 @@ namespace hpMvc.DataBase
         {
             List<MembershipUser> users = new List<MembershipUser>();
             MembershipUser user = new MembershipUser("AspNetSqlMembershipProvider", "Select user", "", "", "", "",
-                true, false, DateTime.Now, DateTime.Now, DateTime.Now, DateTime.Now, DateTime.Now);
+                                                     true, false, DateTime.Now, DateTime.Now, DateTime.Now, DateTime.Now,
+                                                     DateTime.Now);
             users.Add(user);
 
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
@@ -686,7 +696,7 @@ namespace hpMvc.DataBase
         public static List<MembershipUser> GetUserInRole(string role, int site)
         {
             var memUsers = new List<MembershipUser>();
-            string[] users =  Roles.GetUsersInRole(role);
+            string[] users = Roles.GetUsersInRole(role);
 
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
             using (SqlConnection conn = new SqlConnection(strConn))
@@ -701,9 +711,9 @@ namespace hpMvc.DataBase
 
                     conn.Open();
                     SqlDataReader rdr = cmd.ExecuteReader();
-                    
+
                     int pos = 0;
-                    string userName = "";                    
+                    string userName = "";
                     while (rdr.Read())
                     {
                         pos = rdr.GetOrdinal("UserName");
@@ -712,9 +722,9 @@ namespace hpMvc.DataBase
                         {
                             if (u == userName)
                             {
-                                memUsers.Add(Membership.GetUser(u));                                
-                            }                            
-                        }                        
+                                memUsers.Add(Membership.GetUser(u));
+                            }
+                        }
                     }
                     rdr.Close();
                 }
@@ -739,9 +749,9 @@ namespace hpMvc.DataBase
                     cmd.CommandText = "IsStudyIDRandomized";
                     SqlParameter param = new SqlParameter("@studyID", studyID);
                     cmd.Parameters.Add(param);
-                    
+
                     conn.Open();
-                    int count = (Int32)cmd.ExecuteScalar();
+                    int count = (Int32) cmd.ExecuteScalar();
                     if (count == 1)
                         return 1;
                     return 0;
@@ -751,7 +761,7 @@ namespace hpMvc.DataBase
                     nlogger.LogError(ex);
                     return -1;
                 }
-            }            
+            }
         }
 
         public static int IsStudyIDAssignedPasswordValid(string studyID, string animalName)
@@ -761,7 +771,7 @@ namespace hpMvc.DataBase
             using (SqlConnection conn = new SqlConnection(strConn))
             {
                 try
-                {                    
+                {
                     SqlCommand cmd = new SqlCommand("", conn);
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     cmd.CommandText = "IsStudyIDAssignedPasswordValid";
@@ -771,17 +781,17 @@ namespace hpMvc.DataBase
                     cmd.Parameters.Add(param);
 
                     conn.Open();
-                    int count = (Int32)cmd.ExecuteScalar();
+                    int count = (Int32) cmd.ExecuteScalar();
                     if (count == 1)
                         return 1;
                     return 0;
                 }
                 catch (Exception ex)
-                { 
+                {
                     nlogger.LogError(ex);
                     return -1;
                 }
-            }                        
+            }
         }
 
         public static int IsStudyIDAssignedPassword(string studyID)
@@ -799,17 +809,17 @@ namespace hpMvc.DataBase
                     cmd.Parameters.Add(param);
 
                     conn.Open();
-                    int count = (Int32)cmd.ExecuteScalar();
+                    int count = (Int32) cmd.ExecuteScalar();
                     if (count == 1)
                         return 1;
-                    return 0;        
+                    return 0;
                 }
                 catch (Exception ex)
                 {
                     nlogger.LogError(ex);
                     return -1;
                 }
-            }            
+            }
         }
 
         public static int IsStudyIDValid(string studyID)
@@ -828,7 +838,7 @@ namespace hpMvc.DataBase
                     cmd.Parameters.Add(param);
 
                     conn.Open();
-                    int count = (Int32)cmd.ExecuteScalar();
+                    int count = (Int32) cmd.ExecuteScalar();
                     if (count == 1)
                         return 1;
                     return 0;
@@ -857,7 +867,7 @@ namespace hpMvc.DataBase
                     cmd.Parameters.Add(param);
 
                     conn.Open();
-                    int count = (Int32)cmd.ExecuteScalar();
+                    int count = (Int32) cmd.ExecuteScalar();
                     if (count == 1)
                         return 1;
                     return 0;
@@ -879,15 +889,15 @@ namespace hpMvc.DataBase
                 try
                 {
                     var cmd = new SqlCommand("", conn)
-                    {
-                        CommandType = System.Data.CommandType.StoredProcedure,
-                        CommandText = "DoesSiteUseSensor"
-                    };
+                                  {
+                                      CommandType = System.Data.CommandType.StoredProcedure,
+                                      CommandText = "DoesSiteUseSensor"
+                                  };
                     var param = new SqlParameter("@siteId", siteId);
                     cmd.Parameters.Add(param);
 
                     conn.Open();
-                    var count = (Int32)cmd.ExecuteScalar();
+                    var count = (Int32) cmd.ExecuteScalar();
                     if (count == 1)
                         return 1;
                     return 0;
@@ -900,9 +910,10 @@ namespace hpMvc.DataBase
                 }
             }
         }
-        
-        public static int AddRandomizationPassword(string studyID, int animalID, string consentDate, string consentTime)
-        {            
+
+        public static int AddRandomizationPassword(string studyID, int animalID, string consentDate,
+                                                     string consentTime)
+        {
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
 
             using (SqlConnection conn = new SqlConnection(strConn))
@@ -912,7 +923,7 @@ namespace hpMvc.DataBase
                     SqlCommand cmd = new SqlCommand("", conn);
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     cmd.CommandText = "AddRandomizationPassword";
-                    
+
                     SqlParameter param = new SqlParameter("@animalID", animalID);
                     cmd.Parameters.Add(param);
                     param = new SqlParameter("@studyID", studyID);
@@ -936,7 +947,7 @@ namespace hpMvc.DataBase
                     nlogger.LogError(ex);
                     return -1;
                 }
-            } 
+            }
         }
 
         public static string GetRandomPassword()
@@ -974,7 +985,7 @@ namespace hpMvc.DataBase
                     return null;
                 }
             }
-            
+
         }
 
         public static Animal GetRandomAnimal()
@@ -982,10 +993,10 @@ namespace hpMvc.DataBase
             Animal animal = null;
             Random rnd = new Random();
             int rndID = rnd.Next(1, 131);
-            
+
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
             using (SqlConnection conn = new SqlConnection(strConn))
-            { 
+            {
                 try
                 {
                     SqlCommand cmd = new SqlCommand("", conn);
@@ -993,7 +1004,7 @@ namespace hpMvc.DataBase
                     cmd.CommandText = "GetAnimalByID";
                     SqlParameter param = new SqlParameter("@id", rndID);
                     cmd.Parameters.Add(param);
-                        
+
                     conn.Open();
                     SqlDataReader rdr = cmd.ExecuteReader();
 
@@ -1021,45 +1032,45 @@ namespace hpMvc.DataBase
             var studs = new List<IDandStudyID>();
             IDandStudyID stud = null;
 
-             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-             using (SqlConnection conn = new SqlConnection(strConn))
-             {
-                 try
-                 {
-                     SqlCommand cmd = new SqlCommand("", conn);
-                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                     cmd.CommandText = "GetRandomizedStudiesForSite";
+            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            using (SqlConnection conn = new SqlConnection(strConn))
+            {
+                try
+                {
+                    SqlCommand cmd = new SqlCommand("", conn);
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.CommandText = "GetRandomizedStudiesForSite";
 
-                     SqlParameter param = new SqlParameter("@siteID", siteID);
-                     cmd.Parameters.Add(param);
+                    SqlParameter param = new SqlParameter("@siteID", siteID);
+                    cmd.Parameters.Add(param);
 
-                     conn.Open();
-                     SqlDataReader rdr = cmd.ExecuteReader();
-                     int pos = 0;
-                     while (rdr.Read())
-                     {
-                         stud = new IDandStudyID();
+                    conn.Open();
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    int pos = 0;
+                    while (rdr.Read())
+                    {
+                        stud = new IDandStudyID();
 
-                         pos = rdr.GetOrdinal("ID");
-                         stud.ID = rdr.GetInt32(pos);
+                        pos = rdr.GetOrdinal("ID");
+                        stud.ID = rdr.GetInt32(pos);
 
-                         pos = rdr.GetOrdinal("StudyID");
-                         stud.StudyID = rdr.GetString(pos);
+                        pos = rdr.GetOrdinal("StudyID");
+                        stud.StudyID = rdr.GetString(pos);
 
-                         studs.Add(stud);
-                     }
-                     rdr.Close();
-                 }
-                 catch (Exception ex)
-                 {
-                     nlogger.LogError(ex);
-                 }
-                 return studs;
-             }
+                        studs.Add(stud);
+                    }
+                    rdr.Close();
+                }
+                catch (Exception ex)
+                {
+                    nlogger.LogError(ex);
+                }
+                return studs;
+            }
         }
-        
+
         public static List<Animal> GetAnimals()
-        {            
+        {
             List<Animal> animals = new List<Animal>();
             Animal animal = null;
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
@@ -1085,7 +1096,7 @@ namespace hpMvc.DataBase
                         animals.Add(animal);
                     }
                     rdr.Close();
-                    
+
                 }
                 catch (Exception ex)
                 {
@@ -1133,9 +1144,9 @@ namespace hpMvc.DataBase
             }
             return items;
         }
-        
+
         public static List<IDandName> GetLookupItems(string itemsName)
-        {            
+        {
             List<IDandName> items = new List<IDandName>();
             IDandName item = null;
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
@@ -1160,7 +1171,7 @@ namespace hpMvc.DataBase
                         item.Name = rdr.GetString(pos);
                         items.Add(item);
                     }
-                    rdr.Close();                    
+                    rdr.Close();
                 }
                 catch (Exception ex)
                 {
@@ -1208,10 +1219,10 @@ namespace hpMvc.DataBase
             return items;
         }
 
-        public static Dictionary<string,string> GetInitializeStudyIDsWithPassword(int siteID)
+        public static Dictionary<string, string> GetInitializeStudyIDsWithPassword(int siteID)
         {
             var dict = new Dictionary<string, string>();
-            
+
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
             using (SqlConnection conn = new SqlConnection(strConn))
             {
@@ -1221,7 +1232,7 @@ namespace hpMvc.DataBase
                     SqlCommand cmd = new SqlCommand("", conn);
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     cmd.CommandText = "GetInitializeStudyIDsWithPassword";
-                    SqlParameter param = new SqlParameter("@siteID",siteID);
+                    SqlParameter param = new SqlParameter("@siteID", siteID);
                     cmd.Parameters.Add(param);
 
                     conn.Open();
@@ -1250,7 +1261,112 @@ namespace hpMvc.DataBase
             return dict;
         }
 
-        public static List<Site> GetSites()
+        public static SiteInfo GetSiteInfoForSite(string id)
+        {
+            var site = new SiteInfo();
+            var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            using (var conn = new SqlConnection(strConn))
+            {
+                try
+                {
+                    //throw new Exception("Opps");
+                    var cmd = new SqlCommand("", conn)
+                                  {
+                                      CommandType = System.Data.CommandType.StoredProcedure,
+                                      CommandText = "GetSiteInfoForSite"
+                                  };
+
+                    var parameter = new SqlParameter("@id", id);
+                    cmd.Parameters.Add(parameter);
+
+                    conn.Open();
+
+                    var rdr = cmd.ExecuteReader();
+                    if (rdr.Read())
+                    {
+
+
+                        var pos = rdr.GetOrdinal("ID");
+                        site.Id = rdr.GetInt32(pos);
+                        pos = rdr.GetOrdinal("SiteID");
+                        site.SiteId = rdr.GetString(pos);
+                        pos = rdr.GetOrdinal("Name");
+                        site.Name = rdr.GetString(pos);
+                        pos = rdr.GetOrdinal("EmpIDRequired");
+                        site.IsEmployeeIdRequired = rdr.GetBoolean(pos);
+                        pos = rdr.GetOrdinal("EmpIDRegex");
+                        site.EmployeeIdRegEx = rdr.IsDBNull(pos) ? "" : rdr.GetString(pos);
+                        pos = rdr.GetOrdinal("EmpIDMessage");
+                        site.EmployeeIdMessage = rdr.IsDBNull(pos) ? "" : rdr.GetString(pos);
+                        pos = rdr.GetOrdinal("Active");
+                        site.IsActive = rdr.GetBoolean(pos);
+                        pos = rdr.GetOrdinal("UseSensor");
+                        site.UseSensor = rdr.GetBoolean(pos);
+                    }
+                    rdr.Close();
+                }
+                catch (Exception ex)
+                {
+                    nlogger.LogError(ex);
+                }
+            }
+
+            return site;
+        }
+
+        public static List<SiteInfo> GetSitesAll()
+        {
+            var sites = new List<SiteInfo>();
+            var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            using (var conn = new SqlConnection(strConn))
+            {
+                try
+                {
+                    //throw new Exception("Opps");
+                    var cmd = new SqlCommand("", conn)
+                                  {
+                                      CommandType = System.Data.CommandType.StoredProcedure,
+                                      CommandText = "GetSitesActive"
+                                  };
+
+                    conn.Open();
+                    var rdr = cmd.ExecuteReader();
+                    while (rdr.Read())
+                    {
+                        var site = new SiteInfo();
+
+                        var pos = rdr.GetOrdinal("ID");
+                        site.Id = rdr.GetInt32(pos);
+                        pos = rdr.GetOrdinal("SiteID");
+                        site.SiteId = rdr.GetString(pos);
+                        pos = rdr.GetOrdinal("Name");
+                        site.Name = rdr.GetString(pos);
+                        pos = rdr.GetOrdinal("EmpIDRequired");
+                        site.IsEmployeeIdRequired = rdr.GetBoolean(pos);
+                        pos = rdr.GetOrdinal("EmpIDRegex");
+                        site.EmployeeIdRegEx = rdr.IsDBNull(pos) ? "" : rdr.GetString(pos);
+                        pos = rdr.GetOrdinal("EmpIDMessage");
+                        site.EmployeeIdMessage = rdr.IsDBNull(pos) ? "" : rdr.GetString(pos);
+                        pos = rdr.GetOrdinal("Active");
+                        site.IsActive = rdr.GetBoolean(pos);
+                        pos = rdr.GetOrdinal("UseSensor");
+                        site.UseSensor = rdr.GetBoolean(pos);
+                        sites.Add(site);
+                    }
+                    rdr.Close();
+                }
+                catch (Exception ex)
+                {
+                    nlogger.LogError(ex);
+                }
+            }
+
+            return sites;
+        }
+
+
+
+        public static List<Site> GetSitesActive()
         {
             List<Site> sites = new List<Site>();
             Site site = null;
@@ -1260,9 +1376,9 @@ namespace hpMvc.DataBase
                 try
                 {
                     //throw new Exception("Opps");
-                    SqlCommand cmd = new SqlCommand("",conn);
+                    SqlCommand cmd = new SqlCommand("", conn);
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText="GetSites";
+                    cmd.CommandText = "GetSitesActive";
 
                     conn.Open();
                     SqlDataReader rdr = cmd.ExecuteReader();
@@ -1289,8 +1405,8 @@ namespace hpMvc.DataBase
 
             return sites;
         }
-        
-        public static int RemoveUser (string userName)
+
+        public static int RemoveUser(string userName)
         {
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
             using (SqlConnection conn = new SqlConnection(strConn))
@@ -1304,7 +1420,7 @@ namespace hpMvc.DataBase
 
                     SqlParameter param = new SqlParameter("@userName", userName);
                     cmd.Parameters.Add(param);
-                    
+
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
@@ -1314,12 +1430,12 @@ namespace hpMvc.DataBase
                     return -1;
                 }
             }
-            if(!Membership.DeleteUser(userName))
+            if (!Membership.DeleteUser(userName))
                 return 0;
             return 1;
         }
-        
-        public static bool AddUserSite (string userName, int siteID)
+
+        public static bool AddUserSite(string userName, int siteID)
         {
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
             using (SqlConnection conn = new SqlConnection(strConn))
@@ -1330,7 +1446,7 @@ namespace hpMvc.DataBase
                     SqlCommand cmd = new SqlCommand("", conn);
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     cmd.CommandText = "AddUserSite";
-                    
+
                     SqlParameter param = new SqlParameter("@userName", userName);
                     cmd.Parameters.Add(param);
                     param = new SqlParameter("@siteID", siteID);
@@ -1345,7 +1461,7 @@ namespace hpMvc.DataBase
                     nlogger.LogError(ex);
                     return false;
                 }
-            }            
+            }
         }
 
         public static string GetSiteIDForUser(string userName)
@@ -1369,7 +1485,7 @@ namespace hpMvc.DataBase
                     if (rdr.Read())
                     {
                         pos = rdr.GetOrdinal("SiteID");
-                        retVal = rdr.GetString(pos);                       
+                        retVal = rdr.GetString(pos);
                     }
                     rdr.Close();
                     return retVal;
@@ -1382,7 +1498,7 @@ namespace hpMvc.DataBase
             }
 
         }
-        
+
         public static string GetSiteIDandNameForUser(string userName)
         {
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
@@ -1398,7 +1514,7 @@ namespace hpMvc.DataBase
                     SqlParameter param = new SqlParameter("@userName", userName);
                     cmd.Parameters.Add(param);
 
-                    conn.Open();                    
+                    conn.Open();
                     int pos = 0;
                     SqlDataReader rdr = cmd.ExecuteReader();
                     if (rdr.Read())
@@ -1406,7 +1522,7 @@ namespace hpMvc.DataBase
                         pos = rdr.GetOrdinal("SiteID");
                         retVal = rdr.GetString(pos) + ":";
                         pos = rdr.GetOrdinal("Name");
-                        retVal = retVal + rdr.GetString(pos);                        
+                        retVal = retVal + rdr.GetString(pos);
                     }
                     rdr.Close();
                     return retVal;
@@ -1439,7 +1555,7 @@ namespace hpMvc.DataBase
                     int pos = 0;
                     SqlDataReader rdr = cmd.ExecuteReader();
                     if (rdr.Read())
-                    {                        
+                    {
                         pos = rdr.GetOrdinal("Name");
                         retVal = rdr.GetString(pos);
                     }
@@ -1452,7 +1568,7 @@ namespace hpMvc.DataBase
                     return "error";
                 }
             }
-            
+
         }
 
         public static DTO GetSiteCodeForSiteID(int siteID)
@@ -1460,7 +1576,7 @@ namespace hpMvc.DataBase
             DTO dto = new DTO();
             dto.ReturnValue = 1;
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            
+
             using (SqlConnection conn = new SqlConnection(strConn))
             {
                 try
@@ -1550,11 +1666,11 @@ namespace hpMvc.DataBase
                     if (rdr.Read())
                     {
                         pos = rdr.GetOrdinal("ID");
-                        si.ID = rdr.GetInt32(pos);
+                        si.Id = rdr.GetInt32(pos);
                         pos = rdr.GetOrdinal("Name");
                         si.Name = rdr.GetString(pos);
                         pos = rdr.GetOrdinal("SiteID");
-                        si.SiteID = rdr.GetString(pos);
+                        si.SiteId = rdr.GetString(pos);
                     }
                     rdr.Close();
                     return si;
@@ -1571,11 +1687,12 @@ namespace hpMvc.DataBase
         public static MessageListDTO AddStaff(StaffModel model)
         {
             MessageListDTO dto = new MessageListDTO();
-            
+
             // Attempt to add the user to the membership db
-            string password = DbUtils.GetRandomPassword();            
+            string password = DbUtils.GetRandomPassword();
             MembershipCreateStatus createStatus;
-            MembershipUser user = Membership.CreateUser(model.UserName, password, model.Email, null, null, true, null, out createStatus);
+            MembershipUser user = Membership.CreateUser(model.UserName, password, model.Email, null, null, true, null,
+                                                        out createStatus);
 
             if (createStatus == MembershipCreateStatus.Success)
             {
@@ -1589,8 +1706,9 @@ namespace hpMvc.DataBase
 
                 //this will tell us that user needs to reset
                 user.Comment = "Reset";
-                Membership.UpdateUser(user);                                
-                nlogger.LogInfo("AddUser - userName: " + model.UserName + ", site: " + model.SiteID.ToString() + ", password: " + password);                
+                Membership.UpdateUser(user);
+                nlogger.LogInfo("AddUser - userName: " + model.UserName + ", site: " + model.SiteID.ToString() +
+                                ", password: " + password);
             }
             else
             {
@@ -1602,7 +1720,7 @@ namespace hpMvc.DataBase
             dto.Bag = password;
 
             //add the user role
-            Roles.AddUserToRole(model.UserName, model.Role); 
+            Roles.AddUserToRole(model.UserName, model.Role);
             dto.Messages.Add("The role of " + model.Role + " was assigned successfully!");
 
             //add the user to the staff table
@@ -1614,37 +1732,37 @@ namespace hpMvc.DataBase
                     SqlCommand cmd = new SqlCommand("", conn);
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     cmd.CommandText = "AddStaff";
-                                        
+
                     SqlParameter param = new SqlParameter("@siteID", model.SiteID);
                     cmd.Parameters.Add(param);
-                    
+
                     param = new SqlParameter("@role", model.Role);
                     cmd.Parameters.Add(param);
-                    
+
                     param = new SqlParameter("@userName", model.UserName);
                     cmd.Parameters.Add(param);
-                    
+
                     param = new SqlParameter("@firstName", model.FirstName);
                     cmd.Parameters.Add(param);
-                    
+
                     param = new SqlParameter("@lastName", model.LastName);
                     cmd.Parameters.Add(param);
-                    
+
                     param = new SqlParameter("@email", model.Email);
                     cmd.Parameters.Add(param);
-                    
-                    if(model.EmployeeID == null)
+
+                    if (model.EmployeeID == null)
                         param = new SqlParameter("@employeeID", DBNull.Value);
                     else
                         param = new SqlParameter("@employeeID", model.EmployeeID);
                     cmd.Parameters.Add(param);
-                    
+
                     param = new SqlParameter("@phone", model.Phone);
                     cmd.Parameters.Add(param);
 
                     param = new SqlParameter("@novaStatStrip", model.NovaStatStrip);
                     cmd.Parameters.Add(param);
-                    if(model.NovaStatStrip)
+                    if (model.NovaStatStrip)
                         param = new SqlParameter("@novaStatStripDoc", model.NovaStatStripDoc);
                     else
                         param = new SqlParameter("@novaStatStripDoc", DBNull.Value);
@@ -1652,7 +1770,7 @@ namespace hpMvc.DataBase
 
                     param = new SqlParameter("@vamp", model.Vamp);
                     cmd.Parameters.Add(param);
-                    if(model.Vamp)
+                    if (model.Vamp)
                         param = new SqlParameter("@vampDoc", model.VampDoc);
                     else
                         param = new SqlParameter("@vampDoc", DBNull.Value);
@@ -1660,15 +1778,15 @@ namespace hpMvc.DataBase
 
                     param = new SqlParameter("@cgm", model.Cgm);
                     cmd.Parameters.Add(param);
-                    if(model.Cgm)
+                    if (model.Cgm)
                         param = new SqlParameter("@cgmDoc", model.CgmDoc);
                     else
                         param = new SqlParameter("@cgmDoc", DBNull.Value);
                     cmd.Parameters.Add(param);
-                    
+
                     param = new SqlParameter("@inform", model.Inform);
                     cmd.Parameters.Add(param);
-                    if(model.Inform)                                       
+                    if (model.Inform)
                         param = new SqlParameter("@informDoc", model.InformDoc);
                     else
                         param = new SqlParameter("@informDoc", DBNull.Value);
@@ -1676,10 +1794,10 @@ namespace hpMvc.DataBase
 
                     param = new SqlParameter("@onCall", model.OnCall);
                     cmd.Parameters.Add(param);
-                    if(model.OnCall)                    
-                        param = new SqlParameter("@onCallDoc", model.OnCallDoc);                                            
+                    if (model.OnCall)
+                        param = new SqlParameter("@onCallDoc", model.OnCallDoc);
                     else
-                        param = new SqlParameter("@onCallDoc", DBNull.Value);                        
+                        param = new SqlParameter("@onCallDoc", DBNull.Value);
                     cmd.Parameters.Add(param);
 
                     param = new SqlParameter("@humanSubj", model.HumanSubj);
@@ -1696,7 +1814,7 @@ namespace hpMvc.DataBase
                         param = new SqlParameter("@humanSubjStart", DBNull.Value);
                         cmd.Parameters.Add(param);
                         param = new SqlParameter("@humanSubjExp", DBNull.Value);
-                        cmd.Parameters.Add(param);                        
+                        cmd.Parameters.Add(param);
                     }
 
                     conn.Open();
@@ -1716,6 +1834,7 @@ namespace hpMvc.DataBase
         }
 
         #region Status Codes
+
         public static string ErrorCodeToString(MembershipCreateStatus createStatus)
         {
             // See http://go.microsoft.com/fwlink/?LinkID=177550 for
@@ -1726,7 +1845,8 @@ namespace hpMvc.DataBase
                     return "User name already exists. Please enter a different user name.";
 
                 case MembershipCreateStatus.DuplicateEmail:
-                    return "A user name for that e-mail address already exists. Please enter a different e-mail address.";
+                    return
+                        "A user name for that e-mail address already exists. Please enter a different e-mail address.";
 
                 case MembershipCreateStatus.InvalidPassword:
                     return "The password provided is invalid. Please enter a valid password value.";
@@ -1744,15 +1864,19 @@ namespace hpMvc.DataBase
                     return "The user name provided is invalid. Please check the value and try again.";
 
                 case MembershipCreateStatus.ProviderError:
-                    return "The authentication provider returned an error. Please verify your entry and try again. If the problem persists, please contact your system administrator.";
+                    return
+                        "The authentication provider returned an error. Please verify your entry and try again. If the problem persists, please contact your system administrator.";
 
                 case MembershipCreateStatus.UserRejected:
-                    return "The user creation request has been canceled. Please verify your entry and try again. If the problem persists, please contact your system administrator.";
+                    return
+                        "The user creation request has been canceled. Please verify your entry and try again. If the problem persists, please contact your system administrator.";
 
                 default:
-                    return "An unknown error occurred. Please verify your entry and try again. If the problem persists, please contact your system administrator.";
+                    return
+                        "An unknown error occurred. Please verify your entry and try again. If the problem persists, please contact your system administrator.";
             }
         }
+
         #endregion
 
         public static StaffEditModel GetStaffInfo(int userID)
@@ -1777,37 +1901,37 @@ namespace hpMvc.DataBase
                     {
                         pos = rdr.GetOrdinal("ID");
                         model.ID = rdr.GetInt32(pos);
-                        
+
                         pos = rdr.GetOrdinal("Active");
                         model.Active = rdr.GetBoolean(pos);
-                        
+
                         pos = rdr.GetOrdinal("SiteID");
                         model.SiteID = rdr.GetInt32(pos);
-                        
+
                         pos = rdr.GetOrdinal("Role");
-                        if(!rdr.IsDBNull(pos))
+                        if (!rdr.IsDBNull(pos))
                             model.Role = rdr.GetString(pos);
-                     
+
                         pos = rdr.GetOrdinal("UserName");
-                        if(!rdr.IsDBNull(pos))
+                        if (!rdr.IsDBNull(pos))
                             model.UserName = rdr.GetString(pos);
-                        
+
                         pos = rdr.GetOrdinal("FirstName");
                         if (!rdr.IsDBNull(pos))
                             model.FirstName = rdr.GetString(pos);
-                        
+
                         pos = rdr.GetOrdinal("LastName");
                         if (!rdr.IsDBNull(pos))
                             model.LastName = rdr.GetString(pos);
-                        
+
                         pos = rdr.GetOrdinal("Email");
                         if (!rdr.IsDBNull(pos))
                             model.Email = rdr.GetString(pos);
-                        
+
                         pos = rdr.GetOrdinal("EmployeeID");
                         if (!rdr.IsDBNull(pos))
                             model.EmployeeID = rdr.GetString(pos);
-                        
+
                         pos = rdr.GetOrdinal("Phone");
                         if (!rdr.IsDBNull(pos))
                             model.Phone = rdr.GetString(pos);
@@ -1860,7 +1984,7 @@ namespace hpMvc.DataBase
                     cmd.CommandText = "GetStaffTestsCompleted";
                     param = new SqlParameter("@id", userID);
                     cmd.Parameters.Add(param);
-                    
+
                     rdr = cmd.ExecuteReader();
 
                     PostTestPersonTestsCompleted ptpc = new PostTestPersonTestsCompleted();
@@ -1873,7 +1997,9 @@ namespace hpMvc.DataBase
                         if (!rdr.IsDBNull(pos))
                         {
                             pt.DateCompleted = rdr.GetDateTime(pos);
-                            pt.sDateCompleted = pt.DateCompleted != null ? pt.DateCompleted.Value.ToString("MM/dd/yyyy") : "";
+                            pt.sDateCompleted = pt.DateCompleted != null
+                                                    ? pt.DateCompleted.Value.ToString("MM/dd/yyyy")
+                                                    : "";
                         }
                         ptpc.PostTestsCompleted.Add(pt);
                     }
@@ -1887,7 +2013,7 @@ namespace hpMvc.DataBase
                     return null;
                 }
             }
-            
+
         }
 
         public static MessageListDTO UpdateStaff(StaffEditModel model)
@@ -1913,7 +2039,7 @@ namespace hpMvc.DataBase
 
                     param = new SqlParameter("@lastName", model.LastName);
                     cmd.Parameters.Add(param);
-                                        
+
                     if (model.EmployeeID == null)
                         param = new SqlParameter("@employeeID", DBNull.Value);
                     else
@@ -1926,7 +2052,7 @@ namespace hpMvc.DataBase
                         param = new SqlParameter("@email", model.Email);
                     cmd.Parameters.Add(param);
 
-                    if(model.Phone == null)
+                    if (model.Phone == null)
                         param = new SqlParameter("@phone", DBNull.Value);
                     else
                         param = new SqlParameter("@phone", model.Phone);
@@ -2034,13 +2160,13 @@ namespace hpMvc.DataBase
 
                     param = new SqlParameter("@email", model.Email);
                     cmd.Parameters.Add(param);
-                    
+
                     if (model.EmployeeID == null)
                         param = new SqlParameter("@employeeID", DBNull.Value);
                     else
                         param = new SqlParameter("@employeeID", model.EmployeeID);
                     cmd.Parameters.Add(param);
-                        
+
                     if (model.Phone == null)
                         param = new SqlParameter("@phone", DBNull.Value);
                     else
@@ -2119,6 +2245,57 @@ namespace hpMvc.DataBase
             dto.IsSuccessful = true;
             return dto;
         }
+
+        public static MessageListDTO SaveSiteInfo(SiteInfo siteInfo)
+        {
+            var dto = new MessageListDTO();
+            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            using (var conn = new SqlConnection(strConn))
+            {
+                try
+                {
+                    var cmd = new SqlCommand("", conn);
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.CommandText = "UpdateSiteInfo";
+
+                    var param = new SqlParameter("@id", siteInfo.Id);
+                    cmd.Parameters.Add(param);
+
+                    param = new SqlParameter("@empIDRequired", siteInfo.IsEmployeeIdRequired);
+                    cmd.Parameters.Add(param);
+
+                    if (siteInfo.EmployeeIdRegEx == null)
+                        param = new SqlParameter("@empIDRexEx", DBNull.Value);
+                    else
+                        param = new SqlParameter("@empIDRexEx", siteInfo.EmployeeIdRegEx);
+                    cmd.Parameters.Add(param);
+
+                    if (siteInfo.EmployeeIdMessage == null)
+                        param = new SqlParameter("@empIDMessage", DBNull.Value);
+                    else
+                        param = new SqlParameter("@empIDMessage", siteInfo.EmployeeIdMessage);
+                    cmd.Parameters.Add(param);
+
+                    param = new SqlParameter("@active", siteInfo.IsActive);
+                    cmd.Parameters.Add(param);
+
+                    param = new SqlParameter("@useSensor", siteInfo.UseSensor);
+                    cmd.Parameters.Add(param);
+
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    nlogger.LogError(ex);
+                    dto.IsSuccessful = false;
+                    dto.Messages.Add("There was an error in SaveSiteInfo");
+                    return dto;
+                }
+            }
+            dto.Messages.Add("New staff information was successfully entered into the database!");
+            dto.IsSuccessful = true;
+            return dto;
+        }
     }
-    
 }

@@ -69,7 +69,7 @@ namespace hpMvc.Controllers
 
         public JsonResult GetSiteEmployeeInfo(string site)
         {
-            var retDto = DbPostTestsUtils.GetSiteInfoForSite(site);
+            var retDto = DbPostTestsUtils.GetSiteEmployeeInfoForSite(site);
             return Json(retDto);
         }
 

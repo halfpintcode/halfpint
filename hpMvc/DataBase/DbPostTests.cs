@@ -535,33 +535,34 @@ namespace hpMvc.DataBase
 
         }
 
-        public static DynamicDTO GetSiteInfoForSite(string site)
+        public static DynamicDTO GetSiteEmployeeInfoForSite(string site)
         {
-            var dto = new DynamicDTO();
-            dto.IsSuccessful = true;
+            var dto = new DynamicDTO {IsSuccessful = true};
 
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            using (SqlConnection conn = new SqlConnection(strConn))
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "GetSiteInfoForSite";
-                    SqlParameter param = new SqlParameter("@id", site);
+                    var cmd = new SqlCommand("", conn)
+                                  {
+                                      CommandType = System.Data.CommandType.StoredProcedure,
+                                      CommandText = "GetSiteInfoForSite"
+                                  };
+                    var param = new SqlParameter("@id", site);
                     cmd.Parameters.Add(param);
 
                     conn.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    int pos = 0;
+                    var rdr = cmd.ExecuteReader();
+                    var pos = 0;
                     rdr.Read();
 
                     dto.Stuff.EmpIDRequired = "false";
                     dto.Stuff.EmpIDRegex = "";
                     dto.Stuff.EmpIDMessage = "";
                     pos = rdr.GetOrdinal("EmpIDRequired");
-                    bool bEmpIDRequired = rdr.GetBoolean(pos);
-                    if (bEmpIDRequired)
+                    bool bEmpIdRequired = rdr.GetBoolean(pos);
+                    if (bEmpIdRequired)
                     {
                         dto.Stuff.EmpIDRequired = "true";
 
@@ -584,7 +585,7 @@ namespace hpMvc.DataBase
             return dto;
         }
 
-        public static DynamicDTO CheckIfEmployeeIDRequired(string user)
+        public static DynamicDTO CheckIfEmployeeIdRequired(string user)
         {
             var dto = new DynamicDTO();
             dto.IsSuccessful = true;

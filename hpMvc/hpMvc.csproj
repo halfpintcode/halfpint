@@ -98,6 +98,7 @@
     <Compile Include="Controllers\InitializeSubjectController.cs" />
     <Compile Include="Controllers\PostsTestsAdminController.cs" />
     <Compile Include="Controllers\PostTestsController.cs" />
+    <Compile Include="Controllers\SitesController.cs" />
     <Compile Include="Controllers\StaffController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="DataBase\AccountUtils.cs" />
@@ -129,6 +130,7 @@
     <Compile Include="Models\ManageRollsModel.cs" />
     <Compile Include="Models\PostTestsModel.cs" />
     <Compile Include="Models\SensorModel.cs" />
+    <Compile Include="Models\SiteModel.cs" />
     <Compile Include="Models\StaffFolderModel.cs" />
     <Compile Include="Models\StaffModel.cs" />
     <Compile Include="Models\TestModels.cs" />
@@ -630,6 +632,9 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\AdminBackDoor\Index.cshtml" />
+    <Content Include="Views\Sites\Index.cshtml" />
+    <Content Include="Views\Sites\SiteDetails.cshtml" />
+    <Content Include="Views\Sites\SiteDetail.cshtml" />
     <None Include="_bin_deployableAssemblies\Microsoft.Web.Infrastructure.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.Razor.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.dll" />

@@ -31,7 +31,7 @@ namespace hpMvc.Controllers
 
                 List<Site> sites = new List<Site>();
 
-                sites = DbUtils.GetSites();
+                sites = DbUtils.GetSitesActive();
                 if (sites.Count == 0)
                     throw new Exception("There was an error retreiving the sites list from the database");
                 sites.Insert(0, new Site { ID = 0, Name = "Select a site", SiteID = "" });
@@ -207,7 +207,7 @@ namespace hpMvc.Controllers
 
                 List<Site> sites = new List<Site>();
 
-                sites = DbUtils.GetSites();
+                sites = DbUtils.GetSitesActive();
                 if (sites.Count == 0)
                     throw new Exception("There was an error retreiving the sites list from the database");
                 sites.Insert(0, new Site { ID = 0, Name = "Select a site", SiteID = "" });
@@ -225,7 +225,7 @@ namespace hpMvc.Controllers
             int site = DbUtils.GetSiteidIDForUser(User.Identity.Name);
             ViewBag.Site = site;
 
-            var retDto = DbPostTestsUtils.GetSiteInfoForSite(site.ToString());
+            var retDto = DbPostTestsUtils.GetSiteEmployeeInfoForSite(site.ToString());
             ViewBag.EmpRequired = retDto.Stuff.EmpIDRequired;
             if (retDto.Stuff.EmpIDRequired == "true")
             {
@@ -300,7 +300,7 @@ namespace hpMvc.Controllers
             {
                 role = "Admin";
 
-                var sites = DbUtils.GetSites();
+                var sites = DbUtils.GetSitesActive();
                 if (sites.Count == 0)
                     throw new Exception("There was an error retreiving the sites list from the database");
                 sites.Insert(0, new Site { ID = 0, Name = "Select a site", SiteID = "" });
