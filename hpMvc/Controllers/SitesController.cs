@@ -29,11 +29,18 @@ namespace hpMvc.Controllers
         [HttpPost]
         public ActionResult SiteDetails(SiteInfo siteInfo)
         {
-            var retVal = DbUtils.SaveSiteInfo(siteInfo);
-            if (retVal.IsSuccessful)
-                return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                var retVal = DbUtils.SaveSiteInfo(siteInfo);
+                if (retVal.IsSuccessful)
+                    return RedirectToAction("Index");
+                else
+                    return View(siteInfo);
+            }
             else
+            {
                 return View(siteInfo);
+            }
         }
     }
 }

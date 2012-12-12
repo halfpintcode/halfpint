@@ -1,7 +1,7 @@
 ﻿@model hpMvc.Models.SiteInfo
 
 @{
-    ViewBag.Title = "SiteDetails";
+    ViewBag.Title = "Site Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -18,59 +18,95 @@
         display: inline-block;
         margin-left: 5px;
     }
-    
+    .text-box {
+        width: 500px;
+    }
 </style>
+<script type="text/javascript">
+    $(function () {
+        if ($('#IsEmployeeIdRequired').attr("checked") !== "checked") {
+            $('#EmployeeIdRegEx').val("");
+            $('#EmployeeIdRegEx').attr("disabled", "disabled");
+            $('#EmployeeIdMessage').val("");
+            $('#EmployeeIdMessage').attr("disabled", "disabled");
+        }
+        else {
+            $('#EmployeeIdRegEx').attr("disabled", false);
+            $('#EmployeeIdMessage').attr("disabled", false);
+        }
+        
+        $('#IsEmployeeIdRequired').change(function () {
+            if ($(this).attr("checked") !== "checked") {
+                $('#EmployeeIdRegEx').val("");
+                $('#EmployeeIdRegEx').attr("disabled", "disabled");
+                $('#EmployeeIdMessage').val("");
+                $('#EmployeeIdMessage').attr("disabled", "disabled");
+            }
+            else {
+                $('#EmployeeIdRegEx').attr("disabled", false);
+                $('#EmployeeIdMessage').attr("disabled", false);
+            }
+        });
+    });
+</script>
 <h2>Site Details for @Html.DisplayFor(model => model.Name) - Site Id:&nbsp;@Html.DisplayFor(model => model.SiteId) </h2>
-<form method="POST" action="">
-<fieldset>
-    <legend>Site Details</legend>
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>Site Details</legend>
     
-    <div>
-        <span class="lbleditor">Internal Id:</span>
-        <span class="col2"> @Html.DisplayFor(model => model.Id) </span>
-    </div>
+        <div>
+            <span class="lbleditor">Internal Id:</span>
+            <span class="col2"> @Html.DisplayFor(model => model.Id) </span>
+        </div>
 
-    <div>
-        <span class="lbleditor">Is Employee Id Required:</span>
-        <span class="col2"> 
-            @Html.EditorFor(model => model.IsEmployeeIdRequired)
-            @Html.ValidationMessageFor(model => model.IsEmployeeIdRequired) 
-        </span>
-    </div>
+        <div>
+            <span class="lbleditor">Is Employee Id Required:</span>
+            <span class="col2"> 
+                @Html.EditorFor(model => model.IsEmployeeIdRequired)
+            </span>
+        </div>
     
-    <div>
-        <span class="lbleditor">Employee Id RegEx:</span>
-        <span class="col2"> 
-            @Html.EditorFor(model => model.EmployeeIdRegEx)
-            @Html.ValidationMessageFor(model => model.EmployeeIdRegEx) 
-        </span>
-    </div>
+        <div>
+            <span class="lbleditor">Employee Id RegEx:</span>
+            <span class="col2"> 
+                @Html.EditorFor(model => model.EmployeeIdRegEx)
+                @Html.ValidationMessageFor(model => model.EmployeeIdRegEx) 
+            </span>
+        </div>
 
-    <div>
-        <span class="lbleditor">Employee Id Message:</span>
-        <span class="col2"> 
-            @Html.EditorFor(model => model.EmployeeIdMessage)
-            @Html.ValidationMessageFor(model => model.EmployeeIdMessage)
-        </span>
-    </div>
+        <div>
+            <span class="lbleditor">Employee Id Message:</span>
+            <span class="col2"> 
+                @Html.EditorFor(model => model.EmployeeIdMessage)
+                @Html.ValidationMessageFor(model => model.EmployeeIdMessage)
+            </span>
+        </div>
 
-    <div>
-        <span class="lbleditor">Active:</span>
-        <span class="col2"> 
-            @Html.EditorFor(model => model.IsActive)
-            @Html.ValidationMessageFor(model => model.IsActive)
-        </span>
-    </div>
+        <div>
+            <span class="lbleditor">Active:</span>
+            <span class="col2"> 
+                @Html.EditorFor(model => model.IsActive)
+            </span>
+        </div>
 
-    <div>
-        <span class="lbleditor">Use Sensor:</span>
-        <span class="col2"> 
-            @Html.EditorFor(model => model.UseSensor)
-            @Html.ValidationMessageFor(model => model.UseSensor)
-        </span>
-    </div>
+        <div>
+            <span class="lbleditor">Use Sensor:</span>
+            <span class="col2"> 
+                @Html.EditorFor(model => model.UseSensor)
+            </span>
+        </div>
         <p>
             <input type="submit" value="Save" />
         </p>
-</fieldset>
-</form>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to Sites", "Index")
+</div>
