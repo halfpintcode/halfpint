@@ -23,5 +23,6 @@
       <siteMapNode title="Show Web Logs" controller="Admin" action="WebLogs" />
       <siteMapNode title="Broadcast Email" controller="Admin" action="BroadcastEmail" />
       <siteMapNode title="Send Test Email" controller="Admin" action="TestEmail" />
+      <siteMapNode title="Sites" controller="Sites" action="Index" />
     </siteMapNode>
 </siteMap>

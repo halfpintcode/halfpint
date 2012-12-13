@@ -36,11 +36,13 @@ namespace hpMvc.Models
         public DateTime DateRandomized { get; set; }
         public string sDateRandomized { get; set; }
         public DateTime DateCompleted { get; set; }
+        public string GraphUrl { get; set; }
     }
 
     public class SubjectCompleted
     {       
-        public int ID { get; set; }        
+        public int ID { get; set; }
+        public int SiteID { get; set; }
         public string StudyID { get; set; }
         public DateTime DateRandomized { get; set; }
         public string sDateRandomized { get; set; }
@@ -56,6 +58,7 @@ namespace hpMvc.Models
         public bool ContactInfo { get; set; }        
         public bool Cleared { get; set; }
         public string NotCompletedReason { get; set; }
-        public string SiteName { get; set; }        
+        public string SiteName { get; set; }
+        public string GraphUrl { get; set; }
     }
 }

@@ -8,6 +8,7 @@ using hpMvc.Models;
 
 namespace hpMvc.Controllers
 {
+    //[Authorize]
     public class SitesController : Controller
     {
         //

@@ -61,6 +61,18 @@ namespace hpMvc.Controllers
             return Json(list);
         }
 
+        public JsonResult GetGraphUrl(string id)
+        {
+            var sitePart = id.Substring(0, 2);
+            var serverPath = ConfigurationManager.AppSettings["ChecksUploadPath"].ToString();
+            var fullPath = serverPath + "\\" + sitePart + "\\" + id + ".gif";
+
+            if(System.IO.File.Exists(fullPath))
+                return Json(fullPath);
+            return Json("does not exist");
+
+        }
+
         public ActionResult CompleteSubject(string id)
         {
             string role = "";
