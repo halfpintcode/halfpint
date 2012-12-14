@@ -63,13 +63,15 @@ namespace hpMvc.Controllers
 
         public JsonResult GetGraphUrl(string id)
         {
-            var sitePart = id.Substring(0, 2);
-            var serverPath = ConfigurationManager.AppSettings["ChecksUploadPath"].ToString();
-            var fullPath = serverPath + "\\" + sitePart + "\\" + id + ".gif";
 
-            if(System.IO.File.Exists(fullPath))
-                return Json(fullPath);
-            return Json("does not exist");
+            var sitePart = id.Substring(0, 2);
+            var chartPath = ConfigurationManager.AppSettings["ChartPath"].ToString();
+            var chartSitePath = chartPath + sitePart + "\\" + id + ".gif";
+            var fullPath = Request.PhysicalApplicationPath + chartSitePath;
+
+            if (System.IO.File.Exists(fullPath))
+                return Json(new { path = chartSitePath, studyID=id });
+            return Json("Chart not available");
 
         }
 

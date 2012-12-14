@@ -1,9 +1,10 @@
 ﻿/// <reference path="jquery-1.7.1-vsdoc.js" />
 $(function () {
-    //alert('');
     var site = $('#SiteID').val();
     getActiveSubjects(site);
 
+    $('#showGraphDialog').dialog({ autoOpen: false });
+    
     $('#Sites').change(function () {
         getActiveSubjects();
     });
@@ -18,7 +19,7 @@ $(function () {
         getActiveSubjects();
     });
 
-    function getActiveSubjects(site) {
+    function getActiveSubjects() {
         var siteID = "";
         if (site) {
             siteID = site;
@@ -66,13 +67,29 @@ $(function () {
         //        });
     });
 
-    $('.btnGraph').live("click", function() {
+    $('.btnGraph').live("click", function () {
         var rowData = $(this).parent().parent().data('rowData');
         $.ajax({
             url: urlRoot + '/Coordinator/GetGraphUrl/' + rowData.StudyID,
             type: 'POST',
-            success: function(data) {
-                alert(data);
+            success: function (data) {
+                if (data === 'Chart not available') {
+                    alert(data);
+                } else {
+                    var imgUrl = urlRoot + '/' + data.path;
+                    var $img = "<img  src='" + imgUrl + "' />";
+                    $('#showGraphDialog').empty();
+                    $('#showGraphDialog').append($img);
+                    $('#showGraphDialog').dialog(
+                    {
+                        title: 'Chart for subject id:' + data.studyID,
+                        height: 380,
+                        width: 1140,
+                        show: 'blind',
+                        hide: 'explode'
+                    });
+                    $('#showGraphDialog').dialog('open');
+                }
             }
         });
     });

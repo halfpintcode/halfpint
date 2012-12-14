@@ -75,7 +75,7 @@ $(document).ready(function () {
                 $('#lnkInstruc').parent().addClass("sfHover");
                 break;
             case "btnInstrucNext":
-                if (useSensor !== 1) {
+                if (useSensor !== "1") {
                     $('#lnkParams').click();
                     $('#lnkParams').parent().addClass("sfHover");
                 }
