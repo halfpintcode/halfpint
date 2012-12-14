@@ -44,7 +44,7 @@ $(function () {
 
     $('#lnkPrintPage').click(function (e) {
         e.preventDefault();
-        window.open(urlRoot + '/InitializeSubject/ShowInitializePassword?studyID=' + studyID + '&password=' + password, '_blank');
+        window.open(urlRoot + '/InitializeSubject/PrintPassword?studyID=' + studyID + '&password=' + password, '_blank');
     });
 
     $('#btnCancel').click(function () {

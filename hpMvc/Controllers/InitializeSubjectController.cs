@@ -27,6 +27,14 @@ namespace hpMvc.Controllers
             return View(sm);
         }
 
+        public ActionResult PrintPassword()
+        {
+            InitializePasswordModel ipm = new InitializePasswordModel();
+            ipm.Password = Request.Params["password"];
+            ipm.StudyID = Request.Params["studyID"];
+            return View(ipm);
+        }
+
         public ActionResult Initialize()
         {
             logger.LogInfo("InitializeSubject.Initialize: GET");
