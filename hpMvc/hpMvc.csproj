@@ -351,6 +351,12 @@
     <Content Include="Content\Broadcast.css" />
     <Content Include="Content\CompleteSubject.css" />
     <Content Include="Content\CoordInitialize.css" />
+    <Content Include="Content\Images\Charts\01\01-0003-7.gif" />
+    <Content Include="Content\Images\Charts\01\01-0008-9.gif" />
+    <Content Include="Content\Images\Charts\01\01-0009-3.gif" />
+    <Content Include="Content\Images\Charts\01\01-0010-1.gif" />
+    <Content Include="Content\Images\Charts\01\adfadf.gif" />
+    <Content Include="Content\Images\Charts\01\dfas.gif" />
     <Content Include="Content\Images\contact.png" />
     <Content Include="Content\Images\file.png" />
     <Content Include="Content\Images\folder.png" />

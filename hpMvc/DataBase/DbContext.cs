@@ -369,9 +369,9 @@ namespace hpMvc.DataBase
                         if (!rdr.IsDBNull(pos))
                             rndm.Cleared = rdr.GetBoolean(pos);
 
-                        pos = rdr.GetOrdinal("MonitorID");
-                        if (!rdr.IsDBNull(pos))
-                            rndm.MonitorID = rdr.GetString(pos);
+                        //pos = rdr.GetOrdinal("MonitorID");
+                        //if (!rdr.IsDBNull(pos))
+                        //    rndm.MonitorID = rdr.GetString(pos);
 
                         pos = rdr.GetOrdinal("NotCompletedReason");
                         if (!rdr.IsDBNull(pos))
@@ -465,9 +465,9 @@ namespace hpMvc.DataBase
                         if (!rdr.IsDBNull(pos))
                             rndm.Cleared = rdr.GetBoolean(pos);
 
-                        pos = rdr.GetOrdinal("MonitorID");
-                        if (!rdr.IsDBNull(pos))
-                            rndm.MonitorID = rdr.GetString(pos);
+                        //pos = rdr.GetOrdinal("MonitorID");
+                        //if (!rdr.IsDBNull(pos))
+                        //    rndm.MonitorID = rdr.GetString(pos);
 
                         pos = rdr.GetOrdinal("NotCompletedReason");
                         if (!rdr.IsDBNull(pos))
