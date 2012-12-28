@@ -36,7 +36,9 @@ namespace hpMvc.Models
 
     public class InsulinConcentration
     {
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Concentration { get; set; }
+        public bool IsUsed { get; set; }
     }
 }

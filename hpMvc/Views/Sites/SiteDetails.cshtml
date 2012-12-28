@@ -21,6 +21,9 @@
     .text-box {
         width: 500px;
     }
+    .underline {
+        text-decoration: underline; 
+    }
 </style>
 <script type="text/javascript">
     $(function () {
@@ -100,6 +103,20 @@
             <span class="col2"> 
                 @Html.EditorFor(model => model.UseSensor)
             </span>
+        </div>
+        
+        <div>
+            <span class="underline">Insulin Concentrations Used:</span>
+            
+            @foreach(var inscon in Model.InsulinConcentrations)
+            {
+                <div>
+                    <span class="lbleditor">@inscon.Name</span>
+                    <span class="col2"> 
+                        @Html.EditorFor(x => inscon.IsUsed)
+                    </span>
+                </div>    
+            }
         </div>
         <p>
             <input type="submit" value="Save" />

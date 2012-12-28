@@ -16,6 +16,7 @@ namespace hpMvc.Models
         public string EmployeeIdMessage { get; set; }
         public bool IsActive { get; set; }
         public bool UseSensor { get; set; }
+        public List<InsulinConcentration> InsulinConcentrations { get; set; }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
@@ -37,5 +38,6 @@ namespace hpMvc.Models
         }
     }
 
+    
     
 }

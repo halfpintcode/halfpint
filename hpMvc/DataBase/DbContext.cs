@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Data.SqlClient;
@@ -1284,8 +1285,6 @@ namespace hpMvc.DataBase
                     var rdr = cmd.ExecuteReader();
                     if (rdr.Read())
                     {
-
-
                         var pos = rdr.GetOrdinal("ID");
                         site.Id = rdr.GetInt32(pos);
                         pos = rdr.GetOrdinal("SiteID");
@@ -1302,6 +1301,55 @@ namespace hpMvc.DataBase
                         site.IsActive = rdr.GetBoolean(pos);
                         pos = rdr.GetOrdinal("UseSensor");
                         site.UseSensor = rdr.GetBoolean(pos);
+                    }
+                    rdr.Close();
+                    conn.Close();
+
+                    cmd = new SqlCommand("", conn)
+                    {
+                        CommandType = CommandType.StoredProcedure,
+                        CommandText = "GetInsulinConcentrations"
+                    };
+
+                    conn.Open();
+                    rdr = cmd.ExecuteReader();
+                    while (rdr.Read())
+                    {
+                        if (site.InsulinConcentrations == null)
+                            site.InsulinConcentrations = new List<InsulinConcentration>();
+
+                        var insCon = new InsulinConcentration();
+                        var pos = rdr.GetOrdinal("ID");
+                        insCon.Id = rdr.GetInt32(pos);
+                        pos = rdr.GetOrdinal("Name");
+                        insCon.Name = rdr.GetString(pos);
+                        pos = rdr.GetOrdinal("Concentration");
+                        insCon.Concentration = rdr.GetDouble(pos).ToString("0.0#");
+                        insCon.IsUsed = false;
+                        site.InsulinConcentrations.Add(insCon);
+                        
+                    }
+                    rdr.Close();
+                    conn.Close();
+
+                    cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = CommandType.StoredProcedure,
+                                  CommandText = "GetSiteInsulinConcentrations"
+                              };
+
+                    parameter = new SqlParameter("@siteId", id);
+                    cmd.Parameters.Add(parameter);
+
+                    
+                    conn.Open();
+                    rdr = cmd.ExecuteReader();
+                    while (rdr.Read())
+                    {
+                        var pos = rdr.GetOrdinal("ID");
+                        int Id = rdr.GetInt32(pos);
+                        var insCon = site.InsulinConcentrations.Find(x => x.Id == Id);
+                        insCon.IsUsed = true;
                     }
                     rdr.Close();
                 }
