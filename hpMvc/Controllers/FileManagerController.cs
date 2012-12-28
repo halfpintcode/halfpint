@@ -125,17 +125,38 @@ namespace hpMvc.Controllers
         {
             try
             {
-                //nlogger.LogInfo("ChecksUpload");
+                //nlogger.LogInfo("ChecksUpload WebClient");
                 if (file != null && file.ContentLength > 0)
                 {
+                    string key = Request.QueryString["key"];
+                    string institID = Request.QueryString["institID"];
+
+                    //filename template : 01-0030-7copy.xlsm
                     var fileName = Path.GetFileName(file.FileName);
-                    nlogger.LogInfo("ChecksUpload - " + fileName);                    
+                    var studyID = fileName.Substring(0, 9);
+
+                    int iRetVal = DbUtils.IsStudyIDCleared(studyID);
+                    if (iRetVal != 0)
+                    {
+                        nlogger.LogInfo("ChecksUpload - file name: " + fileName + ", IsStudyCleared: " + iRetVal);
+                        return Content("IsStudyCleared: " + iRetVal);
+                    }
+                    nlogger.LogInfo("ChecksUpload - file name: " + fileName + ", key: " + key);
+
+                    if (!ssUtils.VerifyKey(key, fileName, institID))
+                    {
+                        nlogger.LogInfo("ChecksUpload - bad key - file name: " + fileName + ", key: " + key);
+                        return Content("Bad key");
+                    }
+
                     var folderPath = ConfigurationManager.AppSettings["ChecksUploadPath"].ToString();
+                    var path = Path.Combine(folderPath, institID);
 
-                    if (!Directory.Exists(folderPath))
-                        Directory.CreateDirectory(folderPath);
+                    //nlogger.LogInfo("ChecksUpload - path: " + path);
+                    if (!Directory.Exists(path))
+                        Directory.CreateDirectory(path);
 
-                    var path = Path.Combine(folderPath, fileName);
+                    path = Path.Combine(path, fileName);
                     file.SaveAs(path);
                 }
             }
