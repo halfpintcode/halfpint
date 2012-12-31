@@ -107,16 +107,15 @@
         
         <div>
             <span class="underline">Insulin Concentrations Used:</span>
-            
-            @foreach(var inscon in Model.InsulinConcentrations)
+            @for (int i = 0; i < @Model.InsulinConcentrations.Count; i++)
             {
                 <div>
-                    <span class="lbleditor">@inscon.Name</span>
-                    <span class="col2"> 
-                        @Html.EditorFor(x => inscon.IsUsed)
-                    </span>
-                </div>    
+                    @Html.HiddenFor(m => @Model.InsulinConcentrations[i].Id)
+                    <span class="lbleditor">@Model.InsulinConcentrations[i].Name</span>
+                    @Html.EditorFor(m => @Model.InsulinConcentrations[i].IsUsed)
+                </div>
             }
+            
         </div>
         <p>
             <input type="submit" value="Save" />

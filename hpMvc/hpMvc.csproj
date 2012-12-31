@@ -642,6 +642,7 @@
     <Content Include="Views\Sites\SiteDetails.cshtml" />
     <Content Include="Views\Sites\SiteDetail.cshtml" />
     <Content Include="Views\InitializeSubject\PrintPassword.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\InsulinConcentrations.cshtml" />
     <None Include="_bin_deployableAssemblies\Microsoft.Web.Infrastructure.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.Razor.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.dll" />

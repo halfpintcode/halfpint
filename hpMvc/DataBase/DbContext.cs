@@ -2297,48 +2297,70 @@ namespace hpMvc.DataBase
         public static MessageListDTO SaveSiteInfo(SiteInfo siteInfo)
         {
             var dto = new MessageListDTO();
+            
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
             using (var conn = new SqlConnection(strConn))
             {
-                try
+                conn.Open();
+                using (SqlTransaction trn = conn.BeginTransaction())
                 {
-                    var cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "UpdateSiteInfo";
+                    try
+                    {
+                        var cmd = new SqlCommand("", conn);
+                        cmd.Transaction = trn;
+                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                        cmd.CommandText = "DeleteSiteInsulinConcentrations";
+                        var param = new SqlParameter("@siteID", siteInfo.Id);
+                        cmd.Parameters.Add(param);
 
-                    var param = new SqlParameter("@id", siteInfo.Id);
-                    cmd.Parameters.Add(param);
+                        cmd.ExecuteNonQuery();
+                        
+                        cmd = new SqlCommand("", conn);
+                        cmd.Transaction = trn;
+                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                        cmd.CommandText = "UpdateSiteInfo";
 
-                    param = new SqlParameter("@empIDRequired", siteInfo.IsEmployeeIdRequired);
-                    cmd.Parameters.Add(param);
+                        param = new SqlParameter("@id", siteInfo.Id);
+                        cmd.Parameters.Add(param);
 
-                    if (siteInfo.EmployeeIdRegEx == null)
-                        param = new SqlParameter("@empIDRexEx", DBNull.Value);
-                    else
-                        param = new SqlParameter("@empIDRexEx", siteInfo.EmployeeIdRegEx);
-                    cmd.Parameters.Add(param);
+                        param = new SqlParameter("@empIDRequired", siteInfo.IsEmployeeIdRequired);
+                        cmd.Parameters.Add(param);
 
-                    if (siteInfo.EmployeeIdMessage == null)
-                        param = new SqlParameter("@empIDMessage", DBNull.Value);
-                    else
-                        param = new SqlParameter("@empIDMessage", siteInfo.EmployeeIdMessage);
-                    cmd.Parameters.Add(param);
+                        if (siteInfo.EmployeeIdRegEx == null)
+                            param = new SqlParameter("@empIDRexEx", DBNull.Value);
+                        else
+                            param = new SqlParameter("@empIDRexEx", siteInfo.EmployeeIdRegEx);
+                        cmd.Parameters.Add(param);
 
-                    param = new SqlParameter("@active", siteInfo.IsActive);
-                    cmd.Parameters.Add(param);
+                        if (siteInfo.EmployeeIdMessage == null)
+                            param = new SqlParameter("@empIDMessage", DBNull.Value);
+                        else
+                            param = new SqlParameter("@empIDMessage", siteInfo.EmployeeIdMessage);
+                        cmd.Parameters.Add(param);
 
-                    param = new SqlParameter("@useSensor", siteInfo.UseSensor);
-                    cmd.Parameters.Add(param);
+                        param = new SqlParameter("@active", siteInfo.IsActive);
+                        cmd.Parameters.Add(param);
 
-                    conn.Open();
-                    cmd.ExecuteNonQuery();
-                }
-                catch (Exception ex)
-                {
-                    nlogger.LogError(ex);
-                    dto.IsSuccessful = false;
-                    dto.Messages.Add("There was an error in SaveSiteInfo");
-                    return dto;
+                        param = new SqlParameter("@useSensor", siteInfo.UseSensor);
+                        cmd.Parameters.Add(param);
+                        
+                        cmd.ExecuteNonQuery();
+
+                        foreach (var incon in siteInfo.InsulinConcentrations)
+                        {
+                            if(incon.IsUsed)
+                            {
+                                
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        nlogger.LogError(ex);
+                        dto.IsSuccessful = false;
+                        dto.Messages.Add("There was an error in SaveSiteInfo");
+                        return dto;
+                    }
                 }
             }
             dto.Messages.Add("New staff information was successfully entered into the database!");
