@@ -1362,6 +1362,50 @@ namespace hpMvc.DataBase
             return site;
         }
 
+        public static SiteInfo GetSiteInfoForNewSite()
+        {
+            var site = new SiteInfo();
+            var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            using (var conn = new SqlConnection(strConn))
+            {
+                try
+                {
+                    var cmd = new SqlCommand("", conn)
+                    {
+                        CommandType = CommandType.StoredProcedure,
+                        CommandText = "GetInsulinConcentrations"
+                    };
+
+                    conn.Open();
+                    var rdr = cmd.ExecuteReader();
+                    while (rdr.Read())
+                    {
+                        if (site.InsulinConcentrations == null)
+                            site.InsulinConcentrations = new List<InsulinConcentration>();
+
+                        var insCon = new InsulinConcentration();
+                        var pos = rdr.GetOrdinal("ID");
+                        insCon.Id = rdr.GetInt32(pos);
+                        pos = rdr.GetOrdinal("Name");
+                        insCon.Name = rdr.GetString(pos);
+                        pos = rdr.GetOrdinal("Concentration");
+                        insCon.Concentration = rdr.GetDouble(pos).ToString("0.0#");
+                        insCon.IsUsed = false;
+                        site.InsulinConcentrations.Add(insCon);
+
+                    }
+                    rdr.Close();
+                    
+                }
+                catch (Exception ex)
+                {
+                    nlogger.LogError(ex);
+                }
+            }
+
+            return site;
+        }
+
         public static List<SiteInfo> GetSitesAll()
         {
             var sites = new List<SiteInfo>();
@@ -2345,17 +2389,27 @@ namespace hpMvc.DataBase
                         cmd.Parameters.Add(param);
                         
                         cmd.ExecuteNonQuery();
-
+                        
                         foreach (var incon in siteInfo.InsulinConcentrations)
                         {
                             if(incon.IsUsed)
                             {
-                                
+                                cmd = new SqlCommand("", conn);
+                                cmd.Transaction = trn;
+                                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                                cmd.CommandText = "AddSiteInsulinConcentration";
+                                param = new SqlParameter("@siteId", siteInfo.Id);
+                                cmd.Parameters.Add(param);
+                                param = new SqlParameter("@insulinConId", incon.Id);
+                                cmd.Parameters.Add(param);
+                                cmd.ExecuteNonQuery();
                             }
                         }
+                        trn.Commit();
                     }
                     catch (Exception ex)
                     {
+                        trn.Rollback();
                         nlogger.LogError(ex);
                         dto.IsSuccessful = false;
                         dto.Messages.Add("There was an error in SaveSiteInfo");
@@ -2363,7 +2417,90 @@ namespace hpMvc.DataBase
                     }
                 }
             }
-            dto.Messages.Add("New staff information was successfully entered into the database!");
+            dto.Messages.Add("Site information was successfully saved to the database!");
+            dto.IsSuccessful = true;
+            return dto;
+        }
+
+        public static MessageListDTO AddSiteInfo(SiteInfo siteInfo)
+        {
+            var dto = new MessageListDTO();
+
+            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            using (var conn = new SqlConnection(strConn))
+            {
+                conn.Open();
+                using (SqlTransaction trn = conn.BeginTransaction())
+                {
+                    try
+                    {
+                        var cmd = new SqlCommand("", conn);
+                        cmd.Transaction = trn;
+                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                        cmd.CommandText = "AddSite";
+
+                        var param = new SqlParameter("@siteId", siteInfo.SiteId);
+                        cmd.Parameters.Add(param);
+
+                        param = new SqlParameter("@name", siteInfo.Name);
+                        cmd.Parameters.Add(param);
+
+                        param = new SqlParameter("@empIDRequired", siteInfo.IsEmployeeIdRequired);
+                        cmd.Parameters.Add(param);
+
+                        if (string.IsNullOrEmpty(siteInfo.EmployeeIdRegEx))
+                            param = new SqlParameter("@empIDRegex", DBNull.Value);
+                        else
+                            param = new SqlParameter("@empIDRegex", siteInfo.EmployeeIdRegEx);
+                        cmd.Parameters.Add(param);
+
+                        if (string.IsNullOrEmpty(siteInfo.EmployeeIdMessage))
+                            param = new SqlParameter("@empIDMessage", DBNull.Value);
+                        else
+                            param = new SqlParameter("@empIDMessage", siteInfo.EmployeeIdMessage);
+                        cmd.Parameters.Add(param);
+
+                        param = new SqlParameter("@active", siteInfo.IsActive);
+                        cmd.Parameters.Add(param);
+
+                        param = new SqlParameter("@useSensor", siteInfo.UseSensor);
+                        cmd.Parameters.Add(param);
+
+                        param = new SqlParameter("@Identity", System.Data.SqlDbType.Int, 0, "ID");
+                        param.Direction = System.Data.ParameterDirection.Output;
+                        cmd.Parameters.Add(param);
+
+                        cmd.ExecuteNonQuery();
+                        siteInfo.Id = (int)cmd.Parameters["@Identity"].Value;
+
+                        foreach (var incon in siteInfo.InsulinConcentrations)
+                        {
+                            if (incon.IsUsed)
+                            {
+                                cmd = new SqlCommand("", conn);
+                                cmd.Transaction = trn;
+                                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                                cmd.CommandText = "AddSiteInsulinConcentration";
+                                param = new SqlParameter("@siteId", siteInfo.Id);
+                                cmd.Parameters.Add(param);
+                                param = new SqlParameter("@insulinConId", incon.Id);
+                                cmd.Parameters.Add(param);
+                                cmd.ExecuteNonQuery();
+                            }
+                        }
+                        trn.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        trn.Rollback();
+                        nlogger.LogError(ex);
+                        dto.IsSuccessful = false;
+                        dto.Messages.Add("There was an error in SaveSiteInfo");
+                        return dto;
+                    }
+                }
+            }
+            dto.Messages.Add("New site information was successfully entered into the database!");
             dto.IsSuccessful = true;
             return dto;
         }

@@ -43,5 +43,28 @@ namespace hpMvc.Controllers
                 return View(siteInfo);
             }
         }
+
+        public ActionResult Add()
+        {
+            var siteInfo = DbUtils.GetSiteInfoForNewSite();
+            return View(siteInfo);
+        }
+
+        [HttpPost]
+        public ActionResult Add(SiteInfo siteInfo)
+        {
+            if (ModelState.IsValid)
+            {
+                var retVal = DbUtils.AddSiteInfo(siteInfo);
+                if (retVal.IsSuccessful)
+                    return RedirectToAction("Index");
+                else
+                    return View(siteInfo);
+            }
+            else
+            {
+                return View(siteInfo);
+            }
+        }
     }
 }
