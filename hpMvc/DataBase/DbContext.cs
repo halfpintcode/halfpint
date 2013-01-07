@@ -1352,6 +1352,34 @@ namespace hpMvc.DataBase
                         insCon.IsUsed = true;
                     }
                     rdr.Close();
+
+                    cmd = new SqlCommand("", conn)
+                    {
+                        CommandType = CommandType.StoredProcedure,
+                        CommandText = "DoesSiteHaveRandomizations"
+                    };
+
+                    parameter = new SqlParameter("@siteID", id);
+                    cmd.Parameters.Add(parameter);
+                    
+                    conn.Open();
+                    rdr = cmd.ExecuteReader();
+                    if (rdr.Read())
+                    {
+                        var pos = rdr.GetOrdinal("Randomizations");
+                        int randoms = rdr.GetInt32(pos);
+                        pos = rdr.GetOrdinal("StudyIDs");
+                        int studyIds = rdr.GetInt32(pos);
+                        
+                        site.HasRandomizations = randoms != 0;
+                        site.HasStudyIds = studyIds != 0;
+                    }
+                    else
+                    {
+                        site.HasRandomizations = false;
+                        site.HasStudyIds = false;
+                    }
+                    rdr.Close();
                 }
                 catch (Exception ex)
                 {
