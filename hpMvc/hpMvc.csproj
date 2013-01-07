@@ -645,6 +645,7 @@
     <Content Include="Views\Sites\InsulinConcentrations.cshtml" />
     <Content Include="Views\Sites\AddInsulinConcentration.cshtml" />
     <Content Include="Views\Sites\EditInsulinConcentration.cshtml" />
+    <Content Include="Views\FileManager\UploadTest.cshtml" />
     <None Include="_bin_deployableAssemblies\Microsoft.Web.Infrastructure.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.Razor.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.dll" />
