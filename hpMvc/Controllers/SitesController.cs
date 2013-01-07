@@ -17,8 +17,9 @@ namespace hpMvc.Controllers
         public ActionResult Index()
         {
             var sites = DbUtils.GetSitesAll();
+            var sitesOrdered = sites.OrderBy(x => x.SiteId);
 
-            return View(sites);
+            return View(sitesOrdered.ToList());
         }
 
         public ActionResult SiteDetails(string id)
@@ -65,6 +66,56 @@ namespace hpMvc.Controllers
             {
                 return View(siteInfo);
             }
+        }
+
+        public ActionResult InsulinConcentrations()
+        {
+            var icl = DbUtils.GetInsulinConcentrations();
+            var iclOrdered = icl.OrderBy(x => x.Concentration);
+            return View(iclOrdered.ToList());
+        }
+
+
+        public ActionResult AddInsulinConcentration()
+        {
+            var ic = new InsulinConcentration(); 
+
+            return View(ic);
+        }
+
+        [HttpPost]
+        public ActionResult AddInsulinConcentration(InsulinConcentration ic)
+        {
+            if(ModelState.IsValid)
+            {
+                int id = DbUtils.AddInsulinConcentrations(ic);
+                if(id >0)
+                    return RedirectToAction("InsulinConcentrations");
+
+            }
+
+            return View(ic);
+        }
+        
+        public ActionResult EditInsulinConcentration(int id)
+        {
+            var ic = DbUtils.GetInsulinConcentration(id);
+
+            return View(ic);
+        }
+
+        [HttpPost]
+        public ActionResult EditInsulinConcentration(InsulinConcentration ic)
+        {
+            if (ModelState.IsValid)
+            {
+                int id = DbUtils.UpdateInsulinConcentrations(ic);
+                if (id > 0)
+                    return RedirectToAction("InsulinConcentrations");
+
+            }
+
+            return View(ic);
         }
     }
 }

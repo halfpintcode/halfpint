@@ -1,0 +1,39 @@
+﻿@model IEnumerable<hpMvc.Models.InsulinConcentration>
+
+@{
+    ViewBag.Title = "Insulin Concentrations";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Insulin Concentrations</h2>
+
+<p>
+    @Html.ActionLink("Create New", "AddInsulinConcentration")
+</p>
+<table>
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Concentration
+        </th>
+        
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Concentration)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "EditInsulinConcentration", new { id = item.Id }) 
+        </td>
+    </tr>
+}
+
+</table>

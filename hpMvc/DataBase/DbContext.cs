@@ -1262,6 +1262,161 @@ namespace hpMvc.DataBase
             return dict;
         }
 
+        public static InsulinConcentration GetInsulinConcentration(int id)
+        {
+            var insCon = new InsulinConcentration();
+            var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            using (var conn = new SqlConnection(strConn))
+            {
+                try
+                {
+                    var cmd = new SqlCommand("", conn)
+                    {
+                        CommandType = CommandType.StoredProcedure,
+                        CommandText = "GetInsulinConcentration"
+                    };
+
+                    var param = new SqlParameter("@id", id);
+                    cmd.Parameters.Add(param);
+
+                    conn.Open();
+                    var rdr = cmd.ExecuteReader();
+                    if (rdr.Read())
+                    {
+                        
+                        var pos = rdr.GetOrdinal("ID");
+                        insCon.Id = rdr.GetInt32(pos);
+                        pos = rdr.GetOrdinal("Name");
+                        insCon.Name = rdr.GetString(pos);
+                        pos = rdr.GetOrdinal("Concentration");
+                        insCon.Concentration = rdr.GetDouble(pos).ToString("0.0#");
+                        insCon.IsUsed = false;
+
+                    }
+                    rdr.Close();
+
+                }
+                catch (Exception ex)
+                {
+                    nlogger.LogError(ex);
+                }
+            }
+            return insCon;
+        }
+
+        public static List<InsulinConcentration> GetInsulinConcentrations()
+        {
+            var list = new List<InsulinConcentration>();
+            var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            using (var conn = new SqlConnection(strConn))
+            {
+                try
+                {
+                    var cmd = new SqlCommand("", conn)
+                    {
+                        CommandType = CommandType.StoredProcedure,
+                        CommandText = "GetInsulinConcentrations"
+                    };
+
+                    conn.Open();
+                    var rdr = cmd.ExecuteReader();
+                    while (rdr.Read())
+                    {
+                        var insCon = new InsulinConcentration();
+                        var pos = rdr.GetOrdinal("ID");
+                        insCon.Id = rdr.GetInt32(pos);
+                        pos = rdr.GetOrdinal("Name");
+                        insCon.Name = rdr.GetString(pos);
+                        pos = rdr.GetOrdinal("Concentration");
+                        insCon.Concentration = rdr.GetDouble(pos).ToString("0.0#");
+                        insCon.IsUsed = false;
+                        list.Add(insCon);
+
+                    }
+                    rdr.Close();
+
+                }
+                catch (Exception ex)
+                {
+                    nlogger.LogError(ex);
+                }
+            }
+            return list;
+        }
+
+        public static int UpdateInsulinConcentrations(InsulinConcentration ic)
+        {
+            var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            using (var conn = new SqlConnection(strConn))
+            {
+                try
+                {
+                    //throw new Exception("Opps");
+                    var cmd = new SqlCommand("", conn)
+                                  {
+                                      CommandType = System.Data.CommandType.StoredProcedure,
+                                      CommandText = "UpdateInsulinConcentrations"
+                                  };
+
+                    var parameter = new SqlParameter("@name", ic.Name);
+                    cmd.Parameters.Add(parameter);
+                    
+                    parameter = new SqlParameter("@concentration", ic.Concentration);
+                    cmd.Parameters.Add(parameter);
+
+                    parameter = new SqlParameter("@id", ic.Id);
+                    cmd.Parameters.Add(parameter);
+
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+
+                    return 1;
+                }
+                catch (Exception ex)
+                {
+                    nlogger.LogError(ex);
+                    return -1;
+                }
+            }
+        }
+
+        public static int AddInsulinConcentrations(InsulinConcentration ic)
+        {
+            var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            using (var conn = new SqlConnection(strConn))
+            {
+                try
+                {
+                    //throw new Exception("Opps");
+                    var cmd = new SqlCommand("", conn)
+                    {
+                        CommandType = System.Data.CommandType.StoredProcedure,
+                        CommandText = "AddInsulinConcentrations"
+                    };
+
+                    var parameter = new SqlParameter("@name", ic.Name);
+                    cmd.Parameters.Add(parameter);
+
+                    parameter = new SqlParameter("@concentration", ic.Concentration);
+                    cmd.Parameters.Add(parameter);
+
+                    parameter = new SqlParameter("@Identity", System.Data.SqlDbType.Int, 0, "ID");
+                    parameter.Direction = System.Data.ParameterDirection.Output;
+                    cmd.Parameters.Add(parameter);
+
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+
+                    return (int)cmd.Parameters["@Identity"].Value;
+                }
+                catch (Exception ex)
+                {
+                    nlogger.LogError(ex);
+                    return -1;
+                }
+            }
+        }
+
         public static SiteInfo GetSiteInfoForSite(string id)
         {
             var site = new SiteInfo();
@@ -1352,6 +1507,7 @@ namespace hpMvc.DataBase
                         insCon.IsUsed = true;
                     }
                     rdr.Close();
+                    conn.Close();
 
                     cmd = new SqlCommand("", conn)
                     {

@@ -9,7 +9,7 @@
 <div>
     @{
  
-        var grid = new WebGrid(Model, defaultSort: "Name", rowsPerPage: 50);
+        var grid = new WebGrid(Model, defaultSort: "SiteId", rowsPerPage: 50);
     }
  
     @grid.GetHtml(columns:grid.Columns(
@@ -24,4 +24,6 @@
 <div>
     <br/>
     @Html.ActionLink("Add new site", "Add")
+    <br/>
+    @Html.ActionLink("Insulin Concentrations", "InsulinConcentrations")
 </div>
