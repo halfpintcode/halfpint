@@ -1,0 +1,18 @@
+﻿@{
+    ViewBag.Title = "Upload Test";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Upload</h2>
+
+@using (Html.BeginForm("UploadTest", "FileManager", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+
+    <label for="file">Filename:</label>
+    <input id="upload" type="file" name="file" />
+    <input id="other" name="other" type="text"/>
+
+    <input type="submit" />
+}
+
+<script src="@Url.Content("~/Scripts/FileUpload.js")" type="text/javascript"></script>

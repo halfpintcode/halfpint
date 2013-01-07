@@ -12,8 +12,25 @@ namespace hpMvc.Controllers
 {    
     public class FileManagerController : Controller
     {
-        NLogger nlogger = new NLogger();        
-        
+        NLogger nlogger = new NLogger();
+
+        public ActionResult UploadTest()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult UploadTest(HttpPostedFileBase file, string other)
+        {
+            if (file != null && file.ContentLength > 0)
+            {
+                string path;
+                var fileName = Path.GetFileName(file.FileName);
+                
+            }
+
+            return RedirectToAction("Upload");
+        }
+
         [Authorize]
         public ActionResult Upload()
         {
@@ -26,9 +43,13 @@ namespace hpMvc.Controllers
         {
             if (file != null && file.ContentLength > 0)
             {
+                string path;
                 var fileName = Path.GetFileName(file.FileName);
-                var path = Path.Combine(Server.MapPath("~/Docs"),fileName);
-                file.SaveAs(path);
+                if (fileName != null)
+                {
+                    path = Path.Combine(Server.MapPath("~/Docs"), fileName);
+                    file.SaveAs(path);
+                }
             }
 
             return RedirectToAction("Upload");
@@ -82,12 +103,12 @@ namespace hpMvc.Controllers
                 if (file != null && file.ContentLength > 0)
                 {
                     string key = Request.Form["key"];
-                    string institID = Request.Form["institID"];
+                    string institId = Request.Form["institID"];
                     //filename template : 01-0030-7copy.xlsm
                     var fileName = Path.GetFileName(file.FileName);
-                    var studyID = fileName.Substring(0, 9);
+                    var studyId = fileName.Substring(0, 9);
                     
-                    int iRetVal = DbUtils.IsStudyIDCleared(studyID);
+                    int iRetVal = DbUtils.IsStudyIDCleared(studyId);
                     if (iRetVal != 0)
                     {
                         nlogger.LogInfo("ChecksUpload - file name: " + fileName + ", IsStudyCleared: " + iRetVal);
@@ -95,14 +116,14 @@ namespace hpMvc.Controllers
                     }
                     nlogger.LogInfo("ChecksUpload - file name: " + fileName + ", key: " + key);
 
-                    if (!ssUtils.VerifyKey(key, fileName, institID))
+                    if (!ssUtils.VerifyKey(key, fileName, institId))
                     {
                         nlogger.LogInfo("ChecksUpload - bad key - file name: " + fileName + ", key: " + key);
                         return Content("Bad key");
                     }
 
                     var folderPath = ConfigurationManager.AppSettings["ChecksUploadPath"].ToString();
-                    var path = Path.Combine(folderPath, institID);
+                    var path = Path.Combine(folderPath, institId);
 
                     //nlogger.LogInfo("ChecksUpload - path: " + path);
                     if (!Directory.Exists(path))

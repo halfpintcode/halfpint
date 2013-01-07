@@ -101,14 +101,14 @@
     <Compile Include="Controllers\SitesController.cs" />
     <Compile Include="Controllers\StaffController.cs" />
     <Compile Include="Controllers\TestController.cs" />
-    <Compile Include="DataBase\AccountUtils.cs" />
-    <Compile Include="DataBase\DbCalorieCalc.cs" />
-    <Compile Include="DataBase\DbContext.cs" />
-    <Compile Include="DataBase\DbInform.cs" />
-    <Compile Include="DataBase\DbInitializeContext.cs" />
-    <Compile Include="DataBase\DbPostTests.cs" />
-    <Compile Include="DataBase\ssUtils.cs" />
-    <Compile Include="DataBase\Utility.cs" />
+    <Compile Include="Infrastructure\DataBase\AccountUtils.cs" />
+    <Compile Include="Infrastructure\DataBase\DbCalorieCalc.cs" />
+    <Compile Include="Infrastructure\DataBase\DbContext.cs" />
+    <Compile Include="Infrastructure\DataBase\DbInform.cs" />
+    <Compile Include="Infrastructure\DataBase\DbInitializeContext.cs" />
+    <Compile Include="Infrastructure\DataBase\DbPostTests.cs" />
+    <Compile Include="Infrastructure\DataBase\ssUtils.cs" />
+    <Compile Include="Infrastructure\DataBase\Utility.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -642,6 +642,7 @@
     <Content Include="Views\Sites\SiteDetails.cshtml" />
     <Content Include="Views\InitializeSubject\PrintPassword.cshtml" />
     <Content Include="Views\Sites\Add.cshtml" />
+    <Content Include="Views\FileManager\UploadTest.cshtml" />
     <None Include="_bin_deployableAssemblies\Microsoft.Web.Infrastructure.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.Razor.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.dll" />

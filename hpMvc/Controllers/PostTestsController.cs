@@ -15,6 +15,7 @@ namespace hpMvc.Controllers
     {
         NLogger logger = new NLogger();
 
+        [RequireHttps]
         public ActionResult Initialize(string id)
         {
             string role = AccountUtils.GetRoleForUser(User.Identity.Name);

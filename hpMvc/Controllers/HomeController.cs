@@ -8,6 +8,7 @@ using System.Net.Mail;
 
 namespace hpMvc.Controllers
 {
+    [RequireHttps]
     public class HomeController : Controller
     {
         
