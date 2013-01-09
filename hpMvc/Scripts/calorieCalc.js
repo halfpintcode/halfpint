@@ -9,7 +9,7 @@ $(function () {
     var enCho = 0;
     var enProtein = 0;
     var enLipid = 0;
-    var tempID = 0;
+    var tempId = 0;
 
     //$("form").submit(function () { return false; }); 
     $("#spinner").ajaxStart(function () { $(this).show(); })
@@ -48,6 +48,7 @@ $(function () {
 
     $.ajax({
         url: urlRoot + '/CalorieCalc/GetFormulaData',
+        async: false,
         type: 'POST',
         data: {},
         success: function (rdata) {
@@ -65,6 +66,7 @@ $(function () {
 
     $.ajax({
         url: urlRoot + '/CalorieCalc/GetAdditiveData',
+        async: false,
         type: 'POST',
         data: {},
         success: function (rdata) {
@@ -88,6 +90,7 @@ $(function () {
         if (studyID > 0) {
             $.ajax({
                 url: urlRoot + '/CalorieCalc/GetCalctWeight/',
+                async: false,
                 type: 'POST',
                 data: { studyID: studyID },
                 success: function (rdata) {
@@ -117,7 +120,7 @@ $(function () {
 
     $('#btnNewDay').click(function () {
         var date = $('#calcDate').datepicker('getDate', '+1d');
-        date.setDate(date.getDate() + 1);  
+        date.setDate(date.getDate() + 1);
         clearAll();
         $('#calcDate').datepicker('setDate', date);
         //$('#calcDate').focus();
@@ -165,7 +168,7 @@ $(function () {
         enCho = 0;
         enProtein = 0;
         enLipid = 0;
-        tempID = 0;
+        tempId = 0;
         recalculateResultsTotal();
     }
 
@@ -227,6 +230,7 @@ $(function () {
 
         $.ajax({
             url: urlRoot + '/CalorieCalc/Save',
+            async: false,
             type: 'POST',
             dataType: 'json',
             data: jnv,
@@ -259,7 +263,7 @@ $(function () {
             arrAdd[index] = {
                 AdditiveID: $(this).val(),
                 Volume: $(this).data('additive').volume
-            }
+            };
         });
 
         return arrAdd;
@@ -274,9 +278,7 @@ $(function () {
             arrEren[index] = {
                 FormulaID: $(this).val(),
                 Volume: $(this).data('enteral').volume
-            }
-
-
+            };
         });
 
         return arrEren;
@@ -358,7 +360,7 @@ $(function () {
             icounter++;
         }
 
-        return arrInfuse
+        return arrInfuse;
     }
 
     function validateSubmit() {
@@ -390,11 +392,12 @@ $(function () {
         $('#bodyWeight').attr("disabled", "disabled");
         $('#calcDate').attr("disabled", "disabled");
 
-        var infuseData = { studyID: $('#StudyList').val(), calcDate: $('#calcDate').val() }
+        var infuseData = { studyID: $('#StudyList').val(), calcDate: $('#calcDate').val() };
         var jinfuseData = JSON.stringify(infuseData);
 
         $.ajax({
             url: urlRoot + '/CalorieCalc/GetAllData',
+            async: false,
             type: 'POST',
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
@@ -452,12 +455,12 @@ $(function () {
                         parChoKcal = Math.round(parDex * 0.034 * parVol);
                         pnCho = pnCho + parChoKcal;
                         optText = "Dextrose:" + parDex + "%, Amino Acid:" + parAmi + "%, Volume:" + parVol + "mL";
-                        tempID++;
+                        tempId++;
 
-                        option = "<option value='" + tempID + "' >" + optText + "</option>";
+                        option = "<option value='" + tempId + "' >" + optText + "</option>";
                         $('#selParenteral').append(option);
 
-                        option = $("#selParenteral option[value='" + tempID + "']");
+                        option = $("#selParenteral option:last-child");
                         $(option).data('parenteral', { protein: parProteinKcal, cho: parChoKcal, lipid: 0 });
                     }
                     else { //lipid
@@ -475,11 +478,11 @@ $(function () {
                         parLipidKcal = Math.round(parLipVal * parVol);
                         pnLipid = pnLipid + parLipidKcal;
                         optText = "Lipid Concentration:" + parLip + "%, Volume:" + parVol + "mL";
-                        tempID++;
-                        option = "<option value='" + tempID + "' >" + optText + "</option>";
+                        tempId++;
+                        option = "<option value='" + tempId + "' >" + optText + "</option>";
                         $('#selParenteral').append(option);
 
-                        option = $("#selParenteral option[value='" + tempID + "']");
+                        option = $("#selParenteral option:last-child");
                         $(option).data('parenteral', { protein: 0, cho: 0, lipid: parLipidKcal });
                     }
                 });
@@ -506,7 +509,7 @@ $(function () {
                     var enChoKcal = kCals * (fcho / 100);
                     var enLipidKcal = kCals * (flipid / 100);
 
-                    var option2 = $("#selEnteral option[value='" + formulaID + "']");
+                    var option2 = $("#selEnteral option:last-child");
                     option2.data('enteral', { protein: enProteinKcal, cho: enChoKcal, lipid: enLipidKcal, volume: vol });
 
                     enProtein = enProtein + Math.round(enProteinKcal);
@@ -536,7 +539,7 @@ $(function () {
                     var enChoKcal = kCals * (fcho / 100);
                     var enLipidKcal = kCals * (flipid / 100);
 
-                    var option2 = $("#selAdditive option[value='" + additiveID + "']");
+                    var option2 = $("#selAdditive option:last-child");
                     option2.data('additive', { protein: enProteinKcal, cho: enChoKcal, lipid: enLipidKcal, volume: vol });
 
                     enProtein = enProtein + Math.round(enProteinKcal);
@@ -689,12 +692,12 @@ $(function () {
         $('#parenteralCHO').text(pnCho);
         $('#parenteralProtein').text(pnProtein);
 
-        tempID++;
+        tempId++;
 
-        var option = "<option value='" + tempID + "' >" + optText + "</option>";
+        var option = "<option value='" + tempId + "' >" + optText + "</option>";
         $('#selParenteral').append(option);
 
-        option = $("#selParenteral option[value='" + tempID + "']");
+        option = $("#selParenteral option:last-child");
         $(option).data('parenteral', { protein: pnProteinKcal, cho: pnChoKcal, lipid: 0 });
 
         recalculateResultsTotal();
@@ -718,11 +721,11 @@ $(function () {
         pnLipid = pnLipid + pnLipidKcal;
         $('#parenteralLipid').text(pnLipid);
 
-        tempID++;
-        var option = "<option value='" + tempID + "' >" + optText + "</option>";
+        tempId++;
+        var option = "<option value='" + tempId + "' >" + optText + "</option>";
         $('#selParenteral').append(option);
 
-        option = $("#selParenteral option[value='" + tempID + "']");
+        option = $("#selParenteral option:last-child");
         $(option).data('parenteral', { protein: 0, cho: 0, lipid: pnLipidKcal });
 
         $('#LipidConc').val("0");
@@ -731,7 +734,7 @@ $(function () {
     });
 
     $('#btnRemoveParenteral').click(function () {
-        var $selected = $("#selParenteral option:selected")
+        var $selected = $("#selParenteral option:selected");
         $selected.each(function () {
             var option = $(this).text();
             var data = $(this).data('parenteral');
@@ -813,8 +816,8 @@ $(function () {
         var enChoKcal = kCals * (fcho / 100);
         var enLipidKcal = kCals * (flipid / 100);
 
-        //add data to option
-        option = $("#selEnteral option[value='" + fid + "']");
+        //add data to option -- note: 
+        option = $("#selEnteral option:last-child");
         $(option).data('enteral', { protein: enProteinKcal, cho: enChoKcal, lipid: enLipidKcal, volume: valVol });
 
         //update results
@@ -831,7 +834,7 @@ $(function () {
     });
 
     $('#btnRemoveEnteral').click(function () {
-        var $selected = $("#selEnteral option:selected")
+        var $selected = $("#selEnteral option:selected");
         $selected.each(function () {
             var option = $(this).text();
             var data = $(this).data('enteral');
@@ -975,7 +978,7 @@ $(function () {
         var enLipidKcal = kCals * (flipid / 100);
 
         //add data to option
-        option = $("#selAdditive option[value='" + fid + "']");
+        option = $("#selAdditive option:last-child");
         $(option).data('additive', { protein: enProteinKcal, cho: enChoKcal, lipid: enLipidKcal, volume: valVol });
 
         //update results
