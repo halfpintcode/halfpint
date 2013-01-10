@@ -45,6 +45,7 @@
       <HintPath>..\packages\NLog.2.0.0.2000\lib\net40\NLog.dll</HintPath>
     </Reference>
     <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
     </Reference>
@@ -82,6 +83,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Business\Site.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminBackDoorController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
@@ -119,7 +121,6 @@
     <Compile Include="Infrastructure\ListExtensions.cs" />
     <Compile Include="Infrastructure\Logging\ILogger.cs" />
     <Compile Include="Infrastructure\Logging\NLogger.cs" />
-    <Compile Include="Infrastructure\Massive.cs" />
     <Compile Include="Infrastructure\RouteHelper.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\AdminModels.cs" />
@@ -615,9 +616,6 @@
     <Content Include="Views\Coordinator\CompleteSubject.cshtml" />
     <Content Include="Views\Coordinator\CompleteSubjectConfirmationPartial.cshtml" />
     <Content Include="Views\Staff\FolderDisplay.cshtml" />
-    <Content Include="staff.sitemap2">
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="Views\Staff\FolderDisplayTree.cshtml" />
     <Content Include="staff.sitemap">
       <SubType>Designer</SubType>

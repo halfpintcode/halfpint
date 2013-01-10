@@ -18,6 +18,10 @@
         display: inline-block;
         margin-left: 5px;
     }
+    .lblFile {
+        width: 230px;
+        display: inline-block;
+    }
     .text-box {
         width: 500px;
     }
@@ -127,14 +131,15 @@
             }
             
         </div>
+        <div><span class="underline">Randomization Upload Files :</span></div>
         <div>
-            <span class="lbleditor">Select the study id's file upload file:</span>
-            <span class="col2">
-                <input type="file" name="[0].files" id="files_0" />
+            <span class="lblFile">Select the study id's upload file :</span>
+            <span class="col3">
+                <input type="file" value="Select File" name="[0].files" id="files_0" />
             </span>
             <br/>
-            <span class="lbleditor">Select the radomization file upload file:</span>
-            <span class="col2">
+            <span class="lblFile">Select the radomization upload file :</span>
+            <span class="col3">
                 <input type="file" name="[1].files" id="files_1" />
             </span>
         </div>

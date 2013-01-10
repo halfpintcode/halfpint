@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using hpMvc.DataBase;
 using hpMvc.Models;
+using hpMvc.Business;
 
 namespace hpMvc.Controllers
 {
@@ -56,7 +57,9 @@ namespace hpMvc.Controllers
         {
             if (ModelState.IsValid)
             {
-                var retVal = DbUtils.AddSiteInfo(siteInfo);
+                var retVal = Business.Site.Add(files, siteInfo);
+
+                //var retVal = DbUtils.AddSiteInfo(siteInfo);
                 if (retVal.IsSuccessful)
                     return RedirectToAction("Index");
                 else
