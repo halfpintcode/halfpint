@@ -27,7 +27,8 @@
 		<ul>			
 			<li><a href="#" id="lnkInfo">Information</a></li>
 			<li><a href="#" id="lnkInstruc">Instructions</a></li>
-			<li id="liSensor"><a href="#" id="lnkSensor">Start Sensor</a></li>
+            <li id="liSensorMedtronic"><a href="#" id="lnkSensorMedtronic">Start Medtronic Sensor</a></li>
+            <li id="liSensorDexcom"><a href="#" id="lnkSensorDexcom">Start Dexcom Sensor</a></li>
 			<li><a href="#" id="lnkParams">Order Insulin</a></li>
 			<li><a href="#" id="lnkVamp">Place Vamp Jr.</a></li>
 			<li><a href="#" id="lnkCalGluc">QC Glucose Meter</a></li>
@@ -131,70 +132,73 @@
 				<br />
 				<input type="button" id="btnInstrucNext" class="nextButton" value="Next" />
 			</div>
-			<div id="divSensor" class="mod">
-				<h3>Start Sensor</h3>
-				<br />				
-					Enter the following sensor information (videos are available for review)
-					<hr />
-					<div id="divInnerSensor">
-					<br />
-					<p>
-						<label for="MonitorDate">Monitor Date</label>
-						<input type="text" id="MonitorDate" name="MonitorDate" size="25"  />
-					</p>
-					<p>
-						<label for="MonitorTime">Monitor Time</label>
-						<input type="text" id="MonitorTime" name="MonitorTime" size="25" />
-					</p>
-					<p>
-						<label for="MonitorID">Monitor ID</label>
-						<input type="text" id="MonitorID" name="MonitorID" size="25" />
-					</p>
-					<p>
-						<label for="TransmitterID">Transmitter ID</label>
-						<input type="text" id="TransmitterID" name="TransmitterID" size="25" />
-					</p>
-					<p>
-						<label for="SensorLot">Sensor Lot</label>
-						<input type="text" id="SensorLot" name="SensorLot" size="25" />
-					</p>
-					<p>
-						<label for="InserterFirstName">Inserter First Name</label>
-						<input type="text" id="InserterFirstName" name="InserterFirstName" size="25" />
-					</p>
-					<p>
-						<label for="InserterLastName">Inserter Last Name</label>
-						<input type="text" id="InserterLastName" name="InserterLastName" size="25" />
-					</p>
-					<p>
-						<label for="SensorLocation">Sensor Location</label>
-						@Html.DropDownList("SensorLocations")
-					</p>
-					<br />
-					<input type="button" id="btnSensorNext" class="nextButton" value="Complete" />		
-					</div>
-					<div id="sensorImage">
-						<img src='@Url.Content("~/Content/images/sensorInsertion.bmp")' alt="image" />    
-					</div>			    
-				<div>
+            <div id="divSensorMedtronic" class="mod">
+                <h3>Start Medtronic Sensor</h3>
+                <br />				
+                Enter the following sensor information (videos are available for review)
+                <hr />
+                <div id="divInnerSensor">
+                    <br />
+                    <p>
+                        <label for="MonitorDate">Monitor Date</label>
+                        <input type="text" id="MonitorDate" name="MonitorDate" size="25"  />
+                    </p>
+                    <p>
+                        <label for="MonitorTime">Monitor Time</label>
+                        <input type="text" id="MonitorTime" name="MonitorTime" size="25" />
+                    </p>
+                    <p>
+                        <label for="MonitorID">Monitor ID</label>
+                        <input type="text" id="MonitorID" name="MonitorID" size="25" />
+                    </p>
+                    <p>
+                        <label for="TransmitterID">Transmitter ID</label>
+                        <input type="text" id="TransmitterID" name="TransmitterID" size="25" />
+                    </p>
+                    <p>
+                        <label for="SensorLot">Sensor Lot</label>
+                        <input type="text" id="SensorLot" name="SensorLot" size="25" />
+                    </p>
+                    <p>
+                        <label for="InserterFirstName">Inserter First Name</label>
+                        <input type="text" id="InserterFirstName" name="InserterFirstName" size="25" />
+                    </p>
+                    <p>
+                        <label for="InserterLastName">Inserter Last Name</label>
+                        <input type="text" id="InserterLastName" name="InserterLastName" size="25" />
+                    </p>
+                    <p>
+                        <label for="SensorLocation">Sensor Location</label>
+                        @Html.DropDownList("SensorLocations")
+                    </p>
+                    <br />
+                    <input type="button" id="btnSensorNext" class="nextButton" value="Complete" />		
+                </div>
+                <div id="sensorImage">
+                    <img src='@Url.Content("~/Content/images/sensorInsertion.bmp")' alt="image" />    
+                </div>			    
+                <div>
 					
-					<br /><br />
-					<iframe src="//player.vimeo.com/video/36001467?title=0&amp;byline=0&amp;portrait=0" 
-							width="533" height="300" 
-							frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen>
-					</iframe>
-					<p>
-						Module 4: Enlite Sensor
-					</p><br />
-					<iframe src="//player.vimeo.com/video/36000592?title=0&amp;byline=0&amp;portrait=0" 
-							width="533" height="300" 
-							frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen>
-					</iframe>
-					<p>
-						Module 4: Guardian Monitor
-					</p>
-				</div>			
-			</div>
+                    <br /><br />
+                    <iframe src="//player.vimeo.com/video/36001467?title=0&amp;byline=0&amp;portrait=0" 
+                            width="533" height="300" 
+                            frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen>
+                    </iframe>
+                    <p>
+                        Module 4: Enlite Sensor
+                    </p><br />
+                    <iframe src="//player.vimeo.com/video/36000592?title=0&amp;byline=0&amp;portrait=0" 
+                            width="533" height="300" 
+                            frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen>
+                    </iframe>
+                    <p>
+                        Module 4: Guardian Monitor
+                    </p>
+                </div>			
+            </div>
+            <div id="divSensorDexcom" class="mod">
+                <h3>Start Dexcom Sensor</h3>
+            </div>
 			<div id="divParams" class="mod">
 				 <h3>Order Insulin</h3>
 				 <br />

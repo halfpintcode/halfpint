@@ -49,7 +49,7 @@ namespace hpMvc.Controllers
                 throw new Exception("There was an error retrieving the senor locations list from the database");
             sl.Insert(0, new Site { ID = 0, Name = "Select"});
             
-            int useSensor = DbUtils.DoesSiteUseSensor(siteId);
+            int useSensor = DbUtils.GetSiteSensor(siteId);
             
             ViewBag.SensorLocations = new SelectList(sl, "ID", "Name");
             ViewBag.UseSensor = useSensor;
@@ -189,55 +189,55 @@ namespace hpMvc.Controllers
             logger.LogInfo("ValidateLogin: " + studyID + ", password: " + password);
             DTO dto = new DTO();
             //check if study id begins with the correct site
-            string siteID = DbUtils.GetSiteIDForUser(HttpContext.User.Identity.Name);
-            if (siteID == "error")
-            {
-                dto.IsSuccessful = false;
-                dto.Message = "There was an error retrieving the user's site id from the database";
-                logger.LogInfo("ValidateLogin: " + dto.Message);
-                return Json(dto);
-            }
-            if (siteID == "")
-            {
-                dto.IsSuccessful = false;
-                dto.Message = "There was a problem retrieving the user's site id from the database";
-                logger.LogInfo("ValidateLogin: " + dto.Message);
-                return Json(dto);
-            } 
-            if (siteID != studyID.Substring(0, 2))
-            {
-                dto.IsSuccessful = false;
-                dto.Message = "The study id for your site must begin with " + siteID;
-                logger.LogInfo("ValidateLogin: " + dto.Message);
-                return Json(dto);
-            }
+            //string siteID = DbUtils.GetSiteIDForUser(HttpContext.User.Identity.Name);
+            //if (siteID == "error")
+            //{
+            //    dto.IsSuccessful = false;
+            //    dto.Message = "There was an error retrieving the user's site id from the database";
+            //    logger.LogInfo("ValidateLogin: " + dto.Message);
+            //    return Json(dto);
+            //}
+            //if (siteID == "")
+            //{
+            //    dto.IsSuccessful = false;
+            //    dto.Message = "There was a problem retrieving the user's site id from the database";
+            //    logger.LogInfo("ValidateLogin: " + dto.Message);
+            //    return Json(dto);
+            //} 
+            //if (siteID != studyID.Substring(0, 2))
+            //{
+            //    dto.IsSuccessful = false;
+            //    dto.Message = "The study id for your site must begin with " + siteID;
+            //    logger.LogInfo("ValidateLogin: " + dto.Message);
+            //    return Json(dto);
+            //}
 
-            //check if correct password
-            dto.ReturnValue = DbUtils.IsStudyIDAssignedPasswordValid(studyID, password);
-            if (dto.ReturnValue != 1)
-            {
-                dto.IsSuccessful = false;
-                if(dto.ReturnValue == 0)
-                    dto.Message = "This is not a valid study id and or password";
-                if (dto.ReturnValue == -1)
-                    dto.Message = "There was an error in determining if this is a valid login";
+            ////check if correct password
+            //dto.ReturnValue = DbUtils.IsStudyIDAssignedPasswordValid(studyID, password);
+            //if (dto.ReturnValue != 1)
+            //{
+            //    dto.IsSuccessful = false;
+            //    if(dto.ReturnValue == 0)
+            //        dto.Message = "This is not a valid study id and or password";
+            //    if (dto.ReturnValue == -1)
+            //        dto.Message = "There was an error in determining if this is a valid login";
 
-                logger.LogInfo("ValidateLogin IsStudyIDAssignedPasswordValid: " + dto.Message);
-                return Json(dto);
-            }
+            //    logger.LogInfo("ValidateLogin IsStudyIDAssignedPasswordValid: " + dto.Message);
+            //    return Json(dto);
+            //}
 
-            //check if already randomized
-            dto.ReturnValue = DbUtils.IsStudyIDRandomized(studyID);
-            if (dto.ReturnValue != 0) 
-            {
-                dto.IsSuccessful = false;
-                if(dto.ReturnValue == 1)
-                    dto.Message = "This study id has been randomized";
-                if (dto.ReturnValue == -1)
-                    dto.Message = "There was an error in determining if this sudy subject has been previously radomized";
-                logger.LogInfo("ValidateLogin: " + dto.Message);
-                return Json(dto);
-            }
+            ////check if already randomized
+            //dto.ReturnValue = DbUtils.IsStudyIDRandomized(studyID);
+            //if (dto.ReturnValue != 0) 
+            //{
+            //    dto.IsSuccessful = false;
+            //    if(dto.ReturnValue == 1)
+            //        dto.Message = "This study id has been randomized";
+            //    if (dto.ReturnValue == -1)
+            //        dto.Message = "There was an error in determining if this sudy subject has been previously radomized";
+            //    logger.LogInfo("ValidateLogin: " + dto.Message);
+            //    return Json(dto);
+            //}
 
             logger.LogInfo("ValidateLogin: password was valid" );
             dto.IsSuccessful = true;

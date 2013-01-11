@@ -881,6 +881,36 @@ namespace hpMvc.DataBase
             }
         }
 
+        public static int GetSiteSensor(int siteId)
+        {
+            var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+
+            using (var conn = new SqlConnection(strConn))
+            {
+                try
+                {
+                    var cmd = new SqlCommand("", conn)
+                    {
+                        CommandType = System.Data.CommandType.StoredProcedure,
+                        CommandText = "GetSiteSensor"
+                    };
+                    var param = new SqlParameter("@siteId", siteId);
+                    cmd.Parameters.Add(param);
+
+                    conn.Open();
+                    var sensor = (Int32)cmd.ExecuteScalar();
+                   
+                    return sensor;
+
+                }
+                catch (Exception ex)
+                {
+                    nlogger.LogError(ex, "SiteID:" + siteId);
+                    return -1;
+                }
+            }
+        }
+
         public static int DoesSiteUseSensor(int siteId)
         {
             var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
@@ -906,7 +936,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex, "StudyID:" + siteId);
+                    nlogger.LogError(ex, "SiteID:" + siteId);
                     return -1;
                 }
             }

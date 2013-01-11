@@ -49,9 +49,19 @@ $(document).ready(function () {
                     $('#divLogin').slideUp();
                     $('#divMain').slideDown();
                     $('#lnkInfo').parent().addClass("sfHover");
-                    if (useSensor !== "1") {
-                        $('#divSensor').hide();
-                        $('#liSensor').hide();
+                    if (useSensor == "0") {
+                        $('#divSensorMedtronic').hide();
+                        $('#liSensorMedtronic').hide();
+                        $('#divSensorDexcom').hide();
+                        $('#liSensorDexcom').hide();
+                    }
+                    else if (useSensor == "1") {
+                        $('#divSensorDexcom').hide();
+                        $('#liSensorDexcom').hide();
+                    }
+                    else if (useSensor == "2") {
+                        $('#divSensorMedtronic').hide();
+                        $('#liSensorMedtronic').hide();
                     }
                 }
                 else {
@@ -75,13 +85,17 @@ $(document).ready(function () {
                 $('#lnkInstruc').parent().addClass("sfHover");
                 break;
             case "btnInstrucNext":
-                if (useSensor !== "1") {
+                if (useSensor == "0") {
                     $('#lnkParams').click();
                     $('#lnkParams').parent().addClass("sfHover");
                 }
-                else {
-                    $('#lnkSensor').click();
-                    $('#lnkSensor').parent().addClass("sfHover");
+                else if (useSensor == "1") {
+                    $('#lnkSensorMedtronic').click();
+                    $('#lnkSensorMedtronic').parent().addClass("sfHover");
+                }
+                else if (useSensor == "2") {
+                    $('#lnkSensorDexcom').click();
+                    $('#lnkSensorDexcom').parent().addClass("sfHover");
                 }
                 break;
             case "btnSensorNext":
@@ -116,8 +130,11 @@ $(document).ready(function () {
             case 'lnkInstruc':
                 $('#divInstruc').show();
                 break;
-            case 'lnkSensor':
-                $('#divSensor').show();
+            case 'lnkSensorMedtronic':
+                $('#divSensorMedtronic').show();
+                break;
+            case 'lnkSensorDexcom':
+                $('#divSensorDexcom').show();
                 break;
             case 'lnkParams':
                 $('#divParams').show();
@@ -193,7 +210,7 @@ $(document).ready(function () {
             if (!val) {
                 alert('Monitor Date is required');
                 $('.mod').hide();
-                $('#divSensor').show();
+                $('#divSensorMedtronic').show();
                 $('#MonitorDate').focus();
                 return false;
             }
@@ -201,7 +218,7 @@ $(document).ready(function () {
             if (!val) {
                 alert('Monitor Time is required');
                 $('.mod').hide();
-                $('#divSensor').show();
+                $('#divSensorMedtronic').show();
                 $('#MonitorTime').focus();
                 return false;
             }
@@ -209,7 +226,7 @@ $(document).ready(function () {
             if (!val) {
                 alert('Monitor ID is required');
                 $('.mod').hide();
-                $('#divSensor').show();
+                $('#divSensorMedtronic').show();
                 $('#MonitorID').focus();
                 return false;
             }
@@ -217,7 +234,7 @@ $(document).ready(function () {
             if (!val) {
                 alert('Transmitter ID is required');
                 $('.mod').hide();
-                $('#divSensor').show();
+                $('#divSensorMedtronic').show();
                 $('#TransmitterID').focus();
                 return false;
             }
@@ -225,7 +242,7 @@ $(document).ready(function () {
             if (!val) {
                 alert('Sensor Lot is required');
                 $('.mod').hide();
-                $('#divSensor').show();
+                $('#divSensorMedtronic').show();
                 $('#SensorLot').focus();
                 return false;
             }
@@ -234,7 +251,7 @@ $(document).ready(function () {
             if (!val) {
                 alert('Inserter First Name is required');
                 $('.mod').hide();
-                $('#divSensor').show();
+                $('#divSensorMedtronic').show();
                 $('#InserterFirstName').focus();
                 return false;
             }
@@ -242,7 +259,7 @@ $(document).ready(function () {
             if (!val) {
                 alert('Inserter Last Name is required');
                 $('.mod').hide();
-                $('#divSensor').show();
+                $('#divSensorMedtronic').show();
                 $('#InserterLastName').focus();
                 return false;
             }
@@ -250,7 +267,7 @@ $(document).ready(function () {
             if (val === '0') {
                 alert('Sensor Location is required');
                 $('.mod').hide();
-                $('#divSensor').show();
+                $('#divSensorMedtronic').show();
                 $('#SensorLocations').focus();
                 return false;
             }
