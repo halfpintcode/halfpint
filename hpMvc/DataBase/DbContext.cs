@@ -911,6 +911,7 @@ namespace hpMvc.DataBase
             }
         }
 
+        //Depricated - see GetSiteSensor
         public static int DoesSiteUseSensor(int siteId)
         {
             var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
@@ -1485,7 +1486,7 @@ namespace hpMvc.DataBase
                         pos = rdr.GetOrdinal("Active");
                         site.IsActive = rdr.GetBoolean(pos);
                         pos = rdr.GetOrdinal("UseSensor");
-                        site.UseSensor = rdr.GetBoolean(pos);
+                        site.Sensor = rdr.GetInt32(pos);
                     }
                     rdr.Close();
                     conn.Close();
@@ -1656,7 +1657,7 @@ namespace hpMvc.DataBase
                         pos = rdr.GetOrdinal("Active");
                         site.IsActive = rdr.GetBoolean(pos);
                         pos = rdr.GetOrdinal("UseSensor");
-                        site.UseSensor = rdr.GetBoolean(pos);
+                        site.Sensor = rdr.GetInt32(pos);
                         sites.Add(site);
                     }
                     rdr.Close();
@@ -2599,7 +2600,7 @@ namespace hpMvc.DataBase
                         param = new SqlParameter("@active", siteInfo.IsActive);
                         cmd.Parameters.Add(param);
 
-                        param = new SqlParameter("@useSensor", siteInfo.UseSensor);
+                        param = new SqlParameter("@sensor", siteInfo.Sensor);
                         cmd.Parameters.Add(param);
                         
                         cmd.ExecuteNonQuery();
@@ -2677,7 +2678,7 @@ namespace hpMvc.DataBase
                         param = new SqlParameter("@active", siteInfo.IsActive);
                         cmd.Parameters.Add(param);
 
-                        param = new SqlParameter("@useSensor", siteInfo.UseSensor);
+                        param = new SqlParameter("@sensor", siteInfo.Sensor);
                         cmd.Parameters.Add(param);
 
                         param = new SqlParameter("@Identity", System.Data.SqlDbType.Int, 0, "ID");

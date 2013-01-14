@@ -63,7 +63,7 @@ namespace hpMvc.Controllers
             logger.LogInfo("InitializeSubject.Initialize: " + studyID);
             
             int siteId = DbUtils.GetSiteidIDForUser(User.Identity.Name);
-            int useSensor = DbUtils.DoesSiteUseSensor(siteId);
+            int useSensor = DbUtils.GetSiteSensor(siteId);
 
             InitializeDTO dto = new InitializeDTO();
             dto.IsSuccessful = true;
@@ -138,7 +138,7 @@ namespace hpMvc.Controllers
         public FilePathResult InitializeSS(string studyID)
         {
             int siteId = DbUtils.GetSiteidIDForUser(User.Identity.Name);
-            int useSensor = DbUtils.DoesSiteUseSensor(siteId);
+            int useSensor = DbUtils.GetSiteSensor(siteId);
 
             SSInsertionData ssInsert = (SSInsertionData)TempData["InsertData"];
             int iret = ssUtils.SetRandomization(studyID, ref ssInsert, User.Identity.Name);

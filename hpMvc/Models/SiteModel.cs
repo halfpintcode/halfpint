@@ -15,7 +15,7 @@ namespace hpMvc.Models
         public string EmployeeIdRegEx { get; set; }
         public string EmployeeIdMessage { get; set; }
         public bool IsActive { get; set; }
-        public bool UseSensor { get; set; }
+        public int Sensor { get; set; }
         public bool HasRandomizations { get; set; }
         public bool HasStudyIds { get; set; }
         public List<InsulinConcentration> InsulinConcentrations { get; set; }
