@@ -1,22 +1,17 @@
 ﻿using System;
 using System.Collections.Specialized;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Data.SqlClient;
-using System.Configuration;
 using hpMvc.Infrastructure.Logging;
 using hpMvc.Models;
-using System.Web.Security;
 
 namespace hpMvc.DataBase
 {
     public class DbInitializeContext
     {
-        public static NLogger nlogger;
+        public static NLogger Nlogger;
         static DbInitializeContext()
         {
-            nlogger = new NLogger();
+            Nlogger = new NLogger();
         }
 
         public static bool IsValidInitialize(NameValueCollection formParams, int useSensor, out List<ValidationMessages> messages, out SSInsertionData insertData)
@@ -24,8 +19,10 @@ namespace hpMvc.DataBase
             messages = new List<ValidationMessages>();
             insertData = new SSInsertionData();
 
-            if (useSensor == 1)
+            if (useSensor > 0)
             {
+                insertData.SensorType = useSensor;
+
                 string monitorDate = formParams["MonitorDate"];
                 monitorDate = monitorDate.Trim();
 
@@ -38,7 +35,7 @@ namespace hpMvc.DataBase
                 {
                     try
                     {
-                        DateTime dtMonitorDate = DateTime.Parse(monitorDate);
+                        var dtMonitorDate = DateTime.Parse(monitorDate);
                     }
                     catch (Exception ex)
                     {
@@ -75,7 +72,7 @@ namespace hpMvc.DataBase
                     messages.Add(new ValidationMessages
                                      {FieldName = "MonitorID", DisplayName = "Monitor ID", Message = "is required"});
                 }
-                insertData.MonitorID = monitorID;
+                insertData.MonitorId = monitorID;
 
                 string transmitterID = formParams["TransmitterID"];
                 transmitterID = transmitterID.Trim();
@@ -88,7 +85,7 @@ namespace hpMvc.DataBase
                                          Message = "is required"
                                      });
                 }
-                insertData.TransmitterID = transmitterID;
+                insertData.TransmitterId = transmitterID;
 
                 string sensorLot = formParams["SensorLot"];
                 sensorLot = sensorLot.Trim();
@@ -98,6 +95,14 @@ namespace hpMvc.DataBase
                                      {FieldName = "SensorLot", DisplayName = "Sensor Lot", Message = "is required"});
                 }
                 insertData.SensorLot = sensorLot;
+
+                string expirationDate = formParams["ExpirationDate"];
+                sensorLot = sensorLot.Trim();
+                if (sensorLot.Length == 0)
+                {
+                    messages.Add(new ValidationMessages { FieldName = "ExpirationDate", DisplayName = "Expiration date", Message = "is required" });
+                }
+                insertData.ExpirationDate = expirationDate;
 
                 string inserterFirstName = formParams["InserterFirstName"];
                 inserterFirstName = inserterFirstName.Trim();

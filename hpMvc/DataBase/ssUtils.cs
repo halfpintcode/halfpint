@@ -221,8 +221,8 @@ namespace hpMvc.DataBase
                     UpdateValue(wbPart, "A2", "1", 0, true, "SensorData");
                     UpdateValue(wbPart, "B2", ssInsert.MonitorDate, 0, true, "SensorData");
                     UpdateValue(wbPart, "C2", ssInsert.MonitorTime, 0, true, "SensorData");
-                    UpdateValue(wbPart, "D2", ssInsert.MonitorID, 0, true, "SensorData");
-                    UpdateValue(wbPart, "E2", ssInsert.TransmitterID, 0, true, "SensorData");
+                    UpdateValue(wbPart, "D2", ssInsert.MonitorId, 0, true, "SensorData");
+                    UpdateValue(wbPart, "E2", ssInsert.TransmitterId, 0, true, "SensorData");
                     UpdateValue(wbPart, "F2", ssInsert.SensorLot, 0, true, "SensorData");
                     UpdateValue(wbPart, "G2", ssInsert.InserterFirstName, 0, true, "SensorData");
                     UpdateValue(wbPart, "H2", ssInsert.InserterLastName, 0, true, "SensorData");
@@ -445,14 +445,17 @@ namespace hpMvc.DataBase
         public string TargetHigh { get; set; }
         public string MonitorDate { get; set; }
         public string MonitorTime { get; set; }
-        public string MonitorID { get; set; }
-        public string TransmitterID { get; set; }
+        public string MonitorId { get; set; }
+        public string TransmitterId { get; set; }
         public string SensorLot { get; set; }
         public string InserterFirstName { get; set; }
         public string InserterLastName { get; set; }
         public string SensorLocation { get; set; }
         public string SensorReason { get; set; }
         public string DateCreated { get; set; }
+        public string ExpirationDate { get; set; }
+        public int SensorType { get; set; }
+
         
     }
 }

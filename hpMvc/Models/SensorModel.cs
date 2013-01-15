@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace hpMvc.Models
 {
     public class SensorModel
     {
+        [System.Web.Mvc.HiddenInput(DisplayValue = false)]
+        public int SensorType { get; set; }
+
         [Required]
         [DataType(DataType.Date)]
         [Display(Name = "Monitor Date")]
@@ -21,17 +20,22 @@ namespace hpMvc.Models
         [Required]
         [DataType(DataType.Text)]
         [Display(Name = "Monitor ID")]
-        public string MonitorID  { get; set; }
+        public string MonitorId  { get; set; }
 
         [Required]
         [DataType(DataType.Text)]
         [Display(Name = "Transmitter ID")]
-        public string TransmitterID { get; set; }
+        public string TransmitterId { get; set; }
 
         [Required]
         [DataType(DataType.Text)]
         [Display(Name = "Sensor Lot")]
         public string SensorLot { get; set; }
+
+        [Required]
+        [DataType(DataType.Date)]
+        [Display(Name = "Sensor Expiration Date")]
+        public string ExpirationDate { get; set; }
 
         [Required]
         [DataType(DataType.Text)]

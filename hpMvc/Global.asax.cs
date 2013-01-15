@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Web.Routing;
 
 namespace hpMvc
@@ -22,8 +18,8 @@ namespace hpMvc
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             routes.MapRoute(
                "StudySubject", // Route name
-               "InitializeSubject/{action}/{studyID}", // URL with parameters
-               new { controller = "InitializeSubject", action = "Initialize", studyID = UrlParameter.Optional } // Parameter defaults
+               "InitializeSubject/{action}/{studyId}", // URL with parameters
+               new { controller = "InitializeSubject", action = "Initialize", studyId = UrlParameter.Optional } // Parameter defaults
             );
 
             routes.MapRoute(
