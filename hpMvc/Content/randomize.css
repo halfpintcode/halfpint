@@ -5,7 +5,9 @@
     padding-right:5px;
     border-right: 1px solid #DEDEDE;
 }
-
+.sensorInfo {
+    
+}
 .hideStart {
     display:none;
 }
@@ -77,6 +79,9 @@
 {
     width: 10em; 
     float: left; 
+}
+#divVideos {
+    clear: both;
 }
 #divParams label  
 {

@@ -552,7 +552,7 @@ namespace hpMvc.Controllers
         {
             nlogger.LogInfo("SiteSelected - site: " + site);
             var dto = DbUtils.GetSiteCodeForSiteID(int.Parse(site));
-            var files = ssUtils.GetSavedStudyIDs(dto.Bag.ToString());
+            var files = SsUtils.GetSavedStudyIDs(dto.Bag.ToString());
             
             return Json(files);
         }

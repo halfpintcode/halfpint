@@ -21,6 +21,14 @@ $(document).ready(function () {
         }
     });
 
+    $('#ExpirationDate').datepicker({
+        beforeShow: function (input, inst) {
+            $.datepicker._pos = $.datepicker._findPos(input); //this is the default position 
+            var pos = $(this).position();
+            $.datepicker._pos[0] = pos.left + 100; //left              
+        }
+    });
+
     $('#MonitorTime').mask("99:99");
     $('#studyID').mask("99-9999-9");
     $('#BodyWeight').keydown(function (event) {
@@ -52,6 +60,7 @@ $(document).ready(function () {
                     if (useSensor == "0") {
                         $('#divSensor').hide();
                         $('#liSensor').hide();
+                        $('.sensorInfo').hide();
                     }
                     else if (useSensor == "1") {
 
@@ -63,6 +72,8 @@ $(document).ready(function () {
                         $('#lblSensorTime').text('Receiver Time');
                         $('#lblSensorId').text('Receiver Serial Number');
                         $('#lblSensorTransmitterId').text('Transmitter Number');
+                        var srcUrl = urlRoot + "/Content/images/sensorDex.bmp";
+                        $('#imgSensor').attr('src', srcUrl);
                     }
                 }
                 else {

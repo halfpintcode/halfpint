@@ -312,7 +312,8 @@ namespace hpMvc.DataBase
 			}
 			
 			SmtpClient smtp = new SmtpClient();
-			smtp.Send(mm);
+		    smtp.EnableSsl = true;
+            smtp.Send(mm);
 		}
 	}
 }

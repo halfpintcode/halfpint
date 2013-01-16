@@ -1,28 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
-using System.Web;
+using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
-using DocumentFormat.OpenXml;
-using System.IO;
-using System.Data.SqlClient;
-using System.Configuration;
 using hpMvc.Infrastructure.Logging;
-using hpMvc.Models;
-using System.Collections.Specialized;
 
 namespace hpMvc.DataBase
 {
-    public static class ssUtils
+    public static class SsUtils
     {
-        public static NLogger nlogger;
-        static ssUtils()
+        public static NLogger Nlogger;
+        static SsUtils()
         {
-            nlogger = new NLogger();
+            Nlogger = new NLogger();
         }
 
-        public static bool VerifyKey(string key, string fileName, string institID)
+        public static bool VerifyKey(string key, string fileName, string institId)
         {
             int ikey = 0;
 
@@ -33,8 +30,8 @@ namespace hpMvc.DataBase
             }
             ikey *= ikey;
 
-            int iInstitID = int.Parse(institID);
-            ikey = ikey * iInstitID;
+            int iInstitId = int.Parse(institId);
+            ikey = ikey * iInstitId;
 
             int iFromClientKey = int.Parse(key.Substring(6));
 
@@ -44,34 +41,38 @@ namespace hpMvc.DataBase
             return false;
         }
 
-        public static bool AddSenorData(string studyID,NameValueCollection formParams )
+        public static bool AddSenorData(string studyId, SSInsertionData ssInsert)
         {
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            using (SqlConnection conn = new SqlConnection(strConn))
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
+                    var cmd = new SqlCommand("", conn);
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     cmd.CommandText = ("AddSensorData");
 
-                    SqlParameter param = new SqlParameter("@studyID", studyID);
+                    SqlParameter param = new SqlParameter("@studyID", studyId);
                     cmd.Parameters.Add(param);
-                    param = new SqlParameter("@monitorDate", formParams["MonitorDate"]);
+                    param = new SqlParameter("@monitorDate", ssInsert.MonitorDate);
                     cmd.Parameters.Add(param);
-                    param = new SqlParameter("@monitorTime", formParams["MonitorTime"]);
+                    param = new SqlParameter("@monitorTime", ssInsert.MonitorTime);
                     cmd.Parameters.Add(param);
-                    param = new SqlParameter("@monitorID", formParams["MonitorID"]);
+                    param = new SqlParameter("@monitorID", ssInsert.MonitorId);
                     cmd.Parameters.Add(param);
-                    param = new SqlParameter("@transmitterID", formParams["TransmitterID"]);
+                    param = new SqlParameter("@transmitterID", ssInsert.TransmitterId);
                     cmd.Parameters.Add(param);
-                    param = new SqlParameter("@sensorLot", formParams["SensorLot"]);
+                    param = new SqlParameter("@sensorLot", ssInsert.SensorLot);
                     cmd.Parameters.Add(param);
-                    param = new SqlParameter("@inserterFirstName", formParams["InserterFirstName"]);
+                    param = new SqlParameter("@inserterFirstName", ssInsert.InserterFirstName);
                     cmd.Parameters.Add(param);
-                    param = new SqlParameter("@inserterLastName", formParams["InserterLastName"]);
+                    param = new SqlParameter("@inserterLastName", ssInsert.InserterLastName);
                     cmd.Parameters.Add(param);
-                    param = new SqlParameter("@sensorLocation", formParams["SensorLocations"]);
+                    param = new SqlParameter("@sensorLocation", ssInsert.SensorLocation);
+                    cmd.Parameters.Add(param);
+                    param = new SqlParameter("@sensorType", ssInsert.SensorType);
+                    cmd.Parameters.Add(param);
+                    param = new SqlParameter("@expirationDate", ssInsert.ExpirationDate);
                     cmd.Parameters.Add(param);
                     param = new SqlParameter("@sensorReason", 1);
                     cmd.Parameters.Add(param);
@@ -91,51 +92,54 @@ namespace hpMvc.DataBase
             return true;
         }
 
-        public static int SetRandomization(string studyID, ref SSInsertionData ssInsert, string user)
+        public static int SetRandomization(string studyId, ref SSInsertionData ssInsert, string user)
         {
-            int site = DbUtils.GetSiteidIDForUser(user);
-            int arm = 0;
-            int randomizationID = 0;
-            string sArm = "";
-
-            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            using (SqlConnection conn = new SqlConnection(strConn))
-            { 
+            var site = DbUtils.GetSiteidIDForUser(user);
+            var arm = 0;
+            var randomizationId = 0;
+            var sArm = "";
+            
+            var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            using (var conn = new SqlConnection(strConn))
+            {
                 try
                 {                    
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = ("GetNextRandomization");
-                    SqlParameter param = new SqlParameter("@site", site);
+                    var cmd = new SqlCommand("", conn)
+                                  {
+                                      CommandType = System.Data.CommandType.StoredProcedure,
+                                      CommandText = ("GetNextRandomization")
+                                  };
+                    var param = new SqlParameter("@site", site);
                     cmd.Parameters.Add(param);
                         
                     conn.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                                        
-                    int pos = 0;
+                    var rdr = cmd.ExecuteReader();
+
                     while (rdr.Read())
                     {
-                        pos = rdr.GetOrdinal("ID");
-                        randomizationID = rdr.GetInt32(pos);
+                        var pos = rdr.GetOrdinal("ID");
+                        randomizationId = rdr.GetInt32(pos);
                         pos = rdr.GetOrdinal("Arm");
                         sArm = rdr.GetString(pos);
                     }
                     rdr.Close();
                     arm = int.Parse(sArm.Substring(4,1));
 
-                    cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = ("AddStudyIDToRandomization");
-                    param = new SqlParameter("@id", randomizationID);
+                    cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = System.Data.CommandType.StoredProcedure,
+                                  CommandText = ("AddStudyIDToRandomization")
+                              };
+                    param = new SqlParameter("@id", randomizationId);
                     cmd.Parameters.Add(param);
-                    param = new SqlParameter("@studyID", studyID);
+                    param = new SqlParameter("@studyID", studyId);
                     cmd.Parameters.Add(param);
                     cmd.ExecuteNonQuery();
                 
                 }
                     catch (Exception ex)
                     {
-                        nlogger.LogError(ex);
+                        Nlogger.LogError(ex);
                         throw new Exception("There was a problem with the randomization process");                        
                     }
             }
@@ -184,28 +188,28 @@ namespace hpMvc.DataBase
             return list;
         }
 
-        public static bool InitializeSS(string physicalAppPath, string studyID, SSInsertionData ssInsert, int useSensor)
+        public static bool InitializeSs(string physicalAppPath, string studyId, SSInsertionData ssInsert, int useSensor)
         {
+            Nlogger.LogInfo("SsUtils.InitializeSS: " + studyId);
+
             string path = physicalAppPath + "sstemplate\\";
             string file = path + "Checks_tmpl.xlsm";
-            string file2 = path + studyID + ".xlsm";
-            int iGGonlyMode = 0;
-
-            if (useSensor != 1)
-                iGGonlyMode = 1;
-
+            string file2 = path + studyId + ".xlsm";
+            int iGGonlyMode = useSensor;
+            
             if (!File.Exists(file2))
                 File.Copy(file, file2);
+
+            Nlogger.LogInfo("SsUtils.InitializeSS - insert data into ss: " + studyId);
             using (SpreadsheetDocument document = SpreadsheetDocument.Open(file2, true))
             {
                 WorkbookPart wbPart = document.WorkbookPart;
-                Sheet theSheet = wbPart.Workbook.Descendants<Sheet>().
-                    Where(s => s.Name == "ParameterDefaults").FirstOrDefault();
+                Sheet theSheet = wbPart.Workbook.Descendants<Sheet>().FirstOrDefault(s => s.Name == "ParameterDefaults");
 
                 //WorksheetPart wsPart = (WorksheetPart)wbPart.GetPartById(theSheet.Id);
 
-                UpdateValue(wbPart, "D2", studyID, 0, true, "ParameterDefaults");
-                UpdateValue(wbPart, "E2", studyID, 0, true, "ParameterDefaults");
+                UpdateValue(wbPart, "D2", studyId, 0, true, "ParameterDefaults");
+                UpdateValue(wbPart, "E2", studyId, 0, true, "ParameterDefaults");
                 UpdateValue(wbPart, "D3", ssInsert.BodyWeight, 0, false, "ParameterDefaults");
                 UpdateValue(wbPart, "E3", ssInsert.BodyWeight, 0, false, "ParameterDefaults");
                 UpdateValue(wbPart, "D4", ssInsert.InsulinConcentration, 0, false, "ParameterDefaults");
@@ -234,13 +238,13 @@ namespace hpMvc.DataBase
             }
 
             //get the path to the site folder
-            string siteCode = studyID.Substring(0, 2);
+            string siteCode = studyId.Substring(0, 2);
             string sitePath = physicalAppPath + "xcel\\" + siteCode;
             //if it doesn't exist then create it
             if (!Directory.Exists(sitePath))
                 Directory.CreateDirectory(sitePath);
                         
-            string file3 = sitePath + "\\" + studyID + ".xlsm";
+            string file3 = sitePath + "\\" + studyId + ".xlsm";
             if (File.Exists(file3))
                 File.Delete(file3);
 

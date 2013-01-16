@@ -56,7 +56,7 @@
 						<li> Inspect study cart to determine you have all the neccessary supplies <strong>prior</strong> to randomization.						
 							
 							<ul>
-								<li>Sensor Supplies
+								<li class="sensorInfo">Sensor Supplies
 									<ul >
 										<li>2 unopened sensor packages. Check expiration date.</li>
 										<li>Transmitter in charger</li>
@@ -96,7 +96,7 @@
 				</p>
 				<div class="square">
 					<ul>
-						<li>
+						<li class="sensorInfo">
 							Sensor insertion by a trained staff member
 						</li>
 						<li>
@@ -181,10 +181,9 @@
                     <input type="button" id="btnSensorNext" class="nextButton" value="Complete" />		
                 </div>
                 <div id="sensorImage">
-                    <img src='@Url.Content("~/Content/images/sensorInsertion.bmp")' alt="image" />    
+                    <img id="imgSensor" src='@Url.Content("~/Content/images/sensorMed.bmp")' alt="image" />    
                 </div>			    
-                <div>
-					
+                <div id="divVideos">
                     <br /><br />
                     <iframe src="//player.vimeo.com/video/36001467?title=0&amp;byline=0&amp;portrait=0" 
                             width="533" height="300" 

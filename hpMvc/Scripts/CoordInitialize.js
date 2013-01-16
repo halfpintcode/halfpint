@@ -19,10 +19,10 @@ $(function () {
         getActiveSubjects();
     });
 
-    function getActiveSubjects() {
+    function getActiveSubjects(siteSelected) {
         var siteID = "";
-        if (site) {
-            siteID = site;
+        if (siteSelected) {
+            siteID = siteSelected;
         }
         else {
             siteID = $('#Sites').val();

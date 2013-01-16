@@ -147,7 +147,7 @@ namespace hpMvc.Controllers
         public ActionResult RecoverChecksSS()
         {
             string siteCode = DbUtils.GetSiteIDForUser(HttpContext.User.Identity.Name);
-            var list = ssUtils.GetRanomizedStudyIDs(this.Request.PhysicalApplicationPath, siteCode);
+            var list = SsUtils.GetRanomizedStudyIDs(this.Request.PhysicalApplicationPath, siteCode);
             list.Insert(0, "<Select spreadsheet>");
             ViewBag.SS = new SelectList(list);
             return View();

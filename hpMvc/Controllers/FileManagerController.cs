@@ -116,7 +116,7 @@ namespace hpMvc.Controllers
                     }
                     nlogger.LogInfo("ChecksUpload - file name: " + fileName + ", key: " + key);
 
-                    if (!ssUtils.VerifyKey(key, fileName, institId))
+                    if (!SsUtils.VerifyKey(key, fileName, institId))
                     {
                         nlogger.LogInfo("ChecksUpload - bad key - file name: " + fileName + ", key: " + key);
                         return Content("Bad key");
@@ -164,7 +164,7 @@ namespace hpMvc.Controllers
                     }
                     nlogger.LogInfo("ChecksUpload - file name: " + fileName + ", key: " + key);
 
-                    if (!ssUtils.VerifyKey(key, fileName, institID))
+                    if (!SsUtils.VerifyKey(key, fileName, institID))
                     {
                         nlogger.LogInfo("ChecksUpload - bad key - file name: " + fileName + ", key: " + key);
                         return Content("Bad key");
