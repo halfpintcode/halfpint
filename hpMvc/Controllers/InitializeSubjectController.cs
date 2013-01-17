@@ -92,6 +92,7 @@ namespace hpMvc.Controllers
                     _logger.LogInfo("InitializeSubject.Initialize - notifications: " + studyId);
                     TempData["InsertData"] = ssInsert;
 
+                    
                     string[] users = ConfigurationManager.AppSettings["InitializeSubject"].ToString().Split(new[] {','},
                                                                                                             StringSplitOptions
                                                                                                                 .None);
@@ -111,10 +112,19 @@ namespace hpMvc.Controllers
                     string url = "http://" + Request.Url.Host +
                                  u.RouteUrl("Default", new {Controller = "Home", Action = "Index"});
 
-                    Utility.SendStudyInitializedMail(toEmails.ToArray(), null, studyId, User.Identity.Name, siteName,
+                    // don't let notifications error stop initialization process
+                    try
+                    {
+                        Utility.SendStudyInitializedMail(toEmails.ToArray(), null, studyId, User.Identity.Name, siteName,
                                                      Server,
                                                      url);
-                    _logger.LogInfo("InitializeSubject.Initialize - notifications sent: " + studyId);
+
+                        _logger.LogInfo("InitializeSubject.Initialize - notifications sent: " + studyId);
+                    }
+                    catch(Exception ex)
+                    {
+                        _logger.LogError("InitializeSubject.Initialize - error sending notifications: " + ex.Message);
+                    }
                     
                 }
             }
@@ -157,7 +167,6 @@ namespace hpMvc.Controllers
                 studyId = "T" + studyId;
             
             fileDownloadName = studyId + ".xlsm";
-
 
             _logger.LogInfo("Initialize.InitializeSS - file download: " + studyId);
             return this.File(file, "application/vnd.ms-excel.sheet.macroEnabled.12", fileDownloadName);
