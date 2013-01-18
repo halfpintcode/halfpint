@@ -218,7 +218,7 @@ namespace hpMvc.DataBase
                 UpdateValue(wbPart, "E5", ssInsert.TargetLow, 0, false, "ParameterDefaults");
                 UpdateValue(wbPart, "D6", ssInsert.TargetHigh, 0, false, "ParameterDefaults");
                 UpdateValue(wbPart, "E6", ssInsert.TargetHigh, 0, false, "ParameterDefaults");
-                UpdateValue(wbPart, "D47", iGGonlyMode.ToString(), 0, false, "ParameterDefaults");
+                UpdateValue(wbPart, "D49", iGGonlyMode.ToString(), 0, false, "ParameterDefaults");
                 
                 if (useSensor == 1)
                 {
