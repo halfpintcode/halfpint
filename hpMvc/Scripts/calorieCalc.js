@@ -301,7 +301,7 @@ $(function () {
             amn = 0;
             lip = 0;
             vol = 0;
-            $(aText).each(function (index, val) {
+            $(aText).each(function (index1, val) {
                 aaText = val.split(":");
                 switch ($.trim(aaText[0])) {
                     case "Dextrose":
@@ -403,20 +403,130 @@ $(function () {
             contentType: 'application/json; charset=utf-8',
             data: jinfuseData,
             success: function (rdata) {
+                $('.infusions1').change(function () {
+                    var total = 0;
+                    $('.infusions1').each(function () {
+                        var val = $(this).val();
+                        if (val) {
+                            total = total + parseInt(val);
+                        }
+                    });
+                    $('#infuse1Total').html("<strong>" + total + "</strong>");
+                    recalculateResultsTotal();
+                });
+
+                $('.infusions2').change(function () {
+                    var total = 0;
+                    $('.infusions2').each(function () {
+                        var val = $(this).val();
+                        if (val) {
+                            total = total + parseInt(val);
+                        }
+                    });
+                    $('#infuse2Total').html("<strong>" + total + "</strong>");
+                    recalculateResultsTotal();
+                });
+
+                $('.infusions3').change(function () {
+                    var total = 0;
+                    $('.infusions3').each(function () {
+                        var val = $(this).val();
+                        if (val) {
+                            total = total + parseInt(val);
+                        }
+                    });
+                    $('#infuse3Total').html("<strong>" + total + "</strong>");
+                    recalculateResultsTotal();
+                });
+
+                $('.infusions4').change(function () {
+                    var total = 0;
+                    $('.infusions4').each(function () {
+                        var val = $(this).val();
+                        if (val) {
+                            total = total + parseInt(val);
+                        }
+                    });
+                    $('#infuse4Total').html("<strong>" + total + "</strong>");
+                    recalculateResultsTotal();
+                });
+
+                $('#DexCons1').change(function () {
+                    var val = $('#DexCons1 option:selected').val();
+                    if (val === "0") {
+                        $('.infusions1').attr("disabled", "disabled");
+                        $('.infusions1').each(function () {
+                            $(this).val("");
+                        });
+                        $('#infuse1Total').html("<strong>0</strong>");
+                    }
+                    else {
+                        $('.infusions1').removeAttr("disabled");
+                    }
+                    recalculateResultsTotal();
+                });
+                $('#DexCons2').change(function () {
+                    var val = $('#DexCons2 option:selected').val();
+                    if (val === "0") {
+                        $('.infusions2').attr("disabled", "disabled");
+                        $('.infusions2').each(function () {
+                            $(this).val("");
+                        });
+                        $('#infuse2Total').html("<strong>0</strong>");
+                    }
+                    else {
+                        $('.infusions2').removeAttr("disabled");
+                    }
+                    recalculateResultsTotal();
+                });
+                $('#DexCons3').change(function () {
+                    var val = $('#DexCons3 option:selected').val();
+                    if (val === "0") {
+                        $('.infusions3').attr("disabled", "disabled");
+                        $('.infusions3').each(function () {
+                            $(this).val("");
+                        });
+                        $('#infuse3Total').html("<strong>0</strong>");
+                    }
+                    else {
+                        $('.infusions3').removeAttr("disabled");
+                    }
+                    recalculateResultsTotal();
+                });
+                $('#DexCons4').change(function () {
+                    var val = $('#DexCons4 option:selected').val();
+                    if (val === "0") {
+                        $('.infusions4').attr("disabled", "disabled");
+                        $('.infusions4').each(function () {
+                            $(this).val("");
+                        });
+                        $('#infuse4Total').html("<strong>0</strong>");
+                    }
+                    else {
+                        $('.infusions4').removeAttr("disabled");
+                    }
+                    recalculateResultsTotal();
+                });
+
+
                 //infusions
                 $.each(rdata.calInfusionCol, function (index, val) {
                     var idx = index + 1;
                     //dextrose
-                    $('#DexCons' + idx).val(val.DexValue);
-                    $('#DexCons' + idx).change();
+                    var dexConsCol = 'DexCons' + idx;
+                    $('#' + dexConsCol).val(val.DexValue);
+                    $('#' + dexConsCol).change();
 
                     //volumes
                     $.each(val.Volumes, function (index2, val2) {
-                        $('.infusions' + idx).eq(index2).val(val2);
-
+                        var infusIdx = 'infusions' + idx;
+                        $('.' + infusIdx).eq(index2).val(val2);
+                        $('.' + infusIdx).change();
                     });
-                    $('.infusions' + idx).change();
+
                 });
+
+                
                 //otherNutrition
                 if (rdata.calOtherNutrition.BreastFeeding) {
                     $('#breastFeeding').attr('checked', 'checked');
@@ -487,19 +597,19 @@ $(function () {
                     }
                 });
                 $.each(rdata.calEnterals, function (index, val) {
-                    var formulaID = val.FormulaID;
+                    var formulaId = val.FormulaID;
                     var vol = val.Volume;
 
-                    var option = $("#FormulaList option[value='" + formulaID + "']");
-                    var optData = option.data('formula');
+                    var option1 = $("#FormulaList option[value='" + formulaId + "']");
+                    var optData = option1.data('formula');
 
                     var fprotein = parseFloat(optData.protein);
                     var fcho = parseFloat(optData.cho);
                     var flipid = parseFloat(optData.lipid);
                     var fkCalMl = parseFloat(optData.kCalMl);
 
-                    var optText = "Formula: " + option.text() + ", Volume: " + vol + " mL";
-                    var option2 = "<option value='" + formulaID + "'>" + optText + "</option>";
+                    var optText1 = "Formula: " + option1.text() + ", Volume: " + vol + " mL";
+                    var option2 = "<option value='" + formulaId + "'>" + optText1 + "</option>";
                     $('#selEnteral').append(option2);
 
                     vol = parseInt(vol);
@@ -509,27 +619,27 @@ $(function () {
                     var enChoKcal = kCals * (fcho / 100);
                     var enLipidKcal = kCals * (flipid / 100);
 
-                    var option2 = $("#selEnteral option:last-child");
-                    option2.data('enteral', { protein: enProteinKcal, cho: enChoKcal, lipid: enLipidKcal, volume: vol });
+                    var option3 = $("#selEnteral option:last-child");
+                    option3.data('enteral', { protein: enProteinKcal, cho: enChoKcal, lipid: enLipidKcal, volume: vol });
 
                     enProtein = enProtein + Math.round(enProteinKcal);
                     enCho = enCho + Math.round(enChoKcal);
                     enLipid = enLipid + Math.round(enLipidKcal);
                 });
                 $.each(rdata.calAdditives, function (index, val) {
-                    var additiveID = val.AdditiveID;
+                    var additiveId = val.AdditiveID;
                     var vol = val.Volume;
 
-                    var option = $("#AdditiveList option[value='" + additiveID + "']");
-                    var optData = option.data('additive');
+                    var option1 = $("#AdditiveList option[value='" + additiveId + "']");
+                    var optData = option1.data('additive');
 
                     var fprotein = parseFloat(optData.protein);
                     var fcho = parseFloat(optData.cho);
                     var flipid = parseFloat(optData.lipid);
                     var fkCalUnit = parseFloat(optData.kCalUnit);
 
-                    var optText = "Additive: " + option.text() + ", Volume: " + vol + " " + optData.unitName;
-                    var option2 = "<option value='" + additiveID + "'>" + optText + "</option>";
+                    var optText1 = "Additive: " + option1.text() + ", Volume: " + vol + " " + optData.unitName;
+                    var option2 = "<option value='" + additiveId + "'>" + optText1 + "</option>";
                     $('#selAdditive').append(option2);
 
                     vol = parseInt(vol);
@@ -539,8 +649,8 @@ $(function () {
                     var enChoKcal = kCals * (fcho / 100);
                     var enLipidKcal = kCals * (flipid / 100);
 
-                    var option2 = $("#selAdditive option:last-child");
-                    option2.data('additive', { protein: enProteinKcal, cho: enChoKcal, lipid: enLipidKcal, volume: vol });
+                    var option3 = $("#selAdditive option:last-child");
+                    option3.data('additive', { protein: enProteinKcal, cho: enChoKcal, lipid: enLipidKcal, volume: vol });
 
                     enProtein = enProtein + Math.round(enProteinKcal);
                     enCho = enCho + Math.round(enChoKcal);
