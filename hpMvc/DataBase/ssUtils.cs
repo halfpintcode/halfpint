@@ -188,15 +188,19 @@ namespace hpMvc.DataBase
             return list;
         }
 
-        public static bool InitializeSs(string physicalAppPath, string studyId, SSInsertionData ssInsert, int useSensor)
+        public static bool InitializeSs(string physicalAppPath, string studyId, SSInsertionData ssInsert, int sensorType)
         {
             Nlogger.LogInfo("SsUtils.InitializeSS: " + studyId);
 
             string path = physicalAppPath + "sstemplate\\";
             string file = path + "Checks_tmpl.xlsm";
             string file2 = path + studyId + ".xlsm";
-            int iGGonlyMode = useSensor;
-            
+            int iSensorType = sensorType;
+            int iGGonlyModeOn = 0;
+
+            if (iSensorType == 0)
+                iGGonlyModeOn = 1;
+
             if (!File.Exists(file2))
                 File.Copy(file, file2);
 
@@ -218,9 +222,13 @@ namespace hpMvc.DataBase
                 UpdateValue(wbPart, "E5", ssInsert.TargetLow, 0, false, "ParameterDefaults");
                 UpdateValue(wbPart, "D6", ssInsert.TargetHigh, 0, false, "ParameterDefaults");
                 UpdateValue(wbPart, "E6", ssInsert.TargetHigh, 0, false, "ParameterDefaults");
-                UpdateValue(wbPart, "D49", iGGonlyMode.ToString(), 0, false, "ParameterDefaults");
+
+                UpdateValue(wbPart, "D47", iGGonlyModeOn.ToString(), 0, false, "ParameterDefaults");
+                UpdateValue(wbPart, "D49", iSensorType.ToString(), 0, false, "ParameterDefaults");
+                UpdateValue(wbPart, "D50", "", 0, false, "ParameterDefaults");
+                UpdateValue(wbPart, "D51", "", 0, false, "ParameterDefaults");
                 
-                if (useSensor == 1)
+                if (sensorType > 0)
                 {
                     UpdateValue(wbPart, "A2", "1", 0, true, "SensorData");
                     UpdateValue(wbPart, "B2", ssInsert.MonitorDate, 0, true, "SensorData");
@@ -233,6 +241,7 @@ namespace hpMvc.DataBase
                     UpdateValue(wbPart, "I2", GetSensorLocationString(ssInsert.SensorLocation), 0, true, "SensorData");
                     UpdateValue(wbPart, "J2", "Initial Insertion", 0, true, "SensorData");
                     UpdateValue(wbPart, "K2", DateTime.Now.ToString(), 0, true, "SensorData");
+                    UpdateValue(wbPart, "L2", ssInsert.ExpirationDate, 0, true, "SensorData");
                 }
                 document.Close();
             }

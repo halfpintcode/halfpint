@@ -41,11 +41,11 @@ namespace hpMvc.Controllers
                 throw new Exception("There was an error retrieving the senor locations list from the database");
             sl.Insert(0, new Site { ID = 0, Name = "Select"});
             
-            var useSensor = DbUtils.GetSiteSensor(siteId);
+            var sensorType = DbUtils.GetSiteSensor(siteId);
             
             ViewBag.SensorLocations = new SelectList(sl, "ID", "Name");
-            ViewBag.UseSensor = useSensor;
-            _logger.LogInfo("InitializeSubject.Initialize: GET, Site: "  + siteId + ", Sensor: " + useSensor);
+            ViewBag.SensorType = sensorType;
+            _logger.LogInfo("InitializeSubject.Initialize: GET, Site: " + siteId + ", Sensor: " + sensorType);
             return View();
         }
 
@@ -55,7 +55,7 @@ namespace hpMvc.Controllers
             _logger.LogInfo("InitializeSubject.Initialize - Post: " + studyId);
             
             var siteId = DbUtils.GetSiteidIDForUser(User.Identity.Name);
-            var useSensor = DbUtils.GetSiteSensor(siteId);
+            var sensorType = DbUtils.GetSiteSensor(siteId);
 
             var messages = new List<ValidationMessages>();
             var dto = new InitializeDTO {IsSuccessful = true, ValidMessages = messages};
@@ -63,7 +63,7 @@ namespace hpMvc.Controllers
             SSInsertionData ssInsert;
 
             _logger.LogInfo("InitializeSubject.Initialize - validation: " + studyId);
-            if (!DbInitializeContext.IsValidInitialize(Request.Params, useSensor, out messages, out ssInsert))
+            if (!DbInitializeContext.IsValidInitialize(Request.Params, sensorType, out messages, out ssInsert))
             {
                 dto.IsSuccessful = false;
                 dto.Message = "There are validation errors";
@@ -73,8 +73,8 @@ namespace hpMvc.Controllers
             if (dto.IsSuccessful)
             {
                 _logger.LogInfo("InitializeSubject.Initialize - validated: " + studyId);
-                _logger.LogInfo("InitializeSubject.Initialize - SenorData: " + studyId + ", sensor: " + useSensor);
-                if (useSensor > 0)
+                _logger.LogInfo("InitializeSubject.Initialize - SenorData: " + studyId + ", sensor: " + sensorType);
+                if (sensorType > 0)
                 {
                     //save the sensor data
                     if (!SsUtils.AddSenorData(studyId, ssInsert))
@@ -88,7 +88,7 @@ namespace hpMvc.Controllers
 
                 if (dto.IsSuccessful)
                 {
-                    _logger.LogInfo("InitializeSubject.Initialize - AddSenorData: " + studyId + ", sensor: " + useSensor);
+                    _logger.LogInfo("InitializeSubject.Initialize - AddSenorData: " + studyId + ", sensor: " + sensorType);
                     _logger.LogInfo("InitializeSubject.Initialize - notifications: " + studyId);
                     TempData["InsertData"] = ssInsert;
 
@@ -145,7 +145,7 @@ namespace hpMvc.Controllers
             _logger.LogInfo("Initialize.InitializeSS: " + studyId);
 
             int siteId = DbUtils.GetSiteidIDForUser(User.Identity.Name);
-            int useSensor = DbUtils.GetSiteSensor(siteId);
+            int sensorType = DbUtils.GetSiteSensor(siteId);
 
             var ssInsert = (SSInsertionData)TempData["InsertData"];
 
@@ -156,7 +156,7 @@ namespace hpMvc.Controllers
                 _logger.LogInfo("Initialize.InitializeSS - SetRandomization encountered a problem: " + studyId);
             }
             
-            SsUtils.InitializeSs(this.Request.PhysicalApplicationPath, studyId, ssInsert, useSensor);
+            SsUtils.InitializeSs(this.Request.PhysicalApplicationPath, studyId, ssInsert, sensorType);
             _logger.LogInfo("Initialize.InitializeSS - data inserted into ss successfully: " + studyId);
 
             string path = this.Request.PhysicalApplicationPath + "xcel\\" + studyId.Substring(0, 2) + "\\";

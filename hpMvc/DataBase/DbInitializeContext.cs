@@ -14,14 +14,14 @@ namespace hpMvc.DataBase
             Nlogger = new NLogger();
         }
 
-        public static bool IsValidInitialize(NameValueCollection formParams, int useSensor, out List<ValidationMessages> messages, out SSInsertionData insertData)
+        public static bool IsValidInitialize(NameValueCollection formParams, int sensorType, out List<ValidationMessages> messages, out SSInsertionData insertData)
         {
             messages = new List<ValidationMessages>();
             insertData = new SSInsertionData();
 
-            if (useSensor > 0)
+            if (sensorType > 0)
             {
-                insertData.SensorType = useSensor;
+                insertData.SensorType = sensorType;
 
                 string monitorDate = formParams["MonitorDate"];
                 monitorDate = monitorDate.Trim();

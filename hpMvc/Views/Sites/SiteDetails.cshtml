@@ -99,9 +99,9 @@
         </div>
 
         <div>
-            <span class="lbleditor">Use Sensor:</span>
+            <span class="lbleditor">Sensor Type:</span>
             <span class="col2"> 
-                @Html.EditorFor(model => model.UseSensor)
+                @Html.EditorFor(model => model.Sensor)
             </span>
         </div>
         
@@ -111,6 +111,8 @@
             {
                 <div>
                     @Html.HiddenFor(m => @Model.InsulinConcentrations[i].Id)
+                    @Html.HiddenFor(m => @Model.InsulinConcentrations[i].Name)
+                    @Html.HiddenFor(m => @Model.InsulinConcentrations[i].Concentration)
                     <span class="lbleditor">@Model.InsulinConcentrations[i].Name</span>
                     @Html.EditorFor(m => @Model.InsulinConcentrations[i].IsUsed)
                 </div>

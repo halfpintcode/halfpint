@@ -910,39 +910,7 @@ namespace hpMvc.DataBase
                 }
             }
         }
-
-        //Depricated - see GetSiteSensor
-        public static int DoesSiteUseSensor(int siteId)
-        {
-            var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-
-            using (var conn = new SqlConnection(strConn))
-            {
-                try
-                {
-                    var cmd = new SqlCommand("", conn)
-                                  {
-                                      CommandType = System.Data.CommandType.StoredProcedure,
-                                      CommandText = "DoesSiteUseSensor"
-                                  };
-                    var param = new SqlParameter("@siteId", siteId);
-                    cmd.Parameters.Add(param);
-
-                    conn.Open();
-                    var count = (Int32) cmd.ExecuteScalar();
-                    if (count == 1)
-                        return 1;
-                    return 0;
-
-                }
-                catch (Exception ex)
-                {
-                    nlogger.LogError(ex, "SiteID:" + siteId);
-                    return -1;
-                }
-            }
-        }
-
+        
         public static int AddRandomizationPassword(string studyID, int animalID, string consentDate,
                                                      string consentTime)
         {
@@ -1485,7 +1453,7 @@ namespace hpMvc.DataBase
                         site.EmployeeIdMessage = rdr.IsDBNull(pos) ? "" : rdr.GetString(pos);
                         pos = rdr.GetOrdinal("Active");
                         site.IsActive = rdr.GetBoolean(pos);
-                        pos = rdr.GetOrdinal("UseSensor");
+                        pos = rdr.GetOrdinal("Sensor");
                         site.Sensor = rdr.GetInt32(pos);
                     }
                     rdr.Close();
@@ -1656,7 +1624,7 @@ namespace hpMvc.DataBase
                         site.EmployeeIdMessage = rdr.IsDBNull(pos) ? "" : rdr.GetString(pos);
                         pos = rdr.GetOrdinal("Active");
                         site.IsActive = rdr.GetBoolean(pos);
-                        pos = rdr.GetOrdinal("UseSensor");
+                        pos = rdr.GetOrdinal("Sensor");
                         site.Sensor = rdr.GetInt32(pos);
                         sites.Add(site);
                     }

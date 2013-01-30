@@ -1,7 +1,7 @@
 ﻿/// <reference path="jquery-1.7-vsdoc.js" />
 
 $(document).ready(function () {
-    var useSensor = $('#useSensor').val();
+    var sensorType = $('#sensorType').val();
 
     $('#downloadDialog').dialog({ autoOpen: false });
     $('#altDownload').hide();
@@ -57,15 +57,15 @@ $(document).ready(function () {
                     $('#divLogin').slideUp();
                     $('#divMain').slideDown();
                     $('#lnkInfo').parent().addClass("sfHover");
-                    if (useSensor == "0") {
+                    if (sensorType == "0") {
                         $('#divSensor').hide();
                         $('#liSensor').hide();
                         $('.sensorInfo').hide();
                     }
-                    else if (useSensor == "1") {
+                    else if (sensorType == "1") {
 
                     }
-                    else if (useSensor == "2") {
+                    else if (sensorType == "2") {
                         $('#h3SensorTitle').text('Start Dexcom Sensor');
                         $('#lnkSensor').text('Start Dexcom Sensor');
                         $('#lblSensorDate').text('Receiver Date');
@@ -97,7 +97,7 @@ $(document).ready(function () {
                 $('#lnkInstruc').parent().addClass("sfHover");
                 break;
             case "btnInstrucNext":
-                if (useSensor == "0") {
+                if (sensorType == "0") {
                     $('#lnkParams').click();
                     $('#lnkParams').parent().addClass("sfHover");
                 }
@@ -210,7 +210,7 @@ $(document).ready(function () {
     });
 
     function validate() {
-        if (useSensor === "1" || useSensor === "2") {
+        if (sensorType === "1" || sensorType === "2") {
             var val = $('#MonitorDate').val();
             if (!val) {
                 alert('Monitor Date is required');
