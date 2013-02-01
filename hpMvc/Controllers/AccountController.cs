@@ -13,6 +13,7 @@ using hpMvc.Infrastructure.Logging;
 
 namespace hpMvc.Controllers
 {
+     [RequireHttps]
     public class AccountController : Controller
     {
 

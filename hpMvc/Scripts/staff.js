@@ -24,12 +24,14 @@ $(document).ready(function () {
         $('.NotDcc').hide();
         $('.NurseOnly').hide();
     }
-
+    if (roles.indexOf('Admin') === -1) {
+        $('.AdminOnly').hide();
+    }
     if (userSite !== "01:CHB") {
         $('.CHBOnly').hide();
     }
     if (userSite == "01:CHB") {
         $('.CHBHide').hide();
-    }   
+    }
 });
 

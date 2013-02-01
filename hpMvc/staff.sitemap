@@ -22,6 +22,9 @@
     <siteMapNode title="Regulatory" class="StaffOnly" >      
       <siteMapNode title="Regulatory Documents" ImageUrl="~/Content/Images/folder.png"  url ="~/Staff/Index/Regulatory" class="StaffOnly"/>              
     </siteMapNode>
+    <siteMapNode title="Admin" class="AdminOnly" >
+      <siteMapNode title="Admin Documents" ImageUrl="~/Content/Images/folder.png"  url ="~/Staff/Index/Admin" class="AdminOnly"/>
+    </siteMapNode>
   </siteMapNode>
 </siteMap>
 

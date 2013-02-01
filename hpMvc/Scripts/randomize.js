@@ -63,7 +63,8 @@ $(document).ready(function () {
                         $('.sensorInfo').hide();
                     }
                     else if (sensorType == "1") {
-
+                        $('#divDexcomVids').hide();
+                        $('#divMedtronicVids').show();
                     }
                     else if (sensorType == "2") {
                         $('#h3SensorTitle').text('Start Dexcom Sensor');
@@ -74,6 +75,8 @@ $(document).ready(function () {
                         $('#lblSensorTransmitterId').text('Transmitter Number');
                         var srcUrl = urlRoot + "/Content/images/sensorDex.bmp";
                         $('#imgSensor').attr('src', srcUrl);
+                        $('#divDexcomVids').show();
+                        $('#divMedtronicVids').hide();
                     }
                 }
                 else {

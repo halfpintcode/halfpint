@@ -83,6 +83,12 @@
 #divVideos {
     clear: both;
 }
+#divMedtronicVids {
+    clear: both;
+}
+#divDexcomVids {
+    clear: both;
+}
 #divParams label  
 {
     width: 15em; 
