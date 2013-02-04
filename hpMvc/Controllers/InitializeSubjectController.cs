@@ -63,70 +63,82 @@ namespace hpMvc.Controllers
             SSInsertionData ssInsert;
 
             _logger.LogInfo("InitializeSubject.Initialize - validation: " + studyId);
-            //if (!DbInitializeContext.IsValidInitialize(Request.Params, sensorType, out messages, out ssInsert))
-            //{
-            //    dto.IsSuccessful = false;
-            //    dto.Message = "There are validation errors";
-            //    _logger.LogInfo("InitializeSubject.Initialize - validation errors: " + studyId);
-            //}
-            
-            //if (dto.IsSuccessful)
-            //{
-            //    _logger.LogInfo("InitializeSubject.Initialize - validated: " + studyId);
-            //    _logger.LogInfo("InitializeSubject.Initialize - SenorData: " + studyId + ", sensor: " + sensorType);
-            //    if (sensorType > 0)
-            //    {
-            //        //save the sensor data
-            //        if (!SsUtils.AddSenorData(studyId, ssInsert))
-            //        {
-            //            dto.IsSuccessful = false;
-            //            dto.Message = "Could not add sensor data";
+            if (!DbInitializeContext.IsValidInitialize(Request.Params, sensorType, out messages, out ssInsert))
+            {
+                dto.IsSuccessful = false;
+                dto.Message = "There are validation errors";
+                _logger.LogInfo("InitializeSubject.Initialize - validation errors: " + studyId);
+            }
 
-            //            _logger.LogInfo("InitializeSubject.Initialize - could not save sensor data: " + studyId);
-            //        }
-            //    }
+            if (dto.IsSuccessful)
+            {
+                _logger.LogInfo("InitializeSubject.Initialize - validated: " + studyId);
+                _logger.LogInfo("InitializeSubject.Initialize - SenorData: " + studyId + ", sensor: " + sensorType);
+                if (sensorType > 0)
+                {
+                    //save the sensor data
+                    if (!SsUtils.AddSenorData(studyId, ssInsert))
+                    {
+                        dto.IsSuccessful = false;
+                        dto.Message = "Could not add sensor data";
 
-            //    if (dto.IsSuccessful)
-            //    {
-            //        _logger.LogInfo("InitializeSubject.Initialize - AddSenorData: " + studyId + ", sensor: " + sensorType);
-            //        _logger.LogInfo("InitializeSubject.Initialize - notifications: " + studyId);
-            //        TempData["InsertData"] = ssInsert;
-                    
-            //        var users = ConfigurationManager.AppSettings["InitializeSubject"].ToString().Split(new[] {','},
-            //                                                                                                StringSplitOptions
-            //                                                                                                    .None);
+                        _logger.LogInfo("InitializeSubject.Initialize - could not save sensor data: " + studyId);
+                    }
+                }
 
-            //        var toEmails = new List<string>();
-            //        foreach (var user in users)
-            //        {
-            //            var mUser = Membership.GetUser(user);
-            //            if (mUser == null)
-            //                continue;
-            //            toEmails.Add(mUser.Email);
-            //        }
+                //set next randomiztion and update database
+                if (dto.IsSuccessful)
+                {
+                    _logger.LogInfo("Initialize.InitializeSS - SetRandomization: " + studyId);
+                    int iret = SsUtils.SetRandomization(studyId, ref ssInsert, User.Identity.Name);
+                    if (iret == -1)
+                    {
+                        _logger.LogInfo("Initialize.InitializeSS - SetRandomization encountered a problem: " + studyId);
+                    }
+                }
 
-            //        string siteName = DbUtils.GetSiteNameForUser(User.Identity.Name);
+                //send email notifications
+                if (dto.IsSuccessful)
+                {
+                    _logger.LogInfo("InitializeSubject.Initialize - AddSenorData: " + studyId + ", sensor: " + sensorType);
+                    _logger.LogInfo("InitializeSubject.Initialize - notifications: " + studyId);
+                    TempData["InsertData"] = ssInsert;
 
-            //        var u = new UrlHelper(Request.RequestContext);
-            //        string url = "http://" + Request.Url.Host +
-            //                     u.RouteUrl("Default", new {Controller = "Home", Action = "Index"});
+                    var users = ConfigurationManager.AppSettings["InitializeSubject"].ToString().Split(new[] { ',' },
+                                                                                                            StringSplitOptions
+                                                                                                                .None);
 
-            //        // don't let notifications error stop initialization process
-            //        try
-            //        {
-            //            Utility.SendStudyInitializedMail(toEmails.ToArray(), null, studyId, User.Identity.Name, siteName,
-            //                                         Server,
-            //                                         url);
+                    var toEmails = new List<string>();
+                    foreach (var user in users)
+                    {
+                        var mUser = Membership.GetUser(user);
+                        if (mUser == null)
+                            continue;
+                        toEmails.Add(mUser.Email);
+                    }
 
-            //            _logger.LogInfo("InitializeSubject.Initialize - notifications sent: " + studyId);
-            //        }
-            //        catch(Exception ex)
-            //        {
-            //            _logger.LogError("InitializeSubject.Initialize - error sending notifications: " + ex.Message);
-            //        }
-                    
-            //    }
-            //}
+                    string siteName = DbUtils.GetSiteNameForUser(User.Identity.Name);
+
+                    var u = new UrlHelper(Request.RequestContext);
+                    string url = "http://" + Request.Url.Host +
+                                 u.RouteUrl("Default", new { Controller = "Home", Action = "Index" });
+
+                    // don't let notifications error stop initialization process
+                    try
+                    {
+                        Utility.SendStudyInitializedMail(toEmails.ToArray(), null, studyId, User.Identity.Name, siteName,
+                                                     Server,
+                                                     url);
+
+                        _logger.LogInfo("InitializeSubject.Initialize - notifications sent: " + studyId);
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError("InitializeSubject.Initialize - error sending notifications: " + ex.Message);
+                    }
+
+                }
+            }
             if(dto.IsSuccessful)
             {
                 _logger.LogInfo("InitializeSubject.Initialize - is successful: " + dto.IsSuccessful.ToString());
@@ -143,20 +155,20 @@ namespace hpMvc.Controllers
         {
             _logger.LogInfo("Initialize.InitializeSS: " + studyId);
 
-            //int siteId = DbUtils.GetSiteidIDForUser(User.Identity.Name);
-            //int sensorType = DbUtils.GetSiteSensor(siteId);
+            int siteId = DbUtils.GetSiteidIDForUser(User.Identity.Name);
+            int sensorType = DbUtils.GetSiteSensor(siteId);
 
-            //var ssInsert = (SSInsertionData)TempData["InsertData"];
+            var ssInsert = (SSInsertionData)TempData["InsertData"];
 
-            //_logger.LogInfo("Initialize.InitializeSS - SetRandomization: " + studyId);
-            //int iret = SsUtils.SetRandomization(studyId, ref ssInsert, User.Identity.Name);
-            //if (iret == -1)
-            //{
-            //    _logger.LogInfo("Initialize.InitializeSS - SetRandomization encountered a problem: " + studyId);
-            //}
-            
-            //SsUtils.InitializeSs(this.Request.PhysicalApplicationPath, studyId, ssInsert, sensorType);
-            //_logger.LogInfo("Initialize.InitializeSS - data inserted into ss successfully: " + studyId);
+            ////_logger.LogInfo("Initialize.InitializeSS - SetRandomization: " + studyId);
+            ////int iret = SsUtils.SetRandomization(studyId, ref ssInsert, User.Identity.Name);
+            ////if (iret == -1)
+            ////{
+            ////    _logger.LogInfo("Initialize.InitializeSS - SetRandomization encountered a problem: " + studyId);
+            ////}
+
+            SsUtils.InitializeSs(this.Request.PhysicalApplicationPath, studyId, ssInsert, sensorType);
+            _logger.LogInfo("Initialize.InitializeSS - data inserted into ss successfully: " + studyId);
 
 
             for (int i = 0; i < 300000; i++)
