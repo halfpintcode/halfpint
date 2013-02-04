@@ -3,20 +3,29 @@
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-    <div id="downloadDialog">
-        <p>
-            Please wait... This download could take a few minutes.  <br /><strong>NOTE:</strong><br /><strong>You must save the file to the Halfpint folder.</strong> 
-        </p>
-    </div>
-	<div id="divLogin">
-		<h3>Enter the study id and password for initializing this subject</h3>
-		<br /> 
-		<label class="lblLogin">Study ID:</label> <input type="text" name="studyID" id="studyID" />
-		<br />
-		<label class="lblLogin">Password:</label> <input type="text" name="password" id="password" /> 
-		<br />
-		<input type="button" id="btnLogin" value="Submit" /> 
-	</div>
+<div id="downloadDialog">
+    <p>
+        Please wait... This download could take a few minutes.  <br /><strong>NOTE:</strong><br /><strong>You must save the file to the Halfpint folder.</strong> 
+    </p>
+</div>
+
+<div id="startDownloadDialog">
+    <p>
+        CHECKS is ready for download, click the begin download button.
+        
+        <button id="btnDownload">Begin CHECKS Download</button>
+    </p>
+
+</div>
+<div id="divLogin">
+	<h3>Enter the study id and password for initializing this subject</h3>
+	<br /> 
+	<label class="lblLogin">Study ID:</label> <input type="text" name="studyID" id="studyID" />
+	<br />
+	<label class="lblLogin">Password:</label> <input type="text" name="password" id="password" /> 
+	<br />
+	<input type="button" id="btnLogin" value="Submit" /> 
+</div>
 
 <div id="divMain" class="hideStart">
 	<div id="mainTitle">

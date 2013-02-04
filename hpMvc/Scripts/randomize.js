@@ -3,6 +3,10 @@
 $(document).ready(function () {
     var sensorType = $('#sensorType').val();
 
+    $("#spinner").ajaxStart(function () { $(this).show(); })
+			   .ajaxStop(function () { $(this).hide(); });
+    
+    $('#startDownloadDialog').dialog({ autoOpen: false });
     $('#downloadDialog').dialog({ autoOpen: false });
     $('#altDownload').hide();
     $('#divMain').hide();
@@ -159,25 +163,30 @@ $(document).ready(function () {
         }
     });
 
+    $('#btnDownload').click(function () {
+        var studyId = $('#studyID').val();
+        window.location = urlRoot + '/InitializeSubject/InitializeSS/' + studyId;
+    });
+    
     $('#btnInitialize').click(function () {
         if (!validate()) {
             return;
         }
 
         $('#btnInitialize').attr('disabled', 'disabled');
-        $('#downloadDialog').dialog(
-                    {
-                        title: 'Processing - Please Wait',
-                        height: 150,
-                        width: 450,
-                        show: 'blind',
-                        hide: 'explode'
-                    });
-        $('#downloadDialog').dialog('open');
+        //        $('#downloadDialog').dialog(
+        //                    {
+        //                        title: 'Processing - Please Wait',
+        //                        height: 150,
+        //                        width: 450,
+        //                        show: 'blind',
+        //                        hide: 'explode'
+        //                    });
+        //        $('#downloadDialog').dialog('open');
         $('#divValidResults').empty();
 
-        var studyID = $('#studyID').val();
-        var url = urlRoot + '/InitializeSubject/Initialize/' + studyID;
+        var studyId = $('#studyID').val();
+        var url = urlRoot + '/InitializeSubject/Initialize/' + studyId;
         var data = $("form").serialize();
         $.ajax({
             url: url,
@@ -185,10 +194,20 @@ $(document).ready(function () {
             data: data,
             success: function (data) {
                 if (data.IsSuccessful) {
-                    window.location = urlRoot + '/InitializeSubject/InitializeSS/' + studyID;
+                    //window.location = urlRoot + '/InitializeSubject/InitializeSS/' + studyID;
                     //                    setTimeout(function () {
                     //                        window.location = urlRoot
                     //                    }, 30000);
+
+                    $('#startDownloadDialog').dialog(
+                        {
+                            title: 'Download CHECKS',
+                            height: 150,
+                            width: 450,
+                            show: 'blind',
+                            hide: 'explode'
+                        });
+                    $('#startDownloadDialog').dialog('open');
                     $('#altDownload').show();
                 }
                 else {
