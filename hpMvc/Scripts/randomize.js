@@ -165,7 +165,8 @@ $(document).ready(function () {
 
     $('#btnDownload').click(function () {
         var studyId = $('#studyID').val();
-        window.location = urlRoot + '/InitializeSubject/InitializeSS/' + studyId;
+        window.location = urlRoot + '/InitializeSubject/InitializeSs/' + studyId;
+        $('#startDownloadDialog').dialog('close');
     });
     
     $('#btnInitialize').click(function () {
@@ -202,8 +203,8 @@ $(document).ready(function () {
                     $('#startDownloadDialog').dialog(
                         {
                             title: 'Download CHECKS',
-                            height: 150,
-                            width: 450,
+                            height: 250,
+                            width: 580,
                             show: 'blind',
                             hide: 'explode'
                         });

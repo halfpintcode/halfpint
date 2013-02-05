@@ -8,7 +8,7 @@
       <siteMapNode title="Local Contacts - Boston" controller="Download" action="GetFile" fileName="HalfPint Local Contact Info-Boston.pdf" folder="Quick Links~Important Contacts" />
     </siteMapNode>
     <siteMapNode title="Training" class="NurseOnly">   
-      <siteMapNode title="Online Modules and Post-Tests" controller="PostTests" action="Initialize" name="Select Your Name" />      
+      <siteMapNode title="Online Modules and Post-Tests" controller="PostTests" action="Initialize" id="0" />      
       <siteMapNode title="Screening" controller="Download" action="GetFile" fileName="Screening Reference Sheet.pdf" folder="Training" />
       <siteMapNode title="RN Daily Procedures" controller="Download" action="GetFile" fileName="Bedside RN Daily Overview.pdf" folder="Training" />
       <siteMapNode title="Training Checklist" controller="Download" action="GetFile" fileName="Nurse Training Checklist.pdf" folder="Training" />

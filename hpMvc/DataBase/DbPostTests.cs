@@ -395,22 +395,22 @@ namespace hpMvc.DataBase
             }
         }
 
-        public static DTO GetStaffIDByUserName(string userName)
+        public static DTO GetStaffIdByUserName(string userName)
         {
-            var dto = new DTO();
-            dto.IsSuccessful = false;
-            dto.ReturnValue = 0;
+            var dto = new DTO {IsSuccessful = false, ReturnValue = 0};
 
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
 
-            using (SqlConnection conn = new SqlConnection(strConn))
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = ("GetStaffIDByUserName");
-                    SqlParameter param = new SqlParameter("@userName", userName);
+                    var cmd = new SqlCommand("", conn)
+                                  {
+                                      CommandType = System.Data.CommandType.StoredProcedure,
+                                      CommandText = ("GetStaffIDByUserName")
+                                  };
+                    var param = new SqlParameter("@userName", userName);
                     cmd.Parameters.Add(param);
                     
                     conn.Open();
@@ -472,26 +472,29 @@ namespace hpMvc.DataBase
 
         public static string GetPostTestStaffEmail(string id)
         {
-            string email = "";
-            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            using (SqlConnection conn = new SqlConnection(strConn))
+            var email = "";
+            var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = ("GetPostTestStaffEmail");
+                    var cmd = new SqlCommand("", conn)
+                                  {
+                                      CommandType = System.Data.CommandType.StoredProcedure,
+                                      CommandText = ("GetPostTestStaffEmail")
+                                  };
 
-                    SqlParameter param = new SqlParameter("@id", id);
+                    var param = new SqlParameter("@id", id);
                     cmd.Parameters.Add(param);
                     
                     conn.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    
-                    rdr.Read();
-                    if (!rdr.IsDBNull(0))
-                        email = rdr.GetString(0);
-                            
+                    var rdr = cmd.ExecuteReader();
+
+                    if (rdr.Read())
+                    {
+                        if (!rdr.IsDBNull(0))
+                            email = rdr.GetString(0);
+                    }
                 }
                 catch (Exception ex)
                 {

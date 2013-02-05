@@ -126,15 +126,16 @@ namespace hpMvc.DataBase
             SendHtmlEmail(subject, toAddress, ccAddress, sbBody.ToString(), server, siteUrl, bodyHeader);
         }
 
-		public static void SendStudyInitializedMail(string[] toAddress, string[] ccAddress, string studyID, string userName, string siteName, HttpServerUtilityBase server, string url)
+		public static void SendStudyInitializedMail(string[] toAddress, string[] ccAddress, string studyID, string userName, 
+            string siteName, HttpServerUtilityBase server, string url, string arm)
 		{
 			string subject = "Halfpint - New Study Initialized Added";
             if (!url.Contains("hpProd"))
                 studyID = "T" + studyID;
 
             string bodyHeader = "<h3 style='display:inline-block;background-color:Aqua;text-align: center;'>" + userName + " from " + siteName + " has initialized a new subject, ID: <strong>" +
-				studyID + "</strong></h3>";
-			StringBuilder sbBody = new StringBuilder("</br>Date time: " + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString());
+				studyID + " (" + arm + ")</strong></h3>";
+			var sbBody = new StringBuilder("</br>Date time: " + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString());
 
 			string siteUrl = "Website: <a href='" + url + "'>HalfpintStudy.org</a>";
 			SendHtmlEmail(subject, toAddress, ccAddress, sbBody.ToString(), server, siteUrl, bodyHeader);

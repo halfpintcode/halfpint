@@ -43,16 +43,18 @@ namespace hpMvc.DataBase
 
         public static bool AddSenorData(string studyId, SSInsertionData ssInsert)
         {
-            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
             using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    var cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = ("AddSensorData");
+                    var cmd = new SqlCommand("", conn)
+                                  {
+                                      CommandType = System.Data.CommandType.StoredProcedure,
+                                      CommandText = ("AddSensorData")
+                                  };
 
-                    SqlParameter param = new SqlParameter("@studyID", studyId);
+                    var param = new SqlParameter("@studyID", studyId);
                     cmd.Parameters.Add(param);
                     param = new SqlParameter("@monitorDate", ssInsert.MonitorDate);
                     cmd.Parameters.Add(param);
@@ -124,7 +126,7 @@ namespace hpMvc.DataBase
                     }
                     rdr.Close();
                     arm = int.Parse(sArm.Substring(4,1));
-
+                    
                     cmd = new SqlCommand("", conn)
                               {
                                   CommandType = System.Data.CommandType.StoredProcedure,
@@ -149,6 +151,7 @@ namespace hpMvc.DataBase
             string[] avParts = armVal.Split(new string[] { ":" }, StringSplitOptions.None);
             ssInsert.TargetLow = avParts[0];
             ssInsert.TargetHigh = avParts[1];
+            ssInsert.Arm = sArm;
             return arm;
         }
 
@@ -192,11 +195,11 @@ namespace hpMvc.DataBase
         {
             Nlogger.LogInfo("SsUtils.InitializeSS: " + studyId);
 
-            string path = physicalAppPath + "sstemplate\\";
-            string file = path + "Checks_tmpl.xlsm";
-            string file2 = path + studyId + ".xlsm";
-            int iSensorType = sensorType;
-            int iGGonlyModeOn = 0;
+            var path = physicalAppPath + "sstemplate\\";
+            var file = path + "Checks_tmpl.xlsm";
+            var file2 = path + studyId + ".xlsm";
+            var iSensorType = sensorType;
+            var iGGonlyModeOn = 0;
 
             if (iSensorType == 0)
                 iGGonlyModeOn = 1;
@@ -205,59 +208,73 @@ namespace hpMvc.DataBase
                 File.Copy(file, file2);
 
             Nlogger.LogInfo("SsUtils.InitializeSS - insert data into ss: " + studyId);
-            using (SpreadsheetDocument document = SpreadsheetDocument.Open(file2, true))
+
+            try
             {
-                WorkbookPart wbPart = document.WorkbookPart;
-                Sheet theSheet = wbPart.Workbook.Descendants<Sheet>().FirstOrDefault(s => s.Name == "ParameterDefaults");
-
-                //WorksheetPart wsPart = (WorksheetPart)wbPart.GetPartById(theSheet.Id);
-
-                UpdateValue(wbPart, "D2", studyId, 0, true, "ParameterDefaults");
-                UpdateValue(wbPart, "E2", studyId, 0, true, "ParameterDefaults");
-                UpdateValue(wbPart, "D3", ssInsert.BodyWeight, 0, false, "ParameterDefaults");
-                UpdateValue(wbPart, "E3", ssInsert.BodyWeight, 0, false, "ParameterDefaults");
-                UpdateValue(wbPart, "D4", ssInsert.InsulinConcentration, 0, false, "ParameterDefaults");
-                UpdateValue(wbPart, "E4", ssInsert.InsulinConcentration, 0, false, "ParameterDefaults");
-                UpdateValue(wbPart, "D5", ssInsert.TargetLow, 0, false, "ParameterDefaults");
-                UpdateValue(wbPart, "E5", ssInsert.TargetLow, 0, false, "ParameterDefaults");
-                UpdateValue(wbPart, "D6", ssInsert.TargetHigh, 0, false, "ParameterDefaults");
-                UpdateValue(wbPart, "E6", ssInsert.TargetHigh, 0, false, "ParameterDefaults");
-
-                UpdateValue(wbPart, "D47", iGGonlyModeOn.ToString(), 0, false, "ParameterDefaults");
-                UpdateValue(wbPart, "D49", iSensorType.ToString(), 0, false, "ParameterDefaults");
-                UpdateValue(wbPart, "D50", "", 0, false, "ParameterDefaults");
-                UpdateValue(wbPart, "D51", "", 0, false, "ParameterDefaults");
-                
-                if (sensorType > 0)
+                using (var document = SpreadsheetDocument.Open(file2, true))
                 {
-                    UpdateValue(wbPart, "A2", "1", 0, true, "SensorData");
-                    UpdateValue(wbPart, "B2", ssInsert.MonitorDate, 0, true, "SensorData");
-                    UpdateValue(wbPart, "C2", ssInsert.MonitorTime, 0, true, "SensorData");
-                    UpdateValue(wbPart, "D2", ssInsert.MonitorId, 0, true, "SensorData");
-                    UpdateValue(wbPart, "E2", ssInsert.TransmitterId, 0, true, "SensorData");
-                    UpdateValue(wbPart, "F2", ssInsert.SensorLot, 0, true, "SensorData");
-                    UpdateValue(wbPart, "G2", ssInsert.InserterFirstName, 0, true, "SensorData");
-                    UpdateValue(wbPart, "H2", ssInsert.InserterLastName, 0, true, "SensorData");
-                    UpdateValue(wbPart, "I2", GetSensorLocationString(ssInsert.SensorLocation), 0, true, "SensorData");
-                    UpdateValue(wbPart, "J2", "Initial Insertion", 0, true, "SensorData");
-                    UpdateValue(wbPart, "K2", DateTime.Now.ToString(), 0, true, "SensorData");
-                    UpdateValue(wbPart, "L2", ssInsert.ExpirationDate, 0, true, "SensorData");
+                    var wbPart = document.WorkbookPart;
+                    var theSheet =
+                        wbPart.Workbook.Descendants<Sheet>().FirstOrDefault(s => s.Name == "ParameterDefaults");
+
+                    //WorksheetPart wsPart = (WorksheetPart)wbPart.GetPartById(theSheet.Id);
+
+                    UpdateValue(wbPart, "D2", studyId, 0, true, "ParameterDefaults");
+                    UpdateValue(wbPart, "E2", studyId, 0, true, "ParameterDefaults");
+                    UpdateValue(wbPart, "D3", ssInsert.BodyWeight, 0, false, "ParameterDefaults");
+                    UpdateValue(wbPart, "E3", ssInsert.BodyWeight, 0, false, "ParameterDefaults");
+                    UpdateValue(wbPart, "D4", ssInsert.InsulinConcentration, 0, false, "ParameterDefaults");
+                    UpdateValue(wbPart, "E4", ssInsert.InsulinConcentration, 0, false, "ParameterDefaults");
+                    UpdateValue(wbPart, "D5", ssInsert.TargetLow, 0, false, "ParameterDefaults");
+                    UpdateValue(wbPart, "E5", ssInsert.TargetLow, 0, false, "ParameterDefaults");
+                    UpdateValue(wbPart, "D6", ssInsert.TargetHigh, 0, false, "ParameterDefaults");
+                    UpdateValue(wbPart, "E6", ssInsert.TargetHigh, 0, false, "ParameterDefaults");
+
+                    UpdateValue(wbPart, "D47", iGGonlyModeOn.ToString(), 0, false, "ParameterDefaults");
+                    UpdateValue(wbPart, "D49", iSensorType.ToString(), 0, false, "ParameterDefaults");
+                    UpdateValue(wbPart, "D50", "", 0, false, "ParameterDefaults");
+                    UpdateValue(wbPart, "D51", "", 0, false, "ParameterDefaults");
+
+                    if (sensorType > 0)
+                    {
+                        UpdateValue(wbPart, "A2", "1", 0, true, "SensorData");
+                        UpdateValue(wbPart, "B2", ssInsert.MonitorDate, 0, true, "SensorData");
+                        UpdateValue(wbPart, "C2", ssInsert.MonitorTime, 0, true, "SensorData");
+                        UpdateValue(wbPart, "D2", ssInsert.MonitorId, 0, true, "SensorData");
+                        UpdateValue(wbPart, "E2", ssInsert.TransmitterId, 0, true, "SensorData");
+                        UpdateValue(wbPart, "F2", ssInsert.SensorLot, 0, true, "SensorData");
+                        UpdateValue(wbPart, "G2", ssInsert.InserterFirstName, 0, true, "SensorData");
+                        UpdateValue(wbPart, "H2", ssInsert.InserterLastName, 0, true, "SensorData");
+                        UpdateValue(wbPart, "I2", GetSensorLocationString(ssInsert.SensorLocation), 0, true,
+                                    "SensorData");
+                        UpdateValue(wbPart, "J2", "Initial Insertion", 0, true, "SensorData");
+                        UpdateValue(wbPart, "K2", DateTime.Now.ToString(), 0, true, "SensorData");
+                        UpdateValue(wbPart, "L2", ssInsert.ExpirationDate, 0, true, "SensorData");
+                    }
+                    document.Close();
                 }
-                document.Close();
+
+
+
+                //get the path to the site folder
+                var siteCode = studyId.Substring(0, 2);
+                var sitePath = physicalAppPath + "xcel\\" + siteCode;
+                //if it doesn't exist then create it
+                if (!Directory.Exists(sitePath))
+                    Directory.CreateDirectory(sitePath);
+
+                var file3 = sitePath + "\\" + studyId + ".xlsm";
+                if (File.Exists(file3))
+                    File.Delete(file3);
+
+                File.Move(file2, file3);
+            }
+            catch (Exception ex)
+            {
+                Nlogger.LogError(ex);
+                return false;
             }
 
-            //get the path to the site folder
-            string siteCode = studyId.Substring(0, 2);
-            string sitePath = physicalAppPath + "xcel\\" + siteCode;
-            //if it doesn't exist then create it
-            if (!Directory.Exists(sitePath))
-                Directory.CreateDirectory(sitePath);
-                        
-            string file3 = sitePath + "\\" + studyId + ".xlsm";
-            if (File.Exists(file3))
-                File.Delete(file3);
-
-            File.Move(file2, file3);
             return true;
         }
 
@@ -267,20 +284,19 @@ namespace hpMvc.DataBase
             // Assume failure.
             bool updated = false;
 
-            Sheet sheet = wbPart.Workbook.Descendants<Sheet>().Where(
-                (s) => s.Name == sheetName).FirstOrDefault();
+            var sheet = wbPart.Workbook.Descendants<Sheet>().FirstOrDefault(s => s.Name == sheetName);
 
             if (sheet != null)
             {
-                Worksheet ws = ((WorksheetPart)(wbPart.GetPartById(sheet.Id))).Worksheet;
-                Cell cell = InsertCellInWorksheet(ws, addressName);
+                var ws = ((WorksheetPart)(wbPart.GetPartById(sheet.Id))).Worksheet;
+                var cell = InsertCellInWorksheet(ws, addressName);
 
                 if (isString)
                 {
                     // Either retrieve the index of an existing string,
                     // or insert the string into the shared string table
                     // and get the index of the new item.
-                    int stringIndex = InsertSharedStringItem(wbPart, value);
+                    var stringIndex = InsertSharedStringItem(wbPart, value);
 
                     cell.CellValue = new CellValue(stringIndex.ToString());
                     cell.DataType = new EnumValue<CellValues>(CellValues.SharedString);
@@ -467,6 +483,7 @@ namespace hpMvc.DataBase
         public string SensorReason { get; set; }
         public string DateCreated { get; set; }
         public string ExpirationDate { get; set; }
+        public string Arm { get; set; }
         public int SensorType { get; set; }
 
         

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using hpMvc.Models;
 using hpMvc.DataBase;
@@ -72,8 +73,8 @@ namespace hpMvc.Controllers
 
             if (dto.IsSuccessful)
             {
-                _logger.LogInfo("InitializeSubject.Initialize - validated: " + studyId);
-                _logger.LogInfo("InitializeSubject.Initialize - SenorData: " + studyId + ", sensor: " + sensorType);
+                _logger.LogInfo("InitializeSubject.Initialize - validated");
+                _logger.LogInfo("InitializeSubject.Initialize - Add senor data to database: " + studyId + ", sensor: " + sensorType);
                 if (sensorType > 0)
                 {
                     //save the sensor data
@@ -89,12 +90,31 @@ namespace hpMvc.Controllers
                 //set next randomiztion and update database
                 if (dto.IsSuccessful)
                 {
-                    _logger.LogInfo("Initialize.InitializeSS - SetRandomization: " + studyId);
-                    int iret = SsUtils.SetRandomization(studyId, ref ssInsert, User.Identity.Name);
+                    _logger.LogInfo("InitializeSubject.Initialize - sensor data added");
+                    _logger.LogInfo("InitializeSubject.Initialize - SetRandomization: " + studyId);
+                    var iret = SsUtils.SetRandomization(studyId, ref ssInsert, User.Identity.Name);
                     if (iret == -1)
                     {
-                        _logger.LogInfo("Initialize.InitializeSS - SetRandomization encountered a problem: " + studyId);
+                        dto.IsSuccessful = false;
+                        dto.Message = "Could not set randomization";
+
+                        _logger.LogInfo("InitializeSubject.Initialize - SetRandomization encountered a problem: " + studyId);
                     }
+                }
+
+                //insert data into checks template
+                if (dto.IsSuccessful)
+                {
+                    _logger.LogInfo("InitializeSubject.Initialize - Randomization set");
+                    _logger.LogInfo("InitializeSubject.InitializeSs - CHECKS inititalization");
+                    if (! SsUtils.InitializeSs(Request.PhysicalApplicationPath, studyId, ssInsert, sensorType))
+                    {
+                        dto.IsSuccessful = false;
+                        dto.Message = "Could not initialized CHECKS";
+
+                        _logger.LogInfo("InitializeSubject.InitializeSs - CHECKS inititalization encountered a problem");
+                    }
+                    _logger.LogInfo("InitializeSubject.InitializeSs - CHECKS initialized");
                 }
 
                 //send email notifications
@@ -104,39 +124,31 @@ namespace hpMvc.Controllers
                     _logger.LogInfo("InitializeSubject.Initialize - notifications: " + studyId);
                     TempData["InsertData"] = ssInsert;
 
-                    var users = ConfigurationManager.AppSettings["InitializeSubject"].ToString().Split(new[] { ',' },
+                    var users = ConfigurationManager.AppSettings["InitializeSubject"].Split(new[] { ',' },
                                                                                                             StringSplitOptions
                                                                                                                 .None);
-
-                    var toEmails = new List<string>();
-                    foreach (var user in users)
-                    {
-                        var mUser = Membership.GetUser(user);
-                        if (mUser == null)
-                            continue;
-                        toEmails.Add(mUser.Email);
-                    }
 
                     string siteName = DbUtils.GetSiteNameForUser(User.Identity.Name);
 
                     var u = new UrlHelper(Request.RequestContext);
-                    string url = "http://" + Request.Url.Host +
-                                 u.RouteUrl("Default", new { Controller = "Home", Action = "Index" });
-
-                    // don't let notifications error stop initialization process
-                    try
+                    if (Request.Url != null)
                     {
-                        Utility.SendStudyInitializedMail(toEmails.ToArray(), null, studyId, User.Identity.Name, siteName,
-                                                     Server,
-                                                     url);
+                        string url = "http://" + Request.Url.Host +
+                                     u.RouteUrl("Default", new { Controller = "Home", Action = "Index" });
 
-                        _logger.LogInfo("InitializeSubject.Initialize - notifications sent: " + studyId);
-                    }
-                    catch (Exception ex)
-                    {
-                        _logger.LogError("InitializeSubject.Initialize - error sending notifications: " + ex.Message);
-                    }
+                        // don't let notifications error stop initialization process
+                        try
+                        {
+                            Utility.SendStudyInitializedMail((from user in users select Membership.GetUser(user) into mUser where mUser != null select mUser.Email).ToArray(), null, studyId, User.Identity.Name, siteName,
+                                                             Server, url, ssInsert.Arm);
 
+                            _logger.LogInfo("InitializeSubject.Initialize - notifications sent: " + studyId);
+                        }
+                        catch (Exception ex)
+                        {
+                            _logger.LogError("InitializeSubject.Initialize - error sending notifications: " + ex.Message);
+                        }
+                    }
                 }
             }
             if(dto.IsSuccessful)
@@ -151,7 +163,7 @@ namespace hpMvc.Controllers
         }
 
         //[HttpPost]
-        public FilePathResult InitializeSS(string studyId)
+        public FilePathResult InitializeSs(string studyId)
         {
             _logger.LogInfo("Initialize.InitializeSS: " + studyId);
 
@@ -159,28 +171,14 @@ namespace hpMvc.Controllers
             int sensorType = DbUtils.GetSiteSensor(siteId);
 
             var ssInsert = (SSInsertionData)TempData["InsertData"];
-
-            ////_logger.LogInfo("Initialize.InitializeSS - SetRandomization: " + studyId);
-            ////int iret = SsUtils.SetRandomization(studyId, ref ssInsert, User.Identity.Name);
-            ////if (iret == -1)
-            ////{
-            ////    _logger.LogInfo("Initialize.InitializeSS - SetRandomization encountered a problem: " + studyId);
-            ////}
-
-            SsUtils.InitializeSs(this.Request.PhysicalApplicationPath, studyId, ssInsert, sensorType);
-            _logger.LogInfo("Initialize.InitializeSS - data inserted into ss successfully: " + studyId);
-
-
-            for (int i = 0; i < 300000; i++)
-                Console.WriteLine(i.ToString());
-            string path = this.Request.PhysicalApplicationPath + "xcel\\" + studyId.Substring(0, 2) + "\\";
+            
+            string path = Request.PhysicalApplicationPath + "xcel\\" + studyId.Substring(0, 2) + "\\";
             string file = path + studyId + ".xlsm";
             
-            string fileDownloadName = "";
             if (!path.Contains("Prod"))            
                 studyId = "T" + studyId;
-            
-            fileDownloadName = studyId + ".xlsm";
+
+            string fileDownloadName = studyId + ".xlsm";
 
             _logger.LogInfo("Initialize.InitializeSS - file download: " + studyId);
             return this.File(file, "application/vnd.ms-excel.sheet.macroEnabled.12", fileDownloadName);
@@ -214,57 +212,57 @@ namespace hpMvc.Controllers
             var dto = new DTO();
             
             //check if study id begins with the correct site
-            //string siteId = DbUtils.GetSiteIDForUser(HttpContext.User.Identity.Name);
-            //if (siteId == "error")
-            //{
-            //    dto.IsSuccessful = false;
-            //    dto.Message = "There was an error retrieving the user's site id from the database";
-            //    _logger.LogInfo("ValidateLogin: " + dto.Message);
-            //    return Json(dto);
-            //}
-            //if (siteId == "")
-            //{
-            //    dto.IsSuccessful = false;
-            //    dto.Message = "There was a problem retrieving the user's site id from the database";
-            //    _logger.LogInfo("ValidateLogin: " + dto.Message);
-            //    return Json(dto);
-            //}
-            //if (siteId != studyID.Substring(0, 2))
-            //{
-            //    dto.IsSuccessful = false;
-            //    dto.Message = "The study id for your site must begin with " + siteId;
-            //    _logger.LogInfo("ValidateLogin: " + dto.Message);
-            //    return Json(dto);
-            //}
+            string siteId = DbUtils.GetSiteIDForUser(HttpContext.User.Identity.Name);
+            if (siteId == "error")
+            {
+                dto.IsSuccessful = false;
+                dto.Message = "There was an error retrieving the user's site id from the database";
+                _logger.LogInfo("ValidateLogin: " + dto.Message);
+                return Json(dto);
+            }
+            if (siteId == "")
+            {
+                dto.IsSuccessful = false;
+                dto.Message = "There was a problem retrieving the user's site id from the database";
+                _logger.LogInfo("ValidateLogin: " + dto.Message);
+                return Json(dto);
+            }
+            if (siteId != studyID.Substring(0, 2))
+            {
+                dto.IsSuccessful = false;
+                dto.Message = "The study id for your site must begin with " + siteId;
+                _logger.LogInfo("ValidateLogin: " + dto.Message);
+                return Json(dto);
+            }
 
-            ////check if correct password
-            //dto.ReturnValue = DbUtils.IsStudyIDAssignedPasswordValid(studyID, password);
-            //if (dto.ReturnValue != 1)
-            //{
-            //    dto.IsSuccessful = false;
-            //    if (dto.ReturnValue == 0)
-            //        dto.Message = "This is not a valid study id and or password";
-            //    if (dto.ReturnValue == -1)
-            //        dto.Message = "There was an error in determining if this is a valid login";
+            //check if correct password
+            dto.ReturnValue = DbUtils.IsStudyIDAssignedPasswordValid(studyID, password);
+            if (dto.ReturnValue != 1)
+            {
+                dto.IsSuccessful = false;
+                if (dto.ReturnValue == 0)
+                    dto.Message = "This is not a valid study id and or password";
+                if (dto.ReturnValue == -1)
+                    dto.Message = "There was an error in determining if this is a valid login";
 
-            //    _logger.LogInfo("ValidateLogin IsStudyIDAssignedPasswordValid: " + dto.Message);
-            //    return Json(dto);
-            //}
+                _logger.LogInfo("ValidateLogin IsStudyIDAssignedPasswordValid: " + dto.Message);
+                return Json(dto);
+            }
 
-            ////check if already randomized
-            //dto.ReturnValue = DbUtils.IsStudyIDRandomized(studyID);
-            //if (dto.ReturnValue != 0)
-            //{
-            //    dto.IsSuccessful = false;
-            //    if (dto.ReturnValue == 1)
-            //        dto.Message = "This study id has been randomized";
-            //    if (dto.ReturnValue == -1)
-            //        dto.Message = "There was an error in determining if this sudy subject has been previously radomized";
-            //    _logger.LogInfo("ValidateLogin: " + dto.Message);
-            //    return Json(dto);
-            //}
+            //check if already randomized
+            dto.ReturnValue = DbUtils.IsStudyIDRandomized(studyID);
+            if (dto.ReturnValue != 0)
+            {
+                dto.IsSuccessful = false;
+                if (dto.ReturnValue == 1)
+                    dto.Message = "This study id has been randomized";
+                if (dto.ReturnValue == -1)
+                    dto.Message = "There was an error in determining if this sudy subject has been previously radomized";
+                _logger.LogInfo("ValidateLogin: " + dto.Message);
+                return Json(dto);
+            }
 
-            //_logger.LogInfo("ValidateLogin: password was valid" );
+            _logger.LogInfo("ValidateLogin: password was valid" );
             dto.IsSuccessful = true;
             return Json(dto);
         }

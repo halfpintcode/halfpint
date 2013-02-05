@@ -13,7 +13,7 @@ namespace hpMvc.Controllers
     [Authorize]
     public class PostTestsController : Controller
     {
-        NLogger logger = new NLogger();
+        readonly NLogger _logger = new NLogger();
 
         [RequireHttps]
         public ActionResult Initialize(string id)
@@ -26,10 +26,13 @@ namespace hpMvc.Controllers
             {
                 if (id == "0")
                 {
-                    dto = DbPostTestsUtils.GetStaffIDByUserName(User.Identity.Name);
+                    dto = DbPostTestsUtils.GetStaffIdByUserName(User.Identity.Name);
                     id = dto.ReturnValue.ToString();
                 }
             }
+            if (id =="-1")
+                return RedirectToRoute(new {Controller = "Staff"});
+
             ViewBag.UserID = int.Parse(id);
 
             int site = DbUtils.GetSiteidIDForUser(User.Identity.Name);
@@ -70,13 +73,13 @@ namespace hpMvc.Controllers
                 if (dto.ReturnValue == 0)
                     dto.Message = "This name already exists. Select your name from the drop down list." ;
 
-                logger.LogInfo("PostTests.CreateName - message: " + dto.Message + ", name: " + lastName + "," + firstName + ", site: " + siteID.ToString());
+                _logger.LogInfo("PostTests.CreateName - message: " + dto.Message + ", name: " + lastName + "," + firstName + ", site: " + siteID.ToString());
                 return Json(dto);               
             }
 
             dto.ReturnValue = DbPostTestsUtils.AddNurseStaff(lastName, firstName, empID, siteID, email);
 
-            logger.LogInfo("PostTests.CreateName - message: " + dto.Message + ", name: " + lastName + "," + firstName + ", site: " + siteID.ToString());
+            _logger.LogInfo("PostTests.CreateName - message: " + dto.Message + ", name: " + lastName + "," + firstName + ", site: " + siteID.ToString());
             return Json(dto);
         }
 
@@ -129,7 +132,7 @@ namespace hpMvc.Controllers
             string url = "http://" + this.Request.Url.Host + u.RouteUrl("Default", new { Controller = "Account", Action = "Logon" });            
             Utility.SendPostTestsSubmittedMail(toEmails.ToArray(), email, tests, name, siteName, Server, url);
 
-            logger.LogInfo("Post-tests submitted: " + name);
+            _logger.LogInfo("Post-tests submitted: " + name);
             return Json("");
         }
 
@@ -173,7 +176,7 @@ namespace hpMvc.Controllers
                 incorrect = incorrect.Substring(0, incorrect.Length - 1);
             }
 
-            logger.LogInfo("Post-tests Checks: " + name + ", " + dto.Message + incorrect);
+            _logger.LogInfo("Post-tests Checks: " + name + ", " + dto.Message + incorrect);
             return Json(dto);
         }
         
@@ -217,7 +220,7 @@ namespace hpMvc.Controllers
                 incorrect = incorrect.Substring(0, incorrect.Length - 1);
             }
 
-            logger.LogInfo("Post-tests Medtronic: " + name + ", " + dto.Message + incorrect);
+            _logger.LogInfo("Post-tests Medtronic: " + name + ", " + dto.Message + incorrect);
             return Json(dto);
         }
 
@@ -263,7 +266,7 @@ namespace hpMvc.Controllers
                 incorrect = incorrect.Substring(0, incorrect.Length - 1);
             }
 
-            logger.LogInfo("Post-tests Overview: " + name + ", " + dto.Message + incorrect);
+            _logger.LogInfo("Post-tests Overview: " + name + ", " + dto.Message + incorrect);
             return Json(dto);
         }
 
@@ -308,7 +311,7 @@ namespace hpMvc.Controllers
                 incorrect = incorrect.Substring(0, incorrect.Length - 1);
             }
 
-            logger.LogInfo("Post-tests NovaStatStrip: " + name + ", " + dto.Message + incorrect);
+            _logger.LogInfo("Post-tests NovaStatStrip: " + name + ", " + dto.Message + incorrect);
             return Json(dto);
         }
 
@@ -352,7 +355,7 @@ namespace hpMvc.Controllers
                 incorrect = incorrect.Substring(0, incorrect.Length - 1);
             }
 
-            logger.LogInfo("Post-tests VampJr: " + name + ", " + dto.Message + incorrect);
+            _logger.LogInfo("Post-tests VampJr: " + name + ", " + dto.Message + incorrect);
             return Json(dto);
         }
     }

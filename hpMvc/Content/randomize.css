@@ -119,3 +119,11 @@ p { clear: both; }
     padding-left: .5em; 
     vertical-align: top; 
 }
+.divBtnDownload 
+{
+    display: block;
+    text-align: center;
+}
+.textLeft {
+    text-align: left;
+}
