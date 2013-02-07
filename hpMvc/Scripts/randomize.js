@@ -175,15 +175,7 @@ $(document).ready(function () {
         }
 
         $('#btnInitialize').attr('disabled', 'disabled');
-        //        $('#downloadDialog').dialog(
-        //                    {
-        //                        title: 'Processing - Please Wait',
-        //                        height: 150,
-        //                        width: 450,
-        //                        show: 'blind',
-        //                        hide: 'explode'
-        //                    });
-        //        $('#downloadDialog').dialog('open');
+        
         $('#divValidResults').empty();
 
         var studyId = $('#studyID').val();
@@ -193,8 +185,8 @@ $(document).ready(function () {
             url: url,
             type: 'POST',
             data: data,
-            success: function (data) {
-                if (data.IsSuccessful) {
+            success: function (data1) {
+                if (data1.IsSuccessful) {
                     //window.location = urlRoot + '/InitializeSubject/InitializeSS/' + studyID;
                     //                    setTimeout(function () {
                     //                        window.location = urlRoot
@@ -203,9 +195,10 @@ $(document).ready(function () {
                     $('#startDownloadDialog').dialog(
                         {
                             title: 'Download CHECKS',
-                            height: 250,
-                            width: 580,
+                            height: 300,
+                            width: 600,
                             show: 'blind',
+                            close: downloadDialogClose,
                             hide: 'explode'
                         });
                     $('#startDownloadDialog').dialog('open');
@@ -213,17 +206,35 @@ $(document).ready(function () {
                 }
                 else {
                     var message = "<p>Summary of invalid entries</p><hr/>";
-                    $.each(data.ValidMessages, function (index, d) {
+                    $.each(data1.ValidMessages, function (index, d) {
                         message = message +
                                   "<p class='validError'>" + "*" + d.DisplayName + " " + d.Message + "</p>"
 
                     });
-                    alert(data.Message);
+                    alert(data1.Message);
                     $('#divValidResults').append(message).slideDown();
                 }
             }
         });
     });
+
+    function downloadDialogClose() {
+        $('#downloadDialog').dialog(
+        {
+            title: 'Processing - Please Wait',
+            height: 150,
+            width: 450,
+            show: 'blind',
+            hide: 'explode'
+        });
+        $('#downloadDialog').dialog('open');
+
+        setTimeout(destroyDialog, 5000);
+    }
+
+    function destroyDialog() {
+        $('#downloadDialog').dialog("destroy");
+    }
 
     $('#alnkAltDownload').click(function (e) {
         e.preventDefault();
