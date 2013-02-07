@@ -61,7 +61,7 @@ $(function () {
             var retVal = false;
             $.ajax({
                 async: false,
-                url: urlRoot + '/Coordinator/IsUserEmployeeIDDuplicateOtherThan/?id=' + id + '&employeeID=' + empID + '&site=' + site,
+                url: urlRoot + '/Coordinator/IsUserEmployeeIdDuplicateOtherThan/?id=' + id + '&employeeID=' + empID + '&site=' + site,
                 type: 'POST',
                 data: {},
                 success: function (data) {
@@ -356,7 +356,7 @@ $(function () {
                         var retVal = false;
                         $.ajax({
                             async: false,
-                            url: urlRoot + '/Coordinator/IsUserEmployeeIDDuplicateOtherThan/?id=' + id + '&employeeID=' + empID + '&site=' + site,
+                            url: urlRoot + '/Coordinator/IsUserEmployeeIdDuplicateOtherThan/?id=' + id + '&employeeID=' + empID + '&site=' + site,
                             type: 'POST',
                             data: {},
                             success: function (data) {

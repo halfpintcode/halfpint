@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 using System.Web.Mvc;
 using hpMvc.DataBase;
-using hpMvc.Models;
 using hpMvc.Infrastructure.Logging;
-using System.Text;
+using hpMvc.Models;
 
 namespace hpMvc.Controllers
 {
@@ -18,15 +14,14 @@ namespace hpMvc.Controllers
         [RequireHttps]
         public ActionResult Initialize(string id)
         {
-            string role = AccountUtils.GetRoleForUser(User.Identity.Name);
+            var role = AccountUtils.GetRoleForUser(User.Identity.Name);
             ViewBag.Role = role;
 
-            DTO dto = null;
             if (role != "Nurse")
             {
                 if (id == "0")
                 {
-                    dto = DbPostTestsUtils.GetStaffIdByUserName(User.Identity.Name);
+                    var dto = DbPostTestsUtils.GetStaffIdByUserName(User.Identity.Name);
                     id = dto.ReturnValue.ToString();
                 }
             }
@@ -59,13 +54,13 @@ namespace hpMvc.Controllers
         {
             var dto = new DTO();
 
-            int siteID = DbUtils.GetSiteidIDForUser(HttpContext.User.Identity.Name);
-            string lastName = Request.Params["LastName"];
-            string firstName = Request.Params["FirstName"];            
-            string empID = Request.Params["EmpID"];
-            string email = Request.Params["Email"];
+            var siteId = DbUtils.GetSiteidIDForUser(HttpContext.User.Identity.Name);
+            var lastName = Request.Params["LastName"];
+            var firstName = Request.Params["FirstName"];            
+            var empId = Request.Params["EmpID"];
+            var email = Request.Params["Email"];
 
-            dto.ReturnValue = DbPostTestsUtils.DoesStaffNameExist(lastName, firstName, siteID);
+            dto.ReturnValue = DbPostTestsUtils.DoesStaffNameExist(lastName, firstName, siteId);
             if (dto.ReturnValue != 0)
             {
                 if (dto.ReturnValue == -1)
@@ -73,13 +68,13 @@ namespace hpMvc.Controllers
                 if (dto.ReturnValue == 0)
                     dto.Message = "This name already exists. Select your name from the drop down list." ;
 
-                _logger.LogInfo("PostTests.CreateName - message: " + dto.Message + ", name: " + lastName + "," + firstName + ", site: " + siteID.ToString());
+                _logger.LogInfo("PostTests.CreateName - message: " + dto.Message + ", name: " + lastName + "," + firstName + ", site: " + siteId.ToString());
                 return Json(dto);               
             }
 
-            dto.ReturnValue = DbPostTestsUtils.AddNurseStaff(lastName, firstName, empID, siteID, email);
+            dto.ReturnValue = DbPostTestsUtils.AddNurseStaff(lastName, firstName, empId, siteId, email);
 
-            _logger.LogInfo("PostTests.CreateName - message: " + dto.Message + ", name: " + lastName + "," + firstName + ", site: " + siteID.ToString());
+            _logger.LogInfo("PostTests.CreateName - message: " + dto.Message + ", name: " + lastName + "," + firstName + ", site: " + siteId.ToString());
             return Json(dto);
         }
 
@@ -89,10 +84,10 @@ namespace hpMvc.Controllers
             return Json(dto);
         }
 
-        public JsonResult IsUserEmployeeIDDuplicate(string employeeID)
+        public JsonResult IsUserEmployeeIdDuplicate(string employeeId)
         {            
             int site = DbUtils.GetSiteidIDForUser(User.Identity.Name);
-            var dto = DbPostTestsUtils.DoesStaffEmployeeIDExist(employeeID, site);
+            var dto = DbPostTestsUtils.DoesStaffEmployeeIDExist(employeeId, site);
 
             return Json(dto);
         }

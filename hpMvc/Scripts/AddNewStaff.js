@@ -145,7 +145,7 @@ $(function () {
         var retVal = false;
         $.ajax({
             async: false,
-            url: urlRoot + '/Admin/IsUserEmployeeIDDuplicate/?employeeID=' + empID + '&site=' + site,
+            url: urlRoot + '/Admin/IsUserEmployeeIdDuplicate/?employeeID=' + empID + '&site=' + site,
             type: 'POST',
             data: {},
             success: function (data) {

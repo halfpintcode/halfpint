@@ -139,7 +139,7 @@ $(function () {
             var retVal = false;
             $.ajax({
                 async: false,
-                url: urlRoot + '/Admin/IsUserEmployeeIDDuplicateOtherThan/?id=' + id + '&employeeID=' + empID + '&site=' + site,
+                url: urlRoot + '/Admin/IsUserEmployeeIdDuplicateOtherThan/?id=' + id + '&employeeID=' + empID + '&site=' + site,
                 type: 'POST',
                 data: {},
                 success: function (data) {
@@ -427,7 +427,7 @@ $(function () {
                         var retVal = false;
                         $.ajax({
                             async: false,
-                            url: urlRoot + '/Admin/IsUserEmployeeIDDuplicateOtherThan/?id=' + id + '&employeeID=' + empID + '&site=' + site,
+                            url: urlRoot + '/Admin/IsUserEmployeeIdDuplicateOtherThan/?id=' + id + '&employeeID=' + empID + '&site=' + site,
                             type: 'POST',
                             data: {},
                             success: function (data) {

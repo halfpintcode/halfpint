@@ -344,7 +344,7 @@ namespace hpMvc.Controllers
             return Json(dto);
         }
 
-        public JsonResult IsUserEmployeeIDDuplicateOtherThan(int id, string employeeID, int site)
+        public JsonResult IsUserEmployeeIdDuplicateOtherThan(int id, string employeeID, int site)
         {
             var dto = DbPostTestsUtils.DoesStaffEmployeeIDExistOtherThan(id, employeeID, site);
             return Json(dto);

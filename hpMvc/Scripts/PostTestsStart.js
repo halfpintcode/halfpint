@@ -352,7 +352,7 @@ $(function () {
         var retVal = false;
         $.ajax({
             async: false,
-            url: urlRoot + '/PostTests/IsUserEmployeeIDDuplicate/?employeeID=' + empID,
+            url: urlRoot + '/PostTests/IsUserEmployeeIdDuplicate/?employeeID=' + empID,
             type: 'POST',
             data: {},
             success: function (data) {
