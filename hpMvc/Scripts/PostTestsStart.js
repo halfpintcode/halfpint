@@ -4,12 +4,16 @@ $(function () {
     $('#divName').hide();
     $('#btnStart').attr('disabled', 'disabled');
 
-    var empIDReq = $('#empIDRequired').val();
-    if (empIDReq === "true") {
+    $("#spinner").ajaxStart(function () { $(this).show(); })
+			   .ajaxStop(function () { $(this).hide(); });
+
+    //employee id is site specific
+    var empIdReq = $('#empIDRequired').val();
+    if (empIdReq === "true") {
         var reg = $('#empIDRegex').val();
         //check if leading digits
         var leadDig = "";
-        var c = "";
+        var c;
         for (var i = 0; i < reg.length; i++) {
             //skip i=0
             if (i === 0) {
@@ -37,18 +41,10 @@ $(function () {
         $('#siteSpecific').hide();
     }
 
-    $('#waitGif').hide();
-    $.ajaxSetup({
-        beforeSend: function () {
-            $('#waitGif').show();
-        },
-        complete: function () {
-            $('#waitGif').hide();
-        }
-    });
-
     //show and hide the two differnment ways a user can get started
     //1) select name from a dropdown 2) create new name
+    //this is for the nurse role, for all other roles the name will
+    //be atuomatically selected
     $('#clickHere').click(function (e) {
         e.preventDefault();
         if ($('#listName').is(':visible')) {
@@ -82,29 +78,29 @@ $(function () {
         var id = $('#Users').val();
 
         if (userName.length === 0) {
-            alert('Select or create a name')
+            alert('Select or create a name');
             return;
         }
 
         var email = $.trim($('#sEmail').val());
         if (email.length === 0) {
-            alert('Enter an email address')
+            alert('Enter an email address');
             return;
         }
         if (!validateEmail(email)) {
-            alert('Enter a valid email address')
+            alert('Enter a valid email address');
             return;
         }
 
         $('#btnSubmit').attr('disabled', 'disabled');
-        var data = { Name: userName, Email: email, ID:id };
+        var data = { Name: userName, Email: email, ID: id };
         var url = urlRoot + '/PostTests/Submit'
         $.ajax({
             url: url,
             type: 'POST',
             data: data,
-            success: function (data) {
-                if (data === 'no tests') {
+            success: function (data1) {
+                if (data1 === 'no tests') {
                     alert('You must complete all required tests before submitting');
                     $('#btnSubmit').attr('disabled', false);
                 }
@@ -134,7 +130,7 @@ $(function () {
             return;
         }
         if (!validateEmail(email)) {
-            alert('Enter a valid email address')
+            alert('Enter a valid email address');
             return;
         }
         if (isEmailDuplicate(email)) {
@@ -143,30 +139,30 @@ $(function () {
 
 
         if (!($('#empID').is(':hidden'))) {
-            var empID = $.trim($('#empID').val());
-            if (empID.length === 0) {
+            var empId = $.trim($('#empID').val());
+            if (empId.length === 0) {
                 alert('Employee id is required');
                 return;
             }
             var regex = $('#empIDRegex').val();
 
-            if (!validateEmployeeID(regex, empID)) {
+            if (!validateEmployeeID(regex, empId)) {
                 var message = 'Employee id must be a ' + $('#empIDMessage').val();
                 alert(message);
                 $('#empIDmessage').show();
                 return;
             }
         }
-        if (isEmployeeIDDuplicate(empID)) {
-            rerurn;
+        if (isEmployeeIDDuplicate(empId)) {
+            return;
         }
 
-        var url = urlRoot + '/PostTests/CreateName'
+        var url = urlRoot + '/PostTests/CreateName';
         $('#btnCreate').attr('disabled', 'disabled');
         $.ajax({
             url: url,
             type: 'POST',
-            data: { LastName: lastName, FirstName: firstName, EmpID: empID, Email: email },
+            data: { LastName: lastName, FirstName: firstName, EmpID: empId, Email: email },
             success: function (data) {
                 //data.ReturnValue contains the id for the new staff record
                 if (data.ReturnValue > 0) {
@@ -187,18 +183,18 @@ $(function () {
 
 
     });
-
+    
     //start with a selected user
     $('#btnStart').click(function () {
         $('#divClickHere').hide();
         $('#Users').attr('disabled', 'disabled');
-        $('#btnStart').attr('disabled', 'disabled')
+        $('#btnStart').attr('disabled', 'disabled');
 
-        var url = urlRoot + '/PostTests/GetTestsCompleted'
+        var url = urlRoot + '/PostTests/GetTestsCompletedActive';
         var name = $("option:selected", $('#Users')).text();
         var id = $('#Users').val();
         var srcUrl = urlRoot + "/Content/images/check2.jpg";
-        var img = '<img alt="" src=' + srcUrl + ' />'
+        var img = '<img alt="" src=' + srcUrl + ' />';
         var text = '';
         var completed = '';
         $.ajax({
@@ -263,14 +259,14 @@ $(function () {
         $('#btnStart').click();
         $('#btnStart').hide();
     }
-
+    
     $('.aLnk').click(function (e) {
 
         var userName = isNameSelected();
 
         if (userName.length === 0) {
             e.preventDefault();
-            alert('Select or create a name')
+            alert('Select or create a name');
             return;
         }
 
@@ -293,9 +289,9 @@ $(function () {
         if ($('#listName').is(':visible')) {
             val = $('#Users').val();
             if (val === '0') {
-                e.preventDefault();
+                //e.preventDefault();
                 alert('Select your name from the list');
-                return;
+                return userName;
             }
             userName = $("option:selected", $('#Users')).text();
         }
@@ -341,18 +337,18 @@ $(function () {
     }
 
     $('#empID').blur(function () {
-        var empID = $.trim($('#empID').val());
-        if (empID.length === 0) {
+        var empId = $.trim($('#empID').val());
+        if (empId.length === 0) {
             return;
         }
-        isEmployeeIDDuplicate(empID);
+        isEmployeeIDDuplicate(empId);
     });
 
-    function isEmployeeIDDuplicate(empID) {
+    function isEmployeeIDDuplicate(empId) {
         var retVal = false;
         $.ajax({
             async: false,
-            url: urlRoot + '/PostTests/IsUserEmployeeIdDuplicate/?employeeID=' + empID,
+            url: urlRoot + '/PostTests/IsUserEmployeeIdDuplicate/?employeeID=' + empId,
             type: 'POST',
             data: {},
             success: function (data) {
@@ -374,6 +370,6 @@ $(function () {
  
 function isInteger (s) 
 {
-    var reInteger = /^\d+$/;     
-    return reInteger.test(s) 
+    var reInteger = /^\d+$/;
+    return reInteger.test(s);
 }

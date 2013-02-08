@@ -793,6 +793,72 @@ namespace hpMvc.DataBase
             return users;
         }
 
+        public static List<PostTest> GetStaffPostTestsCompletedCurrentAndActive(string id)
+        {
+            var tests = new List<PostTest>();
+
+            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            using (var conn = new SqlConnection(strConn))
+            {
+                try
+                {
+                    var cmd = new SqlCommand("", conn)
+                    {
+                        CommandType = System.Data.CommandType.StoredProcedure,
+                        CommandText = ("GetPostTestsActive")
+                    };
+
+                    conn.Open();
+                    var rdr = cmd.ExecuteReader();
+                    while (rdr.Read())
+                    {
+                        var test = new PostTest();
+
+                        var pos = rdr.GetOrdinal("ID");
+                        test.ID = rdr.GetInt32(pos);
+                        
+                        pos = rdr.GetOrdinal("Name");
+                        test.Name = rdr.GetString(pos);
+                        
+                        test.sDateCompleted = "";
+
+                        tests.Add(test);
+                    }
+                    rdr.Close();
+                    conn.Close();
+
+                    cmd = new SqlCommand("", conn)
+                                  {
+                                      CommandType = System.Data.CommandType.StoredProcedure,
+                                      CommandText = ("GetStaffPostTestsCompletedCurrentAndActive")
+                                  };
+                    var param = new SqlParameter("@staffId", id);
+                    cmd.Parameters.Add(param);
+
+                    conn.Open();
+                    rdr = cmd.ExecuteReader();
+                    while (rdr.Read())
+                    {
+                        var pos = rdr.GetOrdinal("TestID");
+                        var testId = rdr.GetInt32(pos);
+                        var test = tests.Find(x => x.ID == testId);
+                        
+                        pos = rdr.GetOrdinal("DateCompleted");
+                        test.DateCompleted = rdr.GetDateTime(pos);
+                        test.sDateCompleted = (test.DateCompleted != null ? test.DateCompleted.Value.ToString("MM/dd/yyyy") : "");
+                        
+                    }
+                    rdr.Close();
+                }
+                catch (Exception ex)
+                {
+                    nlogger.LogError(ex);
+                    return null;
+                }
+            }
+            return tests;
+        }
+        
         public static List<PostTest> GetTestsCompleted(string id)
         {
             var tests = new List<PostTest>();

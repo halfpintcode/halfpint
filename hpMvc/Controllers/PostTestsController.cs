@@ -30,7 +30,7 @@ namespace hpMvc.Controllers
 
             ViewBag.UserID = int.Parse(id);
 
-            int site = DbUtils.GetSiteidIDForUser(User.Identity.Name);
+            var site = DbUtils.GetSiteidIDForUser(User.Identity.Name);
             var users = DbPostTestsUtils.GetStaffTestUsersForSite(site);
 
             users.Insert(0, new IDandName(0, "Select Your Name"));
@@ -92,11 +92,24 @@ namespace hpMvc.Controllers
             return Json(dto);
         }
         
+        //depricated
         public JsonResult GetTestsCompleted()
         {
             string id = Request.Params["ID"];
             int site = DbUtils.GetSiteidIDForUser(User.Identity.Name);
             var tests = DbPostTestsUtils.GetTestsCompleted(id);
+            var email = DbPostTestsUtils.GetPostTestStaffEmail(id);
+
+            var retVal = new { email = email, tests = tests };
+            return Json(retVal);
+        }
+
+        //new procedure
+        public JsonResult GetTestsCompletedActive()
+        {
+            string id = Request.Params["ID"];
+            int site = DbUtils.GetSiteidIDForUser(User.Identity.Name);
+            var tests = DbPostTestsUtils.GetStaffPostTestsCompletedCurrentAndActive(id);
             var email = DbPostTestsUtils.GetPostTestStaffEmail(id);
 
             var retVal = new { email = email, tests = tests };
