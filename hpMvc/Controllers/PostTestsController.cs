@@ -96,7 +96,7 @@ namespace hpMvc.Controllers
         public JsonResult GetTestsCompleted()
         {
             string id = Request.Params["ID"];
-            int site = DbUtils.GetSiteidIDForUser(User.Identity.Name);
+            //int site = DbUtils.GetSiteidIDForUser(User.Identity.Name);
             var tests = DbPostTestsUtils.GetTestsCompleted(id);
             var email = DbPostTestsUtils.GetPostTestStaffEmail(id);
 

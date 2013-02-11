@@ -183,7 +183,7 @@ $(function () {
 
 
     });
-    
+
     //start with a selected user
     $('#btnStart').click(function () {
         $('#divClickHere').hide();
@@ -196,6 +196,7 @@ $(function () {
         var srcUrl = urlRoot + "/Content/images/check2.jpg";
         var img = '<img alt="" src=' + srcUrl + ' />';
         var text = '';
+        var li = '';
         var completed = '';
         $.ajax({
             url: url,
@@ -204,49 +205,54 @@ $(function () {
             success: function (data) {
                 $('#sEmail').val(data.email);
                 $.each(data.tests, function (index, d) {
-                    switch (d.Name) {
-                        case 'Overview':
-                            //text = $('#Overview').children().text();
+                    //switch (d.Name) {
+                        //case 'Overview':
+                    var $li = $('<li class="aLnk" id="' + d.Name + '"><a href="#" class="aLnk">' + d.Name + ' Post Test</a></li>');
+                            $('#testMenu ul').append($li);
+                            //$li = $('#testMenu ul li:last-child');
                             completed = '  (' + d.sDateCompleted + ') ';
-                            $('#Overview').prepend(completed).prepend(img);
-                            if (completed.length > 0) {
-                                $('#Overview').addClass('completed');
+                            if (d.sDateCompleted.length > 0) {
+                                $li.prepend(completed).prepend(img);
+                                $li.addClass('completed');
                             }
-                            break;
-                        case 'Checks':
-                            //text = $('#Checks').children().text();
-                            completed = '  (' + d.sDateCompleted + ') ';
-                            $('#Checks').prepend(completed).prepend(img);
-                            if (completed.length > 0) {
-                                $('#Checks').addClass('completed');
-                            }
-                            break;
-                        case 'Medtronic':
-                            //text = $('#Medtronic').children().text();
-                            completed = '  (' + d.sDateCompleted + ') ';
-                            $('#Medtronic').prepend(completed).prepend(img);
-                            if (completed.length > 0) {
-                                $('#Medtronic').addClass('completed');
-                            }
-                            break;
-                        case 'NovaStatStrip':
-                            //text = $('#NovaStatStrip').children().text();
-                            completed = '  (' + d.sDateCompleted + ') ';
-                            $('#NovaStatStrip').prepend(completed).prepend(img);
-                            if (completed.length > 0) {
-                                $('#NovaStatStrip').addClass('completed');
-                            }
-                            break;
-                        case 'VampJr':
-                            //text = $('#VampJr').children().text();
-                            completed = '  (' + d.sDateCompleted + ') ';
-                            //$('#VampJr').prepend(img).append(completed).children('a').remove().end().append(text);
-                            $('#VampJr').prepend(completed).prepend(img);
-                            if (completed.length > 0) {
-                                $('#VampJr').addClass('completed');
-                            }
-                            break;
-                    }
+                        //    break;
+//                        case 'Checks':
+//                            li = '<li id="' + d.Name + '"><a href="#" class="aLnk">' + d.Name + ' Post Test</a></li>';
+//                            $('#testMenu ul').append(li);
+//                            
+//                            //text = $('#Checks').children().text();   
+//                            completed = '  (' + d.sDateCompleted + ') ';   
+//                            $('#Checks').prepend(completed).prepend(img);   
+//                            if (completed.length > 0) {   
+//                                $('#Checks').addClass('completed');   
+//                            }   
+//                            break;   
+                        //                        case 'Medtronic':   
+                        //                            //text = $('#Medtronic').children().text();   
+                        //                            completed = '  (' + d.sDateCompleted + ') ';   
+                        //                            $('#Medtronic').prepend(completed).prepend(img);   
+                        //                            if (completed.length > 0) {   
+                        //                                $('#Medtronic').addClass('completed');   
+                        //                            }   
+                        //                            break;   
+                        //                        case 'NovaStatStrip':   
+                        //                            //text = $('#NovaStatStrip').children().text();   
+                        //                            completed = '  (' + d.sDateCompleted + ') ';   
+                        //                            $('#NovaStatStrip').prepend(completed).prepend(img);   
+                        //                            if (completed.length > 0) {   
+                        //                                $('#NovaStatStrip').addClass('completed');   
+                        //                            }   
+                        //                            break;   
+                        //                        case 'VampJr':   
+                        //                            //text = $('#VampJr').children().text();   
+                        //                            completed = '  (' + d.sDateCompleted + ') ';   
+                        //                            //$('#VampJr').prepend(img).append(completed).children('a').remove().end().append(text);   
+                        //                            $('#VampJr').prepend(completed).prepend(img);   
+                        //                            if (completed.length > 0) {   
+                        //                                $('#VampJr').addClass('completed');   
+                        //                            }   
+                        //                            break;   
+                    //}
                 });
             }
         });
@@ -259,7 +265,7 @@ $(function () {
         $('#btnStart').click();
         $('#btnStart').hide();
     }
-    
+
     $('.aLnk').click(function (e) {
 
         var userName = isNameSelected();
