@@ -206,52 +206,52 @@ $(function () {
                 $('#sEmail').val(data.email);
                 $.each(data.tests, function (index, d) {
                     //switch (d.Name) {
-                        //case 'Overview':
+                    //case 'Overview':
                     var $li = $('<li class="aLnk" id="' + d.Name + '"><a href="#" class="aLnk">' + d.Name + ' Post Test</a></li>');
-                            $('#testMenu ul').append($li);
-                            //$li = $('#testMenu ul li:last-child');
-                            completed = '  (' + d.sDateCompleted + ') ';
-                            if (d.sDateCompleted.length > 0) {
-                                $li.prepend(completed).prepend(img);
-                                $li.addClass('completed');
-                            }
-                        //    break;
-//                        case 'Checks':
-//                            li = '<li id="' + d.Name + '"><a href="#" class="aLnk">' + d.Name + ' Post Test</a></li>';
-//                            $('#testMenu ul').append(li);
-//                            
-//                            //text = $('#Checks').children().text();   
-//                            completed = '  (' + d.sDateCompleted + ') ';   
-//                            $('#Checks').prepend(completed).prepend(img);   
-//                            if (completed.length > 0) {   
-//                                $('#Checks').addClass('completed');   
-//                            }   
-//                            break;   
-                        //                        case 'Medtronic':   
-                        //                            //text = $('#Medtronic').children().text();   
-                        //                            completed = '  (' + d.sDateCompleted + ') ';   
-                        //                            $('#Medtronic').prepend(completed).prepend(img);   
-                        //                            if (completed.length > 0) {   
-                        //                                $('#Medtronic').addClass('completed');   
-                        //                            }   
-                        //                            break;   
-                        //                        case 'NovaStatStrip':   
-                        //                            //text = $('#NovaStatStrip').children().text();   
-                        //                            completed = '  (' + d.sDateCompleted + ') ';   
-                        //                            $('#NovaStatStrip').prepend(completed).prepend(img);   
-                        //                            if (completed.length > 0) {   
-                        //                                $('#NovaStatStrip').addClass('completed');   
-                        //                            }   
-                        //                            break;   
-                        //                        case 'VampJr':   
-                        //                            //text = $('#VampJr').children().text();   
-                        //                            completed = '  (' + d.sDateCompleted + ') ';   
-                        //                            //$('#VampJr').prepend(img).append(completed).children('a').remove().end().append(text);   
-                        //                            $('#VampJr').prepend(completed).prepend(img);   
-                        //                            if (completed.length > 0) {   
-                        //                                $('#VampJr').addClass('completed');   
-                        //                            }   
-                        //                            break;   
+                    $('#testMenu ul').append($li);
+                    //$li = $('#testMenu ul li:last-child');
+                    completed = '  (' + d.sDateCompleted + ') ';
+                    if (d.sDateCompleted.length > 0) {
+                        $li.prepend(completed).prepend(img);
+                        $li.addClass('completed');
+                    }
+                    //    break;
+                    //                        case 'Checks':
+                    //                            li = '<li id="' + d.Name + '"><a href="#" class="aLnk">' + d.Name + ' Post Test</a></li>';
+                    //                            $('#testMenu ul').append(li);
+                    //                            
+                    //                            //text = $('#Checks').children().text();   
+                    //                            completed = '  (' + d.sDateCompleted + ') ';   
+                    //                            $('#Checks').prepend(completed).prepend(img);   
+                    //                            if (completed.length > 0) {   
+                    //                                $('#Checks').addClass('completed');   
+                    //                            }   
+                    //                            break;   
+                    //                        case 'Medtronic':   
+                    //                            //text = $('#Medtronic').children().text();   
+                    //                            completed = '  (' + d.sDateCompleted + ') ';   
+                    //                            $('#Medtronic').prepend(completed).prepend(img);   
+                    //                            if (completed.length > 0) {   
+                    //                                $('#Medtronic').addClass('completed');   
+                    //                            }   
+                    //                            break;   
+                    //                        case 'NovaStatStrip':   
+                    //                            //text = $('#NovaStatStrip').children().text();   
+                    //                            completed = '  (' + d.sDateCompleted + ') ';   
+                    //                            $('#NovaStatStrip').prepend(completed).prepend(img);   
+                    //                            if (completed.length > 0) {   
+                    //                                $('#NovaStatStrip').addClass('completed');   
+                    //                            }   
+                    //                            break;   
+                    //                        case 'VampJr':   
+                    //                            //text = $('#VampJr').children().text();   
+                    //                            completed = '  (' + d.sDateCompleted + ') ';   
+                    //                            //$('#VampJr').prepend(img).append(completed).children('a').remove().end().append(text);   
+                    //                            $('#VampJr').prepend(completed).prepend(img);   
+                    //                            if (completed.length > 0) {   
+                    //                                $('#VampJr').addClass('completed');   
+                    //                            }   
+                    //                            break;   
                     //}
                 });
             }
@@ -265,6 +265,20 @@ $(function () {
         $('#btnStart').click();
         $('#btnStart').hide();
     }
+
+
+    $('#testMenu ul').on('click', "li", function () {
+        var test = ($(this).attr("id"));
+        var userName = isNameSelected();
+
+        if (userName.length === 0) {
+            alert('Select or create a name');
+            return;
+        }
+        var id = $('#Users').val();
+        
+        window.location = urlRoot + '/PostTests/' + test + '/' + id + '?name=' + userName;
+    });
 
     $('.aLnk').click(function (e) {
 
