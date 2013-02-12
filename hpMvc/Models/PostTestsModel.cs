@@ -49,6 +49,7 @@ namespace hpMvc.Models
     {
         public int ID { get; set; }
         public string Name { get; set; }
+        public string PathName { get; set; }
         public DateTime? DateCompleted { get; set; }
         public string sDateCompleted { get; set; }        
     }

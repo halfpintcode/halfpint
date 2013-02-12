@@ -207,7 +207,7 @@ $(function () {
                 $.each(data.tests, function (index, d) {
                     //switch (d.Name) {
                     //case 'Overview':
-                    var $li = $('<li class="aLnk" id="' + d.Name + '"><a href="#" class="aLnk">' + d.Name + ' Post Test</a></li>');
+                    var $li = $('<li id="' + d.PathName + '"><a href="#">' + d.Name + ' Post Test</a></li>');
                     $('#testMenu ul').append($li);
                     //$li = $('#testMenu ul li:last-child');
                     completed = '  (' + d.sDateCompleted + ') ';
@@ -276,8 +276,12 @@ $(function () {
             return;
         }
         var id = $('#Users').val();
-        
-        window.location = urlRoot + '/PostTests/' + test + '/' + id + '?name=' + userName;
+        var path = urlRoot + '/PostTests/' + test + '/' + id + '?name=' + userName;
+        if ($(this).hasClass('completed')) {
+            path = path + '&completed=true';
+        }
+
+        window.location = path;
     });
 
     $('.aLnk').click(function (e) {

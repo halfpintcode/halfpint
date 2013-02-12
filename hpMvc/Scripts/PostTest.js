@@ -32,9 +32,9 @@ $(function () {
             url: url,
             type: 'POST',
             data: data,
-            success: function (data) {
-                if (data.IsSuccessful) {
-                    alert('Congratulations! ' + data.Message);
+            success: function (data1) {
+                if (data1.IsSuccessful) {
+                    alert('Congratulations! ' + data1.Message);
                     var id = $('#id').val();
                     url = urlRoot + '/PostTests/Initialize/' + id;
                     window.location = url;
@@ -42,8 +42,8 @@ $(function () {
                 else {
                     $('#btnSubmit').attr('disabled', false);
 
-                    var message = 'Please review the video and take the test again. ' + data.Message + '\n';
-                    $.each(data.Messages, function (index, d) {
+                    var message = 'Please review the video and take the test again. ' + data1.Message + '\n';
+                    $.each(data1.Messages, function (index, d) {
                         message = message + '\n' + d;
                     });
                     alert(message);

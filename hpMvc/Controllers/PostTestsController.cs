@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System.Linq;
 using System.Web.Mvc;
 using hpMvc.DataBase;
 using hpMvc.Infrastructure.Logging;
@@ -86,7 +86,7 @@ namespace hpMvc.Controllers
 
         public JsonResult IsUserEmployeeIdDuplicate(string employeeId)
         {            
-            int site = DbUtils.GetSiteidIDForUser(User.Identity.Name);
+            var site = DbUtils.GetSiteidIDForUser(User.Identity.Name);
             var dto = DbPostTestsUtils.DoesStaffEmployeeIDExist(employeeId, site);
 
             return Json(dto);
@@ -95,32 +95,30 @@ namespace hpMvc.Controllers
         //depricated
         public JsonResult GetTestsCompleted()
         {
-            string id = Request.Params["ID"];
-            //int site = DbUtils.GetSiteidIDForUser(User.Identity.Name);
+            var id = Request.Params["ID"];
             var tests = DbPostTestsUtils.GetTestsCompleted(id);
             var email = DbPostTestsUtils.GetPostTestStaffEmail(id);
 
-            var retVal = new { email = email, tests = tests };
+            var retVal = new {email, tests };
             return Json(retVal);
         }
 
         //new procedure
         public JsonResult GetTestsCompletedActive()
         {
-            string id = Request.Params["ID"];
-            int site = DbUtils.GetSiteidIDForUser(User.Identity.Name);
+            var id = Request.Params["ID"];
             var tests = DbPostTestsUtils.GetStaffPostTestsCompletedCurrentAndActive(id);
             var email = DbPostTestsUtils.GetPostTestStaffEmail(id);
 
-            var retVal = new { email = email, tests = tests };
+            var retVal = new {email, tests };
             return Json(retVal);
         }
 
         public JsonResult Submit()
         {
-            string id = Request.Params["ID"];
-            string name = Request.Params["Name"];
-            string[] email = new string[] {Request.Params["Email"]};
+            var id = Request.Params["ID"];
+            var name = Request.Params["Name"];
+            var email = new[] {Request.Params["Email"]};
 
             var tests = DbPostTestsUtils.GetTestsCompleted(id);
             if(tests.Count == 0)
@@ -128,17 +126,12 @@ namespace hpMvc.Controllers
             
             int site = DbUtils.GetSiteidIDForUser(HttpContext.User.Identity.Name);            
             var coordinators = DbUtils.GetUserInRole("Coordinator", site);
-                        
-            var toEmails = new List<string>();
-            foreach (var coord in coordinators)
-            {
-                toEmails.Add(coord.Email);
-            }
+
             string siteName = DbUtils.GetSiteNameForUser(User.Identity.Name);
 
-            var u = new UrlHelper(this.Request.RequestContext);
-            string url = "http://" + this.Request.Url.Host + u.RouteUrl("Default", new { Controller = "Account", Action = "Logon" });            
-            Utility.SendPostTestsSubmittedMail(toEmails.ToArray(), email, tests, name, siteName, Server, url);
+            var u = new UrlHelper(Request.RequestContext);
+            var url = "http://" + Request.Url.Host + u.RouteUrl("Default", new { Controller = "Account", Action = "Logon" });            
+            Utility.SendPostTestsSubmittedMail(coordinators.Select(coord => coord.Email).ToArray(), email, tests, name, siteName, Server, url);
 
             _logger.LogInfo("Post-tests submitted: " + name);
             return Json("");
@@ -150,10 +143,7 @@ namespace hpMvc.Controllers
             ViewBag.Test = "Checks";
             ViewBag.ID = id;
 
-            if (Request.Params["completed"] != null)
-                ViewBag.Completed = "true";
-            else
-                ViewBag.Completed = "false";
+            ViewBag.Completed = Request.Params["completed"] != null ? "true" : "false";
                         
             return View();
         }
@@ -161,26 +151,22 @@ namespace hpMvc.Controllers
         [HttpPost]        
         public JsonResult Checks()
         {
-            string id = Request.Params["id"];
-            string name = Request.Params["name"]; 
+            var id = Request.Params["id"];
+            var name = Request.Params["name"]; 
 
             var dto = DbPostTestsUtils.VerifyPostTest("Checks", Request.Params);
             if (dto.IsSuccessful)
             {
                 //get the person id
-                int siteID = DbUtils.GetSiteidIDForUser(HttpContext.User.Identity.Name);
-                int nameID = int.Parse(id);
+                var nameId = int.Parse(id);
                 //save test as completed
-                DbPostTestsUtils.AddTestCompleted(nameID, "Checks");
+                DbPostTestsUtils.AddTestCompleted(nameId, "Checks");
             }
 
-            string incorrect = "";
+            var incorrect = "";
             if (dto.Messages.Count > 0)
             {
-                foreach (var s in dto.Messages)
-                {
-                    incorrect += s + ",";
-                }
+                incorrect = dto.Messages.Aggregate(incorrect, (current, s) => current + (s + ","));
                 incorrect = incorrect.Substring(0, incorrect.Length - 1);
             }
 
@@ -194,10 +180,7 @@ namespace hpMvc.Controllers
             ViewBag.Test = "Medtronic";
             ViewBag.ID = id;
 
-            if (Request.Params["completed"] != null)
-                ViewBag.Completed = "true";
-            else
-                ViewBag.Completed = "false";
+            ViewBag.Completed = Request.Params["completed"] != null ? "true" : "false";
 
             return View();
         }
@@ -205,26 +188,22 @@ namespace hpMvc.Controllers
         [HttpPost]        
         public JsonResult Medtronic()
         {
-            string id = Request.Params["id"];
-            string name = Request.Params["name"];
+            var id = Request.Params["id"];
+            var name = Request.Params["name"];
 
             var dto = DbPostTestsUtils.VerifyPostTest("Medtronic", Request.Params);
             if (dto.IsSuccessful)
             {
                 //get the person id
-                int siteID = DbUtils.GetSiteidIDForUser(HttpContext.User.Identity.Name);
-                int nameID = int.Parse(id);
+                int nameId = int.Parse(id);
                 //save test as completed
-                DbPostTestsUtils.AddTestCompleted(nameID, "Medtronic");
+                DbPostTestsUtils.AddTestCompleted(nameId, "Medtronic");
             }
 
             string incorrect = "";
             if (dto.Messages.Count > 0)
             {
-                foreach (var s in dto.Messages)
-                {
-                    incorrect += s + ",";
-                }
+                incorrect = dto.Messages.Aggregate(incorrect, (current, s) => current + (s + ","));
                 incorrect = incorrect.Substring(0, incorrect.Length - 1);
             }
 
@@ -238,10 +217,7 @@ namespace hpMvc.Controllers
             ViewBag.Test = "Overview";
             ViewBag.ID = id;
 
-            if (Request.Params["completed"] != null)
-                ViewBag.Completed = "true";
-            else
-                ViewBag.Completed = "false";
+            ViewBag.Completed = Request.Params["completed"] != null ? "true" : "false";
 
                      
             return View();
@@ -251,26 +227,22 @@ namespace hpMvc.Controllers
         public JsonResult Overview()
         {
 
-            string id = Request.Params["id"]; 
-            string name = Request.Params["name"];
+            var id = Request.Params["id"]; 
+            var name = Request.Params["name"];
 
             var dto = DbPostTestsUtils.VerifyPostTest("Overview", Request.Params);
             if (dto.IsSuccessful)
             {
                 //get the person id
-                int siteID = DbUtils.GetSiteidIDForUser(HttpContext.User.Identity.Name);
-                int nameID = int.Parse(id);
+                int nameId = int.Parse(id);
                 //save test as completed
-                DbPostTestsUtils.AddTestCompleted(nameID, "Overview");
+                DbPostTestsUtils.AddTestCompleted(nameId, "Overview");
             }
 
-            string incorrect = "";
+            var incorrect = "";
             if (dto.Messages.Count > 0)
             {
-                foreach (var s in dto.Messages)
-                {
-                    incorrect += s + ",";
-                }
+                incorrect = dto.Messages.Aggregate(incorrect, (current, s) => current + (s + ","));
                 incorrect = incorrect.Substring(0, incorrect.Length - 1);
             }
 
@@ -284,10 +256,7 @@ namespace hpMvc.Controllers
             ViewBag.Test = "NovaStatStrip";
             ViewBag.ID = id;
 
-            if (Request.Params["completed"] != null)
-                ViewBag.Completed = "true";
-            else
-                ViewBag.Completed = "false";
+            ViewBag.Completed = Request.Params["completed"] != null ? "true" : "false";
 
                      
             return View();
@@ -303,19 +272,15 @@ namespace hpMvc.Controllers
             if (dto.IsSuccessful)
             {
                 //get the person id
-                int siteID = DbUtils.GetSiteidIDForUser(HttpContext.User.Identity.Name);
-                int nameID = int.Parse(id);
+                int nameId = int.Parse(id);
                 //save test as completed
-                DbPostTestsUtils.AddTestCompleted(nameID, "NovaStatStrip");
+                DbPostTestsUtils.AddTestCompleted(nameId, "NovaStatStrip");
             }
 
-            string incorrect = "";
+            var incorrect = "";
             if (dto.Messages.Count > 0)
             {
-                foreach (var s in dto.Messages)
-                {
-                    incorrect += s + ",";
-                }
+                incorrect = dto.Messages.Aggregate(incorrect, (current, s) => current + (s + ","));
                 incorrect = incorrect.Substring(0, incorrect.Length - 1);
             }
 
@@ -329,10 +294,7 @@ namespace hpMvc.Controllers
             ViewBag.Test = "VampJr";
             ViewBag.ID = id;
             
-            if (Request.Params["completed"] != null)
-                ViewBag.Completed = "true";
-            else
-                ViewBag.Completed = "false";
+            ViewBag.Completed = Request.Params["completed"] != null ? "true" : "false";
 
             return View();
         }
@@ -340,30 +302,174 @@ namespace hpMvc.Controllers
         [HttpPost]        
         public JsonResult VampJr()
         {
-            string id = Request.Params["id"];
-            string name = Request.Params["name"];
+            var id = Request.Params["id"];
+            var name = Request.Params["name"];
                         
             var dto = DbPostTestsUtils.VerifyPostTest("VampJr", Request.Params);
             if (dto.IsSuccessful)
             {
                 //get the person id
-                int siteID = DbUtils.GetSiteidIDForUser(HttpContext.User.Identity.Name);
-                int nameID = int.Parse(id);
+                var nameId = int.Parse(id);
                 //save test as completed
-                DbPostTestsUtils.AddTestCompleted(nameID, "VampJr");
+                DbPostTestsUtils.AddTestCompleted(nameId, "VampJr");
             }
 
             string incorrect = "";
             if (dto.Messages.Count > 0)
             {
-                foreach (var s in dto.Messages)
-                {
-                    incorrect += s + "," ;
-                }
+                incorrect = dto.Messages.Aggregate(incorrect, (current, s) => current + (s + ","));
                 incorrect = incorrect.Substring(0, incorrect.Length - 1);
             }
 
             _logger.LogInfo("Post-tests VampJr: " + name + ", " + dto.Message + incorrect);
+            return Json(dto);
+        }
+
+        public ActionResult DexcomG4Sensor(string id, string name)
+        {
+            ViewBag.Name = name;
+            ViewBag.Test = "DexcomG4Sensor";
+            ViewBag.ID = id;
+
+            ViewBag.Completed = Request.Params["completed"] != null ? "true" : "false";
+
+            return View();
+        }
+
+        [HttpPost]
+        public JsonResult DexcomG4Sensor()
+        {
+            var id = Request.Params["id"];
+            var name = Request.Params["name"];
+
+            var dto = DbPostTestsUtils.VerifyPostTest("DexcomG4Sensor", Request.Params);
+            if (dto.IsSuccessful)
+            {
+                //get the person id
+               var nameId = int.Parse(id);
+                //save test as completed
+                DbPostTestsUtils.AddTestCompleted(nameId, "DexcomG4Sensor");
+            }
+
+            var incorrect = "";
+            if (dto.Messages.Count > 0)
+            {
+                incorrect = dto.Messages.Aggregate(incorrect, (current, s) => current + (s + ","));
+                incorrect = incorrect.Substring(0, incorrect.Length - 1);
+            }
+
+            _logger.LogInfo("Post-tests DexcomG4Sensor: " + name + ", " + dto.Message + incorrect);
+            return Json(dto);
+        }
+
+        public ActionResult DexcomG4Receiver(string id, string name)
+        {
+            ViewBag.Name = name;
+            ViewBag.Test = "DexcomG4Receiver";
+            ViewBag.ID = id;
+
+            ViewBag.Completed = Request.Params["completed"] != null ? "true" : "false";
+
+            return View();
+        }
+
+        [HttpPost]
+        public JsonResult DexcomG4Receiver()
+        {
+            var id = Request.Params["id"];
+            var name = Request.Params["name"];
+
+            var dto = DbPostTestsUtils.VerifyPostTest("DexcomG4Receiver", Request.Params);
+            if (dto.IsSuccessful)
+            {
+                //get the person id
+                var nameId = int.Parse(id);
+                //save test as completed
+                DbPostTestsUtils.AddTestCompleted(nameId, "DexcomG4Receiver");
+            }
+
+            var incorrect = "";
+            if (dto.Messages.Count > 0)
+            {
+                incorrect = dto.Messages.Aggregate(incorrect, (current, s) => current + (s + ","));
+                incorrect = incorrect.Substring(0, incorrect.Length - 1);
+            }
+
+            _logger.LogInfo("Post-tests DexcomG4Receiver: " + name + ", " + dto.Message + incorrect);
+            return Json(dto);
+        }
+
+        public ActionResult MedtronicSofSensor(string id, string name)
+        {
+            ViewBag.Name = name;
+            ViewBag.Test = "MedtronicSofSensor";
+            ViewBag.ID = id;
+
+            ViewBag.Completed = Request.Params["completed"] != null ? "true" : "false";
+
+            return View();
+        }
+
+        [HttpPost]
+        public JsonResult MedtronicSofSensor()
+        {
+            var id = Request.Params["id"];
+            var name = Request.Params["name"];
+
+            var dto = DbPostTestsUtils.VerifyPostTest("MedtronicSofSensor", Request.Params);
+            if (dto.IsSuccessful)
+            {
+                //get the person id
+                var nameId = int.Parse(id);
+                //save test as completed
+                DbPostTestsUtils.AddTestCompleted(nameId, "MedtronicSofSensor");
+            }
+
+            var incorrect = "";
+            if (dto.Messages.Count > 0)
+            {
+                incorrect = dto.Messages.Aggregate(incorrect, (current, s) => current + (s + ","));
+                incorrect = incorrect.Substring(0, incorrect.Length - 1);
+            }
+
+            _logger.LogInfo("Post-tests MedtronicSofSensor: " + name + ", " + dto.Message + incorrect);
+            return Json(dto);
+        }
+
+        public ActionResult GuardianREALTimeMonitor(string id, string name)
+        {
+            ViewBag.Name = name;
+            ViewBag.Test = "GuardianREALTimeMonitor";
+            ViewBag.ID = id;
+
+            ViewBag.Completed = Request.Params["completed"] != null ? "true" : "false";
+
+            return View();
+        }
+
+        [HttpPost]
+        public JsonResult GuardianREALTimeMonitor()
+        {
+            var id = Request.Params["id"];
+            var name = Request.Params["name"];
+
+            var dto = DbPostTestsUtils.VerifyPostTest("GuardianREALTimeMonitor", Request.Params);
+            if (dto.IsSuccessful)
+            {
+                //get the person id
+                var nameId = int.Parse(id);
+                //save test as completed
+                DbPostTestsUtils.AddTestCompleted(nameId, "GuardianREALTimeMonitor");
+            }
+
+            var incorrect = "";
+            if (dto.Messages.Count > 0)
+            {
+                incorrect = dto.Messages.Aggregate(incorrect, (current, s) => current + (s + ","));
+                incorrect = incorrect.Substring(0, incorrect.Length - 1);
+            }
+
+            _logger.LogInfo("Post-tests GuardianREALTimeMonitor: " + name + ", " + dto.Message + incorrect);
             return Json(dto);
         }
     }

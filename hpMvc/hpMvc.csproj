@@ -638,6 +638,10 @@
     <Content Include="Views\Sites\AddInsulinConcentration.cshtml" />
     <Content Include="Views\Sites\EditInsulinConcentration.cshtml" />
     <Content Include="Views\FileManager\UploadTest.cshtml" />
+    <Content Include="Views\PostTests\DexcomG4Sensor.cshtml" />
+    <Content Include="Views\PostTests\DexcomG4Receiver.cshtml" />
+    <Content Include="Views\PostTests\MedtronicSofSensor.cshtml" />
+    <Content Include="Views\PostTests\GuardianREALTimeMonitor.cshtml" />
     <None Include="_bin_deployableAssemblies\Microsoft.Web.Infrastructure.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.Razor.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.dll" />

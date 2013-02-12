@@ -1,0 +1,109 @@
+﻿@{
+    ViewBag.Title = "Dexcom G4R eceiver";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="@Url.Content("~/Content/Posttest.css")" rel="stylesheet" type="text/css" />
+<script src="@Url.Content("~/Scripts/PostTest.js")" type="text/javascript"></script>
+
+<h3>Online Modules and Testing - DexcomG4Receiver</h3>
+<hr/>
+<p id="testIntro">
+    After viewing the video, click on the 'Take the test' link (below the video). You must answer all questions correctly.
+</p>
+<iframe src="//player.vimeo.com/video/57688188?title=0&amp;byline=0&amp;portrait=0" 
+                            width="533" height="300" 
+                            frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen>
+</iframe>
+<p>
+    Dexcom G4 Receiver Video
+</p>
+<div>
+    <a href="" id="showHideTest">Take the test</a>    
+</div>
+
+<div id="testForm">
+    <form action="" method="post">
+        <input id="name" name="name" type="hidden" value='@ViewBag.Name'/>
+        <input id="id" name="id" type="hidden" value='@ViewBag.ID'/>
+        <input id="test" name="test" type="hidden" value='@ViewBag.Test'/> 
+        <input id="completed" name="completed" type="hidden" value='@ViewBag.Completed'/>
+        
+        <div class="question">
+            1) <span class="questionText"> If CHECKS or the Dexcom G4 receiver (you will see an image of a drop of blood on the receiver screen) </span>
+            <br/><span class="questionTextOver">requests that I “calibrate”, what do I do? </span>
+        </div>
+        <br />
+        <div class="answer">
+            <span class="spanswer"> a) </span> <input type="radio" name="question1" value="a" />  Input the current sensor glucose reading from the receiver manually into the receiver. Hit the small
+            <br /><span class="answerTextOver"> round “Select” button, scroll to highlight “Enter BG”, then press the “Select” button. Enter the reading </span>            
+            <br /><span class="answerTextOver">by using the “Up” or “Down” button and press the “Select” button again.  Confirm the reading when </span>
+            <br /><span class="answerTextOver">prompted by again pressing the “Select button. Insert this value into CHECKS as well.</span>
+        </div>
+        <br/>
+        <div class="answer">  
+            <span class="spanswer"> b) </span> <input type="radio" name="question1" value="b" />  Take a blood glucose (BG) measurement using the VAMP and study glucometer. Enter this into the 
+            <br /><span class="answerTextOver">Dexcom receiver: hit the small round “Select” button, scroll to highlight “Enter BG”, then press the </span>
+            <br /><span class="answerTextOver">“Select” button. Enter the reading by using the “Up” or “Down” button and press the “Select” button </span>
+            <br /><span class="answerTextOver">again. Confirm the reading when prompted by again pressing the “Select button. Insert this value </span>
+            <br /><span class="answerTextOver">into CHECKS as well.</span>
+        </div>
+        <br />
+        <div class="question">
+            2) <span class="questionText"> The Dexcom transmitter is indicating “Low”.  What do I do now? </span>
+        </div>
+        <br />
+        <div class="answer">
+            <span class="spanswer"> a) </span> <input type="radio" name="question2" value="a" />  This indicates that the patient’s glucose is expected to decrease soon. Draw the next sample when due 
+            <br /><span class="answerTextOver">and continue to follow the CHECKS recommendations.</span>            
+        </div>
+        <br/>
+        <div class="answer">  
+            <span class="spanswer"> b) </span> <input type="radio" name="question2" value="b" />  This indicates that the patient’s sensor glucose reading is at or approaching 70 mg/dL. Draw a blood 
+            <br /><span class="answerTextOver">sample and enter the result into CHECKS, using the “Early Glucose Entry” button if needed. Follow</span>
+            <br /><span class="answerTextOver">the CHECKS recommendations.</span>
+        </div>
+        <br />
+        <div class="question">
+            3) <span class="questionText"> There has been some evidence to indicate that the Dexcom G4 sensor may be sensitive to acetaminophen, </span>
+            <br/><span class="questionTextOver">possibly indicating a falsely elevated glucose reading. If I administer acetaminophen (any route) to my</span>
+            <br/><span class="questionTextOver">patient, what should I do next? </span>
+        
+        </div>
+        <br />
+        <div class="answer">
+            <span class="spanswer"> a) </span> <input type="radio" name="question3" value="a" />  Insert a comment in CHECKS indicating the date, time, dose and route used for the acetaminophen
+            <br /><span class="answerTextOver"> administration. This will suspend the requirement of sensor glucose readings for a few hours.</span>
+            <br /><span class="answerTextOver"></span>            
+        </div>
+        <div class="answer">  
+            <span class="spanswer"> b) </span> <input type="radio" name="question3" value="b" />  Click on the “ACETAMINOPHEN” button on the CHECKS screen under the timer and indicate the 
+            <br /><span class="answerTextOver">date, time, dose and route of administration, then continue to follow CHECKS prompts. This will </span>
+            <br /><span class="answerTextOver">suspend the requirement of sensor glucose readings for a few hours.</span>
+            <br /><span class="answerTextOver"></span>
+        </div>
+        <div class="answer">  
+            <span class="spanswer"> c) </span> <input type="radio" name="question3" value="c" />  Page the study staff to notify them of the dose.
+        </div>
+        <br />
+        <div class="question">
+            4) <span class="questionText"> When a sensor is being removed, which components are disposable? </span>
+        </div>
+        <br />
+        <div class="answer">
+            <span class="spanswer"> a) </span> <input type="radio" name="question4" value="a" />  None – the sensor, transmitter and receiver are all properly cleaned and used again on a future
+            <br /><span class="answerTextOver">patient.</span> 
+            <br/>           
+        </div>
+        <div class="answer">  
+            <span class="spanswer"> b) </span> <input type="radio" name="question4" value="b" />  The receiver only (pager-like device); all other components are thrown away.
+            <br /><span class="answerTextOver"></span>
+        </div>
+        <div class="answer">  
+            <span class="spanswer"> c) </span> <input type="radio" name="question4" value="c" />  The transmitter (piece attached to the sensor) and receiver are cleaned and will be used again on a 
+            <br /><span class="answerTextOver">future patient.</span>
+        </div>
+        <br />
+        <input type="button" id="btnSubmit" value="Submit Answers" />
+    </form>
+</div>
+@Html.ActionLink("Back to tests menu", "Initialize", new { Controller = "PostTests", id = @ViewBag.ID })  

@@ -508,15 +508,17 @@ namespace hpMvc.DataBase
         {
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
 
-            using (SqlConnection conn = new SqlConnection(strConn))
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
                     //throw new Exception("Test error");
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = ("AddPostTestCompleted");
-                    SqlParameter param = new SqlParameter("@staffID", staffID);
+                    var cmd = new SqlCommand("", conn)
+                                  {
+                                      CommandType = System.Data.CommandType.StoredProcedure,
+                                      CommandText = ("AddPostTestCompleted")
+                                  };
+                    var param = new SqlParameter("@staffID", staffID);
                     cmd.Parameters.Add(param);
                     param = new SqlParameter("@test", test);
                     cmd.Parameters.Add(param);
@@ -641,37 +643,35 @@ namespace hpMvc.DataBase
         {
             var dto = new MessageListDTO();
             dto.IsSuccessful = true;
-            List<bool> bResults = new List<bool>();
+            var bResults = new List<bool>();
 
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            using (SqlConnection conn = new SqlConnection(strConn))
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = ("GetPostTestAnswers");
-                    SqlParameter param = new SqlParameter("@testName", testName);
+                    var cmd = new SqlCommand("", conn)
+                                  {
+                                      CommandType = System.Data.CommandType.StoredProcedure,
+                                      CommandText = ("GetPostTestAnswers")
+                                  };
+                    var param = new SqlParameter("@testName", testName);
                     cmd.Parameters.Add(param);
 
                     conn.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    int pos = 0;
-                    int iquestion = 0;
-                    int qType = 0;
-                    string correctAnswer = "";
-                    string answer;
-                    string pararmString = "";
+                    var rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
-                        pos = rdr.GetOrdinal("Question");
-                        iquestion = rdr.GetInt32(pos);
+                        var pos = rdr.GetOrdinal("Question");
+                        var iquestion = rdr.GetInt32(pos);
                         pos = rdr.GetOrdinal("QType");
-                        qType = rdr.GetInt32(pos);
+                        var qType = rdr.GetInt32(pos);
                         pos = rdr.GetOrdinal("Answer");
-                        correctAnswer = rdr.GetString(pos);
+                        var correctAnswer = rdr.GetString(pos);
 
                         bResults.Add(true);
+                        string answer;
+                        var pararmString = "";
                         switch (qType)
                         {
                             case 1: //multiple choice
@@ -693,14 +693,13 @@ namespace hpMvc.DataBase
                                 }
                                 break;
                             case 3: // check all
-                                string[] aAnswers = correctAnswer.Split(':');
-                                int numChecks = int.Parse(aAnswers[0]);
-                                bool bIsCorrect = false;
+                                var aAnswers = correctAnswer.Split(':');
+                                var numChecks = int.Parse(aAnswers[0]);
 
                                 for (int i = 0; i < numChecks; i++)
                                 {
                                     pararmString = "question" + iquestion.ToString() + "." + i.ToString();
-                                    bIsCorrect = false;
+                                    var bIsCorrect = false;
                                     if (formParams[pararmString] != null) //will not be null if checked
                                     {
                                         for (int j = 1; j < aAnswers.Length; j++)
@@ -716,7 +715,7 @@ namespace hpMvc.DataBase
                                     {
                                         //see if this should have been checked
                                         bIsCorrect = true;
-                                        for (int j = 1; j < aAnswers.Length; j++)
+                                        for (var j = 1; j < aAnswers.Length; j++)
                                         {
                                             if (aAnswers[j] == i.ToString())
                                             {
@@ -819,7 +818,10 @@ namespace hpMvc.DataBase
                         
                         pos = rdr.GetOrdinal("Name");
                         test.Name = rdr.GetString(pos);
-                        
+
+                        pos = rdr.GetOrdinal("PathName");
+                        test.PathName = rdr.GetString(pos);
+
                         test.sDateCompleted = "";
 
                         tests.Add(test);
@@ -883,7 +885,7 @@ namespace hpMvc.DataBase
                         test = new PostTest();
                         pos = rdr.GetOrdinal("Name");
                         test.Name = rdr.GetString(pos);
- 
+                        
                         pos = rdr.GetOrdinal("DateCompleted");
                         test.DateCompleted = rdr.GetDateTime(pos);
                         test.sDateCompleted = (test.DateCompleted != null ? test.DateCompleted.Value.ToString("MM/dd/yyyy") : "");
