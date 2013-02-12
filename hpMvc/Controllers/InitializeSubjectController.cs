@@ -120,7 +120,6 @@ namespace hpMvc.Controllers
                 //send email notifications
                 if (dto.IsSuccessful)
                 {
-                    _logger.LogInfo("InitializeSubject.Initialize - AddSenorData: " + studyId + ", sensor: " + sensorType);
                     _logger.LogInfo("InitializeSubject.Initialize - notifications: " + studyId);
                     TempData["InsertData"] = ssInsert;
 
