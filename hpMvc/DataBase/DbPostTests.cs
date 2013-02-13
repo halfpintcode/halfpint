@@ -172,6 +172,54 @@ namespace hpMvc.DataBase
             }
         }
 
+        public static string GetNextStaffEmployeeId(string employeeId, int site)
+        {
+            string nextNumber = "";
+            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+
+            using (var conn = new SqlConnection(strConn))
+            {
+                try
+                {
+                    var cmd = new SqlCommand("", conn)
+                    {
+                        CommandType = System.Data.CommandType.StoredProcedure,
+                        CommandText = ("GetEmployeeIdsLike")
+                    };
+                    var param = new SqlParameter("@siteID", site);
+                    cmd.Parameters.Add(param);
+                    param = new SqlParameter("@number", employeeId);
+                    cmd.Parameters.Add(param);
+
+                    var numList = new List<Int32>();
+                    
+                    conn.Open();
+                    var rdr = cmd.ExecuteReader();
+                    while (rdr.Read())
+                    {
+                        numList.Add(int.Parse(rdr.GetString(0)));
+                    }
+                    rdr.Close();
+                    if (numList.Count == 1)
+                        nextNumber = employeeId + "1";
+                    else
+                    {
+                        var numMax = numList.Max();
+                        ++numMax;
+                        nextNumber = numMax.ToString();
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    nlogger.LogError(ex);
+                    return "";
+                }
+            }
+
+            return nextNumber;
+        }
+
         public static DTO DoesStaffEmployeeIdExist(string employeeId, int site)
         {
             var dto = new DTO {IsSuccessful = false, ReturnValue = 0};

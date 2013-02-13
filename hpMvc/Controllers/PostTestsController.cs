@@ -90,6 +90,16 @@ namespace hpMvc.Controllers
             var site = DbUtils.GetSiteidIDForUser(User.Identity.Name);
             var dto = DbPostTestsUtils.DoesStaffEmployeeIdExist(employeeId, site);
 
+            //if site is dallas
+            if (site == 13)
+            {
+                //if this is a duplicate then get the next non-dupelicate number
+                if (dto.ReturnValue == 1)
+                {
+                    string nexNumber = DbPostTestsUtils.GetNextStaffEmployeeId(employeeId, site);
+                    dto.Bag = nexNumber;
+                }
+            }
             return Json(dto);
         }
         

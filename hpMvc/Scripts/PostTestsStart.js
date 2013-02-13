@@ -8,7 +8,7 @@ $(function () {
 			   .ajaxStop(function () { $(this).hide(); });
 
     var siteId = $('#siteId').val();
-    alert("site:" + siteId);
+    
     //employee id is site specific
     var empIdReq = $('#empIDRequired').val();
     if (empIdReq === "true") {
@@ -343,7 +343,14 @@ $(function () {
             data: {},
             success: function (data) {
                 if (data.ReturnValue == 1) {
-                    alert('This employee ID is being used by ' + data.Message + '!\nIf this is you then select your name from the list.\nIf it\'s not you then contact the coordinator.');
+                    if (siteId === '13') {
+                        var nextNum = data.Bag;
+                        alert('This employee ID is being used, the Halfpint website will use ' + nextNum + ' as your Halfpint employee Id');
+                        $('#empID').val(nextNum);
+                    }
+                    else {
+                        alert('This employee ID is being used by ' + data.Message + '!\nIf this is you then select your name from the list.\nIf it\'s not you then contact the coordinator.');
+                    }
                     retVal = true;
                 }
                 if (data.ReturnValue == -1) {
