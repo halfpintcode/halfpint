@@ -40,7 +40,8 @@ namespace hpMvc.Controllers
             ViewBag.EmpIDRequired = retDto.Stuff.EmpIDRequired;
             ViewBag.EmpIDRegex = retDto.Stuff.EmpIDRegex;
             ViewBag.EmpIDMessage = retDto.Stuff.EmpIDMessage;
-                        
+            ViewBag.SiteId = site;
+            
             ViewBag.Users = new SelectList(users, "ID", "Name", id);
             if (id != "0")
             {
@@ -87,7 +88,7 @@ namespace hpMvc.Controllers
         public JsonResult IsUserEmployeeIdDuplicate(string employeeId)
         {            
             var site = DbUtils.GetSiteidIDForUser(User.Identity.Name);
-            var dto = DbPostTestsUtils.DoesStaffEmployeeIDExist(employeeId, site);
+            var dto = DbPostTestsUtils.DoesStaffEmployeeIdExist(employeeId, site);
 
             return Json(dto);
         }

@@ -7,6 +7,8 @@ $(function () {
     $("#spinner").ajaxStart(function () { $(this).show(); })
 			   .ajaxStop(function () { $(this).hide(); });
 
+    var siteId = $('#siteId').val();
+    alert("site:" + siteId);
     //employee id is site specific
     var empIdReq = $('#empIDRequired').val();
     if (empIdReq === "true") {
@@ -34,7 +36,7 @@ $(function () {
         $('#siteSpecific').show();
         $('#empIDmessage').hide();
         $('#empID').keydown(function (event) {
-            numericsOnly(event, $(this).val());
+            window.numericsOnly(event, $(this).val());
         });
     }
     else {
@@ -72,7 +74,7 @@ $(function () {
 
     });
 
-    //submit after complete
+    //submit tests for email notifications after complete
     $('#btnSubmit').click(function () {
         var userName = isNameSelected();
         var id = $('#Users').val();
@@ -87,14 +89,14 @@ $(function () {
             alert('Enter an email address');
             return;
         }
-        if (!validateEmail(email)) {
+        if (!window.validateEmail(email)) {
             alert('Enter a valid email address');
             return;
         }
 
         $('#btnSubmit').attr('disabled', 'disabled');
         var data = { Name: userName, Email: email, ID: id };
-        var url = urlRoot + '/PostTests/Submit'
+        var url = window.urlRoot + '/PostTests/Submit';
         $.ajax({
             url: url,
             type: 'POST',
@@ -129,7 +131,7 @@ $(function () {
             alert('email is required');
             return;
         }
-        if (!validateEmail(email)) {
+        if (!window.validateEmail(email)) {
             alert('Enter a valid email address');
             return;
         }
@@ -146,18 +148,22 @@ $(function () {
             }
             var regex = $('#empIDRegex').val();
 
-            if (!validateEmployeeID(regex, empId)) {
-                var message = 'Employee id must be a ' + $('#empIDMessage').val();
+            if (!window.validateEmployeeID(regex, empId)) {
+                var message = 'Employee id must be a ';
+                if (siteId === '13') {
+                    message = 'Employee id must be the ';
+                }
+                message = message + $('#empIDMessage').val();
                 alert(message);
                 $('#empIDmessage').show();
                 return;
             }
         }
-        if (isEmployeeIDDuplicate(empId)) {
+        if (isEmployeeIdDuplicate(empId)) {
             return;
         }
 
-        var url = urlRoot + '/PostTests/CreateName';
+        var url = window.urlRoot + '/PostTests/CreateName';
         $('#btnCreate').attr('disabled', 'disabled');
         $.ajax({
             url: url,
@@ -168,7 +174,7 @@ $(function () {
                 if (data.ReturnValue > 0) {
                     alert(firstName + ' ' + lastName + ' created successfully');
                     //$('#ID').val(data.ReturnValue);
-                    url = urlRoot + '/PostTests/Initialize/' + data.ReturnValue;
+                    url = window.urlRoot + '/PostTests/Initialize/' + data.ReturnValue;
                     window.location = url;
                     //                    $('#testMenu').show();
                     //                    $('#divClickHere').hide();
@@ -190,13 +196,11 @@ $(function () {
         $('#Users').attr('disabled', 'disabled');
         $('#btnStart').attr('disabled', 'disabled');
 
-        var url = urlRoot + '/PostTests/GetTestsCompletedActive';
+        var url = window.urlRoot + '/PostTests/GetTestsCompletedActive';
         var name = $("option:selected", $('#Users')).text();
         var id = $('#Users').val();
-        var srcUrl = urlRoot + "/Content/images/check2.jpg";
+        var srcUrl = window.urlRoot + "/Content/images/check2.jpg";
         var img = '<img alt="" src=' + srcUrl + ' />';
-        var text = '';
-        var li = '';
         var completed = '';
         $.ajax({
             url: url,
@@ -215,44 +219,6 @@ $(function () {
                         $li.prepend(completed).prepend(img);
                         $li.addClass('completed');
                     }
-                    //    break;
-                    //                        case 'Checks':
-                    //                            li = '<li id="' + d.Name + '"><a href="#" class="aLnk">' + d.Name + ' Post Test</a></li>';
-                    //                            $('#testMenu ul').append(li);
-                    //                            
-                    //                            //text = $('#Checks').children().text();   
-                    //                            completed = '  (' + d.sDateCompleted + ') ';   
-                    //                            $('#Checks').prepend(completed).prepend(img);   
-                    //                            if (completed.length > 0) {   
-                    //                                $('#Checks').addClass('completed');   
-                    //                            }   
-                    //                            break;   
-                    //                        case 'Medtronic':   
-                    //                            //text = $('#Medtronic').children().text();   
-                    //                            completed = '  (' + d.sDateCompleted + ') ';   
-                    //                            $('#Medtronic').prepend(completed).prepend(img);   
-                    //                            if (completed.length > 0) {   
-                    //                                $('#Medtronic').addClass('completed');   
-                    //                            }   
-                    //                            break;   
-                    //                        case 'NovaStatStrip':   
-                    //                            //text = $('#NovaStatStrip').children().text();   
-                    //                            completed = '  (' + d.sDateCompleted + ') ';   
-                    //                            $('#NovaStatStrip').prepend(completed).prepend(img);   
-                    //                            if (completed.length > 0) {   
-                    //                                $('#NovaStatStrip').addClass('completed');   
-                    //                            }   
-                    //                            break;   
-                    //                        case 'VampJr':   
-                    //                            //text = $('#VampJr').children().text();   
-                    //                            completed = '  (' + d.sDateCompleted + ') ';   
-                    //                            //$('#VampJr').prepend(img).append(completed).children('a').remove().end().append(text);   
-                    //                            $('#VampJr').prepend(completed).prepend(img);   
-                    //                            if (completed.length > 0) {   
-                    //                                $('#VampJr').addClass('completed');   
-                    //                            }   
-                    //                            break;   
-                    //}
                 });
             }
         });
@@ -276,7 +242,7 @@ $(function () {
             return;
         }
         var id = $('#Users').val();
-        var path = urlRoot + '/PostTests/' + test + '/' + id + '?name=' + userName;
+        var path = window.urlRoot + '/PostTests/' + test + '/' + id + '?name=' + userName;
         if ($(this).hasClass('completed')) {
             path = path + '&completed=true';
         }
@@ -295,7 +261,7 @@ $(function () {
         }
 
         var id = $('#Users').val();
-        var path = urlRoot + '/PostTests/' + $(this).parent().attr('id') + '/' + id + '?name=' + userName;
+        var path = window.urlRoot + '/PostTests/' + $(this).parent().attr('id') + '/' + id + '?name=' + userName;
         if ($(this).parent().hasClass('completed')) {
             path = path + '&completed=true';
         }
@@ -343,7 +309,7 @@ $(function () {
         var retVal = false;
         $.ajax({
             async: false,
-            url: urlRoot + '/PostTests/IsUserEmailDuplicate/?email=' + email,
+            url: window.urlRoot + '/PostTests/IsUserEmailDuplicate/?email=' + email,
             type: 'POST',
             data: {},
             success: function (data) {
@@ -365,14 +331,14 @@ $(function () {
         if (empId.length === 0) {
             return;
         }
-        isEmployeeIDDuplicate(empId);
+        isEmployeeIdDuplicate(empId);
     });
 
-    function isEmployeeIDDuplicate(empId) {
+    function isEmployeeIdDuplicate(empId) {
         var retVal = false;
         $.ajax({
             async: false,
-            url: urlRoot + '/PostTests/IsUserEmployeeIdDuplicate/?employeeID=' + empId,
+            url: window.urlRoot + '/PostTests/IsUserEmployeeIdDuplicate/?employeeID=' + empId,
             type: 'POST',
             data: {},
             success: function (data) {

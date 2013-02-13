@@ -290,7 +290,7 @@ namespace hpMvc.Controllers
 
         public JsonResult IsUserEmployeeIdDuplicate(string employeeID, int site)
         {            
-            var dto = DbPostTestsUtils.DoesStaffEmployeeIDExist(employeeID, site);
+            var dto = DbPostTestsUtils.DoesStaffEmployeeIdExist(employeeID, site);
             return Json(dto);
         }
 

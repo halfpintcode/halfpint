@@ -172,33 +172,38 @@ namespace hpMvc.DataBase
             }
         }
 
-        public static DTO DoesStaffEmployeeIDExist(string employeeID, int site)
+        public static DTO DoesStaffEmployeeIdExist(string employeeId, int site)
         {
-            var dto = new DTO();
-            dto.IsSuccessful = false;
-            dto.ReturnValue = 0;
-            
+            var dto = new DTO {IsSuccessful = false, ReturnValue = 0};
+
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
 
-            using (SqlConnection conn = new SqlConnection(strConn))
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
                     
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = ("DoesStaffEmployeeIDExist");
-                    SqlParameter param = new SqlParameter("@siteID", site);
+                    var cmd = new SqlCommand("", conn)
+                                  {
+                                      CommandType = System.Data.CommandType.StoredProcedure,
+                                      CommandText = ("DoesStaffEmployeeIDExist")
+                                  };
+                    var param = new SqlParameter("@siteID", site);
                     cmd.Parameters.Add(param);
-                    param = new SqlParameter("@employeeID", employeeID);
+                    param = new SqlParameter("@employeeID", employeeId);
                     cmd.Parameters.Add(param);
                     //SqlParameter param = new SqlParameter("@Identity", System.Data.SqlDbType.Int, 0, "ID");
-                    param = new SqlParameter("@name", System.Data.SqlDbType.NVarChar, 50);
-                    param.Direction = System.Data.ParameterDirection.Output;
+                    param = new SqlParameter("@name", System.Data.SqlDbType.NVarChar, 50)
+                                {
+                                    Direction =
+                                        System.Data
+                                              .ParameterDirection
+                                              .Output
+                                };
                     cmd.Parameters.Add(param);
 
                     conn.Open();
-                    int count = (Int32)cmd.ExecuteScalar();
+                    var count = (Int32)cmd.ExecuteScalar();
                     dto.IsSuccessful = true;
                     if (count == 1)
                     {
