@@ -1,5 +1,8 @@
 ﻿/// <reference path="jquery-1.7.1-vsdoc.js" />
 $(function () {
+    var validationTimer = null;
+    var wasCreateClicked = false;
+
     $('#testMenu').hide();
     $('#divName').hide();
     $('#btnStart').attr('disabled', 'disabled');
@@ -8,7 +11,7 @@ $(function () {
 			   .ajaxStop(function () { $(this).hide(); });
 
     var siteId = $('#siteId').val();
-    
+
     //employee id is site specific
     var empIdReq = $('#empIDRequired').val();
     if (empIdReq === "true") {
@@ -116,34 +119,43 @@ $(function () {
 
     //create new user
     $('#btnCreate').click(function () {
+        wasCreateClicked = true;
+        validationTimer = null;
+        console.log('create click');
+
         var firstName = $.trim($('#firstName').val());
         if (firstName.length === 0) {
             alert('first name is required');
+            wasCreateClicked = false;
             return;
         }
         var lastName = $.trim($('#lastName').val());
         if (lastName.length === 0) {
             alert('last name is required');
+            wasCreateClicked = false;
             return;
         }
         var email = $.trim($('#email').val());
         if (email.length === 0) {
             alert('email is required');
+            wasCreateClicked = false;
             return;
         }
         if (!window.validateEmail(email)) {
             alert('Enter a valid email address');
+            wasCreateClicked = false;
             return;
         }
         if (isEmailDuplicate(email)) {
+            wasCreateClicked = false;
             return;
         }
-
-
+        
         if (!($('#empID').is(':hidden'))) {
             var empId = $.trim($('#empID').val());
             if (empId.length === 0) {
                 alert('Employee id is required');
+                wasCreateClicked = false;
                 return;
             }
             var regex = $('#empIDRegex').val();
@@ -156,11 +168,15 @@ $(function () {
                 message = message + $('#empIDMessage').val();
                 alert(message);
                 $('#empIDmessage').show();
+                wasCreateClicked = false;
                 return;
             }
-        }
-        if (isEmployeeIdDuplicate(empId)) {
-            return;
+            var bIsDupe = isEmployeeIdDuplicate(email);
+            console.log('bIsDupe:' + bIsDupe);
+            if (bIsDupe) {
+                wasCreateClicked = false;
+                return;
+            }
         }
 
         var url = window.urlRoot + '/PostTests/CreateName';
@@ -327,15 +343,25 @@ $(function () {
     }
 
     $('#empID').blur(function () {
-        var empId = $.trim($('#empID').val());
-        if (empId.length === 0) {
-            return;
-        }
-        isEmployeeIdDuplicate(empId);
+        console.log('blur');
+        validationTimer = setTimeout(function () {
+            validationTimer = null;
+            console.log('validationTimer');
+            console.log('in blur - wasCreateClicked:' + wasCreateClicked);
+            if (wasCreateClicked) {
+                return;
+            }
+            var empId = $.trim($('#empID').val());
+            if (empId.length === 0) {
+                return;
+            }
+            isEmployeeIdDuplicate(empId);
+        }, 200);
     });
 
     function isEmployeeIdDuplicate(empId) {
         var retVal = false;
+
         $.ajax({
             async: false,
             url: window.urlRoot + '/PostTests/IsUserEmployeeIdDuplicate/?employeeID=' + empId,
@@ -347,6 +373,7 @@ $(function () {
                         var nextNum = data.Bag;
                         alert('This employee ID is being used, the Halfpint website will use ' + nextNum + ' as your Halfpint employee Id');
                         $('#empID').val(nextNum);
+                        retVal = false;
                     }
                     else {
                         alert('This employee ID is being used by ' + data.Message + '!\nIf this is you then select your name from the list.\nIf it\'s not you then contact the coordinator.');
@@ -359,6 +386,7 @@ $(function () {
                 }
             }
         });
+
         return retVal;
     }
 });
