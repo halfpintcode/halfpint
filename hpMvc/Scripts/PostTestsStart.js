@@ -1,7 +1,6 @@
 ﻿/// <reference path="jquery-1.7.1-vsdoc.js" />
 $(function () {
-    var validationTimer = null;
-    var wasCreateClicked = false;
+    var empId = "";
 
     $('#testMenu').hide();
     $('#divName').hide();
@@ -36,6 +35,11 @@ $(function () {
             $('#empID').val(leadDig);
         }
 
+        //$('#empIDExtraLabel').hide();
+        if (siteId === '13') {
+            //$('#empIDExtraLabel').show();
+            $('#lblEmpID').text('Enter the last 4 digits of your employee id:');
+        }
         $('#siteSpecific').show();
         $('#empIDmessage').hide();
         $('#empID').keydown(function (event) {
@@ -96,9 +100,12 @@ $(function () {
             alert('Enter a valid email address');
             return;
         }
+        if (!($('#empID').is(':hidden'))) {
+            empId = $.trim($('#empID').val());
+        }
 
         $('#btnSubmit').attr('disabled', 'disabled');
-        var data = { Name: userName, Email: email, ID: id };
+        var data = { Name: userName, Email: email, ID: id, EmployeeId: empId };
         var url = window.urlRoot + '/PostTests/Submit';
         $.ajax({
             url: url,
@@ -119,43 +126,43 @@ $(function () {
 
     //create new user
     $('#btnCreate').click(function () {
-        wasCreateClicked = true;
-        validationTimer = null;
+        //        wasCreateClicked = true;
+        //        validationTimer = null;
         console.log('create click');
 
         var firstName = $.trim($('#firstName').val());
         if (firstName.length === 0) {
             alert('first name is required');
-            wasCreateClicked = false;
+            //wasCreateClicked = false;
             return;
         }
         var lastName = $.trim($('#lastName').val());
         if (lastName.length === 0) {
             alert('last name is required');
-            wasCreateClicked = false;
+            //wasCreateClicked = false;
             return;
         }
         var email = $.trim($('#email').val());
         if (email.length === 0) {
             alert('email is required');
-            wasCreateClicked = false;
+            //wasCreateClicked = false;
             return;
         }
         if (!window.validateEmail(email)) {
             alert('Enter a valid email address');
-            wasCreateClicked = false;
+            //wasCreateClicked = false;
             return;
         }
         if (isEmailDuplicate(email)) {
-            wasCreateClicked = false;
+            //wasCreateClicked = false;
             return;
         }
-        
+
         if (!($('#empID').is(':hidden'))) {
-            var empId = $.trim($('#empID').val());
+            empId = $.trim($('#empID').val());
             if (empId.length === 0) {
                 alert('Employee id is required');
-                wasCreateClicked = false;
+                //wasCreateClicked = false;
                 return;
             }
             var regex = $('#empIDRegex').val();
@@ -168,15 +175,19 @@ $(function () {
                 message = message + $('#empIDMessage').val();
                 alert(message);
                 $('#empIDmessage').show();
-                wasCreateClicked = false;
+                //wasCreateClicked = false;
                 return;
             }
-            var bIsDupe = isEmployeeIdDuplicate(email);
+
+            var bIsDupe = isEmployeeIdDuplicate(empId);
             console.log('bIsDupe:' + bIsDupe);
             if (bIsDupe) {
-                wasCreateClicked = false;
+
+
+                //wasCreateClicked = false;
                 return;
             }
+
         }
 
         var url = window.urlRoot + '/PostTests/CreateName';
@@ -342,24 +353,24 @@ $(function () {
         return retVal;
     }
 
-    $('#empID').blur(function () {
-        console.log('blur');
-        validationTimer = setTimeout(function () {
-            validationTimer = null;
-            console.log('validationTimer');
-            console.log('in blur - wasCreateClicked:' + wasCreateClicked);
-            if (wasCreateClicked) {
-                return;
-            }
-            var empId = $.trim($('#empID').val());
-            if (empId.length === 0) {
-                return;
-            }
-            isEmployeeIdDuplicate(empId);
-        }, 200);
-    });
+    //    $('#empID').blur(function () {
+    //        console.log('blur');
+    //        validationTimer = setTimeout(function () {
+    //            validationTimer = null;
+    //            console.log('validationTimer');
+    //            console.log('in blur - wasCreateClicked:' + wasCreateClicked);
+    //            if (wasCreateClicked) {
+    //                return;
+    //            }
+    //            var empId = $.trim($('#empID').val());
+    //            if (empId.length === 0) {
+    //                return;
+    //            }
+    //            isEmployeeIdDuplicate(empId);
+    //        }, 200);
+    //    });
 
-    function isEmployeeIdDuplicate(empId) {
+    function isEmployeeIdDuplicate() {
         var retVal = false;
 
         $.ajax({
@@ -373,12 +384,13 @@ $(function () {
                         var nextNum = data.Bag;
                         alert('This employee ID is being used, the Halfpint website will use ' + nextNum + ' as your Halfpint employee Id');
                         $('#empID').val(nextNum);
+                        empId = nextNum;
                         retVal = false;
                     }
                     else {
                         alert('This employee ID is being used by ' + data.Message + '!\nIf this is you then select your name from the list.\nIf it\'s not you then contact the coordinator.');
+                        retVal = true;
                     }
-                    retVal = true;
                 }
                 if (data.ReturnValue == -1) {
                     alert('There was an error cheking the database for a duplicate employee ID.\nPlease contact the coordinator if this error continues.');

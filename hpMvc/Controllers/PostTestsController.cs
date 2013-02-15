@@ -74,6 +74,12 @@ namespace hpMvc.Controllers
             }
 
             dto.ReturnValue = DbPostTestsUtils.AddNurseStaff(lastName, firstName, empId, siteId, email);
+            
+            var coordinators = DbUtils.GetUserInRole("Coordinator", siteId);
+            string siteName = DbUtils.GetSiteNameForUser(User.Identity.Name);
+            var u = new UrlHelper(Request.RequestContext);
+            var url = "http://" + Request.Url.Host + u.RouteUrl("Default", new { Controller = "Account", Action = "Logon" });
+            Utility.SendNurseAccountCreatedMail(coordinators.Select(coord => coord.Email).ToArray(), new[] { Request.Params["Email"] }, firstName + " " + lastName, siteName, empId, Server, url);
 
             _logger.LogInfo("PostTests.CreateName - message: " + dto.Message + ", name: " + lastName + "," + firstName + ", site: " + siteId.ToString());
             return Json(dto);
@@ -130,7 +136,8 @@ namespace hpMvc.Controllers
             var id = Request.Params["ID"];
             var name = Request.Params["Name"];
             var email = new[] {Request.Params["Email"]};
-
+            var empId = Request.Params["EmployeeId"]; 
+            
             var tests = DbPostTestsUtils.GetTestsCompleted(id);
             if(tests.Count == 0)
                 return Json("no tests");

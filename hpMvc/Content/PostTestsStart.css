@@ -4,10 +4,16 @@
 {
     line-height:2.5em;
 }
+#siteSpecific {
+    line-height:1.5em;
+}
+#empIDExtraLabel {
+    font-style: italic
+}
 .fieldLabel
 {
     display:inline-block; 
-    width:110px;    
+    width:175px;    
 }
 
 .bg1 

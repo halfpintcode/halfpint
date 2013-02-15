@@ -6,9 +6,6 @@
 <script src="@Url.Content("~/Scripts/PostTestsStart.js")" type="text/javascript"></script>
 
 <h2>Post-Tests</h2>
-<p>
-	Your name will be used to track your test results.
-</p>
 
 <form method="post" action="">    
 	<div id="listName">
@@ -39,8 +36,11 @@
 		<label class="fieldLabel">Last Name:</label><input type="text" id="lastName" name="lastName" /><br />
         <label class="fieldLabel">Email:</label><input type="text" id="email" name="email" /> 
 		<div id="siteSpecific">            
-			<label class="fieldLabel">Employee ID:</label><input type="text" id="empID" name="empID" />
-			<span id="empIDmessage">&nbsp;(You must enter a @ViewBag.EmpIDMessage)</span>            
+			<label id="lblEmpID" class="fieldLabel">Employee ID:</label><input type="text" id="empID" name="empID" />
+		    <span id="empIDmessage">(&nbsp;You must enter @ViewBag.EmpIDMessage)</span>
+		    <br/>
+            <span id="empIDExtraLabel">Your employee id will be used as your operator id for the Nova StatStrip Glucose Meter</span>
+		                
 		</div>        
 		<input type="button" id="btnCreate" value="Create Name For Testing" />
 		<input id="empIDRequired" value="@ViewBag.EmpIDRequired" name="empIDRequired" type="hidden"/>

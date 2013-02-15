@@ -182,7 +182,7 @@ namespace hpMvc.DataBase
 		public static void SendAdditiveAddeddMail(string[] toAddress, string[] ccAddress, Additive additive, string name, string siteName, HttpServerUtilityBase server, string url)
 		{
 			string subject = "Halfpint - New Additive Added";
-			StringBuilder sbBody = new StringBuilder("<p>" + name + " from " + siteName + " has added a new additive:</p>");
+			var sbBody = new StringBuilder("<p>" + name + " from " + siteName + " has added a new additive:</p>");
 
 			sbBody.Append("<table><tr><th>Name</th><th>" + additive.Name + "</th></tr>");
 			sbBody.Append("<tr><td>CHO %</td><td>" + additive.ChoKcal + "</td></tr>");
@@ -200,9 +200,9 @@ namespace hpMvc.DataBase
 		public static void SendPostTestsSubmittedMail(string[] toAddress, string[] ccAddress, List<PostTest> tests, string name, string siteName, HttpServerUtilityBase server, string url)
 		{
 			string subject = "Halfpint post-tests submitted by: " + name;
-			StringBuilder sbBody = new StringBuilder("<p>" + name + " from " + siteName + " has completed the Halfpint training modules and passed post-tests for the following:</p>");
+			var sbBody = new StringBuilder("<p>" + name + " from " + siteName + " has completed the Halfpint training modules and passed post-tests for the following:</p>");
 
-			sbBody.Append("<table><tr><th>Test</th><th>Date Completed</th></tr>");
+            sbBody.Append("<table><tr><th>Test</th><th>Date Completed</th></tr>");
 			foreach (PostTest test in tests)
 				sbBody.Append("<tr><td>" + test.Name + "</td><td>" + (test.DateCompleted != null ? test.DateCompleted.Value.ToString("MM/dd/yyyy") : "") + "</td></tr>");
 			sbBody.Append("</table>");
@@ -210,6 +210,18 @@ namespace hpMvc.DataBase
 			string siteUrl = "Website: <a href='" + url + "'>HalfpintStudy.org</a>";
 			SendHtmlEmail(subject, toAddress, ccAddress, sbBody.ToString(), server, siteUrl);            
 		}
+
+        public static void SendNurseAccountCreatedMail(string[] toAddress, string[] ccAddress, string name, string siteName, string employeeId, HttpServerUtilityBase server, string url)
+        {
+            var subject = "Halfpint - New Nurse Account Created: " + name;
+            var sbBody = new StringBuilder("<p>" + name + " from " + siteName + " has created a new staff account.</p>");
+
+            if (employeeId.Length > 0)
+                sbBody.Append("<p>" + name + "'s operater id for the Nova StatStrip Glucose Meter is <strong>" + employeeId + "</strong></p>");
+            
+            var siteUrl = "Website: <a href='" + url + "'>HalfpintStudy.org</a>";
+            SendHtmlEmail(subject, toAddress, ccAddress, sbBody.ToString(), server, siteUrl);
+        }
 
 		public static void SendAccountCreatedMail(string[] toAddress, string[] ccAddress, string password, string userName, string url, HttpServerUtilityBase server)
 		{
