@@ -1,5 +1,10 @@
 ﻿/// <reference path="jquery-1.7-vsdoc.js" />
 $(function () {
+    alert('Manual Entry of Post Tests is currently not available.  This should be available in a few days.');
+
+    window.location = urlRoot + '/Staff/Index/';
+    return;
+    
     $('#divName').hide();
     $('#btnEdit').attr('disabled', 'disabled');
 
@@ -105,14 +110,14 @@ $(function () {
         }
 
         var name = firstName + ' ' + lastName;
-        var url = urlRoot + '/PostTests/CreateName'
+        var url = urlRoot + '/PostTests/CreateName';
         $.ajax({
             url: url,
             type: 'POST',
             data: { LastName: lastName, FirstName: firstName, EmpID: empID, Email: email },
             success: function (data) {
                 if (data.ReturnValue > 0) {
-                    var url = urlRoot + '/PostTestsAdmin/EditPostTest/' + data.ReturnValue;
+                    url = urlRoot + '/PostTestsAdmin/EditPostTest/' + data.ReturnValue;
                     window.location = url;
                 }
                 else {
