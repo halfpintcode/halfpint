@@ -1,35 +1,51 @@
 ﻿/// <reference path="jquery-1.7-vsdoc.js" />
 $(function () {
-    alert('Manual Entry of Post Tests is currently not available.  This should be available in a few days.');
+    var empId = "";
+    var siteId = $('#siteId').val();
 
-    window.location = urlRoot + '/Staff/Index/';
-    return;
-    
     $('#divName').hide();
     $('#btnEdit').attr('disabled', 'disabled');
 
-    var empIDReq = $('#empIDRequired').val();
-    if (empIDReq === "true") {
+    $("#spinner").ajaxStart(function () { $(this).show(); })
+			   .ajaxStop(function () { $(this).hide(); });
+
+    var empIdReq = $('#empIDRequired').val();
+    if (empIdReq === "true") {
+        var reg = $('#empIDRegex').val();
+        //check if leading digits and display them if any
+        var leadDig = "";
+        var c;
+        for (var i = 0; i < reg.length; i++) {
+            //skip i=0
+            if (i === 0) {
+                continue;
+            }
+            c = reg[i];
+            if (isInteger(c)) {
+                leadDig = leadDig + c.toString();
+            }
+            else {
+                break;
+            }
+        }
+        if (leadDig.length) {
+            $('#empID').val(leadDig);
+        }
+
+        if (siteId === '13') {
+            //$('#empIDExtraLabel').show();
+            $('#lblEmpID').text('Enter the last 4 digits of your employee id:');
+        }
         $('#siteSpecific').show();
         $('#empIDmessage').hide();
         $('#empID').keydown(function (event) {
-            numericsOnly(event, $(this).val());
+            window.numericsOnly(event, $(this).val());
         });
     }
     else {
         $('#siteSpecific').hide();
     }
-
-    $('#waitGif').hide();
-    $.ajaxSetup({
-        beforeSend: function () {
-            $('#waitGif').show();
-        },
-        complete: function () {
-            $('#waitGif').hide();
-        }
-    });
-
+    
     //show and hide the two differnment ways a user can get started
     //1) select name from a dropdown 2) create new name
     $('#clickHere').click(function (e) {
@@ -61,7 +77,7 @@ $(function () {
 
     $('#btnEdit').click(function () {
         var name = $('#Users').val();
-        var url = urlRoot + '/PostTestsAdmin/EditPostTest/' + name;
+        var url = window.urlRoot + '/PostTestsAdmin/EditPostTest/' + name;
         window.location = url;
     });
 
@@ -82,8 +98,8 @@ $(function () {
             alert('email is required');
             return;
         }
-        if (!validateEmail(email)) {
-            alert('Enter a valid email address')
+        if (!window.validateEmail(email)) {
+            alert('Enter a valid email address');
             return;
         }
         if (isEmailDuplicate(email)) {
@@ -91,33 +107,36 @@ $(function () {
         }
 
         if (!($('#empID').is(':hidden'))) {
-            var empID = $.trim($('#empID').val());
-            if (empID.length === 0) {
+            empId = $.trim($('#empID').val());
+            if (empId.length === 0) {
                 alert('Employee id is required');
                 return;
             }
             var regex = $('#empIDRegex').val();
 
-            if (!validateEmployeeID(regex, empID)) {
+            if (!window.validateEmployeeID(regex, empId)) {
                 var message = 'Employee id must be a ' + $('#empIDMessage').val();
+                if (siteId === '13') {
+                    message = 'Employee id must be the ';
+                }
+                message = message + $('#empIDMessage').val();
                 alert(message);
                 $('#empIDmessage').show();
                 return;
             }
-            if (isEmployeeIDDuplicate(empID)) {
+            if (isEmployeeIdDuplicate()) {
                 return;
             }
         }
 
-        var name = firstName + ' ' + lastName;
-        var url = urlRoot + '/PostTests/CreateName';
+        var url = window.urlRoot + '/PostTests/CreateName';
         $.ajax({
             url: url,
             type: 'POST',
-            data: { LastName: lastName, FirstName: firstName, EmpID: empID, Email: email },
+            data: { LastName: lastName, FirstName: firstName, EmpID: empId, Email: email },
             success: function (data) {
                 if (data.ReturnValue > 0) {
-                    url = urlRoot + '/PostTestsAdmin/EditPostTest/' + data.ReturnValue;
+                    url = window.urlRoot + '/PostTestsAdmin/EditPostTest/' + data.ReturnValue;
                     window.location = url;
                 }
                 else {
@@ -143,7 +162,7 @@ $(function () {
         var retVal = false;
         $.ajax({
             async: false,
-            url: urlRoot + '/PostTests/IsUserEmailDuplicate/?email=' + email,
+            url: window.urlRoot + '/PostTests/IsUserEmailDuplicate/?email=' + email,
             type: 'POST',
             data: {},
             success: function (data) {
@@ -160,25 +179,35 @@ $(function () {
         return retVal;
     }
 
-    $('#empID').blur(function () {
-        var empID = $.trim($('#empID').val());
-        if (empID.length === 0) {
-            return;
-        }
-        isEmployeeIDDuplicate(empID);
-    });
+//    $('#empID').blur(function () {
+//        empId = $.trim($('#empID').val());
+//        if (empId.length === 0) {
+//            return;
+//        }
+//        isEmployeeIdDuplicate(empId);
+//    });
 
-    function isEmployeeIDDuplicate(empID) {
+    function isEmployeeIdDuplicate() {
         var retVal = false;
+        
         $.ajax({
             async: false,
-            url: urlRoot + '/PostTests/IsUserEmployeeIdDuplicate/?employeeID=' + empID,
+            url: window.urlRoot + '/PostTests/IsUserEmployeeIdDuplicate/?employeeID=' + empId,
             type: 'POST',
             data: {},
             success: function (data) {
                 if (data.ReturnValue == 1) {
-                    alert('This employee ID is being used by ' + data.Message + '!\nIf this is the person you want then select this name from the list.\nIf it\'s not then contact the web master with the information.');
-                    retVal = true;
+                    if (siteId === '13') {
+                        var nextNum = data.Bag;
+                        alert('This employee ID is being used, the Halfpint website will use ' + nextNum + ' as your Halfpint employee Id');
+                        $('#empID').val(nextNum);
+                        empId = nextNum;
+                        retVal = false;
+                    }
+                    else {
+                        alert('This employee ID is being used by ' + data.Message + '!\nIf this is you then select your name from the list.\nIf it\'s not you then contact the coordinator.');
+                        retVal = true;
+                    }
                 }
                 if (data.ReturnValue == -1) {
                     alert('There was an error cheking the database for a duplicate employee ID.\nPlease contact the coordinator if this error continues.');
@@ -189,3 +218,8 @@ $(function () {
         return retVal;
     }
 });
+
+function isInteger(s) {
+    var reInteger = /^\d+$/;
+    return reInteger.test(s);
+}

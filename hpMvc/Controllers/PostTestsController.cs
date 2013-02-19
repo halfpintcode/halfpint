@@ -10,8 +10,7 @@ namespace hpMvc.Controllers
     public class PostTestsController : Controller
     {
         readonly NLogger _logger = new NLogger();
-
-        [RequireHttps]
+        
         public ActionResult Initialize(string id)
         {
             var role = AccountUtils.GetRoleForUser(User.Identity.Name);
@@ -109,23 +108,12 @@ namespace hpMvc.Controllers
             return Json(dto);
         }
         
-        //depricated
-        public JsonResult GetTestsCompleted()
-        {
-            var id = Request.Params["ID"];
-            var tests = DbPostTestsUtils.GetTestsCompleted(id);
-            var email = DbPostTestsUtils.GetPostTestStaffEmail(id);
-
-            var retVal = new {email, tests };
-            return Json(retVal);
-        }
-
         //new procedure
         public JsonResult GetTestsCompletedActive()
         {
-            var id = Request.Params["ID"];
-            var tests = DbPostTestsUtils.GetStaffPostTestsCompletedCurrentAndActive(id);
-            var email = DbPostTestsUtils.GetPostTestStaffEmail(id);
+            var staffId = Request.Params["ID"];
+            var tests = DbPostTestsUtils.GetStaffPostTestsCompletedCurrentAndActive(staffId);
+            var email = DbPostTestsUtils.GetPostTestStaffEmail(staffId);
 
             var retVal = new {email, tests };
             return Json(retVal);

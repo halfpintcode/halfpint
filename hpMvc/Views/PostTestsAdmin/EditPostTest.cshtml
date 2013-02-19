@@ -1,4 +1,4 @@
-﻿@model hpMvc.Models.PostTestsModel
+﻿@model List<hpMvc.Models.PostTest>
 
 @{
     ViewBag.Title = "EditPostTest";
@@ -16,63 +16,22 @@
     
         <br />
         <p>
-            Select the tests completed by <strong> @Model.Name </strong>  
+            Select the tests completed by <strong>  </strong>  
         </p>      
-        <input type="hidden" name="Name" value="@Model.Name" />
-        <input type="hidden" name="ID" value="@Model.ID" />
+        <input type="hidden" name="Name" value="" />
+        <input type="hidden" name="ID" value="" />
         <div>
-            @Html.EditorFor(model => model.Overview) <label class='lbl1'>Overview</label>
-            @Html.ValidationMessageFor(model => model.Overview)
-            &nbsp;
-            <span id="spanOverview" class="spanDate">
-                @Html.LabelFor(model => model.OverviewCompleted)
-                @Html.EditorFor(model => model.OverviewCompleted)
-                @Html.ValidationMessageFor(model => model.OverviewCompleted)
-            </span>
-        </div>
-        
-        <div class="editor-label">
-            @Html.EditorFor(model => model.Checks)  <label class='lbl1'>Checks</label>
-            @Html.ValidationMessageFor(model => model.Checks)
-            &nbsp;
-            <span id="spanChecks" class="spanDate">
-                @Html.LabelFor(model => model.ChecksCompleted)
-                @Html.EditorFor(model => model.ChecksCompleted)
-                @Html.ValidationMessageFor(model => model.ChecksCompleted)
-            </span>
-        </div>
-        
-        <div class="editor-label">
-            @Html.EditorFor(model => model.Medtronic) <label class='lbl1'>Medtronic</label>
-            @Html.ValidationMessageFor(model => model.Medtronic)
-            &nbsp;
-            <span id="spanMedtronic" class="spanDate">
-                @Html.LabelFor(model => model.MedtronicCompleted)
-                @Html.EditorFor(model => model.MedtronicCompleted)
-                @Html.ValidationMessageFor(model => model.MedtronicCompleted)
-            </span>
-        </div>
-        
-        <div class="editor-label">
-            @Html.EditorFor(model => model.NovaStatStrip) <label class='lbl1'>Nova Stat Strip</label>
-            @Html.ValidationMessageFor(model => model.NovaStatStrip)
-            &nbsp;
-            <span id="spanNova" class="spanDate">
-                @Html.LabelFor(model => model.NovaStatStripCompleted)
-                @Html.EditorFor(model => model.NovaStatStripCompleted)
-                @Html.ValidationMessageFor(model => model.NovaStatStripCompleted)
-            </span>
-        </div>
-        
-        <div class="editor-label">
-            @Html.EditorFor(model => model.VampJr) <label class='lbl1'>Vamp Jr.</label>
-            @Html.ValidationMessageFor(model => model.VampJr)
-            &nbsp;
-            <span id="spanVampJr" class="spanDate">
-                @Html.LabelFor(model => model.VampJrCompleted)
-                @Html.EditorFor(model => model.VampJrCompleted)
-                @Html.ValidationMessageFor(model => model.VampJrCompleted)
-            </span>
+            @for (int i = 0; i < (@Model.Count()) - 1; i++)
+            {
+                @Html.HiddenFor(m => @Model[i].ID)
+                @Html.CheckBoxFor(m => @Model[i].IsCompleted)
+                <span class = "lbl1" >@Model[i].Name </span> 
+                <span class="spanDate">
+                    <span>Date Completed:</span>
+                    @Html.TextBoxFor(m => @Model[i].sDateCompleted)
+                </span>
+                <br/>    
+            }
         </div>
         
         <p>

@@ -816,19 +816,21 @@ namespace hpMvc.DataBase
         {
             var users = new List<IDandName>();
             
-            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            using (SqlConnection conn = new SqlConnection(strConn))
+            var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = ("GetStaffTestUsersForSite");
-                    SqlParameter param = new SqlParameter("@site", site);
+                    var cmd = new SqlCommand("", conn)
+                                  {
+                                      CommandType = System.Data.CommandType.StoredProcedure,
+                                      CommandText = ("GetStaffTestUsersForSite")
+                                  };
+                    var param = new SqlParameter("@site", site);
                     cmd.Parameters.Add(param);
 
                     conn.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
+                    var rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
                         users.Add(new IDandName(rdr.GetInt32(0), rdr.GetString(1)));
@@ -845,7 +847,7 @@ namespace hpMvc.DataBase
             return users;
         }
 
-        public static List<PostTest> GetStaffPostTestsCompletedCurrentAndActive(string id)
+        public static List<PostTest> GetStaffPostTestsCompletedCurrentAndActive(string staffId)
         {
             var tests = new List<PostTest>();
 
@@ -887,7 +889,7 @@ namespace hpMvc.DataBase
                                       CommandType = System.Data.CommandType.StoredProcedure,
                                       CommandText = ("GetStaffPostTestsCompletedCurrentAndActive")
                                   };
-                    var param = new SqlParameter("@staffId", id);
+                    var param = new SqlParameter("@staffId", staffId);
                     cmd.Parameters.Add(param);
 
                     conn.Open();

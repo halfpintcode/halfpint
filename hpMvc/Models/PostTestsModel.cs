@@ -51,7 +51,8 @@ namespace hpMvc.Models
         public string Name { get; set; }
         public string PathName { get; set; }
         public DateTime? DateCompleted { get; set; }
-        public string sDateCompleted { get; set; }        
+        public string sDateCompleted { get; set; }
+        public bool IsCompleted { get; set; }
     }
 
     public class PostTestNextDue

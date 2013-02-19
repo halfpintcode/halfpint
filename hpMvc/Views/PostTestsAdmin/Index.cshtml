@@ -17,17 +17,20 @@
 		<label class="fieldLabel">Last Name:</label><input type="text" id="lastName" name="lastName" /><br />
         <label class="fieldLabel">Email:</label><input type="text" id="email" name="email" />
         <div id="siteSpecific">            
-			<label class="fieldLabel">Employee ID:</label><input type="text" id="empID" name="empID" />
-			<span id="empIDmessage">&nbsp;(You must enter @ViewBag.EmpIDMessage)</span>            
+			<label id="lblEmpID" class="fieldLabel">Employee ID:</label><input type="text" id="empID" name="empID" />
+            <span id="empIDmessage">&nbsp;(You must enter @ViewBag.EmpIDMessage)</span>
+            <br/>
+            <span id="empIDExtraLabel">Your employee id will be used as your operator id for the Nova StatStrip Glucose Meter</span>            
 		</div>  
 		<input type="button" id="btnCreate" value="Create Name" />
         <input id="empIDRequired" value="@ViewBag.EmpIDRequired" name="empIDRequired" type="hidden"/>
 		<input id="empIDRegex" value="@ViewBag.EmpIDRegex" name="empIDRegex" type="hidden"/>
-		<input id="empIDMessage" value="@ViewBag.EmpIDMessage" name="empIDMessage" type="hidden"/>		
+	    <input id="empIDMessage" value="@ViewBag.EmpIDMessage" name="empIDMessage" type="hidden"/>	
+        <input id="siteId" value="@ViewBag.SiteId" name="siteId" type="hidden"/>	
 	</div>
 	<div id="divClickHere">
 		<br />
-		<a id="clickHere" href="#"><strong>Click here</strong></a> <span id="spanClickHere">&nbsp; to create a new name (nurses only). </span> 
+		<a id="clickHere" href="#"><strong>Click here</strong></a> <span id="spanClickHere">&nbsp; to create a new name (This is for nurse role only, notify the administrator for adding all other roles). </span> 
 	</div> 
 
 </form>

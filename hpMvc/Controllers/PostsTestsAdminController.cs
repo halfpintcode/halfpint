@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 using System.Web.Mvc;
 using hpMvc.Infrastructure.Logging;
 using hpMvc.DataBase;
@@ -12,16 +9,12 @@ namespace hpMvc.Controllers
     [Authorize]
     public class PostTestsAdminController : Controller
     {
-        NLogger logger = new NLogger();
+        readonly NLogger _logger = new NLogger();
 
         public ActionResult Index()
         {
             int site = DbUtils.GetSiteidIDForUser(HttpContext.User.Identity.Name);
             
-            //for testing
-            //if (site == 0)
-            //    site = 1;
-
             var users = DbPostTestsUtils.GetStaffTestUsersForSite(site);            
             users.Insert(0, new IDandName(0, "Select Your Name"));
 
@@ -30,58 +23,30 @@ namespace hpMvc.Controllers
             ViewBag.EmpIDRequired = retDto.Stuff.EmpIDRequired;
             ViewBag.EmpIDRegex = retDto.Stuff.EmpIDRegex;
             ViewBag.EmpIDMessage = retDto.Stuff.EmpIDMessage;
-                                    
-            ViewBag.Users = new SelectList(users, "ID", "Name");
+            ViewBag.SiteId = site;
                         
+            ViewBag.Users = new SelectList(users, "ID", "Name");
             return View();
         }
 
         public ActionResult EditPostTest(string id)
         {
-            PostTestsModel ptm = new PostTestsModel();            
-            ptm.ID = int.Parse(id);
+            //PostTestsModel ptm = new PostTestsModel();            
+            //ptm.ID = int.Parse(id);
 
             int site = DbUtils.GetSiteidIDForUser(User.Identity.Name);
-            var tests = DbPostTestsUtils.GetTestsCompleted(id);
+            var tests = DbPostTestsUtils.GetStaffPostTestsCompletedCurrentAndActive(id);
 
-            //todo - staff change - ptm needs a name
             var staffInfo = DbUtils.GetStaffInfo(int.Parse(id));
-            ptm.Name = staffInfo.LastName + "," + staffInfo.FirstName;
-            foreach (var test in tests)
-            {
-                switch (test.Name)
-                {
-                    case "Overview":
-                        ptm.Overview = true;
-                        ptm.OverviewCompleted = test.DateCompleted;
-                        break;
-                    case "Checks":
-                        ptm.Checks = true;
-                        ptm.ChecksCompleted = test.DateCompleted;
-                        break;
-                    case "Medtronic":
-                        ptm.Medtronic = true;
-                        ptm.MedtronicCompleted = test.DateCompleted;
-                        break;
-                    case "NovaStatStrip":
-                        ptm.NovaStatStrip = true;
-                        ptm.NovaStatStripCompleted = test.DateCompleted;
-                        break;
-                    case "VampJr":
-                        ptm.VampJr = true;
-                        ptm.VampJrCompleted = test.DateCompleted;
-                        break;
-                }
-            }
-
-            return View(ptm);
+            
+            return View(tests);
         }
 
         [HttpPost]
-        public JsonResult EditPostTest(PostTestsModel ptm)
+        public JsonResult EditPostTest(List<PostTest> ptList)
         {
-            int iRet = DbPostTestsUtils.SavePostTestsCompleted(ptm);  
-            return Json(iRet);
+            //int iRet = DbPostTestsUtils.SavePostTestsCompleted(ptm);  
+            return Json(1);
         }
 
     }

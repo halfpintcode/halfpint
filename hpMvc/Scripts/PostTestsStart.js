@@ -1,21 +1,21 @@
 ﻿/// <reference path="jquery-1.7.1-vsdoc.js" />
 $(function () {
     var empId = "";
-
+    var siteId = $('#siteId').val();
+    
     $('#testMenu').hide();
     $('#divName').hide();
     $('#btnStart').attr('disabled', 'disabled');
 
     $("#spinner").ajaxStart(function () { $(this).show(); })
 			   .ajaxStop(function () { $(this).hide(); });
-
-    var siteId = $('#siteId').val();
+    
 
     //employee id is site specific
     var empIdReq = $('#empIDRequired').val();
     if (empIdReq === "true") {
         var reg = $('#empIDRegex').val();
-        //check if leading digits
+        //check if leading digits and display them if any
         var leadDig = "";
         var c;
         for (var i = 0; i < reg.length; i++) {
@@ -179,7 +179,7 @@ $(function () {
                 return;
             }
 
-            var bIsDupe = isEmployeeIdDuplicate(empId);
+            var bIsDupe = isEmployeeIdDuplicate();
             console.log('bIsDupe:' + bIsDupe);
             if (bIsDupe) {
 
@@ -200,12 +200,10 @@ $(function () {
                 //data.ReturnValue contains the id for the new staff record
                 if (data.ReturnValue > 0) {
                     alert(firstName + ' ' + lastName + ' created successfully');
-                    //$('#ID').val(data.ReturnValue);
+                    
                     url = window.urlRoot + '/PostTests/Initialize/' + data.ReturnValue;
                     window.location = url;
-                    //                    $('#testMenu').show();
-                    //                    $('#divClickHere').hide();
-                    //                    $('#sEmail').val($('#email').val());
+                    
                 }
                 else {
                     alert(data.Message);
