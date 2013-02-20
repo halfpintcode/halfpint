@@ -1,12 +1,19 @@
 ﻿/// <reference path="jquery-1.7.1-vsdoc.js" />
 $(function () {
-    //    $('.spanDate').each(function () {
-    //        var val = $(this).children().eq(1).val();
-    //        if (!val) {
-    //            $(this).hide();
-    //        }
+    $('.datePicker').datepicker({
+        beforeShow: function (input, inst) {
+            $.datepicker._pos = $.datepicker._findPos(input); //this is the default position 
+            var pos = $(this).position();
+            $.datepicker._pos[0] = pos.left + 100; //left              
+        }
+    });
+    $('.spanDate').each(function () {
+        var val = $(this).children().eq(1).val();
+        if (!val) {
+            $(this).hide();
+        }
 
-    //    });
+    });
 
     $(':checkbox').click(function () {
         if ($(this).attr('checked')) {

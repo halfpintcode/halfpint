@@ -38,14 +38,16 @@ namespace hpMvc.Controllers
             var tests = DbPostTestsUtils.GetStaffPostTestsCompletedCurrentAndActive(id);
 
             var staffInfo = DbUtils.GetStaffInfo(int.Parse(id));
-            
+            ViewBag.StaffId = staffInfo.ID;
+            ViewBag.StaffName = staffInfo.FirstName + " " + staffInfo.LastName;
+
             return View(tests);
         }
 
         [HttpPost]
-        public JsonResult EditPostTest(List<PostTest> ptList)
+        public JsonResult EditPostTest(List<PostTest> ptList, string staffId, string staffName)
         {
-            //int iRet = DbPostTestsUtils.SavePostTestsCompleted(ptm);  
+            int iRet = DbPostTestsUtils.SavePostTestsCompleted(ptList, int.Parse(staffId), staffName);  
             return Json(1);
         }
 

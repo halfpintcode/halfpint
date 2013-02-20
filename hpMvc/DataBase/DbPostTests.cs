@@ -14,17 +14,77 @@ namespace hpMvc.DataBase
 
     public static class DbPostTestsUtils
     {
-        public static NLogger nlogger;
+        readonly static NLogger Nlogger;
         static DbPostTestsUtils()
         {
-            nlogger = new NLogger();
+            Nlogger = new NLogger();
+        }
+
+        public static int SavePostTestsCompleted(List<PostTest> ptl, int staffId, string staffName)
+        {
+            Nlogger.LogInfo("SavePostTestsCompleted - for: " + staffName);
+            
+            var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            using (var conn = new SqlConnection(strConn))
+            {
+                
+                conn.Open();
+                using (var trn = conn.BeginTransaction())
+                {
+                    try
+                    {                       
+                        
+                        var cmd = new SqlCommand("", conn)
+                                      {
+                                          Transaction = trn,
+                                          CommandType = System.Data.CommandType.StoredProcedure,
+                                          CommandText = "DeleteStaffPostTestsCompleted"
+                                      };
+                        var param = new SqlParameter("@id", staffId);
+                        cmd.Parameters.Add(param);
+                        
+                        cmd.ExecuteNonQuery();
+                        Nlogger.LogInfo("DeletePostTestsCompleted");
+
+                        foreach (var postTest in ptl)
+                        {
+                            if(! postTest.IsCompleted)
+                                continue;
+                            cmd = new SqlCommand("", conn)
+                                      {
+                                          Transaction = trn,
+                                          CommandType = System.Data.CommandType.StoredProcedure,
+                                          CommandText = ("AddStaffPostTestCompleted")
+                                      };
+                            param = new SqlParameter("@staffID", staffId);
+                            cmd.Parameters.Add(param);
+                            param = new SqlParameter("@test", postTest.Name);
+                            cmd.Parameters.Add(param);
+                            param = new SqlParameter("@dateCompleted", postTest.sDateCompleted);
+                            cmd.Parameters.Add(param);
+
+                            cmd.ExecuteNonQuery();
+                            Nlogger.LogInfo("AddTestCompleted - test:" + postTest.Name);
+                        }
+                        
+                        trn.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        trn.Rollback();
+                        Nlogger.LogError(ex);
+                        return -1;
+                    }
+                }
+            }
+            return 1;
         }
 
         public static int SavePostTestsCompleted(PostTestsModel ptm)
         {
-             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
             
-            using (SqlConnection conn = new SqlConnection(strConn))
+            using (var conn = new SqlConnection(strConn))
             {
                 
                 conn.Open();
@@ -41,7 +101,7 @@ namespace hpMvc.DataBase
                         cmd.Parameters.Add(param);
                         
                         cmd.ExecuteNonQuery();
-                        nlogger.LogInfo("DeletePostTestsCompleted - name: " + ptm.Name);
+                        Nlogger.LogInfo("DeletePostTestsCompleted - name: " + ptm.Name);
 
                         if (ptm.Checks)
                         {
@@ -57,7 +117,7 @@ namespace hpMvc.DataBase
                             cmd.Parameters.Add(param);
 
                             cmd.ExecuteNonQuery();
-                            nlogger.LogInfo("AddTestCompleted - test: Checks, name: " + ptm.Name);
+                            Nlogger.LogInfo("AddTestCompleted - test: Checks, name: " + ptm.Name);
                         }
 
                         if (ptm.Overview)
@@ -74,7 +134,7 @@ namespace hpMvc.DataBase
                             cmd.Parameters.Add(param);
 
                             cmd.ExecuteNonQuery();
-                            nlogger.LogInfo("AddTestCompleted - test: Overview, name: " + ptm.Name);
+                            Nlogger.LogInfo("AddTestCompleted - test: Overview, name: " + ptm.Name);
                         }
 
                         if (ptm.Medtronic)
@@ -91,7 +151,7 @@ namespace hpMvc.DataBase
                             cmd.Parameters.Add(param);
                                                         
                             cmd.ExecuteNonQuery();
-                            nlogger.LogInfo("AddTestCompleted - test: Medtronic, name: " + ptm.Name);
+                            Nlogger.LogInfo("AddTestCompleted - test: Medtronic, name: " + ptm.Name);
                         }
                                                 
                         if (ptm.NovaStatStrip)
@@ -108,7 +168,7 @@ namespace hpMvc.DataBase
                             cmd.Parameters.Add(param);
 
                             cmd.ExecuteNonQuery();
-                            nlogger.LogInfo("AddTestCompleted - test: NovaStatStrip, name: " + ptm.Name);
+                            Nlogger.LogInfo("AddTestCompleted - test: NovaStatStrip, name: " + ptm.Name);
                         }
 
                         if (ptm.VampJr)
@@ -125,14 +185,14 @@ namespace hpMvc.DataBase
                             cmd.Parameters.Add(param);
 
                             cmd.ExecuteNonQuery();
-                            nlogger.LogInfo("AddTestCompleted - test: NovaStatStrip, name: " + ptm.Name);
+                            Nlogger.LogInfo("AddTestCompleted - test: NovaStatStrip, name: " + ptm.Name);
                         }
                         trn.Commit();
                     }
                     catch (Exception ex)
                     {
                         trn.Rollback();
-                        nlogger.LogError(ex);
+                        Nlogger.LogError(ex);
                         return -1;
                     }
                 }
@@ -166,7 +226,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                     return -1;
                 }
             }
@@ -212,7 +272,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                     return "";
                 }
             }
@@ -264,7 +324,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                     dto.ReturnValue = -1;
                     return dto;
                 }                
@@ -312,7 +372,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                     dto.ReturnValue = -1;
                     return dto;
                 }
@@ -354,7 +414,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                     dto.ReturnValue = -1;
                     return dto;
                 }
@@ -398,7 +458,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                     dto.ReturnValue = -1;
                     return dto;
                 }
@@ -441,7 +501,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                     dto.ReturnValue = -1;
                     return dto;
                 }
@@ -474,7 +534,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                     dto.ReturnValue = -1;
                     return dto;
                 }
@@ -517,7 +577,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                     return -1;
                 }
             }
@@ -551,7 +611,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);                    
+                    Nlogger.LogError(ex);                    
                 }
                 return email;
             }
@@ -581,12 +641,12 @@ namespace hpMvc.DataBase
                     conn.Open();
                     cmd.ExecuteNonQuery();
 
-                    nlogger.LogInfo("AddTestCompleted - test: " + test + ", staffID: " + staffID);
+                    Nlogger.LogInfo("AddTestCompleted - test: " + test + ", staffID: " + staffID);
                     return 1;
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError("AddTestCompleted staffID: " + staffID + ", " + ex.Message);                    
+                    Nlogger.LogError("AddTestCompleted staffID: " + staffID + ", " + ex.Message);                    
                     return -1;
                 }
             }            
@@ -636,7 +696,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                     return null;
                 }
             }
@@ -685,7 +745,7 @@ namespace hpMvc.DataBase
                  }
                  catch (Exception ex)
                  {
-                     nlogger.LogError(ex);
+                     Nlogger.LogError(ex);
                      return null;
                  }
              }
@@ -804,7 +864,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                     return null;
                 }
             }
@@ -839,7 +899,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                     return null;
                 }
             }
@@ -878,7 +938,7 @@ namespace hpMvc.DataBase
                         test.PathName = rdr.GetString(pos);
 
                         test.sDateCompleted = "";
-
+                        
                         tests.Add(test);
                     }
                     rdr.Close();
@@ -903,13 +963,14 @@ namespace hpMvc.DataBase
                         pos = rdr.GetOrdinal("DateCompleted");
                         test.DateCompleted = rdr.GetDateTime(pos);
                         test.sDateCompleted = (test.DateCompleted != null ? test.DateCompleted.Value.ToString("MM/dd/yyyy") : "");
+                        test.IsCompleted = true;
                         
                     }
                     rdr.Close();
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                     return null;
                 }
             }
@@ -951,7 +1012,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                     return null;
                 }
             }
@@ -1005,7 +1066,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                     return null;
                 }
             }
@@ -1051,7 +1112,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                     return null;
                 }
             }
@@ -1096,7 +1157,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                     return null;
                 }
             }
