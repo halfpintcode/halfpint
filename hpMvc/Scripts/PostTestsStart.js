@@ -128,7 +128,7 @@ $(function () {
     $('#btnCreate').click(function () {
         //        wasCreateClicked = true;
         //        validationTimer = null;
-        console.log('create click');
+        //console.log('create click');
 
         var firstName = $.trim($('#firstName').val());
         if (firstName.length === 0) {
@@ -180,7 +180,7 @@ $(function () {
             }
 
             var bIsDupe = isEmployeeIdDuplicate();
-            console.log('bIsDupe:' + bIsDupe);
+            //console.log('bIsDupe:' + bIsDupe);
             if (bIsDupe) {
 
 
