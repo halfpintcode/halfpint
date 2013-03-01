@@ -414,8 +414,8 @@ namespace hpMvc.Controllers
         public FilePathResult DownloadStatStripList()
         {
             string siteName = DbUtils.GetSiteNameForUser(User.Identity.Name);
-            var folderPath = ConfigurationManager.AppSettings["StatStripListPath"].ToString();
-            string fileName = siteName + " " + ConfigurationManager.AppSettings["StatStripListName"].ToString();
+            var folderPath = ConfigurationManager.AppSettings["StatStripListPath"];
+            string fileName = siteName + " " + ConfigurationManager.AppSettings["StatStripListName"];
                         
             var fullpath = Path.Combine(folderPath, fileName);
 

@@ -318,15 +318,12 @@ namespace hpMvc.Controllers
         public ActionResult AddUser(AddUserModel model, string SelectedSite)
         {
             nlogger.LogInfo("Admin.AddUser - post");
-            string password = "";
-            bool bSendEmail = false;
+            bool bSendEmail = Request.Params["SendEmail"] != null;
 
-            if (Request.Params["SendEmail"] != null)
-                bSendEmail = true;
             if (ModelState.IsValid)
             {
                 // Attempt to add the user
-                password = DbUtils.GetRandomPassword();
+                string password = DbUtils.GetRandomPassword();
                 
                 MembershipCreateStatus createStatus;
                 MembershipUser user = Membership.CreateUser(model.UserName, password, model.Email, null, null, true, null, out createStatus);
