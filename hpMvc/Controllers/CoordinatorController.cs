@@ -17,29 +17,27 @@ namespace hpMvc.Controllers
     [Authorize]
     public class CoordinatorController : Controller
     {
-        NLogger nlogger = new NLogger();
+        readonly NLogger _nlogger = new NLogger();
 
-        [Telerik.Web.Mvc.PopulateSiteMap(SiteMapName = "coord", ViewDataKey = "coord")]
+        [PopulateSiteMap(SiteMapName = "coord", ViewDataKey = "coord")]
         public ActionResult Index()
         {
             string role = "";
-            int siteID = DbUtils.GetSiteidIDForUser(User.Identity.Name);
+            int siteId = DbUtils.GetSiteidIDForUser(User.Identity.Name);
 
             if (HttpContext.User.IsInRole("Admin"))
             {
                 role = "Admin";
 
-                List<Site> sites = new List<Site>();
-
-                sites = DbUtils.GetSitesActive();
+                var sites = DbUtils.GetSitesActive();
                 if (sites.Count == 0)
                     throw new Exception("There was an error retreiving the sites list from the database");
                 sites.Insert(0, new Site { ID = 0, Name = "Select a site", SiteID = "" });
 
-                ViewBag.Sites = new SelectList(sites, "ID", "Name", siteID);
+                ViewBag.Sites = new SelectList(sites, "ID", "Name", siteId);
             }
             ViewBag.Role = role;
-            ViewBag.SiteID = siteID;            
+            ViewBag.SiteID = siteId;            
             //ViewBag.CgmUpload = "false";
             //var list = DbUtils.GetSiteRandomizedStudiesActive(siteID);
             if (!SiteMapManager.SiteMaps.ContainsKey("coord"))
@@ -49,15 +47,11 @@ namespace hpMvc.Controllers
             return View();            
         }
 
-        public JsonResult GetActiveSubjects(string siteID, bool showCleared)
+        public JsonResult GetActiveSubjects(string siteId, bool showCleared)
         {
-            int site = int.Parse(siteID);
-            List<SubjectCompleted> list;
+            int site = int.Parse(siteId);
 
-            if(showCleared)
-                list = DbUtils.GetSiteRandomizedStudiesCleared(site);    
-            else
-                list = DbUtils.GetSiteRandomizedStudiesActive(site);    
+            var list = showCleared ? DbUtils.GetSiteRandomizedStudiesCleared(site) : DbUtils.GetSiteRandomizedStudiesActive(site);    
             return Json(list);
         }
 
@@ -101,11 +95,11 @@ namespace hpMvc.Controllers
             {
                 //todo validate file type
                 var fileName = Path.GetFileName(file.FileName);
-                nlogger.LogInfo("CGM Upload - fileName: " + fileName);
+                _nlogger.LogInfo("CGM Upload - fileName: " + fileName);
                 
                 var folderPath = ConfigurationManager.AppSettings["CgmUploadPath"].ToString();
                 var folderSitePath = Path.Combine(folderPath, model.SiteName);
-                nlogger.LogInfo("CGM Upload - path: " + folderSitePath);
+                _nlogger.LogInfo("CGM Upload - path: " + folderSitePath);
                 if (!Directory.Exists(folderSitePath))
                     Directory.CreateDirectory(folderSitePath);
 
@@ -193,25 +187,16 @@ namespace hpMvc.Controllers
             //send email for non completion
             string[] users = ConfigurationManager.AppSettings["NewFormulaNotify"].ToString().Split(new[] { ',' }, StringSplitOptions.None);
 
-            List<string> toEmails = new List<string>();
-            foreach (var user in users)
-            {
-                var mUser = Membership.GetUser(user);
-                if (mUser == null)
-                    continue;
-                toEmails.Add(mUser.Email);
-            }
-                                
 
             var u = new UrlHelper(this.Request.RequestContext);
-            string url = "http://" + this.Request.Url.Host + u.RouteUrl("Default", new { Controller = "Home", Action = "Index" });
+            string url = "http://" + Request.Url.Host + u.RouteUrl("Default", new { Controller = "Home", Action = "Index" });
 
-            Utility.SendCompleteSubjectMail(toEmails.ToArray(), null, url, Server, model, User.Identity.Name);
+            Utility.SendCompleteSubjectMail((from user in users select Membership.GetUser(user) into mUser where mUser != null select mUser.Email).ToArray(), null, url, Server, model, User.Identity.Name);
             
             return View(model);
         }
 
-        public ActionResult StudyIdsNotRandomized(string siteID)
+        public ActionResult StudyIdsNotRandomized(string siteId)
         {
             string role = "";
 
@@ -219,9 +204,7 @@ namespace hpMvc.Controllers
             {
                 role = "Admin";
 
-                List<Site> sites = new List<Site>();
-
-                sites = DbUtils.GetSitesActive();
+                var sites = DbUtils.GetSitesActive();
                 if (sites.Count == 0)
                     throw new Exception("There was an error retreiving the sites list from the database");
                 sites.Insert(0, new Site { ID = 0, Name = "Select a site", SiteID = "" });
@@ -332,7 +315,7 @@ namespace hpMvc.Controllers
 
             //need to get tests completed for model - this was not returned from the client
             var postTestsCompleted = DbPostTestsUtils.GetTestsCompleted(model.ID.ToString());
-            PostTestPersonTestsCompleted ptpc = new PostTestPersonTestsCompleted();
+            var ptpc = new PostTestPersonTestsCompleted();
             ptpc.PostTestsCompleted = postTestsCompleted;
             model.PostTestsCompleted = ptpc;
             return View(model);
@@ -344,9 +327,9 @@ namespace hpMvc.Controllers
             return Json(dto);
         }
 
-        public JsonResult IsUserEmployeeIdDuplicateOtherThan(int id, string employeeID, int site)
+        public JsonResult IsUserEmployeeIdDuplicateOtherThan(int id, string employeeId, int site)
         {
-            var dto = DbPostTestsUtils.DoesStaffEmployeeIDExistOtherThan(id, employeeID, site);
+            var dto = DbPostTestsUtils.DoesStaffEmployeeIDExistOtherThan(id, employeeId, site);
             return Json(dto);
         }
 
@@ -367,9 +350,9 @@ namespace hpMvc.Controllers
             return PartialView("UpdateStaffPartial", model);
         }
 
-        public JsonResult GetNonradomizedStudies(string siteID)
+        public JsonResult GetNonradomizedStudies(string siteId)
         {
-            var list = DbUtils.GetStudyIDsNotRandomized(int.Parse(siteID));
+            var list = DbUtils.GetStudyIDsNotRandomized(int.Parse(siteId));
             var grid = new WebGrid(list, defaultSort: "StudyID", rowsPerPage: 50);
             var htmlString = grid.GetHtml();
 
@@ -378,22 +361,22 @@ namespace hpMvc.Controllers
 
         public ActionResult ShowPostTestsCompleted()
         {
-            int siteID = DbUtils.GetSiteidIDForUser(User.Identity.Name);
-            var ptpcl = DbPostTestsUtils.GetPostTestStaffsTestsCompleted(siteID);
+            int siteId = DbUtils.GetSiteidIDForUser(User.Identity.Name);
+            var ptpcl = DbPostTestsUtils.GetPostTestStaffsTestsCompleted(siteId);
             return View(ptpcl);
         }
 
         public ActionResult ShowPostTestsCompleted2()
         {
-            int siteID = DbUtils.GetSiteidIDForUser(User.Identity.Name);
-            var ptel = DbPostTestsUtils.GetPostTestStaffsTestsCompletedExtended(siteID);
+            int siteId = DbUtils.GetSiteidIDForUser(User.Identity.Name);
+            var ptel = DbPostTestsUtils.GetPostTestStaffsTestsCompletedExtended(siteId);
             return View(ptel);
         }
 
         public ActionResult ShowPostTestsDue()
         {
-            int siteID = DbUtils.GetSiteidIDForUser(User.Identity.Name);
-            var ptndl = DbPostTestsUtils.GetStaffPostTestsFirstDateCompletedBySite(siteID);
+            int siteId = DbUtils.GetSiteidIDForUser(User.Identity.Name);
+            var ptndl = DbPostTestsUtils.GetStaffPostTestsFirstDateCompletedBySite(siteId);
             return View(ptndl);
         }
 
@@ -408,14 +391,14 @@ namespace hpMvc.Controllers
             //ViewBag.Sites = new SelectList(sites, "ID", "Name");
 
             //var list = DbUtils.GetAllRandomizedStudies();
-            int siteID = DbUtils.GetSiteidIDForUser(User.Identity.Name);
-            var list = DbUtils.GetSiteRandomizedStudies(siteID);
+            int siteId = DbUtils.GetSiteidIDForUser(User.Identity.Name);
+            var list = DbUtils.GetSiteRandomizedStudies(siteId);
             return View(list);
         }
 
-        public JsonResult GetSiteRandomizedStudies(string siteID)
+        public JsonResult GetSiteRandomizedStudies(string siteId)
         {
-            var list = DbUtils.GetSiteRandomizedStudies(int.Parse(siteID));
+            var list = DbUtils.GetSiteRandomizedStudies(int.Parse(siteId));
             var grid = new WebGrid(list, defaultSort: "Number", rowsPerPage: 50);
             var htmlString = grid.GetHtml(tableStyle: "webgrid",
                             columns: grid.Columns(
@@ -423,7 +406,7 @@ namespace hpMvc.Controllers
                             grid.Column("Number"),
                             grid.Column("StudyID", header: "Study  ID"),
                             grid.Column("Arm"),
-                            grid.Column("DateRandomized", header: "Date Randomized", format: x => x.DateRandomized.ToString("MM/dd/yyyy hh:mm tt"))));
+                            grid.Column("DateRandomized", "Date Randomized", x => x.DateRandomized.ToString("MM/dd/yyyy hh:mm tt"))));
 
             return Json(new { Data = htmlString.ToHtmlString() }, JsonRequestBehavior.AllowGet);
         }
@@ -436,8 +419,8 @@ namespace hpMvc.Controllers
                         
             var fullpath = Path.Combine(folderPath, fileName);
 
-            nlogger.LogInfo("DownloadStatStripList: " + fileName);
-            return this.File(fullpath, "application/csv", fileName);
+            _nlogger.LogInfo("DownloadStatStripList: " + fileName);
+            return File(fullpath, "application/csv", fileName);
         }
     }
 }

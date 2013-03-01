@@ -1019,38 +1019,37 @@ namespace hpMvc.DataBase
             return tests;
         }
 
-        public static List<PostTestPersonTestsCompleted> GetPostTestStaffsTestsCompleted(int siteID)
+        public static List<PostTestPersonTestsCompleted> GetPostTestStaffsTestsCompleted(int siteId)
         {
             var ptpcl = new List<PostTestPersonTestsCompleted>();
             var ptpc = new PostTestPersonTestsCompleted();
-            var pt = new PostTest();
+            PostTest pt;
 
-            string name = "";
-            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            using (SqlConnection conn = new SqlConnection(strConn))
+            var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = ("GetPostTestStaffsTestsCompleted");
-                    SqlParameter param = new SqlParameter("@siteID", siteID);
+                    var cmd = new SqlCommand("", conn)
+                                  {
+                                      CommandType = System.Data.CommandType.StoredProcedure,
+                                      CommandText = ("GetPostTestStaffsTestsCompleted")
+                                  };
+                    var param = new SqlParameter("@siteID", siteId);
                     cmd.Parameters.Add(param);
 
                     conn.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    int pos = 0;
-            
+                    var rdr = cmd.ExecuteReader();
+
                     while (rdr.Read())
                     {
                         pt = new PostTest();
 
-                        pos = rdr.GetOrdinal("Name");
-                        name = rdr.GetString(pos);
+                        var pos = rdr.GetOrdinal("Name");
+                        var name = rdr.GetString(pos);
                         if (ptpc.Name != name)
                         {                     
-                            ptpc = new PostTestPersonTestsCompleted();
-                            ptpc.Name = name;
+                            ptpc = new PostTestPersonTestsCompleted {Name = name};
                             ptpcl.Add(ptpc);
                         }
 
@@ -1073,29 +1072,36 @@ namespace hpMvc.DataBase
             return ptpcl;
         }
 
-        public static List<PostTestNextDue> GetStaffPostTestsFirstDateCompletedBySite(int siteID)
+        public static List<PostTestNextDue> GetStaffPostTestsFirstDateCompletedBySite(int siteId)
         {
             var ptndl = new List<PostTestNextDue>();
-            var ptnd = new PostTestNextDue();
+            //var ptnd = new PostTestNextDue();
 
-            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            using (SqlConnection conn = new SqlConnection(strConn))
+            var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = ("GetStaffPostTestsFirstDateCompletedBySite");
-                    SqlParameter param = new SqlParameter("@siteID", siteID);
+                    var cmd = new SqlCommand("", conn)
+                                  {
+                                      CommandType = System.Data.CommandType.StoredProcedure,
+                                      CommandText = ("GetStaffPostTestsFirstDateCompletedBySite")
+                                  };
+                    var param = new SqlParameter("@siteID", siteId);
                     cmd.Parameters.Add(param);
 
                     conn.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    int pos = 0;
+                    var rdr = cmd.ExecuteReader();
 
                     while (rdr.Read())
                     {
-                        ptnd = new PostTestNextDue();
+                        var pos = rdr.GetOrdinal("Role");
+                        if (rdr.IsDBNull(pos))
+                            continue;
+                        if (rdr.GetString(pos) != "Nurse")
+                            continue;
+
+                        var ptnd = new PostTestNextDue();
 
                         pos = rdr.GetOrdinal("Name");
                         ptnd.Name = rdr.GetString(pos);
@@ -1119,29 +1125,36 @@ namespace hpMvc.DataBase
             return ptndl;
         }
 
-        public static List<PostTestExtended> GetPostTestStaffsTestsCompletedExtended(int siteID)
+        public static List<PostTestExtended> GetPostTestStaffsTestsCompletedExtended(int siteId)
         {
             var ptel = new List<PostTestExtended>();
-            var pte = new PostTestExtended();
+            //var pte = new PostTestExtended();
             
-            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            using (SqlConnection conn = new SqlConnection(strConn))
+            var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = ("GetPostTestStaffsTestsCompleted");
-                    SqlParameter param = new SqlParameter("@siteID", siteID);
+                    var cmd = new SqlCommand("", conn)
+                                  {
+                                      CommandType = System.Data.CommandType.StoredProcedure,
+                                      CommandText = ("GetPostTestStaffsTestsCompleted")
+                                  };
+                    var param = new SqlParameter("@siteID", siteId);
                     cmd.Parameters.Add(param);
 
                     conn.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    int pos = 0;
+                    var rdr = cmd.ExecuteReader();
 
                     while (rdr.Read())
                     {
-                        pte = new PostTestExtended();
+                        var pos = rdr.GetOrdinal("Role");
+                        if (rdr.IsDBNull(pos))
+                            continue;
+                        if(rdr.GetString(pos) != "Nurse")
+                            continue;
+                        
+                        var pte = new PostTestExtended();
 
                         pos = rdr.GetOrdinal("Name");
                         pte.PersonName = rdr.GetString(pos);
