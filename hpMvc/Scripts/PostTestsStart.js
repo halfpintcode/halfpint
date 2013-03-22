@@ -2,14 +2,14 @@
 $(function () {
     var empId = "";
     var siteId = $('#siteId').val();
-    
+
     $('#testMenu').hide();
     $('#divName').hide();
     $('#btnStart').attr('disabled', 'disabled');
 
     $("#spinner").ajaxStart(function () { $(this).show(); })
 			   .ajaxStop(function () { $(this).hide(); });
-    
+
 
     //employee id is site specific
     var empIdReq = $('#empIDRequired').val();
@@ -200,10 +200,10 @@ $(function () {
                 //data.ReturnValue contains the id for the new staff record
                 if (data.ReturnValue > 0) {
                     alert(firstName + ' ' + lastName + ' created successfully');
-                    
+
                     url = window.urlRoot + '/PostTests/Initialize/' + data.ReturnValue;
                     window.location = url;
-                    
+
                 }
                 else {
                     alert(data.Message);
@@ -224,8 +224,11 @@ $(function () {
         var url = window.urlRoot + '/PostTests/GetTestsCompletedActive';
         var name = $("option:selected", $('#Users')).text();
         var id = $('#Users').val();
-        var srcUrl = window.urlRoot + "/Content/images/check2.jpg";
-        var img = '<img alt="" src=' + srcUrl + ' />';
+        var srcUrlCheck = window.urlRoot + "/Content/images/check2.jpg";
+        var imgCheck = '<img alt="" src=' + srcUrlCheck + ' />';
+        var srcUrlX = window.urlRoot + "/Content/images/x.jpg";
+        var imgX = '<img alt="" src=' + srcUrlX + ' />';
+
         var completed = '';
         $.ajax({
             url: url,
@@ -241,7 +244,15 @@ $(function () {
                     //$li = $('#testMenu ul li:last-child');
                     completed = '  (' + d.sDateCompleted + ') ';
                     if (d.sDateCompleted.length > 0) {
-                        $li.prepend(completed).prepend(img);
+                        var cDate = new Date(d.sDateCompleted);
+                        cDate.setMonth(cDate.getMonth() + 11);
+                        var today = new Date();
+                        if (today < cDate) {
+                            $li.prepend(completed).prepend(imgCheck);
+                        } else {
+                            $li.prepend(completed).prepend(imgX);
+                        }
+
                         $li.addClass('completed');
                     }
                 });

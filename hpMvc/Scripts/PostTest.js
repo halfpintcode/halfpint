@@ -4,8 +4,8 @@ $(function () {
 
     var completed = $('#completed').val();
     if (completed === 'true') {
-        $('#showHideTest').hide();
-        $('#testIntro').hide();
+        //$('#showHideTest').hide();
+        //$('#testIntro').hide();
     }
 
     $('#showHideTest').click(function (e) {

@@ -53,6 +53,7 @@ namespace hpMvc.Models
         public DateTime? DateCompleted { get; set; }
         public string sDateCompleted { get; set; }
         public bool IsCompleted { get; set; }
+        public bool IsExpired { get; set; }
     }
 
     public class PostTestNextDue

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Diagnostics;
+using System.Linq;
 using System.Web.Mvc;
 using hpMvc.DataBase;
 using hpMvc.Infrastructure.Logging;
@@ -136,6 +137,7 @@ namespace hpMvc.Controllers
             string siteName = DbUtils.GetSiteNameForUser(User.Identity.Name);
 
             var u = new UrlHelper(Request.RequestContext);
+            Debug.Assert(Request.Url != null, "Request.Url != null");
             var url = "http://" + Request.Url.Host + u.RouteUrl("Default", new { Controller = "Account", Action = "Logon" });            
             Utility.SendPostTestsSubmittedMail(coordinators.Select(coord => coord.Email).ToArray(), email, tests, name, siteName, Server, url);
 
@@ -166,7 +168,7 @@ namespace hpMvc.Controllers
                 //get the person id
                 var nameId = int.Parse(id);
                 //save test as completed
-                DbPostTestsUtils.AddTestCompleted(nameId, "Checks");
+                DbPostTestsUtils.AddOrUpdateTestCompleted(nameId, "Checks");
             }
 
             var incorrect = "";
@@ -203,7 +205,7 @@ namespace hpMvc.Controllers
                 //get the person id
                 int nameId = int.Parse(id);
                 //save test as completed
-                DbPostTestsUtils.AddTestCompleted(nameId, "Medtronic");
+                DbPostTestsUtils.AddOrUpdateTestCompleted(nameId, "Medtronic");
             }
 
             string incorrect = "";
@@ -242,7 +244,7 @@ namespace hpMvc.Controllers
                 //get the person id
                 int nameId = int.Parse(id);
                 //save test as completed
-                DbPostTestsUtils.AddTestCompleted(nameId, "Overview");
+                DbPostTestsUtils.AddOrUpdateTestCompleted(nameId, "Overview");
             }
 
             var incorrect = "";
@@ -280,7 +282,7 @@ namespace hpMvc.Controllers
                 //get the person id
                 int nameId = int.Parse(id);
                 //save test as completed
-                DbPostTestsUtils.AddTestCompleted(nameId, "NovaStatStrip");
+                DbPostTestsUtils.AddOrUpdateTestCompleted(nameId, "NovaStatStrip");
             }
 
             var incorrect = "";
@@ -317,7 +319,7 @@ namespace hpMvc.Controllers
                 //get the person id
                 var nameId = int.Parse(id);
                 //save test as completed
-                DbPostTestsUtils.AddTestCompleted(nameId, "VampJr");
+                DbPostTestsUtils.AddOrUpdateTestCompleted(nameId, "VampJr");
             }
 
             string incorrect = "";
@@ -354,7 +356,7 @@ namespace hpMvc.Controllers
                 //get the person id
                var nameId = int.Parse(id);
                 //save test as completed
-                DbPostTestsUtils.AddTestCompleted(nameId, "DexcomG4Sensor");
+                DbPostTestsUtils.AddOrUpdateTestCompleted(nameId, "Dexcom G4 Sensor");
             }
 
             var incorrect = "";
@@ -391,7 +393,7 @@ namespace hpMvc.Controllers
                 //get the person id
                 var nameId = int.Parse(id);
                 //save test as completed
-                DbPostTestsUtils.AddTestCompleted(nameId, "DexcomG4Receiver");
+                DbPostTestsUtils.AddOrUpdateTestCompleted(nameId, "Dexcom G4 Receiver");
             }
 
             var incorrect = "";
@@ -428,7 +430,7 @@ namespace hpMvc.Controllers
                 //get the person id
                 var nameId = int.Parse(id);
                 //save test as completed
-                DbPostTestsUtils.AddTestCompleted(nameId, "MedtronicSofSensor");
+                DbPostTestsUtils.AddOrUpdateTestCompleted(nameId, "Medtronic Sof Sensor");
             }
 
             var incorrect = "";
@@ -465,7 +467,7 @@ namespace hpMvc.Controllers
                 //get the person id
                 var nameId = int.Parse(id);
                 //save test as completed
-                DbPostTestsUtils.AddTestCompleted(nameId, "GuardianREALTimeMonitor");
+                DbPostTestsUtils.AddOrUpdateTestCompleted(nameId, "Guardian REAL-Time Monitor");
             }
 
             var incorrect = "";

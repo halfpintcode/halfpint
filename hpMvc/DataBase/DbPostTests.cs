@@ -34,29 +34,29 @@ namespace hpMvc.DataBase
                     try
                     {                       
                         
-                        var cmd = new SqlCommand("", conn)
-                                      {
-                                          Transaction = trn,
-                                          CommandType = System.Data.CommandType.StoredProcedure,
-                                          CommandText = "DeleteStaffPostTestsCompleted"
-                                      };
-                        var param = new SqlParameter("@id", staffId);
-                        cmd.Parameters.Add(param);
+                        //var cmd = new SqlCommand("", conn)
+                        //              {
+                        //                  Transaction = trn,
+                        //                  CommandType = System.Data.CommandType.StoredProcedure,
+                        //                  CommandText = "DeleteStaffPostTestsCompleted"
+                        //              };
+                        //var param = new SqlParameter("@id", staffId);
+                        //cmd.Parameters.Add(param);
                         
-                        cmd.ExecuteNonQuery();
-                        Nlogger.LogInfo("DeletePostTestsCompleted");
+                        //cmd.ExecuteNonQuery();
+                        //Nlogger.LogInfo("DeletePostTestsCompleted");
 
                         foreach (var postTest in ptl)
                         {
                             if(! postTest.IsCompleted)
                                 continue;
-                            cmd = new SqlCommand("", conn)
+                            var cmd = new SqlCommand("", conn)
                                       {
                                           Transaction = trn,
                                           CommandType = System.Data.CommandType.StoredProcedure,
-                                          CommandText = ("AddStaffPostTestCompleted")
+                                          CommandText = ("AddOrUpdatePostTestCompleted")
                                       };
-                            param = new SqlParameter("@staffID", staffId);
+                            var param = new SqlParameter("@staffID", staffId);
                             cmd.Parameters.Add(param);
                             param = new SqlParameter("@test", postTest.Name);
                             cmd.Parameters.Add(param);
@@ -64,7 +64,7 @@ namespace hpMvc.DataBase
                             cmd.Parameters.Add(param);
 
                             cmd.ExecuteNonQuery();
-                            Nlogger.LogInfo("AddTestCompleted - test:" + postTest.Name);
+                            Nlogger.LogInfo("AddOrUpdateTestCompleted - test:" + postTest.Name);
                         }
                         
                         trn.Commit();
@@ -80,125 +80,129 @@ namespace hpMvc.DataBase
             return 1;
         }
 
-        public static int SavePostTestsCompleted(PostTestsModel ptm)
-        {
-            var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+        //public static int SavePostTestsCompleted(PostTestsModel ptm)
+        //{
+        //    var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
             
-            using (var conn = new SqlConnection(strConn))
-            {
+        //    using (var conn = new SqlConnection(strConn))
+        //    {
                 
-                conn.Open();
-                using (SqlTransaction trn = conn.BeginTransaction())
-                {
-                    try
-                    {                       
+        //        conn.Open();
+        //        using (SqlTransaction trn = conn.BeginTransaction())
+        //        {
+        //            try
+        //            {                       
                         
-                        SqlCommand cmd = new SqlCommand("", conn);
-                        cmd.Transaction = trn;
-                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                        cmd.CommandText = "DeleteStaffPostTestsCompleted";
-                        SqlParameter param = new SqlParameter("@id", ptm.ID);
-                        cmd.Parameters.Add(param);
+        //                var cmd = new SqlCommand("", conn)
+        //                              {
+        //                                  Transaction = trn,
+        //                                  CommandType = System.Data.CommandType.StoredProcedure,
+        //                                  CommandText = "DeleteStaffPostTestsCompleted"
+        //                              };
+        //                var param = new SqlParameter("@id", ptm.ID);
+        //                cmd.Parameters.Add(param);
                         
-                        cmd.ExecuteNonQuery();
-                        Nlogger.LogInfo("DeletePostTestsCompleted - name: " + ptm.Name);
+        //                cmd.ExecuteNonQuery();
+        //                Nlogger.LogInfo("DeletePostTestsCompleted - name: " + ptm.Name);
 
-                        if (ptm.Checks)
-                        {
-                            cmd = new SqlCommand("", conn);
-                            cmd.Transaction = trn;
-                            cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                            cmd.CommandText = ("AddStaffPostTestCompleted");
-                            param = new SqlParameter("@staffID", ptm.ID);
-                            cmd.Parameters.Add(param);
-                            param = new SqlParameter("@test", "Checks");
-                            cmd.Parameters.Add(param);
-                            param = new SqlParameter("@dateCompleted", ptm.ChecksCompleted);
-                            cmd.Parameters.Add(param);
+        //                if (ptm.Checks)
+        //                {
+        //                    cmd = new SqlCommand("", conn)
+        //                              {
+        //                                  Transaction = trn,
+        //                                  CommandType = System.Data.CommandType.StoredProcedure,
+        //                                  CommandText = ("AddStaffPostTestCompleted")
+        //                              };
+        //                    param = new SqlParameter("@staffID", ptm.ID);
+        //                    cmd.Parameters.Add(param);
+        //                    param = new SqlParameter("@test", "Checks");
+        //                    cmd.Parameters.Add(param);
+        //                    param = new SqlParameter("@dateCompleted", ptm.ChecksCompleted);
+        //                    cmd.Parameters.Add(param);
 
-                            cmd.ExecuteNonQuery();
-                            Nlogger.LogInfo("AddTestCompleted - test: Checks, name: " + ptm.Name);
-                        }
+        //                    cmd.ExecuteNonQuery();
+        //                    Nlogger.LogInfo("AddOrUpdateTestCompleted - test: Checks, name: " + ptm.Name);
+        //                }
 
-                        if (ptm.Overview)
-                        {
-                            cmd = new SqlCommand("", conn);
-                            cmd.Transaction = trn;
-                            cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                            cmd.CommandText = ("AddStaffPostTestCompleted");
-                            param = new SqlParameter("@staffID", ptm.ID);
-                            cmd.Parameters.Add(param);
-                            param = new SqlParameter("@test", "Overview");
-                            cmd.Parameters.Add(param);
-                            param = new SqlParameter("@dateCompleted", ptm.OverviewCompleted);
-                            cmd.Parameters.Add(param);
+        //                if (ptm.Overview)
+        //                {
+        //                    cmd = new SqlCommand("", conn);
+        //                    cmd.Transaction = trn;
+        //                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+        //                    cmd.CommandText = ("AddStaffPostTestCompleted");
+        //                    param = new SqlParameter("@staffID", ptm.ID);
+        //                    cmd.Parameters.Add(param);
+        //                    param = new SqlParameter("@test", "Overview");
+        //                    cmd.Parameters.Add(param);
+        //                    param = new SqlParameter("@dateCompleted", ptm.OverviewCompleted);
+        //                    cmd.Parameters.Add(param);
 
-                            cmd.ExecuteNonQuery();
-                            Nlogger.LogInfo("AddTestCompleted - test: Overview, name: " + ptm.Name);
-                        }
+        //                    cmd.ExecuteNonQuery();
+        //                    Nlogger.LogInfo("AddOrUpdateTestCompleted - test: Overview, name: " + ptm.Name);
+        //                }
 
-                        if (ptm.Medtronic)
-                        {
-                            cmd = new SqlCommand("", conn);
-                            cmd.Transaction = trn;
-                            cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                            cmd.CommandText = ("AddStaffPostTestCompleted");
-                            param = new SqlParameter("@staffID", ptm.ID);
-                            cmd.Parameters.Add(param);
-                            param = new SqlParameter("@test", "Medtronic");
-                            cmd.Parameters.Add(param);
-                            param = new SqlParameter("@dateCompleted", ptm.MedtronicCompleted);
-                            cmd.Parameters.Add(param);
+        //                if (ptm.Medtronic)
+        //                {
+        //                    cmd = new SqlCommand("", conn);
+        //                    cmd.Transaction = trn;
+        //                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+        //                    cmd.CommandText = ("AddStaffPostTestCompleted");
+        //                    param = new SqlParameter("@staffID", ptm.ID);
+        //                    cmd.Parameters.Add(param);
+        //                    param = new SqlParameter("@test", "Medtronic");
+        //                    cmd.Parameters.Add(param);
+        //                    param = new SqlParameter("@dateCompleted", ptm.MedtronicCompleted);
+        //                    cmd.Parameters.Add(param);
                                                         
-                            cmd.ExecuteNonQuery();
-                            Nlogger.LogInfo("AddTestCompleted - test: Medtronic, name: " + ptm.Name);
-                        }
+        //                    cmd.ExecuteNonQuery();
+        //                    Nlogger.LogInfo("AddOrUpdateTestCompleted - test: Medtronic, name: " + ptm.Name);
+        //                }
                                                 
-                        if (ptm.NovaStatStrip)
-                        {
-                            cmd = new SqlCommand("", conn);
-                            cmd.Transaction = trn;
-                            cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                            cmd.CommandText = ("AddStaffPostTestCompleted");
-                            param = new SqlParameter("@staffID", ptm.ID);
-                            cmd.Parameters.Add(param);
-                            param = new SqlParameter("@test", "NovaStatStrip");
-                            cmd.Parameters.Add(param);
-                            param = new SqlParameter("@dateCompleted", ptm.NovaStatStripCompleted);
-                            cmd.Parameters.Add(param);
+        //                if (ptm.NovaStatStrip)
+        //                {
+        //                    cmd = new SqlCommand("", conn);
+        //                    cmd.Transaction = trn;
+        //                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+        //                    cmd.CommandText = ("AddStaffPostTestCompleted");
+        //                    param = new SqlParameter("@staffID", ptm.ID);
+        //                    cmd.Parameters.Add(param);
+        //                    param = new SqlParameter("@test", "NovaStatStrip");
+        //                    cmd.Parameters.Add(param);
+        //                    param = new SqlParameter("@dateCompleted", ptm.NovaStatStripCompleted);
+        //                    cmd.Parameters.Add(param);
 
-                            cmd.ExecuteNonQuery();
-                            Nlogger.LogInfo("AddTestCompleted - test: NovaStatStrip, name: " + ptm.Name);
-                        }
+        //                    cmd.ExecuteNonQuery();
+        //                    Nlogger.LogInfo("AddOrUpdateTestCompleted - test: NovaStatStrip, name: " + ptm.Name);
+        //                }
 
-                        if (ptm.VampJr)
-                        {
-                            cmd = new SqlCommand("", conn);
-                            cmd.Transaction = trn;
-                            cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                            cmd.CommandText = ("AddStaffPostTestCompleted");
-                            param = new SqlParameter("@staffID", ptm.ID);
-                            cmd.Parameters.Add(param);
-                            param = new SqlParameter("@test", "VampJr");
-                            cmd.Parameters.Add(param);
-                            param = new SqlParameter("@dateCompleted", ptm.VampJrCompleted);
-                            cmd.Parameters.Add(param);
+        //                if (ptm.VampJr)
+        //                {
+        //                    cmd = new SqlCommand("", conn);
+        //                    cmd.Transaction = trn;
+        //                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+        //                    cmd.CommandText = ("AddStaffPostTestCompleted");
+        //                    param = new SqlParameter("@staffID", ptm.ID);
+        //                    cmd.Parameters.Add(param);
+        //                    param = new SqlParameter("@test", "VampJr");
+        //                    cmd.Parameters.Add(param);
+        //                    param = new SqlParameter("@dateCompleted", ptm.VampJrCompleted);
+        //                    cmd.Parameters.Add(param);
 
-                            cmd.ExecuteNonQuery();
-                            Nlogger.LogInfo("AddTestCompleted - test: NovaStatStrip, name: " + ptm.Name);
-                        }
-                        trn.Commit();
-                    }
-                    catch (Exception ex)
-                    {
-                        trn.Rollback();
-                        Nlogger.LogError(ex);
-                        return -1;
-                    }
-                }
-            }
-            return 1;
-        }
+        //                    cmd.ExecuteNonQuery();
+        //                    Nlogger.LogInfo("AddOrUpdateTestCompleted - test: NovaStatStrip, name: " + ptm.Name);
+        //                }
+        //                trn.Commit();
+        //            }
+        //            catch (Exception ex)
+        //            {
+        //                trn.Rollback();
+        //                Nlogger.LogError(ex);
+        //                return -1;
+        //            }
+        //        }
+        //    }
+        //    return 1;
+        //}
 
         public static int DoesStaffNameExist(string lastName, string firstName, int site)
         {
@@ -617,7 +621,7 @@ namespace hpMvc.DataBase
             }
         }              
 
-        public static int AddTestCompleted(int staffID, string test)
+        public static int AddOrUpdateTestCompleted(int staffId, string test)
         {
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
 
@@ -629,9 +633,9 @@ namespace hpMvc.DataBase
                     var cmd = new SqlCommand("", conn)
                                   {
                                       CommandType = System.Data.CommandType.StoredProcedure,
-                                      CommandText = ("AddPostTestCompleted")
+                                      CommandText = ("AddOrUpdatePostTestCompleted")
                                   };
-                    var param = new SqlParameter("@staffID", staffID);
+                    var param = new SqlParameter("@staffID", staffId);
                     cmd.Parameters.Add(param);
                     param = new SqlParameter("@test", test);
                     cmd.Parameters.Add(param);
@@ -641,12 +645,12 @@ namespace hpMvc.DataBase
                     conn.Open();
                     cmd.ExecuteNonQuery();
 
-                    Nlogger.LogInfo("AddTestCompleted - test: " + test + ", staffID: " + staffID);
+                    Nlogger.LogInfo("AddOrUpdateTestCompleted - test: " + test + ", staffID: " + staffId);
                     return 1;
                 }
                 catch (Exception ex)
                 {
-                    Nlogger.LogError("AddTestCompleted staffID: " + staffID + ", " + ex.Message);                    
+                    Nlogger.LogError("AddOrUpdateTestCompleted staffID: " + staffId + ", " + ex.Message);                    
                     return -1;
                 }
             }            
@@ -947,7 +951,7 @@ namespace hpMvc.DataBase
                     cmd = new SqlCommand("", conn)
                                   {
                                       CommandType = System.Data.CommandType.StoredProcedure,
-                                      CommandText = ("GetStaffPostTestsCompletedCurrentAndActive")
+                                      CommandText = ("GetStaffPostTestsCompletedActive")
                                   };
                     var param = new SqlParameter("@staffId", staffId);
                     cmd.Parameters.Add(param);
@@ -964,7 +968,9 @@ namespace hpMvc.DataBase
                         test.DateCompleted = rdr.GetDateTime(pos);
                         test.sDateCompleted = (test.DateCompleted != null ? test.DateCompleted.Value.ToString("MM/dd/yyyy") : "");
                         test.IsCompleted = true;
-                        
+                        if (test.DateCompleted.Value.AddYears(1).CompareTo(DateTime.Today) < 0)
+                            test.IsExpired = true;
+
                     }
                     rdr.Close();
                 }
