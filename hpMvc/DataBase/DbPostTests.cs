@@ -32,39 +32,42 @@ namespace hpMvc.DataBase
                 using (var trn = conn.BeginTransaction())
                 {
                     try
-                    {                       
-                        
-                        //var cmd = new SqlCommand("", conn)
-                        //              {
-                        //                  Transaction = trn,
-                        //                  CommandType = System.Data.CommandType.StoredProcedure,
-                        //                  CommandText = "DeleteStaffPostTestsCompleted"
-                        //              };
-                        //var param = new SqlParameter("@id", staffId);
-                        //cmd.Parameters.Add(param);
-                        
-                        //cmd.ExecuteNonQuery();
-                        //Nlogger.LogInfo("DeletePostTestsCompleted");
-
+                    {
                         foreach (var postTest in ptl)
                         {
-                            if(! postTest.IsCompleted)
-                                continue;
-                            var cmd = new SqlCommand("", conn)
-                                      {
-                                          Transaction = trn,
-                                          CommandType = System.Data.CommandType.StoredProcedure,
-                                          CommandText = ("AddOrUpdatePostTestCompleted")
-                                      };
-                            var param = new SqlParameter("@staffID", staffId);
-                            cmd.Parameters.Add(param);
-                            param = new SqlParameter("@test", postTest.Name);
-                            cmd.Parameters.Add(param);
-                            param = new SqlParameter("@dateCompleted", postTest.sDateCompleted);
-                            cmd.Parameters.Add(param);
-
+                            SqlCommand cmd;
+                            if (!postTest.IsCompleted)
+                            {
+                                cmd = new SqlCommand("", conn)
+                                {
+                                    Transaction = trn,
+                                    CommandType = System.Data.CommandType.StoredProcedure,
+                                    CommandText = "DeleteStaffPostTestCompleted"
+                                };
+                                var param = new SqlParameter("@staffId", staffId);
+                                cmd.Parameters.Add(param);
+                                param = new SqlParameter("@testId", postTest.ID);
+                                cmd.Parameters.Add(param);
+                                Nlogger.LogInfo("DeleteStaffPostTestCompleted - test:" + postTest.Name);
+                            }
+                            else
+                            {
+                                cmd = new SqlCommand("", conn)
+                                          {
+                                              Transaction = trn,
+                                              CommandType = System.Data.CommandType.StoredProcedure,
+                                              CommandText = ("AddOrUpdatePostTestCompleted")
+                                          };
+                                var param = new SqlParameter("@staffID", staffId);
+                                cmd.Parameters.Add(param);
+                                param = new SqlParameter("@test", postTest.Name);
+                                cmd.Parameters.Add(param);
+                                param = new SqlParameter("@dateCompleted", postTest.sDateCompleted);
+                                cmd.Parameters.Add(param);
+                                Nlogger.LogInfo("AddOrUpdateTestCompleted - test:" + postTest.Name);
+                            }
                             cmd.ExecuteNonQuery();
-                            Nlogger.LogInfo("AddOrUpdateTestCompleted - test:" + postTest.Name);
+                            
                         }
                         
                         trn.Commit();
@@ -621,7 +624,7 @@ namespace hpMvc.DataBase
             }
         }              
 
-        public static int AddOrUpdateTestCompleted(int staffId, string test)
+        public static int AddAndUpdateTestCompleted(int staffId, string test)
         {
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
 
@@ -633,7 +636,7 @@ namespace hpMvc.DataBase
                     var cmd = new SqlCommand("", conn)
                                   {
                                       CommandType = System.Data.CommandType.StoredProcedure,
-                                      CommandText = ("AddOrUpdatePostTestCompleted")
+                                      CommandText = ("AddAndUpdatePostTestCompleted")
                                   };
                     var param = new SqlParameter("@staffID", staffId);
                     cmd.Parameters.Add(param);

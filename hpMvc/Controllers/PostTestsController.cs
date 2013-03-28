@@ -168,7 +168,7 @@ namespace hpMvc.Controllers
                 //get the person id
                 var nameId = int.Parse(id);
                 //save test as completed
-                DbPostTestsUtils.AddOrUpdateTestCompleted(nameId, "Checks");
+                DbPostTestsUtils.AddAndUpdateTestCompleted(nameId, "Checks");
             }
 
             var incorrect = "";
@@ -205,7 +205,7 @@ namespace hpMvc.Controllers
                 //get the person id
                 int nameId = int.Parse(id);
                 //save test as completed
-                DbPostTestsUtils.AddOrUpdateTestCompleted(nameId, "Medtronic");
+                DbPostTestsUtils.AddAndUpdateTestCompleted(nameId, "Medtronic");
             }
 
             string incorrect = "";
@@ -244,7 +244,7 @@ namespace hpMvc.Controllers
                 //get the person id
                 int nameId = int.Parse(id);
                 //save test as completed
-                DbPostTestsUtils.AddOrUpdateTestCompleted(nameId, "Overview");
+                DbPostTestsUtils.AddAndUpdateTestCompleted(nameId, "Overview");
             }
 
             var incorrect = "";
@@ -282,7 +282,7 @@ namespace hpMvc.Controllers
                 //get the person id
                 int nameId = int.Parse(id);
                 //save test as completed
-                DbPostTestsUtils.AddOrUpdateTestCompleted(nameId, "NovaStatStrip");
+                DbPostTestsUtils.AddAndUpdateTestCompleted(nameId, "NovaStatStrip");
             }
 
             var incorrect = "";
@@ -319,7 +319,7 @@ namespace hpMvc.Controllers
                 //get the person id
                 var nameId = int.Parse(id);
                 //save test as completed
-                DbPostTestsUtils.AddOrUpdateTestCompleted(nameId, "VampJr");
+                DbPostTestsUtils.AddAndUpdateTestCompleted(nameId, "VampJr");
             }
 
             string incorrect = "";
@@ -356,7 +356,7 @@ namespace hpMvc.Controllers
                 //get the person id
                var nameId = int.Parse(id);
                 //save test as completed
-                DbPostTestsUtils.AddOrUpdateTestCompleted(nameId, "Dexcom G4 Sensor");
+                DbPostTestsUtils.AddAndUpdateTestCompleted(nameId, "Dexcom G4 Sensor");
             }
 
             var incorrect = "";
@@ -393,7 +393,7 @@ namespace hpMvc.Controllers
                 //get the person id
                 var nameId = int.Parse(id);
                 //save test as completed
-                DbPostTestsUtils.AddOrUpdateTestCompleted(nameId, "Dexcom G4 Receiver");
+                DbPostTestsUtils.AddAndUpdateTestCompleted(nameId, "Dexcom G4 Receiver");
             }
 
             var incorrect = "";
@@ -430,7 +430,7 @@ namespace hpMvc.Controllers
                 //get the person id
                 var nameId = int.Parse(id);
                 //save test as completed
-                DbPostTestsUtils.AddOrUpdateTestCompleted(nameId, "Medtronic Sof Sensor");
+                DbPostTestsUtils.AddAndUpdateTestCompleted(nameId, "Medtronic Sof Sensor");
             }
 
             var incorrect = "";
@@ -467,7 +467,7 @@ namespace hpMvc.Controllers
                 //get the person id
                 var nameId = int.Parse(id);
                 //save test as completed
-                DbPostTestsUtils.AddOrUpdateTestCompleted(nameId, "Guardian REAL-Time Monitor");
+                DbPostTestsUtils.AddAndUpdateTestCompleted(nameId, "Guardian REAL-Time Monitor");
             }
 
             var incorrect = "";
