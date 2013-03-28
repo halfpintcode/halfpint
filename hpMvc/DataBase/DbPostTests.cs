@@ -951,7 +951,7 @@ namespace hpMvc.DataBase
                     cmd = new SqlCommand("", conn)
                                   {
                                       CommandType = System.Data.CommandType.StoredProcedure,
-                                      CommandText = ("GetStaffPostTestsCompletedActive")
+                                      CommandText = ("GetStaffPostTestsCompletedCurrentAndActive")
                                   };
                     var param = new SqlParameter("@staffId", staffId);
                     cmd.Parameters.Add(param);
