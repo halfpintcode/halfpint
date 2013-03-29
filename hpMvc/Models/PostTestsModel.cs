@@ -54,6 +54,7 @@ namespace hpMvc.Models
         public string sDateCompleted { get; set; }
         public bool IsCompleted { get; set; }
         public bool IsExpired { get; set; }
+        public bool IsExpiring { get; set; }
     }
 
     public class PostTestNextDue

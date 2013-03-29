@@ -933,9 +933,13 @@ namespace hpMvc.DataBase
                     var rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
+                        var pos = rdr.GetOrdinal("Required");
+                        if(!(rdr.GetBoolean(pos)))
+                            continue;
+
                         var test = new PostTest();
 
-                        var pos = rdr.GetOrdinal("ID");
+                        pos = rdr.GetOrdinal("ID");
                         test.ID = rdr.GetInt32(pos);
                         
                         pos = rdr.GetOrdinal("Name");
@@ -944,6 +948,8 @@ namespace hpMvc.DataBase
                         pos = rdr.GetOrdinal("PathName");
                         test.PathName = rdr.GetString(pos);
 
+                        
+                        
                         test.sDateCompleted = "";
                         
                         tests.Add(test);
@@ -966,14 +972,29 @@ namespace hpMvc.DataBase
                         var pos = rdr.GetOrdinal("TestID");
                         var testId = rdr.GetInt32(pos);
                         var test = tests.Find(x => x.ID == testId);
-                        
+                        if (test == null)
+                            continue;
                         pos = rdr.GetOrdinal("DateCompleted");
                         test.DateCompleted = rdr.GetDateTime(pos);
                         test.sDateCompleted = (test.DateCompleted != null ? test.DateCompleted.Value.ToString("MM/dd/yyyy") : "");
                         test.IsCompleted = true;
-                        if (test.DateCompleted.Value.AddYears(1).CompareTo(DateTime.Today) < 0)
-                            test.IsExpired = true;
+                        
+                        //don't mark 'Overview' as expired
+                        if (test.Name == "Overview") continue;
+                        var nextDueDate = test.DateCompleted.Value.AddYears(1);
+                        var tsDayWindow = nextDueDate - DateTime.Now;
 
+                        if (tsDayWindow.Days <= 30)
+                        {
+                            if (tsDayWindow.Days < 0)
+                            {
+                                test.IsExpired = true;
+                            }
+                            else
+                            {
+                                test.IsExpiring = true;
+                            }
+                        }
                     }
                     rdr.Close();
                 }

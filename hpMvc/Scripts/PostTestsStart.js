@@ -237,22 +237,14 @@ $(function () {
             success: function (data) {
                 $('#sEmail').val(data.email);
                 $.each(data.tests, function (index, d) {
-                    //switch (d.Name) {
-                    //case 'Overview':
                     var $li = $('<li id="' + d.PathName + '"><a href="#">' + d.Name + ' Post Test</a></li>');
                     $('#testMenu ul').append($li);
-                    //$li = $('#testMenu ul li:last-child');
-                    completed = '  (' + d.sDateCompleted + ') ';
-                    if (d.sDateCompleted.length > 0) {
-                        var cDate = new Date(d.sDateCompleted);
-                        cDate.setMonth(cDate.getMonth() + 11);
-                        var today = new Date();
-                        if (today < cDate) {
-                            $li.prepend(completed).prepend(imgCheck);
+                    if (d.IsCompleted) {
+                        if (d.IsExpiring || d.IsExpired) {
+                            $li.prepend('&nbsp;').prepend(d.sDateCompleted).prepend(imgX);
                         } else {
-                            $li.prepend(completed).prepend(imgX);
+                            $li.prepend('&nbsp;').prepend(d.sDateCompleted).prepend(imgCheck);
                         }
-
                         $li.addClass('completed');
                     }
                 });
