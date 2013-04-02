@@ -11,7 +11,7 @@
         <siteMapNode title="Show Post Tests Completed" controller="Coordinator" action="ShowPostTestsCompleted2" />
         <siteMapNode title="Show Post Tests Next Due" controller="Coordinator" action="ShowPostTestsDue" />
       </siteMapNode>
-      <siteMapNode title="Download StatStrip Operators List" controller="Coordinator" action="DownloadStatStripList" />
+      <siteMapNode title="Download StatStrip Operators List" controller="Coordinator" action="GetNovaLists" />
       <siteMapNode title="Update Staff Member Information" controller="Coordinator" action="UpdateStaffInformation" />
     </siteMapNode>
 </siteMap>

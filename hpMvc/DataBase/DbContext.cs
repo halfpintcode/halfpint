@@ -1739,24 +1739,30 @@ namespace hpMvc.DataBase
             }
         }
 
-        public static string GetSiteIDForUser(string userName)
+        /// <summary>
+        /// Returns the site code
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <returns></returns>
+        public static string GetSiteCodeForUser(string userName)
         {
+            // Gets the siteCode
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
             string retVal = "";
-            using (SqlConnection conn = new SqlConnection(strConn))
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
+                    var cmd = new SqlCommand("", conn);
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     cmd.CommandText = "GetSiteInfoForUser";
 
-                    SqlParameter param = new SqlParameter("@userName", userName);
+                    var param = new SqlParameter("@userName", userName);
                     cmd.Parameters.Add(param);
 
                     conn.Open();
                     int pos = 0;
-                    SqlDataReader rdr = cmd.ExecuteReader();
+                    var rdr = cmd.ExecuteReader();
                     if (rdr.Read())
                     {
                         pos = rdr.GetOrdinal("SiteID");

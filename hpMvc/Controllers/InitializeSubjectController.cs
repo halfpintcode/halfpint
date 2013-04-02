@@ -211,7 +211,7 @@ namespace hpMvc.Controllers
             var dto = new DTO();
             
             //check if study id begins with the correct site
-            string siteId = DbUtils.GetSiteIDForUser(HttpContext.User.Identity.Name);
+            string siteId = DbUtils.GetSiteCodeForUser(HttpContext.User.Identity.Name);
             if (siteId == "error")
             {
                 dto.IsSuccessful = false;

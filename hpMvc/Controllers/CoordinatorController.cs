@@ -411,6 +411,51 @@ namespace hpMvc.Controllers
             return Json(new { Data = htmlString.ToHtmlString() }, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult GetNovaLists()
+        {
+            //string role = "Coordinator";
+            //if (HttpContext.User.IsInRole("Admin"))
+            //    role = "Admin";
+            //ViewBag.Role = role;
+
+            //var sites = new List<Site>();
+
+            //if (role == "Admin")
+            //{
+            //    sites = DbUtils.GetSitesActive();
+            //    if (sites.Count == 0)
+            //        throw new Exception("There was an error retreiving the sites list from the database");
+            //    sites.Insert(0, new Site {ID = 0, Name = "Select a site", SiteID = ""});
+            //    ViewBag.Sites = new SelectList(sites, "ID", "Name");
+
+            //}
+
+            string siteCode = DbUtils.GetSiteCodeForUser(HttpContext.User.Identity.Name);
+            ViewBag.SiteCode = siteCode;
+
+            List<string> files = SsUtils.GetNovaOperatorLists(siteCode);
+            files.Insert(0,"Select file");
+            ViewBag.Files = new SelectList(files);
+
+            _nlogger.LogInfo("GetNovaLists - user: " + HttpContext.User.Identity.Name);
+
+            return View();
+        }
+
+        public FilePathResult GetNovaListDownload(string siteCode, string fileName)
+        {
+
+
+            var folderPath = ConfigurationManager.AppSettings["StatStripListPath"].ToString();
+            var path = Path.Combine(folderPath, siteCode);
+
+            var fullpath = Path.Combine(path, fileName);
+
+
+            _nlogger.LogInfo("GetNovaListDownload: " + fileName);
+            return this.File(fullpath, "text/plain", fileName);
+        }
+
         public FilePathResult DownloadStatStripList()
         {
             string siteName = DbUtils.GetSiteNameForUser(User.Identity.Name);
