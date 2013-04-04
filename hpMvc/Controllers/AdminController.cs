@@ -660,41 +660,7 @@ namespace hpMvc.Controllers
             return View(mUsers);
         }
 
-        public ActionResult RunNotepad()
-        {
-            string output = String.Empty;
-            try
-            {
-                Process process = System.Diagnostics.Process.Start("Notepad.exe");
-                //var psi = new ProcessStartInfo();
-                //psi.FileName = "C:\\Windows\\notepad.exe";
-                ////psi.FileName = "C:\\0\\Work\\PostTestsService\\PostTestsService\\bin\\Release\\PostTestsService.exe";
-                //psi.UseShellExecute = false;
-                ////psi.RedirectStandardError = true;
-                ////psi.RedirectStandardInput = true;
-                ////psi.RedirectStandardOutput = true;
-                ////psi.Arguments = "-silent -file outFile.zip";
-                //psi.UserName = "Joe";
-                //string pass = "jojo";
-                //var secret = new System.Security.SecureString();
-                //foreach (char c in pass)
-                //    secret.AppendChar(c);
-                //psi.Password = secret;
-                //using (Process proc = Process.Start(psi))
-                //{
-                //    //output = proc.StandardOutput.ReadToEnd(); 
-                //    proc.WaitForExit();
-                //    nlogger.LogInfo("Process exited: " + proc.ExitCode);
-                //}
-            }
-            catch (Exception ex)
-            {
-                
-                nlogger.LogInfo(ex.Message);
-            }
-            
-            return Content(output);
-        }
+        
         
     }
 }
