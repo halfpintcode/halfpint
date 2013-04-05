@@ -24,5 +24,6 @@
       <siteMapNode title="Broadcast Email" controller="Admin" action="BroadcastEmail" />
       <siteMapNode title="Send Test Email" controller="Admin" action="TestEmail" />
       <siteMapNode title="Sites" controller="Sites" action="Index" />
+      <siteMapNode title="Post Tests Service" controller="Admin" action="PostTestsService" />
     </siteMapNode>
 </siteMap>

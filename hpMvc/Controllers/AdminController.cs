@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using System.Web.Security;
 using hpMvc.Models;
 using hpMvc.DataBase;
+using hpMvc.PostTestService;
 using hpMvc.Infrastructure.Logging;
 using hpMvc.Infrastructure;
 using System.IO;
@@ -660,7 +661,12 @@ namespace hpMvc.Controllers
             return View(mUsers);
         }
 
-        
+        public ActionResult PostTestsService()
+        {
+            PostTestService.PostTestService.Execute();
+
+            return View();
+        }
         
     }
 }

@@ -644,6 +644,7 @@
     <Content Include="Views\PostTests\MedtronicSofSensor.cshtml" />
     <Content Include="Views\PostTests\GuardianREALTimeMonitor.cshtml" />
     <Content Include="Views\Coordinator\GetNovaLists.cshtml" />
+    <Content Include="Views\Admin\PostTestsService.cshtml" />
     <None Include="_bin_deployableAssemblies\Microsoft.Web.Infrastructure.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.Razor.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.dll" />
