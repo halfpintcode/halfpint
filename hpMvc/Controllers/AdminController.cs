@@ -647,7 +647,7 @@ namespace hpMvc.Controllers
         
         public ActionResult ShowUsers()
         {
-            List<Site> sites = new List<Site>();
+            List<Site> sites;
             sites = DbUtils.GetSitesActive();
             if (sites.Count == 0)
                 throw new Exception("There was an error retreiving the sites list from the database");
@@ -663,10 +663,17 @@ namespace hpMvc.Controllers
 
         public ActionResult PostTestsService()
         {
-            PostTestService.PostTestService.Execute();
+            //PostTestService.PostTestService.Execute(Server);
 
             return View();
         }
-        
+
+        [HttpPost]
+        public JsonResult PostTestsService(string runParam)
+        {
+            PostTestService.PostTestService.Execute(Server, runParam);
+
+            return Json("Successful");
+        }
     }
 }

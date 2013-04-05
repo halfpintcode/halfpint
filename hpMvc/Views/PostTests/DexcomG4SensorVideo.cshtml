@@ -1,0 +1,20 @@
+﻿@{
+    ViewBag.Title = "DexcomG4Sensor";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="@Url.Content("~/Content/Posttest.css")" rel="stylesheet" type="text/css" />
+
+<h3>Online Modules- Dexcom G4 Sensor</h3>
+<hr/>
+<p id="testIntro">
+    
+</p>
+<iframe src="//player.vimeo.com/video/57858264?title=0&amp;byline=0&amp;portrait=0" 
+                            width="533" height="300" 
+                            frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen>
+</iframe>
+<p>
+    Dexcom G4 Sensor Video
+</p>
+
+@Html.ActionLink("Back to staff menu", "Index", new { Controller = "Staff", id = @ViewBag.ID })

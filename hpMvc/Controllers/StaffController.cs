@@ -152,11 +152,6 @@ namespace hpMvc.Controllers
             ViewBag.SS = new SelectList(list);
             return View();
         }
-
-        public ActionResult DocumentLookup(string name)
-        {
-
-            return RedirectToRoute(new { controller = "", action="" });
-        }
+        
     }
 }

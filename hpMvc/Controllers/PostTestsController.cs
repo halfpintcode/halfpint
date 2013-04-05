@@ -333,6 +333,11 @@ namespace hpMvc.Controllers
             return Json(dto);
         }
 
+        public ActionResult DexcomG4SensorVideo()
+        {
+            return View();
+        }
+
         public ActionResult DexcomG4Sensor(string id, string name)
         {
             ViewBag.Name = name;

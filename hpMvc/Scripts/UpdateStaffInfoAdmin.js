@@ -342,7 +342,7 @@ $(function () {
 
             var site = $('#Sites').val();
             if (site === "0") {
-                alert('Site is required')
+                alert('Site is required');
                 return false;
             }
         }

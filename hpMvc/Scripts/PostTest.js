@@ -25,7 +25,7 @@ $(function () {
         $('#btnSubmit').attr('disabled', 'disabled');
 
         var test = $('#test').val();
-        var url = urlRoot + '/PostTests/' + test;
+        var url = window.urlRoot + '/PostTests/' + test;
         var data = $("form").serialize();
         
         $.ajax({
@@ -36,7 +36,7 @@ $(function () {
                 if (data1.IsSuccessful) {
                     alert('Congratulations! ' + data1.Message);
                     var id = $('#id').val();
-                    url = urlRoot + '/PostTests/Initialize/' + id;
+                    url = window.urlRoot + '/PostTests/Initialize/' + id;
                     window.location = url;
                 }
                 else {
