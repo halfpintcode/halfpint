@@ -246,6 +246,8 @@ $(function () {
                             $li.prepend('&nbsp;').prepend(d.sDateCompleted).prepend(imgCheck);
                         }
                         $li.addClass('completed');
+                    } else {
+                        $li.prepend('&nbsp;').prepend(imgX);
                     }
                 });
             }

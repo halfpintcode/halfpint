@@ -2160,24 +2160,26 @@ namespace hpMvc.DataBase
 
         #endregion
 
-        public static StaffEditModel GetStaffInfo(int userID)
+        public static StaffEditModel GetStaffInfo(int userId)
         {
-            StaffEditModel model = new StaffEditModel();
-            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            using (SqlConnection conn = new SqlConnection(strConn))
+            var model = new StaffEditModel();
+            var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "GetStaffInfo";
+                    var cmd = new SqlCommand("", conn)
+                                  {
+                                      CommandType = System.Data.CommandType.StoredProcedure,
+                                      CommandText = "GetStaffInfo"
+                                  };
 
-                    SqlParameter param = new SqlParameter("@id", userID);
+                    var param = new SqlParameter("@id", userId);
                     cmd.Parameters.Add(param);
 
                     conn.Open();
                     int pos = 0;
-                    SqlDataReader rdr = cmd.ExecuteReader();
+                    var rdr = cmd.ExecuteReader();
                     if (rdr.Read())
                     {
                         pos = rdr.GetOrdinal("ID");
@@ -2260,18 +2262,20 @@ namespace hpMvc.DataBase
                     rdr.Close();
 
                     //get tests completed
-                    cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "GetStaffTestsCompleted";
-                    param = new SqlParameter("@id", userID);
+                    cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = System.Data.CommandType.StoredProcedure,
+                                  CommandText = "GetStaffTestsCompleted"
+                              };
+                    param = new SqlParameter("@id", userId);
                     cmd.Parameters.Add(param);
 
                     rdr = cmd.ExecuteReader();
 
-                    PostTestPersonTestsCompleted ptpc = new PostTestPersonTestsCompleted();
+                    var ptpc = new PostTestPersonTestsCompleted();
                     while (rdr.Read())
                     {
-                        PostTest pt = new PostTest();
+                        var pt = new PostTest();
                         pos = rdr.GetOrdinal("Name");
                         pt.Name = rdr.GetString(pos);
                         pos = rdr.GetOrdinal("DateCompleted");
@@ -2286,6 +2290,35 @@ namespace hpMvc.DataBase
                     }
                     rdr.Close();
                     model.PostTestsCompleted = ptpc;
+
+
+                    //get tests completed
+                    cmd = new SqlCommand("", conn);
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.CommandText = "GetStaffTestsCompletedHistory";
+                    param = new SqlParameter("@id", userId);
+                    cmd.Parameters.Add(param);
+
+                    rdr = cmd.ExecuteReader();
+
+                    ptpc = new PostTestPersonTestsCompleted();
+                    while (rdr.Read())
+                    {
+                        var pt = new PostTest();
+                        pos = rdr.GetOrdinal("Name");
+                        pt.Name = rdr.GetString(pos);
+                        pos = rdr.GetOrdinal("DateCompleted");
+                        if (!rdr.IsDBNull(pos))
+                        {
+                            pt.DateCompleted = rdr.GetDateTime(pos);
+                            pt.sDateCompleted = pt.DateCompleted != null
+                                                    ? pt.DateCompleted.Value.ToString("MM/dd/yyyy")
+                                                    : "";
+                        }
+                        ptpc.PostTestsCompleted.Add(pt);
+                    }
+                    rdr.Close();
+                    model.PostTestsCompletedHistory = ptpc;
                     return model;
                 }
                 catch (Exception ex)

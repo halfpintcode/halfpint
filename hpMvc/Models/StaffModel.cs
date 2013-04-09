@@ -78,6 +78,7 @@ namespace hpMvc.Models
         public DateTime? HumanSubjStart { get; set; }
         public DateTime? HumanSubjExp { get; set; }
         public PostTestPersonTestsCompleted PostTestsCompleted { get; set; }
+        public PostTestPersonTestsCompleted PostTestsCompletedHistory { get; set; }
     }
 
 }

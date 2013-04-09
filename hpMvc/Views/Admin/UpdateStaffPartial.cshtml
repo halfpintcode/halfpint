@@ -1,7 +1,7 @@
 ﻿@model hpMvc.Models.StaffEditModel
 
 <h3>Post Tests Completed Summary</h3>
-
+<h4>Post Tests Completed Current</h4>
 <div>
     <table id="tblptc">
         <thead>
@@ -13,6 +13,33 @@
             @if (Model.PostTestsCompleted.PostTestsCompleted.Count > 0)
             {
                 foreach (var pt in Model.PostTestsCompleted.PostTestsCompleted)
+                {
+                    <tr>
+                        <td>@pt.Name</td><td>@pt.sDateCompleted</td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="2">There are no tests completed</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<h4>Post Tests Completed History</h4>
+<div id="divPostTestsHistory">
+    <table id="tblptch">
+        <thead>
+            <tr>
+                <th>Test</th><th>Date Completed</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.PostTestsCompletedHistory.PostTestsCompleted.Count > 0)
+            {
+                foreach (var pt in Model.PostTestsCompletedHistory.PostTestsCompleted)
                 {
                     <tr>
                         <td>@pt.Name</td><td>@pt.sDateCompleted</td>
