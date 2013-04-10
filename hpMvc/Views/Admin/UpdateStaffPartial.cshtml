@@ -28,7 +28,9 @@
         </tbody>
     </table>
 </div>
-<h4>Post Tests Completed History</h4>
+<div>
+    <span id="spanTestHistory" class="btn" ><i class="icon-arrow-down"></i>Show Post Tests History</span>
+</div>
 <div id="divPostTestsHistory">
     <table id="tblptch">
         <thead>
@@ -78,7 +80,7 @@
         else
         {            
             <label class="lblMain">Study role:</label> @Html.DropDownList("Roles") @Html.ValidationMessageFor(m => m.Role)
-             <br />        
+            <br />        
             <label class="lblMain">User Name</label> <label >@Model.UserName</label> 
         }                
         <br />
@@ -93,9 +95,9 @@
             <label class="lblMain">Phone</label> @Html.EditorFor(m => m.Phone)                         
         }
         <div id="siteSpecific">            
-			<label class="lblMain">EmployeeID</label> @Html.EditorFor(m => m.EmployeeID) 
-			<span id="empIDmessage"></span>            
-		</div>
+            <label class="lblMain">EmployeeID</label> @Html.EditorFor(m => m.EmployeeID) 
+            <span id="empIDmessage"></span>            
+        </div>
         <br />
         @Html.EditorFor(m => m.NovaStatStrip) <span class="spanChk">Nova Stat Strip</span>
         <label class="lblDoc">Date Completed:</label>  @Html.EditorFor(m => m.NovaStatStripDoc) 
@@ -123,3 +125,9 @@
     <br /><input type="submit" id="btnSubmit" value="Save" />&nbsp;&nbsp;&nbsp;<input type="button" id="btnCancel" value="Cancel"/>
 </form>
 
+<link href="@Url.Content("~/Content/FortAwesome-Font-Awesome-13d5dd3/css/font-awesome.min.css")" rel="stylesheet">
+<!--[if IE 7]>
+    <link href="@Url.Content("~/Content/FortAwesome-Font-Awesome-13d5dd3/css/font-awesome-ie7.min.css")" rel="stylesheet">
+<![endif]-->
+<link href="@Url.Content("~/Content/bootstrap/css/bootstrap.min.css")" rel="stylesheet">
+<script src="@Url.Content("~/Content/bootstrap/js/bootstrap.min.js")" type="text/javascript"></script>
