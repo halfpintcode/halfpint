@@ -29,7 +29,7 @@
     </table>
 </div>
 <div>
-    <span id="spanTestHistory" class="btn" ><i class="icon-arrow-down"></i>Show Post Tests History</span>
+    <span id="spanTestHistory" class="btn" ><i id="iptHistory" class="icon-double-angle-down"></i></span><span>&nbsp;&nbsp;</span><span id="txtptHistory">Show Post Tests History</span>
 </div>
 <div id="divPostTestsHistory">
     <table id="tblptch">
@@ -38,7 +38,6 @@
                 <th>Test</th><th>Date Completed</th>
             </tr>
         </thead>
-        <tbody>
             @if (Model.PostTestsCompletedHistory.PostTestsCompleted.Count > 0)
             {
                 foreach (var pt in Model.PostTestsCompletedHistory.PostTestsCompleted)

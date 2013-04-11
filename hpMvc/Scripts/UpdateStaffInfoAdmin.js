@@ -370,7 +370,7 @@ $(function () {
                     $('#Phone').mask("999-999-9999");
 
                     $('#btnCancel').click(function () {
-                        window.location = urlRoot + '/Admin/Index';
+                        window.location = window.urlRoot + '/Admin/Index';
                     });
 
                     $('#updateForm').submit(function () {
@@ -379,6 +379,21 @@ $(function () {
 
                     $('#Roles').change(function () {
                         $('#Role').val($('#Roles').val());
+                    });
+
+                    $('#divPostTestsHistory').hide();
+                    $('#spanTestHistory').click(function () {
+                        $('#divPostTestsHistory').toggle('slow', function () {
+                            if ($('#iptHistory').hasClass('icon-double-angle-down')) {
+                                $('#txtptHistory').text('Hide Post Tests History');
+                                $('#iptHistory').removeClass('icon-double-angle-down').addClass('icon-double-angle-up');
+                                
+                            } else {
+                                $('#txtptHistory').text('Show Post Tests History');
+                                $('#iptHistory').removeClass('icon-double-angle-up').addClass('icon-double-angle-down');
+                                
+                            }
+                        });
                     });
 
                     $('#Email').blur(function () {
