@@ -309,13 +309,30 @@ $(function () {
                         return updateFormSubmit();
                     });
 
+                    $('#divPostTestsHistory').hide();
+                    $('#aTestHistory').click(function (e) {
+                        e.preventDefault();
+                        var $_this = $(this);
+                        $('#divPostTestsHistory').toggle('slow', function () {
+                            if ($_this.hasClass('down_arrow')) {
+                                $_this.text('Hide Post Tests History');
+                                $_this.removeClass('down_arrow').addClass('up_arrow');
+
+                            } else {
+                                $_this.text('Show Post Tests History');
+                                $_this.removeClass('up_arrow').addClass('down_arrow');
+
+                            }
+                        });
+                    });
+
                     $('#Email').blur(function () {
                         var email = $.trim($('#Email').val());
                         if (email.length > 0) {
                             isEmailDuplicate(email);
                         }
                     });
-                    
+
                     function isEmailDuplicate(email) {
                         if (null == email)
                             return false;
@@ -435,7 +452,7 @@ $(function () {
 
                         var lName = $.trim($('#LastName').val());
                         if (lName.length === 0) {
-                            alert('Last name is required')
+                            alert('Last name is required');
                             return false;
                         }
                         staffModel.LastName = lName;

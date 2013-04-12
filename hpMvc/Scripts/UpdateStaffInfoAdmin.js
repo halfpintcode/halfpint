@@ -382,16 +382,18 @@ $(function () {
                     });
 
                     $('#divPostTestsHistory').hide();
-                    $('#spanTestHistory').click(function () {
+                    $('#aTestHistory').click(function (e) {
+                        e.preventDefault();
+                        var $_this = $(this);
                         $('#divPostTestsHistory').toggle('slow', function () {
-                            if ($('#iptHistory').hasClass('icon-double-angle-down')) {
-                                $('#txtptHistory').text('Hide Post Tests History');
-                                $('#iptHistory').removeClass('icon-double-angle-down').addClass('icon-double-angle-up');
-                                
+                            if ($_this.hasClass('down_arrow')) {
+                                $_this.text('Hide Post Tests History');
+                                $_this.removeClass('down_arrow').addClass('up_arrow');
+
                             } else {
-                                $('#txtptHistory').text('Show Post Tests History');
-                                $('#iptHistory').removeClass('icon-double-angle-up').addClass('icon-double-angle-down');
-                                
+                                $_this.text('Show Post Tests History');
+                                $_this.removeClass('up_arrow').addClass('down_arrow');
+
                             }
                         });
                     });
@@ -645,7 +647,7 @@ $(function () {
 
                         var site = $('#Sites').val();
                         if (site === "0") {
-                            alert('Site is required')
+                            alert('Site is required');
                             return false;
                         }
                     }

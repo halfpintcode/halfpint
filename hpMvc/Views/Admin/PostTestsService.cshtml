@@ -2,16 +2,28 @@
     ViewBag.Title = "Post Tests Service";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h2>Post Tests Service</h2>
+<h2>
+    Post Tests Service</h2>
 <form action="" method="POST">
-    
-    <input type="radio" name="runParam" value="noEmails" checked="checked"/>Create list but do not send emails <br/>
-    <input type="radio" name="runParam" value="coordinatorEmails"/>Create list and send coorinator emails only <br/>
-    <input type="radio" name="runParam" value="forceEmails"/>Create list and send staff and coordinator emails <br/>
-    <br/>
-    <input type="button" id="btnSubmit" value="Submit"/>
+<div id="accordion">
+    <h3>Run as service
+    </h3>
+    <div>
+        <input type="radio" name="runParam" value="noEmails" checked="checked" />Create
+        list but do not send emails
+        <br />
+        <input type="radio" name="runParam" value="coordinatorEmails" />Create list and
+        send coorinator emails only
+        <br />
+        <input type="radio" name="runParam" value="forceEmails" />Create list and send staff
+        and coordinator emails
+        <br />
+    </div>
+    <h3>Run as report</h3>
+    <div>
+    </div>
+</div>
+<br />
+<input type="button" id="btnSubmit" value="Submit" />
 </form>
-
 <script src="@Url.Content("~/Scripts/PostTestsService.js")" type="text/javascript"></script>
-

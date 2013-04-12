@@ -29,7 +29,8 @@
     </table>
 </div>
 <div>
-    <span id="spanTestHistory" class="btn" ><i id="iptHistory" class="icon-double-angle-down"></i></span><span>&nbsp;&nbsp;</span><span id="txtptHistory">Show Post Tests History</span>
+    @*<span id="spanTestHistory" class="btn" ><i id="iptHistory" class="icon-double-angle-down"></i></span><span>&nbsp;&nbsp;</span><span id="txtptHistory">Show Post Tests History</span>*@
+    <a id="aTestHistory" href="" class="buttons down_arrow">Show Post Tests History</a>
 </div>
 <div id="divPostTestsHistory">
     <table id="tblptch">
@@ -38,6 +39,7 @@
                 <th>Test</th><th>Date Completed</th>
             </tr>
         </thead>
+        <tbody>
             @if (Model.PostTestsCompletedHistory.PostTestsCompleted.Count > 0)
             {
                 foreach (var pt in Model.PostTestsCompletedHistory.PostTestsCompleted)
@@ -124,9 +126,10 @@
     <br /><input type="submit" id="btnSubmit" value="Save" />&nbsp;&nbsp;&nbsp;<input type="button" id="btnCancel" value="Cancel"/>
 </form>
 
-<link href="@Url.Content("~/Content/FortAwesome-Font-Awesome-13d5dd3/css/font-awesome.min.css")" rel="stylesheet">
+@*<link href="@Url.Content("~/Content/FortAwesome-Font-Awesome-13d5dd3/css/font-awesome.min.css")" rel="stylesheet">
 <!--[if IE 7]>
     <link href="@Url.Content("~/Content/FortAwesome-Font-Awesome-13d5dd3/css/font-awesome-ie7.min.css")" rel="stylesheet">
 <![endif]-->
 <link href="@Url.Content("~/Content/bootstrap/css/bootstrap.min.css")" rel="stylesheet">
-<script src="@Url.Content("~/Content/bootstrap/js/bootstrap.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Content/bootstrap/js/bootstrap.min.js")" type="text/javascript"></script>*@
+<link href="@Url.Content("~/Content/buttons.css")" rel="stylesheet">

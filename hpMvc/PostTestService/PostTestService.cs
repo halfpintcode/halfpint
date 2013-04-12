@@ -28,9 +28,10 @@ namespace hpMvc.PostTestService
         /// </summary>
         /// <param name="server"></param>
         /// <param name="runParam"></param>
+        /// <param name="site"></param>
+        /// <param name="isReport"></param>
         /// runParam is one of three possible params: noEmails (sets _bSendEmails to false),  forceEmails (sets _bForceEmails to true), or coordinatorEmais (leaves everthing as default)
-        
-        public static void Execute(HttpServerUtilityBase server, string runParam)
+        public static void Execute(HttpServerUtilityBase server, string runParam, int site=0, bool isReport=false)
         {
 
             Nlogger.LogInfo("Starting PostTests Service - Internal");
@@ -48,15 +49,26 @@ namespace hpMvc.PostTestService
             
             Nlogger.LogInfo("SendEmails:" + _bSendEmails + ", ForceEmails:" + _bForceEmails);
             
-            //delete lists older than 7 days
-            DeleteOldOperatorsLists();
-
             //get sites 
             var sites = GetSites();
 
             //iterate sites
             foreach (var si in sites.Where(si => si.EmpIdRequired))
             {
+                if(site == 0)
+                {}
+                else
+                {
+                    if (si.Id != site)
+                        continue;
+                }
+
+                //Console.WriteLine(si.Name);
+                Nlogger.LogInfo("For Site:" + si.Name + " - " + si.SiteId);
+
+                //delete lists older than 7 days
+                DeleteOldOperatorsLists(si.SiteId);
+
                 //initialize email lists
                 si.SiteEmailLists = new SiteEmailLists
                 {
@@ -70,9 +82,7 @@ namespace hpMvc.PostTestService
                     StaffTestsNotCompletedList = new List<StaffTestsNotCompletedList>()
                 };
 
-                //Console.WriteLine(si.Name);
-                Nlogger.LogInfo("For Site:" + si.Name + " - " + si.SiteId);
-
+                
                 //Get staff info including next due date, tests not completed, is new staff - next due date will be 1 year from today for new staff
                 //staff roles not included are Admin, DCC , Nurse generic (nurse accounts with a user name)
                 si.PostTestNextDues = GetStaffPostTestsCompletedInfo(si.Id);
@@ -94,14 +104,14 @@ namespace hpMvc.PostTestService
 
                     var bContinue = false;
                     //Console.WriteLine(postTestNextDue.Name + ", email: " + postTestNextDue.Email + ", Employee ID: " + postTestNextDue.EmployeeId + ", Role: " + postTestNextDue.Role);
-                    Nlogger.LogInfo("For staff member:" + postTestNextDue.Name + ", email: " + postTestNextDue.Email + ", Employee ID: " + postTestNextDue.EmployeeId + ", Role: " + postTestNextDue.Role);
+                    //Nlogger.LogInfo("For staff member:" + postTestNextDue.Name + ", email: " + postTestNextDue.Email + ", Employee ID: " + postTestNextDue.EmployeeId + ", Role: " + postTestNextDue.Role);
 
                     if (postTestNextDue.Role != "Nurse")
                     {
                         //make sure they are nova net certified
                         if (!postTestNextDue.IsNovaStatStripTested)
                         {
-                            Nlogger.LogInfo("NovaStatStrip competency needed for " + postTestNextDue.Name);
+                            //Nlogger.LogInfo("NovaStatStrip competency needed for " + postTestNextDue.Name);
                             si.SiteEmailLists.CompetencyMissingList.Add(postTestNextDue);
                             bContinue = true;
                         }
@@ -111,7 +121,7 @@ namespace hpMvc.PostTestService
                         //make sure they are nova net and vamp certified
                         if ((!postTestNextDue.IsNovaStatStripTested) || (!postTestNextDue.IsVampTested))
                         {
-                            Nlogger.LogInfo("Competency needed for " + postTestNextDue.Name);
+                            //Nlogger.LogInfo("Competency needed for " + postTestNextDue.Name);
                             si.SiteEmailLists.CompetencyMissingList.Add(postTestNextDue);
                             bContinue = true;
                         }
@@ -119,7 +129,7 @@ namespace hpMvc.PostTestService
 
                     if (string.IsNullOrEmpty(postTestNextDue.Email))
                     {
-                        Nlogger.LogInfo("Email missing for " + postTestNextDue.Name);
+                        //Nlogger.LogInfo("Email missing for " + postTestNextDue.Name);
                         si.SiteEmailLists.EmailMissingList.Add(postTestNextDue);
                         bContinue = true;
                     }
@@ -128,7 +138,7 @@ namespace hpMvc.PostTestService
 
                     if (string.IsNullOrEmpty(postTestNextDue.EmployeeId))
                     {
-                        Nlogger.LogInfo("Employee ID missing for " + postTestNextDue.Name);
+                        //Nlogger.LogInfo("Employee ID missing for " + postTestNextDue.Name);
                         si.SiteEmailLists.EmployeeIdMissingList.Add(postTestNextDue);
                         bContinue = true;
                     }
@@ -178,11 +188,14 @@ namespace hpMvc.PostTestService
                                 }
                                 else
                                 {
-                                    if (DateTime.Today.DayOfWeek == DayOfWeek.Monday)
+                                    if (!isReport)
                                     {
-                                        if (_bSendEmails)
-                                            SendHtmlEmail(subject, to, null, body, 
-                                                          @"<a href='http://halfpintstudy.org/hpProd/PostTests/Initialize'>Halfpint Study Post Tests</a>");
+                                        if (DateTime.Today.DayOfWeek == DayOfWeek.Monday)
+                                        {
+                                            if (_bSendEmails)
+                                                SendHtmlEmail(subject, to, null, body,
+                                                              @"<a href='http://halfpintstudy.org/hpProd/PostTests/Initialize'>Halfpint Study Post Tests</a>");
+                                        }
                                     }
                                 }
                             }
@@ -203,11 +216,14 @@ namespace hpMvc.PostTestService
                                 }
                                 else
                                 {
-                                    if (DateTime.Today.DayOfWeek == DayOfWeek.Monday)
+                                    if (!isReport)
                                     {
-                                        if (_bSendEmails)
-                                            SendHtmlEmail(subject, to, null, body, 
-                                                @"<a href='http://halfpintstudy.org/hpProd/PostTests/Initialize'>Halfpint Study Post Tests</a>");
+                                        if (DateTime.Today.DayOfWeek == DayOfWeek.Monday)
+                                        {
+                                            if (_bSendEmails)
+                                                SendHtmlEmail(subject, to, null, body,
+                                                              @"<a href='http://halfpintstudy.org/hpProd/PostTests/Initialize'>Halfpint Study Post Tests</a>");
+                                        }
                                     }
                                 }
                             }
@@ -238,11 +254,14 @@ namespace hpMvc.PostTestService
                             }
                             else
                             {
-                                if (DateTime.Today.DayOfWeek == DayOfWeek.Monday)
+                                if (!isReport)
                                 {
-                                    if (_bSendEmails)
-                                        SendHtmlEmail(subject, to, null, body, 
-                                            @"<a href='http://halfpintstudy.org/hpProd/PostTests/Initialize'>Halfpint Study Post Tests</a>");
+                                    if (DateTime.Today.DayOfWeek == DayOfWeek.Monday)
+                                    {
+                                        if (_bSendEmails)
+                                            SendHtmlEmail(subject, to, null, body,
+                                                          @"<a href='http://halfpintstudy.org/hpProd/PostTests/Initialize'>Halfpint Study Post Tests</a>");
+                                    }
                                 }
                             }
                         }
@@ -264,11 +283,14 @@ namespace hpMvc.PostTestService
                             }
                             else
                             {
-                                if (DateTime.Today.DayOfWeek == DayOfWeek.Monday)
+                                if (!isReport)
                                 {
-                                    if (_bSendEmails)
-                                        SendHtmlEmail(subject, to, null, body, 
-                                            @"<a href='http://halfpintstudy.org/hpProd/PostTests/Initialize'>Halfpint Study Post Tests</a>");
+                                    if (DateTime.Today.DayOfWeek == DayOfWeek.Monday)
+                                    {
+                                        if (_bSendEmails)
+                                            SendHtmlEmail(subject, to, null, body,
+                                                          @"<a href='http://halfpintstudy.org/hpProd/PostTests/Initialize'>Halfpint Study Post Tests</a>");
+                                    }
                                 }
                             }
                         }
@@ -278,16 +300,19 @@ namespace hpMvc.PostTestService
 
             } //foreach (var si in sites.Where(si => si.EmpIdRequired))
             
-            //create the nova net files
-            Nlogger.LogInfo("***Creating csv files***");
-            foreach (var si in sites.Where(si => si.EmpIdRequired))
+            //only write to files if 
+            if (site == 0)
             {
-                Nlogger.LogInfo("For Site:" + si.Name + " - " + si.SiteId);
-                
-                //create the new list
-                var lines = new List<NovaNetColumns>();
+                //create the nova net files
+                Nlogger.LogInfo("***Creating csv files***");
+                foreach (var si in sites.Where(si => si.EmpIdRequired))
+                {
+                    Nlogger.LogInfo("For Site:" + si.Name + " - " + si.SiteId);
 
-                //iterate qualified staff
+                    //create the new list
+                    var lines = new List<NovaNetColumns>();
+
+                    //iterate qualified staff
                     foreach (var ptnd in si.PostTestNextDues.Where(ptnd => ptnd.IsOkForList))
                     {
                         var nnc = new NovaNetColumns();
@@ -303,7 +328,7 @@ namespace hpMvc.PostTestService
                         nnc.Col8 = "O";
                         nnc.Col9 = "Glucose";
 
-                        var startDate = DateTime.Now;
+                        var startDate = ptnd.NextDueDate.Value.AddMonths(-2);
 
                         nnc.StartDate = startDate.ToString("M/d/yyyy");
                         nnc.EndDate = ptnd.NextDueDate.Value.ToString("M/d/yyyy");
@@ -313,19 +338,33 @@ namespace hpMvc.PostTestService
                     //write lines to new file
                     WriteNovaNetFile(lines, si.Name, si.SiteId);
                     Nlogger.LogInfo("WriteNovaNetFile:" + si.Name);
-                
 
-                
-
-            }//foreach (var si in siteInfoPtses.Where(si => !si.EmpIdRequired))
+                } //foreach (var si in siteInfoPtses.Where(si => !si.EmpIdRequired))
+            }
 
             if (_bSendEmails)
             {
                 Nlogger.LogInfo("***Sending coorinator emails***");
                 foreach (var si in sites.Where(si => si.EmpIdRequired))
                 {
+                    if (site == 0)
+                    { }
+                    else
+                    {
+                        if (si.Id != site)
+                            continue;
+                    }
+
                     Nlogger.LogInfo("SendCoordinatorsEmail:" + si.Name);
-                    SendCoordinatorsEmail(si.Id, si.Name, si.SiteEmailLists);
+                    if (isReport)
+                    {
+                        
+                    }
+                    else
+                    {
+                        SendCoordinatorsEmail(si.Id, si.Name, si.SiteEmailLists);    
+                    }
+                    
                 }
             }
         }
@@ -485,7 +524,7 @@ namespace hpMvc.PostTestService
 
         internal static void SendHtmlEmail(string subject, string[] toAddress, string[] ccAddress, string bodyContent, string url, string bodyHeader = "")
         {
-            Nlogger.LogInfo("SendHtmlEmail: " + subject + toAddress.ToString());
+            Nlogger.LogInfo("SendHtmlEmail: " + subject + toAddress);
 
             if (toAddress.Length == 0)
                 return;
@@ -589,10 +628,11 @@ namespace hpMvc.PostTestService
             return memUsers;
         }
 
-        private static void DeleteOldOperatorsLists()
+        private static void DeleteOldOperatorsLists(string siteCode)
         {
             var folderPath = ConfigurationManager.AppSettings["StatStripListPath"];
-            var di = new DirectoryInfo(folderPath);
+            var path = Path.Combine(folderPath, siteCode);
+            var di = new DirectoryInfo(path);
 
             var files = from f in di.GetFiles()
                         where f.LastWriteTime < DateTime.Now.AddDays(-7)
@@ -749,8 +789,10 @@ namespace hpMvc.PostTestService
 
                                 var dateCompleted = postTest.DateCompleted.GetValueOrDefault();
                                 if (dateCompleted.CompareTo(DateTime.Parse("05/01/2012")) < 0)
+                                {
+                                    postTest.DateCompleted = DateTime.Parse("05/01/12");
                                     dateCompleted = DateTime.Parse("05/01/2012");
-
+                                }
                                 var nextDueDate = dateCompleted.AddYears(1);
 
                                 #endregion tempDateCompleted

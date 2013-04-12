@@ -361,6 +361,7 @@
     <Content Include="Content\Broadcast.css" />
     <Content Include="Content\CompleteSubject.css" />
     <Content Include="Content\CoordInitialize.css" />
+    <Content Include="Content\buttons.css" />
     <Content Include="Content\FortAwesome-Font-Awesome-13d5dd3\.gitignore" />
     <Content Include="Content\FortAwesome-Font-Awesome-13d5dd3\css\font-awesome-ie7.min.css" />
     <Content Include="Content\FortAwesome-Font-Awesome-13d5dd3\css\font-awesome.css" />
