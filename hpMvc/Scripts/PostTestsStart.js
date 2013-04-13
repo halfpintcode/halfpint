@@ -2,6 +2,7 @@
 $(function () {
     var empId = "";
     var siteId = $('#siteId').val();
+    var allTestsCompleted = true;
 
     $('#testMenu').hide();
     $('#divName').hide();
@@ -220,7 +221,8 @@ $(function () {
         $('#divClickHere').hide();
         $('#Users').attr('disabled', 'disabled');
         $('#btnStart').attr('disabled', 'disabled');
-
+        $('#btnSubmit').attr('disabled', 'disabled');
+        
         var url = window.urlRoot + '/PostTests/GetTestsCompletedActive';
         var name = $("option:selected", $('#Users')).text();
         var id = $('#Users').val();
@@ -236,20 +238,26 @@ $(function () {
             data: { Name: name, ID: id },
             success: function (data) {
                 $('#sEmail').val(data.email);
+                allTestsCompleted = true;
                 $.each(data.tests, function (index, d) {
                     var $li = $('<li id="' + d.PathName + '"><a href="#">' + d.Name + ' Post Test</a></li>');
                     $('#testMenu ul').append($li);
                     if (d.IsCompleted) {
                         if (d.IsExpiring || d.IsExpired) {
                             $li.prepend('&nbsp;').prepend(d.sDateCompleted).prepend(imgX);
+                            allTestsCompleted = false;
                         } else {
                             $li.prepend('&nbsp;').prepend(d.sDateCompleted).prepend(imgCheck);
                         }
                         $li.addClass('completed');
                     } else {
+                        allTestsCompleted = false;
                         $li.prepend('&nbsp;').prepend(imgX);
                     }
                 });
+                if (allTestsCompleted) {
+                    $('#btnSubmit').attr('disabled', false);
+                }
             }
         });
 

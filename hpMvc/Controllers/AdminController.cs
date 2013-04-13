@@ -673,9 +673,17 @@ namespace hpMvc.Controllers
         }
 
         [HttpPost]
-        public JsonResult PostTestsService(string runParam)
+        public JsonResult PostTestsService(string emailParam, string runType, string siteId)
         {
-            PostTestService.PostTestService.Execute(Server, runParam);
+            if (runType == "0")
+            {
+                PostTestService.PostTestService.Execute(Server, emailParam);    
+            }
+            else
+            {
+                
+            }
+            
 
             return Json("Successful");
         }
