@@ -436,6 +436,7 @@
     <Content Include="Content\Posttest.css" />
     <Content Include="Content\PostTestCertificate.css" />
     <Content Include="Content\postTestEdit.css" />
+    <Content Include="Content\postTestsService.css" />
     <Content Include="Content\PostTestsStart.css" />
     <Content Include="Content\PrintIntiializePassword.css" />
     <Content Include="Content\randomize.css" />
@@ -619,11 +620,11 @@
     <Content Include="Views\Admin\AddUserPartial.cshtml" />
     <Content Include="Views\Admin\AddUserSuccessPartial.cshtml" />
     <Content Include="Views\FileManager\Upload.cshtml" />
-    <Content Include="Views\CalorieCalc\Index.cshtml" />
+    <Content Include="Views\AdminBackDoor\CalorieCalc\Index.cshtml" />
     <Content Include="Views\Shared\_Layout3.cshtml" />
     <Content Include="Views\Test\Temp.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\CalorieCalc\EditSelect.cshtml" />
+    <Content Include="Views\AdminBackDoor\CalorieCalc\EditSelect.cshtml" />
     <Content Include="Views\FileManager\UploadAjax.cshtml" />
     <Content Include="Views\Coordinator\StudyIdsNotRandomized.cshtml" />
     <Content Include="Views\PostTestsAdmin\Index.cshtml" />

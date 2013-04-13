@@ -1,10 +1,16 @@
 ﻿/// <reference path="jquery-1.7.1-vsdoc.js" />
 $(function () {
     $(function () {
-        $("#accordion").accordion();
+        var acc = $("#accordion").accordion({
+            change: function (event, ui) {
+                var active = $("#accordion").accordion("option", "active");
+                alert('change:' + active);
+
+            }
+        });
     });
-    $('#btnSubmit').click(function() {
-       
+    $('#btnSubmit').click(function () {
+
         $('#btnSubmit').attr('disabled', 'disabled');
 
         $("#spinner").ajaxStart(function () { $(this).show(); })

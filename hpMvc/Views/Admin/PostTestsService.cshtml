@@ -2,12 +2,13 @@
     ViewBag.Title = "Post Tests Service";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 <h2>
     Post Tests Service</h2>
 <form action="" method="POST">
 <div id="accordion">
-    <h3>Run as service
-    </h3>
+    <h5><a href="#">Execute as service</a>
+    </h5>
     <div>
         <input type="radio" name="runParam" value="noEmails" checked="checked" />Create
         list but do not send emails
@@ -19,11 +20,17 @@
         and coordinator emails
         <br />
     </div>
-    <h3>Run as report</h3>
+    <h5><a href="#">Execute as report</a></h5>
     <div>
+        <div id="divSelects">
+            <span class="spnMain">Select a site:&nbsp;</span> @Html.DropDownList("Sites")
+            <br />
+            
+        </div>
     </div>
 </div>
 <br />
 <input type="button" id="btnSubmit" value="Submit" />
 </form>
+<link href="@Url.Content("~/Content/postTestsService.css")" rel="stylesheet">
 <script src="@Url.Content("~/Scripts/PostTestsService.js")" type="text/javascript"></script>
