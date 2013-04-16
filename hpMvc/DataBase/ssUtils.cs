@@ -188,8 +188,10 @@ namespace hpMvc.DataBase
 
                 FileInfo[] fis = di.GetFiles();
 
-                foreach (var fi in fis.OrderBy(f => f.Name.Replace("copy", "")))
-                    list.Add(fi.Name);
+                //foreach (var fi in fis.OrderBy(f => f.Name.Replace("copy", "")))
+                //    list.Add(fi.Name);
+
+                list.AddRange(fis.OrderBy(f => f.CreationTime).Reverse().Select(fi => fi.Name));
             }
 
             return list;
