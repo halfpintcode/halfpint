@@ -64,9 +64,12 @@
       <siteMapNode title="Penn State" class="AdminDCC">
         <siteMapNode title="Penn State Permission to Approach" controller="Download" action="GetFile" fileName="PennState Permission to Approach.pdf" folder="Quick Links~Permission to Approach~Penn State" />
       </siteMapNode>
+      <siteMapNode title="WCHOB" class="AdminDCC">
+        <siteMapNode title="WCHOB Permission to Approach" controller="Download" action="GetFile" fileName="WCHOB Permission to Approach.pdf" folder="Quick Links~Permission to Approach~WCHOB" />
+      </siteMapNode>
       <siteMapNode title="Westchester" class="AdminDCC">
         <siteMapNode title="Westchester Permission to Approach" controller="Download" action="GetFile" fileName="Westchester Permission to Approach.pdf" folder="Quick Links~Permission to Approach~Westchester" />
-      </siteMapNode>      
+      </siteMapNode>
     </siteMapNode>
     <siteMapNode title="Protocol" class="NurseOnly">
       <siteMapNode title="HalfPint Protocol" controller="Download" action="GetFile" fileName="HalfPint Protocol.pdf" folder="Regulatory~Protocol" />

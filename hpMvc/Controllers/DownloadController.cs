@@ -194,6 +194,14 @@ namespace hpMvc.Controllers
                     }
                     break;
 
+                case "10":
+                    if (fileName.Contains("Permission to Approach"))
+                    {
+                        fileName = "WCHOB Permission to Approach.pdf";
+                        folder = "Quick Links~Permission to Approach~WCHOB";
+                    }
+                    break;
+
                 default:
                     if (fileName.Contains("Consent Form"))
                     {

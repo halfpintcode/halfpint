@@ -168,7 +168,8 @@ namespace hpMvc.DataBase
 
                 FileInfo[] fis = di.GetFiles();
 
-                list.AddRange(fis.OrderBy(f => f.Name.Replace("copy", "").Reverse()).Select(fi => fi.Name));
+                foreach (var fi in fis.OrderBy(f => f.Name.Replace("copy", "")))
+                    list.Add(fi.Name);
             }
 
             return list;
@@ -180,14 +181,15 @@ namespace hpMvc.DataBase
 
             var folderPath = ConfigurationManager.AppSettings["StatStripListPath"];
             var path = Path.Combine(folderPath, siteCode);
-            
+
             if (Directory.Exists(path))
             {
                 var di = new DirectoryInfo(path);
 
                 FileInfo[] fis = di.GetFiles();
 
-                list.AddRange(fis.OrderBy(f => f.CreationTime).Reverse().Select(fi => fi.Name));
+                foreach (var fi in fis.OrderBy(f => f.Name.Replace("copy", "")))
+                    list.Add(fi.Name);
             }
 
             return list;
