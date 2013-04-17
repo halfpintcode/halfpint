@@ -663,7 +663,8 @@ namespace hpMvc.Controllers
 
         public ActionResult PostTestsService()
         {
-            var sites = DbUtils.GetSitesActive();
+            var sites = DbUtils.GetSitesActiveForNovanetList();
+            
             if (sites.Count == 0)
                 throw new Exception("There was an error retreiving the sites list from the database");
             sites.Insert(0, new Site { ID = 0, Name = "Select a site", SiteID = "" });
@@ -677,15 +678,15 @@ namespace hpMvc.Controllers
         {
             if (runType == "0")
             {
-                PostTestService.PostTestService.Execute(Server, emailParam);    
+                PostTestService.PostTestService.Execute(Server, emailParam);
+                return Json("Successful");
             }
             else
             {
-                
+                var sites = PostTestService.PostTestService.Execute(Server,emailParam, int.Parse(siteId), true);
+                return Json(sites);
             }
             
-
-            return Json("Successful");
         }
     }
 }

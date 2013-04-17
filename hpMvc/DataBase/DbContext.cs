@@ -1639,7 +1639,48 @@ namespace hpMvc.DataBase
             return sites;
         }
 
+        public static List<Site> GetSitesActiveForNovanetList()
+        {
+            var sites = new List<Site>();
+            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            using (var conn = new SqlConnection(strConn))
+            {
+                try
+                {
+                    //throw new Exception("Opps");
+                    var cmd = new SqlCommand("", conn)
+                                  {
+                                      CommandType = System.Data.CommandType.StoredProcedure,
+                                      CommandText = "GetSitesActive"
+                                  };
 
+                    conn.Open();
+                    var rdr = cmd.ExecuteReader();
+                    while (rdr.Read())
+                    {
+                        var site = new Site();
+                        var pos = rdr.GetOrdinal("EmpIDRequired");
+                        if (!rdr.GetBoolean(pos))
+                            continue;
+
+                        pos = rdr.GetOrdinal("ID");
+                        site.ID = rdr.GetInt32(pos);
+                        pos = rdr.GetOrdinal("SiteID");
+                        site.SiteID = rdr.GetString(pos);
+                        pos = rdr.GetOrdinal("Name");
+                        site.Name = rdr.GetString(pos);
+                        sites.Add(site);
+                    }
+                    rdr.Close();
+                }
+                catch (Exception ex)
+                {
+                    nlogger.LogError(ex);
+                }
+            }
+
+            return sites;
+        }
 
         public static List<Site> GetSitesActive()
         {

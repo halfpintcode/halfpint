@@ -1,6 +1,7 @@
 ﻿/// <reference path="jquery-1.7.1-vsdoc.js" />
 $(function () {
     $('#runType').val('0');
+    $('#report').hide();
 
     $("#accordion").accordion({
         change: function (event, ui) {
@@ -8,12 +9,18 @@ $(function () {
         }
     });
 
-    $('#Sites').change(function() {
+    $('#Sites').change(function () {
         $('#siteId').val($('#Sites').val());
     });
 
     $('#btnSubmit').click(function () {
 
+        if ($('#runType').val() === '1') {
+            if ($('#siteId').val() == '') {
+                alert('Select a site!');
+                return false;
+            }
+        }
         $('#btnSubmit').attr('disabled', 'disabled');
 
         $("#spinner").ajaxStart(function () { $(this).show(); })
@@ -24,6 +31,7 @@ $(function () {
 
         $.ajax({
             url: url,
+            //async: false,
             type: 'POST',
             data: data,
             success: function (data1) {
@@ -33,8 +41,126 @@ $(function () {
                     window.location = url;
                 }
                 else {
+                    //report
+                    $('#report').slideUp();
+                    $('#report').empty();
+
+                    $('<h2>' + data1.Name + ' - Post Tests Report</h2>').appendTo('#report');
+                    $('</br>').appendTo('#report');
+
+                    var emailLists = data1.SiteEmailLists;
+                    if (emailLists.CompetencyMissingList.length == 0) {
+                        $('<h3>All staff members have completed their competency tests.</h3>').appendTo('#report');
+                    } else {
+                        //compentency
+                        $('<h3>The following staff members have not completed a competency test.</h3>').appendTo('#report');
+                        $("<table id='tblCompentency' style='border-collapse:collapse;' cellpadding='5' border='1'></table>").appendTo('#report');
+                        $("<tr style='background-color:87CEEB'><th>Name</th><th>Role</th><th>Tests Not Completed</th><th>Email</th></tr>").appendTo('#tblCompentency');
+                        $.each(emailLists.CompetencyMissingList, function (index, val) {
+                            var email = "not entered";
+                            if (val.Email != null)
+                                email = val.Email;
+
+                            var test = "";
+                            if (!val.IsNovaStatStripTested)
+                                test = "NovaStatStrip ";
+                            if (val.Role === "Nurse") {
+                                if (!val.IsVampTested) {
+                                    if (test.Length > 0)
+                                        test += " and ";
+                                    test += "Vamp Jr";
+                                }
+                            }
+                            $("<tr><td>" + val.Name + "</td><td>" + val.Role + "</td><td>" + test + "</td><td>" + email + "</td></tr>").appendTo('#tblCompentency');
+                        });
+                        $('</br>').appendTo('#report');
+                    }
+
+                    //email missing
+                    if (emailLists.EmailMissingList.length > 0) {
+                        $("<h3>The following staff members need to have their email address entered into the staff table.</h3>").appendTo('#report');
+                        $("<table id='tblEmails' style='border-collapse:collapse;' cellpadding='5' border='1'></table>").appendTo('#report');
+                        $("<tr style='background-color:87CEEB'><th>Name</th><th>Role</th></tr>").appendTo('#tblEmails');
+                        $.each(emailLists.EmailMissingList, function (index, val) {
+                            $("<tr><td>" + val.Name + "</td><td>" + val.Role + "</td></tr>").appendTo('#tblEmails');
+                        });
+                        $('</br>').appendTo('#report');
+                    }
+
+                    //employee id missing
+                    if (emailLists.EmployeeIdMissingList.length > 0) {
+                        $("<h3>The following staff members need to have their employee ID entered into the staff table.</h3>").appendTo('#report');
+                        $("<table id='tblEmpIds' style='border-collapse:collapse;' cellpadding='5' border='1'></table>").appendTo('#report');
+                        $("<tr style='background-color:87CEEB'><th>Name</th><th>Role</th><th>Email</th></tr>").appendTo('#tblEmpIds');
+                        $.each(emailLists.EmployeeIdMissingList, function (index, val) {
+                            var email = "not entered";
+                            if (val.Email != null)
+                                email = val.Email;
+
+                            $("<tr><td>" + val.Name + "</td><td>" + val.Role + "</td><td>" + email + "</td></tr>").appendTo('#tblEmpIds');
+                        });
+                        $('</br>').appendTo('#report');
+                    }
+
+                    //new staff not completed
+                    if (emailLists.NewStaffList.length > 0) {
+                        $("<h3>The following new staff members have not completed their annual post tests.</h3>").appendTo('#report');
+                        $("<table id='tblNewstaff' style='border-collapse:collapse;' cellpadding='5' border='1'></table>").appendTo('#report');
+                        $("<tr style='background-color:87CEEB'><th>Name</th><th>Role</th><th>Email</th></tr>").appendTo('#tblNewstaff');
+                        $.each(emailLists.NewStaffList, function (index, val) {
+                            $("<tr><td>" + val.Name + "</td><td>" + val.Role + "</td><td>" + val.Email + "</td></tr>").appendTo('#tblNewstaff');
+                        });
+                        $('</br>').appendTo('#report');
+                    }
+
+                    //expired staff not completed
+                    if (emailLists.ExpiredList.length > 0) {
+                        $("<h3>The following expired staff members have not completed their annual post tests.</h3>").appendTo('#report');
+                        $("<table id='tblExpired' style='border-collapse:collapse;' cellpadding='5' border='1'></table>").appendTo('#report');
+                        $("<tr style='background-color:87CEEB'><th>Name</th><th>Role</th><th>Due Date</th><th>Email</th></tr>").appendTo('#tblExpired');
+                        $.each(emailLists.ExpiredList, function (index, val) {
+                            $("<tr><td>" + val.Name + "</td><td>" + val.Role + "</td><td>" + val.SNextDueDate + "</td><td>" + val.Email + "</td></tr>").appendTo('#tblExpired');
+                        });
+                        $('</br>').appendTo('#report');
+                    }
+
+                    //staff due not completed
+                    if (emailLists.DueList.length > 0) {
+                        $("<h3>The following staff members are due to take their annual post tests.</h3>").appendTo('#report');
+                        $("<table id='tblDue' style='border-collapse:collapse;' cellpadding='5' border='1'></table>").appendTo('#report');
+                        $("<tr style='background-color:87CEEB'><th>Name</th><th>Role</th><th>Due Date</th><th>Email</th></tr>").appendTo('#tblDue');
+                        $.each(emailLists.DueList, function (index, val) {
+                            $("<tr><td>" + val.Name + "</td><td>" + val.Role + "</td><td>" + val.SNextDueDate + "</td><td>" + val.Email + "</td></tr>").appendTo('#tblDue');
+                        });
+                        $('</br>').appendTo('#report');
+                    }
+
+                    //staff due not completed
+                    if (emailLists.StaffTestsNotCompletedList.length > 0) {
+                        $("<h3>The following staff members have not completed all post tests.</h3>").appendTo('#report');
+                        $("<table id='tblNc' style='border-collapse:collapse;' cellpadding='5' border='1'></table>").appendTo('#report');
+                        $("<tr style='background-color:87CEEB'><th>Name</th><th>Role</th><th>Email</th><th>Tests Not Completed</th></tr>").appendTo('#tblNc');
+                        $.each(emailLists.StaffTestsNotCompletedList, function (index, val) {
+                            if (val.TestsNotCompleted.length > 0) {
+                                var email = "not entered";
+                                if (val.Email != null)
+                                    email = val.Email;
+
+                                var row = "<tr><td>" + val.StaffName + "</td><td>" + val.Role + "</td><td>" + email + "</td><td>"; // ).appendTo('#tblNc');
+                                $.each(val.TestsNotCompleted, function (index2, val2) {
+                                    row = row + val2 + "</br>";
+                                });
+                                row = row + "</td></tr>"; 
+                                $(row).appendTo('#tblNc');
+                            }
+
+                        });
+                        $('</br>').appendTo('#report');
+                    }
+
+
                     $('#btnSubmit').attr('disabled', false);
-                    alert('Could not run the service at this time, please try later.');
+                    $('#report').slideDown();
                 }
             }
         });

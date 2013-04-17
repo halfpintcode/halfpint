@@ -31,7 +31,7 @@ namespace hpMvc.PostTestService
         /// <param name="site"></param>
         /// <param name="isReport"></param>
         /// runParam is one of three possible params: noEmails (sets _bSendEmails to false),  forceEmails (sets _bForceEmails to true), or coordinatorEmais (leaves everthing as default)
-        public static void Execute(HttpServerUtilityBase server, string runParam, int site=0, bool isReport=false)
+        public static SiteInfoPts Execute(HttpServerUtilityBase server, string runParam, int site = 0, bool isReport = false)
         {
 
             Nlogger.LogInfo("Starting PostTests Service - Internal");
@@ -367,6 +367,8 @@ namespace hpMvc.PostTestService
                     
                 }
             }
+            return sites.Find(s => s.Id == site);
+             
         }
 
 
@@ -799,8 +801,10 @@ namespace hpMvc.PostTestService
                                 //assign the next due date to the staff member
                                 //this works because the completed tests are in dateCompleted order 
                                 if (ptnd.NextDueDate == null)
+                                {
                                     ptnd.NextDueDate = postTest.DateCompleted.Value.AddYears(1);
-
+                                    ptnd.SNextDueDate = ptnd.NextDueDate.Value.ToShortDateString();
+                                }
                                 var tsDayWindow = nextDueDate - DateTime.Now;
                                 if (tsDayWindow.Days <= 30)
                                 {
