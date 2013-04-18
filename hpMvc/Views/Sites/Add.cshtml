@@ -63,7 +63,10 @@
 
 @using (Html.BeginForm("Add", "Sites", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-    @Html.ValidationSummary(true)
+    <div>
+        @Html.ValidationSummary()    
+    </div>
+    
     <fieldset>
         <legend>Site Details</legend>
         <div>
@@ -125,6 +128,8 @@
             {
                 <div>
                     @Html.HiddenFor(m => @Model.InsulinConcentrations[i].Id)
+                    @Html.HiddenFor(m => @Model.InsulinConcentrations[i].Name)
+                    @Html.HiddenFor(m => @Model.InsulinConcentrations[i].Concentration)
                     <span class="lbleditor">@Model.InsulinConcentrations[i].Name</span>
                     @Html.EditorFor(m => @Model.InsulinConcentrations[i].IsUsed)
                 </div>
@@ -133,16 +138,17 @@
         </div>
         <div><span class="underline">Randomization Upload Files :</span></div>
         <div>
-            <span class="lblFile">Select the study id's upload file :</span>
+            <span class="lblFile">Select the study id's import file: </span>
             <span class="col3">
-                <input type="file" value="Select File" name="[0].files" id="files_0" />
+                <input type="file" value="Select File" name="files" id="files_0" />
             </span>
             <br/>
-            <span class="lblFile">Select the radomization upload file :</span>
+            <span class="lblFile">Select the radomization import file: </span>
             <span class="col3">
-                <input type="file" name="[1].files" id="files_1" />
+                <input type="file" name="files" id="files_1" />
             </span>
         </div>
+        
         <p>
             <input type="submit" value="Submit" />
         </p>

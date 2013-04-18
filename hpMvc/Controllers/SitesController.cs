@@ -53,17 +53,28 @@ namespace hpMvc.Controllers
         }
 
         [HttpPost]
+        //public ActionResult Add(IEnumerable<HttpPostedFileBase> files, SiteInfo siteInfo)
         public ActionResult Add(IEnumerable<HttpPostedFileBase> files, SiteInfo siteInfo)
         {
             if (ModelState.IsValid)
             {
                 var retVal = Business.Site.Add(files, siteInfo);
-
+                if (retVal.ReturnValue == 0)
+                {
+                    if (retVal.Dictionary.Count > 0)
+                    {
+                        foreach (var s in retVal.Dictionary)
+                        {
+                            ModelState.AddModelError(s.Key, s.Value);
+                        }
+                    }
+                    return View(siteInfo);
+                }
                 //var retVal = DbUtils.AddSiteInfo(siteInfo);
                 if (retVal.IsSuccessful)
                     return RedirectToAction("Index");
                 else
-                    return View(siteInfo);
+                    return View(siteInfo);  
             }
             else
             {

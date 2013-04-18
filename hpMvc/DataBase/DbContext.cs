@@ -795,6 +795,66 @@ namespace hpMvc.DataBase
             }
         }
 
+        public static int IsSiteNameDuplicate(string name)
+        {
+            var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+
+            using (var conn = new SqlConnection(strConn))
+            {
+                try
+                {
+                    var cmd = new SqlCommand("", conn)
+                                  {
+                                      CommandType = System.Data.CommandType.StoredProcedure,
+                                      CommandText = "IsSiteNameDuplicate"
+                                  };
+                    var param = new SqlParameter("@name", name);
+                    cmd.Parameters.Add(param);
+
+                    conn.Open();
+                    int count = (Int32)cmd.ExecuteScalar();
+                    if (count == 1)
+                        return 1;
+                    return 0;
+                }
+                catch (Exception ex)
+                {
+                    nlogger.LogError(ex);
+                    return -1;
+                }
+            }
+        }
+
+        public static int IsSiteIdDuplicate(string siteId)
+        {
+            var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+
+            using (var conn = new SqlConnection(strConn))
+            {
+                try
+                {
+                    var cmd = new SqlCommand("", conn)
+                    {
+                        CommandType = System.Data.CommandType.StoredProcedure,
+                        CommandText = "IsSiteIdDuplicate"
+                    };
+                    var param = new SqlParameter("@siteId", siteId);
+                    cmd.Parameters.Add(param);
+
+                    conn.Open();
+                    int count = (Int32)cmd.ExecuteScalar();
+                    if (count == 1)
+                        return 1;
+                    return 0;
+                }
+                catch (Exception ex)
+                {
+                    nlogger.LogError(ex);
+                    return -1;
+                }
+            }
+        }
+        
         public static int IsStudyIDAssignedPassword(string studyID)
         {
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
@@ -2684,6 +2744,7 @@ namespace hpMvc.DataBase
             dto.IsSuccessful = true;
             return dto;
         }
+
 
         public static MessageListDTO AddSiteInfo(SiteInfo siteInfo)
         {

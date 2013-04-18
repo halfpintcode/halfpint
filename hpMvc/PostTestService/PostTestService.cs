@@ -636,11 +636,13 @@ namespace hpMvc.PostTestService
             var path = Path.Combine(folderPath, siteCode);
             var di = new DirectoryInfo(path);
 
-            var files = from f in di.GetFiles()
-                        where f.LastWriteTime < DateTime.Now.AddDays(-7)
-                        select f;
-            files.ToList().ForEach(f => f.Delete());
-
+            if (di.Exists)
+            {
+                var files = from f in di.GetFiles()
+                            where f.LastWriteTime < DateTime.Now.AddDays(-7)
+                            select f;
+                files.ToList().ForEach(f => f.Delete());
+            }
         }
 
         private static List<SiteInfoPts> GetSites()
