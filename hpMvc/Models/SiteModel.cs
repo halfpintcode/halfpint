@@ -9,7 +9,9 @@ namespace hpMvc.Models
     public class SiteInfo : IValidatableObject
     {
         public int Id { get; set; }
+        [Required]
         public string SiteId { get; set; }
+        [Required]
         public string Name { get; set; }
         public bool IsEmployeeIdRequired { get; set; }
         public string EmployeeIdRegEx { get; set; }

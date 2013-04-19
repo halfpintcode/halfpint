@@ -883,6 +883,41 @@ namespace hpMvc.DataBase
             }
         }
 
+        public static int DoesStudyIdsExistForSite(int siteId, MessageListDTO dto)
+        {
+            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+
+            using (var conn = new SqlConnection(strConn))
+            {
+                try
+                {
+                    //throw new Exception("test error");
+                    var cmd = new SqlCommand("", conn);
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.CommandText = "DoesStudyIDExist";
+                    var param = new SqlParameter("@siteId", siteId);
+                    cmd.Parameters.Add(param);
+
+                    conn.Open();
+                    int count = (Int32)cmd.ExecuteScalar();
+                    if (count > 0)
+                    {
+                        dto.Dictionary.Add("importFiles", "Study id's already exist for this site.");
+                        dto.ReturnValue = 0;
+                        return 1;
+                    }
+                    return 0;
+                }
+                catch (Exception ex)
+                {
+                    nlogger.LogError(ex, "SiteID:" + siteId);
+                    dto.Dictionary.Add("importFiles", "There was an error checking if study id's exist for this site.");
+                    dto.ReturnValue = 0;
+                    return -1;
+                }
+            }
+        }
+
         public static int IsStudyIDValid(string studyID)
         {
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
@@ -2745,6 +2780,37 @@ namespace hpMvc.DataBase
             return dto;
         }
 
+        public static bool AddStudyId(string studyId, int siteId, MessageListDTO dto)
+        {
+             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            using (var conn = new SqlConnection(strConn))
+            {
+                try
+                {
+                    var cmd = new SqlCommand("", conn);
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.CommandText = "AddStudyId";
+
+                    var param = new SqlParameter("@studyId", studyId);
+                    cmd.Parameters.Add(param);
+
+                    param = new SqlParameter("@siteId", siteId);
+                    cmd.Parameters.Add(param);
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    nlogger.LogError(ex);
+                    dto.ReturnValue = 0;
+                    dto.Messages.Add("There was an error adding the study id:" + studyId + " to the database");
+                    return false;
+                }
+                
+            }
+
+            return true;
+        }
 
         public static MessageListDTO AddSiteInfo(SiteInfo siteInfo)
         {
