@@ -54,7 +54,7 @@ namespace hpMvc.Business
                     
                     if (! fileName.Contains("studyids"))
                     {
-                        dto.Dictionary.Add("importFiles", "The stud id's import file name is not correct, it must be named: studyids" + siteInfo.SiteId + ".cvs");
+                        dto.Dictionary.Add("importFiles", "The study id's import file name is not correct, it must be named: studyids" + siteInfo.SiteId + ".cvs");
                         dto.ReturnValue = 0;
                         return dto;
                     }
@@ -73,7 +73,32 @@ namespace hpMvc.Business
                             return dto;
                         }
                     }
-                    
+
+                    //study ids import file
+                    fileName = files[1].FileName.ToLower();
+
+                    if (!fileName.Contains("randomization"))
+                    {
+                        dto.Dictionary.Add("importFiles", "The radomization's import file name is not correct, it must be named: randomizations" + siteInfo.SiteId + ".cvs");
+                        dto.ReturnValue = 0;
+                        return dto;
+                    }
+                    else
+                    {
+                        //check format and parse
+                        var randomizations = CheckFileFormatRandomization(files[1], siteInfo.SiteId, dto);
+                        if (dto.ReturnValue == 0)
+                            return dto;
+                        if (DbUtils.DoesRandomizationsExistForSite(siteInfo.Id, dto) != 0)
+                        {
+
+                        }
+                        if (!AddRandomizationsToDb(randomizations, siteInfo.Id, dto))
+                        {
+                            return dto;
+                        }
+                    }
+
                     dto = DbUtils.AddSiteInfo(siteInfo);
                     scope.Complete();
                 }
@@ -84,6 +109,63 @@ namespace hpMvc.Business
                 }
 
                 return dto;
+            }
+        }
+
+        private static bool AddRandomizationsToDb(List<RandomizationLines> randomizations, int siteId, MessageListDTO dto)
+        {
+            foreach (var randomization in randomizations)
+            {
+                
+            }
+            return true;
+        }
+
+        private static List<RandomizationLines> CheckFileFormatRandomization(HttpPostedFileBase file, string siteId, MessageListDTO dto)
+        {
+            var randomizations = new List<RandomizationLines>();
+
+            using (var srdr = new StreamReader(file.InputStream))
+            {
+                //var count = 0;
+                var lines = new List<string>();
+                while (true)
+                {
+                    //count++;
+                    var line = srdr.ReadLine();
+
+                    if (line == null)
+                        break;
+                    if (line.Length == 0)
+                        continue;
+
+                    var sCols = line.Split(new string[] { "," }, StringSplitOptions.None);
+                    var numberCol = sCols[1];
+
+                    var sParts = numberCol.Split(new string[] { "-" }, StringSplitOptions.None);
+                    string sPartSiteId = sParts[0];
+
+                    if (sPartSiteId != siteId)
+                    {
+                        dto.Dictionary.Add("importFiles", "The randomizations do not begin with the correct site id. They begin with " + sPartSiteId + ", they should begin with " + siteId + ".");
+                        dto.ReturnValue = 0;
+                        return null;
+                    }
+
+                    var rndmz = new RandomizationLines();
+                    rndmz.Number = numberCol;
+                    string armCol = sCols[8];
+                    if (!(armCol == "TGC-1" || armCol == "TGC-2"))
+                    {
+                        dto.Dictionary.Add("importFiles", "The randomizations arm column are not valid. Found " + armCol + ", should be either TGC-1 or TGC-2.");
+                        dto.ReturnValue = 0;
+                        return null;
+                    }
+                    rndmz.Arm = armCol;
+
+                    randomizations.Add(rndmz);
+                }
+                return randomizations;
             }
         }
 
@@ -124,7 +206,7 @@ namespace hpMvc.Business
                         return null;
                     }
 
-                    lines.Add(line);
+                    lines.Add(line.Trim());
 
                 }
                 return lines;
@@ -135,5 +217,11 @@ namespace hpMvc.Business
         {
             return true;
         }
+    }
+    
+    public class RandomizationLines
+    {
+        public string Number { get; set; }
+        public string Arm { get; set; }
     }
 }

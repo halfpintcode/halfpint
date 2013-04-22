@@ -883,6 +883,41 @@ namespace hpMvc.DataBase
             }
         }
 
+        public static int DoesRandomizationsExistForSite(int siteId, MessageListDTO dto)
+        {
+            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+
+            using (var conn = new SqlConnection(strConn))
+            {
+                try
+                {
+                    //throw new Exception("test error");
+                    var cmd = new SqlCommand("", conn);
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.CommandText = "DoesRandomizationsExistForSite";
+                    var param = new SqlParameter("@siteId", siteId);
+                    cmd.Parameters.Add(param);
+
+                    conn.Open();
+                    int count = (Int32)cmd.ExecuteScalar();
+                    if (count > 0)
+                    {
+                        dto.Dictionary.Add("importFiles", "Study id's already exist for this site.");
+                        dto.ReturnValue = 0;
+                        return 1;
+                    }
+                    return 0;
+                }
+                catch (Exception ex)
+                {
+                    nlogger.LogError(ex, "SiteID:" + siteId);
+                    dto.Dictionary.Add("importFiles", "There was an error checking if study id's exist for this site.");
+                    dto.ReturnValue = 0;
+                    return -1;
+                }
+            }
+        }
+
         public static int DoesStudyIdsExistForSite(int siteId, MessageListDTO dto)
         {
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
@@ -894,7 +929,7 @@ namespace hpMvc.DataBase
                     //throw new Exception("test error");
                     var cmd = new SqlCommand("", conn);
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "DoesStudyIDExist";
+                    cmd.CommandText = "DoesStudyIdsExistForSite";
                     var param = new SqlParameter("@siteId", siteId);
                     cmd.Parameters.Add(param);
 

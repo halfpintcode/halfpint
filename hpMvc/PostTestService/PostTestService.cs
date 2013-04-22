@@ -931,7 +931,7 @@ namespace hpMvc.PostTestService
             var sw = new StreamWriter(fullpath, false);
 
 
-            sw.WriteLine("Novanet Operator Import Data,version 2.0,,,,,,,,,");
+            sw.WriteLine("NovaNet Operator Import Data,version 2.0,,,,,,,,,");
             foreach (var line in lines)
             {
                 sw.Write(line.LastName + ",");

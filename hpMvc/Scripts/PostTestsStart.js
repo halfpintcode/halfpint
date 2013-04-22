@@ -255,6 +255,9 @@ $(function () {
                         $li.prepend('&nbsp;').prepend(imgX);
                     }
                 });
+                if (siteId === "2") {
+                    $('#btnSubmit').attr('disabled', false);
+                }
                 if (allTestsCompleted) {
                     $('#btnSubmit').attr('disabled', false);
                 }
