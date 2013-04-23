@@ -180,9 +180,7 @@ namespace hpMvc.Business
             }
             return true;
         }
-
         
-
         private static List<string> CheckFileFormatStudyId(HttpPostedFileBase file, string siteId, MessageListDTO dto)
         {
             using (var srdr = new StreamReader(file.InputStream))

@@ -1,0 +1,11 @@
+﻿@model hpMvc.Models.SiteInfo
+@{
+    ViewBag.Title = "Add New Site Confirmation";
+}
+
+<h3>Site information for @Model.Name, site id: @Model.SiteId was sucessfully added to the database.</h3>
+
+
+<div>
+    @Html.ActionLink("Back to Sites", "Index")
+</div>

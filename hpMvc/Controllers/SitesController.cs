@@ -75,16 +75,25 @@ namespace hpMvc.Controllers
                     }
                     return View(siteInfo);
                 }
-                
+
                 if (retVal.IsSuccessful)
-                    return RedirectToAction("Index");
+                {
+                    TempData.Add("siteInfo", siteInfo);
+                    return RedirectToAction("AddConfirmation");
+                }
                 else
-                    return View(siteInfo);  
+                    return View(siteInfo);
             }
             else
             {
                 return View(siteInfo);
             }
+        }
+
+        public ActionResult AddConfirmation()
+        {
+            var siteInfo = TempData["siteInfo"] as SiteInfo;
+            return View(siteInfo);
         }
 
         public ActionResult InsulinConcentrations()

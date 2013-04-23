@@ -26,11 +26,17 @@
         width: 500px;
     }
     .underline {
-        text-decoration: underline; 
+        text-decoration: underline;
+    }
+    #pleasewait {
+        margin-left: 50px;
+        color: blue;
     }
 </style>
 <script type="text/javascript">
     $(function () {
+        $('#pleasewait').hide();
+        
         if ($('#IsEmployeeIdRequired').attr("checked") !== "checked") {
             $('#EmployeeIdRegEx').val("");
             $('#EmployeeIdRegEx').attr("disabled", "disabled");
@@ -54,7 +60,10 @@
                 $('#EmployeeIdMessage').attr("disabled", false);
             }
         });
-        
+
+        $('#btnSubmit').click(function () {
+            $('#pleasewait').slideDown('slow');
+        });
     });
 </script>
 <h2>Add New Site</h2>
@@ -150,12 +159,15 @@
             </span>
         </div>
         
+        <div id="pleasewait">
+            Please wait...  This could take a few minutes.  You will be redirected to a confirmation page when finished.
+        </div>
         <p>
-            <input type="submit" value="Submit" />
+            <input type="submit" id="btnSubmit" value="Submit" />
         </p>
     </fieldset>
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to Sites", "Index")
 </div>
