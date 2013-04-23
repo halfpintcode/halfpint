@@ -88,7 +88,9 @@ $(function () {
     //use ajax to check for duplicate
     $('#UserName').blur(function () {
         var userName = $.trim($('#UserName').val());
-        isUserNameDuplicate(userName);
+        if (userName) {
+            isUserNameDuplicate(userName);
+        }
     });
     function isUserNameDuplicate(userName) {
         $.ajax({
@@ -111,7 +113,9 @@ $(function () {
 
     $('#Email').blur(function () {
         var email = $.trim($('#Email').val());
-        isEmailDuplicate(email);
+        if (email) {
+            isEmailDuplicate(email);    
+        }
     });
     function isEmailDuplicate(email) {
         $.ajax({
@@ -134,10 +138,9 @@ $(function () {
 
     $('#EmployeeID').blur(function () {
         var empID = $.trim($('#EmployeeID').val());
-        if (empID.length === 0) {
-            return;
+        if (empID) {
+            isEmployeeIDDuplicate(empID);    
         }
-        isEmployeeIDDuplicate(empID);
     });
 
     function isEmployeeIDDuplicate(empID) {
@@ -258,7 +261,7 @@ $(function () {
             if (isEmployeeIDDuplicate(empID)) {
                 return false;
             }
-        }        
+        }
         staffModel.EmployeeID = empID;
 
         var isValid = true;

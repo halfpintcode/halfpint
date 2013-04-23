@@ -59,6 +59,9 @@
 
 @using (Html.BeginForm())
 {
+    <input type="hidden" id="Name" name="Name" value='@Model.Name'/>
+    <input type="hidden" id="SiteId" name="SiteId" value='@Model.SiteId'/>
+    
     @Html.ValidationSummary(true)
     <fieldset>
         <legend>Site Details</legend>
