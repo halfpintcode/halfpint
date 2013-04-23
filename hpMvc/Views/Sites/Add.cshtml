@@ -54,6 +54,7 @@
                 $('#EmployeeIdMessage').attr("disabled", false);
             }
         });
+        
     });
 </script>
 <h2>Add New Site</h2>
@@ -115,12 +116,12 @@
             </span>
         </div>
 
-        <div>
+        @*<div>
             <span class="lbleditor">Use Sensor:</span>
             <span class="col2"> 
                 @Html.EditorFor(model => model.Sensor)
             </span>
-        </div>
+        </div>*@
         
         <div>
             <span class="underline">Insulin Concentrations Used:</span>
@@ -136,7 +137,7 @@
             }
             
         </div>
-        <div><span class="underline">Randomization Upload Files :</span></div>
+        <div><span class="underline">Randomization and Study Id Import Files :</span></div>
         <div>
             <span class="lblFile">Select the study id's import file: </span>
             <span class="col3">

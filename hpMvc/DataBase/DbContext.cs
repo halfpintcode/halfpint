@@ -2815,6 +2815,41 @@ namespace hpMvc.DataBase
             return dto;
         }
 
+        public static bool AddRandomizationForNewSite(string number, string arm, int siteId, MessageListDTO dto)
+        {
+            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            using (var conn = new SqlConnection(strConn))
+            {
+                try
+                {
+                    var cmd = new SqlCommand("", conn);
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.CommandText = "AddRandomizationForNewSite";
+
+                    var param = new SqlParameter("@number", number);
+                    cmd.Parameters.Add(param);
+
+                    param = new SqlParameter("@arm", arm);
+                    cmd.Parameters.Add(param);
+
+                    param = new SqlParameter("@site", siteId);
+                    cmd.Parameters.Add(param);
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    nlogger.LogError(ex);
+                    dto.ReturnValue = 0;
+                    dto.Messages.Add("There was an error adding the randomization:" + number + " to the database");
+                    return false;
+                }
+
+            }
+
+            return true;
+        }
+
         public static bool AddStudyId(string studyId, int siteId, MessageListDTO dto)
         {
              String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
@@ -2849,7 +2884,7 @@ namespace hpMvc.DataBase
 
         public static MessageListDTO AddSiteInfo(SiteInfo siteInfo)
         {
-            var dto = new MessageListDTO();
+            var dto = new MessageListDTO {ReturnValue = 0};
 
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
             using (var conn = new SqlConnection(strConn))
@@ -2919,14 +2954,14 @@ namespace hpMvc.DataBase
                     {
                         trn.Rollback();
                         nlogger.LogError(ex);
-                        dto.IsSuccessful = false;
                         dto.Messages.Add("There was an error in SaveSiteInfo");
+                        dto.ReturnValue = -1;
                         return dto;
                     }
                 }
             }
             dto.Messages.Add("New site information was successfully entered into the database!");
-            dto.IsSuccessful = true;
+            dto.ReturnValue = 1;
             return dto;
         }
     }

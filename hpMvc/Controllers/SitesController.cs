@@ -9,7 +9,7 @@ using hpMvc.Business;
 
 namespace hpMvc.Controllers
 {
-    //[Authorize]
+    [Authorize(Roles = "Admin,DCC") ]
     public class SitesController : Controller
     {
         //
@@ -49,6 +49,7 @@ namespace hpMvc.Controllers
         public ActionResult Add()
         {
             var siteInfo = DbUtils.GetSiteInfoForNewSite();
+            siteInfo.IsActive = true;
             return View(siteInfo);
         }
 
@@ -58,6 +59,10 @@ namespace hpMvc.Controllers
         {
             if (ModelState.IsValid)
             {
+                //everyone is using dexcom at the moment
+                //we might want to let dcc select this in the future
+                siteInfo.Sensor = 2;
+
                 var retVal = Business.Site.Add(files, siteInfo);
                 if (retVal.ReturnValue == 0)
                 {
@@ -70,7 +75,7 @@ namespace hpMvc.Controllers
                     }
                     return View(siteInfo);
                 }
-                //var retVal = DbUtils.AddSiteInfo(siteInfo);
+                
                 if (retVal.IsSuccessful)
                     return RedirectToAction("Index");
                 else

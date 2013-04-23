@@ -58,53 +58,54 @@ namespace hpMvc.Business
                         dto.ReturnValue = 0;
                         return dto;
                     }
-                    else
-                    {
-                        //check format and parse
-                        var studyidLines = CheckFileFormatStudyId(files[0], siteInfo.SiteId, dto);
-                        if (dto.ReturnValue == 0)
-                            return dto;
-                        if (DbUtils.DoesStudyIdsExistForSite(siteInfo.Id, dto) != 0)
-                        {
-                            
-                        }
-                        if (! AddStudyidsToDb(studyidLines, siteInfo.Id, dto))
-                        {
-                            return dto;
-                        }
-                    }
-
+                    
                     //study ids import file
                     fileName = files[1].FileName.ToLower();
 
-                    if (!fileName.Contains("randomization"))
+                    if (!fileName.Contains("randomizations"))
                     {
                         dto.Dictionary.Add("importFiles", "The radomization's import file name is not correct, it must be named: randomizations" + siteInfo.SiteId + ".cvs");
                         dto.ReturnValue = 0;
                         return dto;
                     }
-                    else
-                    {
-                        //check format and parse
-                        var randomizations = CheckFileFormatRandomization(files[1], siteInfo.SiteId, dto);
-                        if (dto.ReturnValue == 0)
-                            return dto;
-                        if (DbUtils.DoesRandomizationsExistForSite(siteInfo.Id, dto) != 0)
-                        {
-
-                        }
-                        if (!AddRandomizationsToDb(randomizations, siteInfo.Id, dto))
-                        {
-                            return dto;
-                        }
-                    }
 
                     dto = DbUtils.AddSiteInfo(siteInfo);
+                    if (dto.ReturnValue < 1)
+                    {
+                        return dto;
+                    }
+                    
+                    //check format and parse
+                    var studyidLines = CheckFileFormatStudyId(files[0], siteInfo.SiteId, dto);
+                    if (dto.ReturnValue == 0)
+                        return dto;
+                    if (DbUtils.DoesStudyIdsExistForSite(siteInfo.Id, dto) != 0)
+                    {
+                        return dto;
+                    }
+                    if (!AddStudyidsToDb(studyidLines, siteInfo.Id, dto))
+                    {
+                        return dto;
+                    }
+
+                    //check format and parse
+                    var randomizations = CheckFileFormatRandomization(files[1], siteInfo.SiteId, dto);
+                    if (dto.ReturnValue == 0)
+                        return dto;
+                    if (DbUtils.DoesRandomizationsExistForSite(siteInfo.Id, dto) != 0)
+                    {
+                        return dto;
+                    }
+                    if (!AddRandomizationsToDb(randomizations, siteInfo.Id, dto))
+                    {
+                        return dto;
+                    }
+
+                    dto.IsSuccessful = true;
                     scope.Complete();
                 }
                 catch (Exception)
                 {
-
                     scope.Dispose();
                 }
 
@@ -116,7 +117,8 @@ namespace hpMvc.Business
         {
             foreach (var randomization in randomizations)
             {
-                
+                if (!DbUtils.AddRandomizationForNewSite(randomization.Number, randomization.Arm, siteId, dto))
+                    return false;
             }
             return true;
         }
