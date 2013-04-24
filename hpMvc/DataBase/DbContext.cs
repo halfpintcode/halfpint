@@ -2805,7 +2805,7 @@ namespace hpMvc.DataBase
                         trn.Rollback();
                         nlogger.LogError(ex);
                         dto.IsSuccessful = false;
-                        dto.Messages.Add("There was an error in SaveSiteInfo");
+                        dto.Dictionary.Add("siteInfo", "There was an error in SaveSiteInfo");
                         return dto;
                     }
                 }
@@ -2841,7 +2841,7 @@ namespace hpMvc.DataBase
                 {
                     nlogger.LogError(ex);
                     dto.ReturnValue = 0;
-                    dto.Messages.Add("There was an error adding the randomization:" + number + " to the database");
+                    dto.Dictionary.Add("importFiles", "There was an error adding the randomization:" + number + " to the database");
                     return false;
                 }
 
@@ -2873,7 +2873,7 @@ namespace hpMvc.DataBase
                 {
                     nlogger.LogError(ex);
                     dto.ReturnValue = 0;
-                    dto.Messages.Add("There was an error adding the study id:" + studyId + " to the database");
+                    dto.Dictionary.Add("importFiles", "There was an error adding the study id:" + studyId + " to the database");
                     return false;
                 }
                 
@@ -2954,7 +2954,7 @@ namespace hpMvc.DataBase
                     {
                         trn.Rollback();
                         nlogger.LogError(ex);
-                        dto.Messages.Add("There was an error in SaveSiteInfo");
+                        dto.Dictionary.Add("siteInfo", "There was an error in AddSiteInfo");
                         dto.ReturnValue = -1;
                         return dto;
                     }

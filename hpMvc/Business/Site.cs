@@ -19,7 +19,7 @@ namespace hpMvc.Business
                 try
                 {
                     //check for duplicate name
-                    int retVal = DbUtils.IsSiteNameDuplicate(siteInfo.Name);
+                    var retVal = DbUtils.IsSiteNameDuplicate(siteInfo.Name);
                     if (retVal != 0)
                     {
                         if (retVal == 1)
@@ -27,6 +27,7 @@ namespace hpMvc.Business
                         else
                             dto.Dictionary.Add("Name", "There was a problem checking for a duplicate name");
                         dto.ReturnValue = 0;
+                        scope.Dispose();
                         return dto;
                     }
                     //check for duplicat site id
@@ -38,6 +39,7 @@ namespace hpMvc.Business
                         else
                             dto.Dictionary.Add("SiteId", "There was a problem checking for a duplicate site ID");
                         dto.ReturnValue = 0;
+                        scope.Dispose();
                         return dto;
                     }
 
@@ -46,6 +48,7 @@ namespace hpMvc.Business
                     {
                         dto.Dictionary.Add("importFiles", "One or both import files are missing");
                         dto.ReturnValue = 0;
+                        scope.Dispose();
                         return dto;
                     }
                     
@@ -56,6 +59,7 @@ namespace hpMvc.Business
                     {
                         dto.Dictionary.Add("importFiles", "The study id's import file name is not correct, it must be named: studyids" + siteInfo.SiteId + ".cvs");
                         dto.ReturnValue = 0;
+                        scope.Dispose();
                         return dto;
                     }
                     
@@ -66,51 +70,63 @@ namespace hpMvc.Business
                     {
                         dto.Dictionary.Add("importFiles", "The radomization's import file name is not correct, it must be named: randomizations" + siteInfo.SiteId + ".cvs");
                         dto.ReturnValue = 0;
+                        scope.Dispose();
                         return dto;
                     }
 
                     dto = DbUtils.AddSiteInfo(siteInfo);
                     if (dto.ReturnValue < 1)
                     {
+                        scope.Dispose();
                         return dto;
                     }
                     
                     //check format and parse
                     var studyidLines = CheckFileFormatStudyId(files[0], siteInfo.SiteId, dto);
                     if (dto.ReturnValue == 0)
+                    {
+                        scope.Dispose();
                         return dto;
+                    }
                     if (DbUtils.DoesStudyIdsExistForSite(siteInfo.Id, dto) != 0)
                     {
+                        scope.Dispose();
                         return dto;
                     }
                     if (!AddStudyidsToDb(studyidLines, siteInfo.Id, dto))
                     {
+                        scope.Dispose();
                         return dto;
                     }
 
                     //check format and parse
                     var randomizations = CheckFileFormatRandomization(files[1], siteInfo.SiteId, dto);
                     if (dto.ReturnValue == 0)
+                    {
+                        scope.Dispose();
                         return dto;
+                    }
                     if (DbUtils.DoesRandomizationsExistForSite(siteInfo.Id, dto) != 0)
                     {
+                        scope.Dispose();
                         return dto;
                     }
                     if (!AddRandomizationsToDb(randomizations, siteInfo.Id, dto))
                     {
+                        scope.Dispose();
                         return dto;
                     }
 
                     dto.IsSuccessful = true;
                     scope.Complete();
+                    
                 }
                 catch (Exception)
                 {
                     scope.Dispose();
                 }
-
-                return dto;
             }
+            return dto;
         }
 
         private static bool AddRandomizationsToDb(List<RandomizationLines> randomizations, int siteId, MessageListDTO dto)

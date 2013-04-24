@@ -32,10 +32,16 @@
         margin-left: 50px;
         color: blue;
     }
+    .divDialog 
+    {
+        display: block;
+        text-align: center;
+    }
 </style>
 <script type="text/javascript">
     $(function () {
-        $('#pleasewait').hide();
+//        $('#pleasewait').hide();
+        $('#divWaitDialog').dialog({ autoOpen: false });
         
         if ($('#IsEmployeeIdRequired').attr("checked") !== "checked") {
             $('#EmployeeIdRegEx').val("");
@@ -62,7 +68,16 @@
         });
 
         $('#btnSubmit').click(function () {
-            $('#pleasewait').slideDown('slow');
+            //            $('#pleasewait').slideDown('slow');
+            $('#divWaitDialog').dialog(
+            {
+                title: 'Saving - Please Wait',
+                height: 150,
+                width: 450,
+                show: 'blind',
+                hide: 'explode'
+            });
+            $('#divWaitDialog').dialog('open');
         });
     });
 </script>
@@ -73,6 +88,9 @@
 
 @using (Html.BeginForm("Add", "Sites", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
+    <div id="divWaitDialog" class="divDialog">
+        Please wait... Do not move from this page, the file imports could take a few minutes.  You will be redirected to a confirmation page when finished.   
+    </div>
     <div>
         @Html.ValidationSummary()    
     </div>
@@ -159,9 +177,9 @@
             </span>
         </div>
         
-        <div id="pleasewait">
+        @*<div id="pleasewait">
             Please wait...  This could take a few minutes.  You will be redirected to a confirmation page when finished.
-        </div>
+        </div>*@
         <p>
             <input type="submit" id="btnSubmit" value="Submit" />
         </p>
