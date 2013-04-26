@@ -63,7 +63,7 @@ namespace hpMvc.Controllers
                 //we might want to let dcc select this in the future
                 siteInfo.Sensor = 2;
 
-                var retVal = Business.Site.Add(files, siteInfo);
+                var retVal = Business.Site.Add(files, siteInfo, Request.Url);
                 if (retVal.ReturnValue == 0)
                 {
                     if (retVal.Dictionary.Count > 0)

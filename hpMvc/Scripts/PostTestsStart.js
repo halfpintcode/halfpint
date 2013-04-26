@@ -226,6 +226,7 @@ $(function () {
         var url = window.urlRoot + '/PostTests/GetTestsCompletedActive';
         var name = $("option:selected", $('#Users')).text();
         var id = $('#Users').val();
+        var siteCode = $('#siteCode').val();
         var srcUrlCheck = window.urlRoot + "/Content/images/check2.jpg";
         var imgCheck = '<img alt="" src=' + srcUrlCheck + ' />';
         var srcUrlX = window.urlRoot + "/Content/images/x.jpg";
@@ -235,7 +236,7 @@ $(function () {
         $.ajax({
             url: url,
             type: 'POST',
-            data: { Name: name, ID: id },
+            data: { Name: name, ID: id, SiteCode: siteCode },
             success: function (data) {
                 $('#sEmail').val(data.email);
                 allTestsCompleted = true;

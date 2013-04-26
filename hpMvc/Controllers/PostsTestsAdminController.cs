@@ -13,8 +13,9 @@ namespace hpMvc.Controllers
 
         public ActionResult Index()
         {
-            int site = DbUtils.GetSiteidIDForUser(HttpContext.User.Identity.Name);
-            
+            var site = DbUtils.GetSiteidIDForUser(User.Identity.Name);
+            var siteCode = DbUtils.GetSiteCodeForUser(User.Identity.Name);
+
             var users = DbPostTestsUtils.GetStaffTestUsersForSite(site);            
             users.Insert(0, new IDandName(0, "Select Your Name"));
 
@@ -24,7 +25,8 @@ namespace hpMvc.Controllers
             ViewBag.EmpIDRegex = retDto.Stuff.EmpIDRegex;
             ViewBag.EmpIDMessage = retDto.Stuff.EmpIDMessage;
             ViewBag.SiteId = site;
-                        
+            ViewBag.SiteCode = siteCode;
+            
             ViewBag.Users = new SelectList(users, "ID", "Name");
             return View();
         }
@@ -34,8 +36,9 @@ namespace hpMvc.Controllers
             //PostTestsModel ptm = new PostTestsModel();            
             //ptm.ID = int.Parse(id);
 
-            int site = DbUtils.GetSiteidIDForUser(User.Identity.Name);
-            var tests = DbPostTestsUtils.GetStaffPostTestsCompletedCurrentAndActive(id);
+            var site = DbUtils.GetSiteidIDForUser(User.Identity.Name);
+            var siteCode = DbUtils.GetSiteCodeForUser(User.Identity.Name);
+            var tests = DbPostTestsUtils.GetStaffPostTestsCompletedCurrentAndActive(id, siteCode);
 
             var staffInfo = DbUtils.GetStaffInfo(int.Parse(id));
             ViewBag.StaffId = staffInfo.ID;

@@ -31,6 +31,8 @@ namespace hpMvc.Controllers
             ViewBag.UserID = int.Parse(id);
 
             var site = DbUtils.GetSiteidIDForUser(User.Identity.Name);
+            var siteCode = DbUtils.GetSiteCodeForUser(User.Identity.Name);
+
             var users = DbPostTestsUtils.GetStaffTestUsersForSite(site);
 
             users.Insert(0, new IDandName(0, "Select Your Name"));
@@ -41,6 +43,7 @@ namespace hpMvc.Controllers
             ViewBag.EmpIDRegex = retDto.Stuff.EmpIDRegex;
             ViewBag.EmpIDMessage = retDto.Stuff.EmpIDMessage;
             ViewBag.SiteId = site;
+            ViewBag.SiteCode = siteCode;
             
             ViewBag.Users = new SelectList(users, "ID", "Name", id);
             if (id != "0")
@@ -114,7 +117,8 @@ namespace hpMvc.Controllers
         public JsonResult GetTestsCompletedActive()
         {
             var staffId = Request.Params["ID"];
-            var tests = DbPostTestsUtils.GetStaffPostTestsCompletedCurrentAndActive(staffId);
+            var siteCode = Request.Params["SiteCode"];
+            var tests = DbPostTestsUtils.GetStaffPostTestsCompletedCurrentAndActive(staffId, siteCode);
             var email = DbPostTestsUtils.GetPostTestStaffEmail(staffId);
 
             var retVal = new {email, tests };

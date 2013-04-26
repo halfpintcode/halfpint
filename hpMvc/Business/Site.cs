@@ -10,9 +10,11 @@ namespace hpMvc.Business
 {
     public static class Site
     {
-        public static MessageListDTO Add(IList<HttpPostedFileBase> files, SiteInfo siteInfo)
+        public static MessageListDTO Add(IList<HttpPostedFileBase> files, SiteInfo siteInfo, Uri url )
         {
-            var dto = new MessageListDTO {ReturnValue = 1};
+            var dto = new MessageListDTO { ReturnValue = 1 };
+
+            bool isTestSite = url.LocalPath.Contains("hpTest");
 
             using (var scope = new TransactionScope())
             {
@@ -100,7 +102,7 @@ namespace hpMvc.Business
                     }
 
                     //check format and parse
-                    var randomizations = CheckFileFormatRandomization(files[1], siteInfo.SiteId, dto);
+                    var randomizations = CheckFileFormatRandomization(files[1], siteInfo.SiteId, dto, isTestSite);
                     if (dto.ReturnValue == 0)
                     {
                         scope.Dispose();
@@ -139,7 +141,7 @@ namespace hpMvc.Business
             return true;
         }
 
-        private static List<RandomizationLines> CheckFileFormatRandomization(HttpPostedFileBase file, string siteId, MessageListDTO dto)
+        private static List<RandomizationLines> CheckFileFormatRandomization(HttpPostedFileBase file, string siteId, MessageListDTO dto, bool isTestSite)
         {
             var randomizations = new List<RandomizationLines>();
 
@@ -179,6 +181,9 @@ namespace hpMvc.Business
                         dto.ReturnValue = 0;
                         return null;
                     }
+                    if (isTestSite)
+                        armCol = "TGC-1";
+
                     rndmz.Arm = armCol;
 
                     randomizations.Add(rndmz);

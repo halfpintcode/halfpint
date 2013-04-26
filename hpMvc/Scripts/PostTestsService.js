@@ -45,9 +45,18 @@ $(function () {
                     $('#report').slideUp();
                     $('#report').empty();
 
-                    $('<h2>' + data1.Name + ' - Post Tests Report</h2>').appendTo('#report');
+                    $('<h3>' + data1.Name + ' - Post Tests Report</h3>').appendTo('#report');
                     $('</br>').appendTo('#report');
+                    
+                    $("<h3> Total Staff: " + data1.PostTestNextDues.length + "</h3>").appendTo('#report');
+                    $("<h3> Total Staff Post Tests Completed:" + data1.StaffCompleted + "</h3>").appendTo('#report');
+                    
+                    var percent = 0;
+                    if (data1.PostTestNextDues.length > 0)
+                        percent = data1.StaffCompleted * 100 / data1.PostTestNextDues.length;
+                    $("<h3> Total % Staff Post Tests Completed:" + percent.toFixed(0) + "%</h3>").appendTo('#report');
 
+                    $('</br>').appendTo('#report');
                     var emailLists = data1.SiteEmailLists;
                     if (emailLists.CompetencyMissingList.length == 0) {
                         $('<h3>All staff members have completed their competency tests.</h3>').appendTo('#report');
@@ -150,7 +159,7 @@ $(function () {
                                 $.each(val.TestsNotCompleted, function (index2, val2) {
                                     row = row + val2 + "</br>";
                                 });
-                                row = row + "</td></tr>"; 
+                                row = row + "</td></tr>";
                                 $(row).appendTo('#tblNc');
                             }
 

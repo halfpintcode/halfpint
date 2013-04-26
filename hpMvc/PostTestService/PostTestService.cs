@@ -85,7 +85,7 @@ namespace hpMvc.PostTestService
                 
                 //Get staff info including next due date, tests not completed, is new staff - next due date will be 1 year from today for new staff
                 //staff roles not included are Admin, DCC , Nurse generic (nurse accounts with a user name)
-                si.PostTestNextDues = GetStaffPostTestsCompletedInfo(si.Id);
+                si.PostTestNextDues = GetStaffPostTestsCompletedInfo(si.Id, si.SiteId);
 
                 //iterate people                
                 foreach (var postTestNextDue in si.PostTestNextDues)
@@ -106,27 +106,30 @@ namespace hpMvc.PostTestService
                     //Console.WriteLine(postTestNextDue.Name + ", email: " + postTestNextDue.Email + ", Employee ID: " + postTestNextDue.EmployeeId + ", Role: " + postTestNextDue.Role);
                     //Nlogger.LogInfo("For staff member:" + postTestNextDue.Name + ", email: " + postTestNextDue.Email + ", Employee ID: " + postTestNextDue.EmployeeId + ", Role: " + postTestNextDue.Role);
 
-                    if (postTestNextDue.Role != "Nurse")
+                    if (si.SiteId != "14")
                     {
-                        //make sure they are nova net certified
-                        if (!postTestNextDue.IsNovaStatStripTested)
+                        if (postTestNextDue.Role != "Nurse")
                         {
-                            //Nlogger.LogInfo("NovaStatStrip competency needed for " + postTestNextDue.Name);
-                            si.SiteEmailLists.CompetencyMissingList.Add(postTestNextDue);
-                            bContinue = true;
+                            //make sure they are nova net certified
+                            if (!postTestNextDue.IsNovaStatStripTested)
+                            {
+                                //Nlogger.LogInfo("NovaStatStrip competency needed for " + postTestNextDue.Name);
+                                si.SiteEmailLists.CompetencyMissingList.Add(postTestNextDue);
+                                bContinue = true;
+                            }
+                        }
+                        else
+                        {
+                            //make sure they are nova net and vamp certified
+                            if ((!postTestNextDue.IsNovaStatStripTested) || (!postTestNextDue.IsVampTested))
+                            {
+                                //Nlogger.LogInfo("Competency needed for " + postTestNextDue.Name);
+                                si.SiteEmailLists.CompetencyMissingList.Add(postTestNextDue);
+                                bContinue = true;
+                            }
                         }
                     }
-                    else
-                    {
-                        //make sure they are nova net and vamp certified
-                        if ((!postTestNextDue.IsNovaStatStripTested) || (!postTestNextDue.IsVampTested))
-                        {
-                            //Nlogger.LogInfo("Competency needed for " + postTestNextDue.Name);
-                            si.SiteEmailLists.CompetencyMissingList.Add(postTestNextDue);
-                            bContinue = true;
-                        }
-                    }
-
+                    
                     if (string.IsNullOrEmpty(postTestNextDue.Email))
                     {
                         //Nlogger.LogInfo("Email missing for " + postTestNextDue.Name);
@@ -235,6 +238,7 @@ namespace hpMvc.PostTestService
                     //else all tests are completed
                     {
                         postTestNextDue.IsOkForList = true;
+                        si.StaffCompleted++;
 
                         if (postTestNextDue.IsDue)
                         {
@@ -337,6 +341,8 @@ namespace hpMvc.PostTestService
                     } //foreach (var ptnd in si.PostTestNextDues.Where(ptnd => !ptnd.IsOkForList))
                     //write lines to new file
                     WriteNovaNetFile(lines, si.Name, si.SiteId);
+                    si.StaffCompleted = lines.Count;
+
                     Nlogger.LogInfo("WriteNovaNetFile:" + si.Name);
 
                 } //foreach (var si in siteInfoPtses.Where(si => !si.EmpIdRequired))
@@ -362,7 +368,7 @@ namespace hpMvc.PostTestService
                     }
                     else
                     {
-                        SendCoordinatorsEmail(si.Id, si.Name, si.SiteEmailLists);    
+                        SendCoordinatorsEmail(si);    
                     }
                     
                 }
@@ -372,19 +378,27 @@ namespace hpMvc.PostTestService
         }
 
 
-        internal static void SendCoordinatorsEmail(int site, string siteName, SiteEmailLists siteEmailLists)
+        internal static void SendCoordinatorsEmail(SiteInfoPts si)
         {
-            var coordinators = GetUserInRole("Coordinator", site);
+            var coordinators = GetUserInRole("Coordinator", si.Id);
             var sbBody = new StringBuilder("");
             const string newLine = "<br/>";
 
             sbBody.Append(newLine);
+            sbBody.Append("<h2> Total Staff: " + si.PostTestNextDues.Count + "</h2>");
+            sbBody.Append("<h2> Total Staff Post Tests Completed:" + si.StaffCompleted + "</h2>");
+            int percent = 0;
 
-            if (siteEmailLists.CompetencyMissingList.Count == 0)
+            if (si.PostTestNextDues.Count > 0)
+                percent = si.StaffCompleted * 100 / si.PostTestNextDues.Count;
+
+            sbBody.Append("<h2> Total % Staff Post Tests Completed:" + percent + "%</h2>");
+
+            if (si.SiteEmailLists.CompetencyMissingList.Count == 0)
                 sbBody.Append("<h3>All staff members have completed threir competency tests.</h3>");
             else
             {
-                var competencyMissingSortedList = siteEmailLists.CompetencyMissingList.OrderBy(x => x.Name).ToList();
+                var competencyMissingSortedList = si.SiteEmailLists.CompetencyMissingList.OrderBy(x => x.Name).ToList();
                 sbBody.Append("<h3>The following staff members have not completed a competency test.</h3>");
 
                 sbBody.Append("<table style='border-collapse:collapse;' cellpadding='5' border='1'><tr style='background-color:87CEEB'><th>Name</th><th>Role</th><th>Tests Not Completed</th><th>Email</th></tr>");
@@ -411,9 +425,9 @@ namespace hpMvc.PostTestService
                 sbBody.Append("</table>");
             }
 
-            if (siteEmailLists.EmailMissingList.Count > 0)
+            if (si.SiteEmailLists.EmailMissingList.Count > 0)
             {
-                var emailMissingSortedList = siteEmailLists.EmailMissingList.OrderBy(x => x.Name).ToList();
+                var emailMissingSortedList = si.SiteEmailLists.EmailMissingList.OrderBy(x => x.Name).ToList();
                 sbBody.Append("<h3>The following staff members need to have their email address entered into the staff table.</h3>");
 
                 sbBody.Append("<div><table style='border-collapse:collapse;' cellpadding='5' border='1'><tr style='background-color:87CEEB'><th>Name</th><th>Role</th></tr>");
@@ -424,9 +438,9 @@ namespace hpMvc.PostTestService
                 sbBody.Append("</table></div>");
             }
 
-            if (siteEmailLists.EmployeeIdMissingList.Count > 0)
+            if (si.SiteEmailLists.EmployeeIdMissingList.Count > 0)
             {
-                var employeeIdMissingSortedList = siteEmailLists.EmployeeIdMissingList.OrderBy(x => x.Name).ToList();
+                var employeeIdMissingSortedList = si.SiteEmailLists.EmployeeIdMissingList.OrderBy(x => x.Name).ToList();
                 sbBody.Append("<h3>The following staff members need to have their employee ID entered into the staff table.</h3>");
 
                 sbBody.Append("<div><table style='border-collapse:collapse;' cellpadding='5' border='1'><tr style='background-color:87CEEB'><th>Name</th><th>Role</th><th>Email</th></tr>");
@@ -440,11 +454,11 @@ namespace hpMvc.PostTestService
                 sbBody.Append("</table></div>");
             }
 
-            if (siteEmailLists.NewStaffList.Count == 0)
+            if (si.SiteEmailLists.NewStaffList.Count == 0)
             { }
             else
             {
-                var newSortedList = siteEmailLists.NewStaffList.OrderBy(x => x.Name).ToList();
+                var newSortedList = si.SiteEmailLists.NewStaffList.OrderBy(x => x.Name).ToList();
                 sbBody.Append("<h3>The following new staff members have not completed their annual post tests.</h3>");
 
                 sbBody.Append("<table style='border-collapse:collapse;' cellpadding='5' border='1'><tr style='background-color:87CEEB'><th>Name</th><th>Role</th><th>Email</th></tr>");
@@ -456,11 +470,11 @@ namespace hpMvc.PostTestService
                 sbBody.Append("</table>");
             }
 
-            if (siteEmailLists.ExpiredList.Count == 0)
+            if (si.SiteEmailLists.ExpiredList.Count == 0)
             { }
             else
             {
-                var expiredSortedList = siteEmailLists.ExpiredList.OrderBy(x => x.Name).ToList();
+                var expiredSortedList = si.SiteEmailLists.ExpiredList.OrderBy(x => x.Name).ToList();
                 sbBody.Append("<h3>The following expired staff members have not completed their annual post tests.</h3>");
 
                 sbBody.Append("<table style='border-collapse:collapse;' cellpadding='5' border='1'><tr style='background-color:87CEEB'><th>Name</th><th>Role</th><th>Due Date</th><th>Email</th></tr>");
@@ -473,11 +487,11 @@ namespace hpMvc.PostTestService
                 sbBody.Append("</table>");
             }
 
-            if (siteEmailLists.DueList.Count == 0)
+            if (si.SiteEmailLists.DueList.Count == 0)
                 sbBody.Append("<h3>There are no staff members due to take their annual post tests.</h3>");
             else
             {
-                var dueSortedList = siteEmailLists.DueList.OrderBy(x => x.Name).ToList();
+                var dueSortedList = si.SiteEmailLists.DueList.OrderBy(x => x.Name).ToList();
                 sbBody.Append("<h3>The following staff members are due to take their annual post tests.</h3>");
 
                 sbBody.Append("<table style='border-collapse:collapse;' cellpadding='5' border='1'><tr style='background-color:87CEEB'><th>Name</th><th>Role</th><th>Due Date</th><th>Email</th></tr>");
@@ -490,9 +504,9 @@ namespace hpMvc.PostTestService
                 sbBody.Append("</table>");
             }
 
-            if (siteEmailLists.StaffTestsNotCompletedList.Count > 0)
+            if (si.SiteEmailLists.StaffTestsNotCompletedList.Count > 0)
             {
-                var notCompletedSortedList = siteEmailLists.StaffTestsNotCompletedList.OrderBy(x => x.StaffName).ToList();
+                var notCompletedSortedList = si.SiteEmailLists.StaffTestsNotCompletedList.OrderBy(x => x.StaffName).ToList();
                 sbBody.Append("<h3>The following staff members have not completed all post tests.</h3>");
 
                 //sbBody.Append("<div><table style='border-collapse:collapse;' cellpadding='5' border='1';><tr style='background-color:87CEEB'><th>Name</th><th>Role</th><th>Email</th><th>Tests Not Completed</th><th>Tests Completed</th></tr>");
@@ -521,7 +535,7 @@ namespace hpMvc.PostTestService
 
             }
 
-            SendHtmlEmail("Post Tests Notifications - " + siteName, coordinators.Select(coord => coord.Email).ToArray(), null, sbBody.ToString(), @"<a href='http://halfpintstudy.org/hpProd/'>Halfpint Study Website</a>");
+            SendHtmlEmail("Post Tests Notifications - " + si.Name, coordinators.Select(coord => coord.Email).ToArray(), null, sbBody.ToString(), @"<a href='http://halfpintstudy.org/hpProd/'>Halfpint Study Website</a>");
         }
 
         internal static void SendHtmlEmail(string subject, string[] toAddress, string[] ccAddress, string bodyContent, string url, string bodyHeader = "")
@@ -682,7 +696,7 @@ namespace hpMvc.PostTestService
             return sil;
         }
 
-        private static List<PostTestNextDue> GetStaffPostTestsCompletedInfo(int siteId)
+        private static List<PostTestNextDue> GetStaffPostTestsCompletedInfo(int siteId, string siteCode)
         {
             var ptndl = new List<PostTestNextDue>();
 
@@ -828,11 +842,20 @@ namespace hpMvc.PostTestService
 
                             //remove this from the tests not completed list
                             ptnd.TestsNotCompleted.Remove(postTest.Name);
+                            
                             //add to the tests completed
                             ptnd.TestsCompleted.Add(postTest);
                         }
                         rdr.Close();
                         conn.Close();
+
+                        //remove for exceptions
+                        if (siteCode == "14")
+                        {
+                            ptnd.TestsNotCompleted.Remove("NovaStatStrip");
+                            ptnd.TestsNotCompleted.Remove("VampJr");
+
+                        }
 
                         if (ptnd.TestsCompleted.Count == 0 || (ptnd.TestsNotCompleted.Contains("Overview")))
                         {
@@ -975,6 +998,8 @@ namespace hpMvc.PostTestService
         public SiteEmailLists SiteEmailLists { get; set; }
         public List<PostTestNextDue> PostTestNextDues { get; set; }
         //public List<PostTestNextDue> PostTestNextDues2 { get; set; } 
+        public int TotalStaff { get; set; }
+        public int StaffCompleted { get; set; }
     }
 
     public class PostTestNextDue

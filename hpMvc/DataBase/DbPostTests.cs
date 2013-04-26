@@ -914,7 +914,7 @@ namespace hpMvc.DataBase
             return users;
         }
 
-        public static List<PostTest> GetStaffPostTestsCompletedCurrentAndActive(string staffId)
+        public static List<PostTest> GetStaffPostTestsCompletedCurrentAndActive(string staffId, string siteCode)
         {
             var tests = new List<PostTest>();
 
@@ -937,13 +937,21 @@ namespace hpMvc.DataBase
                         if(!(rdr.GetBoolean(pos)))
                             continue;
 
+                        pos = rdr.GetOrdinal("Name");
+                        string testName = rdr.GetString(pos);
+                        
+                        if (siteCode == "14")
+                        {
+                            if (testName == "NovaStatStrip" || testName == "VampJr")
+                                continue;
+                        }
+
                         var test = new PostTest();
 
                         pos = rdr.GetOrdinal("ID");
                         test.ID = rdr.GetInt32(pos);
-                        
-                        pos = rdr.GetOrdinal("Name");
-                        test.Name = rdr.GetString(pos);
+                       
+                        test.Name = testName;
 
                         pos = rdr.GetOrdinal("PathName");
                         test.PathName = rdr.GetString(pos);
