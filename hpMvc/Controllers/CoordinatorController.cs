@@ -59,7 +59,9 @@ namespace hpMvc.Controllers
         {
 
             var sitePart = id.Substring(0, 2);
-            var chartPath = ConfigurationManager.AppSettings["ChartPath"].ToString();
+            var chartPath = ConfigurationManager.AppSettings["ChartPath"];
+            chartPath = Path.Combine(chartPath, sitePart, "charts");
+            
             var chartSitePath = chartPath + sitePart + "\\" + id + ".gif";
             var fullPath = Request.PhysicalApplicationPath + chartSitePath;
 
