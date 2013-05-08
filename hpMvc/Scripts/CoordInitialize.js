@@ -20,12 +20,12 @@ $(function () {
     });
 
     function getActiveSubjects(siteSelected) {
-        var siteID = "";
+        var siteId = "";
         if (siteSelected) {
-            siteID = siteSelected;
+            siteId = siteSelected;
         }
         else {
-            siteID = $('#Sites').val();
+            siteId = $('#Sites').val();
         }
 
         var showCleared = false;
@@ -34,9 +34,9 @@ $(function () {
         }
 
         $.ajax({
-            url: urlRoot + '/Coordinator/GetActiveSubjects',
+            url: window.urlRoot + '/Coordinator/GetActiveSubjects',
             type: 'POST',
-            data: { siteID: siteID, showCleared: showCleared },
+            data: { siteID: siteId, showCleared: showCleared },
             success: function (data) {
                 var buttonText = "Set Completed";
                 if (showCleared) {
@@ -56,7 +56,7 @@ $(function () {
 
     $('.btnComplete').live("click", function () {
         var data = $(this).parent().parent().data('rowData');
-        window.location = urlRoot + '/Coordinator/CompleteSubject/?id=' + data.ID;
+        window.location = window.urlRoot + '/Coordinator/CompleteSubject/?id=' + data.ID;
         //        $.ajax({
         //            url: urlRoot + '/Coordinator/CompleteSubject',
         //            type: 'POST',
@@ -70,7 +70,7 @@ $(function () {
     $('.btnGraph').live("click", function () {
         var rowData = $(this).parent().parent().data('rowData');
         $.ajax({
-            url: urlRoot + '/Coordinator/GetGraphUrl/' + rowData.StudyID,
+            url: window.urlRoot + '/Coordinator/GetGraphUrl/' + rowData.StudyID,
             type: 'POST',
             success: function (data) {
                 if (data === 'Chart not available') {
@@ -78,19 +78,20 @@ $(function () {
                 } else {
                     $('#showGraphDialog').empty();
                     
-                    var imgUrl = 'file:\\\\\\' + data.path1;
-                    var $img = "<img  src='" + imgUrl + "' />";
+                    var imgUrl = data.path1;
+                    var $img = $("<img />").attr('src', imgUrl) ;
                     $('#showGraphDialog').append($img);
-                    var imgUrl2 = 'file:\\\\\\' + data.path2;
-                    var $img2 = "<img  src='" + imgUrl2 + "' />";
+                    
+                    var imgUrl2 = data.path2;
+                    var $img2 = $("<img />").attr('src', imgUrl2);
                     $('#showGraphDialog').append($img2);
                     
 
                     $('#showGraphDialog').dialog(
                     {
                         title: 'Chart for subject id:' + data.studyID,
-                        height: 380,
-                        width: 1140,
+                        height: 560,
+                        width: 1174,
                         show: 'blind',
                         hide: 'explode'
                     });

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -57,18 +58,23 @@ namespace hpMvc.Controllers
 
         public JsonResult GetGraphUrl(string id)
         {
-
+            var chartPathcss = ConfigurationManager.AppSettings["ChartPathcss"];
+            var chartPathfile = ConfigurationManager.AppSettings["ChartPathfile"];
+            
             var sitePart = id.Substring(0, 2);
             var fileName1 = id + "insulinChart.gif";
-            var chartPath = ConfigurationManager.AppSettings["ChartPath"];
-            var fullName1 = Path.Combine(chartPath, sitePart, "charts", fileName1);
+
+            var fullName1 = Path.Combine(Request.PhysicalApplicationPath, chartPathfile, sitePart, fileName1);
+            
+            var cssfullName1 = chartPathcss + sitePart + "/" + fileName1;
 
             var fileName2 = id + "glucoseChart.gif";
-            var fullName2 = Path.Combine(chartPath, sitePart, "charts", fileName2);
+            var fullName2 = Path.Combine(Request.PhysicalApplicationPath, chartPathfile, sitePart, fileName2);
+            var cssfullName2 = chartPathcss + sitePart + "/" + fileName2;
 
 
             if (System.IO.File.Exists(fullName1) && System.IO.File.Exists(fullName2))
-                return Json(new { path1 = fullName1, path2 = fullName2, studyID = id });
+                return Json(new { path1 = cssfullName1, path2 = cssfullName2, studyID = id });
             return Json("Chart not available");
 
         }

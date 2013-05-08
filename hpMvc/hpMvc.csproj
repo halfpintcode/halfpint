@@ -620,11 +620,9 @@
     <Content Include="Views\Admin\AddUserPartial.cshtml" />
     <Content Include="Views\Admin\AddUserSuccessPartial.cshtml" />
     <Content Include="Views\FileManager\Upload.cshtml" />
-    <Content Include="Views\AdminBackDoor\CalorieCalc\Index.cshtml" />
     <Content Include="Views\Shared\_Layout3.cshtml" />
     <Content Include="Views\Test\Temp.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\AdminBackDoor\CalorieCalc\EditSelect.cshtml" />
     <Content Include="Views\FileManager\UploadAjax.cshtml" />
     <Content Include="Views\Coordinator\StudyIdsNotRandomized.cshtml" />
     <Content Include="Views\PostTestsAdmin\Index.cshtml" />
@@ -760,6 +758,8 @@
     <None Include="Content\FortAwesome-Font-Awesome-13d5dd3\sass\font-awesome.sass" />
     <None Include="Content\FortAwesome-Font-Awesome-13d5dd3\sass\font-awesome.scss" />
     <Content Include="Views\Sites\AddConfirmation.cshtml" />
+    <Content Include="Views\CalorieCalc\EditSelect.cshtml" />
+    <Content Include="Views\CalorieCalc\Index.cshtml" />
     <None Include="_bin_deployableAssemblies\Microsoft.Web.Infrastructure.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.Razor.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.dll" />
