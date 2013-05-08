@@ -59,14 +59,16 @@ namespace hpMvc.Controllers
         {
 
             var sitePart = id.Substring(0, 2);
+            var fileName1 = id + "insulinChart.gif";
             var chartPath = ConfigurationManager.AppSettings["ChartPath"];
-            chartPath = Path.Combine(chartPath, sitePart, "charts");
-            
-            var chartSitePath = chartPath + sitePart + "\\" + id + ".gif";
-            var fullPath = Request.PhysicalApplicationPath + chartSitePath;
+            var fullName1 = Path.Combine(chartPath, sitePart, "charts", fileName1);
 
-            if (System.IO.File.Exists(fullPath))
-                return Json(new { path = chartSitePath, studyID=id });
+            var fileName2 = id + "glucoseChart.gif";
+            var fullName2 = Path.Combine(chartPath, sitePart, "charts", fileName2);
+
+
+            if (System.IO.File.Exists(fullName1) && System.IO.File.Exists(fullName2))
+                return Json(new { path1 = fullName1, path2 = fullName2, studyID = id });
             return Json("Chart not available");
 
         }

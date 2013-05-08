@@ -76,10 +76,16 @@ $(function () {
                 if (data === 'Chart not available') {
                     alert(data);
                 } else {
-                    var imgUrl = urlRoot + '/' + data.path;
-                    var $img = "<img  src='" + imgUrl + "' />";
                     $('#showGraphDialog').empty();
+                    
+                    var imgUrl = 'file:\\\\\\' + data.path1;
+                    var $img = "<img  src='" + imgUrl + "' />";
                     $('#showGraphDialog').append($img);
+                    var imgUrl2 = 'file:\\\\\\' + data.path2;
+                    var $img2 = "<img  src='" + imgUrl2 + "' />";
+                    $('#showGraphDialog').append($img2);
+                    
+
                     $('#showGraphDialog').dialog(
                     {
                         title: 'Chart for subject id:' + data.studyID,
