@@ -74,7 +74,7 @@ namespace hpMvc.Controllers
 
 
             if (System.IO.File.Exists(fullName1) && System.IO.File.Exists(fullName2))
-                return Json(new { path1 = cssfullName1, path2 = cssfullName2, studyID = id });
+                return Json(new { path1 = cssfullName2, path2 = cssfullName1, studyID = id });
             return Json("Chart not available");
 
         }

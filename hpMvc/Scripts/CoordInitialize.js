@@ -4,7 +4,7 @@ $(function () {
     getActiveSubjects(site);
 
     $('#showGraphDialog').dialog({ autoOpen: false });
-    
+
     $('#Sites').change(function () {
         getActiveSubjects();
     });
@@ -45,7 +45,13 @@ $(function () {
                 var tbl = $('#tblActive tbody');
                 tbl.empty();
                 $.each(data, function (index, d) {
-                    var tr = $('<tr><td>' + d.StudyID + '</td><td>' + d.sDateRandomized + '</td><td><input class="btnComplete" type="button" value="' + buttonText + '" /></td><td><input class="btnGraph" type="button" value="View Graph" /></td> </tr>');
+                    var consentdate = "";
+                    if (d.SConsentDate || d.SConsentTime) {
+                        consentdate = d.SConsentDate + " " + d.SConsentTime;
+                    }
+                    var dateRandomized = d.sDateRandomized + " ET";
+
+                    var tr = $('<tr><td>' + d.StudyID + '</td><td>' + dateRandomized + '</td><td>' + consentdate + '</td><td><input class="btnComplete" type="button" value="' + buttonText + '" /></td><td><input class="btnGraph" type="button" value="View Graph" /></td> </tr>');
                     tbl.append(tr);
                     $(tr).data('rowData', d);
 
@@ -77,15 +83,15 @@ $(function () {
                     alert(data);
                 } else {
                     $('#showGraphDialog').empty();
-                    
+
                     var imgUrl = data.path1;
-                    var $img = $("<img />").attr('src', imgUrl) ;
+                    var $img = $("<img />").attr('src', imgUrl);
                     $('#showGraphDialog').append($img);
-                    
+
                     var imgUrl2 = data.path2;
                     var $img2 = $("<img />").attr('src', imgUrl2);
                     $('#showGraphDialog').append($img2);
-                    
+
 
                     $('#showGraphDialog').dialog(
                     {

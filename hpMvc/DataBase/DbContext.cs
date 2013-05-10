@@ -330,7 +330,7 @@ namespace hpMvc.DataBase
 
                         pos = rdr.GetOrdinal("DateRandomized");
                         rndm.DateRandomized = rdr.GetDateTime(pos);
-                        rndm.sDateRandomized = rndm.DateRandomized.ToShortDateString();
+                        rndm.sDateRandomized = rndm.DateRandomized.ToString("MM/dd/yyyy");
 
                         pos = rdr.GetOrdinal("DateCompleted");
                         if (!rdr.IsDBNull(pos))
@@ -378,6 +378,11 @@ namespace hpMvc.DataBase
                         if (!rdr.IsDBNull(pos))
                             rndm.NotCompletedReason = rdr.GetString(pos);
 
+                        pos = rdr.GetOrdinal("ConsentTime");
+                        rndm.SConsentTime = !rdr.IsDBNull(pos) ? rdr.GetString(pos) : string.Empty;
+
+                        pos = rdr.GetOrdinal("ConsentDate");
+                        rndm.SConsentDate = !rdr.IsDBNull(pos) ? rdr.GetDateTime(pos).ToString("MM/dd/yyyy") : String.Empty;
 
                         list.Add(rndm);
                     }
@@ -422,7 +427,7 @@ namespace hpMvc.DataBase
 
                         pos = rdr.GetOrdinal("DateRandomized");
                         rndm.DateRandomized = rdr.GetDateTime(pos);
-                        rndm.sDateRandomized = rndm.DateRandomized.ToShortDateString();
+                        rndm.sDateRandomized = rndm.DateRandomized.ToString("MM/dd/yyyy");
 
                         pos = rdr.GetOrdinal("DateCompleted");
                         if (!rdr.IsDBNull(pos))
@@ -474,6 +479,11 @@ namespace hpMvc.DataBase
                         if (!rdr.IsDBNull(pos))
                             rndm.NotCompletedReason = rdr.GetString(pos);
 
+                        pos = rdr.GetOrdinal("ConsentTime");
+                        rndm.SConsentTime = !rdr.IsDBNull(pos) ? rdr.GetString(pos) : string.Empty;
+
+                        pos = rdr.GetOrdinal("ConsentDate");
+                        rndm.SConsentDate = !rdr.IsDBNull(pos) ? rdr.GetDateTime(pos).ToString("MM/dd/yyyy") : String.Empty;
 
                         list.Add(rndm);
                     }

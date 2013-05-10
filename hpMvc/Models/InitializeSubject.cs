@@ -60,5 +60,7 @@ namespace hpMvc.Models
         public string NotCompletedReason { get; set; }
         public string SiteName { get; set; }
         public string GraphUrl { get; set; }
+        public string SConsentTime { get; set; }
+        public string SConsentDate { get; set; }
     }
 }
