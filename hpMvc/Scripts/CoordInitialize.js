@@ -49,7 +49,7 @@ $(function () {
                     if (d.SConsentDate || d.SConsentTime) {
                         consentdate = d.SConsentDate + " " + d.SConsentTime;
                     }
-                    var dateRandomized = d.sDateRandomized + " ET";
+                    var dateRandomized = d.sDateRandomized + " " + d.STimeRandomized + " ET";
 
                     var tr = $('<tr><td>' + d.StudyID + '</td><td>' + dateRandomized + '</td><td>' + consentdate + '</td><td><input class="btnComplete" type="button" value="' + buttonText + '" /></td><td><input class="btnGraph" type="button" value="View Graph" /></td> </tr>');
                     tbl.append(tr);

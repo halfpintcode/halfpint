@@ -46,6 +46,7 @@ namespace hpMvc.Models
         public string StudyID { get; set; }
         public DateTime DateRandomized { get; set; }
         public string sDateRandomized { get; set; }
+        public string STimeRandomized { get; set; }
         public DateTime? DateCompleted { get; set; }
         public string sDateCompleted { get; set; }
         public string MonitorID { get; set; }

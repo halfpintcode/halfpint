@@ -331,7 +331,8 @@ namespace hpMvc.DataBase
                         pos = rdr.GetOrdinal("DateRandomized");
                         rndm.DateRandomized = rdr.GetDateTime(pos);
                         rndm.sDateRandomized = rndm.DateRandomized.ToString("MM/dd/yyyy");
-
+                        rndm.STimeRandomized = rndm.DateRandomized.ToString("HH:mm");
+                        
                         pos = rdr.GetOrdinal("DateCompleted");
                         if (!rdr.IsDBNull(pos))
                         {
@@ -428,6 +429,7 @@ namespace hpMvc.DataBase
                         pos = rdr.GetOrdinal("DateRandomized");
                         rndm.DateRandomized = rdr.GetDateTime(pos);
                         rndm.sDateRandomized = rndm.DateRandomized.ToString("MM/dd/yyyy");
+                        rndm.STimeRandomized = rndm.DateRandomized.ToString("HH:mm");
 
                         pos = rdr.GetOrdinal("DateCompleted");
                         if (!rdr.IsDBNull(pos))
