@@ -531,9 +531,10 @@ h2 a {
 
 #imgct 
 {
-    display:none;
 	position: relative;
 	left: 60px;
-	top: -30px;
+	top: -60px;
+	width: 248px;
+	height: 33px;
 	cursor: pointer;
 }

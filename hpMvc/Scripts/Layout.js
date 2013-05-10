@@ -94,6 +94,10 @@ $(function () {
         window.open("http://www.nih.gov");
     });
 
+    $('#imgct').click(function () {
+        window.open("http://clinicaltrials.gov/ct2/show/NCT01565941");
+    });
+
     $('#imgnhlbi').click(function () {
         window.open("http://www.nhlbi.nih.gov");
     });

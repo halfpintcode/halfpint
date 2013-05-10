@@ -71,6 +71,9 @@ namespace hpMvc.Controllers
                 case ".exe":
                     contentType = "application/exe";
                     break;
+                case ".dll":
+                    contentType = "application/dll";
+                    break;
             }
 
             nlogger.LogInfo("Download.GetFile: " + fileName);
