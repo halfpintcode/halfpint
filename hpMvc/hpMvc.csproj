@@ -98,6 +98,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InformController.cs" />
     <Compile Include="Controllers\InitializeSubjectController.cs" />
+    <Compile Include="Controllers\NotificationsController.cs" />
     <Compile Include="Controllers\PostsTestsAdminController.cs" />
     <Compile Include="Controllers\PostTestsController.cs" />
     <Compile Include="Controllers\SitesController.cs" />
@@ -108,6 +109,7 @@
     <Compile Include="DataBase\DbContext.cs" />
     <Compile Include="DataBase\DbInform.cs" />
     <Compile Include="DataBase\DbInitializeContext.cs" />
+    <Compile Include="DataBase\DbNotificationsContext.cs" />
     <Compile Include="DataBase\DbPostTests.cs" />
     <Compile Include="DataBase\ssUtils.cs" />
     <Compile Include="DataBase\Utility.cs" />
