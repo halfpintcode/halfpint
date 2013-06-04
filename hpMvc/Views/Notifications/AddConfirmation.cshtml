@@ -1,0 +1,12 @@
+﻿@model hpMvc.Models.NotificationEvent
+
+@{
+    ViewBag.Title = "Add New Event Confirmation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>The new Event Notification '@Model.Name' was sucessfully added to the database.</h3>
+
+<div>
+    @Html.ActionLink("Back to Event Notifications", "Events")
+</div>

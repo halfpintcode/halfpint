@@ -1,0 +1,27 @@
+﻿@model IEnumerable<hpMvc.Models.NotificationEvent>
+
+@{
+    ViewBag.Title = "Notification Events";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Notification Events</h2>
+
+<div>
+    @{
+ 
+        var grid = new WebGrid(Model, defaultSort: "SiteId", rowsPerPage: 50);
+    }
+ 
+    @grid.GetHtml(columns:grid.Columns(
+        grid.Column("Id", header:"Internal Id"),
+        grid.Column("Name", format: @<text>@Html.ActionLink((string)item.Name,"Event","Notifications", new {id=item.Id}, null)</text>),
+        grid.Column("Active", header: "Active")
+                      ))
+</div>
+<div>
+    <br/>
+    @Html.ActionLink("Add new event", "Add")
+    <br/>
+</div>
+

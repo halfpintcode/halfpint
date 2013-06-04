@@ -54,7 +54,6 @@ namespace hpMvc.Controllers
         }
 
         [HttpPost]
-        //public ActionResult Add(IEnumerable<HttpPostedFileBase> files, SiteInfo siteInfo)
         public ActionResult Add(IList<HttpPostedFileBase> files, SiteInfo siteInfo)
         {
             if (ModelState.IsValid)

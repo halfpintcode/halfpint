@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Web;
 using System.Data.SqlClient;
 using System.Configuration;
 using hpMvc.Infrastructure.Logging;
@@ -14,11 +13,11 @@ namespace hpMvc.DataBase
 
     public static class DbUtils
     {
-        public static NLogger nlogger;
+        public static NLogger Nlogger;
 
         static DbUtils()
         {
-            nlogger = new NLogger();
+            Nlogger = new NLogger();
         }
 
         public static IEnumerable<string> GetUserEmails(int[] sites, string[] roles)
@@ -63,14 +62,16 @@ namespace hpMvc.DataBase
 
             var list = new List<WebLog>();
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            using (SqlConnection conn = new SqlConnection(strConn))
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = ("GetWebLogs");
-                    SqlParameter param = new SqlParameter("@num", numRows);
+                    var cmd = new SqlCommand("", conn)
+                                  {
+                                      CommandType = System.Data.CommandType.StoredProcedure,
+                                      CommandText = ("GetWebLogs")
+                                  };
+                    var param = new SqlParameter("@num", numRows);
                     cmd.Parameters.Add(param);
                     conn.Open();
                     SqlDataReader rdr = cmd.ExecuteReader();
@@ -94,7 +95,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                 }
             }
 
@@ -142,7 +143,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                 }
             }
 
@@ -196,7 +197,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                 }
             }
 
@@ -293,7 +294,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                 }
             }
 
@@ -391,7 +392,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                 }
             }
 
@@ -493,7 +494,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                 }
             }
 
@@ -543,7 +544,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                 }
             }
 
@@ -587,7 +588,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                 }
             }
             return sls;
@@ -659,7 +660,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                 }
             }
             return lUsers;
@@ -700,7 +701,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                 }
             }
             return users;
@@ -743,7 +744,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                 }
             }
             return memUsers;
@@ -771,7 +772,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                     return -1;
                 }
             }
@@ -801,7 +802,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                     return -1;
                 }
             }
@@ -831,7 +832,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                     return -1;
                 }
             }
@@ -861,7 +862,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                     return -1;
                 }
             }
@@ -889,7 +890,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                     return -1;
                 }
             }
@@ -922,7 +923,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex, "SiteID:" + siteId);
+                    Nlogger.LogError(ex, "SiteID:" + siteId);
                     dto.Dictionary.Add("importFiles", "There was an error checking if study id's exist for this site.");
                     dto.ReturnValue = 0;
                     return -1;
@@ -957,7 +958,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex, "SiteID:" + siteId);
+                    Nlogger.LogError(ex, "SiteID:" + siteId);
                     dto.Dictionary.Add("importFiles", "There was an error checking if study id's exist for this site.");
                     dto.ReturnValue = 0;
                     return -1;
@@ -988,7 +989,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex, "StudyID:" + studyID);
+                    Nlogger.LogError(ex, "StudyID:" + studyID);
                     return -1;
                 }
             }
@@ -1017,7 +1018,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex, "StudyID:" + studyID);
+                    Nlogger.LogError(ex, "StudyID:" + studyID);
                     return -1;
                 }
             }
@@ -1047,7 +1048,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex, "SiteID:" + siteId);
+                    Nlogger.LogError(ex, "SiteID:" + siteId);
                     return -1;
                 }
             }
@@ -1086,7 +1087,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                     return -1;
                 }
             }
@@ -1123,7 +1124,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                     return null;
                 }
             }
@@ -1163,7 +1164,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                     return null;
                 }
             }
@@ -1205,7 +1206,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                 }
                 return studs;
             }
@@ -1242,7 +1243,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                 }
             }
 
@@ -1281,7 +1282,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                 }
             }
             return items;
@@ -1317,7 +1318,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                 }
             }
             return items;
@@ -1355,7 +1356,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                 }
             }
             return items;
@@ -1395,7 +1396,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                 }
             }
 
@@ -1439,7 +1440,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                 }
             }
             return insCon;
@@ -1479,7 +1480,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                 }
             }
             return list;
@@ -1515,7 +1516,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                     return -1;
                 }
             }
@@ -1552,7 +1553,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                     return -1;
                 }
             }
@@ -1680,7 +1681,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                 }
             }
 
@@ -1724,7 +1725,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                 }
             }
 
@@ -1774,7 +1775,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                 }
             }
 
@@ -1817,7 +1818,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                 }
             }
 
@@ -1826,24 +1827,25 @@ namespace hpMvc.DataBase
 
         public static List<Site> GetSitesActive()
         {
-            List<Site> sites = new List<Site>();
-            Site site = null;
-            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            using (SqlConnection conn = new SqlConnection(strConn))
+            var sites = new List<Site>();
+            var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
                     //throw new Exception("Opps");
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "GetSitesActive";
+                    var cmd = new SqlCommand("", conn)
+                                  {
+                                      CommandType = System.Data.CommandType.StoredProcedure,
+                                      CommandText = "GetSitesActive"
+                                  };
 
                     conn.Open();
                     SqlDataReader rdr = cmd.ExecuteReader();
                     int pos = 0;
                     while (rdr.Read())
                     {
-                        site = new Site();
+                        var site = new Site();
 
                         pos = rdr.GetOrdinal("ID");
                         site.ID = rdr.GetInt32(pos);
@@ -1857,7 +1859,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                 }
             }
 
@@ -1867,16 +1869,16 @@ namespace hpMvc.DataBase
         public static int RemoveUser(string userName)
         {
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            using (SqlConnection conn = new SqlConnection(strConn))
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
                     //throw new Exception("Opps");
-                    SqlCommand cmd = new SqlCommand("", conn);
+                    var cmd = new SqlCommand("", conn);
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     cmd.CommandText = "DeleteUserSite";
 
-                    SqlParameter param = new SqlParameter("@userName", userName);
+                    var param = new SqlParameter("@userName", userName);
                     cmd.Parameters.Add(param);
 
                     conn.Open();
@@ -1884,7 +1886,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                     return -1;
                 }
             }
@@ -1896,16 +1898,16 @@ namespace hpMvc.DataBase
         public static bool AddUserSite(string userName, int siteID)
         {
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            using (SqlConnection conn = new SqlConnection(strConn))
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
                     //throw new Exception("oops");
-                    SqlCommand cmd = new SqlCommand("", conn);
+                    var cmd = new SqlCommand("", conn);
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     cmd.CommandText = "AddUserSite";
 
-                    SqlParameter param = new SqlParameter("@userName", userName);
+                    var param = new SqlParameter("@userName", userName);
                     cmd.Parameters.Add(param);
                     param = new SqlParameter("@siteID", siteID);
                     cmd.Parameters.Add(param);
@@ -1916,7 +1918,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                     return false;
                 }
             }
@@ -1956,7 +1958,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                     return "error";
                 }
             }
@@ -1993,7 +1995,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                     return "error";
                 }
             }
@@ -2004,15 +2006,15 @@ namespace hpMvc.DataBase
         {
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
             string retVal = "";
-            using (SqlConnection conn = new SqlConnection(strConn))
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
+                    var cmd = new SqlCommand("", conn);
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     cmd.CommandText = "GetSiteInfoForUser";
 
-                    SqlParameter param = new SqlParameter("@userName", userName);
+                    var param = new SqlParameter("@userName", userName);
                     cmd.Parameters.Add(param);
 
                     conn.Open();
@@ -2028,7 +2030,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                     return "error";
                 }
             }
@@ -2037,19 +2039,18 @@ namespace hpMvc.DataBase
 
         public static DTO GetSiteCodeForSiteID(int siteID)
         {
-            DTO dto = new DTO();
-            dto.ReturnValue = 1;
+            var dto = new DTO {ReturnValue = 1};
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
 
-            using (SqlConnection conn = new SqlConnection(strConn))
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
+                    var cmd = new SqlCommand("", conn);
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     cmd.CommandText = "GetSiteCodeBySiteID";
 
-                    SqlParameter param = new SqlParameter("@siteID", siteID);
+                    var param = new SqlParameter("@siteID", siteID);
                     cmd.Parameters.Add(param);
 
                     conn.Open();
@@ -2065,7 +2066,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                     dto.Message = "Error getting the site code.  This error has been reported to the administrator.";
                     dto.ReturnValue = -1;
                     return dto;
@@ -2102,7 +2103,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                     return -1;
                 }
             }
@@ -2141,7 +2142,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                     return si;
                 }
             }
@@ -2171,7 +2172,7 @@ namespace hpMvc.DataBase
                 //this will tell us that user needs to reset
                 user.Comment = "Reset";
                 Membership.UpdateUser(user);
-                nlogger.LogInfo("AddUser - userName: " + model.UserName + ", site: " + model.SiteID.ToString() +
+                Nlogger.LogInfo("AddUser - userName: " + model.UserName + ", site: " + model.SiteID.ToString() +
                                 ", password: " + password);
             }
             else
@@ -2286,7 +2287,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                     dto.IsSuccessful = false;
                     dto.Messages.Add("There was an error adding the new staff info into the staff database");
                     return dto;
@@ -2506,7 +2507,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                     return null;
                 }
             }
@@ -2617,7 +2618,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                     dto.IsSuccessful = false;
                     dto.Messages.Add("There was an error adding the new staff info into the staff database");
                     return dto;
@@ -2732,7 +2733,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                     dto.IsSuccessful = false;
                     dto.Messages.Add("There was an error adding the new staff info into the staff database");
                     return dto;
@@ -2815,7 +2816,7 @@ namespace hpMvc.DataBase
                     catch (Exception ex)
                     {
                         trn.Rollback();
-                        nlogger.LogError(ex);
+                        Nlogger.LogError(ex);
                         dto.IsSuccessful = false;
                         dto.Dictionary.Add("siteInfo", "There was an error in SaveSiteInfo");
                         return dto;
@@ -2851,7 +2852,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                     dto.ReturnValue = 0;
                     dto.Dictionary.Add("importFiles", "There was an error adding the randomization:" + number + " to the database");
                     return false;
@@ -2883,7 +2884,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                     dto.ReturnValue = 0;
                     dto.Dictionary.Add("importFiles", "There was an error adding the study id:" + studyId + " to the database");
                     return false;
@@ -2965,7 +2966,7 @@ namespace hpMvc.DataBase
                     catch (Exception ex)
                     {
                         trn.Rollback();
-                        nlogger.LogError(ex);
+                        Nlogger.LogError(ex);
                         dto.Dictionary.Add("siteInfo", "There was an error in AddSiteInfo");
                         dto.ReturnValue = -1;
                         return dto;

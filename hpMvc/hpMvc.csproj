@@ -131,6 +131,7 @@
     <Compile Include="Models\InformPageModel.cs" />
     <Compile Include="Models\InitializeSubject.cs" />
     <Compile Include="Models\ManageRollsModel.cs" />
+    <Compile Include="Models\NotificationEvent.cs" />
     <Compile Include="Models\PostTestsModel.cs" />
     <Compile Include="Models\SensorModel.cs" />
     <Compile Include="Models\SiteModel.cs" />
@@ -762,6 +763,10 @@
     <Content Include="Views\Sites\AddConfirmation.cshtml" />
     <Content Include="Views\CalorieCalc\EditSelect.cshtml" />
     <Content Include="Views\CalorieCalc\Index.cshtml" />
+    <Content Include="Views\Notifications\Events.cshtml" />
+    <Content Include="Views\Notifications\Event.cshtml" />
+    <Content Include="Views\Notifications\Add.cshtml" />
+    <Content Include="Views\Notifications\AddConfirmation.cshtml" />
     <None Include="_bin_deployableAssemblies\Microsoft.Web.Infrastructure.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.Razor.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.dll" />
