@@ -143,7 +143,7 @@ namespace hpMvc.DataBase
                     //throw new Exception("Opps");
                     var cmd = new SqlCommand("", conn)
                     {
-                        CommandType = System.Data.CommandType.StoredProcedure,
+                        CommandType = CommandType.StoredProcedure,
                         CommandText = "UpdateNotificationEvent"
                     };
 
@@ -165,6 +165,55 @@ namespace hpMvc.DataBase
                 {
                     Nlogger.LogError(ex);
                     return -1;
+                }
+            }
+        }
+
+        public static StaffSubscriptions GetStaffSubscriptions(string staffId)
+        {
+            var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            var staffSubs = new StaffSubscriptions();
+            string firstName = "";
+            string lastName = "";
+
+            using (var conn = new SqlConnection(strConn))
+            {
+                try
+                {
+                    var cmd = new SqlCommand("", conn)
+                    {
+                        CommandType = CommandType.StoredProcedure,
+                        CommandText = "GetStaffInfo"
+                    };
+
+                    var param = new SqlParameter("@id", staffId);
+                    cmd.Parameters.Add(param);
+
+                    conn.Open();
+                    var rdr = cmd.ExecuteReader();
+                    if (rdr.Read())
+                    {
+                        int pos = rdr.GetOrdinal("ID");
+                        staffSubs.StaffId = rdr.GetInt32(pos);
+                        
+                        pos = rdr.GetOrdinal("FirstName");
+                        if (!rdr.IsDBNull(pos))
+                            firstName = rdr.GetString(pos);
+
+                        pos = rdr.GetOrdinal("LastName");
+                        if (!rdr.IsDBNull(pos))
+                            lastName = rdr.GetString(pos);
+
+                        staffSubs.StaffName = lastName + ", " + firstName;
+                    }
+                    rdr.Close();
+
+                    return staffSubs;
+                }
+                catch (Exception ex)
+                {
+                    Nlogger.LogError(ex);
+                    return null;
                 }
             }
         }

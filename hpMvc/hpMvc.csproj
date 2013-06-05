@@ -485,6 +485,7 @@
     <Content Include="Global.asax" />
     <Content Include="HTMLPage1.htm" />
     <Content Include="README.jQuery.vsdoc.txt" />
+    <Content Include="Scripts\staffSubscribe.js" />
     <Content Include="Scripts\2012.2.607\jquery-1.7.1.min.js" />
     <Content Include="Scripts\2012.2.607\jquery.validate.min.js" />
     <Content Include="Scripts\2012.2.607\telerik.all.min.js" />
@@ -515,6 +516,8 @@
     <Content Include="Scripts\2012.2.607\telerik.treeview.min.js" />
     <Content Include="Scripts\2012.2.607\telerik.upload.min.js" />
     <Content Include="Scripts\2012.2.607\telerik.window.min.js" />
+    <Content Include="Scripts\482883400.js" />
+    <Content Include="Scripts\781695844.js" />
     <Content Include="Scripts\PostTestsService.js" />
     <Content Include="Scripts\AddNewStaff.js" />
     <Content Include="Scripts\Broadcast.js" />
@@ -768,6 +771,7 @@
     <Content Include="Views\Notifications\Add.cshtml" />
     <Content Include="Views\Notifications\AddConfirmation.cshtml" />
     <Content Include="Views\Notifications\StaffSubscribe.cshtml" />
+    <Content Include="Views\Notifications\StaffSubscriptionsPartial.cshtml" />
     <None Include="_bin_deployableAssemblies\Microsoft.Web.Infrastructure.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.Razor.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.dll" />

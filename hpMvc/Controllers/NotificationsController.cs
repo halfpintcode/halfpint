@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Web.Mvc;
 using hpMvc.DataBase;
 using hpMvc.Models;
@@ -69,12 +68,31 @@ namespace hpMvc.Controllers
 
         public ActionResult StaffSubscribe()
         {
-            List<Site> sites = DbUtils.GetSitesActive();
+            var sites = DbUtils.GetSitesActive();
             if (sites.Count == 0)
                 throw new Exception("There was an error retreiving the sites list from the database");
+            sites.Insert(0, new Site { ID = 0, Name = "Select a site", SiteID = "" });
 
-            sites.Insert(0, new Site { ID = 0, Name = "Select your site", SiteID = "" });            
-            return View(sites);
+            int site = DbUtils.GetSiteidIDForUser(User.Identity.Name);
+            ViewBag.Site = site;
+
+            ViewBag.Sites = new SelectList(sites, "ID", "Name", site);
+
+            
+
+// ReSharper disable SpecifyACultureInStringConversionExplicitly
+            var list = DbUtils.GetStaffLookupForSite(site.ToString());
+// ReSharper restore SpecifyACultureInStringConversionExplicitly
+            list.Insert(0, new Site { ID = 0, Name = "Select a member", SiteID = "" });
+            ViewBag.Users = new SelectList(list, "ID", "Name");
+
+            ViewBag.IsValid = "true";
+            return View();
+        }
+
+        public ActionResult GetSubscriptionInfo(string user)
+        {
+            return PartialView("StaffSubscriptionsPartial");
         }
     }
 }

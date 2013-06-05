@@ -13,4 +13,16 @@ namespace hpMvc.Models
         public string Name { get; set; }
         public bool Active { get; set; }
     }
+
+    public class StaffSubscriptions
+    {
+        public StaffSubscriptions()
+        {
+            NotificationEvents = new List<NotificationEvent>();
+        }
+
+        public int StaffId { get; set; }
+        public string StaffName { get; set; }
+        public List<NotificationEvent> NotificationEvents { get; set; } 
+    }
 }

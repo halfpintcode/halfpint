@@ -9,6 +9,17 @@
     <br />  
     <span class="spnMain">Select a member:&nbsp;</span>@Html.DropDownList("Users")
     <br />
+
     <input id="SiteID" name="SiteID" type="hidden" value='@ViewBag.Site' />
-    
+    <input id="UserID" name="UserID" type="hidden" value='@ViewBag.User' />
+    <input id="IsValid" name="IsValid" type="hidden" value='@ViewBag.IsValid' />
 </div>
+
+<div id="staffInfo">
+    @if(ViewBag.IsValid == "false")
+    {
+        { Html.RenderPartial("StaffSubscriptionsPartial"); }
+    }  
+</div>
+
+<script src="@Url.Content("~/Scripts/staffSubscribe.js")" type="text/javascript"></script>
