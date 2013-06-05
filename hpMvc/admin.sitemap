@@ -26,5 +26,6 @@
       <siteMapNode title="Sites" controller="Sites" action="Index" />
       <siteMapNode title="Post Tests Service" controller="Admin" action="PostTestsService" />
       <siteMapNode title="Notification Events" controller="Notifications" action="Events" />
+      <siteMapNode title="Notification Events - Staff Subscriptions" controller="Notifications" action="StaffSubscribe" />
     </siteMapNode>
 </siteMap>

@@ -1,9 +1,12 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Collections.Generic;
+using System.Web.Mvc;
 using hpMvc.DataBase;
 using hpMvc.Models;
 
 namespace hpMvc.Controllers
 {
+    [Authorize]
     public class NotificationsController : Controller
     {
         
@@ -36,8 +39,7 @@ namespace hpMvc.Controllers
 
         public ActionResult Add()
         {
-            var evnt = new NotificationEvent();
-            evnt.Active = true;
+            var evnt = new NotificationEvent {Active = true};
             return View(evnt);
         }
 
@@ -63,6 +65,16 @@ namespace hpMvc.Controllers
         {
             var evnt = TempData["evnt"] as NotificationEvent;
             return View(evnt);
+        }
+
+        public ActionResult StaffSubscribe()
+        {
+            List<Site> sites = DbUtils.GetSitesActive();
+            if (sites.Count == 0)
+                throw new Exception("There was an error retreiving the sites list from the database");
+
+            sites.Insert(0, new Site { ID = 0, Name = "Select your site", SiteID = "" });            
+            return View(sites);
         }
     }
 }

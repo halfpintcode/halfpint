@@ -1,0 +1,14 @@
+﻿@{
+    ViewBag.Title = "Staff - Notification Events Subscription";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Staff - Notification Events Subscription</h2>
+<div id="divSelects">
+    <span class="spnMain">Select a site:&nbsp;</span> @Html.DropDownList("Sites")
+    <br />  
+    <span class="spnMain">Select a member:&nbsp;</span>@Html.DropDownList("Users")
+    <br />
+    <input id="SiteID" name="SiteID" type="hidden" value='@ViewBag.Site' />
+    
+</div>
