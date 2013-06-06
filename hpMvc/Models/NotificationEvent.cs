@@ -12,6 +12,7 @@ namespace hpMvc.Models
         [Required]
         public string Name { get; set; }
         public bool Active { get; set; }
+        public bool IsSubscribed { get; set; }
     }
 
     public class StaffSubscriptions

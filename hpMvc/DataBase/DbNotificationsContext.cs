@@ -207,6 +207,126 @@ namespace hpMvc.DataBase
                         staffSubs.StaffName = lastName + ", " + firstName;
                     }
                     rdr.Close();
+                    conn.Close();
+
+                    cmd = new SqlCommand("", conn)
+                    {
+                        CommandType = CommandType.StoredProcedure,
+                        CommandText = "GetStaffNotificationEvents"
+                    };
+
+                    param = new SqlParameter("@staffId", staffId);
+                    cmd.Parameters.Add(param);
+
+                    conn.Open();
+                    rdr = cmd.ExecuteReader();
+                    while (rdr.Read())
+                    {
+                        var eVent = new NotificationEvent();
+                        var pos = rdr.GetOrdinal("NotificationEventId");
+                        eVent.Id = rdr.GetInt32(pos);
+                        pos = rdr.GetOrdinal("NotificationEventName");
+                        eVent.Name = rdr.GetString(pos);
+                        eVent.IsSubscribed = true;
+                        staffSubs.NotificationEvents.Add(eVent);
+                    }
+
+                    rdr.Close();
+
+
+                    return staffSubs;
+                }
+                catch (Exception ex)
+                {
+                    Nlogger.LogError(ex);
+                    return null;
+                }
+            }
+        }
+
+        public static StaffSubscriptions GetStaffSubscriptionsChange(string staffId)
+        {
+            var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            var staffSubs = new StaffSubscriptions();
+            string firstName = "";
+            string lastName = "";
+
+            using (var conn = new SqlConnection(strConn))
+            {
+                try
+                {
+                    var cmd = new SqlCommand("", conn)
+                    {
+                        CommandType = CommandType.StoredProcedure,
+                        CommandText = "GetNotificationEventsActive"
+                    };
+
+                    conn.Open();
+                    var rdr = cmd.ExecuteReader();
+                    while (rdr.Read())
+                    {
+                        var eVent = new NotificationEvent();
+                        var pos = rdr.GetOrdinal("Id");
+                        eVent.Id = rdr.GetInt32(pos);
+                        pos = rdr.GetOrdinal("Name");
+                        eVent.Name = rdr.GetString(pos);
+                        pos = rdr.GetOrdinal("Active");
+                        eVent.Active = rdr.GetBoolean(pos);
+                        eVent.IsSubscribed = false;
+                        staffSubs.NotificationEvents.Add(eVent);
+                    }
+                    rdr.Close();
+                    conn.Close();
+                    
+                    cmd = new SqlCommand("", conn)
+                    {
+                        CommandType = CommandType.StoredProcedure,
+                        CommandText = "GetStaffInfo"
+                    };
+
+                    var param = new SqlParameter("@id", staffId);
+                    cmd.Parameters.Add(param);
+
+                    conn.Open();
+                    rdr = cmd.ExecuteReader();
+                    if (rdr.Read())
+                    {
+                        int pos = rdr.GetOrdinal("ID");
+                        staffSubs.StaffId = rdr.GetInt32(pos);
+
+                        pos = rdr.GetOrdinal("FirstName");
+                        if (!rdr.IsDBNull(pos))
+                            firstName = rdr.GetString(pos);
+
+                        pos = rdr.GetOrdinal("LastName");
+                        if (!rdr.IsDBNull(pos))
+                            lastName = rdr.GetString(pos);
+
+                        staffSubs.StaffName = lastName + ", " + firstName;
+                    }
+                    rdr.Close();
+                    conn.Close();
+
+                    cmd = new SqlCommand("", conn)
+                    {
+                        CommandType = CommandType.StoredProcedure,
+                        CommandText = "GetStaffNotificationEvents"
+                    };
+
+                    param = new SqlParameter("@staffId", staffId);
+                    cmd.Parameters.Add(param);
+
+                    conn.Open();
+                    rdr = cmd.ExecuteReader();
+                    while (rdr.Read())
+                    {
+                        int pos = rdr.GetOrdinal("NotificationEventId");
+                        int Id = rdr.GetInt32(pos);
+                        var notEvnt = staffSubs.NotificationEvents.Find(x => x.Id == Id);
+                        notEvnt.IsSubscribed = true;
+                    }
+
+                    rdr.Close();
 
                     return staffSubs;
                 }

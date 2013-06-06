@@ -1567,6 +1567,7 @@ namespace hpMvc.DataBase
             {
                 try
                 {
+
                     //throw new Exception("Opps");
                     var cmd = new SqlCommand("", conn)
                                   {

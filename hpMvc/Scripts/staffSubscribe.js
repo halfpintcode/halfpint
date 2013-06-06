@@ -56,13 +56,14 @@ $(function () {
     });
 
     function getUserSubscriptions() {
-        var url = window.urlRoot + '/Notifications/GetSubscriptionInfo/?user=' + user;
+        var url = window.urlRoot + '/Notifications/GetSubscriptionInfo/?staffId=' + user;
         $.ajax({
             url: url,
             type: 'POST',
             data: {},
             success: function (data) {
-                
+                $('#staffInfo').append(data);
+                $('#staffInfo').slideDown('slow');
             }
         });
     }

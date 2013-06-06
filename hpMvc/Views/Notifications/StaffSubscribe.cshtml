@@ -1,9 +1,9 @@
 ﻿@{
-    ViewBag.Title = "Staff - Notification Events Subscription";
+    ViewBag.Title = "Staff - Notifications";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Staff - Notification Events Subscription</h2>
+<h2>Staff Notifications</h2>
 <div id="divSelects">
     <span class="spnMain">Select a site:&nbsp;</span> @Html.DropDownList("Sites")
     <br />  
@@ -16,7 +16,7 @@
 </div>
 
 <div id="staffInfo">
-    @if(ViewBag.IsValid == "false")
+    @if(ViewBag.ShowPartial == "true")
     {
         { Html.RenderPartial("StaffSubscriptionsPartial"); }
     }  

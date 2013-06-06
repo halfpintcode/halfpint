@@ -1,0 +1,19 @@
+﻿@model hpMvc.Models.StaffSubscriptions
+
+@{
+    ViewBag.Title = "Change Staff Alerts";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Change Staff Alerts For @Model.StaffName</h2>
+
+<div>
+    @for (int i = 0; i < @Model.NotificationEvents.Count; i++)
+    {
+        <div>
+            @Html.HiddenFor(m => @Model.NotificationEvents[i].Id)
+            <span class="lbleditor">@Model.NotificationEvents[i].Name</span>
+            @Html.EditorFor(m => @Model.NotificationEvents[i].IsSubscribed)
+        </div>
+    }
+</div>

@@ -86,13 +86,21 @@ namespace hpMvc.Controllers
             list.Insert(0, new Site { ID = 0, Name = "Select a member", SiteID = "" });
             ViewBag.Users = new SelectList(list, "ID", "Name");
 
-            ViewBag.IsValid = "true";
+            ViewBag.ShowPartial = "false";
             return View();
         }
 
-        public ActionResult GetSubscriptionInfo(string user)
+        public ActionResult GetSubscriptionInfo(string staffId)
         {
-            return PartialView("StaffSubscriptionsPartial");
+            var subs = DbNotificationsUtils.GetStaffSubscriptions(staffId);
+            ViewBag.ShowPartial = "true";
+            return PartialView("StaffSubscriptionsPartial", subs);
+        }
+
+        public ActionResult StaffSubscriptionsChange(string staffId)
+        {
+            var subs = DbNotificationsUtils.GetStaffSubscriptionsChange(staffId);
+            return View(subs);
         }
     }
 }

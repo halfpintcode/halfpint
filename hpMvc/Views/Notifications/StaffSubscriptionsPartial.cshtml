@@ -1,1 +1,21 @@
-﻿<h3>Notification Events - Subscriptions</h3>
+﻿@model hpMvc.Models.StaffSubscriptions
+           
+<h3>Notifications Subscribed To For @Model.StaffName</h3>
+<br/>
+
+@if (Model.NotificationEvents.Count == 0)
+{
+    <p>There are no alerts subscribed to for this staff member.</p>
+}
+else
+{
+    <ul>
+    @foreach (var item in Model.NotificationEvents)
+    {
+        <li>@item.Name</li>
+    }
+    </ul>
+}
+
+<br/>
+@Html.ActionLink("Change Alerts", "StaffSubscriptionsChange", new {staffId=@Model.StaffId} )
