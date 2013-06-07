@@ -5,15 +5,58 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Change Staff Alerts For @Model.StaffName</h2>
-
-<div>
-    @for (int i = 0; i < @Model.NotificationEvents.Count; i++)
-    {
-        <div>
-            @Html.HiddenFor(m => @Model.NotificationEvents[i].Id)
-            <span class="lbleditor">@Model.NotificationEvents[i].Name</span>
-            @Html.EditorFor(m => @Model.NotificationEvents[i].IsSubscribed)
-        </div>
+<style  rel="stylesheet" type="text/css" >
+    fieldset {
+        line-height: 25px;
     }
-</div>
+    .lbleditor {
+        width: 132px;
+        display: inline-block;
+    }
+    .lbleditor2 {
+        margin-left: 10px;
+        width: 55px;
+        display: inline-block;
+    }
+    .col2 
+    {
+        display: inline-block;
+        margin-left: 5px;
+    }
+    .text-box {
+        width: 500px;
+    }
+    .underline {
+        text-decoration: underline; 
+    }
+</style>
+
+<h2>Change Staff Alerts For @Model.StaffName</h2>
+@using (Html.BeginForm())
+{
+    <div>
+        @for (int i = 0; i < @Model.NotificationEvents.Count; i++)
+        {
+            <div>
+                @Html.HiddenFor(m => @Model.NotificationEvents[i].Id)
+                @Html.HiddenFor(m => @Model.NotificationEvents[i].Name)
+                <span class="lbleditor">@Model.NotificationEvents[i].Name:</span>
+                @Html.EditorFor(m => @Model.NotificationEvents[i].IsSubscribed)
+                <span class="lbleditor2">All sites:</span>
+                @Html.EditorFor(m => @Model.NotificationEvents[i].IsAllSites)
+            </div>
+        }
+        <br/>
+        <input value="Save" type="submit"></input>
+    </div>
+
+    <div id="staffInfo">
+        @if (ViewBag.ShowPartial == "true")
+        {
+            {
+                Html.RenderPartial("StaffSubscriptionsPartial");
+            }
+        }  
+    </div>
+
+}

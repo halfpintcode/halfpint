@@ -8,7 +8,7 @@ namespace hpMvc.Controllers
     [Authorize]
     public class NotificationsController : Controller
     {
-        
+
         public ActionResult Events()
         {
             var events = DbNotificationsUtils.GetNotificationEvents();
@@ -30,15 +30,15 @@ namespace hpMvc.Controllers
                 var retVal = DbNotificationsUtils.UpdateNotificationEvent(evnt);
                 if (retVal == 1)
                     return RedirectToAction("Events");
-                
+
             }
             return View(evnt);
-            
+
         }
 
         public ActionResult Add()
         {
-            var evnt = new NotificationEvent {Active = true};
+            var evnt = new NotificationEvent { Active = true };
             return View(evnt);
         }
 
@@ -50,14 +50,14 @@ namespace hpMvc.Controllers
                 int retVal = DbNotificationsUtils.AddNotificationEvent(evnt);
                 if (retVal > 0)
                 {
-                    
+
                     TempData.Add("evnt", evnt);
                     return RedirectToAction("AddConfirmation");
                 }
-                
+
             }
-            return View(evnt);    
-            
+            return View(evnt);
+
         }
 
         public ActionResult AddConfirmation()
@@ -78,11 +78,11 @@ namespace hpMvc.Controllers
 
             ViewBag.Sites = new SelectList(sites, "ID", "Name", site);
 
-            
 
-// ReSharper disable SpecifyACultureInStringConversionExplicitly
+
+            // ReSharper disable SpecifyACultureInStringConversionExplicitly
             var list = DbUtils.GetStaffLookupForSite(site.ToString());
-// ReSharper restore SpecifyACultureInStringConversionExplicitly
+            // ReSharper restore SpecifyACultureInStringConversionExplicitly
             list.Insert(0, new Site { ID = 0, Name = "Select a member", SiteID = "" });
             ViewBag.Users = new SelectList(list, "ID", "Name");
 
@@ -100,7 +100,28 @@ namespace hpMvc.Controllers
         public ActionResult StaffSubscriptionsChange(string staffId)
         {
             var subs = DbNotificationsUtils.GetStaffSubscriptionsChange(staffId);
+            ViewBag.ShowPartial = "false";
             return View(subs);
+        }
+
+        [HttpPost]
+        public ActionResult StaffSubscriptionsChange(StaffSubscriptions subs)
+        {
+            if (ModelState.IsValid)
+            {
+                var retVal = DbNotificationsUtils.SaveStaffSubscriptions(subs);
+                if (retVal.IsSuccessful)
+                    return RedirectToAction("StaffSubscriptionsConfirmation");
+                else
+                    return View(subs);
+            }
+            
+            return View(subs);
+        }
+
+        public ActionResult StaffSubscriptionsConfirmation()
+        {
+            return View();
         }
     }
 }

@@ -13,6 +13,8 @@ namespace hpMvc.Models
         public string Name { get; set; }
         public bool Active { get; set; }
         public bool IsSubscribed { get; set; }
+        [Display(Name = "All Sites")]
+        public bool IsAllSites { get; set; }
     }
 
     public class StaffSubscriptions

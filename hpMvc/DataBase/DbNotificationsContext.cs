@@ -228,6 +228,8 @@ namespace hpMvc.DataBase
                         pos = rdr.GetOrdinal("NotificationEventName");
                         eVent.Name = rdr.GetString(pos);
                         eVent.IsSubscribed = true;
+                        pos = rdr.GetOrdinal("AllSites");
+                        eVent.IsAllSites = rdr.GetBoolean(pos);
                         staffSubs.NotificationEvents.Add(eVent);
                     }
 
@@ -301,7 +303,7 @@ namespace hpMvc.DataBase
                         pos = rdr.GetOrdinal("LastName");
                         if (!rdr.IsDBNull(pos))
                             lastName = rdr.GetString(pos);
-
+                        
                         staffSubs.StaffName = lastName + ", " + firstName;
                     }
                     rdr.Close();
@@ -322,8 +324,12 @@ namespace hpMvc.DataBase
                     {
                         int pos = rdr.GetOrdinal("NotificationEventId");
                         int Id = rdr.GetInt32(pos);
+                        pos = rdr.GetOrdinal("AllSites");
+                        bool isAllSites = rdr.GetBoolean(pos);
+
                         var notEvnt = staffSubs.NotificationEvents.Find(x => x.Id == Id);
                         notEvnt.IsSubscribed = true;
+                        notEvnt.IsAllSites = isAllSites;
                     }
 
                     rdr.Close();
@@ -337,5 +343,64 @@ namespace hpMvc.DataBase
                 }
             }
         }
+
+        public static MessageListDTO SaveStaffSubscriptions(StaffSubscriptions subs)
+        {
+            var dto = new MessageListDTO();
+
+            var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            using (var conn = new SqlConnection(strConn))
+            {
+                conn.Open();
+                using (var trn = conn.BeginTransaction())
+                {
+                    try
+                    {
+                        var cmd = new SqlCommand("", conn)
+                                      {
+                                          Transaction = trn,
+                                          CommandType = System.Data.CommandType.StoredProcedure,
+                                          CommandText = "DeleteStaffSubscriptions"
+                                      };
+                        var param = new SqlParameter("@staffId", subs.StaffId);
+                        cmd.Parameters.Add(param);
+
+                        cmd.ExecuteNonQuery();
+                        
+                        foreach (var evnt in subs.NotificationEvents)
+                        {
+                            if (evnt.IsSubscribed)
+                            {
+                                cmd = new SqlCommand("", conn);
+                                cmd.Transaction = trn;
+                                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                                cmd.CommandText = "AddStaffNotification";
+                                param = new SqlParameter("@staffId", subs.StaffId);
+                                cmd.Parameters.Add(param);
+                                param = new SqlParameter("@eventId", evnt.Id);
+                                cmd.Parameters.Add(param);
+                                param = new SqlParameter("@allSites", evnt.IsAllSites);
+                                cmd.Parameters.Add(param);
+                                
+                                cmd.ExecuteNonQuery();
+                            }
+                        }
+                        trn.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        trn.Rollback();
+                        Nlogger.LogError(ex);
+                        dto.IsSuccessful = false;
+                        dto.Dictionary.Add("StaffSubscriptions", "There was an error in SaveStaffSubscriptions");
+                        return dto;
+                    }
+                }
+            }
+            dto.Messages.Add("Staff subscriptions were successfully saved to the database!");
+            dto.IsSuccessful = true;
+            return dto;
+        }
+
     }
 }
