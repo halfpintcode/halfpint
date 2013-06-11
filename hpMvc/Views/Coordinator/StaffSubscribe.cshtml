@@ -1,40 +1,37 @@
 ﻿@model hpMvc.Models.StaffSubscriptions
+
 @{
     ViewBag.Title = "Change Staff Alerts";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<style rel="stylesheet" type="text/css">
-    fieldset
-    {
+
+<style  rel="stylesheet" type="text/css" >
+    fieldset {
         line-height: 25px;
     }
-    .lbleditor
-    {
+    .lbleditor {
         width: 142px;
         display: inline-block;
     }
-    .lbleditor2
-    {
+    .lbleditor2 {
         margin-left: 10px;
         width: 55px;
         display: inline-block;
     }
-    .col2
+    .col2 
     {
         display: inline-block;
         margin-left: 5px;
     }
-    .text-box
-    {
+    .text-box {
         width: 500px;
     }
-    .underline
-    {
-        text-decoration: underline;
+    .underline {
+        text-decoration: underline; 
     }
 </style>
-<h2>
-    Change Staff Alerts For @Model.StaffName</h2>
+
+<h2>Change Staff Alerts For @Model.StaffName</h2>
 @using (Html.BeginForm())
 {
     <div>
@@ -49,8 +46,10 @@
                 @Html.EditorFor(m => @Model.NotificationEvents[i].IsAllSites)
             </div>
         }
-        <br />
+        <br/>
         <input value="Save" type="submit"></input>
     </div>
     
 }
+<br/>
+@Html.ActionLink("Back to Staff Updates", "UpdateStaffInformation");

@@ -100,7 +100,6 @@ namespace hpMvc.Controllers
         public ActionResult StaffSubscriptionsChange(string staffId)
         {
             var subs = DbNotificationsUtils.GetStaffSubscriptionsChange(staffId);
-            ViewBag.ShowPartial = "false";
             return View(subs);
         }
 

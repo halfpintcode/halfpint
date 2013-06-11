@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using hpMvc.Helpers;
@@ -226,6 +224,32 @@ namespace hpMvc.Controllers
             int site = DbUtils.GetSiteidIDForUser(User.Identity.Name);
             var list = DbUtils.GetStudyIDsNotRandomized(site);
             return View(list);
+        }
+
+        public ActionResult StaffSubscribe(int staffId)
+        {
+            var subs = DbNotificationsUtils.GetStaffSubscriptionsChange(staffId.ToString());
+            return View(subs);
+        }
+
+        [HttpPost]
+        public ActionResult StaffSubscribe(StaffSubscriptions subs)
+        {
+            if (ModelState.IsValid)
+            {
+                var retVal = DbNotificationsUtils.SaveStaffSubscriptions(subs);
+                if (retVal.IsSuccessful)
+                    return RedirectToAction("StaffSubscriptionsConfirmation");
+                else
+                    return View(subs);
+            }
+
+            return View(subs);
+        }
+
+        public ActionResult StaffSubscriptionsConfirmation()
+        {
+            return View();
         }
 
         public ActionResult UpdateStaffInformation()

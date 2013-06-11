@@ -100,9 +100,9 @@
             <label class="lblMain">Phone</label> @Html.EditorFor(m => m.Phone)                         
         }
         <div id="siteSpecific">            
-			<label class="lblMain">EmployeeID</label> @Html.EditorFor(m => m.EmployeeID) 
-			<span id="empIDmessage"></span>            
-		</div>
+            <label class="lblMain">EmployeeID</label> @Html.EditorFor(m => m.EmployeeID) 
+            <span id="empIDmessage"></span>            
+        </div>
         <br />
         @Html.EditorFor(m => m.NovaStatStrip) <span class="spanChk">Nova Stat Strip</span>
         <label class="lblDoc">Date Completed:</label>  @Html.EditorFor(m => m.NovaStatStripDoc) 
@@ -129,6 +129,7 @@
     </fieldset>
     <br /><input type="submit" id="btnSubmit" value="Save" />&nbsp;&nbsp;&nbsp;<input type="button" id="btnCancel" value="Cancel"/>
 </form>
+@Html.ActionLink("Notification Subscriptions", "StaffSubscribe", new { staffId = Model.ID })
 
 @*<link href="@Url.Content("~/Content/FortAwesome-Font-Awesome-13d5dd3/css/font-awesome.min.css")" rel="stylesheet">
 <!--[if IE 7]>
