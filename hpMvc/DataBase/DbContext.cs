@@ -107,13 +107,15 @@ namespace hpMvc.DataBase
         {
             var list = new List<Randomization>();
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            using (SqlConnection conn = new SqlConnection(strConn))
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = ("GetAllRandomizedStudies");
+                    var cmd = new SqlCommand("", conn)
+                                  {
+                                      CommandType = System.Data.CommandType.StoredProcedure,
+                                      CommandText = ("GetAllRandomizedStudies")
+                                  };
 
                     conn.Open();
                     SqlDataReader rdr = cmd.ExecuteReader();

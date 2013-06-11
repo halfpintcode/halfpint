@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using hpMvc.DataBase;
+using hpMvc.Helpers;
 using hpMvc.Models;
 using System.Configuration;
 using System.Web.Security;
@@ -200,23 +201,15 @@ namespace hpMvc.Controllers
             {
                 dto = CalorieCalc.AddFormula(ef);
 
-                string[] users = ConfigurationManager.AppSettings["NewFormulaNotify"].ToString().Split(new[] {','}, StringSplitOptions.None);
+                var siteId = DbUtils.GetSiteidIDForUser(User.Identity.Name);
+                var staff = NotificationUtils.GetStaffForEvent(4, siteId);
                 
-                List<string> toEmails = new List<string>();
-                foreach (var user in users) 
-                {
-                    var mUser = Membership.GetUser(user);
-                    if (mUser == null)
-                        continue;
-                    toEmails.Add(mUser.Email);
-                }
-                                
                 string siteName = DbUtils.GetSiteNameForUser(User.Identity.Name);
 
                 var u = new UrlHelper(this.Request.RequestContext);
                 string url = "http://" + this.Request.Url.Host + u.RouteUrl("Default", new { Controller = "Account", Action = "Logon" });
             
-                Utility.SendFormulaAddeddMail(toEmails.ToArray(), null, ef, User.Identity.Name, siteName, Server, url);
+                Utility.SendFormulaAddeddMail(staff.ToArray(), null, ef, User.Identity.Name, siteName, Server, url);
             }
            
             dto.Bag = ef;
@@ -235,22 +228,16 @@ namespace hpMvc.Controllers
             else
             {
                 dto = CalorieCalc.AddAdditive(add);
-                string[] users = ConfigurationManager.AppSettings["NewFormulaNotify"].ToString().Split(new[] { ',' }, StringSplitOptions.None);
-
-                List<string> toEmails = new List<string>();
-                foreach (var user in users)
-                {
-                    var mUser = Membership.GetUser(user);
-                    if (mUser == null)
-                        continue;
-                    toEmails.Add(mUser.Email);
-                }
+                
+                var siteId = DbUtils.GetSiteidIDForUser(User.Identity.Name);
+                var staff = NotificationUtils.GetStaffForEvent(5, siteId);
+                
                 string siteName = DbUtils.GetSiteNameForUser(User.Identity.Name);
 
                 var u = new UrlHelper(this.Request.RequestContext);
 
                 string url = "http://" + this.Request.Url.Host + u.RouteUrl("Default", new { Controller = "Account", Action = "Logon" });            
-                Utility.SendAdditiveAddeddMail(toEmails.ToArray(), null, add, User.Identity.Name, siteName, Server, url);
+                Utility.SendAdditiveAddeddMail(staff.ToArray(), null, add, User.Identity.Name, siteName, Server, url);
             }
 
             if (dto.ReturnValue == -1)
@@ -306,20 +293,15 @@ namespace hpMvc.Controllers
             {
                 string[] users = ConfigurationManager.AppSettings["NewFormulaNotify"].ToString().Split(new[] { ',' }, StringSplitOptions.None);
 
-                List<string> toEmails = new List<string>();
-                foreach (var user in users)
-                {
-                    var mUser = Membership.GetUser(user);
-                    if (mUser == null)
-                        continue;
-                    toEmails.Add(mUser.Email);
-                }
+                var siteId = DbUtils.GetSiteidIDForUser(User.Identity.Name);
+                var staff = NotificationUtils.GetStaffForEvent(6, siteId);
+                
                 string siteName = DbUtils.GetSiteNameForUser(User.Identity.Name);
 
                 var u = new UrlHelper(this.Request.RequestContext);
                 string url = "http://" + this.Request.Url.Host + u.RouteUrl("Default", new { Controller = "Account", Action = "Logon" });
             
-                Utility.SendOtherNutritionMail(toEmails.ToArray(), null, con, csi, User.Identity.Name, siteName,Server, url);
+                Utility.SendOtherNutritionMail(staff.ToArray(), null, con, csi, User.Identity.Name, siteName,Server, url);
             }
 
             if (dto.ReturnValue == -1)

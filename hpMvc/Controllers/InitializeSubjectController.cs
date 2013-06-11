@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using hpMvc.Helpers;
 using hpMvc.Models;
 using hpMvc.DataBase;
 using hpMvc.Infrastructure.Logging;
@@ -66,6 +67,7 @@ namespace hpMvc.Controllers
             _logger.LogInfo("InitializeSubject.Initialize - validation: " + studyId);
             if (!DbInitializeContext.IsValidInitialize(Request.Params, sensorType, out messages, out ssInsert))
             {
+                dto.ValidMessages = messages;
                 dto.IsSuccessful = false;
                 dto.Message = "There are validation errors";
                 _logger.LogInfo("InitializeSubject.Initialize - validation errors: " + studyId);
@@ -123,10 +125,9 @@ namespace hpMvc.Controllers
                     _logger.LogInfo("InitializeSubject.Initialize - notifications: " + studyId);
                     TempData["InsertData"] = ssInsert;
 
-                    var users = ConfigurationManager.AppSettings["InitializeSubject"].Split(new[] { ',' },
-                                                                                                            StringSplitOptions
-                                                                                                                .None);
-
+                    //var users = ConfigurationManager.AppSettings["InitializeSubject"].Split(new[] { ',' }, StringSplitOptions.None);
+                    var staff = NotificationUtils.GetStaffForEvent(1, siteId);
+                    
                     string siteName = DbUtils.GetSiteNameForUser(User.Identity.Name);
 
                     var u = new UrlHelper(Request.RequestContext);
@@ -138,7 +139,7 @@ namespace hpMvc.Controllers
                         // don't let notifications error stop initialization process
                         try
                         {
-                            Utility.SendStudyInitializedMail((from user in users select Membership.GetUser(user) into mUser where mUser != null select mUser.Email).ToArray(), null, studyId, User.Identity.Name, siteName,
+                            Utility.SendStudyInitializedMail(staff.ToArray(), null, studyId, User.Identity.Name, siteName,
                                                              Server, url, ssInsert.Arm);
 
                             _logger.LogInfo("InitializeSubject.Initialize - notifications sent: " + studyId);

@@ -5,7 +5,7 @@ $(document).ready(function () {
 
     $("#spinner").ajaxStart(function () { $(this).show(); })
 			   .ajaxStop(function () { $(this).hide(); });
-    
+
     $('#startDownloadDialog').dialog({ autoOpen: false });
     $('#downloadDialog').dialog({ autoOpen: false });
     $('#altDownload').hide();
@@ -87,6 +87,7 @@ $(document).ready(function () {
                     if (data.ReturnValue === -1) {
                         window.location.href = urlRoot + '/Error/Index/';
                     }
+
                     alert(data.Message);
                 }
             }
@@ -168,14 +169,14 @@ $(document).ready(function () {
         window.location = urlRoot + '/InitializeSubject/InitializeSs/' + studyId;
         $('#startDownloadDialog').dialog('close');
     });
-    
+
     $('#btnInitialize').click(function () {
         if (!validate()) {
             return;
         }
 
         $('#btnInitialize').attr('disabled', 'disabled');
-        
+
         $('#divValidResults').empty();
 
         var studyId = $('#studyID').val();
@@ -208,9 +209,10 @@ $(document).ready(function () {
                     var message = "<p>Summary of invalid entries</p><hr/>";
                     $.each(data1.ValidMessages, function (index, d) {
                         message = message +
-                                  "<p class='validError'>" + "*" + d.DisplayName + " " + d.Message + "</p>"
+                            "<p class='validError'>" + "*" + d.DisplayName + " " + d.Message + "</p>";
 
                     });
+                    $('#btnInitialize').attr('disabled', false);
                     alert(data1.Message);
                     $('#divValidResults').append(message).slideDown();
                 }

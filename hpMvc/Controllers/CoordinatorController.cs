@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using hpMvc.Helpers;
 using hpMvc.Models;
 using hpMvc.DataBase;
 using System.Web.Helpers;
@@ -195,13 +196,13 @@ namespace hpMvc.Controllers
             DbUtils.SaveRandomizedSubjectActive(model, User.Identity.Name);
 
             //send email for non completion
-            string[] users = ConfigurationManager.AppSettings["NewFormulaNotify"].ToString().Split(new[] { ',' }, StringSplitOptions.None);
-
+            var siteId = DbUtils.GetSiteidIDForUser(User.Identity.Name);
+            var staff = NotificationUtils.GetStaffForEvent(2, siteId);
 
             var u = new UrlHelper(this.Request.RequestContext);
             string url = "http://" + Request.Url.Host + u.RouteUrl("Default", new { Controller = "Home", Action = "Index" });
 
-            Utility.SendCompleteSubjectMail((from user in users select Membership.GetUser(user) into mUser where mUser != null select mUser.Email).ToArray(), null, url, Server, model, User.Identity.Name);
+            Utility.SendCompleteSubjectMail(staff.ToArray(), null, url, Server, model, User.Identity.Name);
             
             return View(model);
         }

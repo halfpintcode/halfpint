@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Web.Mvc;
 using hpMvc.DataBase;
+using hpMvc.Helpers;
 using hpMvc.Infrastructure.Logging;
 using hpMvc.Models;
 
@@ -78,12 +79,14 @@ namespace hpMvc.Controllers
 
             dto.ReturnValue = DbPostTestsUtils.AddNurseStaff(lastName, firstName, empId, siteId, email);
             
-            var coordinators = DbUtils.GetUserInRole("Coordinator", siteId);
+            var staff = NotificationUtils.GetStaffForEvent(3, siteId);
+                
             string siteName = DbUtils.GetSiteNameForUser(User.Identity.Name);
             var u = new UrlHelper(Request.RequestContext);
             Debug.Assert(Request.Url != null, "Request.Url != null");
             var url = "http://" + Request.Url.Host + u.RouteUrl("Default", new { Controller = "Account", Action = "Logon" });
-            Utility.SendNurseAccountCreatedMail(coordinators.Select(coord => coord.Email).ToArray(), new[] { Request.Params["Email"] }, firstName + " " + lastName, siteName, empId, Server, url);
+
+            Utility.SendNurseAccountCreatedMail(staff.ToArray(), new[] { Request.Params["Email"] }, firstName + " " + lastName, siteName, empId, Server, url);
 
             _logger.LogInfo("PostTests.CreateName - message: " + dto.Message + ", name: " + lastName + "," + firstName + ", site: " + siteId.ToString());
             return Json(dto);
@@ -136,15 +139,16 @@ namespace hpMvc.Controllers
             if(tests.Count == 0)
                 return Json("no tests");
             
-            int site = DbUtils.GetSiteidIDForUser(HttpContext.User.Identity.Name);            
-            var coordinators = DbUtils.GetUserInRole("Coordinator", site);
-
+            var site = DbUtils.GetSiteidIDForUser(HttpContext.User.Identity.Name);
+            var staff = NotificationUtils.GetStaffForEvent(7, site);
+            
             string siteName = DbUtils.GetSiteNameForUser(User.Identity.Name);
 
             var u = new UrlHelper(Request.RequestContext);
             Debug.Assert(Request.Url != null, "Request.Url != null");
             var url = "http://" + Request.Url.Host + u.RouteUrl("Default", new { Controller = "Account", Action = "Logon" });            
-            Utility.SendPostTestsSubmittedMail(coordinators.Select(coord => coord.Email).ToArray(), email, tests, name, siteName, Server, url);
+            
+            Utility.SendPostTestsSubmittedMail(staff.ToArray(), email, tests, name, siteName, Server, url);
 
             _logger.LogInfo("Post-tests submitted: " + name);
             return Json("");

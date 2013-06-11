@@ -9,6 +9,7 @@ using System.Net.Mail;
 using System.Text;
 using System.Web;
 using System.Web.Security;
+using hpMvc.Helpers;
 using hpMvc.Infrastructure.Logging;
 
 namespace hpMvc.PostTestService
@@ -380,7 +381,8 @@ namespace hpMvc.PostTestService
 
         internal static void SendCoordinatorsEmail(SiteInfoPts si)
         {
-            var coordinators = GetUserInRole("Coordinator", si.Id);
+            var coordinators = NotificationUtils.GetStaffForEvent(8, si.Id);
+            
             var sbBody = new StringBuilder("");
             const string newLine = "<br/>";
 
@@ -535,7 +537,7 @@ namespace hpMvc.PostTestService
 
             }
 
-            SendHtmlEmail("Post Tests Notifications - " + si.Name, coordinators.Select(coord => coord.Email).ToArray(), null, sbBody.ToString(), @"<a href='http://halfpintstudy.org/hpProd/'>Halfpint Study Website</a>");
+            SendHtmlEmail("Post Tests Notifications - " + si.Name, coordinators.ToArray(), null, sbBody.ToString(), @"<a href='http://halfpintstudy.org/hpProd/'>Halfpint Study Website</a>");
         }
 
         internal static void SendHtmlEmail(string subject, string[] toAddress, string[] ccAddress, string bodyContent, string url, string bodyHeader = "")
