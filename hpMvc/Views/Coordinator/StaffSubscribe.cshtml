@@ -42,8 +42,7 @@
                 @Html.HiddenFor(m => @Model.NotificationEvents[i].Name)
                 <span class="lbleditor">@Model.NotificationEvents[i].Name:</span>
                 @Html.EditorFor(m => @Model.NotificationEvents[i].IsSubscribed)
-                <span class="lbleditor2">All sites:</span>
-                @Html.EditorFor(m => @Model.NotificationEvents[i].IsAllSites)
+                @Html.HiddenFor(m => @Model.NotificationEvents[i].IsAllSites)
             </div>
         }
         <br/>
