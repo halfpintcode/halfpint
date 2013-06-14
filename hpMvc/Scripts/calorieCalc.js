@@ -17,7 +17,7 @@ $(function () {
 
     //#region initialize
     $('#tabs').tabs();
-
+    
     $('#bodyWeight').keydown(function (event) {
         numericsAndDecimalOnly(event, $(this).val());
     });
@@ -122,6 +122,7 @@ $(function () {
         var date = $('#calcDate').datepicker('getDate', '+1d');
         date.setDate(date.getDate() + 1);
         clearAll();
+        $("#tabs").tabs("option", "selected", 0);
         $('#calcDate').datepicker('setDate', date);
         //$('#calcDate').focus();
         $(window).scrollTop(0);
