@@ -13,16 +13,16 @@ $(function () {
     $('#btnSubmit').click(function () {
         var email = $.trim($('#email').val());
         var data = { email: email };
-        var url = urlRoot + '/Account/ForgotPassword/';
+        var url = window.urlRoot + '/Account/ForgotPassword/';
 
         $.ajax({
             url: url,
             type: 'POST',
             data: data,
-            success: function (data) {
-                alert(data.Message);
-                if (data.IsSuccessful) {
-                    window.location = urlRoot + '/Home/Index';
+            success: function (data1) {
+                alert(data1.Message);
+                if (data1.IsSuccessful) {
+                    window.location = window.urlRoot + '/Home/Index';
                 }
             }
         });

@@ -61,8 +61,13 @@ namespace hpMvc.Controllers
                     }
                     else
                     {
-                        if (user.IsLockedOut)                        
+
+                        if (user.IsLockedOut)
+                        {
                             ModelState.AddModelError("", "This user name is locked out.");
+                            //if user is generic then send email
+                   
+                        }
                         else
                             ModelState.AddModelError("", "The user name or password provided is incorrect.");
                     }
