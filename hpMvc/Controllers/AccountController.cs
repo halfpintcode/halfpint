@@ -35,21 +35,23 @@ namespace hpMvc.Controllers
                 {
                     FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
                     MembershipUser user = Membership.GetUser(model.UserName);
-
-                    nlogger.LogInfo("Logon Post Success - user:" + model.UserName);
-                    if (user.Comment == "Reset")
-                    {                        
-                        return RedirectToAction("ResetPassword", "Account");
-                    }
-
-                    if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
-                        && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
+                    if (user != null)
                     {
-                        return Redirect(returnUrl);
-                    }
-                    else
-                    {
-                        return RedirectToAction("Index", "Home");
+                        nlogger.LogInfo("Logon Post Success - user:" + model.UserName);
+                        if (user.Comment == "Reset")
+                        {
+                            return RedirectToAction("ResetPassword", "Account");
+                        }
+
+                        if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
+                            && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
+                        {
+                            return Redirect(returnUrl);
+                        }
+                        else
+                        {
+                            return RedirectToAction("Index", "Home");
+                        }
                     }
                 }
                 else
@@ -65,8 +67,10 @@ namespace hpMvc.Controllers
                         if (user.IsLockedOut)
                         {
                             ModelState.AddModelError("", "This user name is locked out.");
-                            //if user is generic then send email
-                   
+                            
+                            //send email to admin
+                            var admins = DbUtils.GetUserInRole("Admin", 1);
+                            Utility.SendUserLockedOutMail(admins.Select(membershipUser => membershipUser.Email).ToArray(), null, model.UserName, Server, Utility.GetSiteLogonUrl(this.Request));
                         }
                         else
                             ModelState.AddModelError("", "The user name or password provided is incorrect.");

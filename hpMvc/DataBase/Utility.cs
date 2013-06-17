@@ -223,6 +223,15 @@ namespace hpMvc.DataBase
             SendHtmlEmail(subject, toAddress, ccAddress, sbBody.ToString(), server, siteUrl);
         }
 
+        public static void SendUserLockedOutMail(string[] toAddress, string[] ccAddress, string name, HttpServerUtilityBase server, string url)
+        {
+            var subject = "Halfpint - User Locked Out - User name: " + name;
+            var sbBody = new StringBuilder("<p> User name <string>" + name + "</string> has been locked out.</p>");
+            
+            var siteUrl = "Website: <a href='" + url + "'>HalfpintStudy.org</a>";
+            SendHtmlEmail(subject, toAddress, ccAddress, sbBody.ToString(), server, siteUrl);
+        }
+
 		public static void SendAccountCreatedMail(string[] toAddress, string[] ccAddress, string password, string userName, string url, HttpServerUtilityBase server)
 		{
 			string subject = "Halfpint - Account Created for: " + userName;

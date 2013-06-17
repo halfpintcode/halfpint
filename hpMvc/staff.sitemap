@@ -4,7 +4,7 @@
       <siteMapNode title="Training" class="StaffOnly">
         <siteMapNode title="Training Documents" ImageUrl="~/Content/Images/folder.png"  url ="~/Staff/Index/Training" class="StaffOnly"/>
         <siteMapNode title="InForm Training Database" url="https://study.tch.harvard.edu/halfpinttrain1" class="StaffOnly"/>
-        <siteMapNode title="Online Modules and Post-Tests" controller="PostTests" action="Initialize" id="0" />
+        <siteMapNode title="Online Videos and Post-Tests" controller="PostTests" action="Initialize" id="0" />
         <siteMapNode title="View Dexcom G4 Sensor Video" controller="PostTests" action="DexcomG4SensorVideo" id="0" />
         <siteMapNode title="Manual Entry Post-Tests Completed" controller="PostTestsAdmin" action="Index" class="StaffOnly" />
         DexcomG4SensorVideo
