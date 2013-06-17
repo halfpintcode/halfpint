@@ -70,6 +70,13 @@
             <span class="lbleditor">Internal Id:</span>
             <span class="col2"> @Html.DisplayFor(model => model.Id) </span>
         </div>
+        
+        <div>
+            <span class="lbleditor">Long Name:</span>
+            <span class="col2"> 
+                @Html.EditorFor(model => model.LongName)
+            </span>
+        </div>
 
         <div>
             <span class="lbleditor">Is Employee Id Required:</span>

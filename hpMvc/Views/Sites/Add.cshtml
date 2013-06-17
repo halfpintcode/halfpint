@@ -98,10 +98,18 @@
     <fieldset>
         <legend>Site Details</legend>
         <div>
-            <span class="lbleditor">Name:</span>
+            <span class="lbleditor">Short Name:</span>
             <span class="col2"> 
                 @Html.EditorFor(model => model.Name)
                 @Html.ValidationMessageFor(model => model.Name)
+            </span>
+        </div>
+        
+        <div>
+            <span class="lbleditor">Long Name:</span>
+            <span class="col2"> 
+                @Html.EditorFor(model => model.LongName)
+                @Html.ValidationMessageFor(model => model.LongName)
             </span>
         </div>
         

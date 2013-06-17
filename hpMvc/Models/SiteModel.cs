@@ -13,6 +13,7 @@ namespace hpMvc.Models
         public string SiteId { get; set; }
         [Required]
         public string Name { get; set; }
+        public string LongName { get; set; }
         public bool IsEmployeeIdRequired { get; set; }
         public string EmployeeIdRegEx { get; set; }
         public string EmployeeIdMessage { get; set; }

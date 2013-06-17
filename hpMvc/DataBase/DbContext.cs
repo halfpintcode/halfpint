@@ -1762,6 +1762,8 @@ namespace hpMvc.DataBase
                         site.SiteId = rdr.GetString(pos);
                         pos = rdr.GetOrdinal("Name");
                         site.Name = rdr.GetString(pos);
+                        pos = rdr.GetOrdinal("LongName");
+                        site.LongName = !rdr.IsDBNull(pos) ? rdr.GetString(pos) : "";
                         pos = rdr.GetOrdinal("EmpIDRequired");
                         site.IsEmployeeIdRequired = rdr.GetBoolean(pos);
                         pos = rdr.GetOrdinal("EmpIDRegex");
@@ -2776,6 +2778,13 @@ namespace hpMvc.DataBase
                         param = new SqlParameter("@id", siteInfo.Id);
                         cmd.Parameters.Add(param);
 
+                        string longName = "";
+                        if (siteInfo.LongName != null)
+                            longName = siteInfo.LongName;
+
+                        param = new SqlParameter("@longName", longName);
+                        cmd.Parameters.Add(param);
+
                         param = new SqlParameter("@empIDRequired", siteInfo.IsEmployeeIdRequired);
                         cmd.Parameters.Add(param);
 
@@ -2919,6 +2928,13 @@ namespace hpMvc.DataBase
                         cmd.Parameters.Add(param);
 
                         param = new SqlParameter("@name", siteInfo.Name);
+                        cmd.Parameters.Add(param);
+
+                        string longName = "";
+                        if (siteInfo.LongName != null)
+                            longName = siteInfo.LongName;
+
+                        param = new SqlParameter("@longName", longName);
                         cmd.Parameters.Add(param);
 
                         param = new SqlParameter("@empIDRequired", siteInfo.IsEmployeeIdRequired);
