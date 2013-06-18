@@ -388,5 +388,38 @@ namespace hpMvc.Controllers
             dto.Message = "Caloric Entries were added successfully!";
             return Json(dto);
         }
+    
+        public ActionResult FormulaList()
+        {
+            var list = CalorieCalc.GetFormulaList();
+            return View(list);
+        }
+
+        public ActionResult FormulaDetails(string id)
+        {
+            var formula = CalorieCalc.GetFormula(id);
+            return View(formula);
+        }
+
+        [HttpPost]
+        public ActionResult FormulaDetails(EnteralFormula enteralFormula)
+        {
+            if (ModelState.IsValid)
+            {
+                var dto = CalorieCalc.UpdateFormula(enteralFormula);
+                if (dto.ReturnValue == 1)
+                {
+                    TempData.Add("enteralFormula", enteralFormula);
+                    return RedirectToAction("FormulaConfirmation");
+                }
+            }
+            return View(enteralFormula);
+        }
+
+        public ActionResult FormulaConfirmation()
+        {
+            var enteralFormula = TempData["enteralFormula"] as EnteralFormula;
+            return View(enteralFormula);
+        }
     }
 }

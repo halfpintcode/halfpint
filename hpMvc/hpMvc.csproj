@@ -776,6 +776,9 @@
     <Content Include="Views\Coordinator\StaffSubscribe.cshtml" />
     <Content Include="Views\Coordinator\StaffSubscriptionsPartial.cshtml" />
     <Content Include="Views\Coordinator\StaffSubscriptionsConfirmation.cshtml" />
+    <Content Include="Views\CalorieCalc\FormulaList.cshtml" />
+    <Content Include="Views\CalorieCalc\FormulaDetails.cshtml" />
+    <Content Include="Views\CalorieCalc\FormulaConfirmation.cshtml" />
     <None Include="_bin_deployableAssemblies\Microsoft.Web.Infrastructure.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.Razor.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.dll" />

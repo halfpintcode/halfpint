@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -90,25 +91,57 @@ namespace hpMvc.Models
         public double Kcal_ml { get; set; }
     }
 
-    public class EnteralFormula
+    public class EnteralFormula : IValidatableObject
     {
         public int ID { get; set; }
+        [Display (Name = "Formula Name")]
+        [Required]
         public string Name { get; set; }
+        [Display(Name = "kCal per unit")]
+        [Required]
         public double Kcal_ml { get; set; }
+        [Display(Name = "Protein % of kcal")]
+        [Required]
         public double ProteinKcal { get; set; }
+        [Display(Name = "CHO % of kcal")]
+        [Required]
         public double ChoKcal { get; set; }
+        [Display(Name = "Lipid % of kcal")]
+        [Required]
         public double LipidKcal { get; set; }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if (Math.Abs(ProteinKcal + ChoKcal + LipidKcal - 100) > 0)
+            {
+                var proteinfield = new[] {"ProteinKcal"};
+                yield return
+                    new ValidationResult("Protein % of kcal + CHO % of kcal + Lipid % of kcal must = 100", proteinfield)
+                    ;
+
+            }
+        }
     }
 
     public class Additive
     {
         public int ID { get; set; }
+        [Display(Name = "Additive Name")]
+        [Required]
         public string Name { get; set; }
         public int Unit { get; set; }
         public string UnitName { get; set; }
+        [Display(Name = "kCal per unit")]
+        [Required]
         public double Kcal_unit { get; set; }
+        [Display(Name = "Protein % of kcal")]
+        [Required]
         public double ProteinKcal { get; set; }
+        [Display(Name = "CHO % of kcal")]
+        [Required]
         public double ChoKcal { get; set; }
+        [Display(Name = "Lipid % of kcal")]
+        [Required]
         public double LipidKcal { get; set; }
     }
 }

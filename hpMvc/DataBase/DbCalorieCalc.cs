@@ -1019,6 +1019,53 @@ namespace hpMvc.DataBase
             }
         }
 
+        public static DTO UpdateFormula(EnteralFormula ef)
+        {
+            var dto = new DTO();
+
+            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            using (var conn = new SqlConnection(strConn))
+            {
+                try
+                {
+                    var cmd = new SqlCommand("", conn)
+                                  {
+                                      CommandType = System.Data.CommandType.StoredProcedure,
+                                      CommandText = ("UpdateFormula")
+                                  };
+
+                    var param = new SqlParameter("@name", ef.Name);
+                    cmd.Parameters.Add(param);
+                    param = new SqlParameter("@kcalml", ef.Kcal_ml);
+                    cmd.Parameters.Add(param);
+                    param = new SqlParameter("@portein", ef.ProteinKcal);
+                    cmd.Parameters.Add(param);
+                    param = new SqlParameter("@lipid", ef.LipidKcal);
+                    cmd.Parameters.Add(param);
+                    param = new SqlParameter("@cho", ef.ChoKcal);
+                    cmd.Parameters.Add(param);
+                    param = new SqlParameter("@id", ef.ID);
+                    cmd.Parameters.Add(param);
+
+                    conn.Open();
+
+                    cmd.ExecuteNonQuery();
+                    
+                    dto.ReturnValue = 1;
+                    dto.Bag = ef;
+
+                    return dto;
+                }
+                catch (Exception ex)
+                {
+                    nlogger.LogError(ex);
+                    dto.Message = ex.Message;
+                    dto.ReturnValue = -1;
+                    return dto;
+                }
+            }
+        }
+
         public static List<DextroseConcentration> GetDextroseConcentrations()
         {
             List<DextroseConcentration> dcs = new List<DextroseConcentration>();
@@ -1058,6 +1105,64 @@ namespace hpMvc.DataBase
                 }
             }
             return dcs;
+        }
+
+        public static EnteralFormula GetFormula(string id)
+        {
+            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            using (var conn = new SqlConnection(strConn))
+            {
+                try
+                {
+                    var cmd = new SqlCommand("", conn)
+                    {
+                        CommandType = System.Data.CommandType.StoredProcedure,
+                        CommandText = "GetFormula"
+                    };
+                    var param = new SqlParameter("@id", id);
+                    cmd.Parameters.Add(param);
+
+                    conn.Open();
+                    var rdr = cmd.ExecuteReader();
+                    int pos = 0;
+                    var formula = new EnteralFormula();
+
+                    while (rdr.Read())
+                    {
+
+                        pos = rdr.GetOrdinal("ID");
+                        formula.ID = rdr.GetInt32(pos);
+
+                        pos = rdr.GetOrdinal("Name");
+                        formula.Name = rdr.GetString(pos);
+
+                        pos = rdr.GetOrdinal("Kcal/mL");
+                        if (!rdr.IsDBNull(pos))
+                            formula.Kcal_ml = rdr.GetDouble(pos);
+                        else
+                            formula.Kcal_ml = 0;
+
+                        pos = rdr.GetOrdinal("CHO % of kcal");
+                        formula.ChoKcal = rdr.GetDouble(pos);
+
+                        pos = rdr.GetOrdinal("Protein % of kcal");
+                        formula.ProteinKcal = rdr.GetDouble(pos);
+
+                        pos = rdr.GetOrdinal("Lipid % of kcal");
+                        formula.LipidKcal = rdr.GetDouble(pos);
+
+                    }
+                    rdr.Close();
+
+                    return formula;
+                }
+                catch (Exception ex)
+                {
+                    nlogger.LogError(ex);
+                    return null;
+                }
+            }
+
         }
 
         public static List<EnteralFormula> GetFormulaList()

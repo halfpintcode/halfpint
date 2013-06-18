@@ -14,7 +14,7 @@
  
     @grid.GetHtml(columns:grid.Columns(
         grid.Column("Id", header:"Internal Id"),
-        grid.Column("Name", format: @<text>@Html.ActionLink((string)item.Name,"SiteDetails","Sites", new {id=item.Id}, null)</text>),
+        grid.Column("Name", header:"Short Name", format: @<text>@Html.ActionLink((string)item.Name,"SiteDetails","Sites", new {id=item.Id}, null)</text>),
         grid.Column("LongName", header:"Long Name"),
         grid.Column("SiteId", header:"Site Id"),
         grid.Column("IsEmployeeIdRequired", header: "Employee Id Required"),

@@ -1,0 +1,11 @@
+﻿@model hpMvc.Models.EnteralFormula
+@{
+    ViewBag.Title = "Formula Confirmation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>Formula <strong>@Model.Name</strong> has been updated.</h3>
+
+<div>
+    @Html.ActionLink("Back to formula list", "FormulaList")
+</div>
