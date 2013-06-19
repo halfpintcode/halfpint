@@ -123,7 +123,7 @@ namespace hpMvc.Models
         }
     }
 
-    public class Additive
+    public class Additive : IValidatableObject
     {
         public int ID { get; set; }
         [Display(Name = "Additive Name")]
@@ -143,5 +143,18 @@ namespace hpMvc.Models
         [Display(Name = "Lipid % of kcal")]
         [Required]
         public double LipidKcal { get; set; }
+        public IEnumerable<IDandName> Units { get; set; }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if (Math.Abs(ProteinKcal + ChoKcal + LipidKcal - 100) > 0)
+            {
+                var proteinfield = new[] { "ProteinKcal" };
+                yield return
+                    new ValidationResult("Protein % of kcal + CHO % of kcal + Lipid % of kcal must = 100", proteinfield)
+                    ;
+
+            }
+        }
     }
 }

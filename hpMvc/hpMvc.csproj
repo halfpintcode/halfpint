@@ -693,6 +693,7 @@
     <Content Include="Views\Coordinator\GetNovaLists.cshtml" />
     <Content Include="Views\Admin\PostTestsService.cshtml" />
     <Content Include="Views\PostTests\DexcomG4SensorVideo.cshtml" />
+    <Content Include="admin.sitemap" />
     <None Include="Content\FortAwesome-Font-Awesome-13d5dd3\docs\assets\font\fontawesome-webfont.eot" />
     <None Include="Content\FortAwesome-Font-Awesome-13d5dd3\docs\assets\font\fontawesome-webfont.ttf" />
     <None Include="Content\FortAwesome-Font-Awesome-13d5dd3\docs\assets\font\fontawesome-webfont.woff" />
@@ -779,6 +780,9 @@
     <Content Include="Views\CalorieCalc\FormulaList.cshtml" />
     <Content Include="Views\CalorieCalc\FormulaDetails.cshtml" />
     <Content Include="Views\CalorieCalc\FormulaConfirmation.cshtml" />
+    <Content Include="Views\CalorieCalc\AdditiveList.cshtml" />
+    <Content Include="Views\CalorieCalc\AdditiveDetails.cshtml" />
+    <Content Include="Views\CalorieCalc\AdditiveConfirmation.cshtml" />
     <None Include="_bin_deployableAssemblies\Microsoft.Web.Infrastructure.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.Razor.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.dll" />

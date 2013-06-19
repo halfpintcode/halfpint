@@ -395,10 +395,42 @@ namespace hpMvc.Controllers
             return View(list);
         }
 
+        public ActionResult AdditiveList()
+        {
+            var list = CalorieCalc.GetAdditiveList();
+            return View(list);
+        }
+
         public ActionResult FormulaDetails(string id)
         {
             var formula = CalorieCalc.GetFormula(id);
             return View(formula);
+        }
+
+        public ActionResult AdditiveDetails(string id)
+        {
+            IEnumerable<IDandName> units = DbUtils.GetLookupItems("Units");
+            var additive = CalorieCalc.GetAdditive(id);
+            additive.Units = units;
+            
+            return View(additive);
+        }
+
+        [HttpPost]
+        public ActionResult AdditiveDetails(Additive additive)
+        {
+            if (ModelState.IsValid)
+            {
+                var dto = CalorieCalc.UpdateAdditive(additive);
+                if (dto.ReturnValue == 1)
+                {
+                    TempData.Add("additive", additive);
+                    return RedirectToAction("AdditiveConfirmation");
+                }
+            }
+            IEnumerable<IDandName> units = DbUtils.GetLookupItems("Units");
+            additive.Units = units;
+            return View(additive);
         }
 
         [HttpPost]
@@ -414,6 +446,12 @@ namespace hpMvc.Controllers
                 }
             }
             return View(enteralFormula);
+        }
+
+        public ActionResult AdditiveConfirmation()
+        {
+            var additive = TempData["additive"] as Additive;
+            return View(additive);
         }
 
         public ActionResult FormulaConfirmation()

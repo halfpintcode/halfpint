@@ -1,7 +1,7 @@
-﻿@model List<hpMvc.Models.EnteralFormula>
+﻿@model List<hpMvc.Models.Additive>
 
 @{
-    ViewBag.Title = "Formula List";
+    ViewBag.Title = "Additive List";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <style type="text/css">
@@ -10,7 +10,7 @@
     .header{ background-color: #E8E8E8;font-weight: bold;color:#fff}
     .alt{ background-color: #e8e8e8; color:#000}
 </style>
-<h2>Formula List</h2>
+<h2>Additive List</h2>
 
 <div>
     @{
@@ -23,10 +23,11 @@
         tableStyle:"webgrid", headerStyle:"header", alternatingRowStyle:"alt",
         columns:grid.Columns(
         grid.Column("ID", header:"Internal Id"),
-        grid.Column("Name", header:"Formula Name", format: @<text>@Html.ActionLink((string)item.Name, "FormulaDetails", "CalorieCalc", new { id = item.ID }, null)</text>),
-                    grid.Column("Kcal_ml", header: "kCal per unit", format: (item) => string.Format("{0:N}", item.Kcal_ml)),
+        grid.Column("Name", header:"Additive Name", format: @<text>@Html.ActionLink((string)item.Name, "AdditiveDetails", "CalorieCalc", new { id = item.ID }, null)</text>),
+                    grid.Column("Kcal_unit", header: "kCal per unit", format: (item) => string.Format("{0:N}", item.Kcal_unit)),            
         grid.Column("ProteinKcal", header: "Protein % of kcal"),
         grid.Column("ChoKcal", header: "CHO % of kcal"),
-        grid.Column("LipidKcal", header: "Lipid % of kcal")
+        grid.Column("LipidKcal", header: "Lipid % of kcal"),
+        grid.Column("UnitName", header:"Unit")
                       ))
 </div>

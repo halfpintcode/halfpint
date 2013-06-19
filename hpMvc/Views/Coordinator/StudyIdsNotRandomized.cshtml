@@ -3,7 +3,12 @@
     ViewBag.Title = "StudyIdsNotRandomized";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<style type="text/css">
+    .webgrid{ margin: 4px;border-collapse: collapse;} 
+    .webgrid th, .webgrid td{ border: 1px solid #c0c0c0;padding: 5px;}   
+    .header{ background-color: #E8E8E8;font-weight: bold;color:#fff}
+    .alt{ background-color: #e8e8e8; color:#000}
+</style>
 <script type="text/javascript">
     $(function () {
         $('#Sites').change(function () {         
@@ -29,8 +34,9 @@
 <div id="grid">
 
 @{    
-    var grid = new WebGrid(Model, defaultSort: "StudyID", rowsPerPage: 50, ajaxUpdateContainerId: "grid");
+    var grid = new WebGrid(
+        Model, defaultSort: "StudyID", rowsPerPage: 50, ajaxUpdateContainerId: "grid");
 }
 
-@grid.GetHtml()
+@grid.GetHtml(tableStyle: "webgrid", headerStyle: "header", alternatingRowStyle: "alt")
 </div>

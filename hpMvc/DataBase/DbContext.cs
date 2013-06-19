@@ -1292,25 +1292,25 @@ namespace hpMvc.DataBase
 
         public static List<IDandName> GetLookupItems(string itemsName)
         {
-            List<IDandName> items = new List<IDandName>();
-            IDandName item = null;
+            var items = new List<IDandName>();
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            using (SqlConnection conn = new SqlConnection(strConn))
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = ("Get" + itemsName);
+                    var cmd = new SqlCommand("", conn)
+                                  {
+                                      CommandType = System.Data.CommandType.StoredProcedure,
+                                      CommandText = ("Get" + itemsName)
+                                  };
 
                     conn.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    int pos = 0;
+                    var rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
-                        item = new IDandName();
+                        var item = new IDandName();
 
-                        pos = rdr.GetOrdinal("ID");
+                        var pos = rdr.GetOrdinal("ID");
                         item.ID = rdr.GetInt32(pos);
                         pos = rdr.GetOrdinal("Name");
                         item.Name = rdr.GetString(pos);

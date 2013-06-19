@@ -1215,22 +1215,84 @@ namespace hpMvc.DataBase
             return efl;
         }
 
-        public static List<Additive> GetAdditiveList()
+        public static Additive GetAdditive(string id)
         {
-            List<Additive> addl = new List<Additive>();
-
-            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            using (SqlConnection conn = new SqlConnection(strConn))
+            var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = ("GetAdditiveList");
+                    var cmd = new SqlCommand("", conn)
+                    {
+                        CommandType = System.Data.CommandType.StoredProcedure,
+                        CommandText = "GetAdditive"
+                    };
+                    var param = new SqlParameter("@id", id);
+                    cmd.Parameters.Add(param);
 
                     conn.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    int pos = 0;
+                    var rdr = cmd.ExecuteReader();
+                    var additive = new Additive();
+
+                    while (rdr.Read())
+                    {
+
+                        var pos = rdr.GetOrdinal("ID");
+                        additive.ID = rdr.GetInt32(pos);
+
+                        pos = rdr.GetOrdinal("Name");
+                        additive.Name = rdr.GetString(pos);
+
+                        pos = rdr.GetOrdinal("Kcal/unit");
+                        additive.Kcal_unit = !rdr.IsDBNull(pos) ? rdr.GetDouble(pos) : 0;
+
+                        pos = rdr.GetOrdinal("CHO % of kcal");
+                        additive.ChoKcal = rdr.GetDouble(pos);
+
+                        pos = rdr.GetOrdinal("Protein % of kcal");
+                        additive.ProteinKcal = rdr.GetDouble(pos);
+
+                        pos = rdr.GetOrdinal("Lipid % of kcal");
+                        additive.LipidKcal = rdr.GetDouble(pos);
+
+                        pos = rdr.GetOrdinal("Unit");
+                        additive.Unit = rdr.GetInt32(pos);
+
+                        pos = rdr.GetOrdinal("UnitName");
+                        additive.UnitName = rdr.GetString(pos);
+
+                    }
+                    rdr.Close();
+
+                    return additive;
+                }
+                catch (Exception ex)
+                {
+                    nlogger.LogError(ex);
+                    return null;
+                }
+            }
+
+        }
+
+        public static List<Additive> GetAdditiveList()
+        {
+            var addl = new List<Additive>();
+
+            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            using (var conn = new SqlConnection(strConn))
+            {
+                try
+                {
+                    var cmd = new SqlCommand("", conn)
+                                  {
+                                      CommandType = System.Data.CommandType.StoredProcedure,
+                                      CommandText = ("GetAdditiveList")
+                                  };
+
+                    conn.Open();
+                    var rdr = cmd.ExecuteReader();
+                    var pos = 0;
 
                     while (rdr.Read())
                     {
@@ -1269,6 +1331,56 @@ namespace hpMvc.DataBase
                 }
             }
             return addl;
+        }
+
+        public static DTO UpdateAdditive(Additive additive)
+        {
+            var dto = new DTO();
+
+            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            using (var conn = new SqlConnection(strConn))
+            {
+                try
+                {
+                    var cmd = new SqlCommand("", conn)
+                    {
+                        CommandType = System.Data.CommandType.StoredProcedure,
+                        CommandText = ("UpdateAdditive")
+                    };
+
+                    var param = new SqlParameter("@name", additive.Name);
+                    cmd.Parameters.Add(param);
+                    param = new SqlParameter("@kcalunit", additive.Kcal_unit);
+                    cmd.Parameters.Add(param);
+                    param = new SqlParameter("@portein", additive.ProteinKcal);
+                    cmd.Parameters.Add(param);
+                    param = new SqlParameter("@lipid", additive.LipidKcal);
+                    cmd.Parameters.Add(param);
+                    param = new SqlParameter("@cho", additive.ChoKcal);
+                    cmd.Parameters.Add(param);
+                    param = new SqlParameter("@id", additive.ID);
+                    cmd.Parameters.Add(param);
+                    param = new SqlParameter("@unit", additive.Unit);
+                    cmd.Parameters.Add(param);
+
+                    conn.Open();
+
+                    cmd.ExecuteNonQuery();
+
+                    dto.ReturnValue = 1;
+                   
+;
+
+                    return dto;
+                }
+                catch (Exception ex)
+                {
+                    nlogger.LogError(ex);
+                    dto.Message = ex.Message;
+                    dto.ReturnValue = -1;
+                    return dto;
+                }
+            }
         }
 
         public static DTO AddAdditive(Additive add)

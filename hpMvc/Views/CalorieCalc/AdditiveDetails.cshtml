@@ -1,0 +1,90 @@
+﻿@using hpMvc.Models
+@model hpMvc.Models.Additive
+
+@{
+    ViewBag.Title = "Additive Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style rel="stylesheet" type="text/css" >
+    fieldset {
+        line-height: 25px;
+    }
+    .lbleditor {
+        width: 160px;
+        display: inline-block;
+    }
+    .col2 
+    {
+        display: inline-block;
+        margin-left: 5px;
+    }
+    .text-box {
+        width: 250px;
+    }
+    .underline {
+        text-decoration: underline; 
+    }
+</style>
+
+<h2>Additive Details for @Html.DisplayFor(model => model.Name)</h2>
+
+@using (Html.BeginForm())
+{
+    <input type="hidden" id="ID" name="ID" value='@Model.ID'/>
+    
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>Formula Details</legend>
+        <div>
+            <span class="lbleditor">Formula Name:</span>
+            <span class="col2"> 
+                @Html.EditorFor(model => model.Name)
+            </span>
+        </div>
+        
+        <div>
+            <span class="lbleditor">kCal per unit:</span>
+            <span class="col2"> 
+                @Html.EditorFor(model => model.Kcal_unit)
+            </span>
+        </div>
+        
+        <div>
+            <span class="lbleditor">Protein % of kcal:</span>
+            <span class="col2"> 
+                @Html.EditorFor(model => model.ProteinKcal)
+                @Html.ValidationMessageFor(model => model.ProteinKcal) 
+            </span>
+        </div>
+        
+        <div>
+            <span class="lbleditor">CHO % of kcal:</span>
+            <span class="col2"> 
+                @Html.EditorFor(model => model.ChoKcal)
+            </span>
+        </div>
+        
+        <div>
+            <span class="lbleditor">Lipid % of kcal:</span>
+            <span class="col2"> 
+                @Html.EditorFor(model => model.LipidKcal)
+            </span>
+        </div>
+        
+        <div>
+            <span class="lbleditor">Unit:</span>
+            <span class="col2">
+                @Html.DropDownListFor(model => model.Unit, new SelectList(Model.Units, "ID", "Name")) 
+            </span>
+        </div>
+
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to additive list", "AdditiveList")
+</div>

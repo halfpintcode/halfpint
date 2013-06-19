@@ -1,0 +1,12 @@
+﻿@model hpMvc.Models.Additive
+
+@{
+    ViewBag.Title = "Additive Confirmation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Additive <strong>@Model.Name</strong> has been updated.</h2>
+
+<div>
+    @Html.ActionLink("Back to additive list", "AdditiveList")
+</div>
