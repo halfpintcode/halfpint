@@ -53,4 +53,11 @@ namespace hpMvc.Models
         public bool IsUsed { get; set; }
     }
     
+    public class SiteRandomizationsCount
+    {
+        public int Count { get; set; }
+        public string Name { get; set; }
+        public string LongName { get; set; }
+        public string SiteId { get; set; }
+    }
 }

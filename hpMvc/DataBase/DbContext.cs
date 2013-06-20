@@ -103,6 +103,50 @@ namespace hpMvc.DataBase
             return list;
         }
 
+        public static List<SiteRandomizationsCount> GetSiteRandomizationsCount()
+        {
+            var srl = new List<SiteRandomizationsCount>();
+            var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            using (var conn = new SqlConnection(strConn))
+            {
+                try
+                {
+                    var cmd = new SqlCommand("", conn)
+                                  {
+                                      CommandType = System.Data.CommandType.StoredProcedure,
+                                      CommandText = ("SiteRandomizationsCount")
+                                  };
+
+                    conn.Open();
+                    var rdr = cmd.ExecuteReader();
+
+                    while (rdr.Read())
+                    {
+                        var siteRandomizations = new SiteRandomizationsCount();
+                        
+                        var pos = rdr.GetOrdinal("Randomizations");
+                        siteRandomizations.Count = rdr.GetInt32(pos);
+                        
+                        pos = rdr.GetOrdinal("LongName");
+                        siteRandomizations.LongName = rdr.GetString(pos);
+
+                        pos = rdr.GetOrdinal("Name");
+                        siteRandomizations.Name = rdr.GetString(pos);
+
+                        pos = rdr.GetOrdinal("SiteID");
+                        siteRandomizations.SiteId = rdr.GetString(pos);
+                        
+                        srl.Add(siteRandomizations);
+                    }
+                    rdr.Close();
+                }
+                catch (Exception ex)
+                {
+                    Nlogger.LogError(ex);
+                }
+            }
+            return srl;
+        }
         public static List<Randomization> GetAllRandomizedStudies()
         {
             var list = new List<Randomization>();
