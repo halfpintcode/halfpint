@@ -1635,6 +1635,10 @@ namespace hpMvc.DataBase
                         site.SiteId = rdr.GetString(pos);
                         pos = rdr.GetOrdinal("Name");
                         site.Name = rdr.GetString(pos);
+                        
+                        pos = rdr.GetOrdinal("LongName");
+                        site.LongName = rdr.IsDBNull(pos) ? string.Empty : rdr.GetString(pos);
+                        
                         pos = rdr.GetOrdinal("EmpIDRequired");
                         site.IsEmployeeIdRequired = rdr.GetBoolean(pos);
                         pos = rdr.GetOrdinal("EmpIDRegex");
