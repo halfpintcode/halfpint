@@ -693,7 +693,9 @@
     <Content Include="Views\Coordinator\GetNovaLists.cshtml" />
     <Content Include="Views\Admin\PostTestsService.cshtml" />
     <Content Include="Views\PostTests\DexcomG4SensorVideo.cshtml" />
-    <Content Include="admin.sitemap" />
+    <Content Include="admin.sitemap">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="Content\FortAwesome-Font-Awesome-13d5dd3\docs\assets\font\fontawesome-webfont.eot" />
     <None Include="Content\FortAwesome-Font-Awesome-13d5dd3\docs\assets\font\fontawesome-webfont.ttf" />
     <None Include="Content\FortAwesome-Font-Awesome-13d5dd3\docs\assets\font\fontawesome-webfont.woff" />
