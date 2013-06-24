@@ -145,28 +145,33 @@ namespace hpMvc.DataBase
         
         public static CalStudyInfo GetCalStudyInfo(string id)
         {
-            CalStudyInfo csi = new CalStudyInfo();
-            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            using (SqlConnection conn = new SqlConnection(strConn))
+            var csi = new CalStudyInfo();
+            var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "GetCalStudyInfo";
-                    SqlParameter param = new SqlParameter("@id", id);
+                    var cmd = new SqlCommand("", conn)
+                                  {
+                                      CommandType = System.Data.CommandType.StoredProcedure,
+                                      CommandText = "GetCalStudyInfo"
+                                  };
+                    var param = new SqlParameter("@id", id);
                     cmd.Parameters.Add(param);
 
                     conn.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    int pos = 0;
+                    var rdr = cmd.ExecuteReader();
+                    var pos = 0;
                     while (rdr.Read())
                     {                        
                         pos = rdr.GetOrdinal("ID");
-                        csi.ID = rdr.GetInt32(pos);
+                        csi.Id = rdr.GetInt32(pos);
 
+                        pos = rdr.GetOrdinal("Hours");
+                        csi.Hours = rdr.IsDBNull(pos) ? 0 : rdr.GetInt32(pos);
+                        
                         pos = rdr.GetOrdinal("StudyID");
-                        csi.StudyID = rdr.GetInt32(pos);
+                        csi.StudyId = rdr.GetInt32(pos);
 
                         pos = rdr.GetOrdinal("CalcWeight");
                         csi.Weight = rdr.GetDouble(pos);
@@ -205,10 +210,10 @@ namespace hpMvc.DataBase
                     int pos = 0;
                     while (rdr.Read())
                     {
-                        con.CalStudyID = calStudyID;
+                        con.CalStudyId = calStudyID;
 
                         pos = rdr.GetOrdinal("ID");
-                        con.ID = rdr.GetInt32(pos);
+                        con.Id = rdr.GetInt32(pos);
 
                         pos = rdr.GetOrdinal("BreastFeeding");
                         con.BreastFeeding = rdr.GetBoolean(pos);
@@ -798,7 +803,7 @@ namespace hpMvc.DataBase
                     SqlParameter param = new SqlParameter("@Identity", System.Data.SqlDbType.Int, 0, "ID");
                     param.Direction = System.Data.ParameterDirection.Output;
                     cmd.Parameters.Add(param);
-                    param = new SqlParameter("@calStudyID", con.CalStudyID);
+                    param = new SqlParameter("@calStudyID", con.CalStudyId);
                     cmd.Parameters.Add(param);
                     param = new SqlParameter("@breastFeeding", con.BreastFeeding);
                     cmd.Parameters.Add(param);
@@ -814,7 +819,7 @@ namespace hpMvc.DataBase
 
                     cmd.ExecuteNonQuery();
 
-                    con.ID = (int)cmd.Parameters["@Identity"].Value;
+                    con.Id = (int)cmd.Parameters["@Identity"].Value;
                     dto.ReturnValue = 1;
                     dto.Bag = con;
 
@@ -846,7 +851,7 @@ namespace hpMvc.DataBase
                     SqlParameter param = new SqlParameter("@Identity", System.Data.SqlDbType.Int, 0, "ID");
                     param.Direction = System.Data.ParameterDirection.Output;
                     cmd.Parameters.Add(param);
-                    param = new SqlParameter("@studyID", csi.StudyID);
+                    param = new SqlParameter("@studyID", csi.StudyId);
                     cmd.Parameters.Add(param);
                     param = new SqlParameter("@weight", csi.Weight);
                     cmd.Parameters.Add(param);
@@ -859,7 +864,7 @@ namespace hpMvc.DataBase
 
                     cmd.ExecuteNonQuery();
 
-                    csi.ID = (int)cmd.Parameters["@Identity"].Value;
+                    csi.Id = (int)cmd.Parameters["@Identity"].Value;
                     dto.ReturnValue = 1;
                     dto.Bag = csi;
 
@@ -888,7 +893,7 @@ namespace hpMvc.DataBase
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     cmd.CommandText = ("UpdateCalStudyInfo");
 
-                    SqlParameter param = new SqlParameter("@studyID", csi.StudyID);
+                    SqlParameter param = new SqlParameter("@id", csi.Id);
                     cmd.Parameters.Add(param);
                     param = new SqlParameter("@calcDate", csi.CalcDate);
                     cmd.Parameters.Add(param);

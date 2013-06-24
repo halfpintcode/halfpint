@@ -19,8 +19,8 @@ namespace hpMvc.Controllers
 
         public ActionResult EditSelect()
         {
-            int siteID = DbUtils.GetSiteidIDForUser(User.Identity.Name);
-            List<IDandName> idnl = CalorieCalc.GetCalStudySelectList(siteID);
+            int siteId = DbUtils.GetSiteidIDForUser(User.Identity.Name);
+            var idnl = CalorieCalc.GetCalStudySelectList(siteId);
             idnl.Insert(0, new IDandName { ID = 0, Name = "select" });
             
             ViewBag.CalStudyList = new SelectList(idnl, "ID", "Name");
@@ -29,31 +29,31 @@ namespace hpMvc.Controllers
         }
 
         [HttpPost]
-        public JsonResult GetCalctWeight(string studyID)
+        public JsonResult GetCalctWeight(string studyId)
         {
-            double weight = CalorieCalc.GetCalcWeight(int.Parse(studyID)); 
+            double weight = CalorieCalc.GetCalcWeight(int.Parse(studyId)); 
             return Json(weight);
         }
 
         [HttpPost]
-        public JsonResult GetCalcDates(string studyID)
+        public JsonResult GetCalcDates(string studyId)
         {
-            List<IDandName> idnl = CalorieCalc.GetCalCalcDates(int.Parse(studyID));
+            List<IDandName> idnl = CalorieCalc.GetCalCalcDates(int.Parse(studyId));
             idnl.Insert(0, new IDandName { ID = 0, Name = "select" });
             return Json(idnl);
         }
 
         [HttpPost]
-        public JsonResult GetStudyInfo(string calStudyID)
+        public JsonResult GetStudyInfo(string calStudyId)
         {
-            CalStudyInfo csi = CalorieCalc.GetCalStudyInfo(calStudyID);
+            var csi = CalorieCalc.GetCalStudyInfo(calStudyId);
             return Json(csi);
         }
 
         public ActionResult Index()
         {
-            int siteID = DbUtils.GetSiteidIDForUser(User.Identity.Name);
-            var studyList = DbUtils.GetRandomizedStudiesForSite(siteID);
+            int siteId = DbUtils.GetSiteidIDForUser(User.Identity.Name);
+            var studyList = DbUtils.GetRandomizedStudiesForSite(siteId);
             studyList.Insert(0, new IDandStudyID { ID = 0, StudyID = "Select Study" });
             ViewBag.StudyList = new SelectList(studyList, "ID", "StudyID");
 
@@ -93,16 +93,17 @@ namespace hpMvc.Controllers
             ViewBag.Mode = "Edit";
             ViewBag.Weight = csi.Weight.ToString();
             ViewBag.CalcDate = csi.CalcDate;
-            ViewBag.CalStudyID = csi.ID;
+            ViewBag.CalStudyID = csi.Id;
+            ViewBag.Hours = csi.Hours;
 
-            int siteID = DbUtils.GetSiteidIDForUser(User.Identity.Name);
+            int siteId = DbUtils.GetSiteidIDForUser(User.Identity.Name);
             //todo remove for production
-            if (siteID == 0)
-                siteID = 1;
+            if (siteId == 0)
+                siteId = 1;
 
-            var studyList = DbUtils.GetRandomizedStudiesForSite(siteID);
+            var studyList = DbUtils.GetRandomizedStudiesForSite(siteId);
             studyList.Insert(0, new IDandStudyID { ID = 0, StudyID = "Select Study" });
-            ViewBag.StudyList = new SelectList(studyList, "ID", "StudyID",csi.StudyID);
+            ViewBag.StudyList = new SelectList(studyList, "ID", "StudyID",csi.StudyId);
 
             var dc1 = CalorieCalc.GetDextroseConcentrations();
             var dc = new DextroseConcentration { ID = 0, Concentration = " Dextrose % ", Kcal_ml = 0 };
@@ -257,7 +258,7 @@ namespace hpMvc.Controllers
             if (isEdit)
             {
                 CalorieCalc.DeleteCurrentEntries(calStudyID);
-                csi.ID = calStudyID;
+                csi.Id = calStudyID;
 
                 dto = CalorieCalc.UpdateCalStudyInfo(csi);
                 if (dto.ReturnValue == -1)
@@ -268,7 +269,7 @@ namespace hpMvc.Controllers
             }
             else
             {                
-                if (CalorieCalc.IsCalStudyInfoDuplicate(csi.StudyID, csi.CalcDate) == 1)
+                if (CalorieCalc.IsCalStudyInfoDuplicate(csi.StudyId, csi.CalcDate) == 1)
                 {
                     dto.ReturnValue = 0;
                     dto.Message = "This study id for the date, " + csi.CalcDate + ", has already been entered!";
@@ -284,7 +285,7 @@ namespace hpMvc.Controllers
                 }
             }
 
-            con.CalStudyID = csi.ID;
+            con.CalStudyId = csi.Id;
             if (con.OtherText == null)
                 con.OtherText = "";
             dto = CalorieCalc.AddCalOtherNutrition(con);
@@ -318,7 +319,7 @@ namespace hpMvc.Controllers
                         continue;
                     var cid = new CalInfusionDex();
                     cid.DexVal = ci.DexValue;
-                    cid.CalStudyID = csi.ID;
+                    cid.CalStudyID = csi.Id;
                                         
                     dto = CalorieCalc.AddCalInfusionDex(cid);
                     if (dto.ReturnValue == -1)
@@ -346,7 +347,7 @@ namespace hpMvc.Controllers
             {
                 foreach (var pi in pis)
                 {
-                    pi.CalStudyID = csi.ID;
+                    pi.CalStudyID = csi.Id;
                     dto = CalorieCalc.AddCalParenteral(pi);
                     if (dto.ReturnValue == -1)
                     {
@@ -360,7 +361,7 @@ namespace hpMvc.Controllers
             {
                 foreach (var ce in ces)
                 {
-                    ce.CalStudyID = csi.ID;
+                    ce.CalStudyID = csi.Id;
                     dto = CalorieCalc.AddCalEnteral(ce);
                     if (dto.ReturnValue == -1)
                     {
@@ -374,7 +375,7 @@ namespace hpMvc.Controllers
             {
                 foreach (var ca in cas)
                 {
-                    ca.CalStudyID = csi.ID;
+                    ca.CalStudyID = csi.Id;
                     dto = CalorieCalc.AddCalAdditive(ca);
                     if (dto.ReturnValue == -1)
                     {

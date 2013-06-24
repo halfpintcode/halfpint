@@ -162,7 +162,7 @@ namespace hpMvc.DataBase
 			string subject = "Halfpint - Other Nutrition Added";
 			StringBuilder sbBody = new StringBuilder("<p>" + name + " from " + siteName + " has included other nutrition:</p>");
 			
-			sbBody.Append("Study ID: " + csi.SStudyID + ", Date: " + csi.CalcDate);
+			sbBody.Append("Study ID: " + csi.SStudyId + ", Date: " + csi.CalcDate);
 			sbBody.Append("<br/>");
 			sbBody.Append("<table><tr><th>Type</th><th>Checked</th></tr>");
 			sbBody.Append("<tr><td>Breast Feeding</td><td>" + con.BreastFeeding + "</td></tr>");

@@ -25,18 +25,19 @@ namespace hpMvc.Models
         
     public class CalStudyInfo
     {
-        public int ID { get; set; }
-        public int StudyID { get; set; }
-        public string SStudyID { get; set; }
+        public int Id { get; set; }
+        public int StudyId { get; set; }
+        public string SStudyId { get; set; }
         public double Weight { get; set; }
         public string CalcDate { get; set; }
         public int TotalCals { get; set; }
+        public int Hours { get; set; }
     }
 
     public class CalOtherNutrition
     {
-        public int ID { get; set; }
-        public int CalStudyID { get; set; }
+        public int Id { get; set; }
+        public int CalStudyId { get; set; }
         public bool BreastFeeding { get; set; }
         public bool SolidFoods { get; set; }
         public bool Drinks { get; set; }

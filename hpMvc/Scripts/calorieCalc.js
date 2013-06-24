@@ -17,13 +17,13 @@ $(function () {
 
     //#region initialize
     $('#tabs').tabs();
-    
+
     $('#bodyWeight').keydown(function (event) {
-        numericsAndDecimalOnly(event, $(this).val());
+        window.numericsAndDecimalOnly(event, $(this).val());
     });
 
     $('.keyDecimal').keydown(function (event) {
-        numericsAndDecimalOnly(event, $(this).val());
+        window.numericsAndDecimalOnly(event, $(this).val());
     });
 
     $('.infusions1, .infusions2, .infusions3, .infusions4').attr("disabled", "disabled");
@@ -47,7 +47,7 @@ $(function () {
     });
 
     $.ajax({
-        url: urlRoot + '/CalorieCalc/GetFormulaData',
+        url: window.urlRoot + '/CalorieCalc/GetFormulaData',
         async: false,
         type: 'POST',
         data: {},
@@ -65,7 +65,7 @@ $(function () {
     });
 
     $.ajax({
-        url: urlRoot + '/CalorieCalc/GetAdditiveData',
+        url: window.urlRoot + '/CalorieCalc/GetAdditiveData',
         async: false,
         type: 'POST',
         data: {},
@@ -85,14 +85,14 @@ $(function () {
     });
 
     $('#StudyList').change(function () {
-        var studyID = $(this).val();
+        var studyId = $(this).val();
         //get the weight if available
-        if (studyID > 0) {
+        if (studyId > 0) {
             $.ajax({
-                url: urlRoot + '/CalorieCalc/GetCalctWeight/',
+                url: window.urlRoot + '/CalorieCalc/GetCalctWeight/',
                 async: false,
                 type: 'POST',
-                data: { studyID: studyID },
+                data: { studyID: studyId },
                 success: function (rdata) {
                     if (rdata > 0) {
                         $('#bodyWeight').val(rdata);
@@ -142,7 +142,7 @@ $(function () {
     });
 
     $('#btnCancel').click(function () {
-        window.location = urlRoot + '/Staff/Index';
+        window.location = window.urlRoot + '/Staff/Index';
     });
 
     $('#btnClear').click(function () {
@@ -230,7 +230,7 @@ $(function () {
         var jnv = JSON.stringify(cri);
 
         $.ajax({
-            url: urlRoot + '/CalorieCalc/Save',
+            url: window.urlRoot + '/CalorieCalc/Save',
             async: false,
             type: 'POST',
             dataType: 'json',
@@ -243,7 +243,7 @@ $(function () {
                 else {
                     alert(data.Message);
                     if (isEdit) {
-                        window.location = urlRoot + '/Staff/Index';
+                        window.location = window.urlRoot + '/Staff/Index';
                         return;
                     }
                     $('#divSubmit').hide();
@@ -387,17 +387,19 @@ $(function () {
     //#endregion
 
     //#region edit initialize
-    if ($('#calStudyID').val() > 0) {
+    var calStudyId = $('#calStudyID').val();
+    console.log("calStudyId:" + calStudyId);
+    if (calStudyId > 0) {
         isEdit = true;
         $('#StudyList').attr("disabled", "disabled");
         $('#bodyWeight').attr("disabled", "disabled");
-        $('#calcDate').attr("disabled", "disabled");
+        //$('#calcDate').attr("disabled", "disabled");
 
         var infuseData = { studyID: $('#StudyList').val(), calcDate: $('#calcDate').val() };
         var jinfuseData = JSON.stringify(infuseData);
 
         $.ajax({
-            url: urlRoot + '/CalorieCalc/GetAllData',
+            url: window.urlRoot + '/CalorieCalc/GetAllData',
             async: false,
             type: 'POST',
             dataType: 'json',
@@ -527,7 +529,7 @@ $(function () {
 
                 });
 
-                
+
                 //otherNutrition
                 if (rdata.calOtherNutrition.BreastFeeding) {
                     $('#breastFeeding').attr('checked', 'checked');
@@ -975,7 +977,7 @@ $(function () {
 
         $.ajax({
             data: { ID: '0', Name: valN, ProteinKcal: valP, ChoKcal: valC, LipidKcal: valL, Kcal_ml: valK },
-            url: urlRoot + '/CalorieCalc/AddNewFormula',
+            url: window.urlRoot + '/CalorieCalc/AddNewFormula',
             type: 'POST',
             success: function (rdata) {
                 if (rdata.ReturnValue === 1) {
@@ -1140,7 +1142,7 @@ $(function () {
 
         $.ajax({
             data: { ID: '0', Name: valN, ProteinKcal: valP, ChoKcal: valC, LipidKcal: valL, Kcal_Unit: valK, Unit: valU, UnitName: valUn },
-            url: urlRoot + '/CalorieCalc/AddNewAdditive',
+            url: window.urlRoot + '/CalorieCalc/AddNewAdditive',
             type: 'POST',
             success: function (rdata) {
                 if (rdata.ReturnValue === 1) {

@@ -6,13 +6,15 @@
 @{    
     var sWeight = "";
     var cDate = "";
-    var calStudyID = 0;
+    var calStudyId = 0;
+    var hours = 0;
 }
 @if (ViewBag.CalStudyID > 0)
 {    
     sWeight = @ViewBag.Weight;
     cDate = @ViewBag.CalcDate;
-    calStudyID = @ViewBag.CalStudyID;                 
+    calStudyId = @ViewBag.CalStudyID;
+    hours = @ViewBag.Hours;
 }
 
         
@@ -20,13 +22,15 @@
 <hr />
 
 <form action="" method="post">
-    <input type="hidden" name="calStudyID" id="calStudyID" value="@calStudyID" />
+    <input type="hidden" name="calStudyID" id="calStudyID" value="@calStudyId" />
     <div id="divMainTop">        
         <label class="lblmain">Study ID</label> @Html.DropDownList("StudyList")
         <br />       
         <label class="lblmain">Weight (kg)</label><input type="text" id="bodyWeight" name="bodyWeight" value="@sWeight"/>        
         <br />
         <label class="lblmain">Date (mm/dd/yyyy)</label><input type="text" id="calcDate" name="calcDate" value="@cDate"/>
+        <br />
+        <label class="lblmain">Hours </label><input type="text" id="hours" name="hours" value="@hours"/>
         <br />
     </div>
     <div id="tabs">
