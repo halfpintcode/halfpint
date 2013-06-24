@@ -11,14 +11,13 @@ $(function () {
             $('#adminLink').hide();
             $('#dccLink').hide();
         }
-    }    
-    else {
+    } else {
         $('#adminLink').hide();
         $('#dccLink').hide();
         $('#coordLink').hide();
     }
 
-    $.fn.center = function () {
+    $.fn.center = function() {
         this.css({
             'position': 'fixed',
             'left': '50%',
@@ -31,7 +30,7 @@ $(function () {
         });
 
         return this;
-    }
+    };
 
     $('#divUserMenu').dialog({ autoOpen: false });
 
@@ -42,12 +41,12 @@ $(function () {
         }
 
         $('#divUserMenu').dialog(
-        {
-            position: [$('#userStuff').position().left, $('#userStuff').position().top + 23],
-            width: 160,
-            title: 'User Profile',
-            height: 65
-        });
+            {
+                position: [$('#userStuff').position().left, $('#userStuff').position().top + 23],
+                width: 160,
+                title: 'User Profile',
+                height: 65
+            });
         $('#divUserMenu').dialog('open');
     });
 
@@ -65,13 +64,13 @@ $(function () {
     if (path.indexOf('Families') > -1) {
         target = 'Families';
     }
-    if (path.indexOf('Admin') > -1) { 
+    if (path.indexOf('Admin') > -1) {
         target = 'Admin';
     }
-    if (path.indexOf('Coordinator') > -1) { 
+    if (path.indexOf('Coordinator') > -1) {
         target = 'Coordinator';
     }
-    if (path.indexOf('Dcc') > -1) { 
+    if (path.indexOf('Dcc') > -1) {
         target = 'DCC';
     }
     if (path.indexOf('Account') > -1) {
@@ -80,8 +79,7 @@ $(function () {
 
     if (target === '') {
         $('#ulMainMenu li').first().addClass('current_page_item');
-    }
-    else {
+    } else {
 
         $('#ulMainMenu li').each(function () {
             if ($(this).text() === target) {
@@ -101,14 +99,14 @@ $(function () {
     $('#imgnhlbi').click(function () {
         window.open("http://www.nhlbi.nih.gov");
     });
-})
+});
 
 
 var urlRoot = GetUrlRoot();
 
 function GetUrlRoot() {
-    var firstSlash = 0;
-    var secondSlash = 0;
+    var firstSlash;
+    var secondSlash;
     firstSlash = location.href.indexOf("/", 9);
     secondSlash = location.href.indexOf("/", firstSlash + 1);
     return location.href.substr(0, secondSlash);
@@ -145,7 +143,7 @@ function numericsAndDecimalOnly(event, val) {
         //if its a decimal there can be only one
         if ((event.keyCode === 110) || (event.keyCode === 190)) {
             if (val.indexOf('.') === -1) {
-                return
+                return;
             }
         }
 
@@ -161,10 +159,10 @@ function validateEmail($email) {
     return emailReg.test($email); 
 }
 
-function validateEmployeeID(reg, empID) {
+function validateEmployeeID(reg, empId) {
     //var chbReg = /^\d{6}$/
     var re = new RegExp(reg); 
-    return re.test(empID);
+    return re.test(empId);
 }
 
 function isValidTime(input) {
@@ -173,14 +171,14 @@ function isValidTime(input) {
 }
 
 function isValidDate(input) {
-    var validformat = /^\d{2}\/\d{2}\/\d{4}$/ //Basic check for format validity
+    var validformat = /^\d{2}\/\d{2}\/\d{4}$/;  //Basic check for format validity
     if (!validformat.test(input))
         return "InvalidFormat";
-    
-    var monthfield = input.split("/")[0]
-    var dayfield = input.split("/")[1]
-    var yearfield = input.split("/")[2]
-    var dayobj = new Date(yearfield, monthfield - 1, dayfield)
+
+    var monthfield = input.split("/")[0];
+    var dayfield = input.split("/")[1];
+    var yearfield = input.split("/")[2];
+    var dayobj = new Date(yearfield, monthfield - 1, dayfield);
     if ((dayobj.getMonth() + 1 != monthfield) || (dayobj.getDate() != dayfield) || (dayobj.getFullYear() != yearfield))
         return "InvalidDate";
     else

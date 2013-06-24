@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Data.SqlClient;
 using System.Configuration;
 using hpMvc.Infrastructure.Logging;
-using System.Web.Security;
 using hpMvc.Models;
 
 
@@ -859,7 +856,9 @@ namespace hpMvc.DataBase
                     cmd.Parameters.Add(param);
                     param = new SqlParameter("@totalCals", csi.TotalCals);
                     cmd.Parameters.Add(param);
-                    
+                    param = new SqlParameter("@hours", csi.Hours);
+                    cmd.Parameters.Add(param);
+
                     conn.Open();
 
                     cmd.ExecuteNonQuery();
@@ -885,20 +884,27 @@ namespace hpMvc.DataBase
             var dto = new DTO();
 
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            using (SqlConnection conn = new SqlConnection(strConn))
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = ("UpdateCalStudyInfo");
+                    var cmd = new SqlCommand("", conn)
+                                  {
+                                      CommandType = System.Data.CommandType.StoredProcedure,
+                                      CommandText = ("UpdateCalStudyInfo")
+                                  };
 
-                    SqlParameter param = new SqlParameter("@id", csi.Id);
+                    var param = new SqlParameter("@id", csi.Id);
+                    cmd.Parameters.Add(param);
+                    param = new SqlParameter("@weight", csi.Weight);
                     cmd.Parameters.Add(param);
                     param = new SqlParameter("@calcDate", csi.CalcDate);
                     cmd.Parameters.Add(param);
                     param = new SqlParameter("@totalCals", csi.TotalCals);
                     cmd.Parameters.Add(param);
+                    param = new SqlParameter("@hours", csi.Hours);
+                    cmd.Parameters.Add(param);
+
 
                     conn.Open();
 
@@ -922,15 +928,17 @@ namespace hpMvc.DataBase
         public static int IsCalStudyInfoDuplicate(int studyID, string calcDate)
         {
              String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            using (SqlConnection conn = new SqlConnection(strConn))
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
                     //throw new Exception("Test error");
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = ("IsCalStudyInfoDuplicate");
-                    SqlParameter param = new SqlParameter("@studyID", studyID);
+                    var cmd = new SqlCommand("", conn)
+                                  {
+                                      CommandType = System.Data.CommandType.StoredProcedure,
+                                      CommandText = ("IsCalStudyInfoDuplicate")
+                                  };
+                    var param = new SqlParameter("@studyID", studyID);
                     cmd.Parameters.Add(param);
                     param = new SqlParameter("@calcDate", calcDate);
                     cmd.Parameters.Add(param);

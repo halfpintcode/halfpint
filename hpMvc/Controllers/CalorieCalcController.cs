@@ -250,10 +250,8 @@ namespace hpMvc.Controllers
 
         public JsonResult Save(int calStudyID, CalParenteral[] pis, CalInfuseColumn[] cic, CalStudyInfo csi, CalEnteral[] ces, CalAdditive[] cas, CalOtherNutrition con)
         {
-            bool isEdit = false;
-            if (calStudyID > 0)
-                isEdit = true;
-            DTO dto = new DTO();
+            bool isEdit = false || calStudyID > 0;
+            var dto = new DTO();
 
             if (isEdit)
             {
