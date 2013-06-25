@@ -19,14 +19,30 @@
         
     }
  
-    @grid.GetHtml(
-        tableStyle:"webgrid", headerStyle:"header", alternatingRowStyle:"alt",
-        columns:grid.Columns(
-        grid.Column("ID", header:"Internal Id"),
-        grid.Column("Name", header:"Formula Name", format: @<text>@Html.ActionLink((string)item.Name, "FormulaDetails", "CalorieCalc", new { id = item.ID }, null)</text>),
-                    grid.Column("Kcal_ml", header: "kCal per unit", format: (item) => string.Format("{0:N}", item.Kcal_ml)),
-        grid.Column("ProteinKcal", header: "Protein % of kcal"),
-        grid.Column("ChoKcal", header: "CHO % of kcal"),
-        grid.Column("LipidKcal", header: "Lipid % of kcal")
-                      ))
+    @if (@ViewBag.Role == "Admin")
+    {
+        @grid.GetHtml(
+            tableStyle: "webgrid", headerStyle: "header", alternatingRowStyle: "alt",
+            columns: grid.Columns(
+                grid.Column("ID", header: "Internal Id"),
+                grid.Column("Name", header: "Formula Name", format: @<text>@Html.ActionLink((string) item.Name, "FormulaDetails", "CalorieCalc", new {id = item.ID}, null)</text>),
+                grid.Column("Kcal_ml", header: "kCal per unit", format: (item) => string.Format("{0:N}", item.Kcal_ml)),
+                grid.Column("ProteinKcal", header: "Protein % of kcal"),
+                grid.Column("ChoKcal", header: "CHO % of kcal"),
+                grid.Column("LipidKcal", header: "Lipid % of kcal")
+                ))  
+    }
+    else
+    {
+        @grid.GetHtml(
+            tableStyle: "webgrid", headerStyle: "header", alternatingRowStyle: "alt",
+            columns: grid.Columns(
+                grid.Column("ID", header: "Internal Id"),
+                grid.Column("Name", header: "Formula Name"),
+                grid.Column("Kcal_ml", header: "kCal per unit", format: (item) => string.Format("{0:N}", item.Kcal_ml)),
+                grid.Column("ProteinKcal", header: "Protein % of kcal"),
+                grid.Column("ChoKcal", header: "CHO % of kcal"),
+                grid.Column("LipidKcal", header: "Lipid % of kcal")
+                ))
+    }
 </div>

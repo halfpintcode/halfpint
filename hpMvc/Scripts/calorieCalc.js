@@ -22,11 +22,17 @@ $(function () {
     $('#bodyWeight').keydown(function (event) {
         window.numericsAndDecimalOnly(event, $(this).val());
     });
+    $('#bodyWeight').change(function () {
+        calculateGir();
+    });
 
     $('#hours').keydown(function (event) {
         window.numericsOnly(event, $(this).val());
     });
-
+    $('#hours').change(function () {
+        calculateGir();
+    });
+    
     $('.keyDecimal').keydown(function (event) {
         window.numericsAndDecimalOnly(event, $(this).val());
     });
@@ -978,7 +984,8 @@ $(function () {
         var weight = $('#bodyWeight').val();
 
         gir = 0;
-        if (resultsTotal && hours && weight) {
+        if (resultsTotal > 0 &&  hours >0 && weight >0) {
+            
             totEntParen = enCho + enLipid + enProtein + pnCho + pnLipid + pnProtein;
             totChokCals = resultsTotal - totEntParen + enCho + pnCho;
             totChoMil = (totChokCals / 4) * 1000;

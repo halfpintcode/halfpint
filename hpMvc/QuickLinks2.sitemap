@@ -82,6 +82,8 @@
     <siteMapNode title="Calorie Calculator" class="StaffOnly NotDcc">
       <siteMapNode title="New Caloric Entry" controller="CalorieCalc" action="Index" />
       <siteMapNode title="Correct an Existing Entry" controller="CalorieCalc" action="EditSelect" />
+      <siteMapNode title="Formula List" controller="CalorieCalc" action="FormulaList" />
+      <siteMapNode title="Additive List" controller="CalorieCalc" action="AdditiveList" />
     </siteMapNode>    
   </siteMapNode>
 </siteMap>

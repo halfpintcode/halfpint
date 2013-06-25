@@ -1,33 +1,66 @@
 ﻿@model List<hpMvc.Models.Additive>
-
 @{
     ViewBag.Title = "Additive List";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <style type="text/css">
-    .webgrid{ margin: 4px;border-collapse: collapse;} 
-    .webgrid th, .webgrid td{ border: 1px solid #c0c0c0;padding: 5px;}   
-    .header{ background-color: #E8E8E8;font-weight: bold;color:#fff}
-    .alt{ background-color: #e8e8e8; color:#000}
+    .webgrid
+    {
+        margin: 4px;
+        border-collapse: collapse;
+    }
+    .webgrid th, .webgrid td
+    {
+        border: 1px solid #c0c0c0;
+        padding: 5px;
+    }
+    .header
+    {
+        background-color: #E8E8E8;
+        font-weight: bold;
+        color: #fff;
+    }
+    .alt
+    {
+        background-color: #e8e8e8;
+        color: #000;
+    }
 </style>
-<h2>Additive List</h2>
-
+<h2>
+    Additive List</h2>
 <div>
     @{
  
         var grid = new WebGrid(Model, defaultSort: "SiteId", rowsPerPage: 50);
         
     }
- 
-    @grid.GetHtml(
-        tableStyle:"webgrid", headerStyle:"header", alternatingRowStyle:"alt",
-        columns:grid.Columns(
-        grid.Column("ID", header:"Internal Id"),
-        grid.Column("Name", header:"Additive Name", format: @<text>@Html.ActionLink((string)item.Name, "AdditiveDetails", "CalorieCalc", new { id = item.ID }, null)</text>),
-                    grid.Column("Kcal_unit", header: "kCal per unit", format: (item) => string.Format("{0:N}", item.Kcal_unit)),            
-        grid.Column("ProteinKcal", header: "Protein % of kcal"),
-        grid.Column("ChoKcal", header: "CHO % of kcal"),
-        grid.Column("LipidKcal", header: "Lipid % of kcal"),
-        grid.Column("UnitName", header:"Unit")
-                      ))
+    @if (@ViewBag.Role == "Admin")
+    {
+        @grid.GetHtml(
+         tableStyle: "webgrid", headerStyle: "header", alternatingRowStyle: "alt",
+         columns: grid.Columns(
+             grid.Column("ID", header: "Internal Id"),
+             grid.Column("Name", header: "Additive Name", format: @<text>@Html.ActionLink((string)item.Name, "AdditiveDetails", "CalorieCalc", new { id = item.ID }, null)</text>),
+             grid.Column("Kcal_unit", header: "kCal per unit", format: (item) => string.Format("{0:N}", item.Kcal_unit)),
+             grid.Column("ProteinKcal", header: "Protein % of kcal"),
+             grid.Column("ChoKcal", header: "CHO % of kcal"),
+             grid.Column("LipidKcal", header: "Lipid % of kcal"),
+             grid.Column("UnitName", header: "Unit")
+             ))
+    }
+    else
+    {
+        @grid.GetHtml(
+         tableStyle: "webgrid", headerStyle: "header", alternatingRowStyle: "alt",
+         columns: grid.Columns(
+             grid.Column("ID", header: "Internal Id"),
+             grid.Column("Name", header: "Additive Name"),
+             grid.Column("Kcal_unit", header: "kCal per unit", format: (item) => string.Format("{0:N}", item.Kcal_unit)),
+             grid.Column("ProteinKcal", header: "Protein % of kcal"),
+             grid.Column("ChoKcal", header: "CHO % of kcal"),
+             grid.Column("LipidKcal", header: "Lipid % of kcal"),
+             grid.Column("UnitName", header: "Unit")
+             ))
+
+    }
 </div>

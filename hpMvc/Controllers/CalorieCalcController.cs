@@ -390,12 +390,24 @@ namespace hpMvc.Controllers
     
         public ActionResult FormulaList()
         {
+            string role = "";
+            
+            if (HttpContext.User.IsInRole("Admin"))
+                role = "Admin";
+
+            ViewBag.Role = role;
             var list = CalorieCalc.GetFormulaList();
             return View(list);
         }
 
         public ActionResult AdditiveList()
         {
+            string role = "";
+
+            if (HttpContext.User.IsInRole("Admin"))
+                role = "Admin";
+
+            ViewBag.Role = role;
             var list = CalorieCalc.GetAdditiveList();
             return View(list);
         }
