@@ -16,10 +16,17 @@
 #newFormulaName, #newAdditiveName{
     width: 600px;    
 }
+#page  {
+    background-color: aqua;
+}
+#Fluid, #Parenteral, #Enteral, #Additives, #Other  {
+    background-color: aqua;
+}
 #divMainTop
 {
     line-height:1.8em;
     height:115px;
+    
 }
 .lblmain 
 {
@@ -144,3 +151,21 @@ td, th { border: 1px solid; }
 .divInfo {
     line-height:1.5em;
 }
+#results 
+{
+    float: left;
+}
+#divGir 
+{
+    padding-left: 25px;
+    padding-top: 18px;
+    float: left;
+}
+#divSubmit {
+    clear: both;
+}
+.nTotal{}
+.infusions1{}
+.infusions2{}
+.infusions3{}
+.infusions4{}

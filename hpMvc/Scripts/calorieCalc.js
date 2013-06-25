@@ -10,6 +10,7 @@ $(function () {
     var enProtein = 0;
     var enLipid = 0;
     var tempId = 0;
+    var gir = 0;
 
     //$("form").submit(function () { return false; }); 
     $("#spinner").ajaxStart(function () { $(this).show(); })
@@ -50,101 +51,50 @@ $(function () {
         title: 'Add New Additive'
     });
 
+    function getInfusionColTotal($col) {
+        var total = 0;
+        $col.each(function () {
+            var val = $(this).val();
+            if (val) {
+                total = total + parseInt(val);
+            }
+        });
+        return total;
+    }
+
     //#region infusion
     $('#tblInfusion').on('change', '.infusions1', function () {
-        var total = 0;
-        $('.infusions1').each(function () {
-            var val = $(this).val();
-            if (val) {
-                total = total + parseInt(val);
-            }
-        });
+        var total = getInfusionColTotal($('.infusions1'));
         $('#infuse1Total').html("<strong>" + total + "</strong>");
         recalculateResultsTotal();
+        //        var total = 0;
+        //        $('.infusions1').each(function () {
+        //            var val = $(this).val();
+        //            if (val) {
+        //                total = total + parseInt(val);
+        //            }
+        //        });
+        //        $('#infuse1Total').html("<strong>" + total + "</strong>");
+        //        recalculateResultsTotal();
     });
-    //    $('.infusions1').change(function () {
-    //        var total = 0;
-    //        $('.infusions1').each(function () {
-    //            var val = $(this).val();
-    //            if (val) {
-    //                total = total + parseInt(val);
-    //            }
-    //        });
-    //        $('#infuse1Total').html("<strong>" + total + "</strong>");
-    //        recalculateResultsTotal();
-    //    });
 
     $('#tblInfusion').on('change', '.infusions2', function () {
-        var total = 0;
-        $('.infusions2').each(function () {
-            var val = $(this).val();
-            if (val) {
-                total = total + parseInt(val);
-            }
-        });
+        var total = getInfusionColTotal($('.infusions2'));
         $('#infuse2Total').html("<strong>" + total + "</strong>");
         recalculateResultsTotal();
     });
 
-    //    $('.infusions2').change(function () {
-    //        var total = 0;
-    //        $('.infusions2').each(function () {
-    //            var val = $(this).val();
-    //            if (val) {
-    //                total = total + parseInt(val);
-    //            }
-    //        });
-    //        $('#infuse2Total').html("<strong>" + total + "</strong>");
-    //        recalculateResultsTotal();
-    //    });
-
     $('#tblInfusion').on('change', '.infusions3', function () {
-        var total = 0;
-        $('.infusions3').each(function () {
-            var val = $(this).val();
-            if (val) {
-                total = total + parseInt(val);
-            }
-        });
+        var total = getInfusionColTotal($('.infusions3'));
         $('#infuse3Total').html("<strong>" + total + "</strong>");
         recalculateResultsTotal();
     });
 
-    //    $('.infusions3').change(function () {
-    //        var total = 0;
-    //        $('.infusions3').each(function () {
-    //            var val = $(this).val();
-    //            if (val) {
-    //                total = total + parseInt(val);
-    //            }
-    //        });
-    //        $('#infuse3Total').html("<strong>" + total + "</strong>");
-    //        recalculateResultsTotal();
-    //    });
-
-    $('#tblInfusion').on('change', '.infusions3', function () {
-        var total = 0;
-        $('.infusions4').each(function () {
-            var val = $(this).val();
-            if (val) {
-                total = total + parseInt(val);
-            }
-        });
+    $('#tblInfusion').on('change', '.infusions4', function () {
+        var total = getInfusionColTotal($('.infusions4'));
         $('#infuse4Total').html("<strong>" + total + "</strong>");
         recalculateResultsTotal();
     });
-
-    //    $('.infusions4').change(function () {
-    //        var total = 0;
-    //        $('.infusions4').each(function () {
-    //            var val = $(this).val();
-    //            if (val) {
-    //                total = total + parseInt(val);
-    //            }
-    //        });
-    //        $('#infuse4Total').html("<strong>" + total + "</strong>");
-    //        recalculateResultsTotal();
-    //    });
 
     $('#tblInfusion').on('change', '#DexCons1', function () {
         var val = $('#DexCons1 option:selected').val();
@@ -161,21 +111,6 @@ $(function () {
         recalculateResultsTotal();
     });
 
-    //    $('#DexCons1').change(function () {
-    //        var val = $('#DexCons1 option:selected').val();
-    //        if (val === "0") {
-    //            $('.infusions1').attr("disabled", "disabled");
-    //            $('.infusions1').each(function () {
-    //                $(this).val("");
-    //            });
-    //            $('#infuse1Total').html("<strong>0</strong>");
-    //        }
-    //        else {
-    //            $('.infusions1').removeAttr("disabled");
-    //        }
-    //        recalculateResultsTotal();
-    //    });
-
     $('#tblInfusion').on('change', '#DexCons2', function () {
         var val = $('#DexCons2 option:selected').val();
         if (val === "0") {
@@ -190,21 +125,6 @@ $(function () {
         }
         recalculateResultsTotal();
     });
-
-    //    $('#DexCons2').change(function () {
-    //        var val = $('#DexCons2 option:selected').val();
-    //        if (val === "0") {
-    //            $('.infusions2').attr("disabled", "disabled");
-    //            $('.infusions2').each(function () {
-    //                $(this).val("");
-    //            });
-    //            $('#infuse2Total').html("<strong>0</strong>");
-    //        }
-    //        else {
-    //            $('.infusions2').removeAttr("disabled");
-    //        }
-    //        recalculateResultsTotal();
-    //    });
 
     $('#tblInfusion').on('change', '#DexCons3', function () {
         var val = $('#DexCons3 option:selected').val();
@@ -221,21 +141,6 @@ $(function () {
         recalculateResultsTotal();
     });
 
-    //    $('#DexCons3').change(function () {
-    //        var val = $('#DexCons3 option:selected').val();
-    //        if (val === "0") {
-    //            $('.infusions3').attr("disabled", "disabled");
-    //            $('.infusions3').each(function () {
-    //                $(this).val("");
-    //            });
-    //            $('#infuse3Total').html("<strong>0</strong>");
-    //        }
-    //        else {
-    //            $('.infusions3').removeAttr("disabled");
-    //        }
-    //        recalculateResultsTotal();
-    //    });
-
     $('#tblInfusion').on('change', '#DexCons4', function () {
         var val = $('#DexCons4 option:selected').val();
         if (val === "0") {
@@ -250,25 +155,8 @@ $(function () {
         }
         recalculateResultsTotal();
     });
-    //    $('#DexCons4').change(function () {
-    //        var val = $('#DexCons4 option:selected').val();
-    //        if (val === "0") {
-    //            $('.infusions4').attr("disabled", "disabled");
-    //            $('.infusions4').each(function () {
-    //                $(this).val("");
-    //            });
-    //            $('#infuse4Total').html("<strong>0</strong>");
-    //        }
-    //        else {
-    //            $('.infusions4').removeAttr("disabled");
-    //        }
-    //        recalculateResultsTotal();
-    //    });
-
-
-
     //#endregion
-    
+
     $.ajax({
         url: window.urlRoot + '/CalorieCalc/GetFormulaData',
         async: false,
@@ -393,6 +281,7 @@ $(function () {
         enProtein = 0;
         enLipid = 0;
         tempId = 0;
+        gir = 0;
         recalculateResultsTotal();
     }
 
@@ -442,7 +331,7 @@ $(function () {
             Drinks: $('#drinks').is(":checked"),
             Other: $('#other').is(":checked"),
             OtherText: $('#otherText').val()
-        }
+        };
 
         var cri = {};
         cri.calStudyID = $('#calStudyID').val();
@@ -482,7 +371,7 @@ $(function () {
 
     function getAdditiveData() {
         var arrAdd = [];
-        var formulaID = 0;
+        //var formulaID = 0;
         var vol = 0;
 
         $("#selAdditive > option").each(function (index) {
@@ -497,7 +386,7 @@ $(function () {
 
     function getEnteralData() {
         var arrEren = [];
-        var formulaID = 0;
+        //var formulaID = 0;
         var vol = 0;
 
         $("#selEnteral > option").each(function (index) {
@@ -552,9 +441,9 @@ $(function () {
                 AminoPercent: amn,
                 LipidPercent: lip,
                 Volume: vol
-            }
+            };
         });
-        return arrParen
+        return arrParen;
     }
 
     function getInfusionData() {
@@ -628,7 +517,7 @@ $(function () {
         return true;
     }
     //#endregion
-    
+
     //#region parenteral
     $('#btnAddDex').click(function () {
         if (!validateDex()) {
@@ -1083,12 +972,29 @@ $(function () {
     //#endregion
 
     //#region calculations
+    function calculateGir() {
+        var totEntParen, totChokCals, totChoMil, totMins;
+        var hours = $('#hours').val();
+        var weight = $('#bodyWeight').val();
+
+        gir = 0;
+        if (resultsTotal && hours && weight) {
+            totEntParen = enCho + enLipid + enProtein + pnCho + pnLipid + pnProtein;
+            totChokCals = resultsTotal - totEntParen + enCho + pnCho;
+            totChoMil = (totChokCals / 4) * 1000;
+            totMins = hours * 60;
+            gir = (totChoMil / weight) / totMins;
+            $('#gir').text(gir.toFixed(1));
+        }
+    }
+
     function recalculateResultsTotal() {
         calculateInfusionsTotal();
         resultsTotal = parseInt(infusionTotal + pnCho + pnProtein + pnLipid + enCho + enProtein + enLipid);
         $('#totalCalIntake').text(resultsTotal);
 
         recalculateCalsPerKilo();
+        calculateGir();
     }
 
     function calculateInfusionsTotal() {
