@@ -29,6 +29,7 @@ namespace hpMvc.Models
         public int StudyId { get; set; }
         public string SStudyId { get; set; }
         public double Weight { get; set; }
+        public double Gir { get; set; }
         public string CalcDate { get; set; }
         public int TotalCals { get; set; }
         public int Hours { get; set; }

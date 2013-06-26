@@ -12,6 +12,7 @@ $(function () {
     var tempId = 0;
     var gir = 0;
 
+    var initializing = true;
     //$("form").submit(function () { return false; }); 
     $("#spinner").ajaxStart(function () { $(this).show(); })
 			   .ajaxStop(function () { $(this).hide(); });
@@ -32,7 +33,7 @@ $(function () {
     $('#hours').change(function () {
         calculateGir();
     });
-    
+
     $('.keyDecimal').keydown(function (event) {
         window.numericsAndDecimalOnly(event, $(this).val());
     });
@@ -57,6 +58,7 @@ $(function () {
         title: 'Add New Additive'
     });
 
+    //#region infusion
     function getInfusionColTotal($col) {
         var total = 0;
         $col.each(function () {
@@ -68,20 +70,10 @@ $(function () {
         return total;
     }
 
-    //#region infusion
     $('#tblInfusion').on('change', '.infusions1', function () {
         var total = getInfusionColTotal($('.infusions1'));
         $('#infuse1Total').html("<strong>" + total + "</strong>");
         recalculateResultsTotal();
-        //        var total = 0;
-        //        $('.infusions1').each(function () {
-        //            var val = $(this).val();
-        //            if (val) {
-        //                total = total + parseInt(val);
-        //            }
-        //        });
-        //        $('#infuse1Total').html("<strong>" + total + "</strong>");
-        //        recalculateResultsTotal();
     });
 
     $('#tblInfusion').on('change', '.infusions2', function () {
@@ -320,6 +312,7 @@ $(function () {
             StudyID: $('#StudyList').val(),
             SStudyID: $('#StudyList option:selected').text(),
             Weight: $('#bodyWeight').val(),
+            Gir: $('#gir').text(),
             CalcDate: $('#calcDate').val(),
             Hours: $('#hours').val(),
             TotalCals: $('#totalCalIntake').text()
@@ -979,20 +972,33 @@ $(function () {
 
     //#region calculations
     function calculateGir() {
+        if (initializing) {
+            return;
+        }
         var totEntParen, totChokCals, totChoMil, totMins;
         var hours = $('#hours').val();
         var weight = $('#bodyWeight').val();
 
+        if (hours.length === 0) {
+            alert('You must enter hours between 1 and 24 in order to calculate GIR');
+            return;
+        }
+
+        if (hours == 0) {
+            alert('Hours must be between 1 and 24 in order to calculate Calories per kilo per day');
+            return;
+        }
+
         gir = 0;
-        if (resultsTotal > 0 &&  hours >0 && weight >0) {
-            
+        if (resultsTotal > 0 && hours > 0 && weight > 0) {
+
             totEntParen = enCho + enLipid + enProtein + pnCho + pnLipid + pnProtein;
             totChokCals = resultsTotal - totEntParen + enCho + pnCho;
             totChoMil = (totChokCals / 4) * 1000;
             totMins = hours * 60;
             gir = (totChoMil / weight) / totMins;
-            $('#gir').text(gir.toFixed(1));
         }
+        $('#gir').text(gir.toFixed(1));
     }
 
     function recalculateResultsTotal() {
@@ -1035,14 +1041,17 @@ $(function () {
     }
 
     function recalculateCalsPerKilo() {
+        if (initializing) {
+            return;
+        }
         var weight = $('#bodyWeight').val();
         if (weight.length === 0) {
-            alert('You must enter a body weight in order to calculate Calories per kilo per day');
+            alert('You must enter a body weight between 3 and 140 kg in order to calculate Calories per kilo per day');
             return;
         }
 
         if (weight === 0) {
-            alert('You must enter a body weight greater than 0 in order to calculate Calories per kilo per day');
+            alert('Body weight must be between 3 and 140 kg in order to calculate Calories per kilo per day');
             return;
         }
         var infuseTotPer = infusionTotal / weight;
@@ -1067,6 +1076,7 @@ $(function () {
     var calStudyId = $('#calStudyID').val();
     console.log("calStudyId:" + calStudyId);
     if (calStudyId > 0) {
+        initializing = false;
         isEdit = true;
         $('#StudyList').attr("disabled", "disabled");
         //$('#bodyWeight').attr("disabled", "disabled");
@@ -1245,4 +1255,5 @@ $(function () {
         $('#btnCancel').hide();
     } //end if (calStudyId > 0)
     //#endregion
+    initializing = false;
 });

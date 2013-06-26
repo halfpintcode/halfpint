@@ -852,6 +852,8 @@ namespace hpMvc.DataBase
                     cmd.Parameters.Add(param);
                     param = new SqlParameter("@weight", csi.Weight);
                     cmd.Parameters.Add(param);
+                    param = new SqlParameter("@gir", csi.Gir);
+                    cmd.Parameters.Add(param);
                     param = new SqlParameter("@calcDate", csi.CalcDate);
                     cmd.Parameters.Add(param);
                     param = new SqlParameter("@totalCals", csi.TotalCals);
@@ -897,6 +899,8 @@ namespace hpMvc.DataBase
                     var param = new SqlParameter("@id", csi.Id);
                     cmd.Parameters.Add(param);
                     param = new SqlParameter("@weight", csi.Weight);
+                    cmd.Parameters.Add(param);
+                    param = new SqlParameter("@gir", csi.Gir);
                     cmd.Parameters.Add(param);
                     param = new SqlParameter("@calcDate", csi.CalcDate);
                     cmd.Parameters.Add(param);

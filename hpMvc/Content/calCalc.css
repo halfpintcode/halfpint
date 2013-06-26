@@ -20,7 +20,7 @@
     background-color: aqua;
 }
 #Fluid, #Parenteral, #Enteral, #Additives, #Other  {
-    background-color: aqua;
+    background-color: blanchedalmond;
 }
 #divMainTop
 {
@@ -161,7 +161,7 @@ td, th { border: 1px solid; }
     padding-top: 18px;
     float: left;
 }
-#divSubmit {
+#divSubmit, #divNewEntry {
     clear: both;
 }
 .nTotal{}
