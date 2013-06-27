@@ -1074,7 +1074,7 @@ $(function () {
 
     //#region edit initialize
     var calStudyId = $('#calStudyID').val();
-    console.log("calStudyId:" + calStudyId);
+    //console.log("calStudyId:" + calStudyId);
     if (calStudyId > 0) {
         initializing = false;
         isEdit = true;
