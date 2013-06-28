@@ -11,6 +11,8 @@ $(function () {
     var enLipid = 0;
     var tempId = 0;
     var gir = 0;
+    var hours, weight, studyId, calcDate;
+
 
     var initializing = true;
     //$("form").submit(function () { return false; }); 
@@ -30,6 +32,7 @@ $(function () {
     $('#hours').keydown(function (event) {
         window.numericsOnly(event, $(this).val());
     });
+
     $('#hours').change(function () {
         calculateGir();
     });
@@ -194,7 +197,7 @@ $(function () {
     });
 
     $('#StudyList').change(function () {
-        var studyId = $(this).val();
+        studyId = $(this).val();
         //get the weight if available
         if (studyId > 0) {
             $.ajax({
@@ -206,6 +209,28 @@ $(function () {
                     if (rdata > 0) {
                         $('#bodyWeight').val(rdata);
                     }
+                }
+            });
+        }
+    });
+
+    $('#calcDate').change(function () {
+        $('#studyDay').val();
+        calcDate = $(this).val();
+        if (!studyId) {
+            alert('You must select a study id first!');
+            $('#calcDate').val("");
+            $('#studyID').focus();
+            return;
+        }
+        if(calcDate.length){
+            $.ajax({
+                url: window.urlRoot + '/CalorieCalc/GetStudyDay/',
+                async: false,
+                type: 'POST',
+                data: { studyID: studyId, calcDate: calcDate },
+                success: function (rdata) {
+                    $('#studyDay').val(rdata);
                 }
             });
         }
@@ -976,18 +1001,8 @@ $(function () {
             return;
         }
         var totEntParen, totChokCals, totChoMil, totMins;
-        var hours = $('#hours').val();
-        var weight = $('#bodyWeight').val();
-
-        if (hours.length === 0) {
-            alert('You must enter hours between 1 and 24 in order to calculate GIR');
-            return;
-        }
-
-        if (hours == 0) {
-            alert('Hours must be between 1 and 24 in order to calculate Calories per kilo per day');
-            return;
-        }
+        hours = $('#hours').val();
+        weight = $('#bodyWeight').val();
 
         gir = 0;
         if (resultsTotal > 0 && hours > 0 && weight > 0) {

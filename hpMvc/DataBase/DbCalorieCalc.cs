@@ -16,26 +16,65 @@ namespace hpMvc.DataBase
             nlogger = new NLogger();
         }
         
-        public static double GetCalcWeight(int studyID)
+        public static int GetStudyDay(int studyId, DateTime calcDate)
         {
-            double weight = 0;
-            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            using (SqlConnection conn = new SqlConnection(strConn))
+            var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "GetCalcWeight";
-                    SqlParameter param = new SqlParameter("@studyID", studyID);
+                    var cmd = new SqlCommand("", conn)
+                                  {
+                                      CommandType = System.Data.CommandType.StoredProcedure,
+                                      CommandText = "GetRadomizationInfoForStudyId"
+                                  };
+                    var param = new SqlParameter("@id", studyId);
                     cmd.Parameters.Add(param);
 
                     conn.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    int pos = 0;
+                    var rdr = cmd.ExecuteReader();
+                    var dateRandomized = new DateTime();
+
+                    while (rdr.Read())
+                    {
+                        var pos = rdr.GetOrdinal("DateRandomized");
+                        dateRandomized = rdr.GetDateTime(pos);
+                    }
+                    rdr.Close();
+
+                    TimeSpan ts = calcDate - dateRandomized;
+                    return ts.Days;
+                }
+                catch (Exception ex)
+                {
+                    nlogger.LogError(ex);
+                    return -1;
+                }
+            }
+        }
+
+        public static double GetCalcWeight(int studyId)
+        {
+            double weight = 0;
+            var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            using (var conn = new SqlConnection(strConn))
+            {
+                try
+                {
+                    var cmd = new SqlCommand("", conn)
+                                  {
+                                      CommandType = System.Data.CommandType.StoredProcedure,
+                                      CommandText = "GetCalcWeight"
+                                  };
+                    var param = new SqlParameter("@studyID", studyId);
+                    cmd.Parameters.Add(param);
+
+                    conn.Open();
+                    var rdr = cmd.ExecuteReader();
+                    
                     while (rdr.Read())
                     {                        
-                        weight = rdr.GetDouble(pos);                                               
+                        weight = rdr.GetDouble(0);                                               
                     }
                     rdr.Close();
                 }

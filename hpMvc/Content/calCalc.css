@@ -16,16 +16,18 @@
 #newFormulaName, #newAdditiveName{
     width: 600px;    
 }
-#page  {
+/*#page  {
     background-color: aqua;
+}*/
+#Fluid, #Parenteral, #Enteral, #Additives, #Other {
+    background-color: #ffffff;
+    background-color: rgba(90, 114, 65, 0.23);
 }
-#Fluid, #Parenteral, #Enteral, #Additives, #Other  {
-    background-color: blanchedalmond;
-}
+
 #divMainTop
 {
     line-height:1.8em;
-    height:115px;
+    height:135px;
     
 }
 .lblmain 
@@ -60,9 +62,11 @@ td, th { border: 1px solid; }
     width:200px;
 }
 #tblResults tr td:nth-child(2)
-{    
+{
+    font-weight: bold;
     text-align:right;
     width:100px;
+    color: blue;
 }
 #tblResults tr td:nth-child(3)
 {
@@ -157,8 +161,8 @@ td, th { border: 1px solid; }
 }
 #divGir 
 {
-    padding-left: 25px;
-    padding-top: 18px;
+    padding-left: 15px;
+    padding-top: 28px;
     float: left;
 }
 #divSubmit, #divNewEntry {
@@ -169,3 +173,23 @@ td, th { border: 1px solid; }
 .infusions2{}
 .infusions3{}
 .infusions4{}
+.underline 
+{
+    text-decoration: underline;
+}
+.italic {
+    font-style: italic;
+}
+#studyDay
+{
+    background-color: #dddddd;
+}
+#divMainTop input[type=text] {
+    width: 75px;
+    padding-left: 5px;
+}
+.warning {
+    font-weight: bold;
+    color: red;
+    
+}

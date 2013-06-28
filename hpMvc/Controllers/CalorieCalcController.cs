@@ -29,10 +29,19 @@ namespace hpMvc.Controllers
         }
 
         [HttpPost]
-        public JsonResult GetCalctWeight(string studyId)
+        public JsonResult GetCalcWeight(string studyId)
         {
-            double weight = CalorieCalc.GetCalcWeight(int.Parse(studyId)); 
+            int id = int.Parse(studyId);
+            double weight = CalorieCalc.GetCalcWeight(id);
             return Json(weight);
+        }
+
+        [HttpPost]
+        public JsonResult GetStudyDay(string studyId, string calcDate)
+        {
+            int id = int.Parse(studyId);
+            int day = CalorieCalc.GetStudyDay(id, DateTime.Parse(calcDate));
+            return Json(day);
         }
 
         [HttpPost]

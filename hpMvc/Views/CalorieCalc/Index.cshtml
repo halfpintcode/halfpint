@@ -25,12 +25,14 @@
     <input type="hidden" name="calStudyID" id="calStudyID" value="@calStudyId" />
     <div id="divMainTop">        
         <label class="lblmain">Study ID</label> @Html.DropDownList("StudyList")
+        <br />
+        <label class="lblmain">Hours in Study Day </label><input type="text" id="hours" name="hours" value="@hours"/>
         <br />       
         <label class="lblmain">Weight (kg)</label><input type="text" id="bodyWeight" name="bodyWeight" value="@sWeight"/>        
         <br />
         <label class="lblmain">Date (mm/dd/yyyy)</label><input type="text" id="calcDate" name="calcDate" value="@cDate"/>
         <br />
-        <label class="lblmain">Hours in Study Day </label><input type="text" id="hours" name="hours" value="@hours"/>
+        <label class="lblmain">Study Day </label><input type="text" readonly="readonly" id="studyDay" />
         <br />
     </div>
     <div id="tabs">
@@ -266,8 +268,13 @@
         </table>
     </div>
     <div id="divGir">
-        <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
         <span class="nTotal"><strong>Study Day Mean GIR:&nbsp;&nbsp;</strong></span><span id="gir"></span><span>&nbsp;mg/kg/min</span> 
+        <br/>
+        <span class="underline">HALF-PINT GIR recommendations:</span>
+        <br/>
+        <span class="italic">Subjects less than 6 years of age: At least 5 mg/kg/min</span>
+        <br/>
+        <span class="italic">Subjects greater than or equal to 6 years of age: At least 2.5 mg/kg/min</span>
     </div>
     <br />
     <div id="divSubmit">
@@ -276,6 +283,8 @@
         <input type="button" id="btnCancel" value="Cancel" />
         &nbsp;&nbsp;&nbsp;
         <input type="button" id="btnClear" value="Clear all entries" />
+        <br/>
+        <p class="warning">Only enter data into Inform after you clcik Submit</p>
     </div>
     <div id="divNewEntry">
         <input type="button" id="btnNewDay" value="Enter new day" />
