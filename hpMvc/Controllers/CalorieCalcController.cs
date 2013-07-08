@@ -65,6 +65,7 @@ namespace hpMvc.Controllers
             var studyList = DbUtils.GetRandomizedStudiesForSite(siteId);
             studyList.Insert(0, new IDandStudyID { ID = 0, StudyID = "Select Study" });
             ViewBag.StudyList = new SelectList(studyList, "ID", "StudyID");
+            ViewBag.StudyDay = "";
 
             var dc1 = CalorieCalc.GetDextroseConcentrations();
             var dc = new DextroseConcentration{ ID=0, Concentration=" Dextrose % ", Kcal_ml=0};
@@ -104,6 +105,8 @@ namespace hpMvc.Controllers
             ViewBag.CalcDate = csi.CalcDate;
             ViewBag.CalStudyID = csi.Id;
             ViewBag.Hours = csi.Hours;
+            int studyDay = CalorieCalc.GetStudyDay(csi.StudyId, DateTime.Parse(csi.CalcDate));
+            ViewBag.StudyDay = studyDay.ToString();
 
             int siteId = DbUtils.GetSiteidIDForUser(User.Identity.Name);
             //todo remove for production
@@ -299,7 +302,7 @@ namespace hpMvc.Controllers
             //check for any data and if there is data - send email
             if ((con.BreastFeeding) || (con.Drinks) || (con.SolidFoods) || (con.Other) || (con.OtherText.Trim().Length > 0))
             {
-                string[] users = ConfigurationManager.AppSettings["NewFormulaNotify"].ToString().Split(new[] { ',' }, StringSplitOptions.None);
+                //string[] users = ConfigurationManager.AppSettings["NewFormulaNotify"].ToString().Split(new[] { ',' }, StringSplitOptions.None);
 
                 var siteId = DbUtils.GetSiteidIDForUser(User.Identity.Name);
                 var staff = NotificationUtils.GetStaffForEvent(6, siteId);

@@ -42,7 +42,7 @@ namespace hpMvc.DataBase
                     }
                     rdr.Close();
 
-                    TimeSpan ts = calcDate - dateRandomized;
+                    TimeSpan ts = calcDate.Date - dateRandomized.Date;
                     return ts.Days;
                 }
                 catch (Exception ex)

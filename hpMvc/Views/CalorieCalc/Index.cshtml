@@ -8,6 +8,7 @@
     var cDate = "";
     var calStudyId = 0;
     var hours = 0;
+    var studyDay = "";
 }
 @if (ViewBag.CalStudyID > 0)
 {    
@@ -15,6 +16,7 @@
     cDate = @ViewBag.CalcDate;
     calStudyId = @ViewBag.CalStudyID;
     hours = @ViewBag.Hours;
+    studyDay = (string)@ViewBag.StudyDay;
 }
 
         
@@ -32,7 +34,7 @@
         <br />
         <label class="lblmain">Date (mm/dd/yyyy)</label><input type="text" id="calcDate" name="calcDate" value="@cDate"/>
         <br />
-        <label class="lblmain">Study Day </label><input type="text" readonly="readonly" id="studyDay" />
+        <label class="lblmain">Study Day </label><input type="text" readonly="readonly" id="studyDay" value="@studyDay"/>
         <br />
     </div>
     <div id="tabs">
@@ -215,7 +217,7 @@
         <h3>Results Summary</h3>
         <table id="tblResults">
             <tr>
-                <td><strong>Enteral Nutrition</strong></td><td><strong>kCals per day</strong></td><td></td><td><strong>Cals per kilo per day</strong></td>
+                <td><strong>Enteral Nutrition</strong></td><td><strong>kCals per day</strong></td><td></td><td><strong>kCals per kg per day</strong></td>
             </tr>
             <tr>
                 <td>CHO</td>
@@ -270,7 +272,7 @@
     <div id="divGir">
         <span class="nTotal"><strong>Study Day Mean GIR:&nbsp;&nbsp;</strong></span><span id="gir"></span><span>&nbsp;mg/kg/min</span> 
         <br/>
-        <span class="underline">HALF-PINT GIR recommendations:</span>
+        <span id="spanGirRec" class="underline">HALF-PINT GIR recommendations:</span>
         <br/>
         <span class="italic">Subjects less than 6 years of age: At least 5 mg/kg/min</span>
         <br/>
@@ -284,7 +286,7 @@
         &nbsp;&nbsp;&nbsp;
         <input type="button" id="btnClear" value="Clear all entries" />
         <br/>
-        <p class="warning">Only enter data into Inform after you clcik Submit</p>
+        <p class="warning">Only enter data into InForm after you click Submit</p>
     </div>
     <div id="divNewEntry">
         <input type="button" id="btnNewDay" value="Enter new day" />

@@ -223,7 +223,7 @@ $(function () {
             $('#studyID').focus();
             return;
         }
-        if(calcDate.length){
+        if (calcDate.length) {
             $.ajax({
                 url: window.urlRoot + '/CalorieCalc/GetStudyDay/',
                 async: false,
@@ -444,10 +444,10 @@ $(function () {
                 aaText = val.split(":");
                 switch ($.trim(aaText[0])) {
                     case "Dextrose":
-                        dex = parseInt(aaText[1]);
+                        dex = parseFloat(aaText[1]);
                         break;
                     case "Amino Acid":
-                        amn = parseInt(aaText[1]);
+                        amn = parseFloat(aaText[1]);
                         break;
                     case "Lipid Concentration":
                         lip = parseInt(aaText[1]);
@@ -1093,6 +1093,7 @@ $(function () {
     if (calStudyId > 0) {
         initializing = false;
         isEdit = true;
+        studyId = $('#StudyList').val();
         $('#StudyList').attr("disabled", "disabled");
         //$('#bodyWeight').attr("disabled", "disabled");
         //$('#calcDate').attr("disabled", "disabled");
