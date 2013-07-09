@@ -155,6 +155,26 @@ namespace hpMvc.DataBase
             return arm;
         }
 
+        public static List<string> GetSavedSensorFiles(string site)
+        {
+            var list = new List<string>();
+
+            var folderPath = ConfigurationManager.AppSettings["CgmUploadPath"].ToString();
+            var path = Path.Combine(folderPath, site);
+
+            if (Directory.Exists(path))
+            {
+                var di = new DirectoryInfo(path);
+
+                FileInfo[] fis = di.GetFiles();
+
+                foreach (var fi in fis.OrderBy(f => f.Name))
+                    list.Add(fi.Name);
+            }
+
+            return list;
+        }
+
         public static List<string> GetSavedStudyIDs(string siteCode)
         {
             var list = new List<string>();

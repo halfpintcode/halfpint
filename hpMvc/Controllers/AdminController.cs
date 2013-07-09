@@ -546,6 +546,34 @@ namespace hpMvc.Controllers
             return View();
         }
 
+        public ActionResult GetSavedSensorInfo()
+        {
+            string role = "Coordinator";
+            if (HttpContext.User.IsInRole("Admin"))
+                role = "Admin";
+            ViewBag.Role = role;
+
+            var sites = new List<Site>();
+
+            if (role == "Admin")
+            {
+                sites = DbUtils.GetSitesActive();
+                if (sites.Count == 0)
+                    throw new Exception("There was an error retreiving the sites list from the database");
+                sites.Insert(0, new Site { ID = 0, Name = "Select a site", SiteID = "" });
+                ViewBag.Sites = new SelectList(sites, "ID", "Name");
+
+            }
+
+            List<string> files = new List<string>();
+            files.Add("Select file");
+            ViewBag.Files = new SelectList(files);
+
+            nlogger.LogInfo("Admin GetSavedSensorInfo - user: " + HttpContext.User.Identity.Name + ", role: " + role);
+
+            return View();
+        }
+
         [HttpPost]
         public JsonResult GetSavedChecksSiteChange(string site)
         {
@@ -553,6 +581,16 @@ namespace hpMvc.Controllers
             var dto = DbUtils.GetSiteCodeForSiteID(int.Parse(site));
             var files = SsUtils.GetSavedStudyIDs(dto.Bag.ToString());
             
+            return Json(files);
+        }
+
+        [HttpPost]
+        public JsonResult GetSavedSensorInfoSiteChange(string site)
+        {
+            nlogger.LogInfo("SiteSelected - site: " + site);
+            //var dto = DbUtils.GetSiteCodeForSiteID(int.Parse(site));
+            var files = SsUtils.GetSavedSensorFiles(site);
+
             return Json(files);
         }
 
@@ -568,6 +606,18 @@ namespace hpMvc.Controllers
 
             nlogger.LogInfo("GetSavedChecksDownload: " + fileName);
             return this.File(fullpath, "application/vnd.ms-excel.sheet.macroEnabled.12", fileName.Replace("copy", ""));
+        }
+
+        public FilePathResult GetSavedSensorInfoDownload(string site, string fileName)
+        {
+            var folderPath = ConfigurationManager.AppSettings["CgmUploadPath"].ToString();
+            var path = Path.Combine(folderPath, site);
+
+            var fullpath = Path.Combine(path, fileName);
+
+
+            nlogger.LogInfo("GetSavedSensorInfoDownload: " + fileName);
+            return this.File(fullpath, "application/CSV", fileName);
         }
 
         public FilePathResult DownloadChecksTemplate()

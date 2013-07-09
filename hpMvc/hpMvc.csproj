@@ -486,6 +486,7 @@
     <Content Include="Global.asax" />
     <Content Include="HTMLPage1.htm" />
     <Content Include="README.jQuery.vsdoc.txt" />
+    <Content Include="Scripts\GetSavedSensorInfo.js" />
     <Content Include="Scripts\staffSubscribe.js" />
     <Content Include="Scripts\2012.2.607\jquery-1.7.1.min.js" />
     <Content Include="Scripts\2012.2.607\jquery.validate.min.js" />
@@ -785,6 +786,7 @@
     <Content Include="Views\CalorieCalc\AdditiveList.cshtml" />
     <Content Include="Views\CalorieCalc\AdditiveDetails.cshtml" />
     <Content Include="Views\CalorieCalc\AdditiveConfirmation.cshtml" />
+    <Content Include="Views\Admin\GetSavedSensorInfo.cshtml" />
     <None Include="_bin_deployableAssemblies\Microsoft.Web.Infrastructure.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.Razor.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.dll" />
