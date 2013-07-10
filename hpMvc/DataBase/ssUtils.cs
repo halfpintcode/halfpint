@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using DocumentFormat.OpenXml;
@@ -290,7 +291,7 @@ namespace hpMvc.DataBase
                         UpdateValue(wbPart, "I2", GetSensorLocationString(ssInsert.SensorLocation), 0, true,
                                     "SensorData");
                         UpdateValue(wbPart, "J2", "Initial Insertion", 0, true, "SensorData");
-                        UpdateValue(wbPart, "K2", DateTime.Now.ToString(), 0, true, "SensorData");
+                        UpdateValue(wbPart, "K2", DateTime.Today.ToShortDateString(), 0, true, "SensorData");
                         UpdateValue(wbPart, "L2", ssInsert.ExpirationDate, 0, true, "SensorData");
                     }
                     document.Close();
@@ -343,6 +344,7 @@ namespace hpMvc.DataBase
                     cell.CellValue = new CellValue(stringIndex.ToString());
                     cell.DataType = new EnumValue<CellValues>(CellValues.SharedString);
                 }
+                
                 else
                 {
                     cell.CellValue = new CellValue(value);
