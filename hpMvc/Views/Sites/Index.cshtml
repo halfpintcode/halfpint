@@ -24,6 +24,8 @@
         grid.Column("Name", header:"Short Name", format: @<text>@Html.ActionLink((string)item.Name,"SiteDetails","Sites", new {id=item.Id}, null)</text>),
         grid.Column("LongName", header:"Long Name"),
         grid.Column("SiteId", header:"Site Id"),
+                    grid.Column("AcctUserName", header: "User Name"),
+                                grid.Column("AcctPassword", header: "Password"),
         grid.Column("IsEmployeeIdRequired", header: "Employee Id Required"),
         grid.Column("IsActive", header: "Active"),
         grid.Column("Sensor", header: "Sensor Type")

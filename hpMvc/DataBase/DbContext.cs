@@ -1645,6 +1645,9 @@ namespace hpMvc.DataBase
                         site.EmployeeIdRegEx = rdr.IsDBNull(pos) ? "" : rdr.GetString(pos);
                         pos = rdr.GetOrdinal("EmpIDMessage");
                         site.EmployeeIdMessage = rdr.IsDBNull(pos) ? "" : rdr.GetString(pos);
+                        pos = rdr.GetOrdinal("AcctPassword");
+                        site.AcctPassword = rdr.IsDBNull(pos) ? "" : rdr.GetString(pos);
+                        
                         pos = rdr.GetOrdinal("Active");
                         site.IsActive = rdr.GetBoolean(pos);
                         pos = rdr.GetOrdinal("Sensor");
@@ -1818,6 +1821,10 @@ namespace hpMvc.DataBase
                         site.EmployeeIdRegEx = rdr.IsDBNull(pos) ? "" : rdr.GetString(pos);
                         pos = rdr.GetOrdinal("EmpIDMessage");
                         site.EmployeeIdMessage = rdr.IsDBNull(pos) ? "" : rdr.GetString(pos);
+                        pos = rdr.GetOrdinal("AcctPassword");
+                        site.AcctPassword = rdr.IsDBNull(pos) ? "" : rdr.GetString(pos);
+                        pos = rdr.GetOrdinal("AcctUserName");
+                        site.AcctUserName = rdr.IsDBNull(pos) ? "" : rdr.GetString(pos);
                         pos = rdr.GetOrdinal("Active");
                         site.IsActive = rdr.GetBoolean(pos);
                         pos = rdr.GetOrdinal("Sensor");
@@ -2853,7 +2860,19 @@ namespace hpMvc.DataBase
 
                         param = new SqlParameter("@sensor", siteInfo.Sensor);
                         cmd.Parameters.Add(param);
-                        
+
+                        if (string.IsNullOrEmpty(siteInfo.AcctPassword))
+                            param = new SqlParameter("@acctPassword", DBNull.Value);
+                        else
+                            param = new SqlParameter("@acctPassword", siteInfo.AcctPassword);
+                        cmd.Parameters.Add(param);
+
+                        if (string.IsNullOrEmpty(siteInfo.AcctUserName))
+                            param = new SqlParameter("@acctUserName", DBNull.Value);
+                        else
+                            param = new SqlParameter("@acctUserName", siteInfo.AcctUserName);
+                        cmd.Parameters.Add(param);
+
                         cmd.ExecuteNonQuery();
                         
                         foreach (var incon in siteInfo.InsulinConcentrations)
@@ -2998,6 +3017,18 @@ namespace hpMvc.DataBase
                             param = new SqlParameter("@empIDMessage", DBNull.Value);
                         else
                             param = new SqlParameter("@empIDMessage", siteInfo.EmployeeIdMessage);
+                        cmd.Parameters.Add(param);
+
+                        if (string.IsNullOrEmpty(siteInfo.AcctPassword))
+                            param = new SqlParameter("@acctPassword", DBNull.Value);
+                        else
+                            param = new SqlParameter("@acctPassword", siteInfo.AcctPassword);
+                        cmd.Parameters.Add(param);
+
+                        if (string.IsNullOrEmpty(siteInfo.AcctUserName))
+                            param = new SqlParameter("@acctUserName", DBNull.Value);
+                        else
+                            param = new SqlParameter("@acctUserName", siteInfo.AcctUserName);
                         cmd.Parameters.Add(param);
 
                         param = new SqlParameter("@active", siteInfo.IsActive);

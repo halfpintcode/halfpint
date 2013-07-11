@@ -17,6 +17,8 @@ namespace hpMvc.Models
         public bool IsEmployeeIdRequired { get; set; }
         public string EmployeeIdRegEx { get; set; }
         public string EmployeeIdMessage { get; set; }
+        public string AcctPassword { get; set; }
+        public string AcctUserName { get; set; }
         public bool IsActive { get; set; }
         public int Sensor { get; set; }
         public bool HasRandomizations { get; set; }
