@@ -1,39 +1,38 @@
 ﻿@model List<hpMvc.Models.SiteInfo>
-
 @{
     ViewBag.Title = "Halfpint Sites";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<style type="text/css">
-    .webgrid{ margin: 4px;border-collapse: collapse;} 
-    .webgrid th, .webgrid td{ border: 1px solid #c0c0c0;padding: 5px;}   
-    .header{ background-color: #E8E8E8;font-weight: bold;color:#fff}
-    .alt{ background-color: #e8e8e8; color:#000}
-</style>
 
-<h2>Halfpint Sites</h2>
+<h2>
+    Halfpint Sites</h2>
 <div>
     @{
  
         var grid = new WebGrid(Model, defaultSort: "SiteId", rowsPerPage: 50);
     }
- 
     @grid.GetHtml(tableStyle: "webgrid", headerStyle: "header", alternatingRowStyle: "alt",
-        columns:grid.Columns(
-        grid.Column("Id", header:"Internal Id"),
-        grid.Column("Name", header:"Short Name", format: @<text>@Html.ActionLink((string)item.Name,"SiteDetails","Sites", new {id=item.Id}, null)</text>),
-        grid.Column("LongName", header:"Long Name"),
-        grid.Column("SiteId", header:"Site Id"),
-                    grid.Column("AcctUserName", header: "User Name"),
-                                grid.Column("AcctPassword", header: "Password"),
+        columns: grid.Columns(
+        grid.Column("Id", header: "Internal Id"),
+        grid.Column("Name", header: "Short Name", format: @<text>@Html.ActionLink((string)item.Name, "SiteDetails", "Sites", new { id = item.Id }, null)</text>),
+        grid.Column("LongName", header: "Long Name"),
+        grid.Column("SiteId", header: "Site Id"),
         grid.Column("IsEmployeeIdRequired", header: "Employee Id Required"),
         grid.Column("IsActive", header: "Active"),
-        grid.Column("Sensor", header: "Sensor Type")
-                      ))
+        grid.Column("Sensor", header: "Sensor Type"),
+        grid.Column("AcctUserName", header: "User Name", format:@<text><span class="userName">@item.AcctUserName</span></text>),
+                    grid.Column("AcctPassword", header: "Password", format: @<text><span class="userPassword">@item.AcctPassword</span></text>),
+                    grid.Column(header: "", style: "text-align-center", format: @<text>
+            <button class="btnReset">
+                Reset Password
+            </button></text>)
+                                  ))
 </div>
 <div>
-    <br/>
+    <br />
     @Html.ActionLink("Add new site", "Add")
-    <br/>
+    <br />
     @Html.ActionLink("Insulin Concentrations", "InsulinConcentrations")
 </div>
+<link href="@Url.Content("~/Content/webgrid.css")" rel="stylesheet" type="text/css" />
+<script src="@Url.Content("~/Scripts/Sites.js")" type="text/javascript"></script>

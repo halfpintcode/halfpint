@@ -16,7 +16,7 @@ $(function () {
         }
         var user = $.trim($('#userName').val());
         var pwd = $.trim($('#NewPassword').val());
-        var url = urlRoot + '/Admin/ResetUserPassword/';
+        var url = window.urlRoot + '/Admin/ResetUserPassword/';
         var reset = $('#forceReset').is(':checked');
 
         $('#btnSave').attr('disabled','disabled');

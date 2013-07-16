@@ -62,4 +62,10 @@ namespace hpMvc.Models
         public string LongName { get; set; }
         public string SiteId { get; set; }
     }
+
+    public class SiteGerenicNurse
+    {
+        public string UserName { get; set; }
+        public string UserPassword { get; set; }
+    }
 }

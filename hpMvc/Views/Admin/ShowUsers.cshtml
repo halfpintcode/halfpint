@@ -4,12 +4,23 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Show Users</h2>
+<h2>
+    Show Users</h2>
 <div>
-
-@{    
-    var grid = new WebGrid(Model, defaultSort: "UserName", rowsPerPage: 50 );
-}
-
-@grid.GetHtml()
+    @{    
+        var grid = new WebGrid(Model, defaultSort: "UserName", rowsPerPage: 50);
+    }
+    
+    @grid.GetHtml(tableStyle: "webgrid", headerStyle: "header", alternatingRowStyle: "alt",
+        columns: grid.Columns(
+        grid.Column("Active", header: "Active"),
+        grid.Column("Email"),
+        grid.Column("LockedOut"),
+        grid.Column("Online"),
+        grid.Column("Role"),
+        grid.Column("Site"),
+        grid.Column("UserName")
+    ))
+    
 </div>
+<link href="@Url.Content("~/Content/webgrid.css")" rel="stylesheet" type="text/css" />

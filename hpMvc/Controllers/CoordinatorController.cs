@@ -93,6 +93,34 @@ namespace hpMvc.Controllers
             return View(ra);
         }
 
+        public ActionResult ResetSitePassword()
+        {
+            var site = DbUtils.GetSiteidIDForUser(User.Identity.Name);
+            var sgn = DbUtils.GetGenericUserInfo(site);
+            return (View(sgn));
+        }
+
+        [HttpPost]
+        public ActionResult ResetSitePassword(SiteGerenicNurse nurseUser)
+        {
+            if (nurseUser.UserName.Trim().Length == 0)
+                return Json("This is not a valid user name;");
+
+
+            var user = Membership.GetUser(nurseUser.UserName);
+            if(user == null)
+                return Json("This is not a valid user name;");
+
+            if (user.IsLockedOut)
+                user.UnlockUser();
+
+            string resetPassword = user.ResetPassword();
+            user.ChangePassword(resetPassword, nurseUser.UserPassword);
+
+            _nlogger.LogInfo("ResetSitePassword, generic user: " + nurseUser.UserName);
+            return Json("Generic nurse account has been reset!");
+        }
+
         [HttpPost]
         public ActionResult CompleteSubject(SubjectCompleted model, HttpPostedFileBase file)
         {

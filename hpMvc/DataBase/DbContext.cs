@@ -1647,7 +1647,9 @@ namespace hpMvc.DataBase
                         site.EmployeeIdMessage = rdr.IsDBNull(pos) ? "" : rdr.GetString(pos);
                         pos = rdr.GetOrdinal("AcctPassword");
                         site.AcctPassword = rdr.IsDBNull(pos) ? "" : rdr.GetString(pos);
-                        
+                        pos = rdr.GetOrdinal("AcctUserName");
+                        site.AcctUserName = rdr.IsDBNull(pos) ? "" : rdr.GetString(pos);
+
                         pos = rdr.GetOrdinal("Active");
                         site.IsActive = rdr.GetBoolean(pos);
                         pos = rdr.GetOrdinal("Sensor");
@@ -1883,6 +1885,44 @@ namespace hpMvc.DataBase
             }
 
             return sites;
+        }
+
+        public static SiteGerenicNurse GetGenericUserInfo(int site)
+        {
+            var sgn = new SiteGerenicNurse();
+            var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            using (var conn = new SqlConnection(strConn))
+            {
+                try
+                {
+                    var cmd = new SqlCommand("", conn)
+                    {
+                        CommandType = System.Data.CommandType.StoredProcedure,
+                        CommandText = "GetSiteGenericAccountInfo"
+                    };
+                    var param = new SqlParameter("@id", site);
+                    cmd.Parameters.Add(param);
+
+                    conn.Open();
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.Read())
+                    {
+                        int pos = rdr.GetOrdinal("AcctUserName");
+                        if (!rdr.IsDBNull(pos))
+                            sgn.UserName = rdr.GetString(pos);
+                        pos = rdr.GetOrdinal("AcctPassword");
+                        if (!rdr.IsDBNull(pos))
+                            sgn.UserPassword = rdr.GetString(pos);
+
+                    }
+                    rdr.Close();
+                }
+                catch (Exception ex)
+                {
+                    Nlogger.LogError(ex);
+                }
+                return sgn;
+            }
         }
 
         public static List<Site> GetSitesActive()

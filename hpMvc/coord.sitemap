@@ -13,5 +13,6 @@
       </siteMapNode>
       <siteMapNode title="Download StatStrip Operators List" controller="Coordinator" action="GetNovaLists" />
       <siteMapNode title="Update Staff Member Information" controller="Coordinator" action="UpdateStaffInformation" />
+      <siteMapNode title="Reset Generic Nurse Account" controller="Coordinator" action="ResetSitePassword" />
     </siteMapNode>
 </siteMap>
