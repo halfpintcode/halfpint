@@ -134,21 +134,21 @@ namespace hpMvc.Controllers
                     break;
 
                 case "05":
-                    if (fileName.Contains("Consent Form"))
-                    {
-                        fileName = "Nationwide HalfPint Consent Form.pdf";
-                        folder = "Enrollment~Sites~Nationwide";
-                    }
-                    if (fileName.Contains("Assent Form"))
-                    {
-                        fileName = "Nationwide HalfPint Assent Form.pdf";
-                        folder = "Enrollment~Sites~Nationwide";
-                    }
-                    if (fileName.Contains("Permission to Approach"))
-                    {
-                        fileName = "Nationwide Permission to Approach.pdf";
-                        folder = "Quick Links~Permission to Approach~Nationwide";
-                    }
+                    //if (fileName.Contains("Consent Form"))
+                    //{
+                    //    fileName = "Nationwide HalfPint Consent Form.pdf";
+                    //    folder = "Enrollment~Sites~Nationwide";
+                    //}
+                    //if (fileName.Contains("Assent Form"))
+                    //{
+                    //    fileName = "Nationwide HalfPint Assent Form.pdf";
+                    //    folder = "Enrollment~Sites~Nationwide";
+                    //}
+                    //if (fileName.Contains("Permission to Approach"))
+                    //{
+                    //    fileName = "Nationwide Permission to Approach.pdf";
+                    //    folder = "Quick Links~Permission to Approach~Nationwide";
+                    //}
                     break;
                 
                 case "06":
