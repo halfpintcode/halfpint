@@ -4,8 +4,14 @@ $(function () {
     $('#report').hide();
 
     $("#accordion").accordion({
-        change: function (event, ui) {
-            $('#runType').val($("#accordion").accordion("option", "active"));
+        activate: function (event, ui) {
+            if (ui.newHeader.context.outerText == "Execute as service") {
+                $('#runType').val(0);
+            } 
+            else {
+                $('#runType').val(1);    
+            }
+            //$('#runType').val($("#accordion").accordion("option", "active"));
         }
     });
 
@@ -47,10 +53,10 @@ $(function () {
 
                     $('<h3>' + data1.Name + ' - Post Tests Report</h3>').appendTo('#report');
                     $('</br>').appendTo('#report');
-                    
+
                     $("<h3> Total Staff: " + data1.PostTestNextDues.length + "</h3>").appendTo('#report');
                     $("<h3> Total Staff Post Tests Completed:" + data1.StaffCompleted + "</h3>").appendTo('#report');
-                    
+
                     var percent = 0;
                     if (data1.PostTestNextDues.length > 0)
                         percent = data1.StaffCompleted * 100 / data1.PostTestNextDues.length;
