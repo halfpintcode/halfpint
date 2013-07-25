@@ -43,7 +43,7 @@ namespace hpMvc.Controllers
             var contentType = "";
             var pos = 0;
             pos = fileName.LastIndexOf(".");
-            var ext = fileName.Substring(pos );
+            var ext = fileName.Substring(pos ).ToLower();
             switch (ext)
             {
                 case ".docx":
