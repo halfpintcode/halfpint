@@ -162,6 +162,13 @@ namespace hpMvc.Controllers
                 //ModelState["DateCompleted"].Errors.Add("*Date completed  is required.  Enter a reason if you can not provide this data.");
                 ModelState.AddModelError("", "*Date completed  is required.  Enter a reason if you can not provide this data.");
             }
+            if (model.RowsCompleted == null)
+            {
+                isOkToClear = false;
+                ModelState["RowsCompleted"].Errors.Clear();
+                //ModelState["DateCompleted"].Errors.Add("*Date completed  is required.  Enter a reason if you can not provide this data.");
+                ModelState.AddModelError("", "*Number of CHECKS rows completed  is required.  Enter a reason if you can not provide this data.");
+            }
             if (model.Age2to16)
             {
                 if (!model.CBCL)

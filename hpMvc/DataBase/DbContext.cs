@@ -200,19 +200,20 @@ namespace hpMvc.DataBase
         public static void SaveRandomizedSubjectActive(SubjectCompleted sc, string user)
         {
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            using (SqlConnection conn = new SqlConnection(strConn))
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = ("SaveRandomizedSubjectActive");
-                    SqlParameter param = new SqlParameter("@id", sc.ID);
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = System.Data.CommandType.StoredProcedure,
+                                  CommandText = ("SaveRandomizedSubjectActive")
+                              };
+                    var param = new SqlParameter("@id", sc.ID);
                     cmd.Parameters.Add(param);
-                    if (sc.DateCompleted == null)
-                        param = new SqlParameter("@dateCompleted", DBNull.Value);
-                    else
-                        param = new SqlParameter("@dateCompleted", sc.DateCompleted);
+                    param = sc.DateCompleted == null ? new SqlParameter("@dateCompleted", DBNull.Value) : new SqlParameter("@dateCompleted", sc.DateCompleted);
+                    cmd.Parameters.Add(param);
+                    param = sc.RowsCompleted == null ? new SqlParameter("@checksRowsCompleted", DBNull.Value): new SqlParameter("@checksRowsCompleted", sc.RowsCompleted);
                     cmd.Parameters.Add(param);
                     param = new SqlParameter("@cgmUpload", sc.CgmUpload);
                     cmd.Parameters.Add(param);
@@ -246,8 +247,6 @@ namespace hpMvc.DataBase
                     Nlogger.LogError(ex);
                 }
             }
-
-
         }
 
         public static SubjectCompleted GetRandomizedStudyActive(string id)

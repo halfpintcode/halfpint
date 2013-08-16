@@ -12,12 +12,16 @@
      @Html.ValidationSummary(true, "Subject completion was unsuccessful. Please correct the errors and try again.")
      <fieldset>
         <legend>Required Fields For Completed Subject</legend>
-            
-        <label class="lblmain">DateCompleted:</label>  @Html.EditorFor(m => m.DateCompleted) <span>(i.e., the last day that a BG value was entered into CHECKS)</span>
+        
+        <label >Enter the number of Rows Completed in CHECKS:</label>  @Html.TextBoxFor(m => m.RowsCompleted, new { @class = "intWidth" }) <span>(i.e., the last row that a BG value was entered into CHECKS)</span>
+        @Html.ValidationMessageFor(model => model.RowsCompleted)
+         <br />
+             
+         <label class="lblmain">DateCompleted:</label>  @Html.EditorFor(m => m.DateCompleted) <span>(i.e., the last day that a BG value was entered into CHECKS)</span>
         @Html.ValidationMessageFor(model => model.DateCompleted)
         <br />
         
-        <span id="spanUploadAdmin">
+         <span id="spanUploadAdmin">
             The CGM csv file has been successfully uploaded. Uploading another file will overwrite the previous one
             <br />            
         </span>

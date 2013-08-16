@@ -43,6 +43,7 @@ namespace hpMvc.Models
     {       
         public int ID { get; set; }
         public int SiteID { get; set; }
+        public int? RowsCompleted { get; set; }
         public string StudyID { get; set; }
         public DateTime DateRandomized { get; set; }
         public string sDateRandomized { get; set; }
