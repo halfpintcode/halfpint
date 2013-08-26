@@ -44,6 +44,7 @@ namespace hpMvc.DataBase
 
         public static bool AddSenorData(string studyId, SSInsertionData ssInsert)
         {
+            //A lookup is used in the strored procedure to store the study id (int) in the database
             var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
             using (var conn = new SqlConnection(strConn))
             {
@@ -57,30 +58,33 @@ namespace hpMvc.DataBase
 
                     var param = new SqlParameter("@studyID", studyId);
                     cmd.Parameters.Add(param);
-                    param = new SqlParameter("@monitorDate", ssInsert.MonitorDate);
+                    param = new SqlParameter("@Sensor_Monitor_Date", ssInsert.MonitorDate);
                     cmd.Parameters.Add(param);
-                    param = new SqlParameter("@monitorTime", ssInsert.MonitorTime);
+                    param = new SqlParameter("@Sensor_Monitor_Time", ssInsert.MonitorTime);
                     cmd.Parameters.Add(param);
-                    param = new SqlParameter("@monitorID", ssInsert.MonitorId);
+                    param = new SqlParameter("@Sensor_Monitor_ID", ssInsert.MonitorId);
                     cmd.Parameters.Add(param);
-                    param = new SqlParameter("@transmitterID", ssInsert.TransmitterId);
+                    param = new SqlParameter("@Sensor_Transmitter_ID", ssInsert.TransmitterId);
                     cmd.Parameters.Add(param);
-                    param = new SqlParameter("@sensorLot", ssInsert.SensorLot);
+                    param = new SqlParameter("@Sensor_Lot", ssInsert.SensorLot);
                     cmd.Parameters.Add(param);
-                    param = new SqlParameter("@inserterFirstName", ssInsert.InserterFirstName);
+                    param = new SqlParameter("@Sensor_Inserter_First_Name", ssInsert.InserterFirstName);
                     cmd.Parameters.Add(param);
-                    param = new SqlParameter("@inserterLastName", ssInsert.InserterLastName);
+                    param = new SqlParameter("@Sensor_Inserter_Last_Name", ssInsert.InserterLastName);
                     cmd.Parameters.Add(param);
-                    param = new SqlParameter("@sensorLocation", ssInsert.SensorLocation);
+                    param = new SqlParameter("@Sensor_Location", ssInsert.SensorLocation);
                     cmd.Parameters.Add(param);
-                    param = new SqlParameter("@sensorType", ssInsert.SensorType);
+                    param = new SqlParameter("@Sensor_Type", ssInsert.SensorType);
                     cmd.Parameters.Add(param);
-                    param = new SqlParameter("@expirationDate", ssInsert.ExpirationDate);
+                    param = new SqlParameter("@Sensor_Expire_Date", ssInsert.ExpirationDate);
                     cmd.Parameters.Add(param);
-                    param = new SqlParameter("@sensorReason", 1);
+                    param = new SqlParameter("@Sensor_Reason", 1);
                     cmd.Parameters.Add(param);
-                    param = new SqlParameter("@dateEntered", DateTime.Now);
+                    param = new SqlParameter("@Sensor_Date_Created", DateTime.Now);
                     cmd.Parameters.Add(param);
+                    param = new SqlParameter("@Sensor_Row", "0");
+                    cmd.Parameters.Add(param);
+                    
 
                     conn.Open();
                     cmd.ExecuteNonQuery();
@@ -88,7 +92,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    //nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                     return false;
                 }
             }
