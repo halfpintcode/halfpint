@@ -74,7 +74,7 @@ namespace hpMvc.DataBase
                     cmd.Parameters.Add(param);
                     param = new SqlParameter("@Sensor_Location", ssInsert.SensorLocation);
                     cmd.Parameters.Add(param);
-                    param = new SqlParameter("@Sensor_Type", ssInsert.SensorType);
+                    param = new SqlParameter("@P_SensorType", ssInsert.SensorType);
                     cmd.Parameters.Add(param);
                     param = new SqlParameter("@Sensor_Expire_Date", ssInsert.ExpirationDate);
                     cmd.Parameters.Add(param);
@@ -82,7 +82,7 @@ namespace hpMvc.DataBase
                     cmd.Parameters.Add(param);
                     param = new SqlParameter("@Sensor_Date_Created", DateTime.Now);
                     cmd.Parameters.Add(param);
-                    param = new SqlParameter("@Sensor_Row", "0");
+                    param = new SqlParameter("@Sensor_Row", "1");
                     cmd.Parameters.Add(param);
                     
 
