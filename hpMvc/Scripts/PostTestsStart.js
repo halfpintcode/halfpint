@@ -241,7 +241,7 @@ $(function () {
                 $('#sEmail').val(data.email);
                 allTestsCompleted = true;
                 $.each(data.tests, function (index, d) {
-                    var $li = $('<li id="' + d.PathName + '"><a href="#">' + d.Name + ' Post Test</a></li>');
+                    var $li = $('<li id="' + d.PathName + '"><a href="#">' + d.Name + ' Post Test and Video </a></li>');
                     $('#testMenu ul').append($li);
                     if (d.IsCompleted) {
                         if (d.IsExpiring || d.IsExpired) {
