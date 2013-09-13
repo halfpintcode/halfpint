@@ -499,8 +499,8 @@ namespace hpMvc.PostTestService
                 sbBody.Append("<table style='border-collapse:collapse;' cellpadding='5' border='1'><tr style='background-color:87CEEB'><th>Name</th><th>Role</th><th>Due Date</th><th>Email</th></tr>");
                 foreach (var ptnd in dueSortedList)
                 {
-                    Debug.Assert(ptnd.NextDueDate != null, "ptnd.NextDueDate != null");
-                    sbBody.Append("<tr><td>" + ptnd.Name + "</td><td>" + ptnd.Role + "</td><td>" + ptnd.NextDueDate.Value.ToShortDateString() + "</td><td>" + ptnd.Email +
+                    if (ptnd.NextDueDate != null)
+                        sbBody.Append("<tr><td>" + ptnd.Name + "</td><td>" + ptnd.Role + "</td><td>" + ptnd.NextDueDate.Value.ToShortDateString() + "</td><td>" + ptnd.Email +
                                   "</td></tr>");
                 }
                 sbBody.Append("</table>");
