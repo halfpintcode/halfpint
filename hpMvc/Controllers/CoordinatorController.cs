@@ -128,22 +128,31 @@ namespace hpMvc.Controllers
             //file upload
             if (model.NotCompletedReason == null)
                 model.NotCompletedReason = "";
-            if (file != null && file.ContentLength > 0)
-            {
-                //todo validate file type
-                var fileName = Path.GetFileName(file.FileName);
-                _nlogger.LogInfo("CGM Upload - fileName: " + fileName);
-                
-                var folderPath = ConfigurationManager.AppSettings["CgmUploadPath"].ToString();
-                var folderSitePath = Path.Combine(folderPath, model.SiteName);
-                _nlogger.LogInfo("CGM Upload - path: " + folderSitePath);
-                if (!Directory.Exists(folderSitePath))
-                    Directory.CreateDirectory(folderSitePath);
 
-                var newName = model.StudyID.Trim() + "_CGM.csv";
-                var fullPath = Path.Combine(folderSitePath, newName);
-                file.SaveAs(fullPath);
-                model.CgmUpload = true;                
+            string path = Request.PhysicalApplicationPath;
+            if (!path.Contains("Prod"))
+            {
+                model.CgmUpload = true;
+            }
+            else
+            {
+                if (file != null && file.ContentLength > 0)
+                {
+                    //todo validate file type
+                    var fileName = Path.GetFileName(file.FileName);
+                    _nlogger.LogInfo("CGM Upload - fileName: " + fileName);
+
+                    var folderPath = ConfigurationManager.AppSettings["CgmUploadPath"].ToString();
+                    var folderSitePath = Path.Combine(folderPath, model.SiteName);
+                    _nlogger.LogInfo("CGM Upload - path: " + folderSitePath);
+                    if (!Directory.Exists(folderSitePath))
+                        Directory.CreateDirectory(folderSitePath);
+
+                    var newName = model.StudyID.Trim() + "_CGM.csv";
+                    var fullPath = Path.Combine(folderSitePath, newName);
+                    file.SaveAs(fullPath);
+                    model.CgmUpload = true;
+                }
             }
 
             bool isOkToClear = true;
