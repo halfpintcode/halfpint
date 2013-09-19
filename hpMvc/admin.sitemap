@@ -21,7 +21,8 @@
         <siteMapNode title="Show Randomized Studies" controller="Dcc" action="RandomizedStudies" />
         <siteMapNode title="Show Study IDs Not Randomized" controller="Coordinator" action="StudyIdsNotRandomized" />
       </siteMapNode>
-      <siteMapNode title="Show Web Logs" controller="Admin" action="WebLogs" />
+      <siteMapNode title="Show Web Log" controller="Admin" action="WebLogs" />
+      <siteMapNode title="Show CHECKS Import Log" controller="Admin" action="ChecksImportLog" />
       <siteMapNode title="Broadcast Email" controller="Admin" action="BroadcastEmail" />
       <siteMapNode title="Send Test Email" controller="Admin" action="TestEmail" />
       <siteMapNode title="Sites" controller="Sites" action="Index" />

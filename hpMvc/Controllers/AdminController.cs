@@ -516,8 +516,14 @@ namespace hpMvc.Controllers
         {            
             var list = DbUtils.GetWebLogs();
             return View(list);
+        }
+
+        public ActionResult ChecksImportLog()
+        {
+            var list = DbUtils.GetChecksImportLog();
+            return View(list);
         } 
-        
+
         public ActionResult GetSavedChecks()
         {
             string role = "Coordinator";

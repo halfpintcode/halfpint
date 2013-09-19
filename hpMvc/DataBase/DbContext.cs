@@ -57,7 +57,7 @@ namespace hpMvc.DataBase
             return emails;
         }
 
-        public static List<WebLog> GetWebLogs(int numRows = 500)
+        public static List<WebLog> GetWebLogs(int numRows = 1000)
         {
 
             var list = new List<WebLog>();
@@ -71,6 +71,52 @@ namespace hpMvc.DataBase
                                       CommandType = System.Data.CommandType.StoredProcedure,
                                       CommandText = ("GetWebLogs")
                                   };
+                    var param = new SqlParameter("@num", numRows);
+                    cmd.Parameters.Add(param);
+                    conn.Open();
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    int pos = 0;
+
+                    while (rdr.Read())
+                    {
+                        var log = new WebLog();
+                        pos = rdr.GetOrdinal("logDate");
+                        log.LogDate = rdr.GetDateTime(pos);
+
+                        pos = rdr.GetOrdinal("logLevel");
+                        log.LogLevel = rdr.GetString(pos);
+
+                        pos = rdr.GetOrdinal("logMessage");
+                        log.LogMessage = rdr.GetString(pos);
+
+                        list.Add(log);
+                    }
+                    rdr.Close();
+                }
+                catch (Exception ex)
+                {
+                    Nlogger.LogError(ex);
+                }
+            }
+
+
+            return list;
+        }
+
+        public static List<WebLog> GetChecksImportLog(int numRows = 1000)
+        {
+
+            var list = new List<WebLog>();
+            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            using (var conn = new SqlConnection(strConn))
+            {
+                try
+                {
+                    var cmd = new SqlCommand("", conn)
+                    {
+                        CommandType = System.Data.CommandType.StoredProcedure,
+                        CommandText = ("GetChecksImportLog")
+                    };
                     var param = new SqlParameter("@num", numRows);
                     cmd.Parameters.Add(param);
                     conn.Open();
