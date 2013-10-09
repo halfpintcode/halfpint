@@ -23,6 +23,8 @@ namespace hpMvc.Models
         public int Sensor { get; set; }
         public bool HasRandomizations { get; set; }
         public bool HasStudyIds { get; set; }
+        public bool UseVampjr { get; set; }
+        public bool UseCalfpint { get; set; }
         public List<InsulinConcentration> InsulinConcentrations { get; set; }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

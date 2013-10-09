@@ -1,0 +1,18 @@
+﻿@model List<hpMvc.Models.WebLog>
+@{
+    ViewBag.Title = "CHECKS Import Log";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>CHECKS Import Log</h2>
+<div>
+
+@{    
+    var grid = new WebGrid(Model, defaultSort: "logDate", rowsPerPage: 100 );
+}
+
+@grid.GetHtml(tableStyle: "webgrid", headerStyle: "header", alternatingRowStyle: "alt")
+</div>
+
+<link href="@Url.Content("~/Content/ShowWebLogs.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/Content/webgrid.css")" rel="stylesheet" type="text/css" />

@@ -1699,6 +1699,11 @@ namespace hpMvc.DataBase
                         site.IsActive = rdr.GetBoolean(pos);
                         pos = rdr.GetOrdinal("Sensor");
                         site.Sensor = rdr.GetInt32(pos);
+
+                        pos = rdr.GetOrdinal("UseVampjr");
+                        site.UseVampjr = rdr.GetBoolean(pos);
+                        pos = rdr.GetOrdinal("UseCalfpint");
+                        site.UseCalfpint = rdr.GetBoolean(pos);
                     }
                     rdr.Close();
                     conn.Close();
@@ -2943,6 +2948,12 @@ namespace hpMvc.DataBase
                         param = new SqlParameter("@active", siteInfo.IsActive);
                         cmd.Parameters.Add(param);
 
+                        param = new SqlParameter("@useCalfpint", siteInfo.UseCalfpint);
+                        cmd.Parameters.Add(param);
+
+                        param = new SqlParameter("@useVampjr", siteInfo.UseVampjr);
+                        cmd.Parameters.Add(param);
+
                         param = new SqlParameter("@sensor", siteInfo.Sensor);
                         cmd.Parameters.Add(param);
 
@@ -3011,6 +3022,8 @@ namespace hpMvc.DataBase
 
                     param = new SqlParameter("@site", siteId);
                     cmd.Parameters.Add(param);
+
+
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
@@ -3117,6 +3130,12 @@ namespace hpMvc.DataBase
                         cmd.Parameters.Add(param);
 
                         param = new SqlParameter("@active", siteInfo.IsActive);
+                        cmd.Parameters.Add(param);
+
+                        param = new SqlParameter("@useCalfpint", siteInfo.UseCalfpint);
+                        cmd.Parameters.Add(param);
+
+                        param = new SqlParameter("@useVampjr", siteInfo.UseVampjr);
                         cmd.Parameters.Add(param);
 
                         param = new SqlParameter("@sensor", siteInfo.Sensor);
