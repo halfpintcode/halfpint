@@ -50,6 +50,8 @@ namespace hpMvc.Controllers
         {
             var siteInfo = DbUtils.GetSiteInfoForNewSite();
             siteInfo.IsActive = true;
+            siteInfo.UseCalfpint = true;
+            siteInfo.UseVampjr = true;
             return View(siteInfo);
         }
 

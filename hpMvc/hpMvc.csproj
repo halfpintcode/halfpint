@@ -701,7 +701,9 @@
     <Content Include="staff.sitemap">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="QuickLinks2.sitemap" />
+    <Content Include="QuickLinks2.sitemap">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\Staff\DisplayFolderPartial.cshtml" />
     <Content Include="Views\Admin\AddStaffPartial.cshtml" />
     <Content Include="Views\Admin\NewStaffConfirmation.cshtml" />
