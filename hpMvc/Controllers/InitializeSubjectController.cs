@@ -43,11 +43,14 @@ namespace hpMvc.Controllers
                 throw new Exception("There was an error retrieving the senor locations list from the database");
             sl.Insert(0, new Site { ID = 0, Name = "Select"});
             
-            var sensorType = DbUtils.GetSiteSensor(siteId);
+            var inititalizeSiteSpecific = DbUtils.GetSiteSpecificForInitialize(siteId);
             
             ViewBag.SensorLocations = new SelectList(sl, "ID", "Name");
-            ViewBag.SensorType = sensorType;
-            _logger.LogInfo("InitializeSubject.Initialize: GET, Site: " + siteId + ", Sensor: " + sensorType);
+            ViewBag.SensorType = inititalizeSiteSpecific.Sensor;
+            ViewBag.UseCafpint = inititalizeSiteSpecific.UseCalfpint;
+            ViewBag.UseVampjr = inititalizeSiteSpecific.UseVampjr;
+
+            _logger.LogInfo("InitializeSubject.Initialize: GET, Site: " + siteId);
             return View();
         }
 

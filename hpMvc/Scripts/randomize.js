@@ -1,7 +1,13 @@
-﻿/// <reference path="jquery-1.7-vsdoc.js" />
+﻿/// <reference path="~/Scripts/jquery-1.7.1-vsdoc.js" />
+/// <reference path="~/Scripts/jquery-ui-1.10.3.js" />
+/// <reference path="~/Scripts/Layout.js" />
 
 $(document).ready(function () {
     var sensorType = $('#sensorType').val();
+    var useCafpint = $('#cafPint').val();
+    var useVampjr = $('#vampjr').val();
+    var studyId;
+    var siteId;
 
     $("#spinner").ajaxStart(function () { $(this).show(); })
 			   .ajaxStop(function () { $(this).hide(); });
@@ -11,6 +17,9 @@ $(document).ready(function () {
     $('#altDownload').hide();
     $('#divMain').hide();
     $('.mod').hide();
+    $('#divCafpintYes').hide();
+    $('#divInr3Yes').hide();
+    $('#divInr3No').hide();
     $('#divInfo').show();
 
     $('ul.sf-menu').superfish({
@@ -18,7 +27,7 @@ $(document).ready(function () {
     });
 
     $('#MonitorDate').datepicker({
-        beforeShow: function (input, inst) {
+        beforeShow: function (input) {
             $.datepicker._pos = $.datepicker._findPos(input); //this is the default position 
             var pos = $(this).position();
             $.datepicker._pos[0] = pos.left + 100; //left              
@@ -26,7 +35,7 @@ $(document).ready(function () {
     });
 
     $('#ExpirationDate').datepicker({
-        beforeShow: function (input, inst) {
+        beforeShow: function (input) {
             $.datepicker._pos = $.datepicker._findPos(input); //this is the default position 
             var pos = $(this).position();
             $.datepicker._pos[0] = pos.left + 100; //left              
@@ -36,19 +45,39 @@ $(document).ready(function () {
     $('#MonitorTime').mask("99:99");
     $('#studyID').mask("99-9999-9");
     $('#BodyWeight').keydown(function (event) {
-        numericsAndDecimalOnly(event, $(this).val());
+        window.numericsAndDecimalOnly(event, $(this).val());
+    });
+
+    $("input:radio[name=cafpintYesNo]").click(function () {
+        var value = $(this).val();
+        if (value == "yes") {
+            $('#divCafpintYes').show();
+        } else {
+            $('#divCafpintYes').hide();
+        }
+    });
+
+    $("input:radio[name=cafpintYes]").click(function () {
+        var value = $(this).val();
+        if (value == "yes") {
+            $('#divInr3Yes').show();
+            $('#divInr3No').hide();
+        } else {
+            $('#divInr3Yes').hide();
+            $('#divInr3No').show();
+        }
     });
 
     $('#btnLogin').click(function () {
-        var studyID = $('#studyID').val();
-        var siteID = $('#userSite').text().substr(0, 2);
-        if (siteID !== studyID.substr(0, 2)) {
-            alert('The study id for your site must begin with ' + siteID);
+        studyId = $('#studyID').val();
+        siteId = $('#userSite').text().substr(0, 2);
+        if (siteId !== studyId.substr(0, 2)) {
+            alert('The study id for your site must begin with ' + siteId);
             return;
         }
 
         var passwordVal = $('#password').val();
-        var url = urlRoot + '/InitializeSubject/ValidateLogin/' + studyID;
+        var url = window.urlRoot + '/InitializeSubject/ValidateLogin/' + studyId;
 
         $.ajax({
             url: url,
@@ -57,7 +86,7 @@ $(document).ready(function () {
             success: function (data) {
                 if (data.IsSuccessful) {
 
-                    $('#mainTitle').text('Initialize Study ID: ' + studyID);
+                    $('#mainTitle').text('Initialize Study ID: ' + studyId);
                     $('#divLogin').slideUp();
                     $('#divMain').slideDown();
                     $('#lnkInfo').parent().addClass("sfHover");
@@ -77,15 +106,23 @@ $(document).ready(function () {
                         $('#lblSensorTime').text('Receiver Time');
                         $('#lblSensorId').text('Receiver Serial Number');
                         $('#lblSensorTransmitterId').text('Transmitter Number');
-                        var srcUrl = urlRoot + "/Content/images/sensorDex.bmp";
+                        var srcUrl = window.urlRoot + "/Content/images/sensorDex.bmp";
                         $('#imgSensor').attr('src', srcUrl);
                         $('#divDexcomVids').show();
                         $('#divMedtronicVids').hide();
                     }
+                    if (useCafpint == "False") {
+                        $('#divCafpint').hide();
+                        $('#liCafpint').hide();
+                    }
+                    if (useVampjr == "False") {
+                        $('#divVamp').hide();
+                        $('#liVamp').hide();
+                    }
                 }
                 else {
                     if (data.ReturnValue === -1) {
-                        window.location.href = urlRoot + '/Error/Index/';
+                        window.location.href = window.urlRoot + '/Error/Index/';
                     }
 
                     alert(data.Message);
@@ -105,11 +142,25 @@ $(document).ready(function () {
                 $('#lnkInstruc').parent().addClass("sfHover");
                 break;
             case "btnInstrucNext":
+                if (useCafpint == "True") {
+                    $('#lnkCafpint').click();
+                    $('#lnkCafpint').parent().addClass("sfHover");
+                } else {
+
+                    if (sensorType == "0") {
+                        $('#lnkParams').click();
+                        $('#lnkParams').parent().addClass("sfHover");
+                    } else {
+                        $('#lnkSensor').click();
+                        $('#lnkSensor').parent().addClass("sfHover");
+                    }
+                }
+                break;
+            case "btnCafpintNext":
                 if (sensorType == "0") {
                     $('#lnkParams').click();
                     $('#lnkParams').parent().addClass("sfHover");
-                }
-                else {
+                } else {
                     $('#lnkSensor').click();
                     $('#lnkSensor').parent().addClass("sfHover");
                 }
@@ -119,8 +170,13 @@ $(document).ready(function () {
                 $('#lnkParams').parent().addClass("sfHover");
                 break;
             case "btnParamsNext":
-                $('#lnkVamp').click();
-                $('#lnkVamp').parent().addClass("sfHover");
+                if (useVampjr == "True") {
+                    $('#lnkVamp').click();
+                    $('#lnkVamp').parent().addClass("sfHover");
+                } else {
+                    $('#lnkCalGluc').click();
+                    $('#lnkCalGluc').parent().addClass("sfHover");
+                }
                 break;
             case "btnVampNext":
                 $('#lnkCalGluc').click();
@@ -146,6 +202,9 @@ $(document).ready(function () {
             case 'lnkInstruc':
                 $('#divInstruc').show();
                 break;
+            case 'lnkCafpint':
+                $('#divCafpint').show();
+                break;
             case 'lnkSensor':
                 $('#divSensor').show();
                 break;
@@ -165,7 +224,6 @@ $(document).ready(function () {
     });
 
     $('#btnDownload').click(function () {
-        var studyId = $('#studyID').val();
         window.location = urlRoot + '/InitializeSubject/InitializeSs/' + studyId;
         $('#startDownloadDialog').dialog('close');
     });
@@ -179,7 +237,6 @@ $(document).ready(function () {
 
         $('#divValidResults').empty();
 
-        var studyId = $('#studyID').val();
         var url = urlRoot + '/InitializeSubject/Initialize/' + studyId;
         var data = $("form").serialize();
         $.ajax({
@@ -240,8 +297,7 @@ $(document).ready(function () {
 
     $('#alnkAltDownload').click(function (e) {
         e.preventDefault();
-        var studyID = $('#studyID').val();
-        var url = urlRoot + '/InitializeSubject/AlternateSSDownload/' + studyID;
+        var url = urlRoot + '/InitializeSubject/AlternateSSDownload/' + studyId;
         window.location.href = url;
     });
 

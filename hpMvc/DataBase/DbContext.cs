@@ -1115,6 +1115,50 @@ namespace hpMvc.DataBase
             }
         }
 
+        public static InitializeSiteSpecific GetSiteSpecificForInitialize(int siteId)
+        {
+            var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+
+            using (var conn = new SqlConnection(strConn))
+            {
+                try
+                {
+                    var cmd = new SqlCommand("", conn)
+                    {
+                        CommandType = System.Data.CommandType.StoredProcedure,
+                        CommandText = "GetSiteSpecificForInitialize"
+                    };
+                    var param = new SqlParameter("@siteId", siteId);
+                    cmd.Parameters.Add(param);
+
+                    conn.Open();
+
+                    var iss = new InitializeSiteSpecific();
+                    var rdr = cmd.ExecuteReader();
+                    if (rdr.Read())
+                    {
+                        int pos = rdr.GetOrdinal("Sensor");
+                        iss.Sensor = rdr.GetInt32(pos);
+
+                        pos = rdr.GetOrdinal("UseCalfpint");
+                        iss.UseCalfpint = rdr.GetBoolean(pos);
+
+                        pos = rdr.GetOrdinal("UseVampjr");
+                        iss.UseVampjr = rdr.GetBoolean(pos);
+                    }
+                    rdr.Close();
+
+                    return iss;
+
+                }
+                catch (Exception ex)
+                {
+                    Nlogger.LogError(ex, "SiteID:" + siteId);
+                    return null;
+                }
+            }
+        }
+
         public static int GetSiteSensor(int siteId)
         {
             var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();

@@ -70,4 +70,11 @@ namespace hpMvc.Models
         public string UserName { get; set; }
         public string UserPassword { get; set; }
     }
+
+    public class InitializeSiteSpecific
+    {
+        public int Sensor { get; set; }
+        public bool UseVampjr { get; set; }
+        public bool UseCalfpint { get; set; }
+    }
 }
