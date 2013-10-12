@@ -1,269 +1,272 @@
 ﻿@{
-	ViewBag.Title = "Initialize Subject";
-	Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Initialize Subject";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <div id="downloadDialog">
     <p>
-        Please wait... This download could take a few minutes.  
+        Please wait... This download could take a few minutes.
     </p>
 </div>
-
 <div id="startDownloadDialog" class="divBtnDownload">
     <p class="textLeft">
-        CHECKS is ready for download, click the begin download button to download and save CHECKS.
+        CHECKS is ready for download, click the begin download button to download and save
+        CHECKS.
     </p>
     <p>
         <strong>Make sure you save CHECKS to the C:\\Halfpint directory!</strong>
     </p>
-    <br/>
-    <br/>
-    <button id="btnDownload">Begin CHECKS Download</button>
-    <br/>
-    <br/>
+    <br />
+    <br />
+    <button id="btnDownload">
+        Begin CHECKS Download</button>
+    <br />
+    <br />
     <p class="textLeft">
-        This download could take up to two minutes.  Do not move off this page until the download is complete.  If however, this download doesn't start after two minutes then click on the alternate download link below.    
+        This download could take up to two minutes. Do not move off this page until the
+        download is complete. If however, this download doesn't start after two minutes
+        then click on the alternate download link below.
     </p>
-
-    
 </div>
-
 <div id="divLogin">
-	<h3>Enter the study id and password for initializing this subject</h3>
-	<br /> 
-	<label class="lblLogin">Study ID:</label> <input type="text" name="studyID" id="studyID" value="01-0128-4" />
-	<br />
-	<label class="lblLogin">Password:</label> <input type="text" name="password" id="password" value="ram"/> 
-	<br />
-	<input type="button" id="btnLogin" value="Submit" /> 
+    <h3>
+        Enter the study id and password for initializing this subject</h3>
+    <br />
+    <label class="lblLogin">
+        Study ID:</label>
+    <input type="text" name="studyID" id="studyID" value="01-0128-4" />
+    <br />
+    <label class="lblLogin">
+        Password:</label>
+    <input type="text" name="password" id="password" value="ram" />
+    <br />
+    <input type="button" id="btnLogin" value="Submit" />
 </div>
-
 <div id="divMain" class="hideStart">
-	<div id="mainTitle">
-        Initialize Study ID        
-	    <input type="hidden" value='@ViewBag.SensorType' name="sensorType" id="sensorType"/>
-	    <input type="hidden" value='@ViewBag.UseCafpint' name="cafPint" id="cafPint"/>
-        <input type="hidden" value='@ViewBag.UseVampjr' name="vampjr" id="vampjr"/>
+    <div id="mainTitle">
+        Initialize Study ID
     </div>
-	<div id="divSideBar">		
-		<ul>			
-			<li><a href="#" id="lnkInfo">Information</a></li>
-		    <li><a href="#" id="lnkInstruc">Instructions</a></li>
+    <div id="divSideBar">
+        <ul>
+            <li><a href="#" id="lnkInfo">Information</a></li>
+            <li><a href="#" id="lnkInstruc">Instructions</a></li>
             <li id="liCafpint"><a href="#" id="lnkCafpint">CAF-PINT</a></li>
             <li id="liSensor"><a href="#" id="lnkSensor">Start Medtronic Sensor</a></li>
             @*<li id="liSensorMedtronic"><a href="#" id="lnkSensorMedtronic">Start Medtronic Sensor</a></li>*@
             @*<li id="liSensorDexcom"><a href="#" id="lnkSensorDexcom">Start Dexcom Sensor</a></li>*@
-			<li><a href="#" id="lnkParams">Order Insulin</a></li>
-			<li id="liVamp"><a href="#" id="lnkVamp">Place Vamp Jr.</a></li>
-			<li><a href="#" id="lnkCalGluc">QC Glucose Meter</a></li>
-			<li><a href="#" id="lnkRandomize">Start CHECKS</a></li>
-		</ul>
-	</div>		   
-	<form action="" method="post">
-		<div id="div1Col">
-			<hr />
-			<div id="divInfo" class="mod">
-				<h3>Information Page</h3>
-				<hr />
-				<p>
-					This webpage will take you through a series of steps so that you can start a new subject on the HALF-PINT study.			
-				</p>
-				<p>
-					First confirm the following:
-				</p>
-				
-				<div class="square">
-					<ul >
-						<li>Your patient has a 2nd confirmed BG over 150</li>
-						<li>A study cart is available. Each ICU has 3 study carts. If all 3 carts are in use contact your study coordinator</li>
-						<li> Inspect study cart to determine you have all the neccessary supplies <strong>prior</strong> to randomization.						
-							
-							<ul>
-								<li class="sensorInfo">Sensor Supplies
-									<ul >
-										<li>2 unopened sensor packages. Check expiration date.</li>
-										<li>Transmitter in charger</li>
-										<li>Monitor</li>
-										<li>Inserter</li>								        
-									</ul>
-								</li>
-								<li>VAMP supplies
-									<ul>
-										<li>2 VAMP devices</li>
-										<li>Adequate sampling cannulas</li>                            
-									</ul>
-								</li>
-								<li>Study Glucose Meter (StatStrip)
-									<ul >
-										<li>Meter</li>
-										<li>Dock with spare battery</li>
-										<li>A sufficient supply of test strips</li>
-										<li>High QC vial</li>
-										<li>Low QC vial</li>                            
-									</ul>
-								</li>
-							</ul>
-							
-						</li>
-					</ul>
-				</div>
-				<br />
-				
-				<input type="button" id="btnInfoNext" class="nextButton" value="I am ready to proceed" />
-			</div>
-		    <div id="divInstruc" class="mod">
-		        <h3>Instructions Page</h3>
-		        <hr />
-		        <p>
-		            The next steps will include the following:
-		        </p>
-		        <div class="square">
-		            <ul>
-		                <li class="sensorInfo">
-		                    Sensor insertion by a trained staff member
-		                </li>
-		                <li>
-		                    Order  insulin infusion
-		                </li>
-		                <li>
-		                    Placement of VAMP device
-		                </li>
-		                <li>
-		                    QC of StatStrip monitor
-		                </li>
-		                <li>
-		                    Start CHECKS
-		                    <ul>
-		                        <li>
-		                            Refer to bedside nursing binder for steps to open and start CHECKS
-		                        </li>
-		                        <li>
-		                            CHECKS will assign blood glucose range
-		                        </li>
-		                    </ul>
-		                </li>
-		            </ul>
-		        </div>
-		        <br />
-		        <p>
-		            You can follow these steps in any order except starting the CHECKS algorithm, 
-		            which is always the last step. Use the light blue menu on the left to skip from step to step. 
-		            You may want to have the study bedside instruction binder nearby as you will need to refer to it during the final step of saving and opening the CHECKS file.
-		        </p>
-		        <p>
-		            If you have any questions during this process, the contact information for the study team is also in the study binder. When you are ready to proceed, click Next
-		        </p>
-		        <br />
-		        <input type="button" id="btnInstrucNext" class="nextButton" value="Next" />
-		    </div>
-            
-		    <div id="divCafpint" class="mod">
-		        <h3>CAF-PINT</h3>
-		        <hr/>		        
-		        <span>Did this subject provide consent for the CAF-PINT ancillary study?</span><br />
-		        <input type="radio" name="cafpintYesNo" value="yes"/>Yes
-                <input type="radio" name="cafpintYesNo" value="no"/>No
-		        <div id="divCafpintYes">
-		            <span>Was this subject’s most recent INR > 3?</span><br />
-                    <input type="radio" name="cafpintYes" value="yes"/>Yes
-		            <input type="radio" name="cafpintYes" value="no"/>No
-		            <input type="radio" name="cafpintYes" value="no inr"/>No INR documented
-                    
-		            <div id="divInr3Yes">
-		                <span>This subject is not eligible for CAF-PINT due to an INR >3.  Press 'Complete' to continue to the next step.</span>
-		            </div>
-                    
-                    <div id="divInr3No">
-                        <span>Enter subject’s CAF-PINT ID: </span>
-                        <input type="text" id="calfPintId" name="calfPintId"/>
-                        <br/>
-                        <span>Remember to collect the study Day 0 (baseline) blood specimens for CAF-PINT prior to starting insulin.</span>
-		            </div>
-		        </div>    
-		        
+            <li><a href="#" id="lnkParams">Order Insulin</a></li>
+            <li id="liVamp"><a href="#" id="lnkVamp">Place Vamp Jr.</a></li>
+            <li><a href="#" id="lnkCalGluc">QC Glucose Meter</a></li>
+            <li><a href="#" id="lnkRandomize">Start CHECKS</a></li>
+        </ul>
+    </div>
+    <form action="" method="post">
+    <div id="div1Col">
+        <hr />
+        <input type="hidden" value='@ViewBag.SensorType' name="sensorType" id="sensorType"/>
+        <input type="hidden" value='@ViewBag.UseCafpint' name="cafPint" id="cafPint"/>
+        <input type="hidden" value='@ViewBag.UseVampjr' name="vampjr" id="vampjr"/>
+        <div id="divInfo" class="mod">
+            <h3>
+                Information Page</h3>
+            <hr />
+            <p>
+                This webpage will take you through a series of steps so that you can start a new
+                subject on the HALF-PINT study.
+            </p>
+            <p>
+                First confirm the following:
+            </p>
+            <div class="square">
+                <ul>
+                    <li>Your patient has a 2nd confirmed BG over 150</li>
+                    <li>A study cart is available. Each ICU has 3 study carts. If all 3 carts are in use
+                        contact your study coordinator</li>
+                    <li>Inspect study cart to determine you have all the neccessary supplies <strong>prior</strong>
+                        to randomization.
+                        <ul>
+                            <li class="sensorInfo">Sensor Supplies
+                                <ul>
+                                    <li>2 unopened sensor packages. Check expiration date.</li>
+                                    <li>Transmitter in charger</li>
+                                    <li>Monitor</li>
+                                    <li>Inserter</li>
+                                </ul>
+                            </li>
+                            <li>VAMP supplies
+                                <ul>
+                                    <li>2 VAMP devices</li>
+                                    <li>Adequate sampling cannulas</li>
+                                </ul>
+                            </li>
+                            <li>Study Glucose Meter (StatStrip)
+                                <ul>
+                                    <li>Meter</li>
+                                    <li>Dock with spare battery</li>
+                                    <li>A sufficient supply of test strips</li>
+                                    <li>High QC vial</li>
+                                    <li>Low QC vial</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <br />
+            <input type="button" id="btnInfoNext" class="nextButton" value="I am ready to proceed" />
+        </div>
+        <div id="divInstruc" class="mod">
+            <h3>
+                Instructions Page</h3>
+            <hr />
+            <p>
+                The next steps will include the following:
+            </p>
+            <div class="square">
+                <ul>
+                    <li class="sensorInfo">Sensor insertion by a trained staff member </li>
+                    <li>Order insulin infusion </li>
+                    <li>Placement of VAMP device </li>
+                    <li>QC of StatStrip monitor </li>
+                    <li>Start CHECKS
+                        <ul>
+                            <li>Refer to bedside nursing binder for steps to open and start CHECKS </li>
+                            <li>CHECKS will assign blood glucose range </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <br />
+            <p>
+                You can follow these steps in any order except starting the CHECKS algorithm, which
+                is always the last step. Use the light blue menu on the left to skip from step to
+                step. You may want to have the study bedside instruction binder nearby as you will
+                need to refer to it during the final step of saving and opening the CHECKS file.
+            </p>
+            <p>
+                If you have any questions during this process, the contact information for the study
+                team is also in the study binder. When you are ready to proceed, click Next
+            </p>
+            <br />
+            <input type="button" id="btnInstrucNext" class="nextButton" value="Next" />
+        </div>
+        <div id="divCafpint" class="mod">
+            <h3>
+                CAF-PINT</h3>
+            <hr />
+            <span>Did this subject provide consent for the CAF-PINT ancillary study?</span><br />
+            <input type="radio" name="cafpintYesNo" value="yes" />Yes
+            <input type="radio" name="cafpintYesNo" value="no" />No<br />
+            <br />
+            <div id="divCafpintYes">
+                <span>Was this subject’s most recent INR > 3?</span><br />
+                <input type="radio" name="cafpintYes" value="yes" />Yes
+                <input type="radio" name="cafpintYes" value="no" />No
+                <input type="radio" name="cafpintYes" value="no inr" />No INR documented
                 <br />
-	            <input type="button" id="btnCafpintNext" class="nextButton" value="Complete" />
-		    </div>
-
-	        <div id="divSensor" class="mod">
-	            <h3 id="h3SensorTitle">Start Medtronic Sensor</h3>
-	            <br />				
-	            Enter the following sensor information (videos are available for review)
-	            <hr />
-	            <div id="divInnerSensor">
-	                <br />
-	                <input type="hidden" id="SensorType" name="SensorType"/>
-	                <p>
-	                    <label for="MonitorDate" id="lblSensorDate">Monitor Date</label>
-	                    <input type="text" id="MonitorDate" name="MonitorDate" size="25"  />
-	                </p>
-	                <p>
-	                    <label for="MonitorTime" id="lblSensorTime">Monitor Time</label>
-	                    <input type="text" id="MonitorTime" name="MonitorTime" size="25" />
-	                </p>
-	                <p>
-	                    <label for="MonitorID" id="lblSensorId">Monitor ID</label>
-	                    <input type="text" id="MonitorID" name="MonitorID" size="25" />
-	                </p>
-	                <p>
-	                    <label for="TransmitterID" id="lblSensorTransmitterId">Transmitter ID</label>
-	                    <input type="text" id="TransmitterID" name="TransmitterID" size="25" />
-	                </p>
-	                <p>
-	                    <label for="SensorLot">Sensor Lot</label>
-	                    <input type="text" id="SensorLot" name="SensorLot" size="25" />
-	                </p>
-	                <p>
-	                    <label for="ExpirationDate">Sensor Expiration Date</label>
-	                    <input type="text" id="ExpirationDate" name="ExpirationDate" size="25"  />
-	                </p>
-	                <p>
-	                    <label for="InserterFirstName">Inserter First Name</label>
-	                    <input type="text" id="InserterFirstName" name="InserterFirstName" size="25" />
-	                </p>
-	                <p>
-	                    <label for="InserterLastName">Inserter Last Name</label>
-	                    <input type="text" id="InserterLastName" name="InserterLastName" size="25" />
-	                </p>
-	                <p>
-	                    <label for="SensorLocation">Sensor Location</label>
-	                    @Html.DropDownList("SensorLocations")
-	                </p>
-	                <br />
-	                <input type="button" id="btnSensorNext" class="nextButton" value="Complete" />		
-	            </div>
-	            <div id="sensorImage">
-	                <img id="imgSensor" src='@Url.Content("~/Content/images/sensorMed.bmp")' alt="image" />    
-	            </div>			    
-	            <div id="divMedtronicVids">
-	                <br /><br />
-	                <iframe src="//player.vimeo.com/video/36000592?title=0&amp;byline=0&amp;portrait=0" 
-	                        width="533" height="300" 
-	                        frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen>
-	                </iframe>
-	                <p>
-	                    Guardian Monitor
-	                </p>
-	            </div>
-	            <div id="divDexcomVids">
-	                <br /><br />
-	                <iframe src="//player.vimeo.com/video/57858264?title=0&amp;byline=0&amp;portrait=0" 
-	                        width="533" height="300" 
-	                        frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen>
-	                </iframe>
-	                <p>
-	                    Dexcom G4 Sensor Video
-	                </p>
-	                <iframe src="//player.vimeo.com/video/57688188?title=0&amp;byline=0&amp;portrait=0" 
-	                        width="533" height="300" 
-	                        frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen>
-	                </iframe>
-	                <p>
-	                    Dexcom G4 Receiver Video
-	                </p>
-	            </div>			
-	        </div>
-	        @*<div id="divSensorDexcom" class="mod">
+                <br />
+                <div id="divInr3Yes">
+                    <span>This subject is not eligible for CAF-PINT due to an INR >3. Press 'Complete' to
+                        continue to the next step.</span>
+                </div>
+                <div id="divInr3No">
+                    <span>Enter subject’s CAF-PINT ID: </span>
+                    <input type="text" id="calfPintId" name="calfPintId" />
+                    <br />
+                    <span>Remember to collect the study Day 0 (baseline) blood specimens for CAF-PINT prior
+                        to starting insulin.</span>
+                </div>
+            </div>
+            <br />
+            <input type="button" id="btnCafpintNext" class="nextButton" value="Complete" />
+        </div>
+        <div id="divSensor" class="mod">
+            <h3 id="h3SensorTitle">
+                Start Medtronic Sensor</h3>
+            <br />
+            Enter the following sensor information (videos are available for review)
+            <hr />
+            <div id="divInnerSensor">
+                <br />
+                <input type="hidden" id="SensorType" name="SensorType" />
+                <p>
+                    <label for="MonitorDate" id="lblSensorDate">
+                        Monitor Date</label>
+                    <input type="text" id="MonitorDate" name="MonitorDate" size="25" />
+                </p>
+                <p>
+                    <label for="MonitorTime" id="lblSensorTime">
+                        Monitor Time</label>
+                    <input type="text" id="MonitorTime" name="MonitorTime" size="25" />
+                </p>
+                <p>
+                    <label for="MonitorID" id="lblSensorId">
+                        Monitor ID</label>
+                    <input type="text" id="MonitorID" name="MonitorID" size="25" />
+                </p>
+                <p>
+                    <label for="TransmitterID" id="lblSensorTransmitterId">
+                        Transmitter ID</label>
+                    <input type="text" id="TransmitterID" name="TransmitterID" size="25" />
+                </p>
+                <p>
+                    <label for="SensorLot">
+                        Sensor Lot</label>
+                    <input type="text" id="SensorLot" name="SensorLot" size="25" />
+                </p>
+                <p>
+                    <label for="ExpirationDate">
+                        Sensor Expiration Date</label>
+                    <input type="text" id="ExpirationDate" name="ExpirationDate" size="25" />
+                </p>
+                <p>
+                    <label for="InserterFirstName">
+                        Inserter First Name</label>
+                    <input type="text" id="InserterFirstName" name="InserterFirstName" size="25" />
+                </p>
+                <p>
+                    <label for="InserterLastName">
+                        Inserter Last Name</label>
+                    <input type="text" id="InserterLastName" name="InserterLastName" size="25" />
+                </p>
+                <p>
+                    <label for="SensorLocation">
+                        Sensor Location</label>
+                    @Html.DropDownList("SensorLocations")
+                </p>
+                <br />
+                <input type="button" id="btnSensorNext" class="nextButton" value="Complete" />
+            </div>
+            <div id="sensorImage">
+                <img id="imgSensor" src='@Url.Content("~/Content/images/sensorMed.bmp")' alt="image" />
+            </div>
+            <div id="divMedtronicVids">
+                <br />
+                <br />
+                <iframe src="//player.vimeo.com/video/36000592?title=0&amp;byline=0&amp;portrait=0"
+                    width="533" height="300" frameborder="0" webkitallowfullscreen mozallowfullscreen
+                    allowfullscreen></iframe>
+                <p>
+                    Guardian Monitor
+                </p>
+            </div>
+            <div id="divDexcomVids">
+                <br />
+                <br />
+                <iframe src="//player.vimeo.com/video/57858264?title=0&amp;byline=0&amp;portrait=0"
+                    width="533" height="300" frameborder="0" webkitallowfullscreen mozallowfullscreen
+                    allowfullscreen></iframe>
+                <p>
+                    Dexcom G4 Sensor Video
+                </p>
+                <iframe src="//player.vimeo.com/video/57688188?title=0&amp;byline=0&amp;portrait=0"
+                    width="533" height="300" frameborder="0" webkitallowfullscreen mozallowfullscreen
+                    allowfullscreen></iframe>
+                <p>
+                    Dexcom G4 Receiver Video
+                </p>
+            </div>
+        </div>
+        @*<div id="divSensorDexcom" class="mod">
                 <h3>Start Dexcom Sensor</h3>
                 <br />				
                 Enter the following sensor information (videos are available for review)
@@ -317,99 +320,113 @@
                     <div>Videos for Dexcom</div>
                 </div>
             </div>*@
-	        <div id="divParams" class="mod">
-	            <h3>Order Insulin</h3>
-	            <br />
-	            <p>
-	                The insulin infusion should be ordered by a unit prescriber. 
-	                Refer to the bedside binder for your center’s ordering procedure and standard concentrations. Enter the following information:
-	            </p>
-	            <hr />
-					
-	            <br />
-	            <p>
-	                <label for="BodyWeight">Subject Body Weight (kg)</label>
-	                <input type="text" id="BodyWeight" name="BodyWeight" size="25"  />
-	            </p>
-	            <p>
-	                <label for="InsulinConcentration">Desired Insulin Concentration</label>
-	                @Html.DropDownList("Concentrations")
-	            </p>
-	            <p>
-	                <label for="OrderIns">Insulin ordered by prescriber</label>
-	                <input type="checkbox" id="OrderIns" name="OrderIns" size="25"  />
-	            </p>				
-	            <br />
-	            <input type="button" id="btnParamsNext" class="nextButton" value="Complete" />
-	        </div>
-	        <div id="divVamp" class="mod">
-	            <h3>Place Vamp Jr.</h3>
-	            <br />
-	            <p>
-	                Place VAMP device into the subject’s vascular access device. Refer to bedside binder for VAMP placement decision tree. (video is available for review)
-	            </p>
-	            <hr />
-	            <iframe src="//player.vimeo.com/video/36693991?title=0&amp;byline=0&amp;portrait=0" 
-	                    width="533" height="300" frameborder="0" 
-	                    webkitAllowFullScreen mozallowfullscreen allowFullScreen>
-	            </iframe>
-	            <p>
-	                Module 5: Vamp Jr.
-	            </p>				
-	            <input type="checkbox" id="chkVamp" name="chkVamp" /> I have placed the Vamp Jr
-	            <br />
-	            <input type="button" id="btnVampNext" class="nextButton" value="Complete" />
-	        </div>
-	        <div id="divCalGluc" class="mod">
-	            <h3>QC Glucose Meter</h3>
-	            <br />
-	            <p>
-	                Perform QC testing on StatStrip Meter using both Level 1 and Level 3. Meter must pass on both levels prior to use for blood glucose testing. If a QC test does not fall within the specified range, verify that the Glucose Test Strips and Control Solutions are not past their expiration dates. Repeat the test with a new strip. If the second test fails, inspect and clean the meter according to Section 6.3 of the meter manual located on the study cart. If the third test fails, contact study staff
-	            </p>
-	            <hr />
-	            <iframe src="//player.vimeo.com/video/35996343?title=0&amp;byline=0&amp;portrait=0" 
-	                    width="533" height="300" 
-	                    frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen>
-	            </iframe>
-	            <p>
-	                Module 2: Nova StatStrip
-	            </p>				
-	            <input type="checkbox" id="chkCalGluc" name="chkCalGluc"/> I have run QC with levels 1 and 3 and both have passed.
-	            <br />                
-	            <input type="button" id="btnCalGlucNext" class="nextButton" value="Complete" />
-	        </div>
-	        <div id="divRandomize" class="mod">
-	            <h3>Start CHECKS</h3>
-	            <br />
-	            <p>
-	                If you are unsure of how to use CHECKS, play the video below. Refer to the screenshots and instructions in the bedside study binder when saving and opening the CHECKS spreadsheet.
-	            </p>
-	            <hr />
-	            <div>
-	                <iframe src="//player.vimeo.com/video/35991973?title=0&amp;byline=0&amp;portrait=0" 
-	                        width="533" height="300" 
-	                        frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen>
-	                </iframe>
-	            </div>
-	            <p>
-	                Module 6: Using the CHECKS Insulin Infusion Algorithm
-	            </p>							
-	            <br />
-	            <div id="divValidResults"></div>
-	            <input type="button" id="btnInitialize" value="Initialize" />
-	        </div>
-	        <br />            
-	        <div id="altDownload">
-	            <a href="" id="alnkAltDownload"><strong>Click here</strong> &nbsp; if you had problems downloading and saving the spreadsheet</a>  
-	        </div>
-	    </div>
-	</form>
+        <div id="divParams" class="mod">
+            <h3>
+                Order Insulin</h3>
+            <br />
+            <p>
+                The insulin infusion should be ordered by a unit prescriber. Refer to the bedside
+                binder for your center’s ordering procedure and standard concentrations. Enter the
+                following information:
+            </p>
+            <hr />
+            <br />
+            <p>
+                <label for="BodyWeight">
+                    Subject Body Weight (kg)</label>
+                <input type="text" id="BodyWeight" name="BodyWeight" size="25" />
+            </p>
+            <p>
+                <label for="InsulinConcentration">
+                    Desired Insulin Concentration</label>
+                @Html.DropDownList("Concentrations")
+            </p>
+            <p>
+                <label for="OrderIns">
+                    Insulin ordered by prescriber</label>
+                <input type="checkbox" id="OrderIns" name="OrderIns" size="25" />
+            </p>
+            <br />
+            <input type="button" id="btnParamsNext" class="nextButton" value="Complete" />
+        </div>
+        <div id="divVamp" class="mod">
+            <h3>
+                Place Vamp Jr.</h3>
+            <br />
+            <p>
+                Place VAMP device into the subject’s vascular access device. Refer to bedside binder
+                for VAMP placement decision tree. (video is available for review)
+            </p>
+            <hr />
+            <iframe src="//player.vimeo.com/video/36693991?title=0&amp;byline=0&amp;portrait=0"
+                width="533" height="300" frameborder="0" webkitallowfullscreen mozallowfullscreen
+                allowfullscreen></iframe>
+            <p>
+                Module 5: Vamp Jr.
+            </p>
+            <input type="checkbox" id="chkVamp" name="chkVamp" />
+            I have placed the Vamp Jr
+            <br />
+            <input type="button" id="btnVampNext" class="nextButton" value="Complete" />
+        </div>
+        <div id="divCalGluc" class="mod">
+            <h3>
+                QC Glucose Meter</h3>
+            <br />
+            <p>
+                Perform QC testing on StatStrip Meter using both Level 1 and Level 3. Meter must
+                pass on both levels prior to use for blood glucose testing. If a QC test does not
+                fall within the specified range, verify that the Glucose Test Strips and Control
+                Solutions are not past their expiration dates. Repeat the test with a new strip.
+                If the second test fails, inspect and clean the meter according to Section 6.3 of
+                the meter manual located on the study cart. If the third test fails, contact study
+                staff
+            </p>
+            <hr />
+            <iframe src="//player.vimeo.com/video/35996343?title=0&amp;byline=0&amp;portrait=0"
+                width="533" height="300" frameborder="0" webkitallowfullscreen mozallowfullscreen
+                allowfullscreen></iframe>
+            <p>
+                Module 2: Nova StatStrip
+            </p>
+            <input type="checkbox" id="chkCalGluc" name="chkCalGluc" />
+            I have run QC with levels 1 and 3 and both have passed.
+            <br />
+            <input type="button" id="btnCalGlucNext" class="nextButton" value="Complete" />
+        </div>
+        <div id="divRandomize" class="mod">
+            <h3>
+                Start CHECKS</h3>
+            <br />
+            <p>
+                If you are unsure of how to use CHECKS, play the video below. Refer to the screenshots
+                and instructions in the bedside study binder when saving and opening the CHECKS
+                spreadsheet.
+            </p>
+            <hr />
+            <div>
+                <iframe src="//player.vimeo.com/video/35991973?title=0&amp;byline=0&amp;portrait=0"
+                    width="533" height="300" frameborder="0" webkitallowfullscreen mozallowfullscreen
+                    allowfullscreen></iframe>
+            </div>
+            <p>
+                Module 6: Using the CHECKS Insulin Infusion Algorithm
+            </p>
+            <br />
+            <div id="divValidResults">
+            </div>
+            <input type="button" id="btnInitialize" value="Initialize" />
+        </div>
+        <br />
+        <div id="altDownload">
+            <a href="" id="alnkAltDownload"><strong>Click here</strong> &nbsp; if you had problems
+                downloading and saving the spreadsheet</a>
+        </div>
+    </div>
+    </form>
 </div>
-
 <link href="@Url.Content("~/Content/randomize.css")" rel="stylesheet" type="text/css" />
 <link href="@Url.Content("~/Content/Superfish/superfish.css")" rel="stylesheet" type="text/css" />
-
-
 <script src="@Url.Content("~/Scripts/jquery.hoverIntent.minified.js")" type="text/javascript"></script>
 <script src="@Url.Content("~/Scripts/superfish.js")" type="text/javascript"></script>
 <script src="@Url.Content("~/Scripts/randomize.js")" type="text/javascript"></script>

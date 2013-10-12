@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web.Mvc;
 using hpMvc.Helpers;
 using hpMvc.Models;
 using hpMvc.DataBase;
 using hpMvc.Infrastructure.Logging;
-using System.Configuration;
-using System.Web.Security;
 
 namespace hpMvc.Controllers
 {
@@ -170,10 +167,10 @@ namespace hpMvc.Controllers
         {
             _logger.LogInfo("Initialize.InitializeSS: " + studyId);
 
-            int siteId = DbUtils.GetSiteidIDForUser(User.Identity.Name);
-            int sensorType = DbUtils.GetSiteSensor(siteId);
+            //int siteId = DbUtils.GetSiteidIDForUser(User.Identity.Name);
+            //int sensorType = DbUtils.GetSiteSensor(siteId);
 
-            var ssInsert = (SSInsertionData)TempData["InsertData"];
+           // var ssInsert = (SSInsertionData)TempData["InsertData"];
             
             string path = Request.PhysicalApplicationPath + "xcel\\" + studyId.Substring(0, 2) + "\\";
             string file = path + studyId + ".xlsm";
