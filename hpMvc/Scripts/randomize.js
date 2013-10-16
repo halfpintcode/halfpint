@@ -303,34 +303,34 @@ $(document).ready(function () {
     });
 
     function validate() {
-        if (useCafpint == "True") {
-            var val = $("input:radio[name=cafpintYesNo]:checked").val();
-            if (!val) {
-                alert('CAF-PINT question requires an answer');
-                $('.mod').hide();
-                $('#divCafpint').show();
-                return false;
-            }
-            if (val == "yes") {
-                val = $("input:radio[name=cafpintYes]:checked").val();
-                if (!val) {
-                    alert('All CAF-PINT questions require an answer');
-                    $('.mod').hide();
-                    $('#divCafpint').show();
-                    return false;
-                }
-                if (val != "yes") {
-                    val = $("#calfPintId").val();
-                    if (!val) {
-                        alert('Enter the CAF-PINT Id');
-                        $('.mod').hide();
-                        $('#divCafpint').show();
-                        $("#calfPintId").focus();
-                        return false;
-                    }
-                }
-            }
-        }
+//        if (useCafpint == "True") {
+//            var val = $("input:radio[name=cafpintYesNo]:checked").val();
+//            if (!val) {
+//                alert('CAF-PINT question requires an answer');
+//                $('.mod').hide();
+//                $('#divCafpint').show();
+//                return false;
+//            }
+//            if (val == "yes") {
+//                val = $("input:radio[name=cafpintYes]:checked").val();
+//                if (!val) {
+//                    alert('All CAF-PINT questions require an answer');
+//                    $('.mod').hide();
+//                    $('#divCafpint').show();
+//                    return false;
+//                }
+//                if (val != "yes") {
+//                    val = $("#calfPintId").val();
+//                    if (!val) {
+//                        alert('Enter the CAF-PINT Id');
+//                        $('.mod').hide();
+//                        $('#divCafpint').show();
+//                        $("#calfPintId").focus();
+//                        return false;
+//                    }
+//                }
+//            }
+//        }
 
 //        if (sensorType === "1" || sensorType === "2") {
 //            val = $('#MonitorDate').val();

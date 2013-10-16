@@ -3,6 +3,7 @@ using System.Collections.Specialized;
 using System.Collections.Generic;
 using hpMvc.Infrastructure.Logging;
 using hpMvc.Models;
+using System.Text.RegularExpressions;
 
 namespace hpMvc.DataBase
 {
@@ -14,14 +15,72 @@ namespace hpMvc.DataBase
             Nlogger = new NLogger();
         }
 
-        public static bool IsValidInitialize(NameValueCollection formParams, int sensorType, out List<ValidationMessages> messages, out SSInsertionData insertData)
+        public static bool IsValidInitialize(NameValueCollection formParams, out List<ValidationMessages> messages, out SSInsertionData insertData)
         {
             messages = new List<ValidationMessages>();
             insertData = new SSInsertionData();
 
+            //cafpint
+            bool useCafpint = bool.Parse(formParams["cafpint"]);
+            bool useVampjr = bool.Parse(formParams["vampjr"]);
+
+            if (useCafpint)
+            {
+                //see if they answered the first question
+                if (formParams["cafpintYesNo"] == null)
+                    messages.Add(new ValidationMessages
+                                 {
+                                     FieldName = "cafpintYesNo",
+                                     DisplayName = "CAF-Pint question",
+                                     Message = "is required"
+                                 });
+                else
+                {
+                    //if yes - check for required second answer
+                    if (formParams["cafpintYesNo"] == "yes")
+                    {
+                        if (formParams["cafpintYes"] == null)
+                            messages.Add(new ValidationMessages
+                                         {
+                                             FieldName = "cafpintYes",
+                                             DisplayName = "All CAF-Pint questions",
+                                             Message = "are required"
+                                         });
+                        else
+                        {
+                            if (formParams["cafpintYes"] != "yes")
+                            {
+                                if (formParams["calfPintId"] == null || formParams["calfPintId"] == "")
+                                    messages.Add(new ValidationMessages
+                                    {
+                                        FieldName = "calfPintId",
+                                        DisplayName = "CAF-Pint Id",
+                                        Message = "is required"
+                                    });
+                            }
+                            else
+                            {
+                                var cafpintId = formParams["calfPintId"];
+                                var match = Regex.Match(cafpintId, "^(\\d{2}\\-\\d{3})$", RegexOptions.None);
+                                if(! match.Success)
+                                    messages.Add(new ValidationMessages
+                                    {
+                                        FieldName = "calfPintId",
+                                        DisplayName = "CAF-Pint Id",
+                                        Message = "is not a valid Id (example of a valid Id: 01-123)"
+                                    });
+                            }
+                        }
+
+                    }    
+                }
+                
+            }
+
+            int sensorType = int.Parse( formParams["sensorType"]);
             if (sensorType > 0)
             {
-                insertData.SensorType = sensorType;
+                insertData.SensorType = sensorType; 
 
                 string monitorDate = formParams["MonitorDate"];
                 monitorDate = monitorDate.Trim();

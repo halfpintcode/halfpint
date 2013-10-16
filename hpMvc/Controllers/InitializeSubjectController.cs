@@ -57,7 +57,7 @@ namespace hpMvc.Controllers
             _logger.LogInfo("InitializeSubject.Initialize - Post: " + studyId);
             
             var siteId = DbUtils.GetSiteidIDForUser(User.Identity.Name);
-            var sensorType = DbUtils.GetSiteSensor(siteId);
+            var sensorType = int.Parse( Request.Params["sensorType"]);  //DbUtils.GetSiteSensor(siteId);
 
             var messages = new List<ValidationMessages>();
             var dto = new InitializeDTO {IsSuccessful = true, ValidMessages = messages};
@@ -65,7 +65,7 @@ namespace hpMvc.Controllers
             SSInsertionData ssInsert;
 
             _logger.LogInfo("InitializeSubject.Initialize - validation: " + studyId);
-            if (!DbInitializeContext.IsValidInitialize(Request.Params, sensorType, out messages, out ssInsert))
+            if (!DbInitializeContext.IsValidInitialize(Request.Params, out messages, out ssInsert))
             {
                 dto.ValidMessages = messages;
                 dto.IsSuccessful = false;
