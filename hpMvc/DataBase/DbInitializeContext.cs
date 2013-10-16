@@ -50,25 +50,25 @@ namespace hpMvc.DataBase
                         {
                             if (formParams["cafpintYes"] != "yes")
                             {
-                                if (formParams["calfPintId"] == null || formParams["calfPintId"] == "")
+                                if (formParams["cafPintId"] == null || formParams["cafPintId"] == "")
                                     messages.Add(new ValidationMessages
                                     {
-                                        FieldName = "calfPintId",
+                                        FieldName = "cafPintId",
                                         DisplayName = "CAF-Pint Id",
                                         Message = "is required"
                                     });
-                            }
-                            else
-                            {
-                                var cafpintId = formParams["calfPintId"];
-                                var match = Regex.Match(cafpintId, "^(\\d{2}\\-\\d{3})$", RegexOptions.None);
-                                if(! match.Success)
-                                    messages.Add(new ValidationMessages
-                                    {
-                                        FieldName = "calfPintId",
-                                        DisplayName = "CAF-Pint Id",
-                                        Message = "is not a valid Id (example of a valid Id: 01-123)"
-                                    });
+                                else
+                                {
+                                    var cafpintId = formParams["cafPintId"];
+                                    var match = Regex.Match(cafpintId, "^(\\d{2}\\-\\d{3})$", RegexOptions.None);
+                                    if (!match.Success)
+                                        messages.Add(new ValidationMessages
+                                        {
+                                            FieldName = "cafPintId",
+                                            DisplayName = "CAF-Pint Id",
+                                            Message = "is not a valid Id (example of a valid Id: 01-123)"
+                                        });
+                                }
                             }
                         }
 

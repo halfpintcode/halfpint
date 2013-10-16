@@ -42,7 +42,7 @@ $(document).ready(function () {
         }
     });
 
-    $('#calfPintId').mask("99-999");
+    $('#cafPintId').mask("99-999");
     $('#MonitorTime').mask("99:99");
     $('#studyID').mask("99-9999-9");
     $('#BodyWeight').keydown(function (event) {
@@ -303,161 +303,161 @@ $(document).ready(function () {
     });
 
     function validate() {
-//        if (useCafpint == "True") {
-//            var val = $("input:radio[name=cafpintYesNo]:checked").val();
-//            if (!val) {
-//                alert('CAF-PINT question requires an answer');
-//                $('.mod').hide();
-//                $('#divCafpint').show();
-//                return false;
-//            }
-//            if (val == "yes") {
-//                val = $("input:radio[name=cafpintYes]:checked").val();
-//                if (!val) {
-//                    alert('All CAF-PINT questions require an answer');
-//                    $('.mod').hide();
-//                    $('#divCafpint').show();
-//                    return false;
-//                }
-//                if (val != "yes") {
-//                    val = $("#calfPintId").val();
-//                    if (!val) {
-//                        alert('Enter the CAF-PINT Id');
-//                        $('.mod').hide();
-//                        $('#divCafpint').show();
-//                        $("#calfPintId").focus();
-//                        return false;
-//                    }
-//                }
-//            }
-//        }
+        if (useCafpint == "True") {
+            var val = $("input:radio[name=cafpintYesNo]:checked").val();
+            if (!val) {
+                alert('CAF-PINT question requires an answer');
+                $('.mod').hide();
+                $('#divCafpint').show();
+                return false;
+            }
+            if (val == "yes") {
+                val = $("input:radio[name=cafpintYes]:checked").val();
+                if (!val) {
+                    alert('All CAF-PINT questions require an answer');
+                    $('.mod').hide();
+                    $('#divCafpint').show();
+                    return false;
+                }
+                if (val != "yes") {
+                    val = $("#cafPintId").val();
+                    if (!val) {
+                        alert('Enter the CAF-PINT Id');
+                        $('.mod').hide();
+                        $('#divCafpint').show();
+                        $("#cafPintId").focus();
+                        return false;
+                    }
+                }
+            }
+        }
 
-//        if (sensorType === "1" || sensorType === "2") {
-//            val = $('#MonitorDate').val();
-//            if (!val) {
-//                alert('Monitor Date is required');
-//                $('.mod').hide();
-//                $('#divSensor').show();
-//                $('#MonitorDate').focus();
-//                return false;
-//            }
-//            val = $('#MonitorTime').val();
-//            if (!val) {
-//                alert('Monitor Time is required');
-//                $('.mod').hide();
-//                $('#divSensor').show();
-//                $('#MonitorTime').focus();
-//                return false;
-//            }
-//            val = $('#MonitorID').val();
-//            if (!val) {
-//                alert('Monitor ID is required');
-//                $('.mod').hide();
-//                $('#divSensor').show();
-//                $('#MonitorID').focus();
-//                return false;
-//            }
-//            val = $('#TransmitterID').val();
-//            if (!val) {
-//                alert('Transmitter ID is required');
-//                $('.mod').hide();
-//                $('#divSensor').show();
-//                $('#TransmitterID').focus();
-//                return false;
-//            }
-//            val = $('#SensorLot').val();
-//            if (!val) {
-//                alert('Sensor Lot is required');
-//                $('.mod').hide();
-//                $('#divSensor').show();
-//                $('#SensorLot').focus();
-//                return false;
-//            }
-//            val = $('#ExpirationDate').val();
-//            if (!val) {
-//                alert('Expiration date is required');
-//                $('.mod').hide();
-//                $('#divSensor').show();
-//                $('#ExpirationDate').focus();
-//                return false;
-//            }
+        if (sensorType === "1" || sensorType === "2") {
+            val = $('#MonitorDate').val();
+            if (!val) {
+                alert('Monitor Date is required');
+                $('.mod').hide();
+                $('#divSensor').show();
+                $('#MonitorDate').focus();
+                return false;
+            }
+            val = $('#MonitorTime').val();
+            if (!val) {
+                alert('Monitor Time is required');
+                $('.mod').hide();
+                $('#divSensor').show();
+                $('#MonitorTime').focus();
+                return false;
+            }
+            val = $('#MonitorID').val();
+            if (!val) {
+                alert('Monitor ID is required');
+                $('.mod').hide();
+                $('#divSensor').show();
+                $('#MonitorID').focus();
+                return false;
+            }
+            val = $('#TransmitterID').val();
+            if (!val) {
+                alert('Transmitter ID is required');
+                $('.mod').hide();
+                $('#divSensor').show();
+                $('#TransmitterID').focus();
+                return false;
+            }
+            val = $('#SensorLot').val();
+            if (!val) {
+                alert('Sensor Lot is required');
+                $('.mod').hide();
+                $('#divSensor').show();
+                $('#SensorLot').focus();
+                return false;
+            }
+            val = $('#ExpirationDate').val();
+            if (!val) {
+                alert('Expiration date is required');
+                $('.mod').hide();
+                $('#divSensor').show();
+                $('#ExpirationDate').focus();
+                return false;
+            }
 
-//            val = $('#InserterFirstName').val();
-//            if (!val) {
-//                alert('Inserter First Name is required');
-//                $('.mod').hide();
-//                $('#divSensor').show();
-//                $('#InserterFirstName').focus();
-//                return false;
-//            }
-//            val = $('#InserterLastName').val();
-//            if (!val) {
-//                alert('Inserter Last Name is required');
-//                $('.mod').hide();
-//                $('#divSensor').show();
-//                $('#InserterLastName').focus();
-//                return false;
-//            }
-//            val = $('#SensorLocations').val();
-//            if (val === '0') {
-//                alert('Sensor Location is required');
-//                $('.mod').hide();
-//                $('#divSensor').show();
-//                $('#SensorLocations').focus();
-//                return false;
-//            }
-//        }
+            val = $('#InserterFirstName').val();
+            if (!val) {
+                alert('Inserter First Name is required');
+                $('.mod').hide();
+                $('#divSensor').show();
+                $('#InserterFirstName').focus();
+                return false;
+            }
+            val = $('#InserterLastName').val();
+            if (!val) {
+                alert('Inserter Last Name is required');
+                $('.mod').hide();
+                $('#divSensor').show();
+                $('#InserterLastName').focus();
+                return false;
+            }
+            val = $('#SensorLocations').val();
+            if (val === '0') {
+                alert('Sensor Location is required');
+                $('.mod').hide();
+                $('#divSensor').show();
+                $('#SensorLocations').focus();
+                return false;
+            }
+        }
 
-//        val = $('#BodyWeight').val();
-//        if (!val) {
-//            alert('Body Weight is required');
-//            $('.mod').hide();
-//            $('#divParams').show();
-//            $('#BodyWeight').focus();
-//            return false;
-//        }
-//        if (val < 2 || val > 180) {
-//            alert('Body Weight must be between 2 and 180 (kg)');
-//            $('.mod').hide();
-//            $('#divParams').show();
-//            $('#BodyWeight').focus();
-//            return false;
-//        }
+        val = $('#BodyWeight').val();
+        if (!val) {
+            alert('Body Weight is required');
+            $('.mod').hide();
+            $('#divParams').show();
+            $('#BodyWeight').focus();
+            return false;
+        }
+        if (val < 2 || val > 180) {
+            alert('Body Weight must be between 2 and 180 (kg)');
+            $('.mod').hide();
+            $('#divParams').show();
+            $('#BodyWeight').focus();
+            return false;
+        }
 
-//        val = $('#Concentrations').val();
-//        if (val === '') {
-//            alert('Insulin Concentration is required');
-//            $('.mod').hide();
-//            $('#divParams').show();
-//            $('#Concentrations').focus();
-//            return false;
-//        }
+        val = $('#Concentrations').val();
+        if (val === '') {
+            alert('Insulin Concentration is required');
+            $('.mod').hide();
+            $('#divParams').show();
+            $('#Concentrations').focus();
+            return false;
+        }
 
-//        if (!($('#OrderIns').is(':checked'))) {
-//            alert('Ordering insulin is required');
-//            $('.mod').hide();
-//            $('#divParams').show();
-//            $('#OrderIns').focus();
-//            return false;
-//        }
+        if (!($('#OrderIns').is(':checked'))) {
+            alert('Ordering insulin is required');
+            $('.mod').hide();
+            $('#divParams').show();
+            $('#OrderIns').focus();
+            return false;
+        }
 
-//        if (useVampjr == "True") {
-//            if (!($('#chkVamp').is(':checked'))) {
-//                alert('Placing the Vamp Jr is required');
-//                $('.mod').hide();
-//                $('#divParams').show();
-//                $('#chkVamp').focus();
-//                return false;
-//            }
-//        }
+        if (useVampjr == "True") {
+            if (!($('#chkVamp').is(':checked'))) {
+                alert('Placing the Vamp Jr is required');
+                $('.mod').hide();
+                $('#divParams').show();
+                $('#chkVamp').focus();
+                return false;
+            }
+        }
 
-//        if (!($('#chkCalGluc').is(':checked'))) {
-//            alert('Running a high and low QC on the Nova StatStrip glucose meter is required');
-//            $('.mod').hide();
-//            $('#divParams').show();
-//            $('#chkCalGluc').focus();
-//            return false;
-//        }
+        if (!($('#chkCalGluc').is(':checked'))) {
+            alert('Running a high and low QC on the Nova StatStrip glucose meter is required');
+            $('.mod').hide();
+            $('#divParams').show();
+            $('#chkCalGluc').focus();
+            return false;
+        }
         return true;
     }
 

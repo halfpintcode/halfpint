@@ -126,16 +126,25 @@ namespace hpMvc.DataBase
             SendHtmlEmail(subject, toAddress, ccAddress, sbBody.ToString(), server, siteUrl, bodyHeader);
         }
 
-		public static void SendStudyInitializedMail(string[] toAddress, string[] ccAddress, string studyID, string userName, 
-            string siteName, HttpServerUtilityBase server, string url, string arm)
+		public static void SendStudyInitializedMail(string[] toAddress, string[] ccAddress, string studyId, string userName, 
+            string siteName, HttpServerUtilityBase server, string url, string arm, string cafpintId)
 		{
 			string subject = "Halfpint - New Study Initialized Added";
             if (!url.Contains("hpProd"))
-                studyID = "T" + studyID;
+                studyId = "T" + studyId;
 
             string bodyHeader = "<h3 style='display:inline-block;background-color:Aqua;text-align: center;'>" + userName + " from " + siteName + " has initialized a new subject, ID: <strong>" +
-				studyID + " (" + arm + ")</strong></h3>";
-			var sbBody = new StringBuilder("</br>Date time: " + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString());
+				studyId + " (" + arm + ")</strong></h3>";
+
+		    var sbBody = new StringBuilder();
+            if (!string.IsNullOrEmpty(cafpintId))
+            {
+                sbBody.Append("</br>This subject was enrolled in the CAF-PINT ancillary trial. CAF-PINT Id:" + cafpintId);
+            }
+		    sbBody.Append("</br>");
+            sbBody.Append("</br>Date time: " + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString());
+
+		    
 
 			string siteUrl = "Website: <a href='" + url + "'>HalfpintStudy.org</a>";
 			SendHtmlEmail(subject, toAddress, ccAddress, sbBody.ToString(), server, siteUrl, bodyHeader);

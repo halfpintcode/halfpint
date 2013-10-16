@@ -99,7 +99,7 @@ namespace hpMvc.DataBase
             return true;
         }
 
-        public static int SetRandomization(string studyId, ref SSInsertionData ssInsert, string user)
+        public static int SetRandomization(string studyId, bool? cafpintConsent, int? inrGreater3, string cafpintId, ref SSInsertionData ssInsert, string user)
         {
             var site = DbUtils.GetSiteidIDForUser(user);
             var arm = 0;
@@ -135,11 +135,30 @@ namespace hpMvc.DataBase
                     cmd = new SqlCommand("", conn)
                               {
                                   CommandType = System.Data.CommandType.StoredProcedure,
-                                  CommandText = ("AddStudyIDToRandomization")
+                                  CommandText = ("AddStudyInfoToRandomization")
                               };
                     param = new SqlParameter("@id", randomizationId);
                     cmd.Parameters.Add(param);
+                    
                     param = new SqlParameter("@studyID", studyId);
+                    cmd.Parameters.Add(param);
+                    
+                    if(cafpintConsent == null)
+                        param = new SqlParameter("@cafpintConsent", DBNull.Value);
+                    else
+                        param = new SqlParameter("@cafpintConsent", cafpintConsent.Value);
+                    cmd.Parameters.Add(param);
+
+                    if (inrGreater3 == null)
+                        param = new SqlParameter("@inrGreater3", DBNull.Value);
+                    else
+                        param = new SqlParameter("@inrGreater3", inrGreater3.Value);
+                    cmd.Parameters.Add(param);
+
+                    if (string.IsNullOrEmpty(cafpintId))
+                        param = new SqlParameter("@cafpintId", DBNull.Value);
+                    else
+                        param = new SqlParameter("@cafpintId", cafpintId);
                     cmd.Parameters.Add(param);
                     cmd.ExecuteNonQuery();
                 

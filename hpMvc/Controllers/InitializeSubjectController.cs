@@ -89,12 +89,40 @@ namespace hpMvc.Controllers
                     }
                 }
 
+                bool useCafpint = bool.Parse(Request.Params["cafpint"]);
+                bool? cafpintConsent = null;
+                int? inrGreater3 = null;
+                string cafpintId = null;
+
                 //set next randomiztion and update database
                 if (dto.IsSuccessful)
                 {
                     _logger.LogInfo("InitializeSubject.Initialize - sensor data added");
                     _logger.LogInfo("InitializeSubject.Initialize - SetRandomization: " + studyId);
-                    var iret = SsUtils.SetRandomization(studyId, ref ssInsert, User.Identity.Name);
+                    
+                    if (useCafpint)
+                    {
+                        if (Request.Params["cafpintYesNo"] == "yes")
+                        {
+                            cafpintConsent = true;
+                           
+                            if (Request.Params["cafpintYes"] == "yes")
+                                inrGreater3 = 1;
+                            else if(Request.Params["cafpintYes"] == "no")
+                                inrGreater3 = 2;
+                            else
+                                inrGreater3 = 3;
+
+                            if (inrGreater3 > 1)
+                                cafpintId = Request.Params["cafPintId"];
+                        }
+                        else
+                        {
+                            cafpintConsent = false;
+                        }
+                    }
+
+                    var iret = SsUtils.SetRandomization(studyId, cafpintConsent, inrGreater3, cafpintId, ref ssInsert, User.Identity.Name);
                     if (iret == -1)
                     {
                         dto.IsSuccessful = false;
@@ -140,7 +168,7 @@ namespace hpMvc.Controllers
                         try
                         {
                             Utility.SendStudyInitializedMail(staff.ToArray(), null, studyId, User.Identity.Name, siteName,
-                                                             Server, url, ssInsert.Arm);
+                                                             Server, url, ssInsert.Arm, cafpintId);
 
                             _logger.LogInfo("InitializeSubject.Initialize - notifications sent: " + studyId);
                         }
