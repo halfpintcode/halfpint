@@ -129,20 +129,21 @@ namespace hpMvc.DataBase
 		public static void SendStudyInitializedMail(string[] toAddress, string[] ccAddress, string studyId, string userName, 
             string siteName, HttpServerUtilityBase server, string url, string arm, string cafpintId)
 		{
-			string subject = "Halfpint - New Study Initialized Added";
+			const string subject = "Halfpint - New Study Initialized Added";
             if (!url.Contains("hpProd"))
                 studyId = "T" + studyId;
 
             string bodyHeader = "<h3 style='display:inline-block;background-color:Aqua;text-align: center;'>" + userName + " from " + siteName + " has initialized a new subject, ID: <strong>" +
 				studyId + " (" + arm + ")</strong></h3>";
 
-		    var sbBody = new StringBuilder();
+		    var sbBody = new StringBuilder("");
             if (!string.IsNullOrEmpty(cafpintId))
             {
-                sbBody.Append("</br>This subject was enrolled in the CAF-PINT ancillary trial. CAF-PINT Id:" + cafpintId);
+                sbBody.Append("This subject was enrolled in the CAF-PINT ancillary trial. CAF-PINT Id:" + cafpintId);
             }
-		    sbBody.Append("</br>");
-            sbBody.Append("</br>Date time: " + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString());
+            sbBody.Append("<br/>");
+		    
+            sbBody.Append("Date time: " + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString());
 
 		    
 
