@@ -217,6 +217,13 @@ namespace hpMvc.Controllers
                         folder = "Quick Links~Permission to Approach~PCMC";
                     }
                     break;
+                case "16":
+                    if (fileName.Contains("Permission to Approach"))
+                    {
+                        fileName = "CHOC Permission to Approach.pdf";
+                        folder = "Quick Links~Permission to Approach~CHOC";
+                    }
+                    break;
 
                 default:
                     if (fileName.Contains("Consent Form"))

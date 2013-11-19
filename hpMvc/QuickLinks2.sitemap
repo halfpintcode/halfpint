@@ -55,6 +55,14 @@
       <siteMapNode title="CHO" class="AdminDCC">
         <siteMapNode title="CHO Permission to Approach" controller="Download" action="GetFile" fileName="CHO Permission to Approach.pdf" folder="Quick Links~Permission to Approach~CHO" />
       </siteMapNode>
+      <siteMapNode title="CHOC"
+                   class="AdminDCC">
+        <siteMapNode title="CHOC Permission to Approach"
+                     controller="Download"
+                     action="GetFile"
+                     fileName="CHOC Permission to Approach.pdf"
+                     folder="Quick Links~Permission to Approach~CHOC" />
+      </siteMapNode>
       <siteMapNode title="CHOP" class="AdminDCC">
         <siteMapNode title="CHOP Permission to Approach" controller="Download" action="GetFile" fileName="CHOP Permission to Approach.pdf" folder="Quick Links~Permission to Approach~CHOP" />
       </siteMapNode>
