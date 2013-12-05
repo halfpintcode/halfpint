@@ -292,6 +292,7 @@ $(function () {
         $('#DexCons4').val("0").change();
         $('#selParenteral').empty();
         $('#selEnteral').empty();
+        $('#selAdditive').empty();
         clearOther();
 
         $('.nTotal').text("0");
