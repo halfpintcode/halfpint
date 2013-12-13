@@ -1161,7 +1161,7 @@ $(function () {
                     parLip = val3.LipidPercent;
                     parVol = val3.Volume;
                     if (parDex > 0) {
-                        parProteinKcal = Math.round(parAmi * 0.04 * parVol)
+                        parProteinKcal = Math.round(parAmi * 0.04 * parVol);
                         pnProtein = pnProtein + parProteinKcal;
                         parChoKcal = Math.round(parDex * 0.034 * parVol);
                         pnCho = pnCho + parChoKcal;
