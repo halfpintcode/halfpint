@@ -939,10 +939,22 @@ namespace hpMvc.DataBase
 
                         pos = rdr.GetOrdinal("Name");
                         string testName = rdr.GetString(pos);
-                        
-                        if (siteCode == "14")
+
+                        if (siteCode == "14" || siteCode == "20")
                         {
                             if (testName == "NovaStatStrip" || testName == "VampJr")
+                                continue;
+                        }
+
+                        if (siteCode == "13" || siteCode == "09")
+                        {
+                            if (testName == "NovaStatStrip")
+                                continue;
+                        }
+
+                        if (siteCode == "15")
+                        {
+                            if (testName == "VampJr")
                                 continue;
                         }
 
