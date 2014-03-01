@@ -255,6 +255,9 @@ $(function () {
     $('#btnNewDay').click(function () {
         var date = $('#calcDate').datepicker('getDate', '+1d');
         date.setDate(date.getDate() + 1);
+        var day = parseInt($('#studyDay').val());
+        day = day + 1;
+        $('#studyDay').val(day);
         clearAll();
         $("#tabs").tabs("option", "selected", 0);
         $('#calcDate').datepicker('setDate', date);
