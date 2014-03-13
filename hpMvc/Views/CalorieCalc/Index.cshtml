@@ -6,6 +6,7 @@
 @{    
     var sWeight = "";
     var cDate = "";
+    var origCalcDate = "";
     var calStudyId = 0;
     var hours = 0;
     var studyDay = "";
@@ -14,6 +15,7 @@
 {    
     sWeight = @ViewBag.Weight;
     cDate = @ViewBag.CalcDate;
+    origCalcDate = @ViewBag.CalcDate;
     calStudyId = @ViewBag.CalStudyID;
     hours = @ViewBag.Hours;
     studyDay = (string)@ViewBag.StudyDay;
@@ -36,6 +38,7 @@
         <br />
         <label class="lblmain">Study Day </label><input type="text" readonly="readonly" id="studyDay" value="@studyDay"/>
         <br />
+        <input type="hidden" name="originalCalcDate" value="@origCalcDate" />
     </div>
     <div id="tabs">
         <ul id="tabsNav">

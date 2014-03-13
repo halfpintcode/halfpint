@@ -100,6 +100,8 @@ namespace hpMvc.Controllers
         public ActionResult Edit(CalStudyInfo csi)
         {
             
+            //DateTime date = DateTime.Parse( csi.CalcDate);
+
             ViewBag.Mode = "Edit";
             ViewBag.Weight = csi.Weight.ToString();
             ViewBag.CalcDate = csi.CalcDate;
@@ -110,8 +112,8 @@ namespace hpMvc.Controllers
 
             int siteId = DbUtils.GetSiteidIDForUser(User.Identity.Name);
             //todo remove for production
-            if (siteId == 0)
-                siteId = 1;
+            //if (siteId == 0)
+            //    siteId = 1;
 
             var studyList = DbUtils.GetRandomizedStudiesForSite(siteId);
             studyList.Insert(0, new IDandStudyID { ID = 0, StudyID = "Select Study" });
@@ -260,6 +262,13 @@ namespace hpMvc.Controllers
             return Json(dto);
         }
 
+        public JsonResult IsCaclDateDuplicate(int studyId, string calcDate)
+        {
+            var retVal = CalorieCalc.IsCalStudyInfoDuplicate(studyId, calcDate); 
+            
+            return Json(new {val= retVal});
+        }
+
         public JsonResult Save(int calStudyID, CalParenteral[] pis, CalInfuseColumn[] cic, CalStudyInfo csi, CalEnteral[] ces, CalAdditive[] cas, CalOtherNutrition con)
         {
             bool isEdit = false || calStudyID > 0;
@@ -267,6 +276,10 @@ namespace hpMvc.Controllers
 
             if (isEdit)
             {
+                //get the original calcdate and see if it has been changed
+                //if changed then check for duplicate
+
+
                 CalorieCalc.DeleteCurrentEntries(calStudyID);
                 csi.Id = calStudyID;
 

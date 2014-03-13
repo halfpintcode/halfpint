@@ -213,7 +213,7 @@ namespace hpMvc.DataBase
                         csi.Weight = rdr.GetDouble(pos);
 
                         pos = rdr.GetOrdinal("CalcDate");
-                        csi.CalcDate = rdr.GetDateTime(pos).ToShortDateString();
+                        csi.CalcDate = rdr.GetDateTime(pos).ToString("MM/dd/yyyy");
 
                     }
                     rdr.Close();
@@ -596,7 +596,7 @@ namespace hpMvc.DataBase
                         idn.ID = rdr.GetInt32(pos);
 
                         pos = rdr.GetOrdinal("CalcDate");
-                        idn.Name = rdr.GetDateTime(pos).ToShortDateString();
+                        idn.Name = rdr.GetDateTime(pos).ToString("MM/dd/yyyy");
 
                         idnl.Add(idn);
                     }

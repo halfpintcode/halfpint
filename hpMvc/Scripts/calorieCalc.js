@@ -11,8 +11,10 @@ $(function () {
     var enLipid = 0;
     var tempId = 0;
     var gir = 0;
-    var hours, weight, studyId, calcDate;
-
+    var hours, weight;
+    var calcDate = $('#calcDate').val();
+    var origCalcDate = $('#calcDate').val();
+    var studyId = $('#StudyList').val();
 
     var initializing = true;
     //$("form").submit(function () { return false; }); 
@@ -223,7 +225,26 @@ $(function () {
             $('#studyID').focus();
             return;
         }
+        
         if (calcDate.length) {
+            if (isEdit) {
+                if (origCalcDate != calcDate) {
+                    //check for date already used
+                    $.ajax({
+                        url: window.urlRoot + '/CalorieCalc/IsCaclDateDuplicate/',
+                        async: false,
+                        type: 'POST',
+                        data: { studyID: studyId, calcDate: calcDate },
+                        success: function (rdata) {
+                            if (rdata.val == 1) {
+                                alert('This date is already used. Pick another date!');
+                                $('#calcDate').val(origCalcDate);
+                            };
+                        }
+                    });
+                }
+                
+            }
             $.ajax({
                 url: window.urlRoot + '/CalorieCalc/GetStudyDay/',
                 async: false,
@@ -234,6 +255,7 @@ $(function () {
                 }
             });
         }
+        
     });
 
     //change the unit to match the selected additive
