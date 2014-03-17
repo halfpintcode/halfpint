@@ -1,0 +1,11 @@
+﻿@{
+    ViewBag.Title = "Daily Checks Glucose Glucometer Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Daily Checks Glucose Glucometer Report</h2>
+<form id="newForm" action="" method="post" >
+    <input type="hidden" name="calStudyID" id="calStudyID"  />
+    <label class="lblmain">Study ID</label> @Html.DropDownList("StudyList")
+    <br />
+</form>

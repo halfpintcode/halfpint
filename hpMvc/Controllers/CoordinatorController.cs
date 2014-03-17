@@ -47,6 +47,16 @@ namespace hpMvc.Controllers
             return View();            
         }
 
+        public ActionResult DailyChecksGgReport()
+        {
+            int siteId = DbUtils.GetSiteidIDForUser(User.Identity.Name);
+            var studyList = DbUtils.GetRandomizedStudiesForSite(siteId);
+            studyList.Insert(0, new IDandStudyID { ID = 0, StudyID = "Select Study" });
+            ViewBag.StudyList = new SelectList(studyList, "ID", "StudyID");
+
+            return View();
+        }
+
         public JsonResult GetActiveSubjects(string siteId, bool showCleared)
         {
             int site = int.Parse(siteId);
