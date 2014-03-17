@@ -94,6 +94,8 @@ namespace hpMvc.Controllers
                 int? inrGreater3 = null;
                 string cafpintId = null;
 
+                var dateRandomized = DateTime.Parse(Request.Params["randDate"] + " " + Request.Params["randTime"]);
+                    
                 //set next randomiztion and update database
                 if (dto.IsSuccessful)
                 {
@@ -122,7 +124,7 @@ namespace hpMvc.Controllers
                         }
                     }
 
-                    var iret = SsUtils.SetRandomization(studyId, cafpintConsent, inrGreater3, cafpintId, ref ssInsert, User.Identity.Name);
+                    var iret = SsUtils.SetRandomization(studyId, cafpintConsent, inrGreater3, cafpintId, ref ssInsert, User.Identity.Name, dateRandomized);
                     if (iret == -1)
                     {
                         dto.IsSuccessful = false;
@@ -168,7 +170,7 @@ namespace hpMvc.Controllers
                         try
                         {
                             Utility.SendStudyInitializedMail(staff.ToArray(), null, studyId, User.Identity.Name, siteName,
-                                                             Server, url, ssInsert.Arm, cafpintId);
+                                                             Server, url, ssInsert.Arm, cafpintId, dateRandomized);
 
                             _logger.LogInfo("InitializeSubject.Initialize - notifications sent: " + studyId);
                         }

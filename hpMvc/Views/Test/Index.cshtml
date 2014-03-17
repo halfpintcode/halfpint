@@ -1,27 +1,13 @@
 ﻿@{
-    Layout = null;
+	ViewBag.Title = "Test";
+	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<!DOCTYPE html>
+        <div id="background">
+            This is a test!    
+            <input type="hidden" name="date" id="date"/>  
+            <input type="hidden" name="time" id="time"/>
+            <button id="btnSubmit" type="button">submit</button> 
+        </div>
 
-<html>
-<head>
-    <style type="text/css">
-        #background
-        {   
-            height:500px;            
-            background-image:url("content/images/emal.jpg");
-            
-            
-        }
-        
-        
-    </style>
-    <title>Index</title>
-</head>
-<body>
-    <div id="background">
-       This is a test!      
-    </div>
-</body>
-</html>
+<script src="@Url.Content("~/Scripts/test.js")" type="text/javascript"></script>

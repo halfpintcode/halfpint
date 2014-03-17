@@ -18,11 +18,20 @@ namespace hpMvc.Controllers
             return View();
         }
 
+        [HttpPost]
+        public JsonResult GetDate(string date, string time)
+        {
+            var dtDate = DateTime.Parse(date + " " + time);
+            return Json(1);
+        }
+
+
         public ActionResult Temp()
         {
             return View();
         }
 
+        
         public ActionResult Create()
         {
             var testModel = new TestModel();

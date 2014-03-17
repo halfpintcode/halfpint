@@ -127,7 +127,7 @@ namespace hpMvc.DataBase
         }
 
 		public static void SendStudyInitializedMail(string[] toAddress, string[] ccAddress, string studyId, string userName, 
-            string siteName, HttpServerUtilityBase server, string url, string arm, string cafpintId)
+            string siteName, HttpServerUtilityBase server, string url, string arm, string cafpintId, DateTime dateRandomized)
 		{
 			const string subject = "Halfpint - New Study Initialized Added";
             if (!url.Contains("hpProd"))
@@ -142,8 +142,8 @@ namespace hpMvc.DataBase
                 sbBody.Append("This subject was enrolled in the CAF-PINT ancillary trial. CAF-PINT Id:" + cafpintId);
             }
             sbBody.Append("<br/>");
-		    
-            sbBody.Append("Date time: " + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString());
+
+            sbBody.Append("Date time: " + dateRandomized.ToShortDateString() + " " + dateRandomized.ToShortTimeString());
 
 		    
 

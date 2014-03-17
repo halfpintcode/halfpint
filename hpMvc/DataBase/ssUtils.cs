@@ -99,7 +99,7 @@ namespace hpMvc.DataBase
             return true;
         }
 
-        public static int SetRandomization(string studyId, bool? cafpintConsent, int? inrGreater3, string cafpintId, ref SSInsertionData ssInsert, string user)
+        public static int SetRandomization(string studyId, bool? cafpintConsent, int? inrGreater3, string cafpintId, ref SSInsertionData ssInsert, string user, DateTime dateRandomized)
         {
             var site = DbUtils.GetSiteidIDForUser(user);
             var arm = 0;
@@ -160,6 +160,10 @@ namespace hpMvc.DataBase
                     else
                         param = new SqlParameter("@cafpintId", cafpintId);
                     cmd.Parameters.Add(param);
+
+                    param = new SqlParameter("@dateRandomized", dateRandomized);
+                    cmd.Parameters.Add(param);
+
                     cmd.ExecuteNonQuery();
                 
                 }
