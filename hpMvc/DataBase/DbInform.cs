@@ -44,6 +44,36 @@ namespace hpMvc.DataBase
              }
             return 1;
         }
+
+        public static int SaveMeetingsPage(InformPageModel ifp)
+        {
+            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+
+            using (SqlConnection conn = new SqlConnection(strConn))
+            {
+                try
+                {
+                    SqlCommand cmd = new SqlCommand("", conn);
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.CommandText = ("SaveMeetingsPage");
+                    SqlParameter param = new SqlParameter("@headerContent", ifp.HeaderContent);
+                    cmd.Parameters.Add(param);
+                    param = new SqlParameter("@mainContent", ifp.MainContent);
+                    cmd.Parameters.Add(param);
+                    param = new SqlParameter("@footerContent", ifp.FooterContent);
+                    cmd.Parameters.Add(param);
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    nlogger.LogError(ex);
+                    return 0;
+                }
+            }
+            return 1;
+        }
+
         public static InformPageModel GetInformPage()
         {
             var ifp = new InformPageModel();
@@ -70,6 +100,50 @@ namespace hpMvc.DataBase
 
                         pos = rdr.GetOrdinal("FooterContent");
                         ifp.FooterContent = rdr.GetString(pos);
+                    }
+                    rdr.Close();
+
+                }
+                catch (Exception ex)
+                {
+                    nlogger.LogError(ex);
+                }
+            }
+            return ifp;
+        }
+
+        public static InformPageModel GetMeetingsPage()
+        {
+            var ifp = new InformPageModel();
+            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+
+            using (SqlConnection conn = new SqlConnection(strConn))
+            {
+                try
+                {
+                    SqlCommand cmd = new SqlCommand("", conn);
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.CommandText = ("GetMeetingsPage");
+                    conn.Open();
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    int pos = 0;
+
+                    while (rdr.Read())
+                    {
+                        pos = rdr.GetOrdinal("HeaderContent");
+                        ifp.HeaderContent = "";
+                        if(! rdr.IsDBNull(pos))
+                            ifp.HeaderContent = rdr.GetString(pos);
+
+                        pos = rdr.GetOrdinal("MainContent");
+                        ifp.MainContent = "";
+                        if (!rdr.IsDBNull(pos))
+                            ifp.MainContent = rdr.GetString(pos);
+
+                        pos = rdr.GetOrdinal("FooterContent");
+                        ifp.FooterContent = "";
+                        if (!rdr.IsDBNull(pos))
+                            ifp.FooterContent = rdr.GetString(pos);
                     }
                     rdr.Close();
 

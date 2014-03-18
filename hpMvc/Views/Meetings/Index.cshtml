@@ -1,0 +1,25 @@
+﻿@model hpMvc.Models.InformPageModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>HALF-PINT Webconference Link Page</title>
+    <link href="@Url.Content("~/Content/Inform.css")" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <div id="header">
+        <img alt="" src="@Url.Content("~/Content/images/InformHeader.gif")"  />        
+        @Html.Raw(@Model.HeaderContent)
+    </div>
+    <div id="main">
+        @Html.Raw(@Model.MainContent)
+    </div>
+    <div id="footer">
+        @Html.Raw(@Model.FooterContent)
+    </div>
+</body>
+</html>

@@ -98,6 +98,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InformController.cs" />
     <Compile Include="Controllers\InitializeSubjectController.cs" />
+    <Compile Include="Controllers\MeetingsController.cs" />
     <Compile Include="Controllers\NotificationsController.cs" />
     <Compile Include="Controllers\PostsTestsAdminController.cs" />
     <Compile Include="Controllers\PostTestsController.cs" />
@@ -522,6 +523,7 @@
     <Content Include="HTMLPage1.htm" />
     <Content Include="HTMLPage2.htm" />
     <Content Include="README.jQuery.vsdoc.txt" />
+    <Content Include="Scripts\MeetingsEdit.js" />
     <Content Include="Scripts\GetSavedSensorInfo.js" />
     <Content Include="Scripts\jquery-ui-1.10.3.js" />
     <Content Include="Scripts\jquery-ui-1.10.3.min.js" />
@@ -830,6 +832,8 @@
     <Content Include="Views\Coordinator\ResetSitePassword.cshtml" />
     <Content Include="Views\Admin\ChecksImportLog.cshtml" />
     <Content Include="Views\Coordinator\DailyChecksGgReport.cshtml" />
+    <Content Include="Views\Meetings\Index.cshtml" />
+    <Content Include="Views\Meetings\Edit.cshtml" />
     <None Include="_bin_deployableAssemblies\Microsoft.Web.Infrastructure.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.Razor.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.dll" />

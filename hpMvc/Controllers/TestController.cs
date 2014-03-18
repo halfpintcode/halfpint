@@ -19,6 +19,7 @@ namespace hpMvc.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public JsonResult GetDate(string date, string time)
         {
             var dtDate = DateTime.Parse(date + " " + time);
