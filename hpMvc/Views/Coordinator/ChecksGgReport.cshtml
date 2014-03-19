@@ -1,0 +1,21 @@
+﻿@{
+    ViewBag.Title = "Daily Checks Glucose Glucometer Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Daily Checks Glucose Glucometer Report</h2>
+<form id="newForm" action="" method="post" >
+    <input type="hidden" name="studyID" id="studyID"  />
+    <label class="lblmain">Study ID</label> @Html.DropDownList("StudyList")
+    <br /><br />
+    Select a date range:
+    <br />
+    <label for="StartDate" >Start Date</label>
+    <input type="text" id="StartDate" name="StartDate" size="15" />
+    <label for="EndDate" >Endt Date</label>
+    <input type="text" id="EndDate" name="EndDate" size="15" />
+    <input type="button" id="btnRun" value="Run report" />
+
+</form>
+
+<script src="@Url.Content("~/Scripts/checksGgReport.js")" type="text/javascript"></script>

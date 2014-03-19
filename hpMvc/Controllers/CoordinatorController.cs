@@ -47,7 +47,7 @@ namespace hpMvc.Controllers
             return View();            
         }
 
-        public ActionResult DailyChecksGgReport()
+        public ActionResult ChecksGgReport()
         {
             int siteId = DbUtils.GetSiteidIDForUser(User.Identity.Name);
             var studyList = DbUtils.GetRandomizedStudiesForSite(siteId);
@@ -57,6 +57,16 @@ namespace hpMvc.Controllers
             return View();
         }
 
+        public JsonResult GetChecksGgReport()
+        {
+            var studyId = Request.Params["studyID"];
+            var startDate = Request.Params["StartDate"];
+            var endDate = Request.Params["EndDate"];
+
+            var list = DbUtils.GetChecksGgReport();
+            return Json("");
+        }
+        
         public JsonResult GetActiveSubjects(string siteId, bool showCleared)
         {
             int site = int.Parse(siteId);

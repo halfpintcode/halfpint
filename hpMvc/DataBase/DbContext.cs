@@ -3223,5 +3223,36 @@ namespace hpMvc.DataBase
             dto.ReturnValue = 1;
             return dto;
         }
+
+        public static List<ChecksGg> GetChecksGgReport(int studyId)
+        {
+            var list = new List<ChecksGg>();
+            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            using (var conn = new SqlConnection(strConn))
+            {
+                try
+                {
+                    var cmd = new SqlCommand("", conn);
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.CommandText = ("GetSiteRandomizedStudies");
+                    var param = new SqlParameter("@studyId", studyId);
+                    cmd.Parameters.Add(param);
+
+                    conn.Open();
+                    var rdr = cmd.ExecuteReader();
+                    int pos = 0;
+
+                    while (rdr.Read())
+                    {
+                    }
+                    rdr.Close();
+                }
+                catch (Exception ex)
+                {
+                    Nlogger.LogError(ex);
+                }
+                return list;
+            }
+        }
     }
 }
