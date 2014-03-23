@@ -1,12 +1,15 @@
-﻿@{
+﻿@model List<hpMvc.Models.ChecksGg>
+@{
     ViewBag.Title = "Daily Checks Glucose Glucometer Report";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>Daily Checks Glucose Glucometer Report</h2>
 <form id="newForm" action="" method="post" >
-    <input type="hidden" name="studyID" id="studyID"  />
-    <label class="lblmain">Study ID</label> @Html.DropDownList("StudyList")
+    <input type="hidden" name="studyId" id="studyId"  />
+    <input type="hidden" name="subjectId" id="subjectId"  />
+    
+    <label class="lblmain">Subject ID</label> @Html.DropDownList("StudyList")
     <br /><br />
     Select a date range:
     <br />
@@ -18,4 +21,5 @@
 
 </form>
 
+<div id="divReport"></div>
 <script src="@Url.Content("~/Scripts/checksGgReport.js")" type="text/javascript"></script>

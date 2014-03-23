@@ -184,14 +184,6 @@ namespace hpMvc.DataBase
                 dto.ReturnValue = 0;
                 return dto;
             }
-
-            //if (ifp.HeaderContent.Contains("script") || ifp.MainContent.Contains("script") || ifp.FooterContent.Contains("script"))
-            //{
-
-            //    dto.Message = "Content cannot contain the word script.";
-            //    dto.ReturnValue = 0;                
-            //}
-
             return dto;
         }
 
@@ -211,17 +203,18 @@ namespace hpMvc.DataBase
 
                 pos = s.IndexOf('>');
                 sPart = s.Substring(0, pos).Trim().ToLower();
+                if (sPart.Contains("script"))
+                {
+                    message = "No scritps allowed!";
+                    return false;
+                }
 
-                if (sPart.StartsWith("a"))
-                {
-                    if (!IsValidAnchor(s, ref message))
-                        return false;
-                }
-                else
-                {
-                    if (!IsValidTag(sPart, ref message))
-                        return false;
-                }
+                if (s.StartsWith("a"))
+                    continue;
+
+                if (!IsValidTag(sPart, ref message))
+                    return false;
+                
 
             }
             return true;

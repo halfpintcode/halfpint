@@ -121,6 +121,7 @@
     <Compile Include="Helpers\ListHelpers.cs" />
     <Compile Include="Helpers\Notifications.cs" />
     <Compile Include="Helpers\PagedList.cs" />
+    <Compile Include="Infrastructure\ConvertListToCsvFile.cs" />
     <Compile Include="Infrastructure\FormsAuthTokenStore.cs" />
     <Compile Include="Infrastructure\ListExtensions.cs" />
     <Compile Include="Infrastructure\Logging\ILogger.cs" />
@@ -833,9 +834,11 @@
     <Content Include="Views\Admin\GetSavedSensorInfo.cshtml" />
     <Content Include="Views\Coordinator\ResetSitePassword.cshtml" />
     <Content Include="Views\Admin\ChecksImportLog.cshtml" />
-    <Content Include="Views\Coordinator\ChecksGgReport.cshtml" />
+    <Content Include="Views\Coordinator\SelectChecksGgReportSubject.cshtml" />
     <Content Include="Views\Meetings\Index.cshtml" />
     <Content Include="Views\Meetings\Edit.cshtml" />
+    <Content Include="Views\Coordinator\ChecksGgReportPartial.cshtml" />
+    <Content Include="Views\Coordinator\ChecksNovaBloodGlucoseReport.cshtml" />
     <None Include="_bin_deployableAssemblies\Microsoft.Web.Infrastructure.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.Razor.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.dll" />

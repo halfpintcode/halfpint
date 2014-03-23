@@ -1,0 +1,59 @@
+﻿@model IEnumerable<hpMvc.Models.ChecksGg>
+
+@{
+    ViewBag.Title = "CHECKS Nova Blood Glucose Report";
+    var grid = new WebGrid(Model, defaultSort: "MeterTime", rowsPerPage: 50);
+}
+
+<style>
+    table
+    {
+        font-family: verdana,arial,sans-serif;
+        font-size: 11px;
+        color: #333333;
+        border-width: 1px;
+        border-color: #999999;
+        border-collapse: collapse;
+    }
+    table th
+    {
+        background: #b5cfd2;
+        border-width: 1px;
+        padding: 8px;
+        border-style: solid;
+        border-color: #999999;
+    }
+    table td
+    {
+        background: #dcddc0;
+        border-width: 1px;
+        padding: 8px;
+        border-style: solid;
+        border-color: #999999;
+    }
+    .foot
+    {
+        text-align: center;
+    }
+    #spanSubject {
+        font-size: 1.6em;
+        color: #32639A;
+    }
+</style>
+
+<h2>CHECKS Nova Blood Glucose Report</h2>
+<span id="spanSubject">Subject: @ViewBag.SubjectId</span>
+<span id="spanSelect">
+    &nbsp;&nbsp;&nbsp;@Html.ActionLink("Select another subject", "SelectChecksGgReportSubject")
+</span>
+
+
+<h3>Start date: @ViewBag.StartDate - End date: @ViewBag.EndDate</h3>
+
+
+@grid.GetHtml(tableStyle:"table", footerStyle: "foot", columns:grid.Columns(
+	grid.Column("MeterTime", "Date"),
+    grid.Column("MeterGlucose", "Nova Blood Glucose  (mg/dL)"),
+	grid.Column("Critical", "Critical")  
+    )
+)

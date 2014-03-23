@@ -47,7 +47,7 @@ namespace hpMvc.Controllers
             return View();            
         }
 
-        public ActionResult ChecksGgReport()
+        public ActionResult SelectChecksGgReportSubject()
         {
             int siteId = DbUtils.GetSiteidIDForUser(User.Identity.Name);
             var studyList = DbUtils.GetRandomizedStudiesForSite(siteId);
@@ -57,14 +57,42 @@ namespace hpMvc.Controllers
             return View();
         }
 
-        public JsonResult GetChecksGgReport()
+        public ActionResult ChecksNovaBloodGlucoseReport()
         {
-            var studyId = Request.Params["studyID"];
+            var subjectId = Request.Params["subjectId"];
+            var studyId = Request.Params["studyId"];
             var startDate = Request.Params["StartDate"];
             var endDate = Request.Params["EndDate"];
 
-            var list = DbUtils.GetChecksGgReport();
-            return Json("");
+            var list = DbUtils.GetChecksGgReport(int.Parse(studyId), startDate, endDate);
+
+            ViewBag.SubjectId = subjectId;
+            //ViewBag["studyId"] = studyId;
+            ViewBag.StartDate = startDate;
+            ViewBag.EndDate = endDate;
+
+            return View(list);
+        }
+
+        public ActionResult GetChecksGgReport()
+        {
+            var subjectId = Request.Params["subjectId"];
+            var studyId = Request.Params["studyId"];
+            var startDate = Request.Params["StartDate"];
+            var endDate = Request.Params["EndDate"];
+
+            var list = DbUtils.GetChecksGgReport(int.Parse(studyId),startDate,endDate);
+
+            return PartialView("ChecksGgReportPartial", list);
+            //var grid = new WebGrid(list, defaultSort: "Number", rowsPerPage: 50);
+            //var htmlString = grid.GetHtml(tableStyle: "webgrid",
+            //                columns: grid.Columns(
+            //                grid.Column("MeterTime", header: "Date"),
+            //                grid.Column("MeterGlucose", header: "Nova Blood Glucose (mg/dL)"),
+            //                grid.Column("Critcal")));
+
+
+            //return Json(new { Data = htmlString.ToHtmlString() }, JsonRequestBehavior.AllowGet);
         }
         
         public JsonResult GetActiveSubjects(string siteId, bool showCleared)
@@ -502,7 +530,7 @@ namespace hpMvc.Controllers
             var grid = new WebGrid(list, defaultSort: "Number", rowsPerPage: 50);
             var htmlString = grid.GetHtml(tableStyle: "webgrid",
                             columns: grid.Columns(
-                            grid.Column("SiteName", header: "Site"),
+                            grid.Column("", header: "Site"),
                             grid.Column("Number"),
                             grid.Column("StudyID", header: "Study  ID"),
                             grid.Column("Arm"),

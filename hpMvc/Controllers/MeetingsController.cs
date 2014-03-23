@@ -55,7 +55,7 @@ namespace hpMvc.Controllers
             int iRetval = 0;
             
 
-            //if (dto.ReturnValue == 1)
+            if (dto.ReturnValue == 1)
                 iRetval = DbInform.SaveMeetingsPage(ifp);
 
             return Json(dto);

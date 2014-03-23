@@ -3224,7 +3224,7 @@ namespace hpMvc.DataBase
             return dto;
         }
 
-        public static List<ChecksGg> GetChecksGgReport(int studyId)
+        public static List<ChecksGg> GetChecksGgReport(int studyId, string startDate, string endDate )
         {
             var list = new List<ChecksGg>();
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
@@ -3234,8 +3234,12 @@ namespace hpMvc.DataBase
                 {
                     var cmd = new SqlCommand("", conn);
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = ("GetSiteRandomizedStudies");
+                    cmd.CommandText = ("GetChecksGgReport");
                     var param = new SqlParameter("@studyId", studyId);
+                    cmd.Parameters.Add(param);
+                    param = new SqlParameter("@startDate", startDate);
+                    cmd.Parameters.Add(param);
+                    param = new SqlParameter("@endDate", endDate);
                     cmd.Parameters.Add(param);
 
                     conn.Open();
@@ -3244,6 +3248,20 @@ namespace hpMvc.DataBase
 
                     while (rdr.Read())
                     {
+                        var ggItem = new ChecksGg();
+                        pos = rdr.GetOrdinal("Meter_Time");
+                        ggItem.MeterTime = rdr.GetDateTime(pos).ToString("yyyy-MM-dd hh:mm");
+                        pos = rdr.GetOrdinal("Meter_Glucose");
+                        ggItem.MeterGlucose = rdr.GetInt32(pos);
+                        
+                        ggItem.Critical = "";
+                        if (ggItem.MeterGlucose <= 39)
+                            ggItem.Critical = "C";
+                        if (ggItem.MeterGlucose >= 40 && ggItem.MeterGlucose <= 59)
+                            ggItem.Critical = "L";
+                        if (ggItem.MeterGlucose >= 250)
+                            ggItem.Critical = "H";
+                        list.Add(ggItem);
                     }
                     rdr.Close();
                 }
