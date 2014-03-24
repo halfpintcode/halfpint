@@ -74,6 +74,47 @@ namespace hpMvc.Controllers
             return View(list);
         }
 
+        //[HttpPost]
+        public FilePathResult DownloadChecksNovaBloodGlucoseReport()
+        {
+            var subjectId = Request.Params["subjectId"];
+            var studyId = Request.Params["studyId"];
+            var startDate = Request.Params["StartDate"];
+            var endDate = Request.Params["EndDate"];
+
+            var list = DbUtils.GetChecksGgReport(int.Parse(studyId), startDate, endDate);
+
+            string path = Request.PhysicalApplicationPath + "xcel\\" + studyId.Substring(0, 2) + "\\";
+            string file = path + studyId + ".xlsm";
+
+            if (!path.Contains("Prod"))
+                studyId = "T" + studyId;
+
+            string fileDownloadName = studyId + ".xlsm";
+
+            //_logger.LogInfo("Initialize.InitializeSS - file download: " + studyId);
+            return this.File(file, "application/vnd.ms-excel.sheet.macroEnabled.12", fileDownloadName);
+        }
+        public FileResult GetFile()
+        {
+            var stream = new MemoryStream();
+
+            var writer = new StreamWriter(stream);
+                
+                    writer.WriteLine("Hello, I am a new text file");
+                    writer.WriteLine(Environment.NewLine);
+                    writer.WriteLine("That's all folks!");
+                    //return File(stream, "text/plain", fileDownloadName:"text.csv");
+                    writer.Flush();
+            stream.Seek(0, SeekOrigin.Begin);
+                    
+            return File(stream, "text/plain", fileDownloadName: "ggReport.csv");
+                    
+                
+            
+            //return File(stream, "application/pdf", fileDownloadName="myPDF.pdf");
+            
+        }
         public ActionResult GetChecksGgReport()
         {
             var subjectId = Request.Params["subjectId"];
