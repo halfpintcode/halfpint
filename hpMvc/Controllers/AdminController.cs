@@ -579,7 +579,7 @@ namespace hpMvc.Controllers
 
             return View();
         }
-
+        
         [HttpPost]
         public JsonResult GetSavedChecksSiteChange(string site)
         {

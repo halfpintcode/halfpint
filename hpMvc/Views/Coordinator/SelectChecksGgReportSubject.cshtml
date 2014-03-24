@@ -4,7 +4,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Daily Checks Glucose Glucometer Report</h2>
+<h2>Checks Nova Blood Glucose Report</h2>
+ @if (@ViewBag.Role == "Admin"){
+    <span>Site&nbsp;</span> @Html.DropDownList("Sites")
+    
+ }
+
 <form id="newForm" action="" method="post" >
     <input type="hidden" name="studyId" id="studyId"  />
     <input type="hidden" name="subjectId" id="subjectId"  />
@@ -17,7 +22,9 @@
     <input type="text" id="StartDate" name="StartDate" size="15" />
     <label for="EndDate" >Endt Date</label>
     <input type="text" id="EndDate" name="EndDate" size="15" />
-    <input type="button" id="btnRun" value="Run report" />
+    <input type="button" id="btnView" value="View report" />
+    &nbsp;&nbsp;&nbsp;
+    <input type="button" id="btnDownload" value="Download report" />
 
 </form>
 

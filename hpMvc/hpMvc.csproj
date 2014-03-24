@@ -121,6 +121,7 @@
     <Compile Include="Helpers\ListHelpers.cs" />
     <Compile Include="Helpers\Notifications.cs" />
     <Compile Include="Helpers\PagedList.cs" />
+    <Compile Include="Infrastructure\AttributeHelpers.cs" />
     <Compile Include="Infrastructure\ConvertListToCsvFile.cs" />
     <Compile Include="Infrastructure\FormsAuthTokenStore.cs" />
     <Compile Include="Infrastructure\ListExtensions.cs" />

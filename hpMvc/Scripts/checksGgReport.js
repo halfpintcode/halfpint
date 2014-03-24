@@ -5,6 +5,35 @@ $(document).ready(function () {
     var startDate;
     var endDate;
 
+    $('#Sites').change(function () {
+        var selectedVal = $(this).val();
+        if (selectedVal === 0) {
+            $('#Files').empty();
+            $('#Files').append("<option value='0'>Select file</option>");
+            return;
+        }
+        var url = window.urlRoot + '/Coordinator/GetChecksSubjectsSiteChange/' + selectedVal;
+
+        $.post(url + '',
+            { site: selectedVal },
+            function (data) {
+                $('#StudyList').empty();
+                if (!data.length) {
+                    $('#StudyList').append("<option value=''>No Subjects found</option>");
+                    $('#btnDownload').attr('disabled', 'disabled');
+                    $('#btnView').attr('disabled', 'disabled');
+                } else {
+                    $('#btnDownload').attr('disabled', false);
+                    $('#btnView').attr('disabled', false);
+                    $.each(data, function (index, d) {
+                        $('#StudyList').append("<option value='" + d.ID + "'>" + d.StudyID + "</option>");
+                    });
+                    $('#studyId').val("");
+                }
+            });
+
+        });
+    
     $('#StudyList').change(function () {
         $('#studyId').val($(this).val());
         $('#subjectId').val($("#StudyList option:selected").text());
@@ -52,6 +81,7 @@ $(document).ready(function () {
 
     function validate() {
         var studyId = $('#studyId').val();
+        
         if (!studyId) {
             alert('Select a subject');
             return false;
@@ -60,8 +90,7 @@ $(document).ready(function () {
     }
 
 
-
-    $('#btnRun').click(function () {
+    $('#btnView').click(function () {
         if (!validate()) {
             return;
         }
@@ -76,16 +105,23 @@ $(document).ready(function () {
         var url = urlRoot + '/Coordinator/ChecksNovaBloodGlucoseReport?subjectId=' + subjectId + '&studyId=' + studyId
             + '&startDate=' + startDate + '&endDate=' + endDate;
         window.location.href = url;
-        //        var data = $("form").serialize();
-        //        $.ajax({
-        //            url: url,
-        //            type: 'POST',
-        //            data: data,
-        //            success: function (data1) {
-        //                alert(data1);
-        //                $('#divReport').empty();
-        //                $('#divReport').html(data1);
-        //            }
-        //        });
+        
+    });
+    $('#btnDownload').click(function () {
+        if (!validate()) {
+            return;
+        }
+
+        //$('#btnRun').attr('disabled', 'disabled');
+        var studyId = $('#studyId').val();
+
+        var subjectId = $("#StudyList option:selected").text();
+        startDate = $('#StartDate').val();
+        endDate = $('#EndDate').val();
+
+        var url = urlRoot + '/Coordinator/DownloadChecksNovaBloodGlucoseReport?subjectId=' + subjectId + '&studyId=' + studyId
+            + '&startDate=' + startDate + '&endDate=' + endDate;
+        window.location.href = url;
+        
     });
 });

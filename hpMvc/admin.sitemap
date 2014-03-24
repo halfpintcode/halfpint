@@ -33,5 +33,10 @@
         <siteMapNode title="Formula List" controller="CalorieCalc" action="FormulaList" />
         <siteMapNode title="Additive List" controller="CalorieCalc" action="AdditiveList" />
       </siteMapNode>
+      <siteMapNode title="Reports">
+        <siteMapNode title="CHECKS - Nova Blood Glucose Report"
+                     controller="Coordinator"
+                     action="SelectChecksGgReportSubject" />
+      </siteMapNode>
     </siteMapNode>
 </siteMap>

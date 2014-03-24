@@ -3250,7 +3250,7 @@ namespace hpMvc.DataBase
                     {
                         var ggItem = new ChecksGg();
                         pos = rdr.GetOrdinal("Meter_Time");
-                        ggItem.MeterTime = rdr.GetDateTime(pos).ToString("yyyy-MM-dd hh:mm");
+                        ggItem.MeterTime = rdr.GetDateTime(pos).ToString("yyyy-MM-dd HH:mm");
                         pos = rdr.GetOrdinal("Meter_Glucose");
                         ggItem.MeterGlucose = rdr.GetInt32(pos);
                         

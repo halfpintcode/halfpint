@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Web;
 using System.Web.Mvc;
 using hpMvc.Helpers;
+using hpMvc.Infrastructure;
 using hpMvc.Models;
 using hpMvc.DataBase;
 using System.Web.Helpers;
@@ -49,12 +51,34 @@ namespace hpMvc.Controllers
 
         public ActionResult SelectChecksGgReportSubject()
         {
+            string role = "";
             int siteId = DbUtils.GetSiteidIDForUser(User.Identity.Name);
+
+            if (HttpContext.User.IsInRole("Admin"))
+            {
+                role = "Admin";
+
+                var sites = DbUtils.GetSitesActive();
+                if (sites.Count == 0)
+                    throw new Exception("There was an error retreiving the sites list from the database");
+                sites.Insert(0, new Site { ID = 0, Name = "Select a site", SiteID = "" });
+                ViewBag.Sites = new SelectList(sites, "ID", "Name", siteId);
+            }
+            ViewBag.Role = role;
+
             var studyList = DbUtils.GetRandomizedStudiesForSite(siteId);
-            studyList.Insert(0, new IDandStudyID { ID = 0, StudyID = "Select Study" });
-            ViewBag.StudyList = new SelectList(studyList, "ID", "StudyID");
+            studyList.Insert(0, new IDandStudyID { ID = 0, StudyID = "Select Subject" });
+            ViewBag.StudyList = new SelectList(studyList, "ID", "StudyID", siteId);
 
             return View();
+        }
+
+        [HttpPost]
+        public JsonResult GetChecksSubjectsSiteChange(string site)
+        {
+            var studyList = DbUtils.GetRandomizedStudiesForSite(int.Parse(site));
+            studyList.Insert(0, new IDandStudyID { ID = 0, StudyID = "Select Subject" });
+            return Json(studyList);
         }
 
         public ActionResult ChecksNovaBloodGlucoseReport()
@@ -73,9 +97,8 @@ namespace hpMvc.Controllers
 
             return View(list);
         }
-
-        //[HttpPost]
-        public FilePathResult DownloadChecksNovaBloodGlucoseReport()
+        
+        public FileResult DownloadChecksNovaBloodGlucoseReport()
         {
             var subjectId = Request.Params["subjectId"];
             var studyId = Request.Params["studyId"];
@@ -84,37 +107,12 @@ namespace hpMvc.Controllers
 
             var list = DbUtils.GetChecksGgReport(int.Parse(studyId), startDate, endDate);
 
-            string path = Request.PhysicalApplicationPath + "xcel\\" + studyId.Substring(0, 2) + "\\";
-            string file = path + studyId + ".xlsm";
+            var stream = ListToCsvUtils.ListToCsvStream(list);
 
-            if (!path.Contains("Prod"))
-                studyId = "T" + studyId;
-
-            string fileDownloadName = studyId + ".xlsm";
-
-            //_logger.LogInfo("Initialize.InitializeSS - file download: " + studyId);
-            return this.File(file, "application/vnd.ms-excel.sheet.macroEnabled.12", fileDownloadName);
-        }
-        public FileResult GetFile()
-        {
-            var stream = new MemoryStream();
-
-            var writer = new StreamWriter(stream);
-                
-                    writer.WriteLine("Hello, I am a new text file");
-                    writer.WriteLine(Environment.NewLine);
-                    writer.WriteLine("That's all folks!");
-                    //return File(stream, "text/plain", fileDownloadName:"text.csv");
-                    writer.Flush();
             stream.Seek(0, SeekOrigin.Begin);
-                    
-            return File(stream, "text/plain", fileDownloadName: "ggReport.csv");
-                    
-                
-            
-            //return File(stream, "application/pdf", fileDownloadName="myPDF.pdf");
-            
-        }
+
+            return File(stream, "text/plain", fileDownloadName: subjectId.TrimEnd() + "_" + startDate.Replace("/", "-") + "_" + endDate.Replace("/", "-") + ".csv");
+         }
         public ActionResult GetChecksGgReport()
         {
             var subjectId = Request.Params["subjectId"];
