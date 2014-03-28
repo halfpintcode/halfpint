@@ -111,6 +111,7 @@ namespace hpMvc.PostTestService
                     {
                         case "09":
                         case "13":
+                        case "31":
                             //make sure they are vamp certified
                             if (postTestNextDue.Role == "Nurse")
                             {
@@ -447,6 +448,7 @@ namespace hpMvc.PostTestService
                     {
                         case "09":
                         case "13":
+                        case "31":
                             if (ptnd.Role == "Nurse")
                             {
                                 if (!ptnd.IsVampTested)
@@ -917,7 +919,7 @@ namespace hpMvc.PostTestService
                             ptnd.TestsNotCompleted.Remove("VampJr");
                         }
 
-                        if (siteCode == "09" || siteCode == "13")
+                        if (siteCode == "09" || siteCode == "13" || siteCode == "31")
                         {
                             ptnd.TestsNotCompleted.Remove("NovaStatStrip");
                         }

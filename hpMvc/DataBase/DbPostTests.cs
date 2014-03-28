@@ -946,7 +946,7 @@ namespace hpMvc.DataBase
                                 continue;
                         }
 
-                        if (siteCode == "13" || siteCode == "09")
+                        if (siteCode == "13" || siteCode == "09" || siteCode == "31")
                         {
                             if (testName == "NovaStatStrip")
                                 continue;
