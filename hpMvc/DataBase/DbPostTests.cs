@@ -946,13 +946,13 @@ namespace hpMvc.DataBase
                                 continue;
                         }
 
-                        if (siteCode == "13" || siteCode == "09" || siteCode == "31")
+                        if (siteCode == "01" || siteCode == "02" || siteCode == "13" || siteCode == "09" || siteCode == "31")
                         {
                             if (testName == "NovaStatStrip")
                                 continue;
                         }
 
-                        if (siteCode == "15")
+                        if (siteCode == "15" || siteCode == "21")
                         {
                             if (testName == "VampJr")
                                 continue;
