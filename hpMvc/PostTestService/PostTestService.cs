@@ -109,6 +109,8 @@ namespace hpMvc.PostTestService
 
                     switch (si.SiteId)
                     {
+                        case "01":
+                        case "02":
                         case "09":
                         case "13":
                         case "31":
@@ -126,6 +128,7 @@ namespace hpMvc.PostTestService
                         case "14":
                             break;
                         case "15":
+                        case "21":
                             if (postTestNextDue.Role != "Nurse")
                             {
                                 //make sure they are nova net certified
@@ -446,6 +449,8 @@ namespace hpMvc.PostTestService
 
                     switch (si.SiteId)
                     {
+                        case "01":
+                        case "02":
                         case "09":
                         case "13":
                         case "31":
@@ -462,6 +467,7 @@ namespace hpMvc.PostTestService
                         case "14":
                             break;
                         case "15":
+                        case "21":
                             if (!ptnd.IsNovaStatStripTested)
                                 test = "NovaStatStrip ";
                             break;
@@ -919,12 +925,12 @@ namespace hpMvc.PostTestService
                             ptnd.TestsNotCompleted.Remove("VampJr");
                         }
 
-                        if (siteCode == "09" || siteCode == "13" || siteCode == "31")
+                        if (siteCode == "01" || siteCode == "02" || siteCode == "09" || siteCode == "13" || siteCode == "31")
                         {
                             ptnd.TestsNotCompleted.Remove("NovaStatStrip");
                         }
 
-                        if (siteCode == "15")
+                        if (siteCode == "15" || siteCode == "21")
                         {
                             ptnd.TestsNotCompleted.Remove("VampJr");
                         }
