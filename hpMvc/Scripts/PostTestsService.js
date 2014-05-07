@@ -99,7 +99,7 @@ $(function () {
                                     break;
                                 case "17":
                                 case "23":
-                                case "37":
+                                case "35":
                                     if (!val.IsNovaStatStripTested)
                                         test = "NovaStatStrip ";
                                     break;

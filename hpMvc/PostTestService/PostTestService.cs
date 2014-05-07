@@ -129,7 +129,7 @@ namespace hpMvc.PostTestService
                             break;
                         case "15":
                         case "21":
-                        case "35":
+                        case "33":
                             if (postTestNextDue.Role != "Nurse")
                             {
                                 //make sure they are nova net certified
@@ -469,7 +469,7 @@ namespace hpMvc.PostTestService
                             break;
                         case "15":
                         case "21":
-                        case "35":
+                        case "33":
                             if (!ptnd.IsNovaStatStripTested)
                                 test = "NovaStatStrip ";
                             break;
@@ -932,7 +932,7 @@ namespace hpMvc.PostTestService
                             ptnd.TestsNotCompleted.Remove("NovaStatStrip");
                         }
 
-                        if (siteCode == "15" || siteCode == "21" || siteCode == "35")
+                        if (siteCode == "15" || siteCode == "21" || siteCode == "33")
                         {
                             ptnd.TestsNotCompleted.Remove("VampJr");
                         }
