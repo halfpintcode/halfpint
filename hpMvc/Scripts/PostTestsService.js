@@ -1,5 +1,6 @@
 ﻿/// <reference path="jquery-1.7.1-vsdoc.js" />
 $(function () {
+    var siteId = '';
     $('#runType').val('0');
     $('#report').hide();
 
@@ -17,12 +18,13 @@ $(function () {
 
     $('#Sites').change(function () {
         $('#siteId').val($('#Sites').val());
+        siteId = $('#siteId').val();
     });
 
     $('#btnSubmit').click(function () {
 
         if ($('#runType').val() === '1') {
-            if ($('#siteId').val() == '') {
+            if (siteId == '') {
                 alert('Select a site!');
                 return false;
             }
@@ -77,15 +79,51 @@ $(function () {
                                 email = val.Email;
 
                             var test = "";
-                            if (!val.IsNovaStatStripTested)
-                                test = "NovaStatStrip ";
-                            if (val.Role === "Nurse") {
-                                if (!val.IsVampTested) {
-                                    if (test.Length > 0)
-                                        test += " and ";
-                                    test += "Vamp Jr";
-                                }
+                            
+                            switch(siteId) {
+                                case "1":
+                                case "2":
+                                case "9":
+                                case "15":
+                                case "33":
+                                    if (val.Role == "Nurse") {
+                                        if (!val.IsVampTested) {
+                                            if (test.Length > 0)
+                                                test += " and ";
+                                            test += "Vamp Jr";
+                                        }
+                                    }
+                                    break;
+                                case "16":
+                                case "22":
+                                    break;
+                                case "17":
+                                case "23":
+                                case "37":
+                                    if (!val.IsNovaStatStripTested)
+                                        test = "NovaStatStrip ";
+                                    break;
+                                default:
+                                    if (!val.IsNovaStatStripTested)
+                                        test = "NovaStatStrip ";
+                                    if (val.Role == "Nurse") {
+                                        if (!val.IsVampTested) {
+                                            if (test.Length > 0)
+                                                test += " and ";
+                                            test += "Vamp Jr";
+                                        }
+                                    }
+                                    break;
                             }
+//                            if (!val.IsNovaStatStripTested)
+//                                test = "NovaStatStrip ";
+//                            if (val.Role === "Nurse") {
+//                                if (!val.IsVampTested) {
+//                                    if (test.Length > 0)
+//                                        test += " and ";
+//                                    test += "Vamp Jr";
+//                                }
+//                            }
                             $("<tr><td>" + val.Name + "</td><td>" + val.Role + "</td><td>" + test + "</td><td>" + email + "</td></tr>").appendTo('#tblCompentency');
                         });
                         $('</br>').appendTo('#report');

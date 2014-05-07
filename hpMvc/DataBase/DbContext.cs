@@ -772,7 +772,7 @@ namespace hpMvc.DataBase
                 {
                     SqlCommand cmd = new SqlCommand("", conn);
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = ("GetSiteUsers");
+                    cmd.CommandText = "GetSiteUsers";
                     SqlParameter param = new SqlParameter("@siteID", site);
                     cmd.Parameters.Add(param);
 
@@ -785,8 +785,16 @@ namespace hpMvc.DataBase
                     {
                         pos = rdr.GetOrdinal("UserName");
                         userName = rdr.GetString(pos);
+                        //Nlogger.LogInfo("userName:" + userName);
                         user = Membership.GetUser(userName);
-                        users.Add(user);
+                        if (user != null)
+                        {
+                            users.Add(user);
+                        }
+                        else
+                        {
+                            Nlogger.LogError("user is null:" + userName);
+                        }
                     }
                     rdr.Close();
                 }
