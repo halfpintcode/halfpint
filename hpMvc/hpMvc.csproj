@@ -526,6 +526,7 @@
     <Content Include="HTMLPage1.htm" />
     <Content Include="HTMLPage2.htm" />
     <Content Include="README.jQuery.vsdoc.txt" />
+    <Content Include="Scripts\ChangeUserRole.js" />
     <Content Include="Scripts\checksGgReport.js" />
     <Content Include="Scripts\MeetingsEdit.js" />
     <Content Include="Scripts\GetSavedSensorInfo.js" />
@@ -840,6 +841,7 @@
     <Content Include="Views\Meetings\Edit.cshtml" />
     <Content Include="Views\Coordinator\ChecksGgReportPartial.cshtml" />
     <Content Include="Views\Coordinator\ChecksNovaBloodGlucoseReport.cshtml" />
+    <Content Include="Views\Admin\ChangeUserRole.cshtml" />
     <None Include="_bin_deployableAssemblies\Microsoft.Web.Infrastructure.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.Razor.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.dll" />

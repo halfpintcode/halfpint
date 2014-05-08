@@ -19,11 +19,11 @@ $(function () {
             siteChange(site);
         }
 
-    }); //$('#Sites').change
+    }); 
 
     function siteChange(site) {
         $.ajax({
-            url: urlRoot + '/Staff/GetSiteEmployeeInfo',
+            url: window.urlRoot + '/Staff/GetSiteEmployeeInfo',
             type: 'POST',
             data: { site: site },
             success: function (data) {
@@ -45,7 +45,7 @@ $(function () {
     }
 
     function getStaffList(site) {
-        var url = urlRoot + '/Coordinator/GetStaffForSite/?site=' + site
+        var url = window.urlRoot + '/Coordinator/GetStaffForSite/?site=' + site;
         $('#Users').empty();
         $.ajax({
             url: url,

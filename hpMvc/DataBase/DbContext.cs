@@ -7,6 +7,7 @@ using System.Configuration;
 using hpMvc.Infrastructure.Logging;
 using System.Web.Security;
 using hpMvc.Models;
+using NLog.Layouts;
 
 namespace hpMvc.DataBase
 {
@@ -804,6 +805,76 @@ namespace hpMvc.DataBase
                 }
             }
             return users;
+        }
+
+        public static object GetUserRoleAndUserName(int staffId)
+        {
+            string role = "";
+            string userName = "";
+            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            using (var conn = new SqlConnection(strConn))
+            {
+                try
+                {
+                    var cmd = new SqlCommand("", conn)
+                    {
+                        CommandType = System.Data.CommandType.StoredProcedure,
+                        CommandText = ("GetUserRoleAndUserName")
+                    };
+
+                    var param = new SqlParameter("@staffId", staffId);
+                    cmd.Parameters.Add(param);
+
+                    conn.Open();
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    int pos = 0;
+
+                    while (rdr.Read())
+                    {
+                        pos = rdr.GetOrdinal("UserName");
+                        if(! rdr.IsDBNull(pos))
+                            userName = rdr.GetString(pos);
+                        pos = rdr.GetOrdinal("Role");
+                        role = rdr.GetString(pos);
+                    }
+                    rdr.Close();
+                    return new {Role = role, UserName = userName};
+                }
+                catch (Exception ex)
+                {
+                    Nlogger.LogError(ex);
+                    return null;
+                }
+            }
+        }
+
+        public static string GetUserRole(int staffId)
+        {
+            string role = "";
+            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            using (var conn = new SqlConnection(strConn))
+            {
+                try
+                {
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = System.Data.CommandType.StoredProcedure,
+                                  CommandText = ("GetUserRole")
+                              };
+
+                    var param = new SqlParameter("@staffId", staffId);
+                    cmd.Parameters.Add(param);
+
+                    conn.Open();
+                    role = cmd.ExecuteScalar().ToString();
+                    return role;        
+                }
+                catch (Exception ex)
+                {
+                    Nlogger.LogError(ex);
+                    return role;
+                }
+            }
         }
 
         public static List<MembershipUser> GetUserInRole(string role, int site)

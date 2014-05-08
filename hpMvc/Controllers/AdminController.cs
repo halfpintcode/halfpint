@@ -214,7 +214,7 @@ namespace hpMvc.Controllers
             nlogger.LogInfo("RemoveUser - user: " + userName + ", message: " + dto.Message);
             return Json(dto);
         }
-
+        
         #region AddUser        
         public ActionResult AddStaff()
         {            
@@ -368,6 +368,34 @@ namespace hpMvc.Controllers
             return PartialView("AddUserPartial", model);
         }
         #endregion //AddUser
+
+        public ActionResult ChangeUserRole()
+        {
+            var sites = DbUtils.GetSitesActive();
+            if (sites.Count == 0)
+                throw new Exception("There was an error retreiving the sites list from the database");
+            sites.Insert(0, new Site { ID = 0, Name = "Select a site", SiteID = "" });
+            ViewBag.Sites = new SelectList(sites, "ID", "Name");
+
+            int site = DbUtils.GetSiteidIDForUser(User.Identity.Name);
+            ViewBag.Site = site;
+
+            var list = DbUtils.GetStaffLookupForSite(site.ToString());
+            list.Insert(0, new Site { ID = 0, Name = "Select a member", SiteID = "" });
+            ViewBag.Users = new SelectList(list, "ID", "Name");
+
+            var roles = Roles.GetAllRoles();
+            ViewBag.Roles = new SelectList(roles);
+            return View();
+        }
+
+        [HttpPost]
+        public JsonResult GetUserRoleAndUserName(string userId)
+        {
+            var roleUsername = DbUtils.GetUserRoleAndUserName(int.Parse(userId));
+
+            return Json(roleUsername);
+        }
 
         public ActionResult UpdateStaffInformation()
         {
