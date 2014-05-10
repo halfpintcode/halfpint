@@ -51,27 +51,41 @@ namespace hpMvc.Models
             return roles;
         }
 
+        public static void ChangeUserRole(String newRole, string userName)
+        {
+            String[] assignedRolls = Roles.GetRolesForUser(userName);
+            var oldRole = "";
+            foreach (var role in assignedRolls)
+            {
+                oldRole = role;
+                Roles.RemoveUserFromRole(userName, role);
+            }
+            Roles.AddUserToRole(userName, newRole);
+
+            nlogger.LogInfo("Changed assigned role for user:" + userName + ", old role:" + oldRole + ". new role:" + newRole);
+        }
+
         public static void SaveAsignedRoles(String[] assignedRolls, string userName)
         {
 
             bool isAssigned = false;
             String[] allRoles = Roles.GetAllRoles();
-            foreach (var allRole in allRoles)
+            foreach (var role in allRoles)
             {
                 isAssigned = false;
                 foreach (var ar in assignedRolls)
                 {
-                    if (ar == allRole)
+                    if (ar == role)
                     {
-                        if (!Roles.IsUserInRole(userName, allRole))
-                            Roles.AddUserToRole(userName, allRole);
+                        if (!Roles.IsUserInRole(userName, role))
+                            Roles.AddUserToRole(userName, role);
                         isAssigned = true;
                     }
                 }
                 if (!isAssigned)
                 {
-                    if (Roles.IsUserInRole(userName, allRole))
-                        Roles.RemoveUserFromRole(userName, allRole);
+                    if (Roles.IsUserInRole(userName, role))
+                        Roles.RemoveUserFromRole(userName, role);
                 }
 
             }

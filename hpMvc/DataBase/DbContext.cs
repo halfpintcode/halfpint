@@ -807,6 +807,61 @@ namespace hpMvc.DataBase
             return users;
         }
 
+        public static StaffEditModel GetStaffInfoForRoleChange(int userId)
+        {
+            var model = new StaffEditModel();
+            var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            using (var conn = new SqlConnection(strConn))
+            {
+                try
+                {
+                    var cmd = new SqlCommand("", conn)
+                    {
+                        CommandType = System.Data.CommandType.StoredProcedure,
+                        CommandText = "GetStaffInfo"
+                    };
+
+                    var param = new SqlParameter("@id", userId);
+                    cmd.Parameters.Add(param);
+
+                    conn.Open();
+                    int pos = 0;
+                    var rdr = cmd.ExecuteReader();
+                    if (rdr.Read())
+                    {
+                        pos = rdr.GetOrdinal("ID");
+                        model.ID = rdr.GetInt32(pos);
+                        
+                        pos = rdr.GetOrdinal("Role");
+                        if (!rdr.IsDBNull(pos))
+                            model.Role = rdr.GetString(pos);
+
+                        pos = rdr.GetOrdinal("UserName");
+                        if (!rdr.IsDBNull(pos))
+                            model.UserName = rdr.GetString(pos);
+                        
+                        pos = rdr.GetOrdinal("Email");
+                        if (!rdr.IsDBNull(pos))
+                            model.Email = rdr.GetString(pos);
+
+                        pos = rdr.GetOrdinal("EmployeeID");
+                        if (!rdr.IsDBNull(pos))
+                            model.EmployeeID = rdr.GetString(pos);
+                        
+                    }
+                    rdr.Close();
+
+                    return model;
+                }
+                catch (Exception ex)
+                {
+                    Nlogger.LogError(ex);
+                    return null;
+                }
+            }
+
+        }
+
         public static object GetUserRoleAndUserName(int staffId)
         {
             string role = "";
@@ -847,7 +902,7 @@ namespace hpMvc.DataBase
                 }
             }
         }
-
+        
         public static string GetUserRole(int staffId)
         {
             string role = "";
@@ -2902,19 +2957,72 @@ namespace hpMvc.DataBase
             return dto;
         }
 
-        public static MessageListDTO UpdateStaffAdmin(StaffEditModel model)
+        public static MessageListDTO UpdateStaffInfoForRoleChange(string staffId, string email, string employeeId, string userName, string role)
         {
-            MessageListDTO dto = new MessageListDTO();
+            var dto = new MessageListDTO();
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            using (SqlConnection conn = new SqlConnection(strConn))
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "UpdateStaffAdmin";
+                    var cmd = new SqlCommand("", conn)
+                    {
+                        CommandType = System.Data.CommandType.StoredProcedure,
+                        CommandText = "UpdateStaffInfoForRoleChange"
+                    };
 
-                    SqlParameter param = new SqlParameter("@id", model.ID);
+                    var param = new SqlParameter("@staffId", staffId);
+                    cmd.Parameters.Add(param);
+                    
+                    param = new SqlParameter("@role", role);
+                    cmd.Parameters.Add(param);
+
+                    param = new SqlParameter("@email", email);
+                    cmd.Parameters.Add(param);
+
+                    if (string.IsNullOrEmpty(employeeId))
+                        param = new SqlParameter("@employeeID", DBNull.Value);
+                    else
+                        param = new SqlParameter("@employeeID", employeeId);
+                    cmd.Parameters.Add(param);
+
+                    if (string.IsNullOrEmpty(userName))
+                        param = new SqlParameter("@userName", DBNull.Value);
+                    else
+                        param = new SqlParameter("@userName", userName);
+                    cmd.Parameters.Add(param);
+
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    Nlogger.LogError(ex);
+                    dto.IsSuccessful = false;
+                    dto.Messages.Add("There was an error changing the staff info into the staff database");
+                    return dto;
+                }
+            }
+            dto.Messages.Add("Staff information was successfully changed into the database!");
+            dto.IsSuccessful = true;
+            return dto;
+        }
+
+        public static MessageListDTO UpdateStaffAdmin(StaffEditModel model)
+        {
+            var dto = new MessageListDTO();
+            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            using (var conn = new SqlConnection(strConn))
+            {
+                try
+                {
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = System.Data.CommandType.StoredProcedure,
+                                  CommandText = "UpdateStaffAdmin"
+                              };
+
+                    var param = new SqlParameter("@id", model.ID);
                     cmd.Parameters.Add(param);
 
                     param = new SqlParameter("@active", model.Active);

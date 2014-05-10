@@ -1,32 +1,85 @@
 ﻿/// <reference path="jquery-1.7.1-vsdoc.js" />
 $(function () {
-    var curRole, curUserName, newRole, newUserName;
-
+    var curRole, curUserName, newUserName, newRole, site, userId;
     $('#Sites').val($('#SiteID').val());
-    $('#divSelected').hide();
-
-    $('#Sites').change(function () {
-        var site = $(this).val();
-
-        $('#SiteID').val(site);
-
-        $('#staffInfo').slideUp('slow');
-        $('#staffInfo').empty();
-
-        if (site === "0") {
-            clearSelected();
+    clearSelected();
+    //remove nurse role from select list
+    $('#Roles >option').each(function() {
+        if (this.text === "Nurse") {
+            $(this).remove();
         }
-        else {
-            siteChange(site);
-        }
-
     });
-
-    var clearSelected = function () {
-        $('#divSelected').hide();
+    site = $('#SiteID').val();
+    getSiteEmployeeInfo();
+    
+    function clearSelected() {
+        $('#divSelected').slideUp('fast');
+        $('#btnSubmit').attr("disabled", "disabled");
+        $('#userName').val('');
+        newUserName = '';
+        newRole = 'Coordinator';
+        $('#Roles').val('Coordinator');
+        $('#lblUserNameNotAvailable').hide();
+        $('#lblUserNameAvailable').hide();
     };
 
-    function siteChange(site) {
+    $('#userName').keyup(function() {
+        newUserName = $(this).val();
+        if (!newUserName) {
+            $('#lblUserNameNotAvailable').hide();
+            $('#lblUserNameAvailable').hide();
+            $('#btnSubmit').attr("disabled", "disabled");
+            return;
+        }
+        var url = window.urlRoot + '/Admin/IsMembershipUserNameDuplicate/?userName=' + newUserName;
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: {},
+            success: function(data) {
+                if (! data) {
+                    $('#lblUserNameNotAvailable').hide();
+                    $('#lblUserNameAvailable').show();
+                    checkValidity();
+                } else {
+                    $('#lblUserNameNotAvailable').show();
+                    $('#lblUserNameAvailable').hide();
+                    $('#btnSubmit').attr("disabled", "disabled");  
+                }
+            }
+        });
+    });
+    
+    $('#Sites').change(function () {
+        site = $(this).val();
+
+        $('#SiteID').val(site);
+        clearSelected();
+        
+        if (site !== "0") {
+            var url = window.urlRoot + '/Coordinator/GetStaffForSite/?site=' + site;
+            $('#Users').empty();
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: {},
+                success: function (data) {
+                    if (data) {
+                        $.each(data, function (index, d) {
+                            $('#Users').append("<option value='" + d.ID + "'>" + d.Name + "</option>");
+                        });
+                    }
+                    else {
+                        alert(data);
+                    }
+                }
+            });
+
+            getSiteEmployeeInfo();
+        }
+    });
+    
+    function getSiteEmployeeInfo() {
         $.ajax({
             url: window.urlRoot + '/Staff/GetSiteEmployeeInfo',
             type: 'POST',
@@ -34,55 +87,89 @@ $(function () {
             success: function (data) {
                 if (data.IsSuccessful) {
                     if (data.Stuff[0].Value === "true") {
-                        $('#empIDRequired').val("true");
-                        $('#empIDRegex').val(data.Stuff[1].Value);
-                        $('#empIDMessage').val(data.Stuff[2].Value);
+                        $('#divEmpId').show();
+                        $('#lblEmpIdMessage').text(data.Stuff[2].Value);
                     }
                     else {
-                        $('#empIDRequired').val("");
-                        $('#empIDRegex').val("");
+                        $('#divEmpId').hide();
                         $('#empIDMessage').text("");
                     }
-                }
-                getStaffList(site);
-            }
-        });
-    }
-
-    function getStaffList(site) {
-        var url = window.urlRoot + '/Coordinator/GetStaffForSite/?site=' + site;
-        $('#Users').empty();
-        $.ajax({
-            url: url,
-            type: 'POST',
-            data: {},
-            success: function (data) {
-                if (data) {
-                    $.each(data, function (index, d) {
-                        $('#Users').append("<option value='" + d.ID + "'>" + d.Name + "</option>");
-                    });
-                }
-                else {
-                    alert(data);
                 }
             }
         });
     }
 
     $('#Users').change(function () {
-        var userId = $(this).val();
+        userId = $(this).val();
+        clearSelected();
         if (userId === "0") {
-            clearSelected();
             return;
         }
-        getUserRole(userId);
+
+        setTimeout(
+          function () {
+              getSelectedUser();
+          }, 500);
 
 
     });
+
+    function getSelectedUser() {
+        var url = window.urlRoot + '/Admin/GetStaffInfoForRoleChange/?userId=' + userId;
+        curUserName = "";
+
+        $.ajax({
+            url: url,
+            async: false,
+            type: 'POST',
+            data: {},
+            success: function (data) {
+                if (data) {
+                    curRole = data.Role;
+                    $('#lblCurrentRole').text(data.Role);
+                    curUserName = data.UserName;
+                    $('#lblCurrentUserName').text(data.UserName);
+                    if (data.UserName) {
+                        $('#spnUserName').hide();
+                    } else {
+                        $('#spnUserName').show();
+                    }
+                    $('#email').val(data.Email);
+                    if (data.EmployeeID) {
+                        $('#empId').val(data.EmployeeID);
+                    }
+                    $('#divSelected').slideDown();
+                }
+                else {
+                    alert("No current user role");
+                }
+            }
+        });
+    }
 
     $('#Roles').change(function () {
         newRole = $(this).val();
+        checkValidity();
     });
+
+    function checkValidity() {
+        if (newRole === curRole) {
+            $('#btnSubmit').attr("disabled", "disabled");
+            return false;
+        }
+
+        newUserName = $('#userName').val();
+        if (newRole !== "Nurse") {
+            if (!curUserName) {
+                if (!newUserName) {
+                    $('#btnSubmit').attr("disabled", "disabled");   
+                }
+            }
+        }
+
+        $('#btnSubmit').removeAttr("disabled");
+        return true;
+    }
 
     $('#btnSubmit').click(function () {
         if (newRole === curRole) {
@@ -98,35 +185,25 @@ $(function () {
                 }
             }
         }
+        $('#btnSubmit').attr("disabled", "disabled");
 
-    });
-
-    var getUserRole = function (userId) {
-        var url = window.urlRoot + '/Admin/GetUserRoleAndUserName/?userId=' + userId;
-
+        var url = window.urlRoot + '/Admin/ChangeUserRole';
+        var email = $('#email').val();
+        var empId = $('#empId').val();
         $.ajax({
             url: url,
+            async: false,
             type: 'POST',
-            data: {},
-            success: function (data) {
-                if (data) {
-                    curRole = data.Role;
-                    $('#lblCurrentRole').text(data.Role);
-                    curUserName = data.userName;
-                    $('#lblCurrentUserName').text(data.UserName);
-                    if (data.UserName) {
-                        $('#spnUserName').hide();
-                    } else {
-                        $('#spnUserName').show();
-                    }
-                    $('#divSelected').show();
-                }
-                else {
-                    alert("No current user role");
+            data: {newUserName:newUserName, curUserName:curUserName, role:newRole, siteId:site, staffId:userId, empId:empId, email: email},
+            success: function(data) {
+                if (data.IsSuccessful) {
+                    alert("Role change was successful");
+                } else {
+                    alert("Role change failed");
                 }
             }
         });
-    };
 
-
+    });
+    
 })

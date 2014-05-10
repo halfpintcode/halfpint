@@ -1,6 +1,6 @@
 ﻿@using System.Activities.Expressions
 @{
-    ViewBag.Title = "ChangeUserRole";
+    ViewBag.Title = "Change User Role";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -17,15 +17,25 @@
 
 <div id="divSelected">
     <hr/>
-    Current user role: <label id="lblCurrentRole"></label>
+    <div>Current user role: <label id="lblCurrentRole"></label></div>
+    <div>Current user name: <label id="lblCurrentUserName"></label></div>
+    <div>Current user email: <input type="text" id="email" name="email"/></div>
+    <div id="divEmpId">
+        Current user employee Id: <input type="text" id="empId" name="empId"/>
+        <label id="lblEmpIdMessage"></label>
+    </div>
     <br/>
-    Current user name: <label id="lblCurrentUserName"></label>
-    <br/>
+    
     Select new role: @Html.DropDownList("Roles", (SelectList)@ViewBag.Roles ,  new { @class = "lstRoles" })
     <br/>
-    <span id="spnUserName">Enter user name: <input type="text" id="userName" name="userName"/> </span>
+    <span id="spnUserName">
+        Enter user name: <input type="text" id="userName" name="userName"/>
+        <label id="lblUserNameAvailable">User name is available</label>
+        <label id="lblUserNameNotAvailable">X User name is not available</label> 
+    </span>
     <br/><br/>
     <button type="button" id="btnSubmit" >Submit</button>
 </div>  
 
+<link href="@Url.Content("~/Content/ChangeUserRole.css")" rel="stylesheet" type="text/css" />
 <script src="@Url.Content("~/Scripts/ChangeUserRole.js")" type="text/javascript"></script>

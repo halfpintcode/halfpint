@@ -270,7 +270,15 @@ namespace hpMvc.Controllers
             ViewBag.Roles = new SelectList(roles, model.Role);
             return View(model);
         }
-                
+
+        public JsonResult IsMembershipUserNameDuplicate(string userName)
+        {
+            if (AccountUtils.GetUserByUserName(userName) != null)
+                return Json(true);
+            else
+                return Json(false);
+        }
+
         public JsonResult IsUserNameDuplicate(string userName)
         {
             var dto = DbPostTestsUtils.DoesStaffUserNameExist(userName);
@@ -289,6 +297,8 @@ namespace hpMvc.Controllers
             var dto = DbPostTestsUtils.DoesStaffEmailExistOtherThan(id, email);
             return Json(dto);
         }
+
+        
 
         public JsonResult IsUserEmployeeIdDuplicate(string employeeID, int site)
         {            
@@ -385,16 +395,52 @@ namespace hpMvc.Controllers
             ViewBag.Users = new SelectList(list, "ID", "Name");
 
             var roles = Roles.GetAllRoles();
+            
             ViewBag.Roles = new SelectList(roles);
             return View();
         }
 
         [HttpPost]
-        public JsonResult GetUserRoleAndUserName(string userId)
+        public JsonResult ChangeUserRole(string newUserName, string curUserName, string role, string staffId, string siteId, string email, string empId)
         {
-            var roleUsername = DbUtils.GetUserRoleAndUserName(int.Parse(userId));
+            var userName = "";
+            if (newUserName.Length > 0)
+            {
+                userName = newUserName;
+                //create new membership user
+                MembershipCreateStatus createStatus;
+                MembershipUser user = Membership.CreateUser(userName, "halfpint", email, null, null, true, null, out createStatus);
+                if (createStatus == MembershipCreateStatus.Success)
+                {
+                    if (!DbUtils.AddUserSite(userName, int.Parse(siteId)))
+                    {
+                        throw new Exception("There was an error adding the user and site to the database");
+                    }
 
-            return Json(roleUsername);
+                    //this will tell us that user needs to reset
+                    user.Comment = "Reset";
+                    Membership.UpdateUser(user);
+                }
+            }
+            else
+            {
+                userName = curUserName;
+            }
+
+            UserRolesUtils.ChangeUserRole(role, userName);
+            
+            //update staff info
+            var dto = DbUtils.UpdateStaffInfoForRoleChange(staffId, email, empId, userName, role);
+            
+            return Json(dto);
+        }
+
+        [HttpPost]
+        public JsonResult GetStaffInfoForRoleChange(string userId)
+        {
+            var staffInfo = DbUtils.GetStaffInfoForRoleChange(int.Parse(userId));
+
+            return Json(staffInfo);
         }
 
         public ActionResult UpdateStaffInformation()

@@ -357,6 +357,7 @@
     <Content Include="Content\2012.2.607\Windows7\slider-v.gif" />
     <Content Include="Content\2012.2.607\Windows7\sprite-vertical.png" />
     <Content Include="Content\2012.2.607\Windows7\sprite.png" />
+    <Content Include="Content\ChangeUserRole.css" />
     <Content Include="Content\AddNewStaff.css" />
     <Content Include="Content\bootstrap\css\bootstrap-responsive.css" />
     <Content Include="Content\bootstrap\css\bootstrap-responsive.min.css" />
