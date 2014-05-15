@@ -217,11 +217,11 @@ namespace hpMvc.Controllers
                 model.NotCompletedReason = "";
 
             string path = Request.PhysicalApplicationPath;
-            if (!path.Contains("Prod"))
-            {
-                model.CgmUpload = true;
-            }
-            else
+            //if (!path.Contains("Prod"))
+            //{
+            //    model.CgmUpload = true;
+            //}
+            //else
             {
                 if (file != null && file.ContentLength > 0)
                 {

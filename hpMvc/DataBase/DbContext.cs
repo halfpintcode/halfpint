@@ -381,6 +381,10 @@ namespace hpMvc.DataBase
                         pos = rdr.GetOrdinal("SiteName");
                         rndm.SiteName = rdr.GetString(pos);
 
+                        pos = rdr.GetOrdinal("ChecksRowsCompleted");
+                        if (!rdr.IsDBNull(pos))
+                            rndm.RowsCompleted = rdr.GetInt32(pos);
+
                     }
                     rdr.Close();
                 }
