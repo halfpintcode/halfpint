@@ -124,7 +124,10 @@ namespace hpMvc.Controllers
                         }
                     }
 
-                    var iret = SsUtils.SetRandomization(studyId, cafpintConsent, inrGreater3, cafpintId, ref ssInsert, User.Identity.Name, dateRandomized);
+                    var onInsulinYesNo = Request.Params["onInsulinYesNo"];
+                    bool onInsulinInfusion = onInsulinYesNo == "yes";
+
+                    var iret = SsUtils.SetRandomization(studyId, cafpintConsent, inrGreater3, cafpintId, ref ssInsert, User.Identity.Name, dateRandomized, onInsulinInfusion);
                     if (iret == -1)
                     {
                         dto.IsSuccessful = false;

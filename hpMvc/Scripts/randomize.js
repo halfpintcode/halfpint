@@ -21,6 +21,8 @@ $(document).ready(function () {
     $('#divInr3Yes').hide();
     $('#divInr3No').hide();
     $('#divInfo').show();
+    $('#onInsulinNo').hide();
+    $('#onInsulinYes').hide();
 
     $('ul.sf-menu').superfish({
 
@@ -47,6 +49,17 @@ $(document).ready(function () {
     $('#studyID').mask("99-9999-9");
     $('#BodyWeight').keydown(function (event) {
         window.numericsAndDecimalOnly(event, $(this).val());
+    });
+
+    $("input:radio[name=onInsulinYesNo]").click(function () {
+        var value = $(this).val();
+        if (value == "yes") {
+            $('#onInsulinYes').show();
+            $('#onInsulinNo').hide();
+        } else {
+            $('#onInsulinYes').hide();
+            $('#onInsulinNo').show();
+        }
     });
 
     $("input:radio[name=cafpintYesNo]").click(function () {
@@ -309,8 +322,14 @@ $(document).ready(function () {
     });
 
     function validate() {
+        var val = $("input:radio[name=onInsulinYesNo]:checked").val();
+        if (!val) {
+            alert('You must answer all questions for the Order Insulin section');
+            return false;
+        }
+
         if (useCafpint == "True") {
-            var val = $("input:radio[name=cafpintYesNo]:checked").val();
+            val = $("input:radio[name=cafpintYesNo]:checked").val();
             if (!val) {
                 alert('CAF-PINT question requires an answer');
                 $('.mod').hide();

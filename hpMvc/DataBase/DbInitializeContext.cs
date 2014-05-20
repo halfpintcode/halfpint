@@ -24,6 +24,16 @@ namespace hpMvc.DataBase
             bool useCafpint = bool.Parse(formParams["cafpint"]);
             bool useVampjr = bool.Parse(formParams["vampjr"]);
 
+            if (formParams["onInsulinYesNo"] == null)
+            {
+                messages.Add(new ValidationMessages
+                {
+                    FieldName = "onInsulinInfusion",
+                    DisplayName = "Is patient currently on insulin infusion",
+                    Message = "is required"
+                });
+            }
+            
             if (useCafpint)
             {
                 //see if they answered the first question

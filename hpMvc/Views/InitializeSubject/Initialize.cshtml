@@ -44,7 +44,6 @@
 <div id="divMain" class="hideStart">
     <div id="mainTitle">
         Initialize Study ID
-        
     </div>
     <div id="divSideBar">
         <ul>
@@ -66,8 +65,8 @@
         <input type="hidden" value='@ViewBag.SensorType' name="sensorType" id="sensorType"/>
         <input type="hidden" value='@ViewBag.UseCafpint' name="cafPint" id="cafPint"/>
         <input type="hidden" value='@ViewBag.UseVampjr' name="vampjr" id="vampjr"/>
-        <input type="hidden" name="randDate" id="randDate"/>
-        <input type="hidden" name="randTime" id="randTime"/>
+        <input type="hidden" name="randDate" id="randDate" />
+        <input type="hidden" name="randTime" id="randTime" />
         <div id="divInfo" class="mod">
             <h3>
                 Information Page</h3>
@@ -348,6 +347,25 @@
                     Insulin ordered by prescriber</label>
                 <input type="checkbox" id="OrderIns" name="OrderIns" size="25" />
             </p>
+            <div>
+                <label for="onInsulinYesNo">
+                    Is the patient currently on an insulin infusion as ordered by the clinical team?</label>
+                <input type="radio" name="onInsulinYesNo" value="yes" />Yes
+                <input type="radio" name="onInsulinYesNo" value="no" />No<br />
+                <br />
+            </div>
+            <div class="onInsulin" id="onInsulinYes">
+                When you start the CHECKS algorithm, the program will recommend a starting dose
+                of insulin without knowledge of recent blood sugars or insulin delivery. The HALF-PINT
+                study staff should consult with the clinical team to decide which starting dose
+                to choose, either the CHECKS recommendation or the current rate, or possibly a 3rd,
+                safer rate. We recommend that you choose the starting rate that makes the most clinical
+                sense, based upon recent insulin doses and recent blood sugars. Most commonly, but
+                not always, the lowest rate among all the available choices will be your best choice.
+            </div>
+            <div class="onInsulin" id="onInsulinNo">
+                Follow recommendations of CHECKS Algorithm
+            </div>
             <br />
             <input type="button" id="btnParamsNext" class="nextButton" value="Complete" />
         </div>
