@@ -217,28 +217,45 @@ namespace hpMvc.Controllers
                 model.NotCompletedReason = "";
 
             string path = Request.PhysicalApplicationPath;
-            //if (!path.Contains("Prod"))
-            //{
-            //    model.CgmUpload = true;
-            //}
-            //else
+            //don't upload if hpTest - this could overwrite a production file
+            if (!path.Contains("Prod"))
+            {
+                model.CgmUpload = true;
+            }
+            else
             {
                 if (file != null && file.ContentLength > 0)
                 {
-                    //todo validate file type
-                    var fileName = Path.GetFileName(file.FileName);
-                    _nlogger.LogInfo("CGM Upload - fileName: " + fileName);
+                    //validate file size must be less than 60000 bytes
+                    if (file.ContentLength > 60000)
+                    {
+                        ModelState.AddModelError("",
+                            "*The file being uploaded is too large, make sure you selected the correct file to upload");
+                    }
+                    else
+                    {
+                        //validate file type
+                        var fileName = Path.GetFileName(file.FileName);
+                        _nlogger.LogInfo("CGM Upload - fileName: " + fileName);
+                        var extension = Path.GetExtension(file.FileName).ToUpper();
+                        if (extension != ".TXT")
+                        {
+                            ModelState.AddModelError("", "*The file being uploaded must end with .txt");
+                        }
+                        else
+                        {
+                            var folderPath = ConfigurationManager.AppSettings["CgmUploadPath"].ToString();
+                            var folderSitePath = Path.Combine(folderPath, model.SiteName);
+                            _nlogger.LogInfo("CGM Upload - path: " + folderSitePath);
+                            if (!Directory.Exists(folderSitePath))
+                                Directory.CreateDirectory(folderSitePath);
 
-                    var folderPath = ConfigurationManager.AppSettings["CgmUploadPath"].ToString();
-                    var folderSitePath = Path.Combine(folderPath, model.SiteName);
-                    _nlogger.LogInfo("CGM Upload - path: " + folderSitePath);
-                    if (!Directory.Exists(folderSitePath))
-                        Directory.CreateDirectory(folderSitePath);
-
-                    var newName = model.StudyID.Trim() + "_CGM.csv";
-                    var fullPath = Path.Combine(folderSitePath, newName);
-                    file.SaveAs(fullPath);
-                    model.CgmUpload = true;
+                            var newName = model.StudyID.Trim() + "_CGM.csv";
+                            var fullPath = Path.Combine(folderSitePath, newName);
+                            file.SaveAs(fullPath);
+                            model.CgmUpload = true;
+                        }
+                    }
                 }
             }
 
