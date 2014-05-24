@@ -7,7 +7,6 @@ using System.Configuration;
 using hpMvc.Infrastructure.Logging;
 using System.Web.Security;
 using hpMvc.Models;
-using NLog.Layouts;
 
 namespace hpMvc.DataBase
 {
@@ -34,11 +33,12 @@ namespace hpMvc.DataBase
                     {
                         if (sites != null)
                         {
-                            int site = GetSiteidIDForUser(user);
+                            int site = GetSiteidIdForUser(user);
                             if (!sites.Contains(site))
                                 continue;
                         }
-                        emails.Add((Membership.GetUser(user)).Email);
+                        var membershipUser = Membership.GetUser(user);
+                        if (membershipUser != null) emails.Add(membershipUser.Email);
                     }
                 }
             }
@@ -46,12 +46,7 @@ namespace hpMvc.DataBase
             {
                 if (sites != null)
                 {
-                    foreach (var site in sites)
-                    {
-                        var members = GetUsersForSite(site);
-                        foreach (var member in members)
-                            emails.Add(member.Email);
-                    }
+                    emails.AddRange(from site in sites from member in GetUsersForSite(site) select member.Email);
                 }
             }
 
@@ -60,28 +55,27 @@ namespace hpMvc.DataBase
 
         public static List<WebLog> GetWebLogs(int numRows = 1000)
         {
-
+            SqlDataReader rdr = null;
             var list = new List<WebLog>();
-            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
             using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
                     var cmd = new SqlCommand("", conn)
                                   {
-                                      CommandType = System.Data.CommandType.StoredProcedure,
+                                      CommandType = CommandType.StoredProcedure,
                                       CommandText = ("GetWebLogs")
                                   };
                     var param = new SqlParameter("@num", numRows);
                     cmd.Parameters.Add(param);
                     conn.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    int pos = 0;
+                    rdr = cmd.ExecuteReader();
 
                     while (rdr.Read())
                     {
                         var log = new WebLog();
-                        pos = rdr.GetOrdinal("logDate");
+                        var pos = rdr.GetOrdinal("logDate");
                         log.LogDate = rdr.GetDateTime(pos);
 
                         pos = rdr.GetOrdinal("logLevel");
@@ -97,6 +91,11 @@ namespace hpMvc.DataBase
                 catch (Exception ex)
                 {
                     Nlogger.LogError(ex);
+                }
+                finally
+                {
+                    if (rdr != null)
+                        rdr.Close();
                 }
             }
 
@@ -106,28 +105,27 @@ namespace hpMvc.DataBase
 
         public static List<WebLog> GetChecksImportLog(int numRows = 1000)
         {
-
+            SqlDataReader rdr = null;
             var list = new List<WebLog>();
-            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
             using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
                     var cmd = new SqlCommand("", conn)
                     {
-                        CommandType = System.Data.CommandType.StoredProcedure,
+                        CommandType = CommandType.StoredProcedure,
                         CommandText = ("GetChecksImportLog")
                     };
                     var param = new SqlParameter("@num", numRows);
                     cmd.Parameters.Add(param);
                     conn.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    int pos = 0;
+                    rdr = cmd.ExecuteReader();
 
                     while (rdr.Read())
                     {
                         var log = new WebLog();
-                        pos = rdr.GetOrdinal("logDate");
+                        var pos = rdr.GetOrdinal("logDate");
                         log.LogDate = rdr.GetDateTime(pos);
 
                         pos = rdr.GetOrdinal("logLevel");
@@ -143,6 +141,11 @@ namespace hpMvc.DataBase
                 catch (Exception ex)
                 {
                     Nlogger.LogError(ex);
+                }
+                finally
+                {
+                    if (rdr != null)
+                        rdr.Close();
                 }
             }
 
@@ -160,7 +163,7 @@ namespace hpMvc.DataBase
                 {
                     var cmd = new SqlCommand("", conn)
                                   {
-                                      CommandType = System.Data.CommandType.StoredProcedure,
+                                      CommandType = CommandType.StoredProcedure,
                                       CommandText = ("SiteRandomizationsCount")
                                   };
 
@@ -196,26 +199,26 @@ namespace hpMvc.DataBase
         }
         public static List<Randomization> GetAllRandomizedStudies()
         {
+            SqlDataReader rdr = null;
             var list = new List<Randomization>();
-            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
             using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
                     var cmd = new SqlCommand("", conn)
                                   {
-                                      CommandType = System.Data.CommandType.StoredProcedure,
+                                      CommandType = CommandType.StoredProcedure,
                                       CommandText = ("GetAllRandomizedStudies")
                                   };
 
                     conn.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    int pos = 0;
+                    rdr = cmd.ExecuteReader();
 
                     while (rdr.Read())
                     {
                         var rndm = new Randomization();
-                        pos = rdr.GetOrdinal("Name");
+                        var pos = rdr.GetOrdinal("Name");
                         rndm.SiteName = rdr.GetString(pos);
 
                         pos = rdr.GetOrdinal("Number");
@@ -238,6 +241,11 @@ namespace hpMvc.DataBase
                 {
                     Nlogger.LogError(ex);
                 }
+                finally
+                {
+                    if (rdr != null)
+                        rdr.Close();
+                }
             }
 
 
@@ -253,7 +261,7 @@ namespace hpMvc.DataBase
                 {
                     var cmd = new SqlCommand("", conn)
                               {
-                                  CommandType = System.Data.CommandType.StoredProcedure,
+                                  CommandType = CommandType.StoredProcedure,
                                   CommandText = ("SaveRandomizedSubjectActive")
                               };
                     var param = new SqlParameter("@id", sc.ID);
@@ -276,10 +284,7 @@ namespace hpMvc.DataBase
                     cmd.Parameters.Add(param);
                     param = new SqlParameter("@contactInfo", sc.ContactInfo);
                     cmd.Parameters.Add(param);
-                    if (sc.NotCompletedReason == null)
-                        param = new SqlParameter("@notCompletedReason", DBNull.Value);
-                    else
-                        param = new SqlParameter("@notCompletedReason", sc.NotCompletedReason);
+                    param = sc.NotCompletedReason == null ? new SqlParameter("@notCompletedReason", DBNull.Value) : new SqlParameter("@notCompletedReason", sc.NotCompletedReason);
                     cmd.Parameters.Add(param);
                     param = new SqlParameter("@cleared", sc.Cleared);
                     cmd.Parameters.Add(param);
@@ -298,26 +303,28 @@ namespace hpMvc.DataBase
 
         public static SubjectCompleted GetRandomizedStudyActive(string id)
         {
+            SqlDataReader rdr = null;
             var rndm = new SubjectCompleted();
-            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            using (SqlConnection conn = new SqlConnection(strConn))
+            var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = ("GetRandomizedStudyActive");
-                    SqlParameter param = new SqlParameter("@id", id);
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = CommandType.StoredProcedure,
+                                  CommandText = ("GetRandomizedStudyActive")
+                              };
+                    var param = new SqlParameter("@id", id);
                     cmd.Parameters.Add(param);
 
                     conn.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    int pos = 0;
+                    rdr = cmd.ExecuteReader();
 
                     while (rdr.Read())
                     {
 
-                        pos = rdr.GetOrdinal("ID");
+                        var pos = rdr.GetOrdinal("ID");
                         rndm.ID = rdr.GetInt32(pos);
 
                         pos = rdr.GetOrdinal("StudyID");
@@ -373,10 +380,7 @@ namespace hpMvc.DataBase
                         //    rndm.MonitorID = rdr.GetString(pos);
 
                         pos = rdr.GetOrdinal("NotCompletedReason");
-                        if (!rdr.IsDBNull(pos))
-                            rndm.NotCompletedReason = rdr.GetString(pos);
-                        else
-                            rndm.NotCompletedReason = "";
+                        rndm.NotCompletedReason = !rdr.IsDBNull(pos) ? rdr.GetString(pos) : "";
 
                         pos = rdr.GetOrdinal("SiteName");
                         rndm.SiteName = rdr.GetString(pos);
@@ -392,34 +396,41 @@ namespace hpMvc.DataBase
                 {
                     Nlogger.LogError(ex);
                 }
+                finally
+                {
+                    if (rdr != null)
+                        rdr.Close();
+                }
             }
 
 
             return rndm;
         }
 
-        public static List<SubjectCompleted> GetSiteRandomizedStudiesActive(int siteID)
+        public static List<SubjectCompleted> GetSiteRandomizedStudiesActive(int siteId)
         {
+            SqlDataReader rdr = null;
             var list = new List<SubjectCompleted>();
-            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            using (SqlConnection conn = new SqlConnection(strConn))
+            var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = ("GetSiteRandomizedStudiesActive");
-                    SqlParameter param = new SqlParameter("@siteID", siteID);
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = CommandType.StoredProcedure,
+                                  CommandText = ("GetSiteRandomizedStudiesActive")
+                              };
+                    var param = new SqlParameter("@siteID", siteId);
                     cmd.Parameters.Add(param);
 
                     conn.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    int pos = 0;
+                    rdr = cmd.ExecuteReader();
 
                     while (rdr.Read())
                     {
                         var rndm = new SubjectCompleted();
-                        pos = rdr.GetOrdinal("ID");
+                        var pos = rdr.GetOrdinal("ID");
                         rndm.ID = rdr.GetInt32(pos);
 
                         pos = rdr.GetOrdinal("StudyID");
@@ -437,7 +448,6 @@ namespace hpMvc.DataBase
                             rndm.sDateCompleted = rndm.DateCompleted != null
                                                       ? rndm.DateCompleted.Value.ToString("MM/dd/yyyy")
                                                       : "";
-                            ;
                         }
 
                         pos = rdr.GetOrdinal("CgmUpload");
@@ -490,34 +500,41 @@ namespace hpMvc.DataBase
                 {
                     Nlogger.LogError(ex);
                 }
+                finally
+                {
+                    if (rdr != null)
+                        rdr.Close();
+                }
             }
 
 
             return list;
         }
 
-        public static List<SubjectCompleted> GetSiteRandomizedStudiesCleared(int siteID)
+        public static List<SubjectCompleted> GetSiteRandomizedStudiesCleared(int siteId)
         {
+            SqlDataReader rdr = null;
             var list = new List<SubjectCompleted>();
-            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            using (SqlConnection conn = new SqlConnection(strConn))
+            var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = ("GetSiteRandomizedStudiesCleared");
-                    SqlParameter param = new SqlParameter("@siteID", siteID);
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = CommandType.StoredProcedure,
+                                  CommandText = ("GetSiteRandomizedStudiesCleared")
+                              };
+                    var param = new SqlParameter("@siteID", siteId);
                     cmd.Parameters.Add(param);
 
                     conn.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    int pos = 0;
+                    rdr = cmd.ExecuteReader();
 
                     while (rdr.Read())
                     {
                         var rndm = new SubjectCompleted();
-                        pos = rdr.GetOrdinal("ID");
+                        var pos = rdr.GetOrdinal("ID");
                         rndm.ID = rdr.GetInt32(pos);
 
                         pos = rdr.GetOrdinal("StudyID");
@@ -535,7 +552,6 @@ namespace hpMvc.DataBase
                             rndm.sDateCompleted = rndm.DateCompleted != null
                                                       ? rndm.DateCompleted.Value.ToString("MM/dd/yyyy")
                                                       : "";
-                            ;
                         }
 
                         pos = rdr.GetOrdinal("CgmUpload");
@@ -592,34 +608,39 @@ namespace hpMvc.DataBase
                 {
                     Nlogger.LogError(ex);
                 }
+                finally
+                {
+                    if (rdr != null)
+                        rdr.Close();
+                }
             }
-
-
             return list;
         }
 
-        public static List<Randomization> GetSiteRandomizedStudies(int siteID)
+        public static List<Randomization> GetSiteRandomizedStudies(int siteId)
         {
+            SqlDataReader rdr = null;
             var list = new List<Randomization>();
-            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            using (SqlConnection conn = new SqlConnection(strConn))
+            var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = ("GetSiteRandomizedStudies");
-                    SqlParameter param = new SqlParameter("@siteID", siteID);
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = CommandType.StoredProcedure,
+                                  CommandText = ("GetSiteRandomizedStudies")
+                              };
+                    var param = new SqlParameter("@siteID", siteId);
                     cmd.Parameters.Add(param);
 
                     conn.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    int pos = 0;
+                    rdr = cmd.ExecuteReader();
 
                     while (rdr.Read())
                     {
                         var rndm = new Randomization();
-                        pos = rdr.GetOrdinal("Name");
+                        var pos = rdr.GetOrdinal("Name");
                         rndm.SiteName = rdr.GetString(pos);
 
                         pos = rdr.GetOrdinal("Number");
@@ -642,34 +663,39 @@ namespace hpMvc.DataBase
                 {
                     Nlogger.LogError(ex);
                 }
+                finally
+                {
+                    if (rdr != null)
+                        rdr.Close();
+                }
             }
-
-
             return list;
         }
 
         public static List<StudyID> GetStudyIDsNotRandomized(int site)
         {
-            List<StudyID> sls = new List<StudyID>();
-            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            using (SqlConnection conn = new SqlConnection(strConn))
+            SqlDataReader rdr = null;
+            var sls = new List<StudyID>();
+            var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = ("GetStudyIDsNotRandomized");
-                    SqlParameter param = new SqlParameter("@siteID", site);
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = CommandType.StoredProcedure,
+                                  CommandText = ("GetStudyIDsNotRandomized")
+                              };
+                    var param = new SqlParameter("@siteID", site);
                     cmd.Parameters.Add(param);
 
                     conn.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    int pos = 0;
+                    rdr = cmd.ExecuteReader();
 
                     while (rdr.Read())
                     {
                         var stid = new StudyID();
-                        pos = rdr.GetOrdinal("ID");
+                        var pos = rdr.GetOrdinal("ID");
                         stid.ID = rdr.GetInt32(pos);
 
                         pos = rdr.GetOrdinal("SiteID");
@@ -686,6 +712,11 @@ namespace hpMvc.DataBase
                 {
                     Nlogger.LogError(ex);
                 }
+                finally
+                {
+                    if (rdr != null)
+                        rdr.Close();
+                }
             }
             return sls;
         }
@@ -693,63 +724,57 @@ namespace hpMvc.DataBase
         public static MembershipUserCollection GetAllUsers()
         {
             //List<MembershipUser> users = new List<MembershipUser>();
-            MembershipUserCollection mUsers = Membership.GetAllUsers();
+            var mUsers = Membership.GetAllUsers();
 
             return mUsers;
         }
 
         public static List<UserInfo> GetAllUserInfo()
         {
-            List<UserInfo> lUsers = new List<UserInfo>();
-            MembershipUserCollection mUsers = Membership.GetAllUsers();
+            var mUsers = Membership.GetAllUsers();
 
-            foreach (MembershipUser user in mUsers)
-            {
-                var userInfo = new UserInfo();
-                userInfo.UserName = user.UserName;
-                userInfo.Email = user.Email;
-                userInfo.Active = user.IsApproved;
-                userInfo.LockedOut = user.IsLockedOut;
-                userInfo.Online = user.IsOnline;
-                userInfo.Role = AccountUtils.GetRoleForUser(user.UserName);
-                userInfo.Site = DbUtils.GetSiteNameForUser(user.UserName);
-                lUsers.Add(userInfo);
-            }
-            return lUsers;
+            return (from MembershipUser user in mUsers
+                select new UserInfo
+                       {
+                           UserName = user.UserName, Email = user.Email, Active = user.IsApproved, LockedOut = user.IsLockedOut, Online = user.IsOnline, Role = AccountUtils.GetRoleForUser(user.UserName), Site = GetSiteNameForUser(user.UserName)
+                       }).ToList();
         }
 
         public static List<UserInfo> GetUserInfoForSite(int site)
         {
-            List<UserInfo> lUsers = new List<UserInfo>();
-            MembershipUser user = null;
-
-            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            using (SqlConnection conn = new SqlConnection(strConn))
+            var lUsers = new List<UserInfo>();
+            SqlDataReader rdr = null;
+            var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = ("GetSiteUsers");
-                    SqlParameter param = new SqlParameter("@siteID", site);
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = CommandType.StoredProcedure,
+                                  CommandText = ("GetSiteUsers")
+                              };
+                    var param = new SqlParameter("@siteID", site);
                     cmd.Parameters.Add(param);
 
                     conn.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    int pos = 0;
+                    rdr = cmd.ExecuteReader();
 
                     while (rdr.Read())
                     {
                         var userInfo = new UserInfo();
 
-                        pos = rdr.GetOrdinal("UserName");
+                        var pos = rdr.GetOrdinal("UserName");
                         userInfo.UserName = rdr.GetString(pos);
-                        user = Membership.GetUser(userInfo.UserName);
-                        userInfo.Email = user.Email;
-                        userInfo.Role = AccountUtils.GetRoleForUser(userInfo.UserName);
-                        userInfo.Site = GetSiteNameForUser(userInfo.UserName);
-                        userInfo.LockedOut = user.IsLockedOut;
-                        userInfo.Online = user.IsOnline;
+                        var user = Membership.GetUser(userInfo.UserName);
+                        if (user != null)
+                        {
+                            userInfo.Email = user.Email;
+                            userInfo.Role = AccountUtils.GetRoleForUser(userInfo.UserName);
+                            userInfo.Site = GetSiteNameForUser(userInfo.UserName);
+                            userInfo.LockedOut = user.IsLockedOut;
+                            userInfo.Online = user.IsOnline;
+                        }
                         lUsers.Add(userInfo);
                     }
                     rdr.Close();
@@ -758,38 +783,43 @@ namespace hpMvc.DataBase
                 {
                     Nlogger.LogError(ex);
                 }
+                finally
+                {
+                    if (rdr != null)
+                        rdr.Close();
+                }
             }
             return lUsers;
         }
 
         public static List<MembershipUser> GetUsersForSite(int site)
         {
-            List<MembershipUser> users = new List<MembershipUser>();
-            MembershipUser user = new MembershipUser("AspNetSqlMembershipProvider", "Select user", "", "", "", "",
+            var users = new List<MembershipUser>();
+            var user = new MembershipUser("AspNetSqlMembershipProvider", "Select user", "", "", "", "",
                                                      true, false, DateTime.Now, DateTime.Now, DateTime.Now, DateTime.Now,
                                                      DateTime.Now);
             users.Add(user);
-
+            SqlDataReader rdr = null;
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            using (SqlConnection conn = new SqlConnection(strConn))
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "GetSiteUsers";
-                    SqlParameter param = new SqlParameter("@siteID", site);
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = CommandType.StoredProcedure,
+                                  CommandText = "GetSiteUsers"
+                              };
+                    var param = new SqlParameter("@siteID", site);
                     cmd.Parameters.Add(param);
 
                     conn.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    int pos = 0;
-                    string userName = "";
+                    rdr = cmd.ExecuteReader();
 
                     while (rdr.Read())
                     {
-                        pos = rdr.GetOrdinal("UserName");
-                        userName = rdr.GetString(pos);
+                        var pos = rdr.GetOrdinal("UserName");
+                        var userName = rdr.GetString(pos);
                         //Nlogger.LogInfo("userName:" + userName);
                         user = Membership.GetUser(userName);
                         if (user != null)
@@ -807,6 +837,11 @@ namespace hpMvc.DataBase
                 {
                     Nlogger.LogError(ex);
                 }
+                finally
+                {
+                    if (rdr != null)
+                        rdr.Close();
+                }
             }
             return users;
         }
@@ -821,7 +856,7 @@ namespace hpMvc.DataBase
                 {
                     var cmd = new SqlCommand("", conn)
                     {
-                        CommandType = System.Data.CommandType.StoredProcedure,
+                        CommandType = CommandType.StoredProcedure,
                         CommandText = "GetStaffInfo"
                     };
 
@@ -829,11 +864,10 @@ namespace hpMvc.DataBase
                     cmd.Parameters.Add(param);
 
                     conn.Open();
-                    int pos = 0;
                     var rdr = cmd.ExecuteReader();
                     if (rdr.Read())
                     {
-                        pos = rdr.GetOrdinal("ID");
+                        var pos = rdr.GetOrdinal("ID");
                         model.ID = rdr.GetInt32(pos);
                         
                         pos = rdr.GetOrdinal("Role");
@@ -870,6 +904,7 @@ namespace hpMvc.DataBase
         {
             string role = "";
             string userName = "";
+            SqlDataReader rdr = null;
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
             using (var conn = new SqlConnection(strConn))
             {
@@ -877,7 +912,7 @@ namespace hpMvc.DataBase
                 {
                     var cmd = new SqlCommand("", conn)
                     {
-                        CommandType = System.Data.CommandType.StoredProcedure,
+                        CommandType = CommandType.StoredProcedure,
                         CommandText = ("GetUserRoleAndUserName")
                     };
 
@@ -885,12 +920,11 @@ namespace hpMvc.DataBase
                     cmd.Parameters.Add(param);
 
                     conn.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    int pos = 0;
+                    rdr = cmd.ExecuteReader();
 
                     while (rdr.Read())
                     {
-                        pos = rdr.GetOrdinal("UserName");
+                        var pos = rdr.GetOrdinal("UserName");
                         if(! rdr.IsDBNull(pos))
                             userName = rdr.GetString(pos);
                         pos = rdr.GetOrdinal("Role");
@@ -903,6 +937,11 @@ namespace hpMvc.DataBase
                 {
                     Nlogger.LogError(ex);
                     return null;
+                }
+                finally
+                {
+                    if (rdr != null)
+                        rdr.Close();
                 }
             }
         }
@@ -917,7 +956,7 @@ namespace hpMvc.DataBase
                 {
                     var cmd = new SqlCommand("", conn)
                               {
-                                  CommandType = System.Data.CommandType.StoredProcedure,
+                                  CommandType = CommandType.StoredProcedure,
                                   CommandText = ("GetUserRole")
                               };
 
@@ -940,34 +979,28 @@ namespace hpMvc.DataBase
         {
             var memUsers = new List<MembershipUser>();
             string[] users = Roles.GetUsersInRole(role);
-
+            SqlDataReader rdr = null;
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            using (SqlConnection conn = new SqlConnection(strConn))
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = ("GetSiteUsers");
-                    SqlParameter param = new SqlParameter("@siteID", site);
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = CommandType.StoredProcedure,
+                                  CommandText = ("GetSiteUsers")
+                              };
+                    var param = new SqlParameter("@siteID", site);
                     cmd.Parameters.Add(param);
 
                     conn.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
+                    rdr = cmd.ExecuteReader();
 
-                    int pos = 0;
-                    string userName = "";
                     while (rdr.Read())
                     {
-                        pos = rdr.GetOrdinal("UserName");
-                        userName = rdr.GetString(pos);
-                        foreach (var u in users)
-                        {
-                            if (u == userName)
-                            {
-                                memUsers.Add(Membership.GetUser(u));
-                            }
-                        }
+                        var pos = rdr.GetOrdinal("UserName");
+                        var userName = rdr.GetString(pos);
+                        memUsers.AddRange(from u in users where u == userName select Membership.GetUser(u));
                     }
                     rdr.Close();
                 }
@@ -975,26 +1008,33 @@ namespace hpMvc.DataBase
                 {
                     Nlogger.LogError(ex);
                 }
+                finally
+                {
+                    if (rdr != null)
+                        rdr.Close();
+                }
             }
             return memUsers;
         }
 
-        public static int IsStudyIDRandomized(string studyID)
+        public static int IsStudyIdRandomized(string studyId)
         {
-            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            using (SqlConnection conn = new SqlConnection(strConn))
+            var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
                     //throw new Exception("Test error");
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "IsStudyIDRandomized";
-                    SqlParameter param = new SqlParameter("@studyID", studyID);
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = CommandType.StoredProcedure,
+                                  CommandText = "IsStudyIDRandomized"
+                              };
+                    var param = new SqlParameter("@studyID", studyId);
                     cmd.Parameters.Add(param);
 
                     conn.Open();
-                    int count = (Int32) cmd.ExecuteScalar();
+                    var count = (Int32) cmd.ExecuteScalar();
                     if (count == 1)
                         return 1;
                     return 0;
@@ -1007,24 +1047,26 @@ namespace hpMvc.DataBase
             }
         }
 
-        public static int IsStudyIDAssignedPasswordValid(string studyID, string animalName)
+        public static int IsStudyIdAssignedPasswordValid(string studyId, string animalName)
         {
-            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
 
-            using (SqlConnection conn = new SqlConnection(strConn))
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "IsStudyIDAssignedPasswordValid";
-                    SqlParameter param = new SqlParameter("@studyID", studyID);
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = CommandType.StoredProcedure,
+                                  CommandText = "IsStudyIDAssignedPasswordValid"
+                              };
+                    var param = new SqlParameter("@studyID", studyId);
                     cmd.Parameters.Add(param);
                     param = new SqlParameter("@animalName", animalName);
                     cmd.Parameters.Add(param);
 
                     conn.Open();
-                    int count = (Int32) cmd.ExecuteScalar();
+                    var count = (Int32) cmd.ExecuteScalar();
                     if (count == 1)
                         return 1;
                     return 0;
@@ -1047,14 +1089,14 @@ namespace hpMvc.DataBase
                 {
                     var cmd = new SqlCommand("", conn)
                                   {
-                                      CommandType = System.Data.CommandType.StoredProcedure,
+                                      CommandType = CommandType.StoredProcedure,
                                       CommandText = "IsSiteNameDuplicate"
                                   };
                     var param = new SqlParameter("@name", name);
                     cmd.Parameters.Add(param);
 
                     conn.Open();
-                    int count = (Int32)cmd.ExecuteScalar();
+                    var count = (Int32)cmd.ExecuteScalar();
                     if (count == 1)
                         return 1;
                     return 0;
@@ -1077,14 +1119,14 @@ namespace hpMvc.DataBase
                 {
                     var cmd = new SqlCommand("", conn)
                     {
-                        CommandType = System.Data.CommandType.StoredProcedure,
+                        CommandType = CommandType.StoredProcedure,
                         CommandText = "IsSiteIdDuplicate"
                     };
                     var param = new SqlParameter("@siteId", siteId);
                     cmd.Parameters.Add(param);
 
                     conn.Open();
-                    int count = (Int32)cmd.ExecuteScalar();
+                    var count = (Int32)cmd.ExecuteScalar();
                     if (count == 1)
                         return 1;
                     return 0;
@@ -1097,22 +1139,24 @@ namespace hpMvc.DataBase
             }
         }
         
-        public static int IsStudyIDAssignedPassword(string studyID)
+        public static int IsStudyIdAssignedPassword(string studyId)
         {
-            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
 
-            using (SqlConnection conn = new SqlConnection(strConn))
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "IsStudyIDAssignedPassword";
-                    SqlParameter param = new SqlParameter("@studyID", studyID);
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = CommandType.StoredProcedure,
+                                  CommandText = "IsStudyIDAssignedPassword"
+                              };
+                    var param = new SqlParameter("@studyID", studyId);
                     cmd.Parameters.Add(param);
 
                     conn.Open();
-                    int count = (Int32) cmd.ExecuteScalar();
+                    var count = (Int32) cmd.ExecuteScalar();
                     if (count == 1)
                         return 1;
                     return 0;
@@ -1134,14 +1178,16 @@ namespace hpMvc.DataBase
                 try
                 {
                     //throw new Exception("test error");
-                    var cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "DoesRandomizationsExistForSite";
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = CommandType.StoredProcedure,
+                                  CommandText = "DoesRandomizationsExistForSite"
+                              };
                     var param = new SqlParameter("@siteId", siteId);
                     cmd.Parameters.Add(param);
 
                     conn.Open();
-                    int count = (Int32)cmd.ExecuteScalar();
+                    var count = (Int32)cmd.ExecuteScalar();
                     if (count > 0)
                     {
                         dto.Dictionary.Add("importFiles", "Study id's already exist for this site.");
@@ -1162,21 +1208,23 @@ namespace hpMvc.DataBase
 
         public static int DoesStudyIdsExistForSite(int siteId, MessageListDTO dto)
         {
-            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
 
             using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
                     //throw new Exception("test error");
-                    var cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "DoesStudyIdsExistForSite";
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = CommandType.StoredProcedure,
+                                  CommandText = "DoesStudyIdsExistForSite"
+                              };
                     var param = new SqlParameter("@siteId", siteId);
                     cmd.Parameters.Add(param);
 
                     conn.Open();
-                    int count = (Int32)cmd.ExecuteScalar();
+                    var count = (Int32)cmd.ExecuteScalar();
                     if (count > 0)
                     {
                         dto.Dictionary.Add("importFiles", "Study id's already exist for this site.");
@@ -1195,59 +1243,63 @@ namespace hpMvc.DataBase
             }
         }
 
-        public static int IsStudyIDValid(string studyID)
+        public static int IsStudyIdValid(string studyId)
         {
-            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
 
-            using (SqlConnection conn = new SqlConnection(strConn))
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
                     //throw new Exception("test error");
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "DoesStudyIDExist";
-                    SqlParameter param = new SqlParameter("@studyID", studyID);
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = CommandType.StoredProcedure,
+                                  CommandText = "DoesStudyIDExist"
+                              };
+                    var param = new SqlParameter("@studyID", studyId);
                     cmd.Parameters.Add(param);
 
                     conn.Open();
-                    int count = (Int32) cmd.ExecuteScalar();
+                    var count = (Int32) cmd.ExecuteScalar();
                     if (count == 1)
                         return 1;
                     return 0;
                 }
                 catch (Exception ex)
                 {
-                    Nlogger.LogError(ex, "StudyID:" + studyID);
+                    Nlogger.LogError(ex, "StudyID:" + studyId);
                     return -1;
                 }
             }
         }
 
-        public static int IsStudyIDCleared(string studyID)
+        public static int IsStudyIdCleared(string studyId)
         {
-            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
 
-            using (SqlConnection conn = new SqlConnection(strConn))
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
                     //throw new Exception("test error");
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "IsStudyIDCleared";
-                    SqlParameter param = new SqlParameter("@studyID", studyID);
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = CommandType.StoredProcedure,
+                                  CommandText = "IsStudyIDCleared"
+                              };
+                    var param = new SqlParameter("@studyID", studyId);
                     cmd.Parameters.Add(param);
 
                     conn.Open();
-                    int count = (Int32) cmd.ExecuteScalar();
+                    var count = (Int32) cmd.ExecuteScalar();
                     if (count == 1)
                         return 1;
                     return 0;
                 }
                 catch (Exception ex)
                 {
-                    Nlogger.LogError(ex, "StudyID:" + studyID);
+                    Nlogger.LogError(ex, "StudyID:" + studyId);
                     return -1;
                 }
             }
@@ -1263,7 +1315,7 @@ namespace hpMvc.DataBase
                 {
                     var cmd = new SqlCommand("", conn)
                     {
-                        CommandType = System.Data.CommandType.StoredProcedure,
+                        CommandType = CommandType.StoredProcedure,
                         CommandText = "GetSiteSpecificForInitialize"
                     };
                     var param = new SqlParameter("@siteId", siteId);
@@ -1307,7 +1359,7 @@ namespace hpMvc.DataBase
                 {
                     var cmd = new SqlCommand("", conn)
                     {
-                        CommandType = System.Data.CommandType.StoredProcedure,
+                        CommandType = CommandType.StoredProcedure,
                         CommandText = "GetSiteSensor"
                     };
                     var param = new SqlParameter("@siteId", siteId);
@@ -1327,28 +1379,27 @@ namespace hpMvc.DataBase
             }
         }
         
-        public static int AddRandomizationPassword(string studyID, int animalID, string consentDate,
+        public static int AddRandomizationPassword(string studyId, int animalId, string consentDate,
                                                      string consentTime)
         {
-            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
 
-            using (SqlConnection conn = new SqlConnection(strConn))
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "AddRandomizationPassword";
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = CommandType.StoredProcedure,
+                                  CommandText = "AddRandomizationPassword"
+                              };
 
-                    SqlParameter param = new SqlParameter("@animalID", animalID);
+                    var param = new SqlParameter("@animalID", animalId);
                     cmd.Parameters.Add(param);
-                    param = new SqlParameter("@studyID", studyID);
+                    param = new SqlParameter("@studyID", studyId);
                     cmd.Parameters.Add(param);
 
-                    if (consentDate.Length == 0)
-                        param = new SqlParameter("@consentDate", DBNull.Value);
-                    else
-                        param = new SqlParameter("@consentDate", DateTime.Parse(consentDate));
+                    param = consentDate.Length == 0 ? new SqlParameter("@consentDate", DBNull.Value) : new SqlParameter("@consentDate", DateTime.Parse(consentDate));
                     cmd.Parameters.Add(param);
 
                     param = new SqlParameter("@consentTime", consentTime);
@@ -1368,28 +1419,29 @@ namespace hpMvc.DataBase
 
         public static string GetRandomPassword()
         {
-            string password = "";
-            Random rnd = new Random();
-            int rndID = rnd.Next(1, 18);
-
+            var password = "";
+            var rnd = new Random();
+            var rndId = rnd.Next(1, 18);
+            SqlDataReader rdr = null;
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            using (SqlConnection conn = new SqlConnection(strConn))
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "GetResetPasswordByID";
-                    SqlParameter param = new SqlParameter("@id", rndID);
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = CommandType.StoredProcedure,
+                                  CommandText = "GetResetPasswordByID"
+                              };
+                    var param = new SqlParameter("@id", rndId);
                     cmd.Parameters.Add(param);
 
                     conn.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
+                    rdr = cmd.ExecuteReader();
 
-                    int pos = 0;
                     while (rdr.Read())
                     {
-                        pos = rdr.GetOrdinal("Name");
+                        var pos = rdr.GetOrdinal("Name");
                         password = rdr.GetString(pos);
                     }
                     rdr.Close();
@@ -1400,36 +1452,40 @@ namespace hpMvc.DataBase
                     Nlogger.LogError(ex);
                     return null;
                 }
+                finally
+                {
+                    if (rdr != null)
+                        rdr.Close();
+                }
             }
 
         }
 
         public static Animal GetRandomAnimal()
         {
-            Animal animal = null;
-            Random rnd = new Random();
-            int rndID = rnd.Next(1, 131);
-
-            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            using (SqlConnection conn = new SqlConnection(strConn))
+            var rnd = new Random();
+            var rndId = rnd.Next(1, 131);
+            SqlDataReader rdr = null;
+            var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "GetAnimalByID";
-                    SqlParameter param = new SqlParameter("@id", rndID);
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = CommandType.StoredProcedure,
+                                  CommandText = "GetAnimalByID"
+                              };
+                    var param = new SqlParameter("@id", rndId);
                     cmd.Parameters.Add(param);
 
                     conn.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
+                    rdr = cmd.ExecuteReader();
 
-                    animal = new Animal();
-                    animal.ID = rndID;
-                    int pos = 0;
+                    var animal = new Animal {ID = rndId};
                     while (rdr.Read())
                     {
-                        pos = rdr.GetOrdinal("Name");
+                        var pos = rdr.GetOrdinal("Name");
                         animal.Name = rdr.GetString(pos);
                     }
                     rdr.Close();
@@ -1440,34 +1496,40 @@ namespace hpMvc.DataBase
                     Nlogger.LogError(ex);
                     return null;
                 }
+                finally
+                {
+                    if (rdr != null)
+                        rdr.Close();
+                }
             }
         }
 
-        public static List<IDandStudyID> GetRandomizedStudiesForSite(int siteID)
+        public static List<IDandStudyID> GetRandomizedStudiesForSite(int siteId)
         {
             var studs = new List<IDandStudyID>();
-            IDandStudyID stud = null;
 
+            SqlDataReader rdr = null;
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            using (SqlConnection conn = new SqlConnection(strConn))
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "GetRandomizedStudiesForSite";
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = CommandType.StoredProcedure,
+                                  CommandText = "GetRandomizedStudiesForSite"
+                              };
 
-                    SqlParameter param = new SqlParameter("@siteID", siteID);
+                    var param = new SqlParameter("@siteID", siteId);
                     cmd.Parameters.Add(param);
 
                     conn.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    int pos = 0;
+                    rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
-                        stud = new IDandStudyID();
+                        var stud = new IDandStudyID();
 
-                        pos = rdr.GetOrdinal("ID");
+                        var pos = rdr.GetOrdinal("ID");
                         stud.ID = rdr.GetInt32(pos);
 
                         pos = rdr.GetOrdinal("StudyID");
@@ -1481,31 +1543,37 @@ namespace hpMvc.DataBase
                 {
                     Nlogger.LogError(ex);
                 }
+                finally
+                {   
+                    if(rdr != null)
+                        rdr.Close();
+                }
                 return studs;
             }
         }
 
         public static List<Animal> GetAnimals()
         {
-            List<Animal> animals = new List<Animal>();
-            Animal animal = null;
+            var animals = new List<Animal>();
+            SqlDataReader rdr = null;
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            using (SqlConnection conn = new SqlConnection(strConn))
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "GetAnimals";
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = CommandType.StoredProcedure,
+                                  CommandText = "GetAnimals"
+                              };
 
                     conn.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    int pos = 0;
+                    rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
-                        animal = new Animal();
+                        var animal = new Animal();
 
-                        pos = rdr.GetOrdinal("ID");
+                        var pos = rdr.GetOrdinal("ID");
                         animal.ID = rdr.GetInt32(pos);
                         pos = rdr.GetOrdinal("Name");
                         animal.Name = rdr.GetString(pos);
@@ -1518,34 +1586,40 @@ namespace hpMvc.DataBase
                 {
                     Nlogger.LogError(ex);
                 }
+                finally
+                {
+                    if (rdr != null)
+                        rdr.Close();
+                }
             }
 
             return animals;
         }
 
-        public static List<InsulinConcentration> GetInsulinConcItems(int siteID)
+        public static List<InsulinConcentration> GetInsulinConcItems(int siteId)
         {
             var items = new List<InsulinConcentration>();
-            InsulinConcentration item = null;
-            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            using (SqlConnection conn = new SqlConnection(strConn))
+            SqlDataReader rdr = null;
+            var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = ("GetSiteInsulicConcentrations");
-                    SqlParameter param = new SqlParameter("@siteID", siteID);
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = CommandType.StoredProcedure,
+                                  CommandText = ("GetSiteInsulicConcentrations")
+                              };
+                    var param = new SqlParameter("@siteID", siteId);
                     cmd.Parameters.Add(param);
                     conn.Open();
 
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    int pos = 0;
+                    rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
-                        item = new InsulinConcentration();
+                        var item = new InsulinConcentration();
 
-                        pos = rdr.GetOrdinal("Concentration");
+                        var pos = rdr.GetOrdinal("Concentration");
                         item.Concentration = rdr.GetDouble(pos).ToString("0.0#");
                         pos = rdr.GetOrdinal("Name");
                         item.Name = rdr.GetString(pos);
@@ -1556,6 +1630,11 @@ namespace hpMvc.DataBase
                 catch (Exception ex)
                 {
                     Nlogger.LogError(ex);
+                }
+                finally
+                {
+                    if (rdr != null)
+                        rdr.Close();
                 }
             }
             return items;
@@ -1571,7 +1650,7 @@ namespace hpMvc.DataBase
                 {
                     var cmd = new SqlCommand("", conn)
                                   {
-                                      CommandType = System.Data.CommandType.StoredProcedure,
+                                      CommandType = CommandType.StoredProcedure,
                                       CommandText = ("Get" + itemsName)
                                   };
 
@@ -1597,29 +1676,30 @@ namespace hpMvc.DataBase
             return items;
         }
 
-        public static List<IDandName> GetStaffLookupForSite(string siteID)
+        public static List<IDandName> GetStaffLookupForSite(string siteId)
         {
-            List<IDandName> items = new List<IDandName>();
-            IDandName item = null;
-            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            using (SqlConnection conn = new SqlConnection(strConn))
+            var items = new List<IDandName>();
+            SqlDataReader rdr = null;
+            var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = ("GetStaffLookupForSite");
-                    SqlParameter param = new SqlParameter("@siteID", siteID);
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = CommandType.StoredProcedure,
+                                  CommandText = ("GetStaffLookupForSite")
+                              };
+                    var param = new SqlParameter("@siteID", siteId);
                     cmd.Parameters.Add(param);
 
                     conn.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    int pos = 0;
+                    rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
-                        item = new IDandName();
+                        var item = new IDandName();
 
-                        pos = rdr.GetOrdinal("ID");
+                        var pos = rdr.GetOrdinal("ID");
                         item.ID = rdr.GetInt32(pos);
                         pos = rdr.GetOrdinal("Name");
                         item.Name = rdr.GetString(pos);
@@ -1631,38 +1711,42 @@ namespace hpMvc.DataBase
                 {
                     Nlogger.LogError(ex);
                 }
+                finally
+                {
+                    if (rdr != null)
+                        rdr.Close();
+                }
             }
             return items;
         }
 
-        public static Dictionary<string, string> GetInitializeStudyIDsWithPassword(int siteID)
+        public static Dictionary<string, string> GetInitializeStudyIDsWithPassword(int siteId)
         {
             var dict = new Dictionary<string, string>();
-
+            SqlDataReader rdr = null;
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            using (SqlConnection conn = new SqlConnection(strConn))
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
                     //throw new Exception("Opps");
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "GetInitializeStudyIDsWithPassword";
-                    SqlParameter param = new SqlParameter("@siteID", siteID);
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = CommandType.StoredProcedure,
+                                  CommandText = "GetInitializeStudyIDsWithPassword"
+                              };
+                    var param = new SqlParameter("@siteID", siteId);
                     cmd.Parameters.Add(param);
 
                     conn.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    int pos = 0;
+                    rdr = cmd.ExecuteReader();
 
-                    string studyid = "";
-                    string animal = "";
                     while (rdr.Read())
                     {
-                        pos = rdr.GetOrdinal("StudyID");
-                        studyid = rdr.GetString(pos);
+                        var pos = rdr.GetOrdinal("StudyID");
+                        var studyid = rdr.GetString(pos);
                         pos = rdr.GetOrdinal("Name");
-                        animal = rdr.GetString(pos);
+                        var animal = rdr.GetString(pos);
                         dict.Add(studyid, animal);
                     }
                     rdr.Close();
@@ -1670,6 +1754,11 @@ namespace hpMvc.DataBase
                 catch (Exception ex)
                 {
                     Nlogger.LogError(ex);
+                }
+                finally
+                {
+                    if (rdr != null)
+                        rdr.Close();
                 }
             }
 
@@ -1769,7 +1858,7 @@ namespace hpMvc.DataBase
                     //throw new Exception("Opps");
                     var cmd = new SqlCommand("", conn)
                                   {
-                                      CommandType = System.Data.CommandType.StoredProcedure,
+                                      CommandType = CommandType.StoredProcedure,
                                       CommandText = "UpdateInsulinConcentrations"
                                   };
 
@@ -1805,7 +1894,7 @@ namespace hpMvc.DataBase
                     //throw new Exception("Opps");
                     var cmd = new SqlCommand("", conn)
                     {
-                        CommandType = System.Data.CommandType.StoredProcedure,
+                        CommandType = CommandType.StoredProcedure,
                         CommandText = "AddInsulinConcentrations"
                     };
 
@@ -1815,8 +1904,11 @@ namespace hpMvc.DataBase
                     parameter = new SqlParameter("@concentration", ic.Concentration);
                     cmd.Parameters.Add(parameter);
 
-                    parameter = new SqlParameter("@Identity", System.Data.SqlDbType.Int, 0, "ID");
-                    parameter.Direction = System.Data.ParameterDirection.Output;
+                    parameter = new SqlParameter("@Identity", SqlDbType.Int, 0, "ID")
+                                {
+                                    Direction =
+                                        ParameterDirection.Output
+                                };
                     cmd.Parameters.Add(parameter);
 
                     conn.Open();
@@ -1844,7 +1936,7 @@ namespace hpMvc.DataBase
                     //throw new Exception("Opps");
                     var cmd = new SqlCommand("", conn)
                                   {
-                                      CommandType = System.Data.CommandType.StoredProcedure,
+                                      CommandType = CommandType.StoredProcedure,
                                       CommandText = "GetSiteInfoForSite"
                                   };
 
@@ -1932,8 +2024,8 @@ namespace hpMvc.DataBase
                     while (rdr.Read())
                     {
                         var pos = rdr.GetOrdinal("ID");
-                        int Id = rdr.GetInt32(pos);
-                        var insCon = site.InsulinConcentrations.Find(x => x.Id == Id);
+                        var id2 = rdr.GetInt32(pos);
+                        var insCon = site.InsulinConcentrations.Find(x => x.Id == id2);
                         insCon.IsUsed = true;
                     }
                     rdr.Close();
@@ -2031,7 +2123,7 @@ namespace hpMvc.DataBase
                     //throw new Exception("Opps");
                     var cmd = new SqlCommand("", conn)
                                   {
-                                      CommandType = System.Data.CommandType.StoredProcedure,
+                                      CommandType = CommandType.StoredProcedure,
                                       CommandText = "GetSitesActive"
                                   };
 
@@ -2087,7 +2179,7 @@ namespace hpMvc.DataBase
                     //throw new Exception("Opps");
                     var cmd = new SqlCommand("", conn)
                                   {
-                                      CommandType = System.Data.CommandType.StoredProcedure,
+                                      CommandType = CommandType.StoredProcedure,
                                       CommandText = "GetSitesActive"
                                   };
 
@@ -2122,6 +2214,7 @@ namespace hpMvc.DataBase
         public static SiteGerenicNurse GetGenericUserInfo(int site)
         {
             var sgn = new SiteGerenicNurse();
+            SqlDataReader rdr = null;
             var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
             using (var conn = new SqlConnection(strConn))
             {
@@ -2129,17 +2222,17 @@ namespace hpMvc.DataBase
                 {
                     var cmd = new SqlCommand("", conn)
                     {
-                        CommandType = System.Data.CommandType.StoredProcedure,
+                        CommandType = CommandType.StoredProcedure,
                         CommandText = "GetSiteGenericAccountInfo"
                     };
                     var param = new SqlParameter("@id", site);
                     cmd.Parameters.Add(param);
 
                     conn.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
+                    rdr = cmd.ExecuteReader();
                     if (rdr.Read())
                     {
-                        int pos = rdr.GetOrdinal("AcctUserName");
+                        var pos = rdr.GetOrdinal("AcctUserName");
                         if (!rdr.IsDBNull(pos))
                             sgn.UserName = rdr.GetString(pos);
                         pos = rdr.GetOrdinal("AcctPassword");
@@ -2153,6 +2246,11 @@ namespace hpMvc.DataBase
                 {
                     Nlogger.LogError(ex);
                 }
+                finally
+                {
+                    if (rdr != null)
+                        rdr.Close();
+                }
                 return sgn;
             }
         }
@@ -2160,6 +2258,7 @@ namespace hpMvc.DataBase
         public static List<Site> GetSitesActive()
         {
             var sites = new List<Site>();
+            SqlDataReader rdr = null;
             var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
             using (var conn = new SqlConnection(strConn))
             {
@@ -2168,18 +2267,17 @@ namespace hpMvc.DataBase
                     //throw new Exception("Opps");
                     var cmd = new SqlCommand("", conn)
                                   {
-                                      CommandType = System.Data.CommandType.StoredProcedure,
+                                      CommandType = CommandType.StoredProcedure,
                                       CommandText = "GetSitesActive"
                                   };
 
                     conn.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    int pos = 0;
+                    rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
                         var site = new Site();
 
-                        pos = rdr.GetOrdinal("ID");
+                        var pos = rdr.GetOrdinal("ID");
                         site.ID = rdr.GetInt32(pos);
                         pos = rdr.GetOrdinal("SiteID");
                         site.SiteID = rdr.GetString(pos);
@@ -2192,6 +2290,11 @@ namespace hpMvc.DataBase
                 catch (Exception ex)
                 {
                     Nlogger.LogError(ex);
+                }
+                finally
+                {
+                    if (rdr != null)
+                        rdr.Close();
                 }
             }
 
@@ -2206,9 +2309,11 @@ namespace hpMvc.DataBase
                 try
                 {
                     //throw new Exception("Opps");
-                    var cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "DeleteUserSite";
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = CommandType.StoredProcedure,
+                                  CommandText = "DeleteUserSite"
+                              };
 
                     var param = new SqlParameter("@userName", userName);
                     cmd.Parameters.Add(param);
@@ -2227,7 +2332,7 @@ namespace hpMvc.DataBase
             return 1;
         }
 
-        public static bool AddUserSite(string userName, int siteID)
+        public static bool AddUserSite(string userName, int siteId)
         {
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
             using (var conn = new SqlConnection(strConn))
@@ -2235,13 +2340,15 @@ namespace hpMvc.DataBase
                 try
                 {
                     //throw new Exception("oops");
-                    var cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "AddUserSite";
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = CommandType.StoredProcedure,
+                                  CommandText = "AddUserSite"
+                              };
 
                     var param = new SqlParameter("@userName", userName);
                     cmd.Parameters.Add(param);
-                    param = new SqlParameter("@siteID", siteID);
+                    param = new SqlParameter("@siteID", siteId);
                     cmd.Parameters.Add(param);
 
                     conn.Open();
@@ -2270,19 +2377,20 @@ namespace hpMvc.DataBase
             {
                 try
                 {
-                    var cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "GetSiteInfoForUser";
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = CommandType.StoredProcedure,
+                                  CommandText = "GetSiteInfoForUser"
+                              };
 
                     var param = new SqlParameter("@userName", userName);
                     cmd.Parameters.Add(param);
 
                     conn.Open();
-                    int pos = 0;
                     var rdr = cmd.ExecuteReader();
                     if (rdr.Read())
                     {
-                        pos = rdr.GetOrdinal("SiteID");
+                        var pos = rdr.GetOrdinal("SiteID");
                         retVal = rdr.GetString(pos);
                     }
                     rdr.Close();
@@ -2299,25 +2407,27 @@ namespace hpMvc.DataBase
 
         public static string GetSiteIDandNameForUser(string userName)
         {
-            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            string retVal = "";
-            using (SqlConnection conn = new SqlConnection(strConn))
+            var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            var retVal = "";
+            SqlDataReader rdr = null;
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "GetSiteInfoForUser";
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = CommandType.StoredProcedure,
+                                  CommandText = "GetSiteInfoForUser"
+                              };
 
-                    SqlParameter param = new SqlParameter("@userName", userName);
+                    var param = new SqlParameter("@userName", userName);
                     cmd.Parameters.Add(param);
 
                     conn.Open();
-                    int pos = 0;
-                    SqlDataReader rdr = cmd.ExecuteReader();
+                    rdr = cmd.ExecuteReader();
                     if (rdr.Read())
                     {
-                        pos = rdr.GetOrdinal("SiteID");
+                        var pos = rdr.GetOrdinal("SiteID");
                         retVal = rdr.GetString(pos) + ":";
                         pos = rdr.GetOrdinal("Name");
                         retVal = retVal + rdr.GetString(pos);
@@ -2330,31 +2440,38 @@ namespace hpMvc.DataBase
                     Nlogger.LogError(ex);
                     return "error";
                 }
+                finally
+                {
+                    if (rdr != null)
+                        rdr.Close();
+                }
             }
 
         }
 
         public static string GetSiteNameForUser(string userName)
         {
-            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            string retVal = "";
+            var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            var retVal = "";
+            SqlDataReader rdr = null;
             using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    var cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "GetSiteInfoForUser";
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = CommandType.StoredProcedure,
+                                  CommandText = "GetSiteInfoForUser"
+                              };
 
                     var param = new SqlParameter("@userName", userName);
                     cmd.Parameters.Add(param);
 
                     conn.Open();
-                    int pos = 0;
-                    SqlDataReader rdr = cmd.ExecuteReader();
+                    rdr = cmd.ExecuteReader();
                     if (rdr.Read())
                     {
-                        pos = rdr.GetOrdinal("Name");
+                        var pos = rdr.GetOrdinal("Name");
                         retVal = rdr.GetString(pos);
                     }
                     rdr.Close();
@@ -2365,32 +2482,38 @@ namespace hpMvc.DataBase
                     Nlogger.LogError(ex);
                     return "error";
                 }
+                finally
+                {
+                    if (rdr != null)
+                        rdr.Close();
+                }
             }
 
         }
 
-        public static DTO GetSiteCodeForSiteID(int siteID)
+        public static DTO GetSiteCodeForSiteId(int siteId)
         {
             var dto = new DTO {ReturnValue = 1};
-            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-
+            var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            SqlDataReader rdr = null;
             using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    var cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "GetSiteCodeBySiteID";
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = CommandType.StoredProcedure,
+                                  CommandText = "GetSiteCodeBySiteID"
+                              };
 
-                    var param = new SqlParameter("@siteID", siteID);
+                    var param = new SqlParameter("@siteID", siteId);
                     cmd.Parameters.Add(param);
 
                     conn.Open();
-                    int pos = 0;
-                    SqlDataReader rdr = cmd.ExecuteReader();
+                    rdr = cmd.ExecuteReader();
                     if (rdr.Read())
                     {
-                        pos = rdr.GetOrdinal("SiteID");
+                        var pos = rdr.GetOrdinal("SiteID");
                         dto.Bag = rdr.GetString(pos);
                     }
                     rdr.Close();
@@ -2403,31 +2526,38 @@ namespace hpMvc.DataBase
                     dto.ReturnValue = -1;
                     return dto;
                 }
+                finally
+                {
+                    if (rdr != null)
+                        rdr.Close();
+                }
             }
 
         }
 
-        public static int GetSiteidIDForUser(string userName)
+        public static int GetSiteidIdForUser(string userName)
         {
-            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            int iretVal = 0;
-            using (SqlConnection conn = new SqlConnection(strConn))
+            var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            var iretVal = 0;
+            SqlDataReader rdr = null;
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "GetSiteInfoForUser";
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = CommandType.StoredProcedure,
+                                  CommandText = "GetSiteInfoForUser"
+                              };
 
-                    SqlParameter param = new SqlParameter("@userName", userName);
+                    var param = new SqlParameter("@userName", userName);
                     cmd.Parameters.Add(param);
 
                     conn.Open();
-                    int pos = 0;
-                    SqlDataReader rdr = cmd.ExecuteReader();
+                    rdr = cmd.ExecuteReader();
                     if (rdr.Read())
                     {
-                        pos = rdr.GetOrdinal("ID");
+                        var pos = rdr.GetOrdinal("ID");
                         iretVal = rdr.GetInt32(pos);
                     }
                     rdr.Close();
@@ -2438,31 +2568,38 @@ namespace hpMvc.DataBase
                     Nlogger.LogError(ex);
                     return -1;
                 }
+                finally
+                {
+                    if (rdr != null)
+                        rdr.Close();
+                }
             }
 
         }
 
         public static SiteInfo GetSiteInfoForUser(string userName)
         {
-            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
             var si = new SiteInfo();
-            using (SqlConnection conn = new SqlConnection(strConn))
+            SqlDataReader rdr = null;
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "GetSiteInfoForUser";
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = CommandType.StoredProcedure,
+                                  CommandText = "GetSiteInfoForUser"
+                              };
 
-                    SqlParameter param = new SqlParameter("@userName", userName);
+                    var param = new SqlParameter("@userName", userName);
                     cmd.Parameters.Add(param);
 
                     conn.Open();
-                    int pos = 0;
-                    SqlDataReader rdr = cmd.ExecuteReader();
+                    rdr = cmd.ExecuteReader();
                     if (rdr.Read())
                     {
-                        pos = rdr.GetOrdinal("ID");
+                        var pos = rdr.GetOrdinal("ID");
                         si.Id = rdr.GetInt32(pos);
                         pos = rdr.GetOrdinal("Name");
                         si.Name = rdr.GetString(pos);
@@ -2477,24 +2614,29 @@ namespace hpMvc.DataBase
                     Nlogger.LogError(ex);
                     return si;
                 }
+                finally
+                {
+                    if (rdr != null)
+                        rdr.Close();
+                }
             }
 
         }
 
         public static MessageListDTO AddStaff(StaffModel model)
         {
-            MessageListDTO dto = new MessageListDTO();
+            var dto = new MessageListDTO();
 
             // Attempt to add the user to the membership db
-            string password = DbUtils.GetRandomPassword();
+            var password = GetRandomPassword();
             MembershipCreateStatus createStatus;
-            MembershipUser user = Membership.CreateUser(model.UserName, password, model.Email, null, null, true, null,
+            var user = Membership.CreateUser(model.UserName, password, model.Email, null, null, true, null,
                                                         out createStatus);
 
             if (createStatus == MembershipCreateStatus.Success)
             {
                 //FormsAuthentication.SetAuthCookie(model.UserName, false /* createPersistentCookie */);                    
-                if (!DbUtils.AddUserSite(model.UserName, model.SiteID))
+                if (!AddUserSite(model.UserName, model.SiteID))
                 {
                     dto.Messages.Add("There was an error adding the user and site to the database");
                     dto.IsSuccessful = false;
@@ -2502,9 +2644,12 @@ namespace hpMvc.DataBase
                 }
 
                 //this will tell us that user needs to reset
-                user.Comment = "Reset";
-                Membership.UpdateUser(user);
-                Nlogger.LogInfo("AddUser - userName: " + model.UserName + ", site: " + model.SiteID.ToString() +
+                if (user != null)
+                {
+                    user.Comment = "Reset";
+                    Membership.UpdateUser(user);
+                }
+                Nlogger.LogInfo("AddUser - userName: " + model.UserName + ", site: " + model.SiteID +
                                 ", password: " + password);
             }
             else
@@ -2522,15 +2667,17 @@ namespace hpMvc.DataBase
 
             //add the user to the staff table
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            using (SqlConnection conn = new SqlConnection(strConn))
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "AddStaff";
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = CommandType.StoredProcedure,
+                                  CommandText = "AddStaff"
+                              };
 
-                    SqlParameter param = new SqlParameter("@siteID", model.SiteID);
+                    var param = new SqlParameter("@siteID", model.SiteID);
                     cmd.Parameters.Add(param);
 
                     param = new SqlParameter("@role", model.Role);
@@ -2548,10 +2695,7 @@ namespace hpMvc.DataBase
                     param = new SqlParameter("@email", model.Email);
                     cmd.Parameters.Add(param);
 
-                    if (model.EmployeeID == null)
-                        param = new SqlParameter("@employeeID", DBNull.Value);
-                    else
-                        param = new SqlParameter("@employeeID", model.EmployeeID);
+                    param = model.EmployeeID == null ? new SqlParameter("@employeeID", DBNull.Value) : new SqlParameter("@employeeID", model.EmployeeID);
                     cmd.Parameters.Add(param);
 
                     param = new SqlParameter("@phone", model.Phone);
@@ -2559,42 +2703,27 @@ namespace hpMvc.DataBase
 
                     param = new SqlParameter("@novaStatStrip", model.NovaStatStrip);
                     cmd.Parameters.Add(param);
-                    if (model.NovaStatStrip)
-                        param = new SqlParameter("@novaStatStripDoc", model.NovaStatStripDoc);
-                    else
-                        param = new SqlParameter("@novaStatStripDoc", DBNull.Value);
+                    param = model.NovaStatStrip ? new SqlParameter("@novaStatStripDoc", model.NovaStatStripDoc) : new SqlParameter("@novaStatStripDoc", DBNull.Value);
                     cmd.Parameters.Add(param);
 
                     param = new SqlParameter("@vamp", model.Vamp);
                     cmd.Parameters.Add(param);
-                    if (model.Vamp)
-                        param = new SqlParameter("@vampDoc", model.VampDoc);
-                    else
-                        param = new SqlParameter("@vampDoc", DBNull.Value);
+                    param = model.Vamp ? new SqlParameter("@vampDoc", model.VampDoc) : new SqlParameter("@vampDoc", DBNull.Value);
                     cmd.Parameters.Add(param);
 
                     param = new SqlParameter("@cgm", model.Cgm);
                     cmd.Parameters.Add(param);
-                    if (model.Cgm)
-                        param = new SqlParameter("@cgmDoc", model.CgmDoc);
-                    else
-                        param = new SqlParameter("@cgmDoc", DBNull.Value);
+                    param = model.Cgm ? new SqlParameter("@cgmDoc", model.CgmDoc) : new SqlParameter("@cgmDoc", DBNull.Value);
                     cmd.Parameters.Add(param);
 
                     param = new SqlParameter("@inform", model.Inform);
                     cmd.Parameters.Add(param);
-                    if (model.Inform)
-                        param = new SqlParameter("@informDoc", model.InformDoc);
-                    else
-                        param = new SqlParameter("@informDoc", DBNull.Value);
+                    param = model.Inform ? new SqlParameter("@informDoc", model.InformDoc) : new SqlParameter("@informDoc", DBNull.Value);
                     cmd.Parameters.Add(param);
 
                     param = new SqlParameter("@onCall", model.OnCall);
                     cmd.Parameters.Add(param);
-                    if (model.OnCall)
-                        param = new SqlParameter("@onCallDoc", model.OnCallDoc);
-                    else
-                        param = new SqlParameter("@onCallDoc", DBNull.Value);
+                    param = model.OnCall ? new SqlParameter("@onCallDoc", model.OnCallDoc) : new SqlParameter("@onCallDoc", DBNull.Value);
                     cmd.Parameters.Add(param);
 
                     param = new SqlParameter("@humanSubj", model.HumanSubj);
@@ -2686,7 +2815,7 @@ namespace hpMvc.DataBase
                 {
                     var cmd = new SqlCommand("", conn)
                                   {
-                                      CommandType = System.Data.CommandType.StoredProcedure,
+                                      CommandType = CommandType.StoredProcedure,
                                       CommandText = "GetStaffInfo"
                                   };
 
@@ -2694,8 +2823,8 @@ namespace hpMvc.DataBase
                     cmd.Parameters.Add(param);
 
                     conn.Open();
-                    int pos = 0;
                     var rdr = cmd.ExecuteReader();
+                    int pos;
                     if (rdr.Read())
                     {
                         pos = rdr.GetOrdinal("ID");
@@ -2780,7 +2909,7 @@ namespace hpMvc.DataBase
                     //get tests completed
                     cmd = new SqlCommand("", conn)
                               {
-                                  CommandType = System.Data.CommandType.StoredProcedure,
+                                  CommandType = CommandType.StoredProcedure,
                                   CommandText = "GetStaffTestsCompleted"
                               };
                     param = new SqlParameter("@id", userId);
@@ -2809,9 +2938,11 @@ namespace hpMvc.DataBase
 
 
                     //get tests completed
-                    cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "GetStaffTestsCompletedHistory";
+                    cmd = new SqlCommand("", conn)
+                          {
+                              CommandType = CommandType.StoredProcedure,
+                              CommandText = "GetStaffTestsCompletedHistory"
+                          };
                     param = new SqlParameter("@id", userId);
                     cmd.Parameters.Add(param);
 
@@ -2843,22 +2974,23 @@ namespace hpMvc.DataBase
                     return null;
                 }
             }
-
         }
 
         public static MessageListDTO UpdateStaff(StaffEditModel model)
         {
-            MessageListDTO dto = new MessageListDTO();
-            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            using (SqlConnection conn = new SqlConnection(strConn))
+            var dto = new MessageListDTO();
+            var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "UpdateStaff";
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = CommandType.StoredProcedure,
+                                  CommandText = "UpdateStaff"
+                              };
 
-                    SqlParameter param = new SqlParameter("@id", model.ID);
+                    var param = new SqlParameter("@id", model.ID);
                     cmd.Parameters.Add(param);
 
                     param = new SqlParameter("@active", model.Active);
@@ -2870,62 +3002,38 @@ namespace hpMvc.DataBase
                     param = new SqlParameter("@lastName", model.LastName);
                     cmd.Parameters.Add(param);
 
-                    if (model.EmployeeID == null)
-                        param = new SqlParameter("@employeeID", DBNull.Value);
-                    else
-                        param = new SqlParameter("@employeeID", model.EmployeeID);
+                    param = model.EmployeeID == null ? new SqlParameter("@employeeID", DBNull.Value) : new SqlParameter("@employeeID", model.EmployeeID);
                     cmd.Parameters.Add(param);
 
-                    if (model.Email == null)
-                        param = new SqlParameter("@email", DBNull.Value);
-                    else
-                        param = new SqlParameter("@email", model.Email);
+                    param = model.Email == null ? new SqlParameter("@email", DBNull.Value) : new SqlParameter("@email", model.Email);
                     cmd.Parameters.Add(param);
 
-                    if (model.Phone == null)
-                        param = new SqlParameter("@phone", DBNull.Value);
-                    else
-                        param = new SqlParameter("@phone", model.Phone);
+                    param = model.Phone == null ? new SqlParameter("@phone", DBNull.Value) : new SqlParameter("@phone", model.Phone);
                     cmd.Parameters.Add(param);
 
                     param = new SqlParameter("@novaStatStrip", model.NovaStatStrip);
                     cmd.Parameters.Add(param);
-                    if (model.NovaStatStrip)
-                        param = new SqlParameter("@novaStatStripDoc", model.NovaStatStripDoc);
-                    else
-                        param = new SqlParameter("@novaStatStripDoc", DBNull.Value);
+                    param = model.NovaStatStrip ? new SqlParameter("@novaStatStripDoc", model.NovaStatStripDoc) : new SqlParameter("@novaStatStripDoc", DBNull.Value);
                     cmd.Parameters.Add(param);
 
                     param = new SqlParameter("@vamp", model.Vamp);
                     cmd.Parameters.Add(param);
-                    if (model.Vamp)
-                        param = new SqlParameter("@vampDoc", model.VampDoc);
-                    else
-                        param = new SqlParameter("@vampDoc", DBNull.Value);
+                    param = model.Vamp ? new SqlParameter("@vampDoc", model.VampDoc) : new SqlParameter("@vampDoc", DBNull.Value);
                     cmd.Parameters.Add(param);
 
                     param = new SqlParameter("@cgm", model.Cgm);
                     cmd.Parameters.Add(param);
-                    if (model.Cgm)
-                        param = new SqlParameter("@cgmDoc", model.CgmDoc);
-                    else
-                        param = new SqlParameter("@cgmDoc", DBNull.Value);
+                    param = model.Cgm ? new SqlParameter("@cgmDoc", model.CgmDoc) : new SqlParameter("@cgmDoc", DBNull.Value);
                     cmd.Parameters.Add(param);
 
                     param = new SqlParameter("@inform", model.Inform);
                     cmd.Parameters.Add(param);
-                    if (model.Inform)
-                        param = new SqlParameter("@informDoc", model.InformDoc);
-                    else
-                        param = new SqlParameter("@informDoc", DBNull.Value);
+                    param = model.Inform ? new SqlParameter("@informDoc", model.InformDoc) : new SqlParameter("@informDoc", DBNull.Value);
                     cmd.Parameters.Add(param);
 
                     param = new SqlParameter("@onCall", model.OnCall);
                     cmd.Parameters.Add(param);
-                    if (model.OnCall)
-                        param = new SqlParameter("@onCallDoc", model.OnCallDoc);
-                    else
-                        param = new SqlParameter("@onCallDoc", DBNull.Value);
+                    param = model.OnCall ? new SqlParameter("@onCallDoc", model.OnCallDoc) : new SqlParameter("@onCallDoc", DBNull.Value);
                     cmd.Parameters.Add(param);
 
                     param = new SqlParameter("@humanSubj", model.HumanSubj);
@@ -2971,7 +3079,7 @@ namespace hpMvc.DataBase
                 {
                     var cmd = new SqlCommand("", conn)
                     {
-                        CommandType = System.Data.CommandType.StoredProcedure,
+                        CommandType = CommandType.StoredProcedure,
                         CommandText = "UpdateStaffInfoForRoleChange"
                     };
 
@@ -2984,16 +3092,10 @@ namespace hpMvc.DataBase
                     param = new SqlParameter("@email", email);
                     cmd.Parameters.Add(param);
 
-                    if (string.IsNullOrEmpty(employeeId))
-                        param = new SqlParameter("@employeeID", DBNull.Value);
-                    else
-                        param = new SqlParameter("@employeeID", employeeId);
+                    param = string.IsNullOrEmpty(employeeId) ? new SqlParameter("@employeeID", DBNull.Value) : new SqlParameter("@employeeID", employeeId);
                     cmd.Parameters.Add(param);
 
-                    if (string.IsNullOrEmpty(userName))
-                        param = new SqlParameter("@userName", DBNull.Value);
-                    else
-                        param = new SqlParameter("@userName", userName);
+                    param = string.IsNullOrEmpty(userName) ? new SqlParameter("@userName", DBNull.Value) : new SqlParameter("@userName", userName);
                     cmd.Parameters.Add(param);
 
                     conn.Open();
@@ -3022,7 +3124,7 @@ namespace hpMvc.DataBase
                 {
                     var cmd = new SqlCommand("", conn)
                               {
-                                  CommandType = System.Data.CommandType.StoredProcedure,
+                                  CommandType = CommandType.StoredProcedure,
                                   CommandText = "UpdateStaffAdmin"
                               };
 
@@ -3044,56 +3146,35 @@ namespace hpMvc.DataBase
                     param = new SqlParameter("@email", model.Email);
                     cmd.Parameters.Add(param);
 
-                    if (model.EmployeeID == null)
-                        param = new SqlParameter("@employeeID", DBNull.Value);
-                    else
-                        param = new SqlParameter("@employeeID", model.EmployeeID);
+                    param = model.EmployeeID == null ? new SqlParameter("@employeeID", DBNull.Value) : new SqlParameter("@employeeID", model.EmployeeID);
                     cmd.Parameters.Add(param);
 
-                    if (model.Phone == null)
-                        param = new SqlParameter("@phone", DBNull.Value);
-                    else
-                        param = new SqlParameter("@phone", model.Phone);
+                    param = model.Phone == null ? new SqlParameter("@phone", DBNull.Value) : new SqlParameter("@phone", model.Phone);
                     cmd.Parameters.Add(param);
 
                     param = new SqlParameter("@novaStatStrip", model.NovaStatStrip);
                     cmd.Parameters.Add(param);
-                    if (model.NovaStatStrip)
-                        param = new SqlParameter("@novaStatStripDoc", model.NovaStatStripDoc);
-                    else
-                        param = new SqlParameter("@novaStatStripDoc", DBNull.Value);
+                    param = model.NovaStatStrip ? new SqlParameter("@novaStatStripDoc", model.NovaStatStripDoc) : new SqlParameter("@novaStatStripDoc", DBNull.Value);
                     cmd.Parameters.Add(param);
 
                     param = new SqlParameter("@vamp", model.Vamp);
                     cmd.Parameters.Add(param);
-                    if (model.Vamp)
-                        param = new SqlParameter("@vampDoc", model.VampDoc);
-                    else
-                        param = new SqlParameter("@vampDoc", DBNull.Value);
+                    param = model.Vamp ? new SqlParameter("@vampDoc", model.VampDoc) : new SqlParameter("@vampDoc", DBNull.Value);
                     cmd.Parameters.Add(param);
 
                     param = new SqlParameter("@cgm", model.Cgm);
                     cmd.Parameters.Add(param);
-                    if (model.Cgm)
-                        param = new SqlParameter("@cgmDoc", model.CgmDoc);
-                    else
-                        param = new SqlParameter("@cgmDoc", DBNull.Value);
+                    param = model.Cgm ? new SqlParameter("@cgmDoc", model.CgmDoc) : new SqlParameter("@cgmDoc", DBNull.Value);
                     cmd.Parameters.Add(param);
 
                     param = new SqlParameter("@inform", model.Inform);
                     cmd.Parameters.Add(param);
-                    if (model.Inform)
-                        param = new SqlParameter("@informDoc", model.InformDoc);
-                    else
-                        param = new SqlParameter("@informDoc", DBNull.Value);
+                    param = model.Inform ? new SqlParameter("@informDoc", model.InformDoc) : new SqlParameter("@informDoc", DBNull.Value);
                     cmd.Parameters.Add(param);
 
                     param = new SqlParameter("@onCall", model.OnCall);
                     cmd.Parameters.Add(param);
-                    if (model.OnCall)
-                        param = new SqlParameter("@onCallDoc", model.OnCallDoc);
-                    else
-                        param = new SqlParameter("@onCallDoc", DBNull.Value);
+                    param = model.OnCall ? new SqlParameter("@onCallDoc", model.OnCallDoc) : new SqlParameter("@onCallDoc", DBNull.Value);
                     cmd.Parameters.Add(param);
 
                     param = new SqlParameter("@humanSubj", model.HumanSubj);
@@ -3141,19 +3222,23 @@ namespace hpMvc.DataBase
                 {
                     try
                     {
-                        var cmd = new SqlCommand("", conn);
-                        cmd.Transaction = trn;
-                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                        cmd.CommandText = "DeleteSiteInsulinConcentrations";
+                        var cmd = new SqlCommand("", conn)
+                                  {
+                                      Transaction = trn,
+                                      CommandType = CommandType.StoredProcedure,
+                                      CommandText = "DeleteSiteInsulinConcentrations"
+                                  };
                         var param = new SqlParameter("@siteID", siteInfo.Id);
                         cmd.Parameters.Add(param);
 
                         cmd.ExecuteNonQuery();
                         
-                        cmd = new SqlCommand("", conn);
-                        cmd.Transaction = trn;
-                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                        cmd.CommandText = "UpdateSiteInfo";
+                        cmd = new SqlCommand("", conn)
+                              {
+                                  Transaction = trn,
+                                  CommandType = CommandType.StoredProcedure,
+                                  CommandText = "UpdateSiteInfo"
+                              };
 
                         param = new SqlParameter("@id", siteInfo.Id);
                         cmd.Parameters.Add(param);
@@ -3168,16 +3253,10 @@ namespace hpMvc.DataBase
                         param = new SqlParameter("@empIDRequired", siteInfo.IsEmployeeIdRequired);
                         cmd.Parameters.Add(param);
 
-                        if (siteInfo.EmployeeIdRegEx == null)
-                            param = new SqlParameter("@empIDRexEx", DBNull.Value);
-                        else
-                            param = new SqlParameter("@empIDRexEx", siteInfo.EmployeeIdRegEx);
+                        param = siteInfo.EmployeeIdRegEx == null ? new SqlParameter("@empIDRexEx", DBNull.Value) : new SqlParameter("@empIDRexEx", siteInfo.EmployeeIdRegEx);
                         cmd.Parameters.Add(param);
 
-                        if (siteInfo.EmployeeIdMessage == null)
-                            param = new SqlParameter("@empIDMessage", DBNull.Value);
-                        else
-                            param = new SqlParameter("@empIDMessage", siteInfo.EmployeeIdMessage);
+                        param = siteInfo.EmployeeIdMessage == null ? new SqlParameter("@empIDMessage", DBNull.Value) : new SqlParameter("@empIDMessage", siteInfo.EmployeeIdMessage);
                         cmd.Parameters.Add(param);
 
                         param = new SqlParameter("@active", siteInfo.IsActive);
@@ -3192,16 +3271,10 @@ namespace hpMvc.DataBase
                         param = new SqlParameter("@sensor", siteInfo.Sensor);
                         cmd.Parameters.Add(param);
 
-                        if (string.IsNullOrEmpty(siteInfo.AcctPassword))
-                            param = new SqlParameter("@acctPassword", DBNull.Value);
-                        else
-                            param = new SqlParameter("@acctPassword", siteInfo.AcctPassword);
+                        param = string.IsNullOrEmpty(siteInfo.AcctPassword) ? new SqlParameter("@acctPassword", DBNull.Value) : new SqlParameter("@acctPassword", siteInfo.AcctPassword);
                         cmd.Parameters.Add(param);
 
-                        if (string.IsNullOrEmpty(siteInfo.AcctUserName))
-                            param = new SqlParameter("@acctUserName", DBNull.Value);
-                        else
-                            param = new SqlParameter("@acctUserName", siteInfo.AcctUserName);
+                        param = string.IsNullOrEmpty(siteInfo.AcctUserName) ? new SqlParameter("@acctUserName", DBNull.Value) : new SqlParameter("@acctUserName", siteInfo.AcctUserName);
                         cmd.Parameters.Add(param);
 
                         cmd.ExecuteNonQuery();
@@ -3210,10 +3283,12 @@ namespace hpMvc.DataBase
                         {
                             if(incon.IsUsed)
                             {
-                                cmd = new SqlCommand("", conn);
-                                cmd.Transaction = trn;
-                                cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                                cmd.CommandText = "AddSiteInsulinConcentration";
+                                cmd = new SqlCommand("", conn)
+                                      {
+                                          Transaction = trn,
+                                          CommandType = CommandType.StoredProcedure,
+                                          CommandText = "AddSiteInsulinConcentration"
+                                      };
                                 param = new SqlParameter("@siteId", siteInfo.Id);
                                 cmd.Parameters.Add(param);
                                 param = new SqlParameter("@insulinConId", incon.Id);
@@ -3245,9 +3320,11 @@ namespace hpMvc.DataBase
             {
                 try
                 {
-                    var cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "AddRandomizationForNewSite";
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = CommandType.StoredProcedure,
+                                  CommandText = "AddRandomizationForNewSite"
+                              };
 
                     var param = new SqlParameter("@number", number);
                     cmd.Parameters.Add(param);
@@ -3282,9 +3359,11 @@ namespace hpMvc.DataBase
             {
                 try
                 {
-                    var cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "AddStudyId";
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = CommandType.StoredProcedure,
+                                  CommandText = "AddStudyId"
+                              };
 
                     var param = new SqlParameter("@studyId", studyId);
                     cmd.Parameters.Add(param);
@@ -3319,10 +3398,12 @@ namespace hpMvc.DataBase
                 {
                     try
                     {
-                        var cmd = new SqlCommand("", conn);
-                        cmd.Transaction = trn;
-                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                        cmd.CommandText = "AddSite";
+                        var cmd = new SqlCommand("", conn)
+                                  {
+                                      Transaction = trn,
+                                      CommandType = CommandType.StoredProcedure,
+                                      CommandText = "AddSite"
+                                  };
 
                         var param = new SqlParameter("@siteId", siteInfo.SiteId);
                         cmd.Parameters.Add(param);
@@ -3340,28 +3421,16 @@ namespace hpMvc.DataBase
                         param = new SqlParameter("@empIDRequired", siteInfo.IsEmployeeIdRequired);
                         cmd.Parameters.Add(param);
 
-                        if (string.IsNullOrEmpty(siteInfo.EmployeeIdRegEx))
-                            param = new SqlParameter("@empIDRegex", DBNull.Value);
-                        else
-                            param = new SqlParameter("@empIDRegex", siteInfo.EmployeeIdRegEx);
+                        param = string.IsNullOrEmpty(siteInfo.EmployeeIdRegEx) ? new SqlParameter("@empIDRegex", DBNull.Value) : new SqlParameter("@empIDRegex", siteInfo.EmployeeIdRegEx);
                         cmd.Parameters.Add(param);
 
-                        if (string.IsNullOrEmpty(siteInfo.EmployeeIdMessage))
-                            param = new SqlParameter("@empIDMessage", DBNull.Value);
-                        else
-                            param = new SqlParameter("@empIDMessage", siteInfo.EmployeeIdMessage);
+                        param = string.IsNullOrEmpty(siteInfo.EmployeeIdMessage) ? new SqlParameter("@empIDMessage", DBNull.Value) : new SqlParameter("@empIDMessage", siteInfo.EmployeeIdMessage);
                         cmd.Parameters.Add(param);
 
-                        if (string.IsNullOrEmpty(siteInfo.AcctPassword))
-                            param = new SqlParameter("@acctPassword", DBNull.Value);
-                        else
-                            param = new SqlParameter("@acctPassword", siteInfo.AcctPassword);
+                        param = string.IsNullOrEmpty(siteInfo.AcctPassword) ? new SqlParameter("@acctPassword", DBNull.Value) : new SqlParameter("@acctPassword", siteInfo.AcctPassword);
                         cmd.Parameters.Add(param);
 
-                        if (string.IsNullOrEmpty(siteInfo.AcctUserName))
-                            param = new SqlParameter("@acctUserName", DBNull.Value);
-                        else
-                            param = new SqlParameter("@acctUserName", siteInfo.AcctUserName);
+                        param = string.IsNullOrEmpty(siteInfo.AcctUserName) ? new SqlParameter("@acctUserName", DBNull.Value) : new SqlParameter("@acctUserName", siteInfo.AcctUserName);
                         cmd.Parameters.Add(param);
 
                         param = new SqlParameter("@active", siteInfo.IsActive);
@@ -3376,8 +3445,11 @@ namespace hpMvc.DataBase
                         param = new SqlParameter("@sensor", siteInfo.Sensor);
                         cmd.Parameters.Add(param);
 
-                        param = new SqlParameter("@Identity", System.Data.SqlDbType.Int, 0, "ID");
-                        param.Direction = System.Data.ParameterDirection.Output;
+                        param = new SqlParameter("@Identity", SqlDbType.Int, 0, "ID")
+                                {
+                                    Direction =
+                                        ParameterDirection.Output
+                                };
                         cmd.Parameters.Add(param);
 
                         cmd.ExecuteNonQuery();
@@ -3387,10 +3459,12 @@ namespace hpMvc.DataBase
                         {
                             if (incon.IsUsed)
                             {
-                                cmd = new SqlCommand("", conn);
-                                cmd.Transaction = trn;
-                                cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                                cmd.CommandText = "AddSiteInsulinConcentration";
+                                cmd = new SqlCommand("", conn)
+                                      {
+                                          Transaction = trn,
+                                          CommandType = CommandType.StoredProcedure,
+                                          CommandText = "AddSiteInsulinConcentration"
+                                      };
                                 param = new SqlParameter("@siteId", siteInfo.Id);
                                 cmd.Parameters.Add(param);
                                 param = new SqlParameter("@insulinConId", incon.Id);
@@ -3423,9 +3497,11 @@ namespace hpMvc.DataBase
             {
                 try
                 {
-                    var cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = ("GetChecksGgReport");
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = CommandType.StoredProcedure,
+                                  CommandText = ("GetChecksGgReport")
+                              };
                     var param = new SqlParameter("@studyId", studyId);
                     cmd.Parameters.Add(param);
                     param = new SqlParameter("@startDate", startDate);
@@ -3435,12 +3511,11 @@ namespace hpMvc.DataBase
 
                     conn.Open();
                     var rdr = cmd.ExecuteReader();
-                    int pos = 0;
 
                     while (rdr.Read())
                     {
                         var ggItem = new ChecksGg();
-                        pos = rdr.GetOrdinal("Meter_Time");
+                        var pos = rdr.GetOrdinal("Meter_Time");
                         ggItem.MeterTime = rdr.GetDateTime(pos).ToString("yyyy-MM-dd HH:mm");
                         pos = rdr.GetOrdinal("Meter_Glucose");
                         ggItem.MeterGlucose = rdr.GetInt32(pos);

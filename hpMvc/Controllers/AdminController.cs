@@ -71,7 +71,7 @@ namespace hpMvc.Controllers
             }
             else
             {
-                int siteID = DbUtils.GetSiteidIDForUser(HttpContext.User.Identity.Name);
+                int siteID = DbUtils.GetSiteidIdForUser(HttpContext.User.Identity.Name);
                 users = DbUtils.GetUsersForSite(siteID);
             }
                 
@@ -308,7 +308,7 @@ namespace hpMvc.Controllers
 
         public JsonResult IsUserEmployeeIdDuplicateOtherThan(int id, string employeeID, int site)
         {           
-            var dto = DbPostTestsUtils.DoesStaffEmployeeIDExistOtherThan(id, employeeID, site);
+            var dto = DbPostTestsUtils.DoesStaffEmployeeIdExistOtherThan(id, employeeID, site);
             return Json(dto);
         }
 
@@ -387,7 +387,7 @@ namespace hpMvc.Controllers
             sites.Insert(0, new Site { ID = 0, Name = "Select a site", SiteID = "" });
             ViewBag.Sites = new SelectList(sites, "ID", "Name");
 
-            int site = DbUtils.GetSiteidIDForUser(User.Identity.Name);
+            int site = DbUtils.GetSiteidIdForUser(User.Identity.Name);
             ViewBag.Site = site;
 
             var list = DbUtils.GetStaffLookupForSite(site.ToString());
@@ -459,7 +459,7 @@ namespace hpMvc.Controllers
             }
             ViewBag.Role = role;
 
-            int site = DbUtils.GetSiteidIDForUser(User.Identity.Name);
+            int site = DbUtils.GetSiteidIdForUser(User.Identity.Name);
             ViewBag.Site = site;
             
             var retDto = DbPostTestsUtils.GetSiteEmployeeInfoForSite(site.ToString());
@@ -540,7 +540,7 @@ namespace hpMvc.Controllers
             }
             ViewBag.Role = role;
 
-            int site = DbUtils.GetSiteidIDForUser(User.Identity.Name);
+            int site = DbUtils.GetSiteidIdForUser(User.Identity.Name);
             ViewBag.Site = site;
             var retDto = DbPostTestsUtils.GetSiteEmployeeInfoForSite(site.ToString());
             ViewBag.EmpRequired = retDto.Stuff.EmpIDRequired;
@@ -658,7 +658,7 @@ namespace hpMvc.Controllers
         public JsonResult GetSavedChecksSiteChange(string site)
         {
             nlogger.LogInfo("SiteSelected - site: " + site);
-            var dto = DbUtils.GetSiteCodeForSiteID(int.Parse(site));
+            var dto = DbUtils.GetSiteCodeForSiteId(int.Parse(site));
             var files = SsUtils.GetSavedStudyIDs(dto.Bag.ToString());
             
             return Json(files);
@@ -676,7 +676,7 @@ namespace hpMvc.Controllers
 
         public FilePathResult GetSavedChecksDownload(string site, string fileName)
         {
-            var dto = DbUtils.GetSiteCodeForSiteID(int.Parse(site));
+            var dto = DbUtils.GetSiteCodeForSiteId(int.Parse(site));
 
             var folderPath = ConfigurationManager.AppSettings["ChecksUploadPath"].ToString();
             var path = Path.Combine(folderPath, dto.Bag.ToString());

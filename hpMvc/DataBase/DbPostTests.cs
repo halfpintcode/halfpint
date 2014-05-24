@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
-using System.Web;
 using System.Configuration;
 using System.Data.SqlClient;
 using hpMvc.Infrastructure.Logging;
@@ -10,7 +10,7 @@ using System.Collections.Specialized;
 
 namespace hpMvc.DataBase
 {
-    
+
 
     public static class DbPostTestsUtils
     {
@@ -23,11 +23,11 @@ namespace hpMvc.DataBase
         public static int SavePostTestsCompleted(List<PostTest> ptl, int staffId, string staffName)
         {
             Nlogger.LogInfo("SavePostTestsCompleted - for: " + staffName);
-            
+
             var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
             using (var conn = new SqlConnection(strConn))
             {
-                
+
                 conn.Open();
                 using (var trn = conn.BeginTransaction())
                 {
@@ -67,9 +67,9 @@ namespace hpMvc.DataBase
                                 Nlogger.LogInfo("AddOrUpdateTestCompleted - test:" + postTest.Name);
                             }
                             cmd.ExecuteNonQuery();
-                            
+
                         }
-                        
+
                         trn.Commit();
                     }
                     catch (Exception ex)
@@ -86,16 +86,16 @@ namespace hpMvc.DataBase
         //public static int SavePostTestsCompleted(PostTestsModel ptm)
         //{
         //    var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            
+
         //    using (var conn = new SqlConnection(strConn))
         //    {
-                
+
         //        conn.Open();
         //        using (SqlTransaction trn = conn.BeginTransaction())
         //        {
         //            try
         //            {                       
-                        
+
         //                var cmd = new SqlCommand("", conn)
         //                              {
         //                                  Transaction = trn,
@@ -104,7 +104,7 @@ namespace hpMvc.DataBase
         //                              };
         //                var param = new SqlParameter("@id", ptm.ID);
         //                cmd.Parameters.Add(param);
-                        
+
         //                cmd.ExecuteNonQuery();
         //                Nlogger.LogInfo("DeletePostTestsCompleted - name: " + ptm.Name);
 
@@ -156,11 +156,11 @@ namespace hpMvc.DataBase
         //                    cmd.Parameters.Add(param);
         //                    param = new SqlParameter("@dateCompleted", ptm.MedtronicCompleted);
         //                    cmd.Parameters.Add(param);
-                                                        
+
         //                    cmd.ExecuteNonQuery();
         //                    Nlogger.LogInfo("AddOrUpdateTestCompleted - test: Medtronic, name: " + ptm.Name);
         //                }
-                                                
+
         //                if (ptm.NovaStatStrip)
         //                {
         //                    cmd = new SqlCommand("", conn);
@@ -211,14 +211,16 @@ namespace hpMvc.DataBase
         {
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
 
-            using (SqlConnection conn = new SqlConnection(strConn))
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = ("DoesStaffNameExist");
-                    SqlParameter param = new SqlParameter("@siteID", site);
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = System.Data.CommandType.StoredProcedure,
+                                  CommandText = ("DoesStaffNameExist")
+                              };
+                    var param = new SqlParameter("@siteID", site);
                     cmd.Parameters.Add(param);
                     param = new SqlParameter("@lastName", lastName);
                     cmd.Parameters.Add(param);
@@ -226,7 +228,7 @@ namespace hpMvc.DataBase
                     cmd.Parameters.Add(param);
 
                     conn.Open();
-                    int count = (Int32)cmd.ExecuteScalar();
+                    var count = (Int32)cmd.ExecuteScalar();
                     if (count == 1)
                         return 1;
                     return 0;
@@ -241,7 +243,7 @@ namespace hpMvc.DataBase
 
         public static string GetNextStaffEmployeeId(string employeeId, int site)
         {
-            string nextNumber = "";
+            string nextNumber;
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
 
             using (var conn = new SqlConnection(strConn))
@@ -259,7 +261,7 @@ namespace hpMvc.DataBase
                     cmd.Parameters.Add(param);
 
                     var numList = new List<Int32>();
-                    
+
                     conn.Open();
                     var rdr = cmd.ExecuteReader();
                     while (rdr.Read())
@@ -273,7 +275,7 @@ namespace hpMvc.DataBase
                     {
                         var numMax = numList.Max();
                         ++numMax;
-                        nextNumber = numMax.ToString();
+                        nextNumber = numMax.ToString(CultureInfo.InvariantCulture);
                     }
 
                 }
@@ -289,7 +291,7 @@ namespace hpMvc.DataBase
 
         public static DTO DoesStaffEmployeeIdExist(string employeeId, int site)
         {
-            var dto = new DTO {IsSuccessful = false, ReturnValue = 0};
+            var dto = new DTO { IsSuccessful = false, ReturnValue = 0 };
 
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
 
@@ -297,7 +299,7 @@ namespace hpMvc.DataBase
             {
                 try
                 {
-                    
+
                     var cmd = new SqlCommand("", conn)
                                   {
                                       CommandType = System.Data.CommandType.StoredProcedure,
@@ -326,7 +328,7 @@ namespace hpMvc.DataBase
                         dto.Message = s;
                         dto.ReturnValue = 1;
                     }
-                    
+
                     return dto;
                 }
                 catch (Exception ex)
@@ -334,39 +336,44 @@ namespace hpMvc.DataBase
                     Nlogger.LogError(ex);
                     dto.ReturnValue = -1;
                     return dto;
-                }                
+                }
             }
         }
 
-        public static DTO DoesStaffEmployeeIDExistOtherThan(int id, string employeeID, int site)
+        public static DTO DoesStaffEmployeeIdExistOtherThan(int id, string employeeId, int site)
         {
-            var dto = new DTO();
-            dto.IsSuccessful = false;
-            dto.ReturnValue = 0;
+            var dto = new DTO {IsSuccessful = false, ReturnValue = 0};
 
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
 
-            using (SqlConnection conn = new SqlConnection(strConn))
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
 
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = ("DoesStaffEmployeeIDExistOtherThan");
-                    SqlParameter param = new SqlParameter("@id", id);
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = System.Data.CommandType.StoredProcedure,
+                                  CommandText = ("DoesStaffEmployeeIDExistOtherThan")
+                              };
+                    var param = new SqlParameter("@id", id);
                     cmd.Parameters.Add(param);
                     param = new SqlParameter("@siteID", site);
                     cmd.Parameters.Add(param);
-                    param = new SqlParameter("@employeeID", employeeID);
+                    param = new SqlParameter("@employeeID", employeeId);
                     cmd.Parameters.Add(param);
                     //SqlParameter param = new SqlParameter("@Identity", System.Data.SqlDbType.Int, 0, "ID");
-                    param = new SqlParameter("@name", System.Data.SqlDbType.NVarChar, 50);
-                    param.Direction = System.Data.ParameterDirection.Output;
+                    param = new SqlParameter("@name", System.Data.SqlDbType.NVarChar, 50)
+                            {
+                                Direction =
+                                    System.Data
+                                    .ParameterDirection
+                                    .Output
+                            };
                     cmd.Parameters.Add(param);
 
                     conn.Open();
-                    int count = (Int32)cmd.ExecuteScalar();
+                    var count = (Int32)cmd.ExecuteScalar();
                     dto.IsSuccessful = true;
                     if (count == 1)
                     {
@@ -388,27 +395,32 @@ namespace hpMvc.DataBase
 
         public static DTO DoesStaffEmailExist(string email)
         {
-            var dto = new DTO();
-            dto.IsSuccessful = false;
-            dto.ReturnValue = 0;
+            var dto = new DTO {IsSuccessful = false, ReturnValue = 0};
 
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
 
-            using (SqlConnection conn = new SqlConnection(strConn))
+            using (var conn = new SqlConnection(strConn))
             {
                 try
-                {                    
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = ("DoesStaffEmailExist");
-                    SqlParameter param = new SqlParameter("@email", email);
-                    cmd.Parameters.Add(param);                    
-                    param = new SqlParameter("@name", System.Data.SqlDbType.NVarChar, 50);
-                    param.Direction = System.Data.ParameterDirection.Output;
+                {
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = System.Data.CommandType.StoredProcedure,
+                                  CommandText = ("DoesStaffEmailExist")
+                              };
+                    var param = new SqlParameter("@email", email);
+                    cmd.Parameters.Add(param);
+                    param = new SqlParameter("@name", System.Data.SqlDbType.NVarChar, 50)
+                            {
+                                Direction =
+                                    System.Data
+                                    .ParameterDirection
+                                    .Output
+                            };
                     cmd.Parameters.Add(param);
 
                     conn.Open();
-                    int count = (Int32)cmd.ExecuteScalar();
+                    var count = (Int32)cmd.ExecuteScalar();
                     dto.IsSuccessful = true;
                     if (count == 1)
                     {
@@ -416,7 +428,7 @@ namespace hpMvc.DataBase
                         dto.Message = s;
                         dto.ReturnValue = 1;
                     }
-                    
+
                     return dto;
                 }
                 catch (Exception ex)
@@ -430,29 +442,34 @@ namespace hpMvc.DataBase
 
         public static DTO DoesStaffEmailExistOtherThan(int id, string email)
         {
-            var dto = new DTO();
-            dto.IsSuccessful = false;
-            dto.ReturnValue = 0;
+            var dto = new DTO {IsSuccessful = false, ReturnValue = 0};
 
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
 
-            using (SqlConnection conn = new SqlConnection(strConn))
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = ("DoesStaffEmailExistOtherThan");
-                    SqlParameter param = new SqlParameter("@email", email);
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = System.Data.CommandType.StoredProcedure,
+                                  CommandText = ("DoesStaffEmailExistOtherThan")
+                              };
+                    var param = new SqlParameter("@email", email);
                     cmd.Parameters.Add(param);
                     param = new SqlParameter("@id", id);
                     cmd.Parameters.Add(param);
-                    param = new SqlParameter("@name", System.Data.SqlDbType.NVarChar, 50);
-                    param.Direction = System.Data.ParameterDirection.Output;
+                    param = new SqlParameter("@name", System.Data.SqlDbType.NVarChar, 50)
+                            {
+                                Direction =
+                                    System.Data
+                                    .ParameterDirection
+                                    .Output
+                            };
                     cmd.Parameters.Add(param);
 
                     conn.Open();
-                    int count = (Int32)cmd.ExecuteScalar();
+                    var count = (Int32)cmd.ExecuteScalar();
                     dto.IsSuccessful = true;
                     if (count == 1)
                     {
@@ -474,28 +491,33 @@ namespace hpMvc.DataBase
 
         public static DTO DoesStaffUserNameExist(string userName)
         {
-            var dto = new DTO();
-            dto.IsSuccessful = false;
-            dto.ReturnValue = 0;
+            var dto = new DTO {IsSuccessful = false, ReturnValue = 0};
 
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
 
-            using (SqlConnection conn = new SqlConnection(strConn))
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = ("DoesStaffUserNameExist");
-                    SqlParameter param = new SqlParameter("@userName", userName);
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = System.Data.CommandType.StoredProcedure,
+                                  CommandText = ("DoesStaffUserNameExist")
+                              };
+                    var param = new SqlParameter("@userName", userName);
                     cmd.Parameters.Add(param);
                     //SqlParameter param = new SqlParameter("@Identity", System.Data.SqlDbType.Int, 0, "ID");
-                    param = new SqlParameter("@name", System.Data.SqlDbType.NVarChar, 50);
-                    param.Direction = System.Data.ParameterDirection.Output;
+                    param = new SqlParameter("@name", System.Data.SqlDbType.NVarChar, 50)
+                            {
+                                Direction =
+                                    System.Data
+                                    .ParameterDirection
+                                    .Output
+                            };
                     cmd.Parameters.Add(param);
 
                     conn.Open();
-                    int count = (Int32)cmd.ExecuteScalar();
+                    var count = (Int32)cmd.ExecuteScalar();
                     dto.IsSuccessful = true;
                     if (count == 1)
                     {
@@ -517,7 +539,7 @@ namespace hpMvc.DataBase
 
         public static DTO GetStaffIdByUserName(string userName)
         {
-            var dto = new DTO {IsSuccessful = false, ReturnValue = 0};
+            var dto = new DTO { IsSuccessful = false, ReturnValue = 0 };
 
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
 
@@ -532,11 +554,11 @@ namespace hpMvc.DataBase
                                   };
                     var param = new SqlParameter("@userName", userName);
                     cmd.Parameters.Add(param);
-                    
+
                     conn.Open();
                     dto.ReturnValue = (Int32)cmd.ExecuteScalar();
                     dto.IsSuccessful = true;
-                    
+
                     return dto;
                 }
                 catch (Exception ex)
@@ -548,29 +570,36 @@ namespace hpMvc.DataBase
             }
         }
 
-        public static int AddNurseStaff(string lastName, string firstName, string empID, int siteID, string email)
+        public static int AddNurseStaff(string lastName, string firstName, string empId, int siteId, string email)
         {
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            using (SqlConnection conn = new SqlConnection(strConn))
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = ("AddNurseStaff");
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = System.Data.CommandType.StoredProcedure,
+                                  CommandText = ("AddNurseStaff")
+                              };
 
-                    SqlParameter param = new SqlParameter("@Identity", System.Data.SqlDbType.Int, 0, "ID");
-                    param.Direction = System.Data.ParameterDirection.Output;
+                    var param = new SqlParameter("@Identity", System.Data.SqlDbType.Int, 0, "ID")
+                                {
+                                    Direction =
+                                        System.Data
+                                        .ParameterDirection
+                                        .Output
+                                };
                     cmd.Parameters.Add(param);
                     param = new SqlParameter("@lastName", lastName);
-                    cmd.Parameters.Add(param); 
+                    cmd.Parameters.Add(param);
                     param = new SqlParameter("@firstName", firstName);
                     cmd.Parameters.Add(param);
-                    param = new SqlParameter("@siteID", siteID);
+                    param = new SqlParameter("@siteID", siteId);
                     cmd.Parameters.Add(param);
-                    if(empID == null)
-                        empID = "";
-                    param = new SqlParameter("@employeeID", empID);
+                    if (empId == null)
+                        empId = "";
+                    param = new SqlParameter("@employeeID", empId);
                     cmd.Parameters.Add(param);
 
                     param = new SqlParameter("@email", email);
@@ -578,9 +607,9 @@ namespace hpMvc.DataBase
 
                     conn.Open();
                     cmd.ExecuteNonQuery();
-                    
+
                     return (int)cmd.Parameters["@Identity"].Value;
-                    
+
                 }
                 catch (Exception ex)
                 {
@@ -606,7 +635,7 @@ namespace hpMvc.DataBase
 
                     var param = new SqlParameter("@id", id);
                     cmd.Parameters.Add(param);
-                    
+
                     conn.Open();
                     var rdr = cmd.ExecuteReader();
 
@@ -618,11 +647,11 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    Nlogger.LogError(ex);                    
+                    Nlogger.LogError(ex);
                 }
                 return email;
             }
-        }              
+        }
 
         public static int AddAndUpdateTestCompleted(int staffId, string test)
         {
@@ -653,16 +682,16 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    Nlogger.LogError("AddOrUpdateTestCompleted staffID: " + staffId + ", " + ex.Message);                    
+                    Nlogger.LogError("AddOrUpdateTestCompleted staffID: " + staffId + ", " + ex.Message);
                     return -1;
                 }
-            }            
+            }
 
         }
 
         public static DynamicDTO GetSiteEmployeeInfoForSite(string site)
         {
-            var dto = new DynamicDTO {IsSuccessful = true};
+            var dto = new DynamicDTO { IsSuccessful = true };
 
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
             using (var conn = new SqlConnection(strConn))
@@ -679,13 +708,12 @@ namespace hpMvc.DataBase
 
                     conn.Open();
                     var rdr = cmd.ExecuteReader();
-                    var pos = 0;
                     rdr.Read();
 
                     dto.Stuff.EmpIDRequired = "false";
                     dto.Stuff.EmpIDRegex = "";
                     dto.Stuff.EmpIDMessage = "";
-                    pos = rdr.GetOrdinal("EmpIDRequired");
+                    int pos = rdr.GetOrdinal("EmpIDRequired");
                     bool bEmpIdRequired = rdr.GetBoolean(pos);
                     if (bEmpIdRequired)
                     {
@@ -712,57 +740,61 @@ namespace hpMvc.DataBase
 
         public static DynamicDTO CheckIfEmployeeIdRequired(string user)
         {
-            var dto = new DynamicDTO();
-            dto.IsSuccessful = true;
-            
-             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-             using (SqlConnection conn = new SqlConnection(strConn))
-             {
-                 try
-                 {
-                     SqlCommand cmd = new SqlCommand("", conn);
-                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                     cmd.CommandText = "GetSiteInfoForUser";
-                     SqlParameter param = new SqlParameter("@userName", user);
-                     cmd.Parameters.Add(param);
+            var dto = new DynamicDTO {IsSuccessful = true};
+            SqlDataReader rdr = null;
+            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            using (var conn = new SqlConnection(strConn))
+            {
+                try
+                {
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = System.Data.CommandType.StoredProcedure,
+                                  CommandText = "GetSiteInfoForUser"
+                              };
+                    var param = new SqlParameter("@userName", user);
+                    cmd.Parameters.Add(param);
 
-                     conn.Open();
-                     SqlDataReader rdr = cmd.ExecuteReader();
-                     int pos = 0;
-                     rdr.Read();
-                                          
-                     dto.Stuff.EmpIDRequired = "false";
-                     dto.Stuff.EmpIDRegex = "";
-                     dto.Stuff.EmpIDMessage = "";
-                     pos = rdr.GetOrdinal("EmpIDRequired");
-                     bool bEmpIDRequired =rdr.GetBoolean(pos);
-                     if (bEmpIDRequired)
-                     {
-                         dto.Stuff.EmpIDRequired = "true";
+                    conn.Open();
+                    rdr = cmd.ExecuteReader();
+                    rdr.Read();
 
-                         pos = rdr.GetOrdinal("EmpIDRegex");
-                         string regEx = rdr.GetString(pos);
-                         dto.Stuff.EmpIDRegex = regEx;
-                         
-                         pos = rdr.GetOrdinal("EmpIDMessage");
-                         string message = rdr.GetString(pos);
-                         dto.Stuff.EmpIDMessage = message;
-                     }
-                     rdr.Close();
-                 }
-                 catch (Exception ex)
-                 {
-                     Nlogger.LogError(ex);
-                     return null;
-                 }
-             }
+                    dto.Stuff.EmpIDRequired = "false";
+                    dto.Stuff.EmpIDRegex = "";
+                    dto.Stuff.EmpIDMessage = "";
+                    int pos = rdr.GetOrdinal("EmpIDRequired");
+                    bool bEmpIdRequired = rdr.GetBoolean(pos);
+                    if (bEmpIdRequired)
+                    {
+                        dto.Stuff.EmpIDRequired = "true";
+
+                        pos = rdr.GetOrdinal("EmpIDRegex");
+                        string regEx = rdr.GetString(pos);
+                        dto.Stuff.EmpIDRegex = regEx;
+
+                        pos = rdr.GetOrdinal("EmpIDMessage");
+                        string message = rdr.GetString(pos);
+                        dto.Stuff.EmpIDMessage = message;
+                    }
+                    rdr.Close();
+                }
+                catch (Exception ex)
+                {
+                    Nlogger.LogError(ex);
+                    return null;
+                }
+                finally
+                {
+                    if (rdr != null)
+                        rdr.Close();
+                }
+            }
             return dto;
         }
 
-        public static MessageListDTO VerifyPostTest(string testName, NameValueCollection formParams) 
+        public static MessageListDTO VerifyPostTest(string testName, NameValueCollection formParams)
         {
-            var dto = new MessageListDTO();
-            dto.IsSuccessful = true;
+            var dto = new MessageListDTO {IsSuccessful = true};
             var bResults = new List<bool>();
 
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
@@ -791,22 +823,22 @@ namespace hpMvc.DataBase
 
                         bResults.Add(true);
                         string answer;
-                        var pararmString = "";
+                        string pararmString;
                         switch (qType)
                         {
                             case 1: //multiple choice
-                                pararmString = "question" + iquestion.ToString();
+                                pararmString = "question" + iquestion;
                                 answer = formParams[pararmString];
                                 if (answer != correctAnswer)
                                 {
                                     dto.IsSuccessful = false;
                                     bResults[iquestion - 1] = false;
-                                }  
+                                }
                                 break;
                             case 2: // yes no
-                                pararmString = "question" + iquestion.ToString();
+                                pararmString = "question" + iquestion;
                                 answer = formParams[pararmString];
-                                if (answer != correctAnswer)                                
+                                if (answer != correctAnswer)
                                 {
                                     dto.IsSuccessful = false;
                                     bResults[iquestion - 1] = false;
@@ -818,18 +850,18 @@ namespace hpMvc.DataBase
 
                                 for (int i = 0; i < numChecks; i++)
                                 {
-                                    pararmString = "question" + iquestion.ToString() + "." + i.ToString();
+                                    pararmString = "question" + iquestion + "." + i;
                                     var bIsCorrect = false;
                                     if (formParams[pararmString] != null) //will not be null if checked
                                     {
                                         for (int j = 1; j < aAnswers.Length; j++)
                                         {
-                                            if (aAnswers[j] == i.ToString())
+                                            if (aAnswers[j] == i.ToString(CultureInfo.InvariantCulture))
                                             {
                                                 bIsCorrect = true;
                                                 break;
                                             }
-                                        }                                        
+                                        }
                                     }
                                     else
                                     {
@@ -837,7 +869,7 @@ namespace hpMvc.DataBase
                                         bIsCorrect = true;
                                         for (var j = 1; j < aAnswers.Length; j++)
                                         {
-                                            if (aAnswers[j] == i.ToString())
+                                            if (aAnswers[j] == i.ToString(CultureInfo.InvariantCulture))
                                             {
                                                 bIsCorrect = false;
                                                 break;
@@ -847,7 +879,7 @@ namespace hpMvc.DataBase
                                     if (!bIsCorrect)
                                     {
                                         dto.IsSuccessful = false;
-                                        bResults[iquestion-1] = false;
+                                        bResults[iquestion - 1] = false;
                                         break;
                                     }
                                 }
@@ -863,9 +895,9 @@ namespace hpMvc.DataBase
                         for (int i = 0; i < bResults.Count; i++)
                         {
                             if (!bResults[i])
-                                dto.Messages.Add("Question " + (i + 1).ToString());
+                                dto.Messages.Add("Question " + (i + 1));
                         }
-                                             
+
                     }
 
                 }
@@ -882,7 +914,7 @@ namespace hpMvc.DataBase
         public static List<IDandName> GetStaffTestUsersForSite(int site)
         {
             var users = new List<IDandName>();
-            
+
             var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
             using (var conn = new SqlConnection(strConn))
             {
@@ -934,7 +966,7 @@ namespace hpMvc.DataBase
                     while (rdr.Read())
                     {
                         var pos = rdr.GetOrdinal("Required");
-                        if(!(rdr.GetBoolean(pos)))
+                        if (!(rdr.GetBoolean(pos)))
                             continue;
 
                         pos = rdr.GetOrdinal("Name");
@@ -962,16 +994,16 @@ namespace hpMvc.DataBase
 
                         pos = rdr.GetOrdinal("ID");
                         test.ID = rdr.GetInt32(pos);
-                       
+
                         test.Name = testName;
 
                         pos = rdr.GetOrdinal("PathName");
                         test.PathName = rdr.GetString(pos);
 
-                        
-                        
+
+
                         test.sDateCompleted = "";
-                        
+
                         tests.Add(test);
                     }
                     rdr.Close();
@@ -998,7 +1030,7 @@ namespace hpMvc.DataBase
                         test.DateCompleted = rdr.GetDateTime(pos);
                         test.sDateCompleted = (test.DateCompleted != null ? test.DateCompleted.Value.ToString("MM/dd/yyyy") : "");
                         test.IsCompleted = true;
-                        
+
                         //don't mark 'Overview' as expired
                         if (test.Name == "Overview") continue;
                         var nextDueDate = test.DateCompleted.Value.AddYears(1);
@@ -1026,32 +1058,32 @@ namespace hpMvc.DataBase
             }
             return tests;
         }
-        
+
         public static List<PostTest> GetTestsCompleted(string id)
         {
             var tests = new List<PostTest>();
-            var test = new PostTest();
-
+            SqlDataReader rdr = null;
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            using (SqlConnection conn = new SqlConnection(strConn))
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = ("GetStaffTestsCompleted");
-                    SqlParameter param = new SqlParameter("@id", id);
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = System.Data.CommandType.StoredProcedure,
+                                  CommandText = ("GetStaffTestsCompleted")
+                              };
+                    var param = new SqlParameter("@id", id);
                     cmd.Parameters.Add(param);
 
                     conn.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    int pos = 0;
+                    rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
-                        test = new PostTest();
-                        pos = rdr.GetOrdinal("Name");
+                        var test = new PostTest();
+                        int pos = rdr.GetOrdinal("Name");
                         test.Name = rdr.GetString(pos);
-                        
+
                         pos = rdr.GetOrdinal("DateCompleted");
                         test.DateCompleted = rdr.GetDateTime(pos);
                         test.sDateCompleted = (test.DateCompleted != null ? test.DateCompleted.Value.ToString("MM/dd/yyyy") : "");
@@ -1065,6 +1097,11 @@ namespace hpMvc.DataBase
                     Nlogger.LogError(ex);
                     return null;
                 }
+                finally
+                {
+                    if (rdr != null)
+                        rdr.Close();
+                }
             }
             return tests;
         }
@@ -1073,7 +1110,6 @@ namespace hpMvc.DataBase
         {
             var ptpcl = new List<PostTestPersonTestsCompleted>();
             var ptpc = new PostTestPersonTestsCompleted();
-            PostTest pt;
 
             var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
             using (var conn = new SqlConnection(strConn))
@@ -1093,13 +1129,13 @@ namespace hpMvc.DataBase
 
                     while (rdr.Read())
                     {
-                        pt = new PostTest();
+                        var pt = new PostTest();
 
                         var pos = rdr.GetOrdinal("Name");
                         var name = rdr.GetString(pos);
                         if (ptpc.Name != name)
-                        {                     
-                            ptpc = new PostTestPersonTestsCompleted {Name = name};
+                        {
+                            ptpc = new PostTestPersonTestsCompleted { Name = name };
                             ptpcl.Add(ptpc);
                         }
 
@@ -1108,7 +1144,7 @@ namespace hpMvc.DataBase
                         pt.sDateCompleted = (pt.DateCompleted != null ? pt.DateCompleted.Value.ToString("MM/dd/yyyy") : "");
                         pos = rdr.GetOrdinal("TestName");
                         pt.Name = rdr.GetString(pos);
-                        
+
                         ptpc.PostTestsCompleted.Add(pt);
                     }
                     rdr.Close();
@@ -1155,7 +1191,7 @@ namespace hpMvc.DataBase
 
                         pos = rdr.GetOrdinal("Name");
                         ptnd.Name = rdr.GetString(pos);
-                        
+
                         pos = rdr.GetOrdinal("MinDate");
                         if (!rdr.IsDBNull(pos))
                         {
@@ -1179,7 +1215,7 @@ namespace hpMvc.DataBase
         {
             var ptel = new List<PostTestExtended>();
             //var pte = new PostTestExtended();
-            
+
             var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
             using (var conn = new SqlConnection(strConn))
             {
@@ -1201,9 +1237,9 @@ namespace hpMvc.DataBase
                         var pos = rdr.GetOrdinal("Role");
                         if (rdr.IsDBNull(pos))
                             continue;
-                        if(rdr.GetString(pos) != "Nurse")
+                        if (rdr.GetString(pos) != "Nurse")
                             continue;
-                        
+
                         var pte = new PostTestExtended();
 
                         pos = rdr.GetOrdinal("Name");

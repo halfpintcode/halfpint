@@ -136,7 +136,7 @@ namespace hpMvc.Controllers
                 
         public ActionResult GetInitializePassword()
         {
-            int siteID = DbUtils.GetSiteidIDForUser(HttpContext.User.Identity.Name);
+            int siteID = DbUtils.GetSiteidIdForUser(HttpContext.User.Identity.Name);
             var dict = DbUtils.GetInitializeStudyIDsWithPassword(siteID);
             
             ViewBag.StudyIDList = new SelectList(dict, "Value", "Key");

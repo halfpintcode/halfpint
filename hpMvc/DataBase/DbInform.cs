@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
-using System.Web.Security;
+using System.Linq;
 using hpMvc.Infrastructure.Logging;
 using hpMvc.Models;
 
@@ -10,24 +9,26 @@ namespace hpMvc.DataBase
 {
     public static class DbInform
     {
-        public static NLogger nlogger;
+        public static NLogger Nlogger;
         static DbInform()
         {
-            nlogger = new NLogger();
+            Nlogger = new NLogger();
         }
 
         public static int SaveInformPage(InformPageModel ifp)
         {
-             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+             var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
 
-             using (SqlConnection conn = new SqlConnection(strConn))
+             using (var conn = new SqlConnection(strConn))
              {
                  try
                  {
-                     SqlCommand cmd = new SqlCommand("", conn);
-                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                     cmd.CommandText = ("SaveInformPage");
-                     SqlParameter param = new SqlParameter("@headerContent", ifp.HeaderContent);
+                     var cmd = new SqlCommand("", conn)
+                               {
+                                   CommandType = System.Data.CommandType.StoredProcedure,
+                                   CommandText = ("SaveInformPage")
+                               };
+                     var param = new SqlParameter("@headerContent", ifp.HeaderContent);
                      cmd.Parameters.Add(param);
                      param = new SqlParameter("@mainContent", ifp.MainContent);
                      cmd.Parameters.Add(param);
@@ -38,7 +39,7 @@ namespace hpMvc.DataBase
                  }
                  catch (Exception ex)
                  {
-                     nlogger.LogError(ex);
+                     Nlogger.LogError(ex);
                      return 0;
                  }
              }
@@ -49,14 +50,16 @@ namespace hpMvc.DataBase
         {
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
 
-            using (SqlConnection conn = new SqlConnection(strConn))
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = ("SaveMeetingsPage");
-                    SqlParameter param = new SqlParameter("@headerContent", ifp.HeaderContent);
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = System.Data.CommandType.StoredProcedure,
+                                  CommandText = ("SaveMeetingsPage")
+                              };
+                    var param = new SqlParameter("@headerContent", ifp.HeaderContent);
                     cmd.Parameters.Add(param);
                     param = new SqlParameter("@mainContent", ifp.MainContent);
                     cmd.Parameters.Add(param);
@@ -67,7 +70,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                     return 0;
                 }
             }
@@ -78,21 +81,22 @@ namespace hpMvc.DataBase
         {
             var ifp = new InformPageModel();
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-
-            using (SqlConnection conn = new SqlConnection(strConn))
+            SqlDataReader rdr = null;
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = ("GetInformPage");
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = System.Data.CommandType.StoredProcedure,
+                                  CommandText = ("GetInformPage")
+                              };
                     conn.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    int pos = 0;
+                    rdr = cmd.ExecuteReader();
 
                     while (rdr.Read())
                     {                        
-                        pos = rdr.GetOrdinal("HeaderContent");
+                        int pos = rdr.GetOrdinal("HeaderContent");
                         ifp.HeaderContent = rdr.GetString(pos);
 
                         pos = rdr.GetOrdinal("MainContent");
@@ -106,7 +110,12 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
+                }
+                finally
+                {
+                    if (rdr != null)
+                        rdr.Close();
                 }
             }
             return ifp;
@@ -116,21 +125,22 @@ namespace hpMvc.DataBase
         {
             var ifp = new InformPageModel();
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-
-            using (SqlConnection conn = new SqlConnection(strConn))
+            SqlDataReader rdr = null;
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = ("GetMeetingsPage");
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = System.Data.CommandType.StoredProcedure,
+                                  CommandText = ("GetMeetingsPage")
+                              };
                     conn.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    int pos = 0;
+                    rdr = cmd.ExecuteReader();
 
                     while (rdr.Read())
                     {
-                        pos = rdr.GetOrdinal("HeaderContent");
+                        int pos = rdr.GetOrdinal("HeaderContent");
                         ifp.HeaderContent = "";
                         if(! rdr.IsDBNull(pos))
                             ifp.HeaderContent = rdr.GetString(pos);
@@ -150,7 +160,12 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
+                }
+                finally
+                {
+                    if (rdr != null)
+                        rdr.Close();
                 }
             }
             return ifp;
@@ -159,8 +174,7 @@ namespace hpMvc.DataBase
         public static DTO ValidateInput(InformPageModel ifp)
         {
             string message = "";
-            DTO dto = new DTO();
-            dto.ReturnValue = 1;
+            var dto = new DTO {ReturnValue = 1};
             string headerContent = ifp.HeaderContent.ToLower();
             if (!IsValidContent(headerContent, ref message))
             {
@@ -172,7 +186,7 @@ namespace hpMvc.DataBase
             string mainContent = ifp.MainContent.ToLower();
             if (! IsValidContent(mainContent, ref message))
             {
-                dto.Message = "Main Content: " + message; ;
+                dto.Message = "Main Content: " + message; 
                 dto.ReturnValue = 0;
                 return dto;
             }
@@ -180,7 +194,7 @@ namespace hpMvc.DataBase
             string footerContent = ifp.FooterContent.ToLower();
             if (! IsValidContent(footerContent, ref message))
             {
-                dto.Message = "Footer Content: " + message; ;
+                dto.Message = "Footer Content: " + message; 
                 dto.ReturnValue = 0;
                 return dto;
             }
@@ -191,8 +205,6 @@ namespace hpMvc.DataBase
         {            
             string[] a1 = content.Split('<');
 
-            int pos = 0;
-            string sPart = "";
             foreach (string s in a1)
             {
                 if (s.Length == 0)                
@@ -201,8 +213,8 @@ namespace hpMvc.DataBase
                 if (s.StartsWith("/"))
                     continue;
 
-                pos = s.IndexOf('>');
-                sPart = s.Substring(0, pos).Trim().ToLower();
+                int pos = s.IndexOf('>');
+                string sPart = s.Substring(0, pos).Trim().ToLower();
                 if (sPart.Contains("script"))
                 {
                     message = "No scritps allowed!";
@@ -220,35 +232,32 @@ namespace hpMvc.DataBase
             return true;
         }
 
-        private static bool IsValidAnchor(string sAnchor, ref string message)
-        {
-            //int pos = 0;
-            if (sAnchor.Contains("mailto:"))
-            {
-                if (!sAnchor.Contains("dcc@halfpintstudy.org"))
-                {
-                    message = "Mail is allowed to be sent to 'dcc@halfpintstudy.org' only";
-                    return false;
-                }
-            }
-            else
-            {
-                message = "The anchor tag is not allowed";
-                return false;
-            }
+        //private static bool IsValidAnchor(string sAnchor, ref string message)
+        //{
+        //    //int pos = 0;
+        //    if (sAnchor.Contains("mailto:"))
+        //    {
+        //        if (!sAnchor.Contains("dcc@halfpintstudy.org"))
+        //        {
+        //            message = "Mail is allowed to be sent to 'dcc@halfpintstudy.org' only";
+        //            return false;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        message = "The anchor tag is not allowed";
+        //        return false;
+        //    }
 
-            return true;
-        }
+        //    return true;
+        //}
 
         private static bool IsValidTag(string tag, ref string message)
         {
-            string[] validTags = new[] {"p","ul","li","strong","h1","h2","h3" }; 
-            foreach (string s in validTags)
+            string[] validTags = {"p","ul","li","strong","h1","h2","h3" }; 
+            if (validTags.Any(s => tag == s))
             {
-                if (tag == s)
-                {                    
-                    return true;
-                }
+                return true;
             }
             message = "The tag '" + tag + "' is not allowed";
             return false;

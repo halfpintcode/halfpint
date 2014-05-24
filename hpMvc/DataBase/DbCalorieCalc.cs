@@ -10,10 +10,10 @@ namespace hpMvc.DataBase
 {
     public static class CalorieCalc
     {
-        public static NLogger nlogger;
+        public static NLogger Nlogger;
         static CalorieCalc()
         {
-            nlogger = new NLogger();
+            Nlogger = new NLogger();
         }
         
         public static int GetStudyDay(int studyId, DateTime calcDate)
@@ -47,7 +47,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                     return -1;
                 }
             }
@@ -80,77 +80,91 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                 }
             }
             return weight;
         }
 
-        public static int DeleteCurrentEntries(int calStudyID)
+        public static int DeleteCurrentEntries(int calStudyId)
         {
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            
-            using (SqlConnection conn = new SqlConnection(strConn))
+
+            SqlDataReader rdr = null;
+            using (var conn = new SqlConnection(strConn))
             {
                 
                 conn.Open();
                 using (SqlTransaction trn = conn.BeginTransaction())
                 {
                     try
-                    {                       
-                        
-                        SqlCommand cmd = new SqlCommand("", conn);
-                        cmd.Transaction = trn;
-                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                        cmd.CommandText = "DeleteCalAdditive";
-                        SqlParameter param = new SqlParameter("@calStudyID", calStudyID);
-                        cmd.Parameters.Add(param);
-                        
-                        cmd.ExecuteNonQuery();
+                    {
 
-                        cmd = new SqlCommand("", conn);
-                        cmd.Transaction = trn;
-                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                        cmd.CommandText = "DeleteCalOther";
-                        param = new SqlParameter("@calStudyID", calStudyID);
+                        var cmd = new SqlCommand("", conn)
+                                  {
+                                      Transaction = trn,
+                                      CommandType = System.Data.CommandType.StoredProcedure,
+                                      CommandText = "DeleteCalAdditive"
+                                  };
+                        var param = new SqlParameter("@calStudyID", calStudyId);
                         cmd.Parameters.Add(param);
 
                         cmd.ExecuteNonQuery();
 
-                        cmd = new SqlCommand("", conn);
-                        cmd.Transaction = trn;
-                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                        cmd.CommandText = "DeleteCalParenterals";
-                        param = new SqlParameter("@calStudyID", calStudyID);
+                        cmd = new SqlCommand("", conn)
+                              {
+                                  Transaction = trn,
+                                  CommandType = System.Data.CommandType.StoredProcedure,
+                                  CommandText = "DeleteCalOther"
+                              };
+                        param = new SqlParameter("@calStudyID", calStudyId);
                         cmd.Parameters.Add(param);
 
                         cmd.ExecuteNonQuery();
 
-                        cmd = new SqlCommand("", conn);
-                        cmd.Transaction = trn;
-                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                        cmd.CommandText = "DeleteCalEnterals";
-                        param = new SqlParameter("@calStudyID", calStudyID);
+                        cmd = new SqlCommand("", conn)
+                              {
+                                  Transaction = trn,
+                                  CommandType = System.Data.CommandType.StoredProcedure,
+                                  CommandText = "DeleteCalParenterals"
+                              };
+                        param = new SqlParameter("@calStudyID", calStudyId);
                         cmd.Parameters.Add(param);
 
                         cmd.ExecuteNonQuery();
-                                                
-                        cmd = new SqlCommand("SELECT ID FROM CalInfusionsDex WHERE CalStudyID=" + calStudyID, conn);
-                        cmd.Transaction = trn;
-                        param = new SqlParameter("@calStudyID", calStudyID);
+
+                        cmd = new SqlCommand("", conn)
+                              {
+                                  Transaction = trn,
+                                  CommandType = System.Data.CommandType.StoredProcedure,
+                                  CommandText = "DeleteCalEnterals"
+                              };
+                        param = new SqlParameter("@calStudyID", calStudyId);
                         cmd.Parameters.Add(param);
 
-                        SqlDataReader rdr = cmd.ExecuteReader();
-                        SqlCommand cmd2 = null;
-                        while (rdr.Read()) 
+                        cmd.ExecuteNonQuery();
+
+                        cmd = new SqlCommand("SELECT ID FROM CalInfusionsDex WHERE CalStudyID=" + calStudyId, conn)
+                              {
+                                  Transaction
+                                      =
+                                      trn
+                              };
+                        param = new SqlParameter("@calStudyID", calStudyId);
+                        cmd.Parameters.Add(param);
+
+                        rdr = cmd.ExecuteReader();
+                        while (rdr.Read())
                         {
-                            int dexID = rdr.GetInt32(0);
+                            int dexId = rdr.GetInt32(0);
 
-                            cmd2 = new SqlCommand("", conn);
-                            cmd2.Transaction = trn;                        
-                            cmd2.CommandType = System.Data.CommandType.StoredProcedure;
-                            cmd2.CommandText = "DeleteCalInfusionsVol";
-                            param = new SqlParameter("@dexID", dexID);
+                            var cmd2 = new SqlCommand("", conn)
+                                       {
+                                           Transaction = trn,
+                                           CommandType = System.Data.CommandType.StoredProcedure,
+                                           CommandText = "DeleteCalInfusionsVol"
+                                       };
+                            param = new SqlParameter("@dexID", dexId);
                             cmd2.Parameters.Add(param);
 
                             cmd2.ExecuteNonQuery();
@@ -158,11 +172,13 @@ namespace hpMvc.DataBase
                         }
                         rdr.Close();
 
-                        cmd = new SqlCommand("", conn);
-                        cmd.Transaction = trn;                        
-                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                        cmd.CommandText = "DeleteCalInfusionsDex";
-                        param = new SqlParameter("@calStudyID", calStudyID);
+                        cmd = new SqlCommand("", conn)
+                              {
+                                  Transaction = trn,
+                                  CommandType = System.Data.CommandType.StoredProcedure,
+                                  CommandText = "DeleteCalInfusionsDex"
+                              };
+                        param = new SqlParameter("@calStudyID", calStudyId);
                         cmd.Parameters.Add(param);
 
                         cmd.ExecuteNonQuery();
@@ -172,7 +188,12 @@ namespace hpMvc.DataBase
                     catch (Exception ex)
                     {
                         trn.Rollback();
-                        nlogger.LogError(ex);
+                        Nlogger.LogError(ex);
+                    }
+                    finally
+                    {
+                        if(rdr != null)
+                            rdr.Close();
                     }
                 }
             }
@@ -197,10 +218,9 @@ namespace hpMvc.DataBase
 
                     conn.Open();
                     var rdr = cmd.ExecuteReader();
-                    var pos = 0;
                     while (rdr.Read())
                     {                        
-                        pos = rdr.GetOrdinal("ID");
+                        var pos = rdr.GetOrdinal("ID");
                         csi.Id = rdr.GetInt32(pos);
 
                         pos = rdr.GetOrdinal("Hours");
@@ -220,35 +240,37 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                 }
             }
             return csi;
                 
         }
 
-        public static CalOtherNutrition GetCalOtherNutrition(int calStudyID)
+        public static CalOtherNutrition GetCalOtherNutrition(int calStudyId)
         {
-            CalOtherNutrition con = new CalOtherNutrition();
+            SqlDataReader rdr = null;
+            var con = new CalOtherNutrition();
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            using (SqlConnection conn = new SqlConnection(strConn))
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "GetCalOther";
-                    SqlParameter param = new SqlParameter("@calStudyID", calStudyID);
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = System.Data.CommandType.StoredProcedure,
+                                  CommandText = "GetCalOther"
+                              };
+                    var param = new SqlParameter("@calStudyID", calStudyId);
                     cmd.Parameters.Add(param);
 
                     conn.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    int pos = 0;
+                    rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
-                        con.CalStudyId = calStudyID;
+                        con.CalStudyId = calStudyId;
 
-                        pos = rdr.GetOrdinal("ID");
+                        int pos = rdr.GetOrdinal("ID");
                         con.Id = rdr.GetInt32(pos);
 
                         pos = rdr.GetOrdinal("BreastFeeding");
@@ -272,38 +294,42 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
+                }
+                finally
+                {
+                    if (rdr != null)
+                        rdr.Close();
                 }
             }
             return con;
-
         }
 
-        public static List<CalAdditive> GetCalAdditivesData(int calStudyID)
+        public static List<CalAdditive> GetCalAdditivesData(int calStudyId)
         {
-            List<CalAdditive> cal = new List<CalAdditive>();
-
+            var cal = new List<CalAdditive>();
+            SqlDataReader rdr = null;
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            using (SqlConnection conn = new SqlConnection(strConn))
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "GetCalAdditives";
-                    SqlParameter param = new SqlParameter("@calStudyID", calStudyID);
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = System.Data.CommandType.StoredProcedure,
+                                  CommandText = "GetCalAdditives"
+                              };
+                    var param = new SqlParameter("@calStudyID", calStudyId);
                     cmd.Parameters.Add(param);
 
                     conn.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    int pos = 0;
+                    rdr = cmd.ExecuteReader();
 
                     while (rdr.Read())
                     {
-                        var ca = new CalAdditive();
-                        ca.CalStudyID = calStudyID;
+                        var ca = new CalAdditive {CalStudyID = calStudyId};
 
-                        pos = rdr.GetOrdinal("AdditiveID");
+                        int pos = rdr.GetOrdinal("AdditiveID");
                         ca.AdditiveID = rdr.GetInt32(pos);
 
                         pos = rdr.GetOrdinal("Volume");
@@ -315,37 +341,42 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
+                }
+                finally
+                {
+                    if (rdr != null)
+                        rdr.Close();
                 }
             }
             return cal;
         }
 
-        public static List<CalEnteral> GetCalEnteralsData(int calStudyID)
+        public static List<CalEnteral> GetCalEnteralsData(int calStudyId)
         {
-            List<CalEnteral> cel = new List<CalEnteral>();
-
+            var cel = new List<CalEnteral>();
+            SqlDataReader rdr = null;
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            using (SqlConnection conn = new SqlConnection(strConn))
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "GetCalEnterals";
-                    SqlParameter param = new SqlParameter("@calStudyID", calStudyID);
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = System.Data.CommandType.StoredProcedure,
+                                  CommandText = "GetCalEnterals"
+                              };
+                    var param = new SqlParameter("@calStudyID", calStudyId);
                     cmd.Parameters.Add(param);
 
                     conn.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    int pos = 0;
+                    rdr = cmd.ExecuteReader();
 
                     while (rdr.Read())
                     {
-                        var ce = new CalEnteral();
-                        ce.CalStudyID = calStudyID;
+                        var ce = new CalEnteral {CalStudyID = calStudyId};
 
-                        pos = rdr.GetOrdinal("FormulaID");
+                        int pos = rdr.GetOrdinal("FormulaID");
                         ce.FormulaID = rdr.GetInt32(pos);
                                                 
                         pos = rdr.GetOrdinal("Volume");
@@ -357,37 +388,42 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
+                }
+                finally
+                {
+                    if (rdr != null)
+                        rdr.Close();
                 }
             }
             return cel;
         }
         
-        public static List<CalParenteral> GetCalParenteralsData(int calStudyID)
+        public static List<CalParenteral> GetCalParenteralsData(int calStudyId)
         {
-            List<CalParenteral> cpl = new List<CalParenteral>();
-
+            var cpl = new List<CalParenteral>();
+            SqlDataReader rdr = null;
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            using (SqlConnection conn = new SqlConnection(strConn))
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "GetCalParenterals";
-                    SqlParameter param = new SqlParameter("@calStudyID", calStudyID);
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = System.Data.CommandType.StoredProcedure,
+                                  CommandText = "GetCalParenterals"
+                              };
+                    var param = new SqlParameter("@calStudyID", calStudyId);
                     cmd.Parameters.Add(param);
 
                     conn.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    int pos = 0;
+                    rdr = cmd.ExecuteReader();
 
                     while (rdr.Read())
                     {
-                        var cp = new CalParenteral();
-                        cp.CalStudyID = calStudyID;
+                        var cp = new CalParenteral {CalStudyID = calStudyId};
 
-                        pos = rdr.GetOrdinal("ID");
+                        int pos = rdr.GetOrdinal("ID");
                         cp.ID = rdr.GetInt32(pos);
 
                         pos = rdr.GetOrdinal("DexPercent");
@@ -408,37 +444,42 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
+                }
+                finally
+                {
+                    if (rdr != null)
+                        rdr.Close();
                 }
             }
             return cpl;
         }
 
-        public static List<CalInfusionDex> GetCalInfusionsDexData(int calStudyID)
+        public static List<CalInfusionDex> GetCalInfusionsDexData(int calStudyId)
         {
-            List<CalInfusionDex> cil = new List<CalInfusionDex>();
-
+            var cil = new List<CalInfusionDex>();
+            SqlDataReader rdr = null;
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            using (SqlConnection conn = new SqlConnection(strConn))
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "GetCalInfusionsDex";
-                    SqlParameter param = new SqlParameter("@calStudyID", calStudyID);
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = System.Data.CommandType.StoredProcedure,
+                                  CommandText = "GetCalInfusionsDex"
+                              };
+                    var param = new SqlParameter("@calStudyID", calStudyId);
                     cmd.Parameters.Add(param);
 
                     conn.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    int pos = 0;
+                    rdr = cmd.ExecuteReader();
 
                     while (rdr.Read())
                     {
-                        var ci = new CalInfusionDex();
-                        ci.CalStudyID = calStudyID;
+                        var ci = new CalInfusionDex {CalStudyID = calStudyId};
 
-                        pos = rdr.GetOrdinal("ID");
+                        int pos = rdr.GetOrdinal("ID");
                         ci.ID = rdr.GetInt32(pos);
 
                         pos = rdr.GetOrdinal("Dexval");
@@ -450,37 +491,42 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
+                }
+                finally
+                {
+                    if (rdr != null)
+                        rdr.Close();
                 }
             }
             return cil;
         }
 
-        public static List<CalInfusionVol> GetCalInfusionsVolData(int dexID)
+        public static List<CalInfusionVol> GetCalInfusionsVolData(int dexId)
         {
-            List<CalInfusionVol> cil = new List<CalInfusionVol>();
-
+            var cil = new List<CalInfusionVol>();
+            SqlDataReader rdr = null;
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            using (SqlConnection conn = new SqlConnection(strConn))
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "GetCalInfusionsVol";
-                    SqlParameter param = new SqlParameter("@dexID", dexID);
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = System.Data.CommandType.StoredProcedure,
+                                  CommandText = "GetCalInfusionsVol"
+                              };
+                    var param = new SqlParameter("@dexID", dexId);
                     cmd.Parameters.Add(param);
 
                     conn.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    int pos = 0;
+                    rdr = cmd.ExecuteReader();
 
                     while (rdr.Read())
                     {
-                        var ci = new CalInfusionVol();
-                        ci.DexID = dexID;
+                        var ci = new CalInfusionVol {DexID = dexId};
 
-                        pos = rdr.GetOrdinal("ID");
+                        int pos = rdr.GetOrdinal("ID");
                         ci.ID = rdr.GetInt32(pos);
 
                         pos = rdr.GetOrdinal("Volume");
@@ -494,63 +540,71 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
+                }
+                finally
+                {
+                    if (rdr != null)
+                        rdr.Close();
                 }
             }
             return cil;
         }
 
-        public static int GetCalStudyID(string studyID, string calcDate)
+        public static int GetCalStudyId(string studyId, string calcDate)
         {
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            using (SqlConnection conn = new SqlConnection(strConn))
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
                     //throw new Exception("Test error");
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = ("GetCalStudyID");
-                    SqlParameter param = new SqlParameter("@studyID", studyID);
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = System.Data.CommandType.StoredProcedure,
+                                  CommandText = ("GetCalStudyID")
+                              };
+                    var param = new SqlParameter("@studyID", studyId);
                     cmd.Parameters.Add(param);
                     param = new SqlParameter("@calcDate", calcDate);
                     cmd.Parameters.Add(param);
 
                     conn.Open();
-                    int id = (Int32)cmd.ExecuteScalar();
+                    var id = (Int32)cmd.ExecuteScalar();
                     return id;
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                     return -1;
                 }
             }
         }
 
-        public static List<IDandName> GetCalStudySelectList(int siteID)
+        public static List<IDandName> GetCalStudySelectList(int siteId)
         {
-            List<IDandName> idnl = new List<IDandName>();
-            
+            var idnl = new List<IDandName>();
+            SqlDataReader rdr = null;
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            using (SqlConnection conn = new SqlConnection(strConn))
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "GetCalStudySelectList";
-                    SqlParameter param = new SqlParameter("@siteID", siteID);
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = System.Data.CommandType.StoredProcedure,
+                                  CommandText = "GetCalStudySelectList"
+                              };
+                    var param = new SqlParameter("@siteID", siteId);
                     cmd.Parameters.Add(param);
 
                     conn.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    int pos = 0;
+                    rdr = cmd.ExecuteReader();
 
                     while (rdr.Read())
                     {
                         var idn = new IDandName();
-                        pos = rdr.GetOrdinal("ID");
+                        int pos = rdr.GetOrdinal("ID");
                         idn.ID = rdr.GetInt32(pos);
 
                         pos = rdr.GetOrdinal("StudyID");
@@ -562,37 +616,43 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
+                }
+                finally
+                {
+                    if (rdr != null)
+                        rdr.Close();
                 }
             }
             return idnl;
             
         }
 
-        public static List<IDandName> GetCalCalcDates(int studyID)
+        public static List<IDandName> GetCalCalcDates(int studyId)
         {
-            List<IDandName> idnl = new List<IDandName>();
-
+            var idnl = new List<IDandName>();
+            SqlDataReader rdr = null;
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            using (SqlConnection conn = new SqlConnection(strConn))
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "GetCalCalcDates";
-                    SqlParameter param = new SqlParameter("@studyID", studyID);
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = System.Data.CommandType.StoredProcedure,
+                                  CommandText = "GetCalCalcDates"
+                              };
+                    var param = new SqlParameter("@studyID", studyId);
                     cmd.Parameters.Add(param);
 
                     conn.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    int pos = 0;
+                    rdr = cmd.ExecuteReader();
 
                     while (rdr.Read())
                     {
                         var idn = new IDandName();
 
-                        pos = rdr.GetOrdinal("ID");
+                        int pos = rdr.GetOrdinal("ID");
                         idn.ID = rdr.GetInt32(pos);
 
                         pos = rdr.GetOrdinal("CalcDate");
@@ -604,7 +664,12 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
+                }
+                finally
+                {
+                    if (rdr != null)
+                        rdr.Close();
                 }
             }
             return idnl;
@@ -616,16 +681,23 @@ namespace hpMvc.DataBase
             var dto = new DTO();
 
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            using (SqlConnection conn = new SqlConnection(strConn))
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = ("[AddCalAdditive]");
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = System.Data.CommandType.StoredProcedure,
+                                  CommandText = ("[AddCalAdditive]")
+                              };
 
-                    SqlParameter param = new SqlParameter("@Identity", System.Data.SqlDbType.Int, 0, "ID");
-                    param.Direction = System.Data.ParameterDirection.Output;
+                    var param = new SqlParameter("@Identity", System.Data.SqlDbType.Int, 0, "ID")
+                                {
+                                    Direction =
+                                        System.Data
+                                        .ParameterDirection
+                                        .Output
+                                };
                     cmd.Parameters.Add(param);
                     param = new SqlParameter("@calStudyID", ca.CalStudyID);
                     cmd.Parameters.Add(param);
@@ -645,7 +717,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                     dto.Message = ex.Message;
                     dto.ReturnValue = -1;
                     return dto;
@@ -658,16 +730,23 @@ namespace hpMvc.DataBase
             var dto = new DTO();
 
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            using (SqlConnection conn = new SqlConnection(strConn))
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = ("[AddCalEnteral]");
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = System.Data.CommandType.StoredProcedure,
+                                  CommandText = ("[AddCalEnteral]")
+                              };
 
-                    SqlParameter param = new SqlParameter("@Identity", System.Data.SqlDbType.Int, 0, "ID");
-                    param.Direction = System.Data.ParameterDirection.Output;
+                    var param = new SqlParameter("@Identity", System.Data.SqlDbType.Int, 0, "ID")
+                                {
+                                    Direction =
+                                        System.Data
+                                        .ParameterDirection
+                                        .Output
+                                };
                     cmd.Parameters.Add(param);
                     param = new SqlParameter("@calStudyID", ce.CalStudyID);
                     cmd.Parameters.Add(param);
@@ -687,7 +766,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                     dto.Message = ex.Message;
                     dto.ReturnValue = -1;
                     return dto;
@@ -700,16 +779,23 @@ namespace hpMvc.DataBase
             var dto = new DTO();
 
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            using (SqlConnection conn = new SqlConnection(strConn))
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = ("[AddCalParenteral]");
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = System.Data.CommandType.StoredProcedure,
+                                  CommandText = ("[AddCalParenteral]")
+                              };
 
-                    SqlParameter param = new SqlParameter("@Identity", System.Data.SqlDbType.Int, 0, "ID");
-                    param.Direction = System.Data.ParameterDirection.Output;
+                    var param = new SqlParameter("@Identity", System.Data.SqlDbType.Int, 0, "ID")
+                                {
+                                    Direction =
+                                        System.Data
+                                        .ParameterDirection
+                                        .Output
+                                };
                     cmd.Parameters.Add(param);
                     param = new SqlParameter("@calStudyID", pi.CalStudyID);
                     cmd.Parameters.Add(param);
@@ -733,7 +819,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                     dto.Message = ex.Message;
                     dto.ReturnValue = -1;
                     return dto;
@@ -746,16 +832,23 @@ namespace hpMvc.DataBase
             var dto = new DTO();
 
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            using (SqlConnection conn = new SqlConnection(strConn))
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = ("[AddCalInfusionDex]");
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = System.Data.CommandType.StoredProcedure,
+                                  CommandText = ("[AddCalInfusionDex]")
+                              };
 
-                    SqlParameter param = new SqlParameter("@Identity", System.Data.SqlDbType.Int, 0, "ID");
-                    param.Direction = System.Data.ParameterDirection.Output;
+                    var param = new SqlParameter("@Identity", System.Data.SqlDbType.Int, 0, "ID")
+                                {
+                                    Direction =
+                                        System.Data
+                                        .ParameterDirection
+                                        .Output
+                                };
                     cmd.Parameters.Add(param);
                     param = new SqlParameter("@calStudyID", cid.CalStudyID);
                     cmd.Parameters.Add(param);
@@ -774,7 +867,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                     dto.Message = ex.Message;
                     dto.ReturnValue = -1;
                     return dto;
@@ -787,16 +880,23 @@ namespace hpMvc.DataBase
             var dto = new DTO();
 
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            using (SqlConnection conn = new SqlConnection(strConn))
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = ("[AddCalInfusionVol]");
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = System.Data.CommandType.StoredProcedure,
+                                  CommandText = ("[AddCalInfusionVol]")
+                              };
 
-                    SqlParameter param = new SqlParameter("@Identity", System.Data.SqlDbType.Int, 0, "ID");
-                    param.Direction = System.Data.ParameterDirection.Output;
+                    var param = new SqlParameter("@Identity", System.Data.SqlDbType.Int, 0, "ID")
+                                {
+                                    Direction =
+                                        System.Data
+                                        .ParameterDirection
+                                        .Output
+                                };
                     cmd.Parameters.Add(param);
                     param = new SqlParameter("@dexID", civ.DexID);
                     cmd.Parameters.Add(param);
@@ -815,7 +915,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                     dto.Message = ex.Message;
                     dto.ReturnValue = -1;
                     return dto;
@@ -828,16 +928,23 @@ namespace hpMvc.DataBase
             var dto = new DTO();
 
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            using (SqlConnection conn = new SqlConnection(strConn))
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = ("[AddCalOther]");
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = System.Data.CommandType.StoredProcedure,
+                                  CommandText = ("[AddCalOther]")
+                              };
 
-                    SqlParameter param = new SqlParameter("@Identity", System.Data.SqlDbType.Int, 0, "ID");
-                    param.Direction = System.Data.ParameterDirection.Output;
+                    var param = new SqlParameter("@Identity", System.Data.SqlDbType.Int, 0, "ID")
+                                {
+                                    Direction =
+                                        System.Data
+                                        .ParameterDirection
+                                        .Output
+                                };
                     cmd.Parameters.Add(param);
                     param = new SqlParameter("@calStudyID", con.CalStudyId);
                     cmd.Parameters.Add(param);
@@ -863,7 +970,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                     dto.Message = ex.Message;
                     dto.ReturnValue = -1;
                     return dto;
@@ -876,16 +983,23 @@ namespace hpMvc.DataBase
             var dto = new DTO();
 
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            using (SqlConnection conn = new SqlConnection(strConn))
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = ("AddCalStudyInfo");
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = System.Data.CommandType.StoredProcedure,
+                                  CommandText = ("AddCalStudyInfo")
+                              };
 
-                    SqlParameter param = new SqlParameter("@Identity", System.Data.SqlDbType.Int, 0, "ID");
-                    param.Direction = System.Data.ParameterDirection.Output;
+                    var param = new SqlParameter("@Identity", System.Data.SqlDbType.Int, 0, "ID")
+                                {
+                                    Direction =
+                                        System.Data
+                                        .ParameterDirection
+                                        .Output
+                                };
                     cmd.Parameters.Add(param);
                     param = new SqlParameter("@studyID", csi.StudyId);
                     cmd.Parameters.Add(param);
@@ -912,7 +1026,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                     dto.Message = ex.Message;
                     dto.ReturnValue = -1;
                     return dto;
@@ -960,7 +1074,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                     dto.Message = ex.Message;
                     dto.ReturnValue = -1;
                     return dto;
@@ -968,7 +1082,7 @@ namespace hpMvc.DataBase
             }
         }
         
-        public static int IsCalStudyInfoDuplicate(int studyID, string calcDate)
+        public static int IsCalStudyInfoDuplicate(int studyId, string calcDate)
         {
              String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
             using (var conn = new SqlConnection(strConn))
@@ -981,20 +1095,20 @@ namespace hpMvc.DataBase
                                       CommandType = System.Data.CommandType.StoredProcedure,
                                       CommandText = ("IsCalStudyInfoDuplicate")
                                   };
-                    var param = new SqlParameter("@studyID", studyID);
+                    var param = new SqlParameter("@studyID", studyId);
                     cmd.Parameters.Add(param);
                     param = new SqlParameter("@calcDate", calcDate);
                     cmd.Parameters.Add(param);
 
                     conn.Open();
-                    int count = (Int32)cmd.ExecuteScalar();
+                    var count = (Int32)cmd.ExecuteScalar();
                     if (count == 1)
                         return 1;
                     return 0;
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                     return -1;
                 }
             }
@@ -1003,26 +1117,28 @@ namespace hpMvc.DataBase
         public static int IsFormulaNameDuplicate(string name)
         {
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            using (SqlConnection conn = new SqlConnection(strConn))
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
                     //throw new Exception("Test error");
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = ("IsFormulaNameDuplicate");
-                    SqlParameter param = new SqlParameter("@name", name);
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = System.Data.CommandType.StoredProcedure,
+                                  CommandText = ("IsFormulaNameDuplicate")
+                              };
+                    var param = new SqlParameter("@name", name);
                     cmd.Parameters.Add(param);
 
                     conn.Open();
-                    int count = (Int32)cmd.ExecuteScalar();
+                    var count = (Int32)cmd.ExecuteScalar();
                     if (count == 1)
                         return 1;
                     return 0;
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                     return -1;
                 }
             }
@@ -1033,16 +1149,23 @@ namespace hpMvc.DataBase
             var dto = new DTO();
 
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            using (SqlConnection conn = new SqlConnection(strConn))
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = ("AddFormula");
-                    
-                    SqlParameter param = new SqlParameter("@Identity", System.Data.SqlDbType.Int, 0, "ID");
-                    param.Direction = System.Data.ParameterDirection.Output;
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = System.Data.CommandType.StoredProcedure,
+                                  CommandText = ("AddFormula")
+                              };
+
+                    var param = new SqlParameter("@Identity", System.Data.SqlDbType.Int, 0, "ID")
+                                {
+                                    Direction =
+                                        System.Data
+                                        .ParameterDirection
+                                        .Output
+                                };
                     cmd.Parameters.Add(param);
                     param = new SqlParameter("@name", ef.Name);
                     cmd.Parameters.Add(param);
@@ -1067,7 +1190,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                     dto.Message = ex.Message;
                     dto.ReturnValue = -1;
                     return dto;
@@ -1114,7 +1237,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                     dto.Message = ex.Message;
                     dto.ReturnValue = -1;
                     return dto;
@@ -1124,25 +1247,26 @@ namespace hpMvc.DataBase
 
         public static List<DextroseConcentration> GetDextroseConcentrations()
         {
-            List<DextroseConcentration> dcs = new List<DextroseConcentration>();
-            
+            var dcs = new List<DextroseConcentration>();
+            SqlDataReader rdr = null;
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            using (SqlConnection conn = new SqlConnection(strConn))
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = ("GetDextroseConcentrations");
-                    
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = System.Data.CommandType.StoredProcedure,
+                                  CommandText = ("GetDextroseConcentrations")
+                              };
+
                     conn.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    int pos = 0;
-                    
+                    rdr = cmd.ExecuteReader();
+
                     while (rdr.Read())
                     {
                         var dc = new DextroseConcentration();
-                        pos = rdr.GetOrdinal("ID");
+                        int pos = rdr.GetOrdinal("ID");
                         dc.ID = rdr.GetInt32(pos);
 
                         pos = rdr.GetOrdinal("Concentration");                        
@@ -1157,7 +1281,12 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
+                }
+                finally
+                {
+                    if (rdr != null)
+                        rdr.Close();
                 }
             }
             return dcs;
@@ -1180,23 +1309,19 @@ namespace hpMvc.DataBase
 
                     conn.Open();
                     var rdr = cmd.ExecuteReader();
-                    int pos = 0;
                     var formula = new EnteralFormula();
 
                     while (rdr.Read())
                     {
 
-                        pos = rdr.GetOrdinal("ID");
+                        int pos = rdr.GetOrdinal("ID");
                         formula.ID = rdr.GetInt32(pos);
 
                         pos = rdr.GetOrdinal("Name");
                         formula.Name = rdr.GetString(pos);
 
                         pos = rdr.GetOrdinal("Kcal/mL");
-                        if (!rdr.IsDBNull(pos))
-                            formula.Kcal_ml = rdr.GetDouble(pos);
-                        else
-                            formula.Kcal_ml = 0;
+                        formula.Kcal_ml = !rdr.IsDBNull(pos) ? rdr.GetDouble(pos) : 0;
 
                         pos = rdr.GetOrdinal("CHO % of kcal");
                         formula.ChoKcal = rdr.GetDouble(pos);
@@ -1214,7 +1339,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                     return null;
                 }
             }
@@ -1223,25 +1348,26 @@ namespace hpMvc.DataBase
 
         public static List<EnteralFormula> GetFormulaList()
         {
-            List<EnteralFormula> efl = new List<EnteralFormula>();
-
+            var efl = new List<EnteralFormula>();
+            SqlDataReader rdr = null;
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            using (SqlConnection conn = new SqlConnection(strConn))
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = ("GetFormulaList");
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = System.Data.CommandType.StoredProcedure,
+                                  CommandText = ("GetFormulaList")
+                              };
 
                     conn.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    int pos = 0;
+                    rdr = cmd.ExecuteReader();
 
                     while (rdr.Read())
                     {
                         var ef = new EnteralFormula();
-                        pos = rdr.GetOrdinal("ID");
+                        int pos = rdr.GetOrdinal("ID");
                         ef.ID = rdr.GetInt32(pos);
 
                         pos = rdr.GetOrdinal("Name");
@@ -1265,7 +1391,12 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
+                }
+                finally
+                {
+                    if (rdr != null)
+                        rdr.Close();
                 }
             }
             return efl;
@@ -1324,7 +1455,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                     return null;
                 }
             }
@@ -1348,12 +1479,11 @@ namespace hpMvc.DataBase
 
                     conn.Open();
                     var rdr = cmd.ExecuteReader();
-                    var pos = 0;
 
                     while (rdr.Read())
                     {
                         var add = new Additive();
-                        pos = rdr.GetOrdinal("ID");
+                        var pos = rdr.GetOrdinal("ID");
                         add.ID = rdr.GetInt32(pos);
 
                         pos = rdr.GetOrdinal("Name");
@@ -1383,7 +1513,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                 }
             }
             return addl;
@@ -1424,14 +1554,11 @@ namespace hpMvc.DataBase
                     cmd.ExecuteNonQuery();
 
                     dto.ReturnValue = 1;
-                   
-;
-
                     return dto;
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                     dto.Message = ex.Message;
                     dto.ReturnValue = -1;
                     return dto;
@@ -1444,16 +1571,23 @@ namespace hpMvc.DataBase
             var dto = new DTO();
 
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            using (SqlConnection conn = new SqlConnection(strConn))
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = ("AddAdditive");
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = System.Data.CommandType.StoredProcedure,
+                                  CommandText = ("AddAdditive")
+                              };
 
-                    SqlParameter param = new SqlParameter("@Identity", System.Data.SqlDbType.Int, 0, "ID");
-                    param.Direction = System.Data.ParameterDirection.Output;
+                    var param = new SqlParameter("@Identity", System.Data.SqlDbType.Int, 0, "ID")
+                                {
+                                    Direction =
+                                        System.Data
+                                        .ParameterDirection
+                                        .Output
+                                };
                     cmd.Parameters.Add(param);
                     param = new SqlParameter("@name", add.Name);
                     cmd.Parameters.Add(param);
@@ -1480,7 +1614,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                     dto.Message = ex.Message;
                     dto.ReturnValue = -1;
                     return dto;
@@ -1491,26 +1625,28 @@ namespace hpMvc.DataBase
         public static int IsAdditiveNameDuplicate(string name)
         {
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
-            using (SqlConnection conn = new SqlConnection(strConn))
+            using (var conn = new SqlConnection(strConn))
             {
                 try
                 {
                     //throw new Exception("Test error");
-                    SqlCommand cmd = new SqlCommand("", conn);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = ("IsAdditiveNameDuplicate");
-                    SqlParameter param = new SqlParameter("@name", name);
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = System.Data.CommandType.StoredProcedure,
+                                  CommandText = ("IsAdditiveNameDuplicate")
+                              };
+                    var param = new SqlParameter("@name", name);
                     cmd.Parameters.Add(param);
 
                     conn.Open();
-                    int count = (Int32)cmd.ExecuteScalar();
+                    var count = (Int32)cmd.ExecuteScalar();
                     if (count == 1)
                         return 1;
                     return 0;
                 }
                 catch (Exception ex)
                 {
-                    nlogger.LogError(ex);
+                    Nlogger.LogError(ex);
                     return -1;
                 }
             }

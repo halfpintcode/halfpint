@@ -29,7 +29,7 @@ namespace hpMvc.Controllers
         public ActionResult Initialize()
         {
             _logger.LogInfo("InitializeSubject.Initialize: GET");
-            int siteId = DbUtils.GetSiteidIDForUser(User.Identity.Name);
+            int siteId = DbUtils.GetSiteidIdForUser(User.Identity.Name);
             var insCons = DbUtils.GetInsulinConcItems(siteId);
             insCons.Insert(0, new InsulinConcentration { Name = "Select ", Concentration = "" });
 
@@ -56,7 +56,7 @@ namespace hpMvc.Controllers
         {
             _logger.LogInfo("InitializeSubject.Initialize - Post: " + studyId);
             
-            var siteId = DbUtils.GetSiteidIDForUser(User.Identity.Name);
+            var siteId = DbUtils.GetSiteidIdForUser(User.Identity.Name);
             var sensorType = int.Parse( Request.Params["sensorType"]);  //DbUtils.GetSiteSensor(siteId);
 
             var messages = new List<ValidationMessages>();
@@ -269,7 +269,7 @@ namespace hpMvc.Controllers
             }
 
             //check if correct password
-            dto.ReturnValue = DbUtils.IsStudyIDAssignedPasswordValid(studyID, password);
+            dto.ReturnValue = DbUtils.IsStudyIdAssignedPasswordValid(studyID, password);
             if (dto.ReturnValue != 1)
             {
                 dto.IsSuccessful = false;
@@ -283,7 +283,7 @@ namespace hpMvc.Controllers
             }
 
             //check if already randomized
-            dto.ReturnValue = DbUtils.IsStudyIDRandomized(studyID);
+            dto.ReturnValue = DbUtils.IsStudyIdRandomized(studyID);
             if (dto.ReturnValue != 0)
             {
                 dto.IsSuccessful = false;
@@ -317,7 +317,7 @@ namespace hpMvc.Controllers
             var consentTime = this.Request.Form["ConsentTime"].ToString();
 
             var dto = new RandomizePaswordDTO
-                          {IsSuccessful = true, Message = "", ReturnValue = DbUtils.IsStudyIDValid(studyId)};
+                          {IsSuccessful = true, Message = "", ReturnValue = DbUtils.IsStudyIdValid(studyId)};
 
             if (dto.ReturnValue != 1)
             {
@@ -331,7 +331,7 @@ namespace hpMvc.Controllers
             }
             _logger.LogInfo("InitializePassword Study ID is Valid");
 
-            dto.ReturnValue = DbUtils.IsStudyIDAssignedPassword(studyId);
+            dto.ReturnValue = DbUtils.IsStudyIdAssignedPassword(studyId);
             if (dto.ReturnValue != 0)
             {
                 dto.IsSuccessful = false;

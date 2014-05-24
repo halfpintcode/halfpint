@@ -19,7 +19,7 @@ namespace hpMvc.Controllers
 
         public ActionResult EditSelect()
         {
-            int siteId = DbUtils.GetSiteidIDForUser(User.Identity.Name);
+            int siteId = DbUtils.GetSiteidIdForUser(User.Identity.Name);
             var idnl = CalorieCalc.GetCalStudySelectList(siteId);
             idnl.Insert(0, new IDandName { ID = 0, Name = "select" });
             
@@ -61,7 +61,7 @@ namespace hpMvc.Controllers
 
         public ActionResult Index()
         {
-            int siteId = DbUtils.GetSiteidIDForUser(User.Identity.Name);
+            int siteId = DbUtils.GetSiteidIdForUser(User.Identity.Name);
             var studyList = DbUtils.GetRandomizedStudiesForSite(siteId);
             studyList.Insert(0, new IDandStudyID { ID = 0, StudyID = "Select Study" });
             ViewBag.StudyList = new SelectList(studyList, "ID", "StudyID");
@@ -110,7 +110,7 @@ namespace hpMvc.Controllers
             int studyDay = CalorieCalc.GetStudyDay(csi.StudyId, DateTime.Parse(csi.CalcDate));
             ViewBag.StudyDay = studyDay.ToString();
 
-            int siteId = DbUtils.GetSiteidIDForUser(User.Identity.Name);
+            int siteId = DbUtils.GetSiteidIdForUser(User.Identity.Name);
             //todo remove for production
             //if (siteId == 0)
             //    siteId = 1;
@@ -154,7 +154,7 @@ namespace hpMvc.Controllers
             var cad = new CalAllData();
             var cicl = new List<CalInfuseColumn>();
 
-            int calStudyID = CalorieCalc.GetCalStudyID(studyID, calcDate);
+            int calStudyID = CalorieCalc.GetCalStudyId(studyID, calcDate);
             
             var cidl = CalorieCalc.GetCalInfusionsDexData(calStudyID);
 
@@ -216,7 +216,7 @@ namespace hpMvc.Controllers
             {
                 dto = CalorieCalc.AddFormula(ef);
 
-                var siteId = DbUtils.GetSiteidIDForUser(User.Identity.Name);
+                var siteId = DbUtils.GetSiteidIdForUser(User.Identity.Name);
                 var staff = NotificationUtils.GetStaffForEvent(4, siteId);
                 
                 string siteName = DbUtils.GetSiteNameForUser(User.Identity.Name);
@@ -244,7 +244,7 @@ namespace hpMvc.Controllers
             {
                 dto = CalorieCalc.AddAdditive(add);
                 
-                var siteId = DbUtils.GetSiteidIDForUser(User.Identity.Name);
+                var siteId = DbUtils.GetSiteidIdForUser(User.Identity.Name);
                 var staff = NotificationUtils.GetStaffForEvent(5, siteId);
                 
                 string siteName = DbUtils.GetSiteNameForUser(User.Identity.Name);
@@ -317,7 +317,7 @@ namespace hpMvc.Controllers
             {
                 //string[] users = ConfigurationManager.AppSettings["NewFormulaNotify"].ToString().Split(new[] { ',' }, StringSplitOptions.None);
 
-                var siteId = DbUtils.GetSiteidIDForUser(User.Identity.Name);
+                var siteId = DbUtils.GetSiteidIdForUser(User.Identity.Name);
                 var staff = NotificationUtils.GetStaffForEvent(6, siteId);
                 
                 string siteName = DbUtils.GetSiteNameForUser(User.Identity.Name);

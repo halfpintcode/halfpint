@@ -13,7 +13,7 @@ namespace hpMvc.Controllers
 
         public ActionResult Index()
         {
-            var site = DbUtils.GetSiteidIDForUser(User.Identity.Name);
+            var site = DbUtils.GetSiteidIdForUser(User.Identity.Name);
             var siteCode = DbUtils.GetSiteCodeForUser(User.Identity.Name);
 
             var users = DbPostTestsUtils.GetStaffTestUsersForSite(site);            
@@ -36,7 +36,7 @@ namespace hpMvc.Controllers
             //PostTestsModel ptm = new PostTestsModel();            
             //ptm.ID = int.Parse(id);
 
-            var site = DbUtils.GetSiteidIDForUser(User.Identity.Name);
+            var site = DbUtils.GetSiteidIdForUser(User.Identity.Name);
             var siteCode = DbUtils.GetSiteCodeForUser(User.Identity.Name);
             var tests = DbPostTestsUtils.GetStaffPostTestsCompletedCurrentAndActive(id, siteCode);
 

@@ -108,7 +108,7 @@ namespace hpMvc.Controllers
                     var fileName = Path.GetFileName(file.FileName);
                     var studyId = fileName.Substring(0, 9);
                     
-                    int iRetVal = DbUtils.IsStudyIDCleared(studyId);
+                    int iRetVal = DbUtils.IsStudyIdCleared(studyId);
                     if (iRetVal != 0)
                     {
                         nlogger.LogInfo("ChecksUpload - file name: " + fileName + ", IsStudyCleared: " + iRetVal);
@@ -156,7 +156,7 @@ namespace hpMvc.Controllers
                     var fileName = Path.GetFileName(file.FileName);
                     var studyID = fileName.Substring(0, 9);
 
-                    int iRetVal = DbUtils.IsStudyIDCleared(studyID);
+                    int iRetVal = DbUtils.IsStudyIdCleared(studyID);
                     if (iRetVal != 0)
                     {
                         nlogger.LogInfo("ChecksUpload - file name: " + fileName + ", IsStudyCleared: " + iRetVal);

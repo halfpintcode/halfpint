@@ -73,7 +73,7 @@ namespace hpMvc.Controllers
                 throw new Exception("There was an error retreiving the sites list from the database");
             sites.Insert(0, new Site { ID = 0, Name = "Select a site", SiteID = "" });
 
-            int site = DbUtils.GetSiteidIDForUser(User.Identity.Name);
+            int site = DbUtils.GetSiteidIdForUser(User.Identity.Name);
             ViewBag.Site = site;
 
             ViewBag.Sites = new SelectList(sites, "ID", "Name", site);

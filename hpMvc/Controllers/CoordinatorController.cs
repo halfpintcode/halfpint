@@ -25,7 +25,7 @@ namespace hpMvc.Controllers
         public ActionResult Index()
         {
             string role = "";
-            int siteId = DbUtils.GetSiteidIDForUser(User.Identity.Name);
+            int siteId = DbUtils.GetSiteidIdForUser(User.Identity.Name);
 
             if (HttpContext.User.IsInRole("Admin"))
             {
@@ -52,7 +52,7 @@ namespace hpMvc.Controllers
         public ActionResult SelectChecksGgReportSubject()
         {
             string role = "";
-            int siteId = DbUtils.GetSiteidIDForUser(User.Identity.Name);
+            int siteId = DbUtils.GetSiteidIdForUser(User.Identity.Name);
 
             if (HttpContext.User.IsInRole("Admin"))
             {
@@ -182,7 +182,7 @@ namespace hpMvc.Controllers
 
         public ActionResult ResetSitePassword()
         {
-            var site = DbUtils.GetSiteidIDForUser(User.Identity.Name);
+            var site = DbUtils.GetSiteidIdForUser(User.Identity.Name);
             var sgn = DbUtils.GetGenericUserInfo(site);
             return (View(sgn));
         }
@@ -342,7 +342,7 @@ namespace hpMvc.Controllers
             DbUtils.SaveRandomizedSubjectActive(model, User.Identity.Name);
 
             //send email for non completion
-            var siteId = DbUtils.GetSiteidIDForUser(User.Identity.Name);
+            var siteId = DbUtils.GetSiteidIdForUser(User.Identity.Name);
             var staff = NotificationUtils.GetStaffForEvent(2, siteId);
 
             var u = new UrlHelper(this.Request.RequestContext);
@@ -369,7 +369,7 @@ namespace hpMvc.Controllers
             }            
             ViewBag.Role = role;
             
-            int site = DbUtils.GetSiteidIDForUser(User.Identity.Name);
+            int site = DbUtils.GetSiteidIdForUser(User.Identity.Name);
             var list = DbUtils.GetStudyIDsNotRandomized(site);
             return View(list);
         }
@@ -403,7 +403,7 @@ namespace hpMvc.Controllers
 
         public ActionResult UpdateStaffInformation()
         {
-            int site = DbUtils.GetSiteidIDForUser(User.Identity.Name);
+            int site = DbUtils.GetSiteidIdForUser(User.Identity.Name);
             ViewBag.Site = site;
 
             var retDto = DbPostTestsUtils.GetSiteEmployeeInfoForSite(site.ToString());
@@ -489,7 +489,7 @@ namespace hpMvc.Controllers
             }
             ViewBag.Role = role;
 
-            int site = DbUtils.GetSiteidIDForUser(User.Identity.Name);
+            int site = DbUtils.GetSiteidIdForUser(User.Identity.Name);
             ViewBag.Site = site;
 
             var list = DbUtils.GetStaffLookupForSite(site.ToString());
@@ -513,7 +513,7 @@ namespace hpMvc.Controllers
 
         public JsonResult IsUserEmployeeIdDuplicateOtherThan(int id, string employeeId, int site)
         {
-            var dto = DbPostTestsUtils.DoesStaffEmployeeIDExistOtherThan(id, employeeId, site);
+            var dto = DbPostTestsUtils.DoesStaffEmployeeIdExistOtherThan(id, employeeId, site);
             return Json(dto);
         }
 
@@ -545,21 +545,21 @@ namespace hpMvc.Controllers
 
         public ActionResult ShowPostTestsCompleted()
         {
-            int siteId = DbUtils.GetSiteidIDForUser(User.Identity.Name);
+            int siteId = DbUtils.GetSiteidIdForUser(User.Identity.Name);
             var ptpcl = DbPostTestsUtils.GetPostTestStaffsTestsCompleted(siteId);
             return View(ptpcl);
         }
 
         public ActionResult ShowPostTestsCompleted2()
         {
-            int siteId = DbUtils.GetSiteidIDForUser(User.Identity.Name);
+            int siteId = DbUtils.GetSiteidIdForUser(User.Identity.Name);
             var ptel = DbPostTestsUtils.GetPostTestStaffsTestsCompletedExtended(siteId);
             return View(ptel);
         }
 
         public ActionResult ShowPostTestsDue()
         {
-            int siteId = DbUtils.GetSiteidIDForUser(User.Identity.Name);
+            int siteId = DbUtils.GetSiteidIdForUser(User.Identity.Name);
             var ptndl = DbPostTestsUtils.GetStaffPostTestsFirstDateCompletedBySite(siteId);
             return View(ptndl);
         }
@@ -575,7 +575,7 @@ namespace hpMvc.Controllers
             //ViewBag.Sites = new SelectList(sites, "ID", "Name");
 
             //var list = DbUtils.GetAllRandomizedStudies();
-            int siteId = DbUtils.GetSiteidIDForUser(User.Identity.Name);
+            int siteId = DbUtils.GetSiteidIdForUser(User.Identity.Name);
             var list = DbUtils.GetSiteRandomizedStudies(siteId);
             return View(list);
         }

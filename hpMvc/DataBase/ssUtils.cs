@@ -101,7 +101,7 @@ namespace hpMvc.DataBase
 
         public static int SetRandomization(string studyId, bool? cafpintConsent, int? inrGreater3, string cafpintId, ref SSInsertionData ssInsert, string user, DateTime dateRandomized, bool onInsulinInfusion)
         {
-            var site = DbUtils.GetSiteidIDForUser(user);
+            var site = DbUtils.GetSiteidIdForUser(user);
             var arm = 0;
             var randomizationId = 0;
             var sArm = "";

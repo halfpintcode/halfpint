@@ -31,7 +31,7 @@ namespace hpMvc.Controllers
 
             ViewBag.UserID = int.Parse(id);
 
-            var site = DbUtils.GetSiteidIDForUser(User.Identity.Name);
+            var site = DbUtils.GetSiteidIdForUser(User.Identity.Name);
             var siteCode = DbUtils.GetSiteCodeForUser(User.Identity.Name);
 
             var users = DbPostTestsUtils.GetStaffTestUsersForSite(site);
@@ -59,7 +59,7 @@ namespace hpMvc.Controllers
         {
             var dto = new DTO();
 
-            var siteId = DbUtils.GetSiteidIDForUser(HttpContext.User.Identity.Name);
+            var siteId = DbUtils.GetSiteidIdForUser(HttpContext.User.Identity.Name);
             var lastName = Request.Params["LastName"];
             var firstName = Request.Params["FirstName"];            
             var empId = Request.Params["EmpID"];
@@ -100,7 +100,7 @@ namespace hpMvc.Controllers
 
         public JsonResult IsUserEmployeeIdDuplicate(string employeeId)
         {            
-            var site = DbUtils.GetSiteidIDForUser(User.Identity.Name);
+            var site = DbUtils.GetSiteidIdForUser(User.Identity.Name);
             var dto = DbPostTestsUtils.DoesStaffEmployeeIdExist(employeeId, site);
 
             //if site is dallas
@@ -139,7 +139,7 @@ namespace hpMvc.Controllers
             if(tests.Count == 0)
                 return Json("no tests");
             
-            var site = DbUtils.GetSiteidIDForUser(HttpContext.User.Identity.Name);
+            var site = DbUtils.GetSiteidIdForUser(HttpContext.User.Identity.Name);
             var staff = NotificationUtils.GetStaffForEvent(7, site);
             
             string siteName = DbUtils.GetSiteNameForUser(User.Identity.Name);
