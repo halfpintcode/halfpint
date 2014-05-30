@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Web;
 using System.Web.Mvc;
 using hpMvc.Helpers;
@@ -111,11 +110,11 @@ namespace hpMvc.Controllers
 
             stream.Seek(0, SeekOrigin.Begin);
 
-            return File(stream, "text/plain", fileDownloadName: subjectId.TrimEnd() + "_" + startDate.Replace("/", "-") + "_" + endDate.Replace("/", "-") + ".csv");
+            return File(stream, "text/plain", subjectId.TrimEnd() + "_" + startDate.Replace("/", "-") + "_" + endDate.Replace("/", "-") + ".csv");
          }
         public ActionResult GetChecksGgReport()
         {
-            var subjectId = Request.Params["subjectId"];
+            //var subjectId = Request.Params["subjectId"];
             var studyId = Request.Params["studyId"];
             var startDate = Request.Params["StartDate"];
             var endDate = Request.Params["EndDate"];
@@ -226,8 +225,8 @@ namespace hpMvc.Controllers
             {
                 if (file != null && file.ContentLength > 0)
                 {
-                    //validate file size must be less than 60000 bytes
-                    if (file.ContentLength > 60000)
+                    //validate file size must be less than 500000 bytes
+                    if (file.ContentLength > 500000)
                     {
                         ModelState.AddModelError("",
                             "*The file being uploaded is too large, make sure you selected the correct file to upload");

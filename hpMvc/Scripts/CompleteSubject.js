@@ -85,7 +85,7 @@ function validateSave(){
         }
         else {
             fileName = $uploadFile.files[0].name;
-            if ($uploadFile.files[0].size > 50000) {
+            if ($uploadFile.files[0].size > 500000) {
                 message = 'The CGM file upload file is too large.  Make sure you have selected the correct file to upload.';
                 alert(message);
                 return false;
