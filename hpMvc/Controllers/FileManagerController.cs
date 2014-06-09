@@ -23,7 +23,7 @@ namespace hpMvc.Controllers
         {
             if (file != null && file.ContentLength > 0)
             {
-                string path;
+                //string path;
                 var fileName = Path.GetFileName(file.FileName);
                 
             }

@@ -108,6 +108,7 @@ namespace hpMvc.DataBase
                     }
                     catch (Exception ex)
                     {
+                        string eMsg = ex.Message;
                         messages.Add(new ValidationMessages {FieldName = "MonitorDate", Message = "is not a valid date"});
                     }
                 }
@@ -253,7 +254,8 @@ namespace hpMvc.DataBase
                     return false;
             }
             catch (Exception ex)
-            {                
+            {
+                string eMsg = ex.Message;
                 return false; 
             }
 
