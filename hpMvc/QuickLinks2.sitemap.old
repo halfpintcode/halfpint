@@ -46,6 +46,55 @@
       </siteMapNode>
       <siteMapNode title="Inclusion/Exclusion Criteria" controller="Download" action="GetFile" fileName="Inclusion-Exclusion Criteria.pdf" folder="Enrollment" />
     </siteMapNode>    
+    <siteMapNode title="Permission to Approach">
+      <siteMapNode title="Permission to Approach" controller="Download" action="GetFile" fileName="Site~ Permission to Approach.pdf" folder="Quick Links" class="NotDcc NotAdmin" />
+      <siteMapNode title="CCHMC" class="AdminDCC">
+        <siteMapNode title="CCHMC Permission to Approach" controller="Download" action="GetFile" fileName="CCHMC Permission to Approach.pdf" folder="Quick Links~Permission to Approach~Cincinnati" />
+      </siteMapNode>
+      <siteMapNode title="CHB" class="AdminDCC">
+        <siteMapNode title="CHB Permission to Approach" controller="Download" action="GetFile" fileName="CHB Permission to Approach.pdf" folder="Quick Links~Permission to Approach~CHB" />        
+      </siteMapNode>
+      <siteMapNode title="CHLA" class="AdminDCC">
+        <siteMapNode title="CHLA Permission to Approach" controller="Download" action="GetFile" fileName="CHLA Permission to Approach.pdf" folder="Quick Links~Permission to Approach~CHLA" />
+      </siteMapNode>
+      <siteMapNode title="CHO" class="AdminDCC">
+        <siteMapNode title="CHO Permission to Approach" controller="Download" action="GetFile" fileName="CHO Permission to Approach.pdf" folder="Quick Links~Permission to Approach~CHO" />
+      </siteMapNode>
+      <siteMapNode title="CHOC"
+                   class="AdminDCC">
+        <siteMapNode title="CHOC Permission to Approach"
+                     controller="Download"
+                     action="GetFile"
+                     fileName="CHOC Permission to Approach.pdf"
+                     folder="Quick Links~Permission to Approach~CHOC" />
+      </siteMapNode>
+      <siteMapNode title="CHOP" class="AdminDCC">
+        <siteMapNode title="CHOP Permission to Approach" controller="Download" action="GetFile" fileName="CHOP Permission to Approach.pdf" folder="Quick Links~Permission to Approach~CHOP" />
+      </siteMapNode>
+      <siteMapNode title="Columbia" class="AdminDCC">
+        <siteMapNode title="Columbia Permission to Approach" controller="Download" action="GetFile" fileName="Columbia Permission to Approach.pdf" folder="Quick Links~Permission to Approach~Columbia" />
+      </siteMapNode>
+      <siteMapNode title="Denver" class="AdminDCC">
+        <siteMapNode title="Denver Permission to Approach" controller="Download" action="GetFile" fileName="Denver Permission to Approach.pdf" folder="Quick Links~Permission to Approach~Denver" />
+      </siteMapNode>
+      <siteMapNode title="PCMC"
+                   class="AdminDCC">
+        <siteMapNode title="PCMC Permission to Approach"
+                     controller="Download"
+                     action="GetFile"
+                     fileName="PCMC Permission to Approach.pdf"
+                     folder="Quick Links~Permission to Approach~PCMC" />
+      </siteMapNode>
+      <siteMapNode title="Penn State" class="AdminDCC">
+        <siteMapNode title="Penn State Permission to Approach" controller="Download" action="GetFile" fileName="PennState Permission to Approach.pdf" folder="Quick Links~Permission to Approach~Penn State" />
+      </siteMapNode>
+      <siteMapNode title="WCHOB" class="AdminDCC">
+        <siteMapNode title="WCHOB Permission to Approach" controller="Download" action="GetFile" fileName="WCHOB Permission to Approach.pdf" folder="Quick Links~Permission to Approach~WCHOB" />
+      </siteMapNode>
+      <siteMapNode title="Westchester" class="AdminDCC">
+        <siteMapNode title="Westchester Permission to Approach" controller="Download" action="GetFile" fileName="Westchester Permission to Approach.pdf" folder="Quick Links~Permission to Approach~Westchester" />
+      </siteMapNode>
+    </siteMapNode>
     <siteMapNode title="Protocol" class="NurseOnly">
       <siteMapNode title="HalfPint Protocol" controller="Download" action="GetFile" fileName="HalfPint Protocol.pdf" folder="Regulatory~Protocol" />
     </siteMapNode>  
