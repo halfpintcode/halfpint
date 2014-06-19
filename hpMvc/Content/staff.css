@@ -1,4 +1,8 @@
-﻿#divSideBar2
+﻿.surveyLinks {
+    margin-left: 20px;
+    
+}
+#divSideBar2
 {    
     float:left;
     margin-right:0px;

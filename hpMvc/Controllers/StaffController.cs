@@ -48,18 +48,27 @@ namespace hpMvc.Controllers
             {
                 SiteMapManager.SiteMaps.Register<XmlSiteMap>("quick", sitmap => sitmap.LoadFrom("~/QuickLinks2.sitemap"));
             }
-            
+
+            ViewBag.ShowSurvey = "false";
             if(folder != null)
             {
-                string path = ConfigurationManager.AppSettings["FileRepositoryPath"].ToString();
-                path = Path.Combine(path, folder);
+                if (folder == "NurseSurvey")
+                {
+                    ViewBag.ShowSurvey = "true";
+                }
+                else
+                {
+                    string path = ConfigurationManager.AppSettings["FileRepositoryPath"].ToString();
+                    path = Path.Combine(path, folder);
 
-                string user = User.Identity.Name;
-                var list = DynamicFolderFile.GetFileFolderModel(path, folder, user);
+                    string user = User.Identity.Name;
+                    var list = DynamicFolderFile.GetFileFolderModel(path, folder, user);
 
-                ViewBag.ShowFolder = "true";
-                ViewBag.FolderName = folder;
-                return View(list);
+                    ViewBag.ShowFolder = "true";
+                    ViewBag.FolderName = folder;
+                    
+                    return View(list);
+                }
             }
             
             ViewBag.ShowFolder = "false";
@@ -71,6 +80,11 @@ namespace hpMvc.Controllers
         {
             var retDto = DbPostTestsUtils.GetSiteEmployeeInfoForSite(site);
             return Json(retDto);
+        }
+
+        public ActionResult NurseWorkloadSurvey()
+        {
+            return View();
         }
 
         public ActionResult FolderDisplay(string folder)

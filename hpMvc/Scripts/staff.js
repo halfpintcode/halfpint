@@ -2,6 +2,8 @@
 //var $j = jQuery.noConflict();
 $(document).ready(function () {
 
+    //$('#nurseSurvey').hide();
+
     var roles = $('#myRole').text();
     var userSite = $('#userSite').text();
     if (roles.indexOf('Nurse') > -1) {

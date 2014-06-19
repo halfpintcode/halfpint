@@ -1,15 +1,13 @@
 ﻿@using Telerik.Web.Mvc.UI
 @{
-	ViewBag.Title = "Index";
-	Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <form action="" method="post">
-	
-	<div id="divSideBar2">
-		@(Html.Telerik().Menu()
+<div id="divSideBar2">
+    @(Html.Telerik().Menu()
             .Orientation(MenuOrientation.Vertical)
-            .Name("MenuQ")            
+            .Name("MenuQ")
             .BindTo("quick", (item, node) =>
        {
            string roles = node.Attributes["role"] as string;
@@ -29,17 +27,16 @@
                item.HtmlAttributes.Add("class", node.Attributes["class"]);
 
        }))
-	</div>
-
-    <div id="divBarMenu">
-		@(Html.Telerik().Menu()
+</div>
+<div id="divBarMenu">
+    @(Html.Telerik().Menu()
             .Name("Menu")
-            
+
             .BindTo("staff", (item, node) =>
        {
            string roles = node.Attributes["role"] as string;
            if (roles == "nurse")
-               item.Visible = false;           
+               item.Visible = false;
            if (node.Attributes["name"] != null)
                item.RouteValues.Add("name", node.Attributes["name"]);
            if (node.Attributes["fileName"] != null)
@@ -53,23 +50,33 @@
 
        })
 )
-	</div>
-    
-    <div id="formContent">
-    
-    @if(ViewBag.ShowFolder == "true")
+</div>
+<div id="formContent">
+    @if (ViewBag.ShowFolder == "true")
     {
         { Html.RenderPartial("DisplayFolderPartial"); }
-    }       
-</div>	
-</form>		
-<div>
-    
+    }
 </div>
-
-
+</form>
+@if (ViewBag.ShowSurvey == "true")
+{
+    <div id="nurseSurvey">
+        <h2>
+            Nurse Workload Survey</h2>
+        
+        <br/>
+            <a class="surveyLinks" target="_blank" href="https://upenn.co1.qualtrics.com/SE/?SID=SV_1A3pKmV7Mf92x9y">Nurse Survey <strong>
+                BASELINE</strong> Survey (take this survey <strong>before</strong> you’ve taken
+                care of a HalfPint subject) </a>
+            <br />  
+            <br />
+            <a class="surveyLinks" target="_blank" href="https://upenn.co1.qualtrics.com/SE/?SID=SV_bsAYFjE5Ez2cjEo">Nurse Survey <strong>
+                Nursing PRACTICE</strong> Survey (take this survey if you are assigned the survey
+                for a HalfPint subject) </a>
+        
+    </div>
+}
 <link href="@Url.Content("~/Content/staff.css")" rel="stylesheet" type="text/css" />
- 
 <script src="@Url.Content("~/Scripts/staff.js")" type="text/javascript"></script>
 @(Html.Telerik().StyleSheetRegistrar().DefaultGroup(group => group.Add("telerik.common.css").Add("telerik.office2010blue.css")))
 @(Html.Telerik().ScriptRegistrar().jQuery(false))
