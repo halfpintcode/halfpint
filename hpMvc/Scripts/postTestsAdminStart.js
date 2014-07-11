@@ -38,9 +38,9 @@ $(function () {
         }
         $('#siteSpecific').show();
         $('#empIDmessage').hide();
-        $('#empID').keydown(function (event) {
-            window.numericsOnly(event, $(this).val());
-        });
+//        $('#empID').keydown(function (event) {
+//            window.numericsOnly(event, $(this).val());
+//        });
     }
     else {
         $('#siteSpecific').hide();

@@ -14,9 +14,9 @@ $(function () {
     //this is for the http post
     $('#Role').val($('#Roles').val());
 
-    $('#empID').keydown(function (event) {
-        numericsOnly(event, $(this).val());
-    });
+//    $('#empID').keydown(function (event) {
+//        numericsOnly(event, $(this).val());
+//    });
 
     //handle date completed enable and disable (enable only when checked)
     $(':input[type="checkbox"]').each(function () {
