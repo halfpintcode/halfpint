@@ -4,6 +4,7 @@ using System.Web.Security;
 using hpMvc.Models;
 using hpMvc.DataBase;
 using hpMvc.Infrastructure.Logging;
+using Microsoft.Security.Application;
 
 namespace hpMvc.Controllers
 {
@@ -138,8 +139,8 @@ namespace hpMvc.Controllers
         [Authorize]
         public ActionResult ResetPassword()
         {
-            ResetPasswordModel rpm = new ResetPasswordModel();
-            ViewBag.User = HttpContext.User.Identity.Name;
+            var rpm = new ResetPasswordModel {UserName = HttpContext.User.Identity.Name};
+            //ViewBag.User = HttpContext.User.Identity.Name;
             return View();
         }
 
@@ -149,7 +150,9 @@ namespace hpMvc.Controllers
         [Authorize]
         [HttpPost]
         public ActionResult ResetPassword(string userName, ResetPasswordModel rpm)
-        {            
+        {
+            userName = Encoder.HtmlEncode(userName);
+
             bool result = UserRolesUtils.ResetPassword(userName, rpm.NewPassword);
 
             var user = Membership.GetUser(userName);

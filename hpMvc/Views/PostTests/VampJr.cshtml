@@ -8,10 +8,10 @@
 <h2>Online Videos and Testing - Vamp Jr.</h2>
 <hr />
 <form action="" method="post">    
-    <input id="name" name="name" type="hidden" value='@ViewBag.Name'/>
-    <input id="id" name="id" type="hidden" value='@ViewBag.ID'/>
-    <input id="test" name="test" type="hidden" value='@ViewBag.Test'/> 
-    <input id="completed" name="completed" type="hidden" value='@ViewBag.Completed'/>   
+    @Html.Hidden("name", (object)@ViewBag.Name);
+    @Html.Hidden("id", (object)@ViewBag.ID);
+    @Html.Hidden("test", (object)@ViewBag.Test);
+    @Html.Hidden("completed", (object)@ViewBag.Completed);   
     <p id="testIntro">
         After viewing the video, click on the 'Take the test' link (below the video). You must answer all questions correctly.
     </p>

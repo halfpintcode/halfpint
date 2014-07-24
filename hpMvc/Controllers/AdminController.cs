@@ -9,6 +9,7 @@ using hpMvc.Infrastructure.Logging;
 using hpMvc.Infrastructure;
 using System.IO;
 using System.Configuration;
+using Microsoft.Security.Application;
 using Telerik.Web.Mvc;
 
 namespace hpMvc.Controllers
@@ -102,15 +103,16 @@ namespace hpMvc.Controllers
         #region Roles
         public ActionResult ManageUserRoles(string userName)
         {
+            var model = new UserRolesModel {UserName = userName};
+
             if ((userName == "jrezuke") && User.Identity.Name != "jrezuke")
                 return RedirectToAction("Index"); 
-            List<UserRole> userRoles = new List<UserRole>();
             if (userName.Length > 0)
             {
-                userRoles = UserRolesUtils.GetAssignedRoles(userName);
+                model.UserRoles = UserRolesUtils.GetAssignedRoles(userName);
             }
-            ViewBag.User = userName;
-            return View(userRoles);
+            
+            return View(model);
         }
 
         [HttpPost]
@@ -151,6 +153,7 @@ namespace hpMvc.Controllers
         #region ResetUserPassword
         public ActionResult ResetUserPassword(string userName)
         {
+            userName = Encoder.HtmlEncode(userName);
             if ((userName == "jrezuke") && User.Identity.Name != "jrezuke")
                 return RedirectToAction("Index"); 
             ResetPasswordModel rpm = new ResetPasswordModel();
@@ -162,6 +165,7 @@ namespace hpMvc.Controllers
         [HttpPost]
         public ActionResult ResetUserPassword(string userName, ResetPasswordModel rpm, bool reset)
         {
+            userName = Encoder.HtmlEncode(userName);
             bool result = false;
             var user = Membership.GetUser(userName);
             
@@ -711,23 +715,24 @@ namespace hpMvc.Controllers
             //var u = new UrlHelper(this.Request.RequestContext);
             //string host = this.Request.Url.Host;
             //string urlLeftPart = Request.Url.Scheme + Uri.SchemeDelimiter + host;
-            ViewBag.Url = Utility.GetSiteLogonUrl(this.Request);
-            ViewBag.AbsoluteUri = this.Request.Url.AbsoluteUri;
-            ViewBag.AbsolutePath = this.Request.Url.AbsolutePath;
-            ViewBag.LocalPath = this.Request.Url.LocalPath;
-            ViewBag.Authority = this.Request.Url.Authority;
-            ViewBag.DnsSafeHost = this.Request.Url.DnsSafeHost;
+            var model = new TestEmailModel();
+            model.Url = Utility.GetSiteLogonUrl(this.Request);
+            model.AbsoluteUri = this.Request.Url.AbsoluteUri;
+            model.AbsolutePath = this.Request.Url.AbsolutePath;
+            model.LocalPath = this.Request.Url.LocalPath;
+            model.Authority = this.Request.Url.Authority;
+            model.DnsSafeHost = this.Request.Url.DnsSafeHost;
 
-            ViewBag.Host = this.Request.Url.Host;
+            model.Host = this.Request.Url.Host;
 
-            ViewBag.Email = user.Email;
-            return View();
+            model.Email = user.Email;
+            return View(model);
         }
 
         [HttpPost]
         public ActionResult TestEmail(string email)
         {
-            string[] to = new[] { email };
+            var to = new[] { email };
             
             var u = new UrlHelper(this.Request.RequestContext);
             string url = "http://" + this.Request.Url.Host + u.RouteUrl("Default", new { Controller = "Account", Action = "Logon" });

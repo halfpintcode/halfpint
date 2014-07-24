@@ -14,7 +14,7 @@ $(function () {
         if (!validate()) {
             return;
         }
-        var user = $.trim($('#userName').val());
+        var user = $.trim($('#UserName').val());
         var pwd = $.trim($('#NewPassword').val());
         var url = urlRoot + '/Account/ResetPassword/';
         $.post(url,

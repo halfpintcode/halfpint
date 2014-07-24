@@ -11,6 +11,7 @@ using System.Configuration;
 using System.IO;
 using hpMvc.Infrastructure.Logging;
 using System.Web.Security;
+using Microsoft.Security.Application;
 using Telerik.Web.Mvc;
 
 namespace hpMvc.Controllers
@@ -75,6 +76,7 @@ namespace hpMvc.Controllers
         [HttpPost]
         public JsonResult GetChecksSubjectsSiteChange(string site)
         {
+            site = Encoder.HtmlEncode(site);
             var studyList = DbUtils.GetRandomizedStudiesForSite(int.Parse(site));
             studyList.Insert(0, new IDandStudyID { ID = 0, StudyID = "Select Subject" });
             return Json(studyList);
@@ -82,19 +84,16 @@ namespace hpMvc.Controllers
 
         public ActionResult ChecksNovaBloodGlucoseReport()
         {
-            var subjectId = Request.Params["subjectId"];
+            var model = new ChecksNovaBolldGlucoseReportModel();
+            model.SubjectId = Request.Params["subjectId"];
             var studyId = Request.Params["studyId"];
-            var startDate = Request.Params["StartDate"];
-            var endDate = Request.Params["EndDate"];
+            model.StartDate = Request.Params["StartDate"];
+            model.EndDate = Request.Params["EndDate"];
 
-            var list = DbUtils.GetChecksGgReport(int.Parse(studyId), startDate, endDate);
+            var list = DbUtils.GetChecksGgReport(int.Parse(studyId), model.StartDate, model.EndDate);
+            model.ChecksGgs = list;
 
-            ViewBag.SubjectId = subjectId;
-            //ViewBag["studyId"] = studyId;
-            ViewBag.StartDate = startDate;
-            ViewBag.EndDate = endDate;
-
-            return View(list);
+            return View(model);
         }
         
         public FileResult DownloadChecksNovaBloodGlucoseReport()
@@ -512,12 +511,14 @@ namespace hpMvc.Controllers
 
         public JsonResult IsUserEmployeeIdDuplicateOtherThan(int id, string employeeId, int site)
         {
+
             var dto = DbPostTestsUtils.DoesStaffEmployeeIdExistOtherThan(id, employeeId, site);
             return Json(dto);
         }
 
         public JsonResult GetStaffForSite(string site)
         {
+            site = Encoder.HtmlEncode(site);
             var list = DbUtils.GetStaffLookupForSite(site);
             list.Insert(0, new Site { ID = 0, Name = "Select a member", SiteID = "" });
             return Json(list);
@@ -526,6 +527,7 @@ namespace hpMvc.Controllers
         [HttpPost]
         public ActionResult GetStaffInfo(string user)
         {
+            user = Encoder.HtmlEncode(user);
             StaffEditModel model = DbUtils.GetStaffInfo(int.Parse(user));
             model.OldActive = model.Active;
             model.OldEmail = model.Email;
@@ -627,7 +629,8 @@ namespace hpMvc.Controllers
 
         public FilePathResult GetNovaListDownload(string siteCode, string fileName)
         {
-
+            siteCode = Encoder.HtmlEncode(siteCode);
+            fileName = Encoder.HtmlEncode(fileName);
 
             var folderPath = ConfigurationManager.AppSettings["StatStripListPath"].ToString();
             var path = Path.Combine(folderPath, siteCode);

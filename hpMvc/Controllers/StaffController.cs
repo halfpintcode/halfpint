@@ -84,29 +84,29 @@ namespace hpMvc.Controllers
             return View();
         }
 
-        public ActionResult FolderDisplay(string folder)
-        {
-            var folderList = new List<StaffFolder>();
+        //public ActionResult FolderDisplay(string folder)
+        //{
+        //    var folderList = new List<StaffFolder>();
 
-            string path = ConfigurationManager.AppSettings["FileRepositoryPath"].ToString();
-            path = Path.Combine(path, folder);
-            GetFolderFiles(path, folder, folderList);
-            ViewBag.FolderName = folder;
+        //    string path = ConfigurationManager.AppSettings["FileRepositoryPath"].ToString();
+        //    path = Path.Combine(path, folder);
+        //    GetFolderFiles(path, folder, folderList);
+        //    ViewBag.FolderName = folder;
             
-            return View(folderList);
-        }
+        //    return View(folderList);
+        //}
 
-        public ActionResult FolderDisplayTree(string folder)
-        {            
-            string path = ConfigurationManager.AppSettings["FileRepositoryPath"].ToString();
-            path = Path.Combine(path, folder);
+        //public ActionResult FolderDisplayTree(string folder)
+        //{            
+        //    string path = ConfigurationManager.AppSettings["FileRepositoryPath"].ToString();
+        //    path = Path.Combine(path, folder);
             
-            ViewBag.FolderName = folder;
+        //    ViewBag.FolderName = folder;
 
-            string user = User.Identity.Name;
-            var list = DynamicFolderFile.GetFileFolderModel(path, folder, user);
-            return View(list);
-        }
+        //    string user = User.Identity.Name;
+        //    var list = DynamicFolderFile.GetFileFolderModel(path, folder, user);
+        //    return View(list);
+        //}
         
         private void GetFolderFiles(string path, string topFolder, List<StaffFolder> folderList)
         {  

@@ -11,12 +11,7 @@ $(function () {
         //        $('#staffInfo').slideUp('slow');
         //        $('#staffInfo').empty();
 
-        if (site === "0") {
-            $('#empIDRequired').val("");
-            $('#empIDRegex').val("");
-            $('#empIDMessage').val("");
-        }
-        else {
+        if (site !== "0") {
             siteChange(site);
         }
 

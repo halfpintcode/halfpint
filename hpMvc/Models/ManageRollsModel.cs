@@ -139,9 +139,21 @@ namespace hpMvc.Models
         [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
+        public string UserName { get; set; }
         
     }
-    
+
+    public class UserRolesModel
+    {
+        public UserRolesModel()
+        {
+            UserRoles = new List<UserRole>();
+        }
+        public string UserName { get; set; }
+        public List<UserRole> UserRoles;
+
+    }
+
     public class UserRole
     {
         public UserRole()

@@ -1,4 +1,5 @@
-﻿@{
+﻿@model hpMvc.Models.TestEmailModel
+@{
     ViewBag.Title = "TestEmail";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -6,16 +7,17 @@
 <h2>Test Email</h2>
 <form method="post" action="TestEmail">
 
-Url: <label >@ViewBag.Url</label><br />
+Url: <label >@Model.Url</label><br />
 
-Host: <label>@ViewBag.Host</label><br />
-Authority: <label>@ViewBag.Authority</label><br />
-DnsSafeHost <label>@ViewBag.DnsSafeHost</label><br />
+Host: <label>@Model.Host</label><br />
+Authority: <label>@Model.Authority</label><br />
+DnsSafeHost <label>@Model.DnsSafeHost</label><br />
 
-Absolute Url: <label>@ViewBag.AbsoluteUri</label><br />
-Absolute Path: <label>@ViewBag.AbsolutePath</label><br />
-Local Path: <label>@ViewBag.LocalPath</label><br />
-Email: <input type="text" id="email" name="email" value='@ViewBag.Email'/>
+Absolute Url: <label>@Model.AbsoluteUri</label><br />
+Absolute Path: <label>@Model.AbsolutePath</label><br />
+Local Path: <label>@Model.LocalPath</label><br />
+    Email: @Html.TextBoxFor(model => model.Email) 
+    @*<input type="text" id="email" name="email" value='@Model.Email'/>*@
 <input type="submit" id="btnSend" value="Send" />
 
 </form>

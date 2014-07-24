@@ -1,4 +1,5 @@
-﻿@{
+﻿@model hpMvc.Models.PostTestsInitializeModel
+@{
 	ViewBag.Title = "Index";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -18,16 +19,16 @@
         <label class="fieldLabel">Email:</label><input type="text" id="email" name="email" />
         <div id="siteSpecific">            
 			<label id="lblEmpID" class="fieldLabel">Employee ID:</label><input type="text" id="empID" name="empID" />
-            <span id="empIDmessage">&nbsp;(You must enter @ViewBag.EmpIDMessage)</span>
+            <span id="empIDmessage">&nbsp;(You must enter @Model.EmpIdMessage)</span>
             <br/>
             <span id="empIDExtraLabel">Your employee id will be used as your operator id for the Nova StatStrip Glucose Meter</span>            
 		</div>  
 		<input type="button" id="btnCreate" value="Create Name" />
-        <input id="empIDRequired" value="@ViewBag.EmpIDRequired" name="empIDRequired" type="hidden"/>
-		<input id="empIDRegex" value="@ViewBag.EmpIDRegex" name="empIDRegex" type="hidden"/>
-	    <input id="empIDMessage" value="@ViewBag.EmpIDMessage" name="empIDMessage" type="hidden"/>	
-	    <input id="siteId" value="@ViewBag.SiteId" name="siteId" type="hidden"/>	
-        <input id="siteCode" value="@ViewBag.SiteCode" name="siteCode" type="hidden"/>
+         @Html.Hidden("empIDRequired", @Model.EmpIdRequired)
+    @Html.Hidden("empIDRegex", @Model.EmpIdRegex)
+    @Html.Hidden("empIDMessage", @Model.EmpIdMessage)
+    @Html.Hidden("siteId", @Model.SiteId)
+    @Html.Hidden("siteCode", @Model.SiteCode)
 	</div>
 	<div id="divClickHere">
 		<br />

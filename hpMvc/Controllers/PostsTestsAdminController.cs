@@ -13,22 +13,22 @@ namespace hpMvc.Controllers
 
         public ActionResult Index()
         {
-            var site = DbUtils.GetSiteidIdForUser(User.Identity.Name);
-            var siteCode = DbUtils.GetSiteCodeForUser(User.Identity.Name);
+            var model = new PostTestsInitializeModel();
 
-            var users = DbPostTestsUtils.GetStaffTestUsersForSite(site);            
+            model.SiteId = DbUtils.GetSiteidIdForUser(User.Identity.Name);
+            model.SiteCode = DbUtils.GetSiteCodeForUser(User.Identity.Name);
+
+            var users = DbPostTestsUtils.GetStaffTestUsersForSite(model.SiteId);            
             users.Insert(0, new IDandName(0, "Select Your Name"));
 
             //check if employee id required
             var retDto = DbPostTestsUtils.CheckIfEmployeeIdRequired(User.Identity.Name);
-            ViewBag.EmpIDRequired = retDto.Stuff.EmpIDRequired;
-            ViewBag.EmpIDRegex = retDto.Stuff.EmpIDRegex;
-            ViewBag.EmpIDMessage = retDto.Stuff.EmpIDMessage;
-            ViewBag.SiteId = site;
-            ViewBag.SiteCode = siteCode;
+            model.EmpIdRequired = retDto.Stuff.EmpIDRequired;
+            model.EmpIdRegex = retDto.Stuff.EmpIDRegex;
+            model.EmpIdMessage = retDto.Stuff.EmpIDMessage;
             
             ViewBag.Users = new SelectList(users, "ID", "Name");
-            return View();
+            return View(model);
         }
 
         public ActionResult EditPostTest(string id)
@@ -39,12 +39,12 @@ namespace hpMvc.Controllers
             var site = DbUtils.GetSiteidIdForUser(User.Identity.Name);
             var siteCode = DbUtils.GetSiteCodeForUser(User.Identity.Name);
             var tests = DbPostTestsUtils.GetStaffPostTestsCompletedCurrentAndActive(id, siteCode);
-
             var staffInfo = DbUtils.GetStaffInfo(int.Parse(id));
-            ViewBag.StaffId = staffInfo.ID;
-            ViewBag.StaffName = staffInfo.FirstName + " " + staffInfo.LastName;
-
-            return View(tests);
+            var postTestView = new PostTestView();
+            postTestView.StaffId = staffInfo.ID;
+            postTestView.StaffName = staffInfo.FirstName + " " + staffInfo.LastName;
+            postTestView.PostTests = tests;
+            return View(postTestView);
         }
 
         [HttpPost]

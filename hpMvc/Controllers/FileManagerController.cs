@@ -5,6 +5,7 @@ using System.IO;
 using hpMvc.Infrastructure.Logging;
 using hpMvc.DataBase;
 using System.Configuration;
+using Microsoft.Security.Application;
 
 namespace hpMvc.Controllers
 {    
@@ -102,11 +103,21 @@ namespace hpMvc.Controllers
                 {
                     string key = Request.Form["key"];
                     string institId = Request.Form["institID"];
+                    key = Encoder.HtmlEncode(key);
+                    institId = Encoder.HtmlEncode(institId);
+
                     //filename template : 01-0030-7copy.xlsm
                     var fileName = Path.GetFileName(file.FileName);
                     var studyId = fileName.Substring(0, 9);
-                    
-                    int iRetVal = DbUtils.IsStudyIdCleared(studyId);
+
+                    int iRetVal = DbUtils.IsStudyIdValid(studyId);
+                    if (iRetVal != 1)
+                    {
+                        nlogger.LogInfo("ChecksUpload - file name: " + fileName + ", IsStudyIdValid: " + iRetVal);
+                        return Content("IsStudyIdValid: " + iRetVal);
+                    }
+
+                    iRetVal = DbUtils.IsStudyIdCleared(studyId);
                     if (iRetVal != 0)
                     {
                         nlogger.LogInfo("ChecksUpload - file name: " + fileName + ", IsStudyCleared: " + iRetVal);
@@ -128,6 +139,8 @@ namespace hpMvc.Controllers
                         Directory.CreateDirectory(path);
 
                     path = Path.Combine(path, fileName);
+                    
+                    
                     file.SaveAs(path);
                 }
             }

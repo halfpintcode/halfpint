@@ -1,80 +1,96 @@
-﻿@{
-	ViewBag.Title = "Initialize";
-	Layout = "~/Views/Shared/_Layout.cshtml";
+﻿@model hpMvc.Models.PostTestsInitializeModel
+@{
+    ViewBag.Title = "Initialize";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <link href="@Url.Content("~/Content/PostTestsStart.css")" rel="stylesheet" type="text/css" />
 <script src="@Url.Content("~/Scripts/PostTestsStart.js")" type="text/javascript"></script>
-
-<h2>Post-Tests</h2>
-
-<form method="post" action="">    
-	<div id="listName">
-		@if (ViewBag.ID == 0)
+<h2>
+    Post-Tests</h2>
+<form method="post" action="">
+<div id="listName">
+    @if (Model.UserId == 0)
+    {
+        if (Model.Role == "Nurse")
         {
-            if (ViewBag.Role == "Nurse")
-            {
-                    <text>Select your name from the list and click on 'Start Testing' if you previously created your name.</text>
-            }
-            else
-            {
-                    <text>Select your name from the list and click on 'Start Testing'.</text>
-            }
+        <text>Select your name from the list and click on 'Start Testing' if you previously
+        created your name.</text>
         }
         else
         {
-            
+        <text>Select your name from the list and click on 'Start Testing'.</text>
         }
-        <br /><br />
-		@Html.DropDownList("Users") &nbsp; &nbsp; <input type="button" id="btnStart" value="Start Testing" />
-        <input type="hidden" id="ID" name="ID" />
-	</div>
-		  
-	<div id="divName">
-		<label class="fieldLabel">First Name:</label><input type="text" id="firstName" name="firstName" /><br />
-		<label class="fieldLabel">Last Name:</label><input type="text" id="lastName" name="lastName" /><br />
-        <label class="fieldLabel">Email:</label><input type="text" id="email" name="email" /> 
-		<div id="siteSpecific">            
-			<label id="lblEmpID" class="fieldLabel">Employee ID:</label><input type="text" id="empID" name="empID" />
-		    <span id="empIDmessage">(&nbsp;You must enter @ViewBag.EmpIDMessage)</span>
-		    <br/>
-            <span id="empIDExtraLabel">Your employee id will be used as your operator id for the Nova StatStrip Glucose Meter</span>
-		</div>        
-		<input type="button" id="btnCreate" value="Create Name For Testing" />
-		<input id="empIDRequired" value="@ViewBag.EmpIDRequired" name="empIDRequired" type="hidden"/>
-		<input id="empIDRegex" value="@ViewBag.EmpIDRegex" name="empIDRegex" type="hidden"/>
-	    <input id="empIDMessage" value="@ViewBag.EmpIDMessage" name="empIDMessage" type="hidden"/>
-	    <input id="siteId" value="@ViewBag.SiteId" name="siteId" type="hidden"/>
-        <input id="siteCode" value="@ViewBag.SiteCode" name="siteCode" type="hidden"/>
-		
-	</div>
-	@if (ViewBag.Role == "Nurse")
- {
-        <div id="divClickHere">
-		    <br />
-		    <a id="clickHere" href="#"><strong>Click here</strong></a> <span id="spanClickHere">&nbsp; if you have not previously created a name.</span> 
-	    </div>
- }
-	<div id="testMenu">
-		<hr />
-		<h3>List of Tests</h3>
-		<p>
-            Tests marked with an <img src="@Url.Content("~/Content/images/x.jpg")" alt="" /> are expired, expiring soon or have yet to be completed. These tests should be completed as soon as possible.
-		    <br/>
-            Tests marked with a <img src="@Url.Content("~/Content/images/check2.jpg")" alt="" /> are current. You may re-take and re-new these tests now if you wish.
-		</p>
-		<ul >
-			@*<li id="Overview"><a href="#" class="aLnk">Overview Post-Test</a></li>
+    }
+    else
+    {
+
+    }
+    <br />
+    <br />
+    @Html.DropDownList("Users") &nbsp; &nbsp;
+    <input type="button" id="btnStart" value="Start Testing" />
+    <input type="hidden" id="ID" name="ID" />
+</div>
+<div id="divName">
+    <label class="fieldLabel">
+        First Name:</label><input type="text" id="firstName" name="firstName" /><br />
+    <label class="fieldLabel">
+        Last Name:</label><input type="text" id="lastName" name="lastName" /><br />
+    <label class="fieldLabel">
+        Email:</label><input type="text" id="email" name="email" />
+    <div id="siteSpecific">
+        <label id="lblEmpID" class="fieldLabel">
+            Employee ID:</label><input type="text" id="empID" name="empID" />
+        <span id="empIDmessage">(&nbsp;You must enter @Model.EmpIdMessage)</span>
+        <br />
+        <span id="empIDExtraLabel">Your employee id will be used as your operator id for the
+            Nova StatStrip Glucose Meter</span>
+    </div>
+    <input type="button" id="btnCreate" value="Create Name For Testing" />
+    @Html.Hidden("empIDRequired", @Model.EmpIdRequired)
+    @Html.Hidden("empIDRegex", @Model.EmpIdRegex)
+    @Html.Hidden("empIDMessage", @Model.EmpIdMessage)
+    @Html.Hidden("siteId", @Model.SiteId)
+    @Html.Hidden("siteCode", @Model.SiteCode)
+</div>
+@if (Model.Role == "Nurse")
+{
+    <div id="divClickHere">
+        <br />
+        <a id="clickHere" href="#"><strong>Click here</strong></a> <span id="spanClickHere">
+            &nbsp; if you have not previously created a name.</span>
+    </div>
+}
+<div id="testMenu">
+    <hr />
+    <h3>
+        List of Tests</h3>
+    <p>
+        Tests marked with an
+        <img src="@Url.Content("~/Content/images/x.jpg")" alt="" />
+        are expired, expiring soon or have yet to be completed. These tests should be completed
+        as soon as possible.
+        <br />
+        Tests marked with a
+        <img src="@Url.Content("~/Content/images/check2.jpg")" alt="" />
+        are current. You may re-take and re-new these tests now if you wish.
+    </p>
+    <ul>
+        @*<li id="Overview"><a href="#" class="aLnk">Overview Post-Test</a></li>
 			<li id="Checks"><a href="#" class="aLnk">CHECKS Post-Test</a></li>	        
 			<li id="Medtronic"><a href="#" class="aLnk">Medtronic Enlite Post-Test</a></li>
 			<li id="NovaStatStrip"><a href="#" class="aLnk">NovaStatStrip Post-Test</a></li>
 			<li id="VampJr"><a href="#" class="aLnk">VampJr Post-Test</a></li>*@
-		</ul>
-		<br /><br />
-		Click submit after you have completed all required tests 
-		<br />Enter your email address &nbsp; <input type="text" id="sEmail" name="sEmail" />
-		&nbsp; &nbsp; 
-		<input type="button" id="btnSubmit" value="Submit" />
-	</div>
-	<br />
-	@Html.ActionLink("Back to Staff - Main Menu", "Index", "Staff")
+    </ul>
+    <br />
+    <br />
+    Click submit after you have completed all required tests
+    <br />
+    Enter your email address &nbsp;
+    <input type="text" id="sEmail" name="sEmail" />
+    &nbsp; &nbsp;
+    <input type="button" id="btnSubmit" value="Submit" />
+</div>
+<br />
+@Html.ActionLink("Back to Staff - Main Menu", "Index", "Staff")
 </form>

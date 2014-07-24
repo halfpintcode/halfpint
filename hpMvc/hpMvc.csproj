@@ -19,7 +19,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>bin\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -37,6 +37,9 @@
     <DeployIisAppPath>Default Web Site/</DeployIisAppPath>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AntiXSSLibrary">
+      <HintPath>C:\Program Files (x86)\Microsoft Information Security\AntiXSS Library v4.2\NET40\AntiXSSLibrary.dll</HintPath>
+    </Reference>
     <Reference Include="DocumentFormat.OpenXml, Version=2.5.5631.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\DocumentFormat.OpenXml.dll</HintPath>
@@ -131,7 +134,7 @@
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\AdminModels.cs" />
     <Compile Include="Models\CalorieCalcModels.cs" />
-    <Compile Include="Models\ChecksImport.cs" />
+    <Compile Include="Models\ChecksNovaBolldGlucoseReportModel.cs" />
     <Compile Include="Models\DataTransferObject.cs" />
     <Compile Include="Models\InformPageModel.cs" />
     <Compile Include="Models\InitializeSubject.cs" />
@@ -142,6 +145,7 @@
     <Compile Include="Models\SiteModel.cs" />
     <Compile Include="Models\StaffFolderModel.cs" />
     <Compile Include="Models\StaffModel.cs" />
+    <Compile Include="Models\TestEmailModel.cs" />
     <Compile Include="Models\TestModels.cs" />
     <Compile Include="Models\UtilityModels.cs" />
     <Compile Include="Models\ValidationExtensions.cs" />

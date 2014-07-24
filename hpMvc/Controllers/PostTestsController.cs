@@ -5,6 +5,7 @@ using hpMvc.DataBase;
 using hpMvc.Helpers;
 using hpMvc.Infrastructure.Logging;
 using hpMvc.Models;
+using Microsoft.Security.Application;
 
 namespace hpMvc.Controllers
 {
@@ -15,8 +16,9 @@ namespace hpMvc.Controllers
         
         public ActionResult Initialize(string id)
         {
+            var model = new PostTestsInitializeModel();
             var role = AccountUtils.GetRoleForUser(User.Identity.Name);
-            ViewBag.Role = role;
+            model.Role = role;
 
             if (role != "Nurse")
             {
@@ -29,30 +31,28 @@ namespace hpMvc.Controllers
             if (id =="-1")
                 return RedirectToRoute(new {Controller = "Staff"});
 
-            ViewBag.UserID = int.Parse(id);
+            model.UserId = int.Parse(id);
 
-            var site = DbUtils.GetSiteidIdForUser(User.Identity.Name);
-            var siteCode = DbUtils.GetSiteCodeForUser(User.Identity.Name);
+            model.SiteId = DbUtils.GetSiteidIdForUser(User.Identity.Name);
+            model.SiteCode = DbUtils.GetSiteCodeForUser(User.Identity.Name);
 
-            var users = DbPostTestsUtils.GetStaffTestUsersForSite(site);
+            var users = DbPostTestsUtils.GetStaffTestUsersForSite(model.SiteId);
 
             users.Insert(0, new IDandName(0, "Select Your Name"));
 
             //check if employee id required
             var retDto = DbPostTestsUtils.CheckIfEmployeeIdRequired(User.Identity.Name);
-            ViewBag.EmpIDRequired = retDto.Stuff.EmpIDRequired;
-            ViewBag.EmpIDRegex = retDto.Stuff.EmpIDRegex;
-            ViewBag.EmpIDMessage = retDto.Stuff.EmpIDMessage;
-            ViewBag.SiteId = site;
-            ViewBag.SiteCode = siteCode;
+            model.EmpIdRequired = retDto.Stuff.EmpIDRequired;
+            model.EmpIdRegex = retDto.Stuff.EmpIDRegex;
+            model.EmpIdMessage = retDto.Stuff.EmpIDMessage;
             
             ViewBag.Users = new SelectList(users, "ID", "Name", id);
             if (id != "0")
             {
-                ViewBag.Email = DbPostTestsUtils.GetPostTestStaffEmail(id);
+                model.Email = DbPostTestsUtils.GetPostTestStaffEmail(id);
             }
             
-            return View();
+            return View(model);
         }
                         
         public JsonResult CreateName()
@@ -156,6 +156,8 @@ namespace hpMvc.Controllers
 
         public ActionResult Checks(string id, string name)
         {
+            id = Encoder.HtmlEncode(id);
+            name = Encoder.HtmlEncode(name);
             ViewBag.Name = name;
             ViewBag.Test = "Checks";
             ViewBag.ID = id;
@@ -169,7 +171,9 @@ namespace hpMvc.Controllers
         public JsonResult Checks()
         {
             var id = Request.Params["id"];
-            var name = Request.Params["name"]; 
+            var name = Request.Params["name"];
+            id = Encoder.HtmlEncode(id);
+            name = Encoder.HtmlEncode(name);
 
             var dto = DbPostTestsUtils.VerifyPostTest("Checks", Request.Params);
             if (dto.IsSuccessful)
@@ -193,6 +197,9 @@ namespace hpMvc.Controllers
         
         public ActionResult Medtronic(string id, string name)
         {
+            id = Encoder.HtmlEncode(id);
+            name = Encoder.HtmlEncode(name);
+
             ViewBag.Name = name;
             ViewBag.Test = "Medtronic";
             ViewBag.ID = id;
@@ -207,6 +214,8 @@ namespace hpMvc.Controllers
         {
             var id = Request.Params["id"];
             var name = Request.Params["name"];
+            id = Encoder.HtmlEncode(id);
+            name = Encoder.HtmlEncode(name);
 
             var dto = DbPostTestsUtils.VerifyPostTest("Medtronic", Request.Params);
             if (dto.IsSuccessful)
@@ -230,6 +239,9 @@ namespace hpMvc.Controllers
 
         public ActionResult Overview(string id, string name)
         {
+            id = Encoder.HtmlEncode(id);
+            name = Encoder.HtmlEncode(name);
+
             ViewBag.Name = name;
             ViewBag.Test = "Overview";
             ViewBag.ID = id;
@@ -243,9 +255,10 @@ namespace hpMvc.Controllers
         [HttpPost]        
         public JsonResult Overview()
         {
-
             var id = Request.Params["id"]; 
             var name = Request.Params["name"];
+            id = Encoder.HtmlEncode(id);
+            name = Encoder.HtmlEncode(name);
 
             var dto = DbPostTestsUtils.VerifyPostTest("Overview", Request.Params);
             if (dto.IsSuccessful)
@@ -269,6 +282,8 @@ namespace hpMvc.Controllers
 
         public ActionResult NovaStatStrip(string id, string name)
         {
+            id = Encoder.HtmlEncode(id);
+            name = Encoder.HtmlEncode(name);
             ViewBag.Name = name;
             ViewBag.Test = "NovaStatStrip";
             ViewBag.ID = id;
@@ -284,6 +299,8 @@ namespace hpMvc.Controllers
         {
             string id = Request.Params["id"];
             string name = Request.Params["name"];
+            id = Encoder.HtmlEncode(id);
+            name = Encoder.HtmlEncode(name);
 
             var dto = DbPostTestsUtils.VerifyPostTest("NovaStatStrip", Request.Params);
             if (dto.IsSuccessful)
@@ -307,6 +324,9 @@ namespace hpMvc.Controllers
 
         public ActionResult VampJr(string id, string name)
         {
+            id = Encoder.HtmlEncode(id);
+            name = Encoder.HtmlEncode(name);
+
             ViewBag.Name = name;
             ViewBag.Test = "VampJr";
             ViewBag.ID = id;
@@ -321,7 +341,9 @@ namespace hpMvc.Controllers
         {
             var id = Request.Params["id"];
             var name = Request.Params["name"];
-                        
+            id = Encoder.HtmlEncode(id);
+            name = Encoder.HtmlEncode(name);
+            
             var dto = DbPostTestsUtils.VerifyPostTest("VampJr", Request.Params);
             if (dto.IsSuccessful)
             {
@@ -349,6 +371,9 @@ namespace hpMvc.Controllers
 
         public ActionResult DexcomG4Sensor(string id, string name)
         {
+            id = Encoder.HtmlEncode(id);
+            name = Encoder.HtmlEncode(name);
+
             ViewBag.Name = name;
             ViewBag.Test = "DexcomG4Sensor";
             ViewBag.ID = id;
@@ -363,6 +388,8 @@ namespace hpMvc.Controllers
         {
             var id = Request.Params["id"];
             var name = Request.Params["name"];
+            id = Encoder.HtmlEncode(id);
+            name = Encoder.HtmlEncode(name);
 
             var dto = DbPostTestsUtils.VerifyPostTest("DexcomG4Sensor", Request.Params);
             if (dto.IsSuccessful)
@@ -386,6 +413,9 @@ namespace hpMvc.Controllers
 
         public ActionResult DexcomG4Receiver(string id, string name)
         {
+            id = Encoder.HtmlEncode(id);
+            name = Encoder.HtmlEncode(name);
+
             ViewBag.Name = name;
             ViewBag.Test = "DexcomG4Receiver";
             ViewBag.ID = id;
@@ -400,6 +430,8 @@ namespace hpMvc.Controllers
         {
             var id = Request.Params["id"];
             var name = Request.Params["name"];
+            id = Encoder.HtmlEncode(id);
+            name = Encoder.HtmlEncode(name);
 
             var dto = DbPostTestsUtils.VerifyPostTest("DexcomG4Receiver", Request.Params);
             if (dto.IsSuccessful)
@@ -423,6 +455,9 @@ namespace hpMvc.Controllers
 
         public ActionResult MedtronicSofSensor(string id, string name)
         {
+            id = Encoder.HtmlEncode(id);
+            name = Encoder.HtmlEncode(name);
+
             ViewBag.Name = name;
             ViewBag.Test = "MedtronicSofSensor";
             ViewBag.ID = id;
@@ -437,6 +472,8 @@ namespace hpMvc.Controllers
         {
             var id = Request.Params["id"];
             var name = Request.Params["name"];
+            id = Encoder.HtmlEncode(id);
+            name = Encoder.HtmlEncode(name);
 
             var dto = DbPostTestsUtils.VerifyPostTest("MedtronicSofSensor", Request.Params);
             if (dto.IsSuccessful)
@@ -460,6 +497,9 @@ namespace hpMvc.Controllers
 
         public ActionResult GuardianREALTimeMonitor(string id, string name)
         {
+            id = Encoder.HtmlEncode(id);
+            name = Encoder.HtmlEncode(name);
+
             ViewBag.Name = name;
             ViewBag.Test = "GuardianREALTimeMonitor";
             ViewBag.ID = id;
@@ -474,6 +514,8 @@ namespace hpMvc.Controllers
         {
             var id = Request.Params["id"];
             var name = Request.Params["name"];
+            id = Encoder.HtmlEncode(id);
+            name = Encoder.HtmlEncode(name);
 
             var dto = DbPostTestsUtils.VerifyPostTest("GuardianREALTimeMonitor", Request.Params);
             if (dto.IsSuccessful)

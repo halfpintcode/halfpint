@@ -45,6 +45,28 @@ namespace hpMvc.Models
 
     }
 
+    public class PostTestsInitializeModel
+    {
+        public string Role { get; set; }
+        public int UserId { get; set; }
+        public string EmpIdRequired { get; set; }
+        public string EmpIdRegex { get; set; }
+        public string EmpIdMessage { get; set; }
+        public int SiteId { get; set; }
+        public string SiteCode { get; set; }
+        public string Email { get; set; }
+    }
+
+    public class PostTestView
+    {
+        public PostTestView()
+        {
+            PostTests = new List<PostTest>();
+        }
+        public string StaffName { get; set; }
+        public int StaffId { get; set; }
+        public List<PostTest> PostTests { get; set; } 
+    }
     public class PostTest
     {
         public int ID { get; set; }

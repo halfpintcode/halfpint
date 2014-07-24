@@ -1,8 +1,8 @@
-﻿@model IEnumerable<hpMvc.Models.ChecksGg>
+﻿@model hpMvc.Models.ChecksNovaBolldGlucoseReportModel
 
 @{
     ViewBag.Title = "CHECKS Nova Blood Glucose Report";
-    var grid = new WebGrid(Model, defaultSort: "MeterTime", rowsPerPage: 50);
+    var grid = new WebGrid(Model.ChecksGgs, defaultSort: "MeterTime", rowsPerPage: 50);
 }
 
 <style>
@@ -42,13 +42,13 @@
 </style>
 
 <h2>CHECKS Nova Blood Glucose Report</h2>
-<span id="spanSubject">Subject: @ViewBag.SubjectId</span>
+<span id="spanSubject">Subject: @Model.SubjectId</span>
 <span id="spanSelect">
     &nbsp;&nbsp;&nbsp;@Html.ActionLink("Select another subject", "SelectChecksGgReportSubject")
 </span>
 
 
-<h3>Start date: @ViewBag.StartDate - End date: @ViewBag.EndDate</h3>
+<h3>Start date: @Model.StartDate - End date: @Model.EndDate</h3>
 
 
 @grid.GetHtml(tableStyle:"table", footerStyle: "foot", columns:grid.Columns(

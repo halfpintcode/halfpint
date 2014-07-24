@@ -23,10 +23,10 @@
 
 <div id="testForm">
     <form action="" method="post">
-        <input id="name" name="name" type="hidden" value='@ViewBag.Name'/>
-        <input id="id" name="id" type="hidden" value='@ViewBag.ID'/>
-        <input id="test" name="test" type="hidden" value='@ViewBag.Test'/> 
-        <input id="completed" name="completed" type="hidden" value='@ViewBag.Completed'/>
+        @Html.Hidden("name", (object)@ViewBag.Name);
+        @Html.Hidden("id", (object)@ViewBag.ID);
+        @Html.Hidden("test", (object)@ViewBag.Test);
+        @Html.Hidden("completed", (object)@ViewBag.Completed);
         
         <div class="question">
             1) <span class="questionText"> If CHECKS or the Dexcom G4 receiver (you will see an image of a drop of blood on the receiver screen) </span>

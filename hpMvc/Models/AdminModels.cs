@@ -19,11 +19,11 @@ namespace hpMvc.Models
         [Display(Name = "Email address")]
         [EmailValidation(ErrorMessage = "Not a valid email address")]
         public string Email { get; set; }
-        
+
         public IEnumerable<SelectListItem> Site { get; set; }
 
         [Range(1, 99, ErrorMessage = "You must select a site")]
-        public int SelectedSite { get; set; } 
+        public int SelectedSite { get; set; }
 
     }
 
@@ -46,3 +46,5 @@ namespace hpMvc.Models
         public bool Active { get; set; }
     }
 }
+
+    

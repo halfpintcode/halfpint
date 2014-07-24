@@ -1,12 +1,12 @@
-﻿@model IEnumerable<hpMvc.Models.UserRole>
+﻿@model hpMvc.Models.UserRolesModel
 @{
     ViewBag.Title = "Manage User Roles";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Manage User Roles for user: @ViewBag.User</h2>
+<h2>Manage User Roles for user: @Model.UserName</h2>
 <form action="" method="post" id="form1">
-    <input type="hidden" id="userName" value="@ViewBag.User" />
+    @Html.HiddenFor(m => m.UserName)
     <table>
         <tr>
             <th>
@@ -18,7 +18,7 @@
             <th></th>
         </tr>
 
-        @foreach (var item in Model)
+        @foreach (var item in Model.UserRoles)
         {
             var ischecked = "";
             if (item.IsAssigned)

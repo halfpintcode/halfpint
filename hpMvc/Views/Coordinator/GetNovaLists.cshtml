@@ -8,7 +8,8 @@
 
 <p>Files are in order by date with the lastest one first.</p>
 <div>
-    <input id="siteCode" name="siteCode" type="hidden" value='@ViewBag.SiteCode' />
+    @Html.Hidden("siteCode", (object)@ViewBag.SiteCode)
+    @*<input id="siteCode" name="siteCode" type="hidden" value='@ViewBag.SiteCode' />*@
     <span>Select a file: </span>&nbsp; @Html.DropDownList("Files") &nbsp;&nbsp; <input type="button" id="btnDownload" value="Download" />
     <br /><br />
             
