@@ -9,6 +9,7 @@ using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 using hpMvc.Infrastructure.Logging;
+using Microsoft.Security.Application;
 
 namespace hpMvc.DataBase
 {
@@ -249,6 +250,9 @@ namespace hpMvc.DataBase
 
         public static List<string> GetRanomizedStudyIDs(string physicalAppPath, string siteCode)
         {
+            physicalAppPath = Encoder.HtmlEncode(physicalAppPath);
+            siteCode = Encoder.HtmlEncode(siteCode);
+
             var list = new List<string>();
             string sitePath = physicalAppPath + "xcel\\" + siteCode;
             if (!Directory.Exists(sitePath))
@@ -258,13 +262,17 @@ namespace hpMvc.DataBase
 
             foreach (var fi in fis)
                 list.Add(fi.Name);
-                       
 
             return list;
         }
 
         public static bool InitializeSs(string physicalAppPath, string studyId, SSInsertionData ssInsert, int sensorType)
         {
+            physicalAppPath = Encoder.HtmlEncode(physicalAppPath);
+            studyId = Encoder.HtmlEncode(studyId);
+            if (DbUtils.IsStudyIdValid(studyId) != 1)
+                return false;
+
             Nlogger.LogInfo("SsUtils.InitializeSS: " + studyId);
 
             var path = physicalAppPath + "sstemplate\\";

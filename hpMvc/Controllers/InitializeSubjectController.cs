@@ -5,6 +5,7 @@ using hpMvc.Helpers;
 using hpMvc.Models;
 using hpMvc.DataBase;
 using hpMvc.Infrastructure.Logging;
+using Microsoft.Security.Application;
 
 namespace hpMvc.Controllers
 {
@@ -54,6 +55,8 @@ namespace hpMvc.Controllers
         [HttpPost]
         public ActionResult Initialize(string studyId)
         {
+            studyId = Encoder.HtmlEncode(studyId);
+            
             _logger.LogInfo("InitializeSubject.Initialize - Post: " + studyId);
             
             var siteId = DbUtils.GetSiteidIdForUser(User.Identity.Name);
@@ -198,6 +201,7 @@ namespace hpMvc.Controllers
         //[HttpPost]
         public FilePathResult InitializeSs(string studyId)
         {
+            studyId = Encoder.HtmlEncode(studyId);
             _logger.LogInfo("Initialize.InitializeSS: " + studyId);
 
             //int siteId = DbUtils.GetSiteidIDForUser(User.Identity.Name);
@@ -219,6 +223,10 @@ namespace hpMvc.Controllers
 
         public FilePathResult AlternateSSDownload(string studyID)
         {
+            studyID = Encoder.HtmlEncode(studyID);
+            if (DbUtils.IsStudyIdValid(studyID) != 1)
+                return null;
+
             _logger.LogInfo("Initialize.AlternateSSDownload: " + studyID);
             string path = this.Request.PhysicalApplicationPath + "xcel\\" + studyID.Substring(0, 2) + 
                 "\\";

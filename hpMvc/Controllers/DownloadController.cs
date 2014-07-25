@@ -2,6 +2,7 @@
 using System.IO;
 using hpMvc.Infrastructure.Logging;
 using hpMvc.DataBase;
+using Microsoft.Security.Application;
 
 namespace hpMvc.Controllers
 {
@@ -17,6 +18,9 @@ namespace hpMvc.Controllers
         
         public FilePathResult GetFile(string fileName, string folder)
         {
+            fileName = Encoder.HtmlEncode(fileName);
+            folder = Encoder.HtmlEncode(folder);
+
             if (fileName.StartsWith("Site~"))
             {
                 GetSiteFileNameAndFolder(ref fileName, ref folder);

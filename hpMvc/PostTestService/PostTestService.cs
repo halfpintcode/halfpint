@@ -11,6 +11,7 @@ using System.Web;
 using System.Web.Security;
 using hpMvc.Helpers;
 using hpMvc.Infrastructure.Logging;
+using Microsoft.Security.Application;
 
 namespace hpMvc.PostTestService
 {
@@ -1019,6 +1020,9 @@ namespace hpMvc.PostTestService
 
         static void WriteNovaNetFile(IEnumerable<NovaNetColumns> lines, string siteName, string siteCode)
         {
+            siteName = Microsoft.Security.Application.Encoder.HtmlEncode(siteName);
+            siteCode = Microsoft.Security.Application.Encoder.HtmlEncode(siteCode);
+
             //write lines to new file
             var folderPath = ConfigurationManager.AppSettings["StatStripListPath"];
             var path = Path.Combine(folderPath, siteCode);

@@ -598,23 +598,6 @@ namespace hpMvc.Controllers
 
         public ActionResult GetNovaLists()
         {
-            //string role = "Coordinator";
-            //if (HttpContext.User.IsInRole("Admin"))
-            //    role = "Admin";
-            //ViewBag.Role = role;
-
-            //var sites = new List<Site>();
-
-            //if (role == "Admin")
-            //{
-            //    sites = DbUtils.GetSitesActive();
-            //    if (sites.Count == 0)
-            //        throw new Exception("There was an error retreiving the sites list from the database");
-            //    sites.Insert(0, new Site {ID = 0, Name = "Select a site", SiteID = ""});
-            //    ViewBag.Sites = new SelectList(sites, "ID", "Name");
-
-            //}
-
             string siteCode = DbUtils.GetSiteCodeForUser(HttpContext.User.Identity.Name);
             ViewBag.SiteCode = siteCode;
 

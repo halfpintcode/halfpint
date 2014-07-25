@@ -708,8 +708,6 @@
     <Content Include="Views\Coordinator\CompleteSubjectPartial.cshtml" />
     <Content Include="Views\Coordinator\CompleteSubject.cshtml" />
     <Content Include="Views\Coordinator\CompleteSubjectConfirmationPartial.cshtml" />
-    <Content Include="Views\Staff\FolderDisplay.cshtml" />
-    <Content Include="Views\Staff\FolderDisplayTree.cshtml" />
     <Content Include="staff.sitemap">
       <SubType>Designer</SubType>
     </Content>

@@ -677,6 +677,8 @@ namespace hpMvc.Controllers
 
         public FilePathResult GetSavedChecksDownload(string site, string fileName)
         {
+            site = Encoder.HtmlEncode(site);
+            fileName = Encoder.HtmlEncode(fileName);
             var dto = DbUtils.GetSiteCodeForSiteId(int.Parse(site));
 
             var folderPath = ConfigurationManager.AppSettings["ChecksUploadPath"].ToString();
@@ -691,6 +693,8 @@ namespace hpMvc.Controllers
 
         public FilePathResult GetSavedSensorInfoDownload(string site, string fileName)
         {
+            site = Encoder.HtmlEncode(site);
+            fileName = Encoder.HtmlEncode(fileName);
             var folderPath = ConfigurationManager.AppSettings["CgmUploadPath"].ToString();
             var path = Path.Combine(folderPath, site);
 
