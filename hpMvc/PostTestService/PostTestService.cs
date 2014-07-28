@@ -143,6 +143,7 @@ namespace hpMvc.PostTestService
                             }
                             break;
                         case "20":
+                        case "27":
                             break;
                         default:
                             if (postTestNextDue.Role != "Nurse")
@@ -475,6 +476,7 @@ namespace hpMvc.PostTestService
                                 test = "NovaStatStrip ";
                             break;
                         case "20":
+                        case "27":
                             break;
 
                         default:
@@ -922,7 +924,7 @@ namespace hpMvc.PostTestService
                         conn.Close();
 
                         //remove for exceptions
-                        if (siteCode == "14" || siteCode == "20")
+                        if (siteCode == "14" || siteCode == "20" || siteCode == "27")
                         {
                             ptnd.TestsNotCompleted.Remove("NovaStatStrip");
                             ptnd.TestsNotCompleted.Remove("VampJr");

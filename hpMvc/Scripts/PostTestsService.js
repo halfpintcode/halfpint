@@ -96,6 +96,7 @@ $(function () {
                                     break;
                                 case "16":
                                 case "22":
+                                case "29":
                                     break;
                                 case "17":
                                 case "23":
