@@ -48,10 +48,10 @@ namespace hpMvc.Controllers
         }
 
         [HttpPost]
-        public JsonResult EditPostTest(List<PostTest> ptList, string staffId, string staffName)
+        public JsonResult EditPostTest(List<PostTest> postTests, string staffId, string staffName)
         {
-            int iRet = DbPostTestsUtils.SavePostTestsCompleted(ptList, int.Parse(staffId), staffName);  
-            return Json(1);
+            int iRet = DbPostTestsUtils.SavePostTestsCompleted(postTests, int.Parse(staffId), staffName);  
+            return Json(iRet);
         }
 
     }
