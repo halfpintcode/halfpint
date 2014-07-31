@@ -7,17 +7,19 @@
 <h2>Test Email</h2>
 <form method="post" action="TestEmail">
 
-Url: <label >@Model.Url</label><br />
+    Url: <label >@Model.Url</label><br />
 
-Host: <label>@Model.Host</label><br />
-Authority: <label>@Model.Authority</label><br />
-DnsSafeHost <label>@Model.DnsSafeHost</label><br />
+    Host: <label>@Model.Host</label><br />
+    Authority: <label>@Model.Authority</label><br />
+    DnsSafeHost <label>@Model.DnsSafeHost</label><br />
 
-Absolute Url: <label>@Model.AbsoluteUri</label><br />
-Absolute Path: <label>@Model.AbsolutePath</label><br />
-Local Path: <label>@Model.LocalPath</label><br />
+    Absolute Url: <label>@Model.AbsoluteUri</label><br />
+    Absolute Path: <label>@Model.AbsolutePath</label><br />
+    Local Path: <label>@Model.LocalPath</label><br />
     Email: @Html.TextBoxFor(model => model.Email) 
     @*<input type="text" id="email" name="email" value='@Model.Email'/>*@
-<input type="submit" id="btnSend" value="Send" />
+    <input type="button" id="btnSend" value="Send" />
 
 </form>
+
+<script src="@Url.Content("~/Scripts/TestEmail.js")" type="text/javascript"></script>

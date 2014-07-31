@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using System.Web.Mvc;
 using System.Web.Security;
 using hpMvc.Models;
@@ -741,10 +742,16 @@ namespace hpMvc.Controllers
             
             var u = new UrlHelper(this.Request.RequestContext);
             string url = "http://" + this.Request.Url.Host + u.RouteUrl("Default", new { Controller = "Account", Action = "Logon" });
-            
-            Utility.SendTestMail(to, null, url, Server);
+            try
+            {
+                Utility.SendTestMail(to, null, url, Server);
+                return Json("Email has been sent!");
+            }
+            catch (Exception ex)
+            {
+                return Json(ex.InnerException.Message);
+            }
 
-            return View();
         }
 
         public ActionResult BroadcastEmail()

@@ -576,6 +576,7 @@
     <Content Include="Scripts\CompleteSubject.js" />
     <Content Include="Scripts\CoordInitialize.js" />
     <Content Include="Scripts\GetNovaList.js" />
+    <Content Include="Scripts\testEmail.js" />
     <Content Include="Scripts\UpdateStaffInfoAdmin.js" />
     <Content Include="Scripts\jquery.dataTables.js" />
     <Content Include="Scripts\jquery.dataTables.rowGrouping.js" />
