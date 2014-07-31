@@ -141,7 +141,7 @@ namespace hpMvc.Controllers
         {
             var rpm = new ResetPasswordModel {UserName = HttpContext.User.Identity.Name};
             //ViewBag.User = HttpContext.User.Identity.Name;
-            return View();
+            return View(rpm);
         }
 
         //

@@ -157,8 +157,9 @@ namespace hpMvc.Controllers
             if ((userName == "jrezuke") && User.Identity.Name != "jrezuke")
                 return RedirectToAction("Index"); 
             ResetPasswordModel rpm = new ResetPasswordModel();
+            rpm.UserName = userName;
             ViewBag.User = userName;
-            return View();
+            return View(rpm);
         }
 
         
