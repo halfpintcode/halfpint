@@ -10,6 +10,7 @@ using hpMvc.Infrastructure.Logging;
 using hpMvc.Infrastructure;
 using System.IO;
 using System.Configuration;
+using hpMvc.Services.CgmImportService;
 using Microsoft.Security.Application;
 using Telerik.Web.Mvc;
 
@@ -38,6 +39,19 @@ namespace hpMvc.Controllers
             }
 
             base.OnAuthorization(filterContext);
+        }
+
+        public ActionResult CgmImportExceptions()
+        {
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult CgmImportExceptions(string data)
+        {
+            var exceptions = CgmImportService.GetCgmImportExceptions();
+            return Json(exceptions);
         }
 
         #region Index        

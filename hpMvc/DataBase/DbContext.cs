@@ -2300,7 +2300,7 @@ namespace hpMvc.DataBase
 
             return sites;
         }
-
+        
         public static int RemoveUser(string userName)
         {
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();

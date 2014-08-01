@@ -149,7 +149,8 @@
     <Compile Include="Models\TestModels.cs" />
     <Compile Include="Models\UtilityModels.cs" />
     <Compile Include="Models\ValidationExtensions.cs" />
-    <Compile Include="PostTestService\PostTestService.cs" />
+    <Compile Include="Services\CgmImportService\CgmImportService.cs" />
+    <Compile Include="Services\PostTestService\PostTestService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WebForm1.aspx.cs">
       <DependentUpon>WebForm1.aspx</DependentUpon>
@@ -531,6 +532,7 @@
     <Content Include="HTMLPage1.htm" />
     <Content Include="HTMLPage2.htm" />
     <Content Include="README.jQuery.vsdoc.txt" />
+    <Content Include="Scripts\CgmImportExceptions.js" />
     <Content Include="Scripts\ChangeUserRole.js" />
     <Content Include="Scripts\checksGgReport.js" />
     <Content Include="Scripts\MeetingsEdit.js" />
@@ -847,6 +849,7 @@
     <Content Include="Views\Coordinator\ChecksNovaBloodGlucoseReport.cshtml" />
     <Content Include="Views\Admin\ChangeUserRole.cshtml" />
     <Content Include="Views\Staff\NurseWorkloadSurvey.cshtml" />
+    <Content Include="Views\Admin\CgmImportExceptions.cshtml" />
     <None Include="_bin_deployableAssemblies\Microsoft.Web.Infrastructure.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.Razor.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.dll" />
