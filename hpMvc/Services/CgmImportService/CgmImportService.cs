@@ -23,8 +23,8 @@ namespace hpMvc.Services.CgmImportService
             var sites = DbUtils.GetSitesActive();
             foreach (var si in sites)
             {
-                var cgmException = new CgmExceptions {Site = si.Name};
-                list.Add(cgmException); 
+                var cgmException = new CgmExceptions { Site = si.Name };
+                list.Add(cgmException);
                 //get site randomized studies - return list of ChecksImportInfo
                 var randList = GetRandimizedStudies(si.ID);
                 //get the list of uploaded checks files in upload directory
@@ -66,10 +66,61 @@ namespace hpMvc.Services.CgmImportService
 
                 } //end of foreach (var subjectImportInfo in randList)
 
+                foreach (var cgmFileInfo in cgmFileList)
+                {
+                    if (!cgmFileInfo.IsRandomized)
+                    {
+                        Console.WriteLine("CGM file is not randomized: " + cgmFileInfo.SubjectId);
+                        //notificationList.Add("CGM file is not randomized: " + cgmFileInfo.FileName);
+                        var emailNote = new EmailNotification { Message = "CGM file is not randomized: " + cgmFileInfo.SubjectId };
+                        cgmException.Notifications.Add(emailNote);
+                        continue;
+                    }
 
-            }
+                    if (cgmFileInfo.IsImportable)
+                    {
+                        if (!IsValidFile(cgmFileInfo))
+                        {
+                            Console.WriteLine("CGM file is not a valid format: " + cgmFileInfo.FileName);
+                            //notificationList.Add("CGM file is not a valid format: " + cgmFileInfo.FileName);
+                            var emailNote = new EmailNotification { Message = "CGM file is not a valid format: " + cgmFileInfo.FileName };
+                            cgmException.Notifications.Add(emailNote);
+                            continue;
+                        }
+                    }
+                } //end foreach (var cgmFileInfo in cgmFileList)
+            } //end foreach (var si in sites)
 
             return list;
+        }
+
+        private static bool IsValidFile(CgmFileInfo cgmFileInfo)
+        {
+            var fullFileName = cgmFileInfo.FullName;
+            using (var sr = new StreamReader(fullFileName))
+            {
+                if (sr.Peek() >= 0)
+                {
+                    //Reads the line, splits on tab and adds the components to the table
+                    var line = sr.ReadLine();
+                    if (line != null)
+                    {
+                        if (!line.Contains("PatientInfoField	PatientInfoValue"))
+                        {
+                            Console.WriteLine("***Invalid file: " + fullFileName);
+                            Console.WriteLine(line);
+                            return false;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Valid file: " + fullFileName);
+                        }
+                    }
+                }
+            }
+
+
+            return true;
         }
 
         private static List<SubjectImportInfo> GetRandimizedStudies(int site)
@@ -221,7 +272,7 @@ namespace hpMvc.Services.CgmImportService
             Notifications = new List<EmailNotification>();
         }
         public string Site { get; set; }
-        public List<EmailNotification> Notifications { get; set; } 
+        public List<EmailNotification> Notifications { get; set; }
     }
 
     public class EmailNotification
