@@ -1,6 +1,9 @@
 ﻿/// <reference path="jquery-1.7.1-vsdoc.js" />
 $(function () {
     $('#btnGetExceptions').click(function () {
+        $("#spinner").ajaxStart(function () { $(this).show(); })
+			   .ajaxStop(function () { $(this).hide(); });
+
         var url = window.urlRoot + '/Admin/CgmImportExceptions/';
         var email = $('#Email').val();
         $.post(url,

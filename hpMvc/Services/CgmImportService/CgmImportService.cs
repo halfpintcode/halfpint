@@ -5,10 +5,8 @@ using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
-using System.Web;
 using hpMvc.DataBase;
 using hpMvc.Infrastructure.Logging;
-
 
 namespace hpMvc.Services.CgmImportService
 {
@@ -87,11 +85,192 @@ namespace hpMvc.Services.CgmImportService
                             cgmException.Notifications.Add(emailNote);
                             continue;
                         }
+
+                        var dbRows = ParseFile(cgmFileInfo);
+                        if (!(dbRows.Count > 0))
+                        {
+                            Console.WriteLine("CGM file has no rows: " + cgmFileInfo.FileName);
+                            cgmException.Notifications.Add(new EmailNotification{ Message = "CGM file has no rows: " + cgmFileInfo.FileName});
+                            continue;
+                        }
+
+                        var subjRandInfo = randList.Find(x => x.SubjectId == cgmFileInfo.SubjectId);
+                        string message;
+                        if (!IsValidDateRange(dbRows, cgmFileInfo, subjRandInfo, out message))
+                        {
+                            cgmException.Notifications.Add(new EmailNotification{ Message = message});
+                            Console.WriteLine(message);
+                            continue;
+                        }
+                        if (message.Length > 0)
+                        {
+                            Console.WriteLine(message);
+                        }
                     }
                 } //end foreach (var cgmFileInfo in cgmFileList)
             } //end foreach (var si in sites)
 
             return list;
+        }
+
+        private static bool IsValidDateRange(List<DbRow> dbRows, CgmFileInfo cgmFileInfo, SubjectImportInfo subjectImportInfo, out string message)
+        {
+            var firstCgmGlucoseDate = GetFirstCgmGlucoseDate(dbRows);
+            if (firstCgmGlucoseDate == null)
+            {
+                message = "***Invalid date range: Could not get the first glucose date from file:" + cgmFileInfo.SubjectId;
+                return false;
+            }
+
+            var lastCgmGlucoseDate = GetLastCgmGlucoseDate(dbRows);
+            if (lastCgmGlucoseDate == null)
+            {
+                message = "***Invalid date range: Could not get the last glucose date from file:" + cgmFileInfo.SubjectId;
+                return false;
+            }
+
+            //get checks first and last entries for subject
+            GetFirstLastChecksSensorDates(cgmFileInfo, subjectImportInfo.StudyId);
+            if ((cgmFileInfo.FirstChecksSensorDateTime == null || cgmFileInfo.LastChecksSensorDateTime == null))
+            {
+                message = "***Invalid date range: Could not get checks first and last glucose entry dates:" + cgmFileInfo.SubjectId;
+                return false;
+            }
+
+
+            if ((cgmFileInfo.FirstChecksSensorDateTime.Value.Date.CompareTo(firstCgmGlucoseDate.Value.Date) > 0))
+            {
+                message = "***Invalid date range: The first sensor date(" + firstCgmGlucoseDate.Value.Date.ToShortDateString() +
+                    ") is earlier than the first checks date(" +
+                    cgmFileInfo.FirstChecksSensorDateTime.Value.ToShortDateString() +
+                    "):" + cgmFileInfo.SubjectId;
+                return false;
+            }
+
+            if ((cgmFileInfo.LastChecksSensorDateTime.Value.Date.CompareTo(lastCgmGlucoseDate.Value.Date) < 0))
+            {
+                message = "***Invalid date range: The last sensor date(" + lastCgmGlucoseDate.Value.Date.ToShortDateString() +
+                    ") is later than the last checks date(" +
+                    cgmFileInfo.LastChecksSensorDateTime.Value.ToShortDateString() +
+                    "):" + cgmFileInfo.SubjectId;
+                return false;
+            }
+            message = "Valid date range:" + cgmFileInfo.SubjectId;
+            return true;
+        }
+
+        private static void GetFirstLastChecksSensorDates(CgmFileInfo cgmFileInfo, int studyId)
+        {
+            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            SqlDataReader rdr = null;
+            using (var conn = new SqlConnection(strConn))
+            {
+                try
+                {
+                    var cmd = new SqlCommand("", conn) { CommandType = CommandType.StoredProcedure, CommandText = "GetChecksFirstAndLastSensorDateTime" };
+                    var param = new SqlParameter("@studyId", studyId);
+                    cmd.Parameters.Add(param);
+
+                    conn.Open();
+                    rdr = cmd.ExecuteReader();
+                    if (rdr.Read())
+                    {
+                        var pos = rdr.GetOrdinal("firstDate");
+                        if (!rdr.IsDBNull(pos))
+                        {
+                            cgmFileInfo.FirstChecksSensorDateTime = rdr.GetDateTime(pos);
+                        }
+
+                        pos = rdr.GetOrdinal("lastDate");
+                        if (!rdr.IsDBNull(pos))
+                        {
+                            cgmFileInfo.LastChecksSensorDateTime = rdr.GetDateTime(pos);
+                        }
+                    }
+                    rdr.Close();
+                }
+                catch (Exception ex)
+                {
+                    Nlogger.LogError(ex);
+                }
+                finally
+                {
+                    if (rdr != null)
+                        rdr.Close();
+                }
+            }
+        }
+        private static DateTime? GetFirstCgmGlucoseDate(IEnumerable<DbRow> dbRows)
+        {
+            //try getting the date from the first row
+            foreach (var dbRow in dbRows)
+            {
+                var datenv = dbRow.ColNameVals.Find(x => x.Name == "GlucoseInternalTime");
+                var date = GetDateFromNameValue(datenv.Value);
+                if (date != null)
+                    return date;
+
+            }
+            return null;
+        }
+
+        private static DateTime? GetLastCgmGlucoseDate(List<DbRow> dbRows)
+        {
+            //try getting the date from the first row
+            for (var i = dbRows.Count - 1; i > 0; i--)
+            {
+                var dbRow = dbRows[i];
+                var datenv = dbRow.ColNameVals.Find(x => x.Name == "GlucoseInternalTime");
+                var date = GetDateFromNameValue(datenv.Value);
+                if (date != null)
+                    return date;
+
+            }
+            return null;
+        }
+        private static DateTime? GetDateFromNameValue(string value)
+        {
+            DateTime date;
+            if (DateTime.TryParse(value, out date))
+                return date;
+            return null;
+        }
+
+        private static List<DbRow> ParseFile(CgmFileInfo cgmFileInfo)
+        {
+            var dbRows = new List<DbRow>();
+            using (var sr = new StreamReader(cgmFileInfo.FullName))
+            {
+                var rows = 0;
+                string line;
+                string[] colNameList = { };
+
+                while ((line = sr.ReadLine()) != null)
+                {
+                    var columns = line.Split('\t');
+                    //first row contains the column names
+                    if (rows == 0)
+                    {
+                        colNameList = (string[])columns.Clone();
+                        rows++;
+                        continue;
+                    }
+
+                    var dbRow = new DbRow();
+                    //skip the first two columns - don't need - that's why i starts at 2
+                    for (int i = 2; i < columns.Length - 1; i++)
+                    {
+                        var col = columns[i];
+                        var colName = colNameList[i];
+
+                        var colValName = new DbColNameVal { Name = colName, Value = col };
+
+                        dbRow.ColNameVals.Add(colValName);
+                    }
+                    dbRows.Add(dbRow);
+                }
+            }
+            return dbRows;
         }
 
         private static bool IsValidFile(CgmFileInfo cgmFileInfo)
@@ -111,10 +290,7 @@ namespace hpMvc.Services.CgmImportService
                             Console.WriteLine(line);
                             return false;
                         }
-                        else
-                        {
-                            Console.WriteLine("Valid file: " + fullFileName);
-                        }
+                        Console.WriteLine("Valid file: " + fullFileName);
                     }
                 }
             }
@@ -156,29 +332,22 @@ namespace hpMvc.Services.CgmImportService
                         pos = rdr.GetOrdinal("Arm");
                         ci.Arm = rdr.GetString(pos);
 
-                        pos = rdr.GetOrdinal("ChecksImportCompleted");
-                        ci.ImportCompleted = !rdr.IsDBNull(pos) && rdr.GetBoolean(pos);
-
                         pos = rdr.GetOrdinal("IsCgmImported");
                         ci.IsCgmImported = !rdr.IsDBNull(pos) && rdr.GetBoolean(pos);
-
-                        pos = rdr.GetOrdinal("ChecksRowsCompleted");
-                        ci.RowsCompleted = !rdr.IsDBNull(pos) ? rdr.GetInt32(pos) : 0;
 
                         pos = rdr.GetOrdinal("ChecksLastRowImported");
                         ci.LastRowImported = !rdr.IsDBNull(pos) ? rdr.GetInt32(pos) : 0;
 
                         pos = rdr.GetOrdinal("DateCompleted");
-                        ci.SubjectCompleted = !rdr.IsDBNull(pos);
+                        if (!rdr.IsDBNull(pos))
+                        {
+                            ci.DateCompleted = rdr.GetDateTime(pos);
+                            ci.SubjectCompleted = true;
+                        }
 
-                        pos = rdr.GetOrdinal("ChecksHistoryLastDateImported");
-                        ci.HistoryLastDateImported = !rdr.IsDBNull(pos) ? (DateTime?)rdr.GetDateTime(pos) : null;
-
-                        pos = rdr.GetOrdinal("ChecksCommentsLastRowImported");
-                        ci.CommentsLastRowImported = !rdr.IsDBNull(pos) ? rdr.GetInt32(pos) : 0;
-
-                        pos = rdr.GetOrdinal("ChecksSensorLastRowImported");
-                        ci.SensorLastRowImported = !rdr.IsDBNull(pos) ? rdr.GetInt32(pos) : 0;
+                        pos = rdr.GetOrdinal("DateRandomized");
+                        if (!rdr.IsDBNull(pos))
+                            ci.DateRandomized = rdr.GetDateTime(pos);
 
                         pos = rdr.GetOrdinal("SiteName");
                         ci.SiteName = rdr.GetString(pos);
@@ -235,7 +404,7 @@ namespace hpMvc.Services.CgmImportService
         public bool IsValidFile { get; set; }
         public string InvalidReason { get; set; }
         public bool IsImportable { get; set; }
-        public DateTime? FirstChecksSendorDateTime { get; set; }
+        public DateTime? FirstChecksSensorDateTime { get; set; }
         public DateTime? LastChecksSensorDateTime { get; set; }
     }
 
@@ -251,15 +420,12 @@ namespace hpMvc.Services.CgmImportService
         public int SiteId { get; set; }
         public string SiteName { get; set; }
         public int StudyId { get; set; }
-        public bool ImportCompleted { get; set; }
         public bool SubjectCompleted { get; set; }
-
         public bool IsCgmImported { get; set; }
         public int RowsCompleted { get; set; }
         public int LastRowImported { get; set; }
-        public DateTime? HistoryLastDateImported { get; set; }
-        public int CommentsLastRowImported { get; set; }
-        public int SensorLastRowImported { get; set; }
+        public DateTime? DateRandomized { get; set; }
+        public DateTime? DateCompleted { get; set; }
 
         public List<EmailNotification> EmailNotifications { get; set; }
 
@@ -279,5 +445,20 @@ namespace hpMvc.Services.CgmImportService
     {
         public string Message { get; set; }
 
+    }
+
+    public class DbRow
+    {
+        public DbRow()
+        {
+            ColNameVals = new List<DbColNameVal>();
+        }
+        public List<DbColNameVal> ColNameVals { get; set; }
+    }
+
+    public class DbColNameVal
+    {
+        public string Name { get; set; }
+        public string Value { get; set; }
     }
 }
