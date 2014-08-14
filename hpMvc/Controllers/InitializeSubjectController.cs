@@ -221,28 +221,26 @@ namespace hpMvc.Controllers
             return this.File(file, "application/vnd.ms-excel.sheet.macroEnabled.12", fileDownloadName);
         }
 
-        public FilePathResult AlternateSSDownload(string studyID)
+        public FilePathResult AlternateSSDownload(string studyId)
         {
-            studyID = Encoder.HtmlEncode(studyID);
-            if (DbUtils.IsStudyIdValid(studyID) != 1)
+            studyId = Encoder.HtmlEncode(studyId);
+            var subjectId = studyId.Replace(".xlsm","");
+
+            if (DbUtils.IsStudyIdValid(subjectId) != 1)
                 return null;
 
-            _logger.LogInfo("Initialize.AlternateSSDownload: " + studyID);
-            string path = this.Request.PhysicalApplicationPath + "xcel\\" + studyID.Substring(0, 2) + 
+            _logger.LogInfo("Initialize.AlternateSSDownload: " + studyId);
+            string path = this.Request.PhysicalApplicationPath + "xcel\\" + studyId.Substring(0, 2) + 
                 "\\";
-            string file = "";
-            if(studyID.IndexOf(".xlsm")> -1)
-                file = path + studyID;
-            else
-                file = path + studyID + ".xlsm";
-
+            string file = path + studyId;
+            
             string fileDownloadName = "";
             if (!path.Contains("Prod"))
-                studyID = "T" + studyID;
+                studyId = "T" + studyId;
 
-            fileDownloadName = studyID;
+            fileDownloadName = studyId;
 
-            _logger.LogInfo("Initialize.AlternateSSDownload - file download: " + studyID);
+            _logger.LogInfo("Initialize.AlternateSSDownload - file download: " + studyId);
             return this.File(file, "application/vnd.ms-excel.sheet.macroEnabled.12", fileDownloadName);
         }   
 

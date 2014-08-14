@@ -3,18 +3,18 @@ $(function () {
     $('#btnDownload').attr('disabled', 'disabled');
     
     $('#SS').change(function () {
-        selectedVal = $(this).val();
+        var selectedVal = $(this).val();
         if(selectedVal === "<Select spreadsheet>"){
             $('#btnDownload').attr('disabled', 'disabled');    
         }
         else{
             $('#btnDownload').attr('disabled', false);
-        }        
+        }
     });
 
     $('#btnDownload').click(function(){
-        var studyID = $('#SS').val();
-        var url = urlRoot + '/InitializeSubject/AlternateSSDownload/' + studyID;
+        var studyId = $('#SS').val();
+        var url = window.urlRoot + '/InitializeSubject/AlternateSSDownload/' + studyId;
         window.location.href = url;
     });
 });
