@@ -205,7 +205,7 @@ namespace hpMvc.Services.CgmImportService
             //try getting the date from the first row
             foreach (var dbRow in dbRows)
             {
-                var datenv = dbRow.ColNameVals.Find(x => x.Name == "GlucoseInternalTime");
+                var datenv = dbRow.ColNameVals.Find(x => x.Name == "GlucoseDisplayTime");
                 var date = GetDateFromNameValue(datenv.Value);
                 if (date != null)
                     return date;
@@ -220,7 +220,7 @@ namespace hpMvc.Services.CgmImportService
             for (var i = dbRows.Count - 1; i > 0; i--)
             {
                 var dbRow = dbRows[i];
-                var datenv = dbRow.ColNameVals.Find(x => x.Name == "GlucoseInternalTime");
+                var datenv = dbRow.ColNameVals.Find(x => x.Name == "GlucoseDisplayTime");
                 var date = GetDateFromNameValue(datenv.Value);
                 if (date != null)
                     return date;
