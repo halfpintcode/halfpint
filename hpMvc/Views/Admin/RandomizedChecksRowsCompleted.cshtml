@@ -1,0 +1,56 @@
+﻿@model List<hpMvc.Models.RandomizedSubjecsChecksCompletedRowsModel>
+@{
+    ViewBag.Title = "Randomized Checks Rows Completed Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>
+    Randomized Checks Rows Completed Report</h2>
+@using (Html.BeginForm("RandomizedChecksRowsCompleted", "Admin", FormMethod.Post))
+{
+    <div>
+        <span>Select a site:&nbsp;</span> @Html.DropDownList("Sites")
+        <button id="btnReport" type="submit">Show Report</button>
+        <br />
+    </div>
+}
+<hr/>
+<div id="divDescription">
+    @*This report gathers information from the following:
+    <ul style="list-style: disc; padding-left: 25px;">
+        <li>Date randomized</li>
+        <li>Subject completed
+            <ul style="list-style: circle; padding-left: 25px;">
+                <li>Date completed</li>
+                <li>Check rows completed</li>
+            </ul>
+        </li>
+        <li>Checks import
+            <ul style="list-style: circle; padding-left: 25px;">
+                <li>Checks import completed</li>
+                <li>Check last row imported</li>
+            </ul>
+        </li>
+        <li>Cgm import
+            <ul style="list-style: circle; padding-left: 25px;">
+                <li>First glucose display date/time</li>
+                <li>Last glucose display date/time</li>
+            </ul>
+        </li>
+        <li>Checks spreadsheets
+            <ul style="list-style: circle; padding-left: 25px;">
+                <li>First glucose date/time</li>
+                <li>Last glucose date/time</li>
+                <li>Actual rows completed</li>
+            </ul>
+        </li>
+        <li>Checks database table
+            <ul style="list-style: circle; padding-left: 25px;">
+                <li>Actual rows in table</li>
+            </ul>
+        </li>
+    </ul>*@
+</div>
+
+
+@*<link href="@Url.Content("~/Content/RandomizedChecksRowsCompleted.css")" rel="stylesheet" type="text/css" />*@
+@*<script src="@Url.Content("~/Scripts/RandomizedChecksRowsCompleted.js")" type="text/javascript"></script>*@

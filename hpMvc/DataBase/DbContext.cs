@@ -2491,6 +2491,48 @@ namespace hpMvc.DataBase
 
         }
 
+        public static string GetSiteCodeForSite(int siteId)
+        {
+            string retVal = string.Empty;
+            var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            SqlDataReader rdr = null;
+            using (var conn = new SqlConnection(strConn))
+            {
+                try
+                {
+                    var cmd = new SqlCommand("", conn)
+                    {
+                        CommandType = CommandType.StoredProcedure,
+                        CommandText = "GetSiteCodeBySiteID"
+                    };
+
+                    var param = new SqlParameter("@siteID", siteId);
+                    cmd.Parameters.Add(param);
+
+                    conn.Open();
+                    rdr = cmd.ExecuteReader();
+                    if (rdr.Read())
+                    {
+                        var pos = rdr.GetOrdinal("SiteID");
+                        retVal = rdr.GetString(pos);
+                    }
+                    rdr.Close();
+                    return retVal;
+                }
+                catch (Exception ex)
+                {
+                    Nlogger.LogError(ex);
+                    return retVal;
+                }
+                finally
+                {
+                    if (rdr != null)
+                        rdr.Close();
+                }
+            }
+
+        }
+
         public static DTO GetSiteCodeForSiteId(int siteId)
         {
             var dto = new DTO {ReturnValue = 1};

@@ -41,6 +41,9 @@
         <siteMapNode title="Dexcom Invalid or Missing File Report"
                      controller="Admin"
                      action="CgmImportExceptions" />
+        <siteMapNode title="Randomized Checks Rows Completed Report"
+                    controller="Admin"
+                    action="RandomizedChecksRowsCompleted" />
       </siteMapNode>
     </siteMapNode>
 </siteMap>

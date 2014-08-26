@@ -3,10 +3,9 @@
     ViewBag.Title = "StudyIdsNotRandomized";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <script type="text/javascript">
     $(function () {
-        $('#Sites').change(function () {         
+        $('#Sites').change(function () {
             $.getJSON('@Url.Action("GetNonradomizedStudies")',
                 { siteID: $(this).val() },
                 function (result) {
@@ -18,21 +17,21 @@
         });
     });
 </script>
-
-<h2>Study Ids Not Randomized</h2>
-
- @if (@ViewBag.Role == "Admin"){
+<h2>
+    Study Ids Not Randomized</h2>
+@if (@ViewBag.Role == "Admin")
+{
     <span>Select a site:&nbsp;</span> @Html.DropDownList("Sites")
-    <br /><br />
- }
-<br /><br />
-<div id="grid">
-
-@{    
-    var grid = new WebGrid(
-        Model, defaultSort: "StudyID", rowsPerPage: 50, ajaxUpdateContainerId: "grid");
+    <br />
+    <br />
 }
-
-@grid.GetHtml(tableStyle: "webgrid", headerStyle: "header", alternatingRowStyle: "alt")
+<br />
+<br />
+<div id="grid">
+    @{    
+        var grid = new WebGrid(
+            Model, defaultSort: "StudyID", rowsPerPage: 50, ajaxUpdateContainerId: "grid");
+    }
+    @grid.GetHtml(tableStyle: "webgrid", headerStyle: "header", alternatingRowStyle: "alt")
 </div>
 <link href="@Url.Content("~/Content/webgrid.css")" rel="stylesheet" type="text/css" />

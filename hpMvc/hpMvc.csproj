@@ -142,6 +142,7 @@
     <Compile Include="Models\ManageRollsModel.cs" />
     <Compile Include="Models\NotificationEvent.cs" />
     <Compile Include="Models\PostTestsModel.cs" />
+    <Compile Include="Models\RandomizedSubjecsChecksCompletedRows.cs" />
     <Compile Include="Models\SensorModel.cs" />
     <Compile Include="Models\SiteModel.cs" />
     <Compile Include="Models\StaffFolderModel.cs" />
@@ -150,6 +151,7 @@
     <Compile Include="Models\TestModels.cs" />
     <Compile Include="Models\UtilityModels.cs" />
     <Compile Include="Models\ValidationExtensions.cs" />
+    <Compile Include="Reports\RandomizedSubjectsChecksCompletedRows\ChecksRowInfo.cs" />
     <Compile Include="Services\CgmImportService\CgmImportService.cs" />
     <Compile Include="Services\PostTestService\PostTestService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -455,6 +457,7 @@
     <Content Include="Content\PostTestsStart.css" />
     <Content Include="Content\PrintIntiializePassword.css" />
     <Content Include="Content\randomize.css" />
+    <Content Include="Content\RandomizedChecksRowsCompleted.css" />
     <Content Include="Content\ShowPostTests.css" />
     <Content Include="Content\ShowPostTests2.css" />
     <Content Include="Content\ShowPostTestsDue.css" />
@@ -540,6 +543,7 @@
     <Content Include="Scripts\GetSavedSensorInfo.js" />
     <Content Include="Scripts\jquery-ui-1.10.3.js" />
     <Content Include="Scripts\jquery-ui-1.10.3.min.js" />
+    <Content Include="Scripts\RandomizedChecksRowsCompleted.js" />
     <Content Include="Scripts\resetGenericNurseAccount.js" />
     <Content Include="Scripts\sites.js" />
     <Content Include="Scripts\staffSubscribe.js" />
@@ -851,6 +855,7 @@
     <Content Include="Views\Admin\ChangeUserRole.cshtml" />
     <Content Include="Views\Staff\NurseWorkloadSurvey.cshtml" />
     <Content Include="Views\Admin\CgmImportExceptions.cshtml" />
+    <Content Include="Views\Admin\RandomizedChecksRowsCompleted.cshtml" />
     <None Include="_bin_deployableAssemblies\Microsoft.Web.Infrastructure.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.Razor.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.dll" />

@@ -10,6 +10,7 @@ using hpMvc.Infrastructure.Logging;
 using hpMvc.Infrastructure;
 using System.IO;
 using System.Configuration;
+using hpMvc.Reports.RandomizedSubjectsChecksCompletedRows;
 using hpMvc.Services.CgmImportService;
 using Microsoft.Security.Application;
 using Telerik.Web.Mvc;
@@ -19,7 +20,7 @@ namespace hpMvc.Controllers
     //[Authorize(Roles = "Admin")] 
     public class AdminController : Controller
     {
-        NLogger nlogger = new NLogger();
+        readonly NLogger _nlogger = new NLogger();
 
         protected override void OnAuthorization(AuthorizationContext filterContext)
         {
@@ -43,7 +44,6 @@ namespace hpMvc.Controllers
 
         public ActionResult CgmImportExceptions()
         {
-
             return View();
         }
 
@@ -52,6 +52,25 @@ namespace hpMvc.Controllers
         {
             var exceptions = CgmImportService.GetCgmImportExceptions();
             return Json(exceptions);
+        }
+
+        public ActionResult RandomizedChecksRowsCompleted()
+        {
+            var sites = DbUtils.GetSitesActive();
+            if (sites.Count == 0)
+                throw new Exception("There was an error retreiving the sites list from the database");
+            sites.Insert(0, new Site { ID = 0, Name = "All sites", SiteID = "" });
+            ViewBag.Sites = new SelectList(sites, "ID", "Name");
+            var list = ChecksRowInfo.GetRandomizedSubjectsChecksCompletedRows(1);
+            return View(list);
+        }
+
+        [HttpPost]
+        public ActionResult RandomizedChecksRowsCompleted(string sites)
+        {
+            var site = int.Parse(sites);
+            
+            return View();
         }
 
         #region Index        
@@ -63,11 +82,9 @@ namespace hpMvc.Controllers
                 role = "Admin";
             ViewBag.Role = role;
 
-            var sites = new List<Site>();
-
             if (role == "Admin")
             {
-                sites = DbUtils.GetSitesActive();
+                var sites = DbUtils.GetSitesActive();
                 if (sites.Count == 0)
                     throw new Exception("There was an error retreiving the sites list from the database");
                 sites.Insert(0, new Site { ID = 0, Name = "Select a site", SiteID = "" });
@@ -75,7 +92,7 @@ namespace hpMvc.Controllers
 
             }
 
-            nlogger.LogInfo("Admin Index - user: " + HttpContext.User.Identity.Name + ", role: " + role);
+            _nlogger.LogInfo("Admin Index - user: " + HttpContext.User.Identity.Name + ", role: " + role);
            
             List<MembershipUser> users = new List<MembershipUser>();
             if (role == "Admin")
@@ -99,7 +116,7 @@ namespace hpMvc.Controllers
         [HttpPost]
         public JsonResult SiteSelected(string site)
         {
-            nlogger.LogInfo("SiteSelected - site: " + site);
+            _nlogger.LogInfo("SiteSelected - site: " + site);
             List<MembershipUser> users = new List<MembershipUser>();
             users = DbUtils.GetUsersForSite(int.Parse(site));
             return Json(users);
@@ -109,7 +126,7 @@ namespace hpMvc.Controllers
         [HttpPost]
         public JsonResult UserSelected(string userName)
         {
-            nlogger.LogInfo("UserSelected - userName: " + userName);
+            _nlogger.LogInfo("UserSelected - userName: " + userName);
             String[] roles = Roles.GetRolesForUser(userName);
             return Json(roles);
         }
@@ -137,7 +154,7 @@ namespace hpMvc.Controllers
             UserRolesUtils.SaveAsignedRoles(selectedRoles, userName);
             MembershipUser user = Membership.GetUser(userName);
 
-            nlogger.LogInfo("ManageUserRoles Post - user: " + userName + ", role: " + selectedRoles[0]);
+            _nlogger.LogInfo("ManageUserRoles Post - user: " + userName + ", role: " + selectedRoles[0]);
 
             var u = new UrlHelper(this.Request.RequestContext);
             string url = "http://" + this.Request.Url.Host + u.RouteUrl("Default", new { Controller = "Account", Action = "Logon" });
@@ -160,7 +177,7 @@ namespace hpMvc.Controllers
                 if (!Roles.RoleExists(role))
                     Roles.CreateRole(role);
 
-            nlogger.LogInfo("ManageRoles Post - user: " + HttpContext.User.Identity.Name + ", role added: " + role);            
+            _nlogger.LogInfo("ManageRoles Post - user: " + HttpContext.User.Identity.Name + ", role added: " + role);            
             return Json(role);
         }
         #endregion Roles
@@ -190,7 +207,7 @@ namespace hpMvc.Controllers
             else
                 result = UserRolesUtils.ResetPassword(userName, rpm.NewPassword);
             
-            nlogger.LogInfo("ResetUserPassword Post - user: " + userName + ", new pasword: " + rpm.NewPassword);
+            _nlogger.LogInfo("ResetUserPassword Post - user: " + userName + ", new pasword: " + rpm.NewPassword);
 
             var u = new UrlHelper(this.Request.RequestContext);
             string url = "http://" + this.Request.Url.Host + u.RouteUrl("Default", new { Controller = "Account", Action = "Logon" });
@@ -204,7 +221,7 @@ namespace hpMvc.Controllers
         [HttpPost]
         public ActionResult UnlockUser(string userName)
         {
-            nlogger.LogInfo("UnlockUser Post - user: " + userName);
+            _nlogger.LogInfo("UnlockUser Post - user: " + userName);
 
             bool retVal = UserRolesUtils.UnlockUser(userName);
             
@@ -214,7 +231,7 @@ namespace hpMvc.Controllers
         [HttpPost]
         public ActionResult RemoveUser(string userName)
         {
-            nlogger.LogInfo("RemoveUser Post - user: " + userName);
+            _nlogger.LogInfo("RemoveUser Post - user: " + userName);
 
             var dto = new DTO();
             dto.ReturnValue = DbUtils.RemoveUser(userName);
@@ -228,16 +245,14 @@ namespace hpMvc.Controllers
                 if (dto.ReturnValue == -1)
                     dto.Message = @"There was an error removing the user-site from the database";
             }
-            nlogger.LogInfo("RemoveUser - user: " + userName + ", message: " + dto.Message);
+            _nlogger.LogInfo("RemoveUser - user: " + userName + ", message: " + dto.Message);
             return Json(dto);
         }
         
         #region AddUser        
         public ActionResult AddStaff()
-        {            
-            List<Site> sites = new List<Site>();
-
-            sites = DbUtils.GetSitesActive();
+        {     
+            var sites = DbUtils.GetSitesActive();
             if (sites.Count == 0)
                 throw new Exception("There was an error retreiving the sites list from the database");
             sites.Insert(0, new Site { ID = 0, Name = "Select a site", SiteID = "" });
@@ -346,7 +361,7 @@ namespace hpMvc.Controllers
         [HttpPost]
         public ActionResult AddUser(AddUserModel model, string SelectedSite)
         {
-            nlogger.LogInfo("Admin.AddUser - post");
+            _nlogger.LogInfo("Admin.AddUser - post");
             bool bSendEmail = Request.Params["SendEmail"] != null;
 
             if (ModelState.IsValid)
@@ -375,7 +390,7 @@ namespace hpMvc.Controllers
                     if(bSendEmail)
                         Utility.SendAccountCreatedMail(new string[] { user.Email }, null, password, model.UserName, Utility.GetSiteLogonUrl(this.Request), this.Server);
 
-                    nlogger.LogInfo("AddUser - userName: " + model.UserName + ", site: " + SelectedSite + ", password: " + password);
+                    _nlogger.LogInfo("AddUser - userName: " + model.UserName + ", site: " + SelectedSite + ", password: " + password);
                     return PartialView("AddUserSuccessPartial");
                 }
                 else
@@ -638,7 +653,7 @@ namespace hpMvc.Controllers
             files.Add("Select file");
             ViewBag.Files = new SelectList(files);
 
-            nlogger.LogInfo("Admin GetSavedChecks - user: " + HttpContext.User.Identity.Name + ", role: " + role);
+            _nlogger.LogInfo("Admin GetSavedChecks - user: " + HttpContext.User.Identity.Name + ", role: " + role);
 
             return View();
         }
@@ -666,7 +681,7 @@ namespace hpMvc.Controllers
             files.Add("Select file");
             ViewBag.Files = new SelectList(files);
 
-            nlogger.LogInfo("Admin GetSavedSensorInfo - user: " + HttpContext.User.Identity.Name + ", role: " + role);
+            _nlogger.LogInfo("Admin GetSavedSensorInfo - user: " + HttpContext.User.Identity.Name + ", role: " + role);
 
             return View();
         }
@@ -674,7 +689,7 @@ namespace hpMvc.Controllers
         [HttpPost]
         public JsonResult GetSavedChecksSiteChange(string site)
         {
-            nlogger.LogInfo("SiteSelected - site: " + site);
+            _nlogger.LogInfo("SiteSelected - site: " + site);
             var dto = DbUtils.GetSiteCodeForSiteId(int.Parse(site));
             var files = SsUtils.GetSavedStudyIDs(dto.Bag.ToString());
             
@@ -684,7 +699,7 @@ namespace hpMvc.Controllers
         [HttpPost]
         public JsonResult GetSavedSensorInfoSiteChange(string site)
         {
-            nlogger.LogInfo("SiteSelected - site: " + site);
+            _nlogger.LogInfo("SiteSelected - site: " + site);
             //var dto = DbUtils.GetSiteCodeForSiteID(int.Parse(site));
             var files = SsUtils.GetSavedSensorFiles(site);
 
@@ -703,7 +718,7 @@ namespace hpMvc.Controllers
             var fullpath = Path.Combine(path, fileName);
 
 
-            nlogger.LogInfo("GetSavedChecksDownload: " + fileName);
+            _nlogger.LogInfo("GetSavedChecksDownload: " + fileName);
             return this.File(fullpath, "application/vnd.ms-excel.sheet.macroEnabled.12", fileName.Replace("copy", ""));
         }
 
@@ -717,7 +732,7 @@ namespace hpMvc.Controllers
             var fullpath = Path.Combine(path, fileName);
 
 
-            nlogger.LogInfo("GetSavedSensorInfoDownload: " + fileName);
+            _nlogger.LogInfo("GetSavedSensorInfoDownload: " + fileName);
             return this.File(fullpath, "application/CSV", fileName);
         }
 
@@ -725,7 +740,7 @@ namespace hpMvc.Controllers
         {
             var fileName = "Checks_tmpl.xlsm";
             var fullpath = Path.Combine(Server.MapPath("~/ssTemplate"), fileName);
-            nlogger.LogInfo("GetChecksTemplate");
+            _nlogger.LogInfo("GetChecksTemplate");
             return this.File(fullpath, "application/vnd.ms-excel.sheet.macroEnabled.12", fileName.Replace("copy", ""));
         }
 
