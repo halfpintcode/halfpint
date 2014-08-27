@@ -54,6 +54,35 @@ namespace hpMvc.Controllers
             return Json(exceptions);
         }
 
+        [HttpPost]
+        public JsonResult AddDexcomSkips(string skips)
+        {
+            var retVal = string.Empty;
+            if (! string.IsNullOrEmpty(skips))
+            {
+                var subjects = skips.Split(new string[] {","}, StringSplitOptions.None);
+                foreach (var subject in subjects)
+                {
+                    //verify subjectId
+                    if (DbUtils.IsStudyIdValid(subject) == 1)
+                    {
+                        DbUtils.AddDexcomSkipSubject(subject);
+                        retVal += "Subject " + subject + " was added, ";
+                    }
+                    else
+                    {
+                        retVal += "Could not add subject " + subject + ", ";
+                    }
+                }
+            }
+            else
+            {
+                retVal = "There are no subjects to add!";
+            }
+
+            return Json(retVal);
+        }
+
         public ActionResult RandomizedChecksRowsCompleted()
         {
             var sites = DbUtils.GetSitesActive();

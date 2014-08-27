@@ -3394,9 +3394,37 @@ namespace hpMvc.DataBase
             return true;
         }
 
+        public static bool AddDexcomSkipSubject(string subjectId)
+        {
+            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            using (var conn = new SqlConnection(strConn))
+            {
+                try
+                {
+                    var cmd = new SqlCommand("", conn)
+                    {
+                        CommandType = CommandType.StoredProcedure,
+                        CommandText = "AddDexcomSkip"
+                    };
+
+                    var param = new SqlParameter("@subjectId", subjectId);
+                    cmd.Parameters.Add(param);
+                    
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    Nlogger.LogError(ex);
+                    return false;
+                }
+            }
+            return true;
+        }
+
         public static bool AddStudyId(string studyId, int siteId, MessageListDTO dto)
         {
-             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
             using (var conn = new SqlConnection(strConn))
             {
                 try
@@ -3579,6 +3607,36 @@ namespace hpMvc.DataBase
                 }
                 return list;
             }
+        }
+
+        internal static HashSet<string> GetCgmSkips()
+        {
+            var hash = new HashSet<string>();
+            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            using (var conn = new SqlConnection(strConn))
+            {
+                try
+                {
+                    var cmd = new SqlCommand("", conn)
+                    {
+                        CommandType = CommandType.StoredProcedure,
+                        CommandText = ("GetDexcomSkips")
+                    };
+                    conn.Open();
+                    var rdr = cmd.ExecuteReader();
+
+                    while (rdr.Read())
+                    {
+                        hash.Add(rdr.GetString(0));
+                    }
+                    rdr.Close();
+                }
+                catch (Exception ex)
+                {
+                    Nlogger.LogError(ex);
+                }
+            }
+            return hash;
         }
     }
 }

@@ -19,6 +19,7 @@ namespace hpMvc.Services.CgmImportService
             var list = new List<CgmExceptions>();
             //get sites 
             var sites = DbUtils.GetSitesActive();
+            var skips = DbUtils.GetCgmSkips();
             foreach (var si in sites)
             {
                 var cgmException = new CgmExceptions { Site = si.Name };
@@ -42,11 +43,18 @@ namespace hpMvc.Services.CgmImportService
                         Console.WriteLine("Subject already imported: " + subjectImportInfo.SubjectId);
                         continue;
                     }
-
+                    
                     //check if completed - if not then skip
                     if (!subjectImportInfo.SubjectCompleted)
                     {
                         Console.WriteLine("Subject not completed: " + subjectImportInfo.SubjectId);
+                        continue;
+                    }
+
+                    //check if on the skip list
+                    if (skips.Contains(subjectImportInfo.SubjectId))
+                    {
+                        Console.WriteLine("Subject skipped: " + subjectImportInfo.SubjectId);
                         continue;
                     }
 
