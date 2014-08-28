@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using DocumentFormat.OpenXml.Packaging;
@@ -32,9 +31,14 @@ namespace hpMvc.Reports.RandomizedSubjectsChecksCompletedRows
                 list = GetListFromDb(site);
                 var siteCode = DbUtils.GetSiteCodeForSite(site);
                 var fileList = GetChecksFileInfos(siteCode);
+
                 foreach (var file in fileList)
                 {
-                    
+                    var model = list.Find(x => x.SubjectId == file.SubjectId);
+                    if (model != null)
+                    {
+                        GetChecksInfo(file, model);
+                    }
                 }
             }
             else
@@ -69,7 +73,7 @@ namespace hpMvc.Reports.RandomizedSubjectsChecksCompletedRows
 
                     while (rdr.Read())
                     {
-                        var ss = new SiteInfoShort {Id = rdr.GetInt32(1), SiteCode = rdr.GetString(2)};
+                        var ss = new SiteInfoShort { Id = rdr.GetInt32(1), SiteCode = rdr.GetString(2) };
 
                         list.Add(ss);
                     }
@@ -86,7 +90,7 @@ namespace hpMvc.Reports.RandomizedSubjectsChecksCompletedRows
                 }
             }
             return list;
-            
+
         }
 
         private static List<RandomizedSubjecsChecksCompletedRowsModel> GetListFromDb(int siteId)
@@ -112,12 +116,12 @@ namespace hpMvc.Reports.RandomizedSubjectsChecksCompletedRows
                     while (rdr.Read())
                     {
                         var model = new RandomizedSubjecsChecksCompletedRowsModel();
-                        
+
                         var pos = rdr.GetOrdinal("ID");
                         model.StudyId = rdr.GetInt32(pos);
 
                         pos = rdr.GetOrdinal("StudyID");
-                        model.SubjectId = rdr.GetString(pos);
+                        model.SubjectId = rdr.GetString(pos).Trim();
 
                         pos = rdr.GetOrdinal("DateRandomized");
                         model.DateRandomized = rdr.GetDateTime(pos);
@@ -126,7 +130,7 @@ namespace hpMvc.Reports.RandomizedSubjectsChecksCompletedRows
                         model.ScDateCompleted = rdr.GetDateTime(pos);
 
                         pos = rdr.GetOrdinal("ChecksImportCompleted");
-                        if(!rdr.IsDBNull(pos))
+                        if (!rdr.IsDBNull(pos))
                             model.ScChecksImportCompleted = rdr.GetBoolean(pos);
 
                         pos = rdr.GetOrdinal("ChecksLastRowImported");
@@ -145,11 +149,14 @@ namespace hpMvc.Reports.RandomizedSubjectsChecksCompletedRows
                         if (!rdr.IsDBNull(pos))
                             model.CgmLastDate = rdr.GetDateTime(pos);
 
+                        pos = rdr.GetOrdinal("ChecksDbRows");
+                        model.DbRows = rdr.GetInt32(pos);
+
                         list.Add(model);
                     }
                     rdr.Close();
 
-                    
+
                 }
                 catch (Exception ex)
                 {
@@ -198,10 +205,8 @@ namespace hpMvc.Reports.RandomizedSubjectsChecksCompletedRows
             }
 
             var rangeNames = GetDefinedNames(ms);
-            var firstDate = "";
-            var lastDate = "";
-            var lastVal = "";
-            var actualRows = 0;
+            DateTime? dtLastVal = null;
+
             var row = 2;
             using (SpreadsheetDocument document = SpreadsheetDocument.Open(ms, false))
             {
@@ -215,34 +220,30 @@ namespace hpMvc.Reports.RandomizedSubjectsChecksCompletedRows
                         var cellVal = GetCellValue(document.WorkbookPart, WorkSheet, colRow);
                         if (string.IsNullOrEmpty(cellVal))
                         {
-                            lastDate = lastVal;
-                            actualRows = row - 2;
+                            model.CksLastDate = dtLastVal;
+                            model.CksRowsCompleted = row - 2;
                             break;
                         }
-                        else
+                        
+                        var dbl = Double.Parse(cellVal);
+                        var dt = DateTime.FromOADate(dbl);
+                        if (row == 2)
                         {
-                            var dbl = Double.Parse(cellVal);
-                            //if (dbl > 59)
-                            //    dbl = dbl - 1;
-                            var dt = DateTime.FromOADate(dbl);
-                            cellVal = dt.ToString(CultureInfo.InvariantCulture);
-                            if (row == 2)
-                            {
-                                firstDate = cellVal;
-                            }
-                            lastVal = cellVal;
-                            row++;
+                            model.CksFirstDate = dt;
                         }
+                        dtLastVal = dt;
+                        row++;
+
                     }
                     else
                     {
-
+                        break;
                     }
                 }
             }
 
         }
-        
+
         private static string GetRangeNameCol(string rangeValue)
         {
             var aParts = rangeValue.Split('!');
@@ -355,7 +356,7 @@ namespace hpMvc.Reports.RandomizedSubjectsChecksCompletedRows
             return value;
         }
 
-       
+
     }
 
     public class ChecksFileInfo
@@ -368,6 +369,6 @@ namespace hpMvc.Reports.RandomizedSubjectsChecksCompletedRows
     public class SiteInfoShort
     {
         public int Id { get; set; }
-        public string  SiteCode { get; set; }
+        public string SiteCode { get; set; }
     }
 }

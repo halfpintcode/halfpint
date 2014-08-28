@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
+using System.Web.Helpers;
 using System.Web.Mvc;
 using System.Web.Security;
 using hpMvc.Models;
@@ -86,20 +87,38 @@ namespace hpMvc.Controllers
         public ActionResult RandomizedChecksRowsCompleted()
         {
             var sites = DbUtils.GetSitesActive();
-            if (sites.Count == 0)
-                throw new Exception("There was an error retreiving the sites list from the database");
             sites.Insert(0, new Site { ID = 0, Name = "All sites", SiteID = "" });
-            ViewBag.Sites = new SelectList(sites, "ID", "Name");
-            var list = ChecksRowInfo.GetRandomizedSubjectsChecksCompletedRows(1);
-            return View(list);
-        }
-
-        [HttpPost]
-        public ActionResult RandomizedChecksRowsCompleted(string sites)
-        {
-            var site = int.Parse(sites);
+            
+            ViewBag.Sites = new SelectList(sites, "ID", "Name", "1");
+            
+            //var list = ChecksRowInfo.GetRandomizedSubjectsChecksCompletedRows(1);
             
             return View();
+        }
+
+
+        public JsonResult GetRadomizedChecksCompletedRows(string siteId)
+        {
+            var site = int.Parse(siteId);
+            var list = ChecksRowInfo.GetRandomizedSubjectsChecksCompletedRows(site);
+            var grid = new WebGrid(list, defaultSort: "SubjectId", rowsPerPage: 50);
+            var htmlString = grid.GetHtml(tableStyle: "webgrid", headerStyle: "header", alternatingRowStyle: "alt",
+                columns: grid.Columns(
+                    grid.Column("SubjectId", "Subject Id"),
+                    grid.Column("DateRandomized", "Randomized Date"),
+                    grid.Column("ScDateCompleted", "Completed Date"),
+                    grid.Column("CksFirstDate", "Chks First Date"),
+                    grid.Column("CksLastDate", "Chks Last Date"),
+                    grid.Column("CgmFirstDate", "Cgm First Date"),
+                    grid.Column("CgmLastDate", "Cgm Last Date"),
+                    grid.Column("ScChecksLastRowImported", "Last Row Import"),
+                    grid.Column("ScChecksRowsCompleted", "Rows Completed"),
+                    grid.Column("CksRowsCompleted", "Chks Rows"),
+                    grid.Column("DbRows", "Db Rows"),
+                    grid.Column("ScChecksImportCompleted", "Import Completed")
+                    ));
+
+            return Json(new { Data = htmlString.ToHtmlString() }, JsonRequestBehavior.AllowGet);
         }
 
         #region Index        

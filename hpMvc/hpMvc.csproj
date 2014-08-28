@@ -460,7 +460,6 @@
     <Content Include="Content\PostTestsStart.css" />
     <Content Include="Content\PrintIntiializePassword.css" />
     <Content Include="Content\randomize.css" />
-    <Content Include="Content\RandomizedChecksRowsCompleted.css" />
     <Content Include="Content\ShowPostTests.css" />
     <Content Include="Content\ShowPostTests2.css" />
     <Content Include="Content\ShowPostTestsDue.css" />

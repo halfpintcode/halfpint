@@ -1,16 +1,26 @@
 ﻿$(function() {
-    
-    $('#btnReport').click(function() {
-        var siteVal = $('#Sites').val();
+    $(function () {
+        //initialize with chb
+        getData(1);
 
-        $("#spinner").ajaxStart(function () { $(this).show(); })
+        $('#Sites').change(function () {
+            getData($(this).val());
+        });
+
+        function getData(site) {
+            $("#spinner").ajaxStart(function () { $(this).show(); })
 			   .ajaxStop(function () { $(this).hide(); });
+            var url = window.urlRoot + '/Admin/GetRadomizedChecksCompletedRows/';
 
-        var url = window.urlRoot + '/Admin/RandomizedChecksRowsCompleted/';
-        $.post(url,
-            {site:siteVal},
-            function (data) {
-                alert(data);
-            });
+            $.getJSON(url,
+                { siteID: site },
+                function (result) {
+                    var grid = $('#grid');
+                    grid.empty();
+                    grid.append(result.Data);
+                });
+
+        }
     });
+    
 });

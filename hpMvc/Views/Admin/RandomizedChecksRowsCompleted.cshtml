@@ -5,15 +5,12 @@
 }
 <h2>
     Randomized Checks Rows Completed Report</h2>
-@using (Html.BeginForm("RandomizedChecksRowsCompleted", "Admin", FormMethod.Post))
-{
-    <div>
-        <span>Select a site:&nbsp;</span> @Html.DropDownList("Sites")
-        <button id="btnReport" type="submit">Show Report</button>
-        <br />
-    </div>
-}
-<hr/>
+<div>
+    <span>Select a site:&nbsp;</span> @Html.DropDownList("Sites")
+    <br />
+    <br />
+</div>
+<hr />
 <div id="divDescription">
     @*This report gathers information from the following:
     <ul style="list-style: disc; padding-left: 25px;">
@@ -50,7 +47,8 @@
         </li>
     </ul>*@
 </div>
-
-
-@*<link href="@Url.Content("~/Content/RandomizedChecksRowsCompleted.css")" rel="stylesheet" type="text/css" />*@
-@*<script src="@Url.Content("~/Scripts/RandomizedChecksRowsCompleted.js")" type="text/javascript"></script>*@
+<div id="grid">
+    
+</div>
+<link href="@Url.Content("~/Content/webgrid.css")" rel="stylesheet" type="text/css" />
+<script src="@Url.Content("~/Scripts/RandomizedChecksRowsCompleted.js")" type="text/javascript"></script>
