@@ -43,6 +43,10 @@ table td, select
 {    
     width: 60px;    
 }
+.keyNumber 
+{    
+    width: 60px;    
+}
 #infuseTotalRow td
 {
     border-top: 2px solid;

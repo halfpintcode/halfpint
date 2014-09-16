@@ -43,6 +43,10 @@ $(function () {
         window.numericsAndDecimalOnly(event, $(this).val());
     });
 
+    $('.keyNumber').keydown(function (event) {
+        window.numericsOnly(event, $(this).val());
+    });
+
     $('.infusions1, .infusions2, .infusions3, .infusions4').attr("disabled", "disabled");
 
     $('#calcDate').datepicker();
