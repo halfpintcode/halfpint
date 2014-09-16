@@ -15,7 +15,7 @@ using Microsoft.Security.Application;
 
 namespace hpMvc.PostTestService
 {
-    
+
 
     public static class PostTestService
     {
@@ -48,17 +48,17 @@ namespace hpMvc.PostTestService
                     _bForceEmails = true;
                     break;
             }
-            
+
             Nlogger.LogInfo("SendEmails:" + _bSendEmails + ", ForceEmails:" + _bForceEmails);
-            
+
             //get sites 
             var sites = GetSites();
 
             //iterate sites
             foreach (var si in sites.Where(si => si.EmpIdRequired))
             {
-                if(site == 0)
-                {}
+                if (site == 0)
+                { }
                 else
                 {
                     if (si.Id != site)
@@ -84,7 +84,7 @@ namespace hpMvc.PostTestService
                     StaffTestsNotCompletedList = new List<StaffTestsNotCompletedList>()
                 };
 
-                
+
                 //Get staff info including next due date, tests not completed, is new staff - next due date will be 1 year from today for new staff
                 //staff roles not included are Admin, DCC , Nurse generic (nurse accounts with a user name)
                 si.PostTestNextDues = GetStaffPostTestsCompletedInfo(si.Id, si.SiteId);
@@ -101,7 +101,7 @@ namespace hpMvc.PostTestService
                         TestsNotCompleted = postTestNextDue.TestsNotCompleted,
                         TestsCompleted = postTestNextDue.TestsCompleted
                     };
-                    
+
                     si.SiteEmailLists.StaffTestsNotCompletedList.Add(stnc);
 
                     var bContinue = false;
@@ -131,15 +131,12 @@ namespace hpMvc.PostTestService
                         case "15":
                         case "21":
                         case "33":
-                            if (postTestNextDue.Role != "Nurse")
+                            //make sure they are nova net certified
+                            if (!postTestNextDue.IsNovaStatStripTested)
                             {
-                                //make sure they are nova net certified
-                                if (!postTestNextDue.IsNovaStatStripTested)
-                                {
-                                    //Logger.Info("NovaStatStrip competency needed for " + postTestNextDue.Name);
-                                    si.SiteEmailLists.CompetencyMissingList.Add(postTestNextDue);
-                                    bContinue = true;
-                                }
+                                //Logger.Info("NovaStatStrip competency needed for " + postTestNextDue.Name);
+                                si.SiteEmailLists.CompetencyMissingList.Add(postTestNextDue);
+                                bContinue = true;
                             }
                             break;
                         case "20":
@@ -168,7 +165,7 @@ namespace hpMvc.PostTestService
                             }
                             break;
                     }
-                    
+
                     if (string.IsNullOrEmpty(postTestNextDue.Email))
                     {
                         //Nlogger.LogInfo("Email missing for " + postTestNextDue.Name);
@@ -225,7 +222,7 @@ namespace hpMvc.PostTestService
 
                                 if (_bForceEmails)
                                 {
-                                    SendHtmlEmail(subject, to, null, body, 
+                                    SendHtmlEmail(subject, to, null, body,
                                                   @"<a href='http://halfpintstudy.org/hpProd/PostTests/Initialize'>Halfpint Study Post Tests</a>");
                                 }
                                 else
@@ -253,7 +250,7 @@ namespace hpMvc.PostTestService
 
                                 if (_bForceEmails)
                                 {
-                                    SendHtmlEmail(subject, to, null, body, 
+                                    SendHtmlEmail(subject, to, null, body,
                                         @"<a href='http://halfpintstudy.org/hpProd/PostTests/Initialize'>Halfpint Study Post Tests</a>");
                                 }
                                 else
@@ -292,7 +289,7 @@ namespace hpMvc.PostTestService
 
                             if (_bForceEmails)
                             {
-                                SendHtmlEmail(subject, to, null, body, 
+                                SendHtmlEmail(subject, to, null, body,
                                     @"<a href='http://halfpintstudy.org/hpProd/PostTests/Initialize'>Halfpint Study Post Tests</a>");
                             }
                             else
@@ -321,7 +318,7 @@ namespace hpMvc.PostTestService
 
                             if (_bForceEmails)
                             {
-                                SendHtmlEmail(subject, to, null, body, 
+                                SendHtmlEmail(subject, to, null, body,
                                     @"<a href='http://halfpintstudy.org/hpProd/PostTests/Initialize'>Halfpint Study Post Tests</a>");
                             }
                             else
@@ -338,11 +335,11 @@ namespace hpMvc.PostTestService
                             }
                         }
                     }//else all tests are completed
-                    
+
                 }//foreach (var postTestNextDue in si.PostTestNextDues)
 
             } //foreach (var si in sites.Where(si => si.EmpIdRequired))
-            
+
             //only write to files if 
             if (site == 0)
             {
@@ -359,7 +356,7 @@ namespace hpMvc.PostTestService
                     foreach (var ptnd in si.PostTestNextDues.Where(ptnd => ptnd.IsOkForList))
                     {
                         var nnc = new NovaNetColumns();
-                        var sep = new[] {','};
+                        var sep = new[] { ',' };
                         var names = ptnd.Name.Split(sep);
                         nnc.LastName = names[0];
                         nnc.FirstName = names[1];
@@ -403,24 +400,24 @@ namespace hpMvc.PostTestService
                     Nlogger.LogInfo("SendCoordinatorsEmail:" + si.Name);
                     if (isReport)
                     {
-                        
+
                     }
                     else
                     {
-                        SendCoordinatorsEmail(si);    
+                        SendCoordinatorsEmail(si);
                     }
-                    
+
                 }
             }
             return sites.Find(s => s.Id == site);
-             
+
         }
 
 
         internal static void SendCoordinatorsEmail(SiteInfoPts si)
         {
             var coordinators = NotificationUtils.GetStaffForEvent(8, si.Id);
-            
+
             var sbBody = new StringBuilder("");
             const string newLine = "<br/>";
 
@@ -493,7 +490,7 @@ namespace hpMvc.PostTestService
                             }
                             break;
                     }
-                    
+
                     sbBody.Append("<tr><td>" + ptnd.Name + "</td><td>" + ptnd.Role + "</td><td>" + test + "</td><td>" + email + "</td></tr>");
                 }
                 sbBody.Append("</table>");
@@ -618,10 +615,10 @@ namespace hpMvc.PostTestService
 
             if (toAddress.Length == 0)
                 return;
-            
+
             var mm = new MailMessage { Subject = subject, Body = bodyContent };
-            
-            string path = Path.Combine(_server.MapPath("~/Content/Images"), "mailLogo.jpg"); 
+
+            string path = Path.Combine(_server.MapPath("~/Content/Images"), "mailLogo.jpg");
             var mailLogo = new LinkedResource(path);
 
             var sb = new StringBuilder("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">");
@@ -916,7 +913,7 @@ namespace hpMvc.PostTestService
 
                             //remove this from the tests not completed list
                             ptnd.TestsNotCompleted.Remove(postTest.Name);
-                            
+
                             //add to the tests completed
                             ptnd.TestsCompleted.Add(postTest);
                         }
@@ -1061,7 +1058,7 @@ namespace hpMvc.PostTestService
             }
             sw.Close();
         }
-        
+
     }
 
     #region classes
@@ -1077,7 +1074,7 @@ namespace hpMvc.PostTestService
         public bool IsDue { get; set; }
         public bool IsRequired { get; set; }
     }
-    
+
     public class SiteInfoPts
     {
         public int Id { get; set; }
