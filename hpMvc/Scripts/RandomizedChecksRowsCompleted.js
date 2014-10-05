@@ -1,11 +1,15 @@
 ﻿$(function() {
     $(function () {
         //initialize with chb
-        getData(1);
-
-        $('#Sites').change(function () {
-            getData($(this).val());
+        //getData(1);
+        
+        $('#btnRun').click(function () {
+            getData($('#Sites').val());
         });
+
+//        $('#Sites').change(function () {
+//            getData($(this).val());
+//        });
 
         function getData(site) {
             $("#spinner").ajaxStart(function () { $(this).show(); })
