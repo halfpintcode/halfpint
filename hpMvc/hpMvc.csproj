@@ -108,6 +108,7 @@
     <Compile Include="Controllers\NotificationsController.cs" />
     <Compile Include="Controllers\PostsTestsAdminController.cs" />
     <Compile Include="Controllers\PostTestsController.cs" />
+    <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Controllers\SitesController.cs" />
     <Compile Include="Controllers\StaffController.cs" />
     <Compile Include="Controllers\TestController.cs" />

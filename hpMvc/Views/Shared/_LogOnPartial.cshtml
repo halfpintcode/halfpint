@@ -10,6 +10,8 @@
         <span id="userSite">@(DbUtils.GetSiteIDandNameForUser(@User.Identity.Name))</span>
         [ @Html.ActionLink("Log Off", "LogOff", "Account") ]
     </span>
+    @*<span>Search:</span>
+    <input id="txtSearch" type="text"/>*@
     
     var role = AccountUtils.GetRolesForUser(@User.Identity.Name);
     if(@role != "My role: Horse")    
@@ -25,3 +27,7 @@ else
 <div id="divUserMenu">
     <a id="aMyProfile" href="#">My profile</a>    
 </div>
+
+@*<div id="divSearchResults">
+    search results    
+</div>*@

@@ -11,23 +11,35 @@
     <div id="header">
         <div id="logon">
             @Html.Partial("_LogOnPartial")
-        </div>      
-                   
-        
+        </div>
+        <div id="googleSearch">
+            <script>
+                (function () {
+                    var cx = '010508738539721982543:tiayuockkly';
+                    var gcse = document.createElement('script');
+                    gcse.type = 'text/javascript';
+                    gcse.async = true;
+                    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + 
+                        '//www.google.com/cse/cse.js?cx=' + cx;
+                    var s = document.getElementsByTagName('script')[0];
+                    s.parentNode.insertBefore(gcse, s);
+                })();
+            </script>
+            <gcse:search></gcse:search>
+        </div>
         <ul id="navlist">
             <li>@Html.ActionLink("Home", "Index", "Home")</li>
             <li>@Html.ActionLink("About", "About", "Home")</li>
         </ul>
-        <h1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h1>
-        <h2><a href="/">HALF-PINT</a></h2>
+        <h1>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h1>
+        <h2>
+            <a href="/">HALF-PINT</a></h2>
     </div>
-    
-            
     <section id="main">
-        @RenderBody()
-    </section>
+            @RenderBody()
+        </section>
     <footer>
-    </footer>
-    
+        </footer>
 </body>
 </html>

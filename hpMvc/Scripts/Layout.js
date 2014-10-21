@@ -17,7 +17,7 @@ $(function () {
         $('#coordLink').hide();
     }
 
-    $.fn.center = function() {
+    $.fn.center = function () {
         this.css({
             'position': 'fixed',
             'left': '50%',
@@ -32,8 +32,45 @@ $(function () {
         return this;
     };
 
-    $('#divUserMenu').dialog({ autoOpen: false });
 
+//    $('#divSearchResults').dialog({ autoOpen: false });
+//    $('#txtSearch').click(function () {
+//        $('#divSearchResults').dialog(
+//            {
+//                position: [$('#userStuff').position().left + 110, $('#userStuff').position().top + 23],
+//                width: 260,
+//                title: 'Search Results',
+//                height: 265
+//            });
+//        $('#divSearchResults').dialog('open');
+//        $(this).focus();
+//    });
+
+//    $('#txtSearch').on('input', function () {
+//        //alert('change');
+//        var val = $(this).val();
+//        if (val.length > 4) {
+//            getSearchResults(val);
+//        } else {
+//            $('#divSearchResults').empty();
+//        }
+//    });
+
+    function getSearchResults(val) {
+        $.ajax({
+            url: urlRoot + '/Search/GetSearchResults',
+            type: 'POST',
+            data: { criteria: val }
+        })
+        .done(function (data) {
+                $('#divSearchResults').html(data);
+            })
+        .fail(function () {
+            alert('fail');
+        });
+    };
+
+    $('#divUserMenu').dialog({ autoOpen: false });
     $('#userStuff').click(function () {
 
         if (role === "Nurse") {
@@ -156,12 +193,12 @@ function numericsAndDecimalOnly(event, val) {
 
 function validateEmail($email) {
     var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
-    return emailReg.test($email); 
+    return emailReg.test($email);
 }
 
 function validateEmployeeID(reg, empId) {
     //var chbReg = /^\d{6}$/
-    var re = new RegExp(reg); 
+    var re = new RegExp(reg);
     return re.test(empId);
 }
 
