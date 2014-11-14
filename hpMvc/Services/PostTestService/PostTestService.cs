@@ -192,6 +192,10 @@ namespace hpMvc.PostTestService
                     var bTempIncludOnList = false;
 
                     //see if all required post tests are completed
+                    //send emails
+                    if (si.Id == 24 && postTestNextDue.Role == "Nurse")
+                        continue;
+                    
                     if (postTestNextDue.TestsNotCompleted.Count > 0)
                     {
                         //todo - this is temporary - you can get rid of this after 9/1/13
@@ -794,6 +798,9 @@ namespace hpMvc.PostTestService
                         var role = rdr.GetString(pos);
 
                         if (role == "Admin")
+                            continue;
+
+                        if (siteId == 24 && role == "Nurse")
                             continue;
 
                         var userName = string.Empty;

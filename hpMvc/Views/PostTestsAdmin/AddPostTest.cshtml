@@ -1,37 +1,29 @@
 ﻿@model hpMvc.Models.PostTestView
 
 @{
-    ViewBag.Title = "Edit Post Tests";
+    ViewBag.Title = "Add New Post Tests";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h2>Edit Post Tests Completed</h2>
 <link href="@Url.Content("~/Content/postTestEdit.css")" rel="stylesheet" type="text/css" />
-<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
-<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
-<script src="@Url.Content("~/Scripts/postTestEdit.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/postTestAdd.js")" type="text/javascript"></script>
+
+<h2>Add New Post Tests</h2>
 
 <br />
 <h3>For @Model.StaffName</h3>
 @using (Html.BeginForm()) {
     @Html.ValidationSummary(true)
-        <p>
-            Select the tests completed by <strong>  </strong>  
-        </p>      
+          
         @Html.Hidden("staffName", @Model.StaffName)
         @Html.Hidden("staffId", @Model.StaffId)
-        @*<input type="hidden" name="staffName" value='@ViewBag.StaffName' />
-        <input type="hidden" name="staffId" value='@ViewBag.StaffId' />*@
         <div>
             @for (int i = 0; i < (@Model.PostTests.Count()); i++)
             {
                 @Html.HiddenFor(m => @Model.PostTests[i].ID)
                 @Html.HiddenFor(m => @Model.PostTests[i].Name)
-                
-                @Html.CheckBoxFor(m => @Model.PostTests[i].IsCompleted)
                 <span class = "lbl1" >@Model.PostTests[i].Name </span> 
                 <span class="spanDate">
-                    <span>Date Completed:</span>
+                    <span>Date completed:</span>
                     @Html.TextBoxFor(m => @Model.PostTests[i].sDateCompleted, new { @class = "datePicker" })
                 </span>
                 <br/>    

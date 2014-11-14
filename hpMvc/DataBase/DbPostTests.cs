@@ -20,6 +20,16 @@ namespace hpMvc.DataBase
             Nlogger = new NLogger();
         }
 
+        public static int SaveNewPostTestsCompleted(List<PostTest> postTests, int staffId, string staffName)
+        {
+            Nlogger.LogInfo("SavePostTestsCompleted - for: " + staffName);
+            if (postTests.Any(postTest => AddAndUpdateTestCompleted(staffId, postTest.Name, postTest.sDateCompleted) == -1))
+            {
+                return -1;
+            }
+            return 1;
+        }
+
         public static int SavePostTestsCompleted(List<PostTest> ptl, int staffId, string staffName)
         {
             Nlogger.LogInfo("SavePostTestsCompleted - for: " + staffName);
@@ -653,6 +663,42 @@ namespace hpMvc.DataBase
             }
         }
 
+        public static int AddAndUpdateTestCompleted(int staffId, string test, string dateCompleted)
+        {
+            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+
+            using (var conn = new SqlConnection(strConn))
+            {
+                try
+                {
+                    //throw new Exception("Test error");
+                    var cmd = new SqlCommand("", conn)
+                    {
+                        CommandType = System.Data.CommandType.StoredProcedure,
+                        CommandText = ("AddAndUpdatePostTestCompleted")
+                    };
+                    var param = new SqlParameter("@staffID", staffId);
+                    cmd.Parameters.Add(param);
+                    param = new SqlParameter("@test", test);
+                    cmd.Parameters.Add(param);
+                    param = new SqlParameter("@dateCompleted", dateCompleted);
+                    cmd.Parameters.Add(param);
+
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+
+                    Nlogger.LogInfo("AddOrUpdateTestCompleted - test: " + test + ", staffID: " + staffId);
+                    return 1;
+                }
+                catch (Exception ex)
+                {
+                    Nlogger.LogError("AddOrUpdateTestCompleted staffID: " + staffId + ", " + ex.Message);
+                    return -1;
+                }
+            }
+
+        }
+
         public static int AddAndUpdateTestCompleted(int staffId, string test)
         {
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
@@ -946,6 +992,119 @@ namespace hpMvc.DataBase
             return users;
         }
 
+        public static List<PostTest> GetStaffPostTestsActive(string staffId, string siteCode)
+        {
+            var tests = new List<PostTest>();
+
+            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            using (var conn = new SqlConnection(strConn))
+            {
+                try
+                {
+                    var cmd = new SqlCommand("", conn)
+                    {
+                        CommandType = System.Data.CommandType.StoredProcedure,
+                        CommandText = ("GetPostTestsActive")
+                    };
+
+                    conn.Open();
+                    var rdr = cmd.ExecuteReader();
+                    while (rdr.Read())
+                    {
+                        var pos = rdr.GetOrdinal("Required");
+                        if (!(rdr.GetBoolean(pos)))
+                            continue;
+
+                        pos = rdr.GetOrdinal("Name");
+                        string testName = rdr.GetString(pos);
+
+                        if (siteCode == "14" || siteCode == "20" || siteCode == "27")
+                        {
+                            if (testName == "NovaStatStrip" || testName == "VampJr")
+                                continue;
+                        }
+
+                        if (siteCode == "01" || siteCode == "02" || siteCode == "13" || siteCode == "09" || siteCode == "31")
+                        {
+                            if (testName == "NovaStatStrip")
+                                continue;
+                        }
+
+                        if (siteCode == "15" || siteCode == "18" || siteCode == "21" || siteCode == "33")
+                        {
+                            if (testName == "VampJr")
+                                continue;
+                        }
+
+                        var test = new PostTest();
+
+                        pos = rdr.GetOrdinal("ID");
+                        test.ID = rdr.GetInt32(pos);
+
+                        test.Name = testName;
+
+                        pos = rdr.GetOrdinal("PathName");
+                        test.PathName = rdr.GetString(pos);
+                        test.sDateCompleted = "";
+                        tests.Add(test);
+                    }
+                    rdr.Close();
+                    conn.Close();
+
+                    cmd = new SqlCommand("", conn)
+                    {
+                        CommandType = System.Data.CommandType.StoredProcedure,
+                        CommandText = ("GetStaffPostTestsCompletedCurrentAndActive")
+                    };
+                    var param = new SqlParameter("@staffId", staffId);
+                    cmd.Parameters.Add(param);
+
+                    conn.Open();
+                    rdr = cmd.ExecuteReader();
+                    while (rdr.Read())
+                    {
+                        var pos = rdr.GetOrdinal("TestID");
+                        var testId = rdr.GetInt32(pos);
+                        var test = tests.Find(x => x.ID == testId);
+                        if (test == null)
+                            continue;
+                        pos = rdr.GetOrdinal("DateCompleted");
+                        //test.DateCompleted = rdr.GetDateTime(pos);
+                        var dateCompleted = rdr.GetDateTime(pos);
+                        //test.sDateCompleted = dateCompleted.ToString("MM/dd/yyyy");
+                        test.IsCompleted = true;
+
+                        //don't mark 'Overview' as expired
+                        if (test.Name == "Overview")
+                        {
+                            tests.Remove(test);
+                        };
+                        var nextDueDate = dateCompleted.AddYears(1);
+                        var tsDayWindow = nextDueDate - DateTime.Now;
+
+                        if (tsDayWindow.Days <= 30)
+                        {
+                            if (tsDayWindow.Days < 0)
+                            {
+                                test.IsExpired = true;
+                            }
+                            else
+                            {
+                                test.IsExpiring = true;
+                            }
+                        }
+                    }
+                    rdr.Close();
+                }
+                catch (Exception ex)
+                {
+                    Nlogger.LogError(ex);
+                    return null;
+                }
+            }
+            return tests;
+        }
+
         public static List<PostTest> GetStaffPostTestsCompletedCurrentAndActive(string staffId, string siteCode)
         {
             var tests = new List<PostTest>();
@@ -972,7 +1131,7 @@ namespace hpMvc.DataBase
                         pos = rdr.GetOrdinal("Name");
                         string testName = rdr.GetString(pos);
 
-                        if (siteCode == "14" || siteCode == "20")
+                        if (siteCode == "14" || siteCode == "20" || siteCode == "27")
                         {
                             if (testName == "NovaStatStrip" || testName == "VampJr")
                                 continue;
@@ -984,7 +1143,7 @@ namespace hpMvc.DataBase
                                 continue;
                         }
 
-                        if (siteCode == "15" || siteCode == "21" || siteCode == "33")
+                        if (siteCode == "15" || siteCode == "18" || siteCode == "21" || siteCode == "33")
                         {
                             if (testName == "VampJr")
                                 continue;

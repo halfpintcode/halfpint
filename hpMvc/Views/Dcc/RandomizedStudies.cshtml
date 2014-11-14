@@ -5,6 +5,7 @@
 
 <script type="text/javascript">
     $(function () {
+        
         $('#Sites').change(function () {
             $.getJSON('@Url.Action("GetSiteRandomizedStudies")',
                 { siteID: $(this).val() },
@@ -12,6 +13,7 @@
                     var grid = $('#grid');
                     grid.empty();
                     grid.append(result.Data);
+                    $('#spanTotal').text("Total Subjects Randomized: " + result.Count);
                 });
 
         });
@@ -22,7 +24,8 @@
 
 <span>Select a site:&nbsp;</span> @Html.DropDownList("Sites")
 <br /><br />
-
+<input type="hidden" value="@ViewBag." id="mode" />
+<b><span id="spanTotal">Total Subjects Randomized: @Model.Count</span></b>
 <div id="grid">
 
 @{    

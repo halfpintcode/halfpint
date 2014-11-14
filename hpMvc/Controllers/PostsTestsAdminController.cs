@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using hpMvc.Infrastructure.Logging;
 using hpMvc.DataBase;
@@ -31,11 +32,33 @@ namespace hpMvc.Controllers
             return View(model);
         }
 
+        public ActionResult AddPostTest(string id)
+        {
+            var site = DbUtils.GetSiteidIdForUser(User.Identity.Name);
+            var siteCode = DbUtils.GetSiteCodeForUser(User.Identity.Name);
+            var tests = DbPostTestsUtils.GetStaffPostTestsActive(id, siteCode);
+            var staffInfo = DbUtils.GetStaffInfo(int.Parse(id));
+            var postTestView = new PostTestView();
+            postTestView.StaffId = staffInfo.ID;
+            postTestView.StaffName = staffInfo.FirstName + " " + staffInfo.LastName;
+            postTestView.PostTests = tests;
+            return View(postTestView);
+        }
+
+        [HttpPost]
+        public JsonResult AddPostTest(List<PostTest> postTests, string staffId, string staffName)
+        {
+            if (postTests.Any(pt => string.IsNullOrEmpty(pt.sDateCompleted)))
+            {
+                return Json(0);
+            }
+            
+            int iRet = DbPostTestsUtils.SaveNewPostTestsCompleted(postTests, int.Parse(staffId), staffName);
+            return Json(iRet);
+        }
+
         public ActionResult EditPostTest(string id)
         {
-            //PostTestsModel ptm = new PostTestsModel();            
-            //ptm.ID = int.Parse(id);
-
             var site = DbUtils.GetSiteidIdForUser(User.Identity.Name);
             var siteCode = DbUtils.GetSiteCodeForUser(User.Identity.Name);
             var tests = DbPostTestsUtils.GetStaffPostTestsCompletedCurrentAndActive(id, siteCode);

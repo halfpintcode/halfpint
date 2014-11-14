@@ -5,6 +5,7 @@ $(function () {
 
     $('#divName').hide();
     $('#btnEdit').attr('disabled', 'disabled');
+    $('#btnAdd').attr('disabled', 'disabled');
 
     $("#spinner").ajaxStart(function () { $(this).show(); })
 			   .ajaxStop(function () { $(this).hide(); });
@@ -68,11 +69,19 @@ $(function () {
         var user = $(this).val();
         if (user === 'Select Your Name') {
             $('#btnEdit').attr('disabled', 'disabled');
+            $('#btnAdd').attr('disabled', 'disabled');
         }
         else {
             $('#btnEdit').attr('disabled', false);
+            $('#btnAdd').attr('disabled', false);
         }
 
+    });
+
+    $('#btnAdd').click(function () {
+        var name = $('#Users').val();
+        var url = window.urlRoot + '/PostTestsAdmin/AddPostTest/' + name;
+        window.location = url;
     });
 
     $('#btnEdit').click(function () {
@@ -136,7 +145,7 @@ $(function () {
             data: { LastName: lastName, FirstName: firstName, EmpID: empId, Email: email },
             success: function (data) {
                 if (data.ReturnValue > 0) {
-                    url = window.urlRoot + '/PostTestsAdmin/EditPostTest/' + data.ReturnValue;
+                    url = window.urlRoot + '/PostTestsAdmin/AddPostTest/' + data.ReturnValue;
                     window.location = url;
                 }
                 else {

@@ -44,7 +44,7 @@ namespace hpMvc.Controllers
                             grid.Column("Arm"),
                             grid.Column("DateRandomized", header:"Date Randomized", format: x => x.DateRandomized.ToString("MM/dd/yyyy hh:mm tt"))));
 
-            return Json(new { Data = htmlString.ToHtmlString() }, JsonRequestBehavior.AllowGet);
+            return Json(new { Data = htmlString.ToHtmlString(), Count = list.Count }, JsonRequestBehavior.AllowGet);
         }
     }
 }

@@ -7,11 +7,17 @@
 <h2>Post-Tests Admin</h2>
 
 <form method="post" action="">  
-	<div id="listName">
-		Select the name from the dropdown list and click on 'Edit Tests Completed'.
-		<br /><br />
-		@Html.DropDownList("Users") &nbsp;&nbsp; <input type="button" id="btnEdit" value="Edit Tests Completed" />
-	</div>
+    <div id="listName">
+        Use the 'Add New Tests' button to enter completed annual tests.
+        <br/>
+        Use the 'Edit Tests Completed' button to correct a previously entered test.
+        <br/>
+        <br/>
+        Select the name from the dropdown list and click on Add New Tests or Edit Tests Completed.
+        <br /><br />
+        @Html.DropDownList("Users") &nbsp;&nbsp; <input type="button" id="btnAdd" value="Add New Tests" />
+        &nbsp;&nbsp; <input type="button" id="btnEdit" value="Edit Tests Completed" />
+    </div>
 		  
 	<div id="divName">
 		<label class="fieldLabel">First Name:</label><input type="text" id="firstName" name="firstName" /><br />
