@@ -1204,16 +1204,18 @@ namespace hpMvc.PostTestService
                     "<table style='border-collapse:collapse;' cellpadding='5' border='1'><tr style='background-color:87CEEB'><th>Test</th><th>Next Due Date</th></tr>");
                 foreach (var postTest in testsCompleted)
                 {
-                    Debug.Assert(postTest.DateCompleted != null, "postTest.DateCompleted != null");
-                    var nextDueDate = postTest.DateCompleted.Value.AddYears(1);
-                    var tsDayWindow = nextDueDate - DateTime.Now;
-                    if (tsDayWindow.Days <= 30)
-                        sb.Append("<tr><td>" + postTest.Name + "</td><td><strong>" + nextDueDate.ToShortDateString() +
-                                  "</strong></td></tr>");
-                    else
-                        sb.Append("<tr><td>" + postTest.Name + "</td><td>" + nextDueDate.ToShortDateString() +
-                                  "</td></tr>");
-
+                    if (postTest.Name != "Overview")
+                    {
+                        Debug.Assert(postTest.DateCompleted != null, "postTest.DateCompleted != null");
+                        var nextDueDate = postTest.DateCompleted.Value.AddYears(1);
+                        var tsDayWindow = nextDueDate - DateTime.Now;
+                        if (tsDayWindow.Days <= 30)
+                            sb.Append("<tr><td>" + postTest.Name + "</td><td><strong>" + nextDueDate.ToShortDateString() +
+                                      "</strong></td></tr>");
+                        else
+                            sb.Append("<tr><td>" + postTest.Name + "</td><td>" + nextDueDate.ToShortDateString() +
+                                      "</td></tr>");
+                    }
                 }
                 sb.Append("</table>");
             }
@@ -1251,16 +1253,18 @@ namespace hpMvc.PostTestService
                     "<table style='border-collapse:collapse;' cellpadding='5' border='1'><tr style='background-color:87CEEB'><th>Test</th><th>Next Due Date</th></tr>");
                 foreach (var postTest in testsCompleted)
                 {
-                    Debug.Assert(postTest.DateCompleted != null, "postTest.DateCompleted != null");
-                    var nextDueDate = postTest.DateCompleted.Value.AddYears(1);
-                    var tsDayWindow = nextDueDate - DateTime.Now;
-                    if (tsDayWindow.Days <= 30)
-                        sb.Append("<tr><td>" + postTest.Name + "</td><td><strong>" + nextDueDate.ToShortDateString() +
-                                  "</strong></td></tr>");
-                    else
-                        sb.Append("<tr><td>" + postTest.Name + "</td><td>" + nextDueDate.ToShortDateString() +
-                                  "</td></tr>");
-
+                    if (postTest.Name != "Overview")
+                    {
+                        Debug.Assert(postTest.DateCompleted != null, "postTest.DateCompleted != null");
+                        var nextDueDate = postTest.DateCompleted.Value.AddYears(1);
+                        var tsDayWindow = nextDueDate - DateTime.Now;
+                        if (tsDayWindow.Days <= 30)
+                            sb.Append("<tr><td>" + postTest.Name + "</td><td><strong>" + nextDueDate.ToShortDateString() +
+                                      "</strong></td></tr>");
+                        else
+                            sb.Append("<tr><td>" + postTest.Name + "</td><td>" + nextDueDate.ToShortDateString() +
+                                      "</td></tr>");
+                    }
                 }
                 sb.Append("</table>");
             }
@@ -1298,16 +1302,18 @@ namespace hpMvc.PostTestService
                     "<table style='border-collapse:collapse;' cellpadding='5' border='1'><tr style='background-color:87CEEB'><th>Test</th><th>Next Due Date</th></tr>");
                 foreach (var postTest in testsCompleted)
                 {
-                    Debug.Assert(postTest.DateCompleted != null, "postTest.DateCompleted != null");
-                    var nextDueDate = postTest.DateCompleted.Value.AddYears(1);
-                    var tsDayWindow = nextDueDate - DateTime.Now;
-                    if (tsDayWindow.Days <= 30)
-                        sb.Append("<tr><td>" + postTest.Name + "</td><td><strong>" + nextDueDate.ToShortDateString() +
-                                  "</strong></td></tr>");
-                    else
-                        sb.Append("<tr><td>" + postTest.Name + "</td><td>" + nextDueDate.ToShortDateString() +
-                                  "</td></tr>");
-
+                    if (postTest.Name != "Overview")
+                    {
+                        Debug.Assert(postTest.DateCompleted != null, "postTest.DateCompleted != null");
+                        var nextDueDate = postTest.DateCompleted.Value.AddYears(1);
+                        var tsDayWindow = nextDueDate - DateTime.Now;
+                        if (tsDayWindow.Days <= 30)
+                            sb.Append("<tr><td>" + postTest.Name + "</td><td><strong>" + nextDueDate.ToShortDateString() +
+                                      "</strong></td></tr>");
+                        else
+                            sb.Append("<tr><td>" + postTest.Name + "</td><td>" + nextDueDate.ToShortDateString() +
+                                      "</td></tr>");
+                    }
                 }
                 sb.Append("</table>");
             }
