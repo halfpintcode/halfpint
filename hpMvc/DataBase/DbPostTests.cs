@@ -573,7 +573,15 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    Nlogger.LogError(ex);
+                    if (string.IsNullOrEmpty(userName))
+                    {
+                        Nlogger.LogError(ex, "user name is null or empty");
+                    }
+                    else
+                    {
+                        Nlogger.LogError(ex, "user name: " + userName);    
+                    }
+                    
                     dto.ReturnValue = -1;
                     return dto;
                 }

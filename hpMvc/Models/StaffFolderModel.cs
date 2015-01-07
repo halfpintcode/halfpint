@@ -40,7 +40,9 @@ namespace hpMvc.Models
         public static void GetFolderFiles(string path, string topFolder, TreeViewItemModel parentTvi, string role, string site)
         {
             bool isSiteSpecific = false;
-            if (Path.GetFileName(path) == "Sites")
+            //if (Path.GetFileName(path) == "Sites")
+            var pathName = Path.GetFileName(path);
+            if (pathName != null && pathName.ToLower().StartsWith("sites"))
                 isSiteSpecific = true;
             
             foreach (string d in Directory.GetDirectories(path))
@@ -63,7 +65,8 @@ namespace hpMvc.Models
                 tvFolder.ImageUrl = "~/Content/Images/folder.png";
                 tvFolder.Text = folderName;
 
-                if (folderName == "Sites" )
+                //if (folderName.ToLower().StartsWith("sites"))
+                if (folderName.ToLower() == "sites")
                     tvParent = parentTvi;
                 else
                 {
