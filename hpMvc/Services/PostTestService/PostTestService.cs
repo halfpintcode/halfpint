@@ -189,94 +189,94 @@ namespace hpMvc.PostTestService
                     string subject;
                     string body;
                     string[] to;
-                    var bTempIncludOnList = false;
+                    //var bTempIncludOnList = false;
 
                     //see if all required post tests are completed
                     //send emails
                     if (si.Id == 24 && postTestNextDue.Role == "Nurse")
                         continue;
-                    
+
                     if (postTestNextDue.TestsNotCompleted.Count > 0)
                     {
                         //todo - this is temporary - you can get rid of this after 9/1/13
-                        if (postTestNextDue.TestsNotCompleted.Count == 1)
+                        //if (postTestNextDue.TestsNotCompleted.Count == 1)
+                        //{
+                        //    if (DateTime.Today.CompareTo(new DateTime(2013, 9, 1)) < 0)
+                        //    {
+                        //        if (postTestNextDue.TestsNotCompleted[0] == "Dexcom G4 Receiver")
+                        //        {
+                        //            bTempIncludOnList = true;
+                        //        }
+                        //    }
+                        //}
+
+                        //if (!bTempIncludOnList)
+                        //{
+                        if (postTestNextDue.IsNew)
                         {
-                            if (DateTime.Today.CompareTo(new DateTime(2013, 9, 1)) < 0)
+                            si.SiteEmailLists.NewStaffList.Add(postTestNextDue);
+                            //send new user email
+                            body = EmailBodies.PostTestsDueNewStaff(postTestNextDue.TestsNotCompleted,
+                                                                    postTestNextDue.TestsCompleted);
+                            to = new[] { postTestNextDue.Email };
+
+                            subject =
+                                string.Format(
+                                    "Please Read: Please Complete the Online HALF-PINT Post-Tests - site:{0}",
+                                    si.Name);
+
+                            if (_bForceEmails)
                             {
-                                if (postTestNextDue.TestsNotCompleted[0] == "Dexcom G4 Receiver")
-                                {
-                                    bTempIncludOnList = true;
-                                }
-                            }
-                        }
-
-                        if (!bTempIncludOnList)
-                        {
-                            if (postTestNextDue.IsNew)
-                            {
-                                si.SiteEmailLists.NewStaffList.Add(postTestNextDue);
-                                //send new user email
-                                body = EmailBodies.PostTestsDueNewStaff(postTestNextDue.TestsNotCompleted,
-                                                                        postTestNextDue.TestsCompleted);
-                                to = new[] { postTestNextDue.Email };
-
-                                subject =
-                                    string.Format(
-                                        "Please Read: Please Complete the Online HALF-PINT Post-Tests - site:{0}",
-                                        si.Name);
-
-                                if (_bForceEmails)
-                                {
-                                    SendHtmlEmail(subject, to, null, body,
-                                                  @"<a href='http://halfpintstudy.org/hpProd/PostTests/Initialize'>Halfpint Study Post Tests</a>");
-                                }
-                                else
-                                {
-                                    if (!isReport)
-                                    {
-                                        if (DateTime.Today.DayOfWeek == DayOfWeek.Monday)
-                                        {
-                                            if (_bSendEmails)
-                                                SendHtmlEmail(subject, to, null, body,
-                                                              @"<a href='http://halfpintstudy.org/hpProd/PostTests/Initialize'>Halfpint Study Post Tests</a>");
-                                        }
-                                    }
-                                }
+                                SendHtmlEmail(subject, to, null, body,
+                                              @"<a href='http://halfpintstudy.org/hpProd/PostTests/Initialize'>Halfpint Study Post Tests</a>");
                             }
                             else
                             {
-                                si.SiteEmailLists.ExpiredList.Add(postTestNextDue);
-                                //send new user email
-                                body = EmailBodies.PostTestsExpiredStaff(postTestNextDue.TestsNotCompleted,
-                                                                         postTestNextDue.TestsCompleted);
-                                to = new[] { postTestNextDue.Email };
-
-                                subject = "Please Read: Your HALF-PINT Training Has Expired - site:" + si.Name;
-
-                                if (_bForceEmails)
+                                if (!isReport)
                                 {
-                                    SendHtmlEmail(subject, to, null, body,
-                                        @"<a href='http://halfpintstudy.org/hpProd/PostTests/Initialize'>Halfpint Study Post Tests</a>");
-                                }
-                                else
-                                {
-                                    if (!isReport)
+                                    if (DateTime.Today.DayOfWeek == DayOfWeek.Monday)
                                     {
-                                        if (DateTime.Today.DayOfWeek == DayOfWeek.Monday)
-                                        {
-                                            if (_bSendEmails)
-                                                SendHtmlEmail(subject, to, null, body,
-                                                              @"<a href='http://halfpintstudy.org/hpProd/PostTests/Initialize'>Halfpint Study Post Tests</a>");
-                                        }
+                                        if (_bSendEmails)
+                                            SendHtmlEmail(subject, to, null, body,
+                                                          @"<a href='http://halfpintstudy.org/hpProd/PostTests/Initialize'>Halfpint Study Post Tests</a>");
                                     }
                                 }
                             }
                         }
-                        if (!bTempIncludOnList)
-                            continue;
+                        else
+                        {
+                            si.SiteEmailLists.ExpiredList.Add(postTestNextDue);
+                            //send new user email
+                            body = EmailBodies.PostTestsExpiredStaff(postTestNextDue.TestsNotCompleted,
+                                                                     postTestNextDue.TestsCompleted);
+                            to = new[] { postTestNextDue.Email };
+
+                            subject = "Please Read: Your HALF-PINT Training Has Expired - site:" + si.Name;
+
+                            if (_bForceEmails)
+                            {
+                                SendHtmlEmail(subject, to, null, body,
+                                    @"<a href='http://halfpintstudy.org/hpProd/PostTests/Initialize'>Halfpint Study Post Tests</a>");
+                            }
+                            else
+                            {
+                                if (!isReport)
+                                {
+                                    if (DateTime.Today.DayOfWeek == DayOfWeek.Monday)
+                                    {
+                                        if (_bSendEmails)
+                                            SendHtmlEmail(subject, to, null, body,
+                                                          @"<a href='http://halfpintstudy.org/hpProd/PostTests/Initialize'>Halfpint Study Post Tests</a>");
+                                    }
+                                }
+                            }
+                        }
+                        //}
+                        //if (!bTempIncludOnList)
+                        //    continue;
                     }//if (postTestNextDue.TestsNotCompleted.Count > 0)
 
-                    //else all tests are completed
+                    else //all tests are completed
                     {
                         postTestNextDue.IsOkForList = true;
                         si.StaffCompleted++;
@@ -820,6 +820,9 @@ namespace hpMvc.PostTestService
 
                         pos = rdr.GetOrdinal("ID");
                         ptnd.Id = rdr.GetInt32(pos);
+                        //todo - comment this
+                        //if (ptnd.Id != 3)
+                        //    continue;
 
                         pos = rdr.GetOrdinal("Name");
                         ptnd.Name = rdr.GetString(pos);
@@ -886,11 +889,11 @@ namespace hpMvc.PostTestService
                                 #region tempDateCompleted
 
                                 var dateCompleted = postTest.DateCompleted.GetValueOrDefault();
-                                if (dateCompleted.CompareTo(DateTime.Parse("05/01/2012")) < 0)
-                                {
-                                    postTest.DateCompleted = DateTime.Parse("05/01/12");
-                                    dateCompleted = DateTime.Parse("05/01/2012");
-                                }
+                                //if (dateCompleted.CompareTo(DateTime.Parse("05/01/2012")) < 0)
+                                //{
+                                //    postTest.DateCompleted = DateTime.Parse("05/01/12");
+                                //    dateCompleted = DateTime.Parse("05/01/2012");
+                                //}
                                 var nextDueDate = dateCompleted.AddYears(1);
 
                                 #endregion tempDateCompleted
