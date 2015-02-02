@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
 using hpMvc.DataBase;
@@ -25,7 +26,7 @@ namespace hpMvc.Controllers
                 if (id == "0")
                 {
                     var dto = DbPostTestsUtils.GetStaffIdByUserName(User.Identity.Name);
-                    id = dto.ReturnValue.ToString();
+                    id = dto.ReturnValue.ToString(CultureInfo.InvariantCulture);
                 }
             }
             if (id =="-1")
@@ -73,7 +74,7 @@ namespace hpMvc.Controllers
                 if (dto.ReturnValue == 0)
                     dto.Message = "This name already exists. Select your name from the drop down list." ;
 
-                _logger.LogInfo("PostTests.CreateName - message: " + dto.Message + ", name: " + lastName + "," + firstName + ", site: " + siteId.ToString());
+                _logger.LogInfo("PostTests.CreateName - message: " + dto.Message + ", name: " + lastName + "," + firstName + ", site: " + siteId.ToString(CultureInfo.InvariantCulture));
                 return Json(dto);               
             }
 
@@ -88,7 +89,7 @@ namespace hpMvc.Controllers
 
             Utility.SendNurseAccountCreatedMail(staff.ToArray(), new[] { Request.Params["Email"] }, firstName + " " + lastName, siteName, empId, Server, url);
 
-            _logger.LogInfo("PostTests.CreateName - message: " + dto.Message + ", name: " + lastName + "," + firstName + ", site: " + siteId.ToString());
+            _logger.LogInfo("PostTests.CreateName - message: " + dto.Message + ", name: " + lastName + "," + firstName + ", site: " + siteId.ToString(CultureInfo.InvariantCulture));
             return Json(dto);
         }
 

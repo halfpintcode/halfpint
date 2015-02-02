@@ -579,7 +579,7 @@ namespace hpMvc.DataBase
                     }
                     else
                     {
-                        Nlogger.LogError(ex, "user name: " + userName);    
+                        Nlogger.LogInfo("Error-GetStaffIdByUserName: user name: " + userName);    
                     }
                     
                     dto.ReturnValue = -1;
