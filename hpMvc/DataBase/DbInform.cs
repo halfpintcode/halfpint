@@ -77,6 +77,48 @@ namespace hpMvc.DataBase
             return 1;
         }
 
+        public static EnrollmentContentModel GetEnrollmentContent()
+        {
+            var ecm = new EnrollmentContentModel();
+            
+            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            SqlDataReader rdr = null;
+            using (var conn = new SqlConnection(strConn))
+            {
+                try
+                {
+                    var cmd = new SqlCommand("", conn)
+                              {
+                                  CommandType = System.Data.CommandType.StoredProcedure,
+                                  CommandText = ("GetStaffEnrollmentPage")
+                              };
+                    conn.Open();
+                    rdr = cmd.ExecuteReader();
+
+                    while (rdr.Read())
+                    {                        
+                        int pos = rdr.GetOrdinal("Enrollment");
+                        ecm.EnrollmentContent = rdr.GetString(pos);
+
+                        pos = rdr.GetOrdinal("Announcement");
+                        ecm.AnnouncementContent = rdr.GetString(pos);
+                    }
+                    rdr.Close();
+
+                }
+                catch (Exception ex)
+                {
+                    Nlogger.LogError(ex);
+                }
+                finally
+                {
+                    if (rdr != null)
+                        rdr.Close();
+                }
+            }
+            return ecm;
+        }
+
         public static InformPageModel GetInformPage()
         {
             var ifp = new InformPageModel();
@@ -117,7 +159,7 @@ namespace hpMvc.DataBase
                     if (rdr != null)
                         rdr.Close();
                 }
-            }
+            }   
             return ifp;
         }
 

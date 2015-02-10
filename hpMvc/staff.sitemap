@@ -2,7 +2,7 @@
 <siteMap>
   <siteMapNode title="Staff" >
       <siteMapNode title="Training" class="StaffOnly">
-        <siteMapNode title="Training Documents" ImageUrl="~/Content/Images/folder.png"  url ="~/Staff/Index/Training" class="StaffOnly"/>
+        <siteMapNode title="Training Documents" ImageUrl="~/Content/Images/folder.png"  url ="~/Staff/Files/Training" class="StaffOnly"/>
         <siteMapNode title="InForm Training Database" url="https://study.tch.harvard.edu/halfpinttrain1" class="StaffOnly"/>
         <siteMapNode title="Online Videos and Post-Tests" controller="PostTests" action="Initialize" id="0" />
         <siteMapNode title="View Dexcom G4 Sensor Video" controller="PostTests" action="DexcomG4SensorVideo" id="0" />
@@ -10,22 +10,22 @@
         DexcomG4SensorVideo
       </siteMapNode>
     <siteMapNode title="Resources" class="StaffOnly">
-      <siteMapNode title="Resources Documents" ImageUrl="~/Content/Images/folder.png"  url ="~/Staff/Index/Resources" class="StaffOnly"/>      
+      <siteMapNode title="Resources Documents" ImageUrl="~/Content/Images/folder.png"  url ="~/Staff/Files/Resources" class="StaffOnly"/>      
     </siteMapNode>
     <siteMapNode title="Enrollment" class="StaffOnly">
-      <siteMapNode title="Enrollment Documents" ImageUrl="~/Content/Images/folder.png"  url ="~/Staff/Index/Enrollment" class="StaffOnly"/>                 
+      <siteMapNode title="Enrollment Documents" ImageUrl="~/Content/Images/folder.png"  url ="~/Staff/Files/Enrollment" class="StaffOnly"/>                 
     </siteMapNode>
     <siteMapNode title="Study Management" class="StaffOnly" >
-      <siteMapNode title="Study Management Documents" ImageUrl="~/Content/Images/folder.png"  url ="~/Staff/Index/Study Management" class="StaffOnly"/>
+      <siteMapNode title="Study Management Documents" ImageUrl="~/Content/Images/folder.png"  url ="~/Staff/Files/Study Management" class="StaffOnly"/>
     </siteMapNode>
     <siteMapNode title="Ancillary Studies" class="StaffOnly">
-      <siteMapNode title="Ancillary Studies Documents" ImageUrl="~/Content/Images/folder.png"  url ="~/Staff/Index/Ancillary Studies" class="StaffOnly"/>      
+      <siteMapNode title="Ancillary Studies Documents" ImageUrl="~/Content/Images/folder.png"  url ="~/Staff/Files/Ancillary Studies" class="StaffOnly"/>      
     </siteMapNode>
     <siteMapNode title="Regulatory" class="StaffOnly" >      
-      <siteMapNode title="Regulatory Documents" ImageUrl="~/Content/Images/folder.png"  url ="~/Staff/Index/Regulatory" class="StaffOnly"/>              
+      <siteMapNode title="Regulatory Documents" ImageUrl="~/Content/Images/folder.png"  url ="~/Staff/Files/Regulatory" class="StaffOnly"/>              
     </siteMapNode>
     <siteMapNode title="Admin" class="AdminOnly" >
-      <siteMapNode title="Admin Documents" ImageUrl="~/Content/Images/folder.png"  url ="~/Staff/Index/Admin" class="AdminOnly"/>
+      <siteMapNode title="Admin Documents" ImageUrl="~/Content/Images/folder.png"  url ="~/Staff/Files/Admin" class="AdminOnly"/>
     </siteMapNode>
   </siteMapNode>
 </siteMap>

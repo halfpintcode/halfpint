@@ -70,7 +70,9 @@ Released   : 20090918
 			@RenderSection("Menu")
 		}
 		else
-		{ 
+		{
+		    var routValues = new RouteValueDictionary();
+            routValues.Add("folder", ""); 
 			<ul id="ulMainMenu">
 				<li>@Html.ActionLink("Home", "Index", "Home")</li>
 				@*<li>@Html.ActionLink("Families", "Index", "Families")</li>*@

@@ -97,6 +97,7 @@
     <Compile Include="Controllers\CoordinatorController.cs" />
     <Compile Include="Controllers\DccController.cs" />
     <Compile Include="Controllers\EmailController.cs" />
+    <Compile Include="Controllers\EnrollmentController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\FamiliesController.cs" />
     <Compile Include="Controllers\DownloadController.cs" />
@@ -141,6 +142,7 @@
     <Compile Include="Models\ChecksNovaBolldGlucoseReportModel.cs" />
     <Compile Include="Models\DataTransferObject.cs" />
     <Compile Include="Models\DexcomSkipModel.cs" />
+    <Compile Include="Models\EnrollmentContentModel.cs" />
     <Compile Include="Models\InformPageModel.cs" />
     <Compile Include="Models\InitializeSubject.cs" />
     <Compile Include="Models\ManageRollsModel.cs" />
@@ -423,6 +425,7 @@
     <Content Include="Content\Images\Charts\01\adfadf.gif" />
     <Content Include="Content\Images\Charts\01\dfas.gif" />
     <Content Include="Content\Images\contact.png" />
+    <Content Include="Content\Images\enrollment.png" />
     <Content Include="Content\Images\file.png" />
     <Content Include="Content\Images\folder.png" />
     <Content Include="Content\InitializePassword.css" />
@@ -861,6 +864,7 @@
     <Content Include="Views\Admin\CgmImportExceptions.cshtml" />
     <Content Include="Views\Admin\RandomizedChecksRowsCompleted.cshtml" />
     <Content Include="Views\PostTestsAdmin\AddPostTest.cshtml" />
+    <Content Include="Views\Staff\Files.cshtml" />
     <None Include="_bin_deployableAssemblies\Microsoft.Web.Infrastructure.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.Razor.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.dll" />

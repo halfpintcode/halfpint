@@ -15,7 +15,7 @@
 }
 #formContent
 {      
-    margin-left:25px; 
+    margin-left:15px; 
     margin-top:20px;    
     float:left;
 }
@@ -25,7 +25,23 @@
     font-weight:bold;
     font-size:large;    
 }
-.imgGraph {
-    width: 75%;
+#divEnrollment {
+    height: 290px;
+}
+#divAnnounce {
+    float: left;
+    margin-left: 15px;
+}
+.imgGraph 
+{
+    float: left;
+    width: 555px;
+    margin-left: -20px;
     
+}
+.enrollmentContent 
+{
+    margin-left: 0px;
+    float: left;
+    text-align: left;
 }

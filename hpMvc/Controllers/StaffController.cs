@@ -71,6 +71,44 @@ namespace hpMvc.Controllers
             ViewBag.ShowFolder = "false";
             
             return View();
+        }
+
+        public ActionResult Files(string folder)
+        {
+            if (!SiteMapManager.SiteMaps.ContainsKey("staff"))
+            {
+                SiteMapManager.SiteMaps.Register<XmlSiteMap>("staff", sitmap => sitmap.LoadFrom("~/staff.sitemap"));
+            }
+            if (!SiteMapManager.SiteMaps.ContainsKey("quick"))
+            {
+                SiteMapManager.SiteMaps.Register<XmlSiteMap>("quick", sitmap => sitmap.LoadFrom("~/QuickLinks2.sitemap"));
+            }
+
+            ViewBag.ShowSurvey = "false";
+            if (folder != null)
+            {
+                if (folder == "NurseSurvey")
+                {
+                    ViewBag.ShowSurvey = "true";
+                }
+                else
+                {
+                    string path = ConfigurationManager.AppSettings["FileRepositoryPath"].ToString();
+                    path = Path.Combine(path, folder);
+
+                    string user = User.Identity.Name;
+                    var list = DynamicFolderFile.GetFileFolderModel(path, folder, user);
+
+                    ViewBag.ShowFolder = "true";
+                    ViewBag.FolderName = folder;
+
+                    return View(list);
+                }
+            }
+
+            ViewBag.ShowFolder = "false";
+
+            return View();
         }        
 
         public JsonResult GetSiteEmployeeInfo(string site)

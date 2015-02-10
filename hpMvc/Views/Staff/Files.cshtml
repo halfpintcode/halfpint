@@ -56,7 +56,7 @@
     @if (ViewBag.ShowFolder == "true")
     {
         { Html.RenderPartial("DisplayFolderPartial"); }
-        @Html.ActionLink("Staff", "Index", "Staff");
+        
     }
 </div>
 </form>
@@ -82,24 +82,9 @@ else
 {
     if (ViewBag.ShowFolder == "false")
     {
-        <div id="divEnrollment">
-            <img class="imgGraph" alt="enrollment graphs" src="@Url.Content("~/Content/Images/enrollment.png")"/>
-            <div class="enrollmentContent">
-                <h4>Enrollment as of 03/01/2015</h4> 
-                <ul>
-                    <li>Text 1</li>
-                    <li>Text 2</li>
-                    <li>Text 3</li>
-                </ul>
-            </div>
-        </div>
-        <div id="divAnnounce">
-            <h4>Announcement</h4>
-            <ul>
-                    <li>Text 1</li>
-                    <li>Text 2</li>
-                    <li>Text 3</li>
-                </ul>
+        <div>
+            <h4>Some content here</h4>
+            <img class="imgGraph" alt="enrollment graphs" src="@Url.Content("~/Content/Images/mailLogo.jpg")"/>
         </div>
     }
 }
