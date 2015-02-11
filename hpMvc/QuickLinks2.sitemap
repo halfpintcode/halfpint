@@ -4,7 +4,7 @@
     <siteMapNode title="Staff Quick Links" class="QuickLinks">      
     </siteMapNode>
     <siteMapNode title="Nurse Workload Survey"
-                 url ="~/Staff/Index/NurseSurvey"
+                 url ="~/Staff/Files/NurseSurvey"
                   />
     <siteMapNode title="Important Contacts">
       <siteMapNode title="National Contacts" controller="Download" action="GetFile" fileName="HalfPint National Contact Info.pdf" folder="Quick Links~Important Contacts" class="StaffOnly" />

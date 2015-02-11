@@ -553,6 +553,7 @@
     <Content Include="Scripts\RandomizedChecksRowsCompleted.js" />
     <Content Include="Scripts\resetGenericNurseAccount.js" />
     <Content Include="Scripts\sites.js" />
+    <Content Include="Scripts\StaffEnrollmentContent.js" />
     <Content Include="Scripts\staffSubscribe.js" />
     <Content Include="Scripts\2012.2.607\jquery-1.7.1.min.js" />
     <Content Include="Scripts\2012.2.607\jquery.validate.min.js" />
@@ -865,6 +866,8 @@
     <Content Include="Views\Admin\RandomizedChecksRowsCompleted.cshtml" />
     <Content Include="Views\PostTestsAdmin\AddPostTest.cshtml" />
     <Content Include="Views\Staff\Files.cshtml" />
+    <Content Include="Views\Enrollment\Edit.cshtml" />
+    <Content Include="Views\Enrollment\SaveSuccess.cshtml" />
     <None Include="_bin_deployableAssemblies\Microsoft.Web.Infrastructure.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.Razor.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.dll" />

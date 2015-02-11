@@ -15,6 +15,35 @@ namespace hpMvc.DataBase
             Nlogger = new NLogger();
         }
 
+        public static int SaveStaffEnrollmentPage(EnrollmentContentModel ecm)
+        {
+            var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+
+            using (var conn = new SqlConnection(strConn))
+            {
+                try
+                {
+                    var cmd = new SqlCommand("", conn)
+                    {
+                        CommandType = System.Data.CommandType.StoredProcedure,
+                        CommandText = ("SaveStaffEnrollmentPage")
+                    };
+                    var param = new SqlParameter("@enrollmentContent", ecm.EnrollmentContent);
+                    cmd.Parameters.Add(param);
+                    param = new SqlParameter("@announcementContent", ecm.AnnouncementContent);
+                    cmd.Parameters.Add(param);
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    Nlogger.LogError(ex);
+                    return 0;
+                }
+            }
+            return 1;
+        }
+
         public static int SaveInformPage(InformPageModel ifp)
         {
              var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
@@ -213,10 +242,33 @@ namespace hpMvc.DataBase
             return ifp;
         }
 
-        public static DTO ValidateInput(InformPageModel ifp)
+        public static DTO ValidateInput(EnrollmentContentModel ecm)
         {
             string message = "";
             var dto = new DTO {ReturnValue = 1};
+            string enrollmentContent = ecm.EnrollmentContent.ToLower();
+            if (!IsValidContent(enrollmentContent, ref message))
+            {
+                dto.Message = "Enrollment Content: " + message;
+                dto.ReturnValue = 0;
+                return dto;
+            }
+
+            string announcementContent = ecm.AnnouncementContent.ToLower();
+            if (!IsValidContent(announcementContent, ref message))
+            {
+                dto.Message = "Announcement Content: " + message; 
+                dto.ReturnValue = 0;
+                return dto;
+            }
+            
+            return dto;
+        }
+
+        public static DTO ValidateInput(InformPageModel ifp)
+        {
+            string message = "";
+            var dto = new DTO { ReturnValue = 1 };
             string headerContent = ifp.HeaderContent.ToLower();
             if (!IsValidContent(headerContent, ref message))
             {
@@ -226,17 +278,17 @@ namespace hpMvc.DataBase
             }
 
             string mainContent = ifp.MainContent.ToLower();
-            if (! IsValidContent(mainContent, ref message))
+            if (!IsValidContent(mainContent, ref message))
             {
-                dto.Message = "Main Content: " + message; 
+                dto.Message = "Main Content: " + message;
                 dto.ReturnValue = 0;
                 return dto;
             }
 
             string footerContent = ifp.FooterContent.ToLower();
-            if (! IsValidContent(footerContent, ref message))
+            if (!IsValidContent(footerContent, ref message))
             {
-                dto.Message = "Footer Content: " + message; 
+                dto.Message = "Footer Content: " + message;
                 dto.ReturnValue = 0;
                 return dto;
             }
@@ -296,7 +348,7 @@ namespace hpMvc.DataBase
 
         private static bool IsValidTag(string tag, ref string message)
         {
-            string[] validTags = {"p","ul","li","strong","h1","h2","h3" }; 
+            string[] validTags = {"p","ul","li","strong","h1","h2","h3","h4" }; 
             if (validTags.Any(s => tag == s))
             {
                 return true;

@@ -31,17 +31,32 @@
 #divAnnounce {
     float: left;
     margin-left: 15px;
+    overflow: scroll;
+    height: 250px;
+    width: 780px;
+}
+#divAnnounce ul{
+    margin-left: 15px;
+    list-style: disc;
 }
 .imgGraph 
 {
     float: left;
     width: 555px;
+    height: 290px;
     margin-left: -20px;
     
 }
 .enrollmentContent 
 {
-    margin-left: 0px;
+    margin-left: 7px;
     float: left;
     text-align: left;
+    height: 280px;
+    width: 238px;
+}
+.enrollmentContent ul {
+    margin-left: 15px;
+    list-style: disc;
+    
 }

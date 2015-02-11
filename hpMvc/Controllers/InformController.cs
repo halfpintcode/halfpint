@@ -32,8 +32,10 @@ namespace hpMvc.Controllers
             int iRetval = 0;
 
             if(dto.ReturnValue == 1)
-                 iRetval = DbInform.SaveInformPage(ifp); 
-            
+                 iRetval = DbInform.SaveInformPage(ifp);
+            if (iRetval != 1)
+            { }
+
             return Json(dto);
         }
 

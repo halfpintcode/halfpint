@@ -1,0 +1,13 @@
+﻿@{
+    ViewBag.Title = "SaveSuccess";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit Enrollment Content</h2>
+
+<p>
+    The enrollment content was successfully saved!
+</p>
+
+<br />
+@Html.RouteLink("Back to edit enrollment content", new { controller="Enrollment", Action = "Edit" })

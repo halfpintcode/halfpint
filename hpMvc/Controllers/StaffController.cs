@@ -35,7 +35,7 @@ namespace hpMvc.Controllers
 
         [Telerik.Web.Mvc.PopulateSiteMap(SiteMapName = "staff", ViewDataKey = "staff")]
         [Telerik.Web.Mvc.PopulateSiteMap(SiteMapName = "quick", ViewDataKey = "quick")]
-        public ActionResult Index(string folder)
+        public ActionResult Index()
         {
             if (!SiteMapManager.SiteMaps.ContainsKey("staff"))
             {
@@ -47,30 +47,10 @@ namespace hpMvc.Controllers
             }
 
             ViewBag.ShowSurvey = "false";
-            if(folder != null)
-            {
-                if (folder == "NurseSurvey")
-                {
-                    ViewBag.ShowSurvey = "true";
-                }
-                else
-                {
-                    string path = ConfigurationManager.AppSettings["FileRepositoryPath"].ToString();
-                    path = Path.Combine(path, folder);
 
-                    string user = User.Identity.Name;
-                    var list = DynamicFolderFile.GetFileFolderModel(path, folder, user);
-
-                    ViewBag.ShowFolder = "true";
-                    ViewBag.FolderName = folder;
-                    
-                    return View(list);
-                }
-            }
+            var ecm = DbInform.GetEnrollmentContent();
             
-            ViewBag.ShowFolder = "false";
-            
-            return View();
+            return View(ecm);
         }
 
         public ActionResult Files(string folder)

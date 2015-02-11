@@ -45,5 +45,6 @@
                     controller="Admin"
                     action="RandomizedChecksRowsCompleted" />
       </siteMapNode>
+      <siteMapNode title="Edit Staff Enrollment Content" controller="Enrollment" action="Edit" />
     </siteMapNode>
 </siteMap>
