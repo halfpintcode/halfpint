@@ -185,6 +185,7 @@ namespace hpMvc.Controllers
                 DbPostTestsUtils.AddAndUpdateTestCompleted(nameId, "Checks");
             }
 
+
             var incorrect = "";
             if (dto.Messages.Count > 0)
             {

@@ -736,7 +736,7 @@ namespace hpMvc.DataBase
                 }
                 catch (Exception ex)
                 {
-                    Nlogger.LogError("AddOrUpdateTestCompleted staffID: " + staffId + ", " + ex.Message);
+                    Nlogger.LogError("AddOrUpdateTestCompleted - test: " + test + ", staffID: " + staffId + ", " + ex.Message);
                     return -1;
                 }
             }
@@ -1086,7 +1086,7 @@ namespace hpMvc.DataBase
                         if (test.Name == "Overview")
                         {
                             tests.Remove(test);
-                        };
+                        }
                         var nextDueDate = dateCompleted.AddYears(1);
                         var tsDayWindow = nextDueDate - DateTime.Now;
 
