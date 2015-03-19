@@ -411,7 +411,7 @@ $(document).ready(function () {
             today.setHours(0, 0, 0, 0);
             var expDate = new Date(val);
             expDate.setHours(0, 0, 0, 0);
-            if (expDate >= today) {
+            if (expDate > today) {
                 alert('This senosor has expired!');
                 $('#ExpirationDate').focus();
                 return false;

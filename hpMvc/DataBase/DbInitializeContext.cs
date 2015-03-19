@@ -176,12 +176,12 @@ namespace hpMvc.DataBase
 
                 var today = DateTime.Today.Date;
                 var expDate = DateTime.Parse(expirationDate).Date;
-                if (expDate.CompareTo(today) >= 0)
+                if (expDate.CompareTo(today) > 0)
                 {
                     messages.Add(new ValidationMessages
                     {
                         FieldName = "ExpirationDate",
-                        DisplayName = "Expiration date ",
+                        DisplayName = "The sensor ",
                         Message = "has expired" 
                     });
                 }
