@@ -407,6 +407,16 @@ $(document).ready(function () {
                 return false;
             }
 
+            var today = new Date();
+            today.setHours(0, 0, 0, 0);
+            var expDate = new Date(val);
+            expDate.setHours(0, 0, 0, 0);
+            if (expDate >= today) {
+                alert('This senosor has expired!');
+                $('#ExpirationDate').focus();
+                return false;
+            }
+
             val = $('#InserterFirstName').val();
             if (!val) {
                 alert('Inserter First Name is required');

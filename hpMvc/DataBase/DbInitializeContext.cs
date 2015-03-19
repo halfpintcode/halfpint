@@ -174,6 +174,18 @@ namespace hpMvc.DataBase
                 }
                 insertData.ExpirationDate = expirationDate;
 
+                var today = DateTime.Today.Date;
+                var expDate = DateTime.Parse(expirationDate).Date;
+                if (expDate.CompareTo(today) >= 0)
+                {
+                    messages.Add(new ValidationMessages
+                    {
+                        FieldName = "ExpirationDate",
+                        DisplayName = "Expiration date ",
+                        Message = "has expired" 
+                    });
+                }
+                
                 string inserterFirstName = formParams["InserterFirstName"];
                 inserterFirstName = inserterFirstName.Trim();
                 if (inserterFirstName.Length == 0)
