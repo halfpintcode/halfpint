@@ -457,6 +457,7 @@
     <Content Include="Content\Images\nih.gif" />
     <Content Include="Content\Images\placeholder.gif" />
     <Content Include="Content\Images\valid.png" />
+    <Content Include="Content\logon.css" />
     <Content Include="Content\Posttest.css" />
     <Content Include="Content\PostTestCertificate.css" />
     <Content Include="Content\postTestEdit.css" />

@@ -23,25 +23,25 @@ namespace hpMvc.Controllers
     {
         readonly NLogger _nlogger = new NLogger();
 
-        protected override void OnAuthorization(AuthorizationContext filterContext)
-        {
-            if (!filterContext.HttpContext.User.Identity.IsAuthenticated)
-            {
-                // auth failed, redirect to login page 
-                filterContext.Result = new HttpUnauthorizedResult();
-                return;
-            }
+        //protected override void OnAuthorization(AuthorizationContext filterContext)
+        //{
+        //    if (!filterContext.HttpContext.User.Identity.IsAuthenticated)
+        //    {
+        //        // auth failed, redirect to login page 
+        //        filterContext.Result = new HttpUnauthorizedResult();
+        //        return;
+        //    }
 
-            if (!(filterContext.HttpContext.User.IsInRole("Admin"))) //|| (filterContext.HttpContext.User.IsInRole("Coordinator"))))
-            {
-                filterContext.Controller.TempData.Add("RedirectReason", "You are not authorized to access this page.");
-                filterContext.Result = new RedirectResult("~/Error/Unauthorized");
+        //    if (!(filterContext.HttpContext.User.IsInRole("Admin"))) //|| (filterContext.HttpContext.User.IsInRole("Coordinator"))))
+        //    {
+        //        filterContext.Controller.TempData.Add("RedirectReason", "You are not authorized to access this page.");
+        //        filterContext.Result = new RedirectResult("~/Error/Unauthorized");
 
-                return;
-            }
+        //        return;
+        //    }
 
-            base.OnAuthorization(filterContext);
-        }
+        //    base.OnAuthorization(filterContext);
+        //}
 
         public ActionResult CgmImportExceptions()
         {

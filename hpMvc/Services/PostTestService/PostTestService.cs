@@ -193,8 +193,8 @@ namespace hpMvc.PostTestService
 
                     //see if all required post tests are completed
                     //send emails
-                    if (si.Id == 24 && postTestNextDue.Role == "Nurse")
-                        continue;
+                    //if (si.Id == 24 && postTestNextDue.Role == "Nurse")
+                    //    continue;
 
                     if (postTestNextDue.TestsNotCompleted.Count > 0)
                     {
@@ -227,8 +227,14 @@ namespace hpMvc.PostTestService
 
                             if (_bForceEmails)
                             {
-                                SendHtmlEmail(subject, to, null, body,
-                                              @"<a href='http://halfpintstudy.org/hpProd/PostTests/Initialize'>Halfpint Study Post Tests</a>");
+                                if (si.Id == 24 && postTestNextDue.Role == "Nurse")
+                                {
+                                }
+                                else
+                                {
+                                    SendHtmlEmail(subject, to, null, body,
+                                        @"<a href='http://halfpintstudy.org/hpProd/PostTests/Initialize'>Halfpint Study Post Tests</a>");
+                                }
                             }
                             else
                             {
@@ -237,8 +243,14 @@ namespace hpMvc.PostTestService
                                     if (DateTime.Today.DayOfWeek == DayOfWeek.Monday)
                                     {
                                         if (_bSendEmails)
-                                            SendHtmlEmail(subject, to, null, body,
-                                                          @"<a href='http://halfpintstudy.org/hpProd/PostTests/Initialize'>Halfpint Study Post Tests</a>");
+                                            if (si.Id == 24 && postTestNextDue.Role == "Nurse")
+                                            {
+                                            }
+                                            else
+                                            {
+                                                SendHtmlEmail(subject, to, null, body,
+                                                    @"<a href='http://halfpintstudy.org/hpProd/PostTests/Initialize'>Halfpint Study Post Tests</a>");
+                                            }
                                     }
                                 }
                             }
@@ -255,8 +267,14 @@ namespace hpMvc.PostTestService
 
                             if (_bForceEmails)
                             {
-                                SendHtmlEmail(subject, to, null, body,
-                                    @"<a href='http://halfpintstudy.org/hpProd/PostTests/Initialize'>Halfpint Study Post Tests</a>");
+                                if (si.Id == 24 && postTestNextDue.Role == "Nurse")
+                                {
+                                }
+                                else
+                                {
+                                    SendHtmlEmail(subject, to, null, body,
+                                        @"<a href='http://halfpintstudy.org/hpProd/PostTests/Initialize'>Halfpint Study Post Tests</a>");
+                                }
                             }
                             else
                             {
@@ -265,8 +283,14 @@ namespace hpMvc.PostTestService
                                     if (DateTime.Today.DayOfWeek == DayOfWeek.Monday)
                                     {
                                         if (_bSendEmails)
-                                            SendHtmlEmail(subject, to, null, body,
-                                                          @"<a href='http://halfpintstudy.org/hpProd/PostTests/Initialize'>Halfpint Study Post Tests</a>");
+                                            if (si.Id == 24 && postTestNextDue.Role == "Nurse")
+                                            {
+                                            }
+                                            else
+                                            {
+                                                SendHtmlEmail(subject, to, null, body,
+                                                    @"<a href='http://halfpintstudy.org/hpProd/PostTests/Initialize'>Halfpint Study Post Tests</a>");
+                                            }
                                     }
                                 }
                             }
@@ -294,8 +318,14 @@ namespace hpMvc.PostTestService
 
                             if (_bForceEmails)
                             {
-                                SendHtmlEmail(subject, to, null, body,
-                                    @"<a href='http://halfpintstudy.org/hpProd/PostTests/Initialize'>Halfpint Study Post Tests</a>");
+                                if (si.Id == 24 && postTestNextDue.Role == "Nurse")
+                                {
+                                }
+                                else
+                                {
+                                    SendHtmlEmail(subject, to, null, body,
+                                        @"<a href='http://halfpintstudy.org/hpProd/PostTests/Initialize'>Halfpint Study Post Tests</a>");
+                                }
                             }
                             else
                             {
@@ -304,8 +334,14 @@ namespace hpMvc.PostTestService
                                     if (DateTime.Today.DayOfWeek == DayOfWeek.Monday)
                                     {
                                         if (_bSendEmails)
-                                            SendHtmlEmail(subject, to, null, body,
-                                                          @"<a href='http://halfpintstudy.org/hpProd/PostTests/Initialize'>Halfpint Study Post Tests</a>");
+                                            if (si.Id == 24 && postTestNextDue.Role == "Nurse")
+                                            {
+                                            }
+                                            else
+                                            {
+                                                SendHtmlEmail(subject, to, null, body,
+                                                    @"<a href='http://halfpintstudy.org/hpProd/PostTests/Initialize'>Halfpint Study Post Tests</a>");
+                                            }
                                     }
                                 }
                             }
@@ -323,8 +359,14 @@ namespace hpMvc.PostTestService
 
                             if (_bForceEmails)
                             {
-                                SendHtmlEmail(subject, to, null, body,
-                                    @"<a href='http://halfpintstudy.org/hpProd/PostTests/Initialize'>Halfpint Study Post Tests</a>");
+                                if (si.Id == 24 && postTestNextDue.Role == "Nurse")
+                                {
+                                }
+                                else
+                                {
+                                    SendHtmlEmail(subject, to, null, body,
+                                        @"<a href='http://halfpintstudy.org/hpProd/PostTests/Initialize'>Halfpint Study Post Tests</a>");
+                                }
                             }
                             else
                             {
@@ -333,8 +375,14 @@ namespace hpMvc.PostTestService
                                     if (DateTime.Today.DayOfWeek == DayOfWeek.Monday)
                                     {
                                         if (_bSendEmails)
-                                            SendHtmlEmail(subject, to, null, body,
-                                                          @"<a href='http://halfpintstudy.org/hpProd/PostTests/Initialize'>Halfpint Study Post Tests</a>");
+                                            if (si.Id == 24 && postTestNextDue.Role == "Nurse")
+                                            {
+                                            }
+                                            else
+                                            {
+                                                SendHtmlEmail(subject, to, null, body,
+                                                    @"<a href='http://halfpintstudy.org/hpProd/PostTests/Initialize'>Halfpint Study Post Tests</a>");
+                                            }
                                     }
                                 }
                             }
@@ -800,8 +848,8 @@ namespace hpMvc.PostTestService
                         if (role == "Admin")
                             continue;
 
-                        if (siteId == 24 && role == "Nurse")
-                            continue;
+                        //if (siteId == 24 && role == "Nurse")
+                        //    continue;
 
                         var userName = string.Empty;
                         pos = rdr.GetOrdinal("UserName");

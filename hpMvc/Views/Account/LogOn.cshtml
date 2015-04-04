@@ -41,6 +41,8 @@
     <div>
         @Html.ActionLink("I forgot my password *", "ForgotPassword")
         <br/>
-        <span>* Study staff only.  If you are a <strong>nurse and unable to log in</strong>, please contact the HALF-PINT study coordinator at your hospital for instructions.</span> 
+        <span id="spanStaffOnly">* Study staff only.  If you are a <strong>nurse and unable to log in</strong>, please contact the HALF-PINT study coordinator at your hospital for instructions.</span> 
     </div>
 }
+
+<link href="@Url.Content("~/Content/logon.css")" rel="stylesheet" type="text/css" />
