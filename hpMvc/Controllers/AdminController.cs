@@ -18,7 +18,7 @@ using Telerik.Web.Mvc;
 
 namespace hpMvc.Controllers
 {
-    //[Authorize(Roles = "Admin")] 
+    [Authorize(Roles = "Admin")] 
     public class AdminController : Controller
     {
         readonly NLogger _nlogger = new NLogger();

@@ -483,7 +483,7 @@ $(function () {
                         lip = parseInt(aaText[1]);
                         break;
                     case "Volume":
-                        vol = parseInt(aaText[1]);
+                        vol = parseFloat(aaText[1]);
                         break;
                 }
 
@@ -586,7 +586,7 @@ $(function () {
         var pnChoKcal = Math.round(valDex * 0.034 * valVol);
         pnCho = pnCho + pnChoKcal;
 
-        var pnProteinKcal = Math.round(valAm * 0.04 * valVol)
+        var pnProteinKcal = Math.round(valAm * 0.04 * valVol);
         pnProtein = pnProtein + pnProteinKcal;
 
         $('#parenteralCHO').text(pnCho);
@@ -896,7 +896,7 @@ $(function () {
     });
 
     $('#btnRemoveAdditive').click(function () {
-        var $selected = $("#selAdditive option:selected")
+        var $selected = $("#selAdditive option:selected");
         $selected.each(function () {
             var option = $(this).text();
             var data = $(this).data('additive');
@@ -1030,18 +1030,27 @@ $(function () {
         if (initializing) {
             return;
         }
-        var totEntParen, totChokCals, totChoMil, totMins;
+        var totDexkCal, totDexmg, totEntParen, totChokCals, totChoMg, totMins;
         hours = $('#hours').val();
         weight = $('#bodyWeight').val();
 
         gir = 0;
         if (resultsTotal > 0 && hours > 0 && weight > 0) {
 
+            //new way
             totEntParen = enCho + enLipid + enProtein + pnCho + pnLipid + pnProtein;
-            totChokCals = resultsTotal - totEntParen + enCho + pnCho;
-            totChoMil = (totChokCals / 4) * 1000;
+            totChokCals = enCho;
+            totChoMg = (totChokCals / 4) * 1000;
+            totDexkCal = (resultsTotal - totEntParen) + pnCho;
+            totDexmg = (totDexkCal / 3.4) * 1000;
             totMins = hours * 60;
-            gir = (totChoMil / weight) / totMins;
+            gir = ((totChoMg + totDexmg) / weight) / totMins;
+            //old way
+//            totEntParen = enCho + enLipid + enProtein + pnCho + pnLipid + pnProtein;
+//            totChokCals = resultsTotal - totEntParen + enCho + pnCho;
+//            totChoMg = (totChokCals / 4) * 1000;
+//            totMins = hours * 60;
+//            gir = (totChoMg / weight) / totMins;
         }
         $('#gir').text(gir.toFixed(1));
     }
@@ -1089,7 +1098,7 @@ $(function () {
         if (initializing) {
             return;
         }
-        var weight = $('#bodyWeight').val();
+        weight = $('#bodyWeight').val();
         if (weight.length === 0) {
             alert('You must enter a body weight between 3 and 140 kg in order to calculate Calories per kilo per day');
             return;

@@ -145,7 +145,8 @@
                         <option value="3.0">30</option>    
                     </select>
                     &nbsp;<span>%</span><br />
-                    <label>Volume</label><input class="keyDecimal" type="text" id="txtLPVol"/>&nbsp;<span>mL</span>&nbsp;&nbsp;<input type="button" id="btnAddLip" value="Add" />
+                    <label>Volume</label><input class="keyDecimal" type="text" id="txtLPVol"/>&nbsp;<span>mL</span>&nbsp;&nbsp;
+                    <input type="button" id="btnAddLip" value="Add" />
                 </div>
             </div>
             
@@ -163,11 +164,13 @@
                 <div>
                     Select formula @Html.DropDownList("FormulaList")
                     &nbsp;
-                    <label>Volume</label>&nbsp;<input class="keyDecimal" type="text" id="txtVolFormula"/>&nbsp;&nbsp;<span>mL</span>&nbsp;&nbsp;<input type="button" id="btnAddFormula" value="Add" />
+                    <label>Volume</label>&nbsp;<input class="keyDecimal" type="text" id="txtVolFormula"/>&nbsp;&nbsp;<span>mL</span>&nbsp;&nbsp;
+                    <input type="button" id="btnAddFormula" value="Add" />
                 </div>
             </div>
             <div id="EnteralManual">                
-                <label>If a formula is not in the list above, click on the 'Add New Formula' button: </label>&nbsp;&nbsp;<input type="button" id="btnAddManual" value="Add New Formula" />
+                <label>If a formula is not in the list above, click on the 'Add New Formula' button: </label>&nbsp;&nbsp;
+                <input type="button" id="btnAddManual" value="Add New Formula" />
             </div>
             <hr />            
             <div><strong>Selected Formulas</strong></div>
@@ -179,17 +182,22 @@
         <div id="Additives">
             <div id="AdditivesFormula">
                 <div class="divInfo">
-                    Select the desired additive from the dropdown list, enter an amount then press 'Add' to add entry to the 'Selected Additives' list box.  To remove an additive from the 'Selected Additives' list you must first select it and then press 'Remove Selected'. 
+                    Select the desired additive from the dropdown list, enter an amount then press 
+                    'Add' to add entry to the 'Selected Additives' list box.  To remove an additive from the 
+                    'Selected Additives' list you must first select it and then press 'Remove Selected'. 
                 </div>
                 <hr />
                 <div>
                     Select additive @Html.DropDownList("AdditiveList")
                     &nbsp;
-                    <label>Amount</label>&nbsp;<input class="keyDecimal" type="text" id="txtAdditiveAmt"/>&nbsp;&nbsp;<span id="spanUnit"></span>&nbsp;&nbsp;<input type="button" id="btnAddAdditive" value="Add" />
+                    <label>Amount</label>&nbsp;<input class="keyDecimal" type="text" id="txtAdditiveAmt"/>&nbsp;&nbsp;
+                    <span id="spanUnit"></span>&nbsp;&nbsp;
+                    <input type="button" id="btnAddAdditive" value="Add" />
                 </div>
             </div>
             <div id="AdditiveManual">                
-                <label>If an additive is not in the list above, click on the 'Add New Additive' button: </label>&nbsp;&nbsp;<input type="button" id="btnAdditiveManual" value="Add New Additive" />
+                <label>If an additive is not in the list above, click on the 'Add New Additive' button: </label>&nbsp;&nbsp;
+                <input type="button" id="btnAdditiveManual" value="Add New Additive" />
             </div>
             <hr />            
             <div><strong>Selected Additives</strong></div>            

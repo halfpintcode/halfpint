@@ -51,7 +51,7 @@ namespace hpMvc.Models
         public int ID { get; set; }
         public int CalStudyID { get; set; }
         public int FormulaID { get; set; }
-        public int Volume { get; set; }
+        public double Volume { get; set; }
     }
 
     public class CalAdditive

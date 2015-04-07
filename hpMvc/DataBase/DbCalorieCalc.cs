@@ -380,7 +380,7 @@ namespace hpMvc.DataBase
                         ce.FormulaID = rdr.GetInt32(pos);
                                                 
                         pos = rdr.GetOrdinal("Volume");
-                        ce.Volume = rdr.GetInt32(pos);
+                        ce.Volume = rdr.GetDouble(pos);
 
                         cel.Add(ce);
                     }
