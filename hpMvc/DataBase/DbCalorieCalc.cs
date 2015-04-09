@@ -333,7 +333,7 @@ namespace hpMvc.DataBase
                         ca.AdditiveID = rdr.GetInt32(pos);
 
                         pos = rdr.GetOrdinal("Volume");
-                        ca.Volume = rdr.GetInt32(pos);
+                        ca.Volume = rdr.GetDouble(pos);
 
                         cal.Add(ca);
                     }

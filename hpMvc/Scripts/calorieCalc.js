@@ -1,14 +1,16 @@
 ﻿/// <reference path="jquery-1.7.1-vsdoc.js" />
 $(function () {
     var isEdit = false;
-    var resultsTotal = 0;
-    var infusionTotal = 0;
-    var pnCho = 0;
-    var pnProtein = 0;
-    var pnLipid = 0;
-    var enCho = 0;
-    var enProtein = 0;
-    var enLipid = 0;
+    var resultsTotalFloat = 0;
+    var resultsTotalInt = 0;
+    var infusionTotalFloat = 0;
+    var pnChoFloat = 0;
+    var pnProteinFloat = 0;
+    var pnLipidFloat = 0;
+    var enChoFloat = 0;
+    var enProteinFloat = 0;
+    var enLipidFloat = 0;
+    
     var tempId = 0;
     var gir = 0;
     var hours, weight;
@@ -325,8 +327,8 @@ $(function () {
         clearOther();
 
         $('.nTotal').text("0");
-        resultsTotal = 0;
-        infusionTotal = 0;
+        resultsTotalInt = 0;
+        infusionTotalFloat = 0;
         pnCho = 0;
         pnProtein = 0;
         pnLipid = 0;
@@ -577,20 +579,26 @@ $(function () {
         if (!validateDex()) {
             return;
         }
-
+        var pnChoKcal = 0;
+        var pnProteinKcal = 0;
         var valDex = $('#txtDex').val();
         var valAm = $('#txtAm').val();
         var valVol = $('#txtPNVol').val();
         var optText = "Dextrose:" + valDex + "%, Amino Acid:" + valAm + "%, Volume:" + valVol + "mL";
 
-        var pnChoKcal = Math.round(valDex * 0.034 * valVol);
-        pnCho = pnCho + pnChoKcal;
+        valDex = parseFloat(valDex);
+        valAm = parseFloat(valAm);
+        valVol = parseFloat(valVol);
+        
+        //var pnChoKcal = Math.round(valDex * 0.034 * valVol);
+        pnChoKcal = valDex * 0.034 * valVol;
+        pnChoFloat = pnChoFloat + pnChoKcal;
 
-        var pnProteinKcal = Math.round(valAm * 0.04 * valVol);
-        pnProtein = pnProtein + pnProteinKcal;
+        pnProteinKcal = valAm * 0.04 * valVol;
+        pnProteinFloat = pnProteinFloat + pnProteinKcal;
 
-        $('#parenteralCHO').text(pnCho);
-        $('#parenteralProtein').text(pnProtein);
+        $('#parenteralCHO').text(Math.round(pnChoFloat));
+        $('#parenteralProtein').text(Math.round(pnProteinFloat));
 
         tempId++;
 
@@ -610,16 +618,16 @@ $(function () {
         if (!validateLip()) {
             return;
         }
-
+        var pnLipidKcal = 0;
         var lipid = $('#LipidConc option:selected').text();
         var vol = $('#txtLPVol').val();
         var optText = "Lipid Concentration:" + lipid + "%, Volume:" + vol + "mL";
-
-        var kCal = $('#LipidConc option:selected').val();
-
-        var pnLipidKcal = Math.round(kCal * vol);
-        pnLipid = pnLipid + pnLipidKcal;
-        $('#parenteralLipid').text(pnLipid);
+        var kCal = parseFloat($('#LipidConc option:selected').val());
+        vol = parseFloat(vol);
+        
+        pnLipidKcal = (kCal * vol);
+        pnLipidFloat = pnLipidFloat + pnLipidKcal;
+        $('#parenteralLipid').text(Math.round(pnLipidFloat));
 
         tempId++;
         var option = "<option value='" + tempId + "' >" + optText + "</option>";
@@ -639,13 +647,13 @@ $(function () {
             var option = $(this).text();
             var data = $(this).data('parenteral');
 
-            pnProtein = pnProtein - data.protein;
-            pnCho = pnCho - data.cho;
-            pnLipid = pnLipid - data.lipid;
+            pnProteinFloat = pnProteinFloat - data.protein;
+            pnChoFloat = pnChoFloat - data.cho;
+            pnLipidFloat = pnLipidFloat - data.lipid;
 
-            $('#parenteralCHO').text(pnCho);
-            $('#parenteralProtein').text(pnProtein);
-            $('#parenteralLipid').text(pnLipid);
+            $('#parenteralCHO').text(Math.round(pnChoFloat));
+            $('#parenteralProtein').text(Math.round(pnProteinFloat));
+            $('#parenteralLipid').text(Math.round(pnLipidFloat));
 
         });
         $("#selParenteral option:selected").remove();
@@ -699,10 +707,9 @@ $(function () {
         var fid = $('#FormulaList').val();
         var valVol = $('#txtVolFormula').val();
         var optText = "Formula: " + valFormula + ", Volume: " + valVol + " mL";
-
         var option = "<option value='" + fid + "'>" + optText + "</option>";
         $('#selEnteral').append(option);
-
+        
         var data = $("#FormulaList option:selected").data('formula');
         var fprotein = parseFloat(data.protein);
         var fcho = parseFloat(data.cho);
@@ -721,12 +728,12 @@ $(function () {
         $(option).data('enteral', { protein: enProteinKcal, cho: enChoKcal, lipid: enLipidKcal, volume: valVol });
 
         //update results
-        enProtein = enProtein + Math.round(enProteinKcal);
-        enCho = enCho + Math.round(enChoKcal);
-        enLipid = enLipid + Math.round(enLipidKcal);
-        $('#enteralProtein').text(enProtein);
-        $('#enteralCHO').text(enCho);
-        $('#enteralLipid').text(enLipid);
+        enProteinFloat = enProteinFloat + enProteinKcal;
+        enChoFloat = enChoFloat + enChoKcal;
+        enLipidFloat = enLipidFloat + enLipidKcal;
+        $('#enteralProtein').text(Math.round(enProteinFloat));
+        $('#enteralCHO').text(Math.round(enChoFloat));
+        $('#enteralLipid').text(Math.round(enLipidFloat));
         recalculateResultsTotal();
 
         $('#FormulaList').val("0");
@@ -739,12 +746,12 @@ $(function () {
             var option = $(this).text();
             var data = $(this).data('enteral');
 
-            enProtein = enProtein - Math.round(data.protein);
-            enCho = enCho - Math.round(data.cho);
-            enLipid = enLipid - Math.round(data.lipid);
-            $('#enteralProtein').text(enProtein);
-            $('#enteralCHO').text(enCho);
-            $('#enteralLipid').text(enLipid);
+            enProteinFloat = enProteinFloat - data.protein;
+            enChoFloat = enChoFloat - data.cho;
+            enLipidFloat = enLipidFloat - data.lipid;
+            $('#enteralProtein').text(Math.round(enProteinFloat));
+            $('#enteralCHO').text(Math.round(enChoFloat));
+            $('#enteralLipid').text(Math.round(enLipidFloat));
         });
 
         $("#selEnteral option:selected").remove();
@@ -882,12 +889,12 @@ $(function () {
         $(option).data('additive', { protein: enProteinKcal, cho: enChoKcal, lipid: enLipidKcal, volume: valVol });
 
         //update results
-        enProtein = enProtein + Math.round(enProteinKcal);
-        enCho = enCho + Math.round(enChoKcal);
-        enLipid = enLipid + Math.round(enLipidKcal);
-        $('#enteralProtein').text(enProtein);
-        $('#enteralCHO').text(enCho);
-        $('#enteralLipid').text(enLipid);
+        enProteinFloat = enProteinFloat + enProteinKcal;
+        enChoFloat = enChoFloat + enChoKcal;
+        enLipidFloat = enLipidFloat + enLipidKcal;
+        $('#enteralProtein').text(Math.round(enProteinFloat));
+        $('#enteralCHO').text(Math.round(enChoFloat));
+        $('#enteralLipid').text(Math.round(enLipidFloat));
         recalculateResultsTotal();
 
         $('#AdditiveList').val("0");
@@ -901,12 +908,12 @@ $(function () {
             var option = $(this).text();
             var data = $(this).data('additive');
 
-            enProtein = enProtein - Math.round(data.protein);
-            enCho = enCho - Math.round(data.cho);
-            enLipid = enLipid - Math.round(data.lipid);
-            $('#enteralProtein').text(enProtein);
-            $('#enteralCHO').text(enCho);
-            $('#enteralLipid').text(enLipid);
+            enProteinFloat = enProteinFloat - data.protein;
+            enChoFloat = enChoFloat - data.cho;
+            enLipidFloat = enLipidFloat - data.lipid;
+            $('#enteralProtein').text(Math.round(enProteinFloat));
+            $('#enteralCHO').text(Math.round(enChoFloat));
+            $('#enteralLipid').text(Math.round(enLipidFloat));
         });
 
         $("#selAdditive option:selected").remove();
@@ -1035,13 +1042,13 @@ $(function () {
         weight = $('#bodyWeight').val();
 
         gir = 0;
-        if (resultsTotal > 0 && hours > 0 && weight > 0) {
+        if (resultsTotalFloat > 0 && hours > 0 && weight > 0) {
 
             //new way
-            totEntParen = enCho + enLipid + enProtein + pnCho + pnLipid + pnProtein;
-            totChokCals = enCho;
+            totEntParen = enChoFloat + enLipidFloat + enProteinFloat + pnChoFloat + pnLipidFloat + pnProteinFloat;
+            totChokCals = enChoFloat;
             totChoMg = (totChokCals / 4) * 1000;
-            totDexkCal = (resultsTotal - totEntParen) + pnCho;
+            totDexkCal = (resultsTotalFloat - totEntParen) + pnChoFloat;
             totDexmg = (totDexkCal / 3.4) * 1000;
             totMins = hours * 60;
             gir = ((totChoMg + totDexmg) / weight) / totMins;
@@ -1057,40 +1064,45 @@ $(function () {
 
     function recalculateResultsTotal() {
         calculateInfusionsTotal();
-        resultsTotal = parseInt(infusionTotal + pnCho + pnProtein + pnLipid + enCho + enProtein + enLipid);
-        $('#totalCalIntake').text(resultsTotal);
+        resultsTotalFloat = infusionTotalFloat + pnChoFloat + pnProteinFloat + pnLipidFloat + enChoFloat + enProteinFloat + enLipidFloat;
+        resultsTotalInt = Math.round(resultsTotalFloat);
+        $('#totalCalIntake').text(resultsTotalInt);
 
         recalculateCalsPerKilo();
         calculateGir();
     }
 
     function calculateInfusionsTotal() {
-        infusionTotal = 0;
+        infusionTotalFloat = 0;
         var kCalMl = 0;
         var colTotal = 0;
 
-        kCalMl = $('#DexCons1 option:selected').val();
-        if (kCalMl !== "0") {
+        kCalMl = parseFloat($('#DexCons1 option:selected').val());
+        if (kCalMl !== 0) {
             colTotal = parseInt($('#infuse1Total').text());
-            infusionTotal = infusionTotal + Math.round(kCalMl * colTotal);
+            //infusionTotal = infusionTotal + Math.round(kCalMl * colTotal);
+            infusionTotalFloat = (kCalMl * colTotal);
         }
 
-        kCalMl = $('#DexCons2 option:selected').val();
-        if (kCalMl !== "0") {
+        kCalMl = parseFloat($('#DexCons2 option:selected').val());
+        if (kCalMl !== 0) {
             colTotal = parseInt($('#infuse2Total').text());
-            infusionTotal = infusionTotal + Math.round(kCalMl * colTotal);
+            //infusionTotal = infusionTotal + Math.round(kCalMl * colTotal);
+            infusionTotalFloat = infusionTotalFloat + (kCalMl * colTotal);
         }
 
-        kCalMl = $('#DexCons3 option:selected').val();
-        if (kCalMl !== "0") {
+        kCalMl = parseFloat($('#DexCons3 option:selected').val());
+        if (kCalMl !== 0) {
             colTotal = parseInt($('#infuse3Total').text());
-            infusionTotal = infusionTotal + Math.round(kCalMl * colTotal);
+            //infusionTotal = infusionTotal + Math.round(kCalMl * colTotal);
+            infusionTotalFloat = infusionTotalFloat + (kCalMl * colTotal);
         }
 
-        kCalMl = $('#DexCons4 option:selected').val();
-        if (kCalMl !== "0") {
+        kCalMl = parseFloat($('#DexCons4 option:selected').val());
+        if (kCalMl !== 0) {
             colTotal = parseInt($('#infuse4Total').text());
-            infusionTotal = infusionTotal + Math.round(kCalMl * colTotal);
+            //infusionTotal = infusionTotal + Math.round(kCalMl * colTotal);
+            infusionTotalFloat = infusionTotalFloat + (kCalMl * colTotal);
         }
     }
 
@@ -1108,13 +1120,13 @@ $(function () {
             alert('Body weight must be between 3 and 140 kg in order to calculate Calories per kilo per day');
             return;
         }
-        var infuseTotPer = infusionTotal / weight;
-        var pnChoPer = pnCho / weight;
-        var pnProteinPer = pnProtein / weight;
-        var pnLipidPer = pnLipid / weight;
-        var enChoPer = enCho / weight;
-        var enProteinPer = enProtein / weight;
-        var enLipidPer = enLipid / weight;
+        var infuseTotPer = infusionTotalFloat / weight;
+        var pnChoPer = pnChoFloat / weight;
+        var pnProteinPer = pnProteinFloat / weight;
+        var pnLipidPer = pnLipidFloat / weight;
+        var enChoPer = enChoFloat / weight;
+        var enProteinPer = enProteinFloat / weight;
+        var enLipidPer = enLipidFloat / weight;
 
         $('#parenteralLipidPer').text(Math.round(pnLipidPer));
         $('#parenteralCHOPer').text(Math.round(pnChoPer));
@@ -1122,7 +1134,7 @@ $(function () {
         $('#enteralProteinPer').text(Math.round(enProteinPer));
         $('#enteralCHOPer').text(Math.round(enChoPer));
         $('#enteralLipidPer').text(Math.round(enLipidPer));
-        $('#totalCalIntakePer').text(Math.round(resultsTotal / weight));
+        $('#totalCalIntakePer').text(Math.round(resultsTotalFloat / weight));
     }
     //#endregion
 
