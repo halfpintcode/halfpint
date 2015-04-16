@@ -1,3 +1,8 @@
+#project specific
+UpgradeLog.htm
+hpMvc/ssTemplate
+hpMvc/xcel
+
 #OS junk files
 [Tt]humbs.db
 *.DS_Store
@@ -61,7 +66,8 @@ _Chutzpah*
 *.userprefs
 
 #Ignore packages directory
-Packages/
+[pP]ackages*/
+Backup/
 
 #Allow NuGet.exe
 !NuGet.exe
