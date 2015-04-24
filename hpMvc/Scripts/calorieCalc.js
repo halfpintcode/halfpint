@@ -1295,13 +1295,13 @@ $(function () {
                     var option3 = $("#selAdditive option:last-child");
                     option3.data('additive', { protein: enProteinKcal, cho: enChoKcal, lipid: enLipidKcal, volume: vol });
 
-                    pnProteinFloat = pnProteinFloat + Math.round(enProteinKcal);
+                    enProteinFloat = enProteinFloat + Math.round(enProteinKcal);
                     enChoFloat = enChoFloat + Math.round(enChoKcal);
                     enLipidFloat = enLipidFloat + Math.round(enLipidKcal);
                 });
 
                 $('#parenteralLipid').text(pnLipidFloat);
-                $('#parenteralCHO').text(enChoFloat);
+                $('#parenteralCHO').text(pnChoFloat);
                 $('#parenteralProtein').text(pnProteinFloat);
                 $('#enteralProtein').text(enProteinFloat);
                 $('#enteralCHO').text(enChoFloat);

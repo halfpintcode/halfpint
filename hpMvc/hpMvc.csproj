@@ -22,6 +22,10 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <OldToolsVersion>4.0</OldToolsVersion>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -935,7 +939,7 @@
           <AutoAssignPort>False</AutoAssignPort>
           <DevelopmentServerPort>4877</DevelopmentServerPort>
           <DevelopmentServerVPath>/hpMvc</DevelopmentServerVPath>
-          <IISUrl>http://localhost/hpMvc</IISUrl>
+          <IISUrl>https://localhost/hpMvc</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
