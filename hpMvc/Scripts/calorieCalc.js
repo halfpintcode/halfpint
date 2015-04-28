@@ -1048,7 +1048,7 @@ $(function () {
             //new way
             totEntParen = enChoFloat + enLipidFloat + enProteinFloat + pnChoFloat + pnLipidFloat + pnProteinFloat;
             totChokCals = enChoFloat;
-            totChoMg = (totChokCals / 4) * 1000;
+            totChoMg = (totChokCals / 3.4) * 1000;
             totDexkCal = (resultsTotalFloat - totEntParen) + pnChoFloat;
             totDexmg = (totDexkCal / 3.4) * 1000;
             totMins = hours * 60;
