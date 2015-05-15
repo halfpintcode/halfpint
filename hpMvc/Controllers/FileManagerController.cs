@@ -93,65 +93,65 @@ namespace hpMvc.Controllers
             return RedirectToAction("TemplateUploadSuccess");
         }
 
-        [Authorize(Roles = "Admin")]
-        public ActionResult ChecksUpload(HttpPostedFileBase file)
-        {
-            try
-            {
-                nlogger.LogInfo("ChecksUpload");
-                if (file != null && file.ContentLength > 0)
-                {
-                    //string key = Request.Form["key"];
-                    string institId = Request.Form["institID"];
-                    //key = Encoder.HtmlEncode(key);
-                    institId = Encoder.HtmlEncode(institId);
+        //[Authorize(Roles = "Admin")]
+        //public ActionResult ChecksUpload(HttpPostedFileBase file)
+        //{
+        //    try
+        //    {
+        //        nlogger.LogInfo("ChecksUpload");
+        //        if (file != null && file.ContentLength > 0)
+        //        {
+        //            //string key = Request.Form["key"];
+        //            string institId = Request.Form["institID"];
+        //            //key = Encoder.HtmlEncode(key);
+        //            institId = Encoder.HtmlEncode(institId);
 
-                    //filename template : 01-0030-7copy.xlsm
-                    var fileName = Path.GetFileName(file.FileName);
-                    var studyId = fileName.Substring(0, 9);
+        //            //filename template : 01-0030-7copy.xlsm
+        //            var fileName = Path.GetFileName(file.FileName);
+        //            var studyId = fileName.Substring(0, 9);
 
-                    int iRetVal = DbUtils.IsStudyIdValid(studyId);
-                    if (iRetVal != 1)
-                    {
-                        nlogger.LogInfo("ChecksUpload - file name: " + fileName + ", IsStudyIdValid: " + iRetVal);
-                        return Content("IsStudyIdValid: " + iRetVal);
-                    }
+        //            int iRetVal = DbUtils.IsStudyIdValid(studyId);
+        //            if (iRetVal != 1)
+        //            {
+        //                nlogger.LogInfo("ChecksUpload - file name: " + fileName + ", IsStudyIdValid: " + iRetVal);
+        //                return Content("IsStudyIdValid: " + iRetVal);
+        //            }
 
-                    iRetVal = DbUtils.IsStudyIdCleared(studyId);
-                    if (iRetVal != 0)
-                    {
-                        nlogger.LogInfo("ChecksUpload - file name: " + fileName + ", IsStudyCleared: " + iRetVal);
-                        return Content("IsStudyCleared: " + iRetVal);
-                    }
-                    nlogger.LogInfo("ChecksUpload - file name: " + fileName ); //, key: " + key);
+        //            iRetVal = DbUtils.IsStudyIdCleared(studyId);
+        //            if (iRetVal != 0)
+        //            {
+        //                nlogger.LogInfo("ChecksUpload - file name: " + fileName + ", IsStudyCleared: " + iRetVal);
+        //                return Content("IsStudyCleared: " + iRetVal);
+        //            }
+        //            nlogger.LogInfo("ChecksUpload - file name: " + fileName ); //, key: " + key);
 
-                    //if (!SsUtils.VerifyKey(key, fileName, institId))
-                    //{
-                    //    nlogger.LogInfo("ChecksUpload - bad key - file name: " + fileName + ", key: " + key);
-                    //    return Content("Bad key");
-                    //}
+        //            //if (!SsUtils.VerifyKey(key, fileName, institId))
+        //            //{
+        //            //    nlogger.LogInfo("ChecksUpload - bad key - file name: " + fileName + ", key: " + key);
+        //            //    return Content("Bad key");
+        //            //}
 
-                    var folderPath = ConfigurationManager.AppSettings["ChecksUploadPath"].ToString();
-                    var path = Path.Combine(folderPath, institId);
+        //            var folderPath = ConfigurationManager.AppSettings["ChecksUploadPath"].ToString();
+        //            var path = Path.Combine(folderPath, institId);
 
-                    //nlogger.LogInfo("ChecksUpload - path: " + path);
-                    if (!Directory.Exists(path))
-                        Directory.CreateDirectory(path);
+        //            //nlogger.LogInfo("ChecksUpload - path: " + path);
+        //            if (!Directory.Exists(path))
+        //                Directory.CreateDirectory(path);
 
-                    path = Path.Combine(path, fileName);
+        //            path = Path.Combine(path, fileName);
 
 
-                    file.SaveAs(path);
-                }
-            }
-            catch (Exception ex)
-            {
-                nlogger.LogError("ChecksUpload - " + ex.Message);
-            }
+        //            file.SaveAs(path);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        nlogger.LogError("ChecksUpload - " + ex.Message);
+        //    }
 
-            //nlogger.LogInfo("ChecksUpload - OK");
-            return Content("OK");
-        }
+        //    //nlogger.LogInfo("ChecksUpload - OK");
+        //    return Content("OK");
+        //}
 
         //public ActionResult ChecksWCUpload(HttpPostedFileBase file)
         //{

@@ -17,47 +17,50 @@ namespace hpMvc.Infrastructure
             Type t = list[0].GetType();
             string newLine = Environment.NewLine;
 
-            var stream = new MemoryStream();
-            var sw = new StreamWriter(stream);
 
-            //make a new instance of the class name we figured out to get its props
-            object o = Activator.CreateInstance(t);
-            //gets all properties
-            PropertyInfo[] props = o.GetType().GetProperties();
-
-            //foreach of the properties in class above, write out properties
-            //this is the header row
-            foreach (PropertyInfo pi in props)
+            using (var stream = new MemoryStream())
             {
-                var val = AttributeHelpers.GetDisplayName(t, pi.Name, typeof(DisplayNameAttribute), "DisplayName");
-                if (val != null)
-                    sw.Write(val + ",");
-                else
-                    sw.Write(pi.Name + ",");
-            }
-            sw.Write(newLine);
+                var sw = new StreamWriter(stream);
 
-            //this acts as datarow
-            foreach (T item in list)
-            {
-                //this acts as datacolumn
+                //make a new instance of the class name we figured out to get its props
+                object o = Activator.CreateInstance(t);
+                //gets all properties
+                PropertyInfo[] props = o.GetType().GetProperties();
+
+                //foreach of the properties in class above, write out properties
+                //this is the header row
                 foreach (PropertyInfo pi in props)
                 {
-                    //this is the row+col intersection (the value)
-                    string whatToWrite =
-                        Convert.ToString(item.GetType()
-                                             .GetProperty(pi.Name)
-                                             .GetValue(item, null))
-                            .Replace(',', ' ') + ',';
-
-                    sw.Write(whatToWrite);
-
+                    var val = AttributeHelpers.GetDisplayName(t, pi.Name, typeof(DisplayNameAttribute), "DisplayName");
+                    if (val != null)
+                        sw.Write(val + ",");
+                    else
+                        sw.Write(pi.Name + ",");
                 }
                 sw.Write(newLine);
-            }
-            sw.Flush();
 
-            return stream;
+                //this acts as datarow
+                foreach (T item in list)
+                {
+                    //this acts as datacolumn
+                    foreach (PropertyInfo pi in props)
+                    {
+                        //this is the row+col intersection (the value)
+                        string whatToWrite =
+                            Convert.ToString(item.GetType()
+                                                 .GetProperty(pi.Name)
+                                                 .GetValue(item, null))
+                                .Replace(',', ' ') + ',';
+
+                        sw.Write(whatToWrite);
+
+                    }
+                    sw.Write(newLine);
+                }
+                sw.Flush();
+
+                return stream;
+            }
         }
 
     }

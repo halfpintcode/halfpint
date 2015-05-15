@@ -317,6 +317,7 @@ namespace hpMvc.Controllers
         public ActionResult InitializePassword(string studyId)
         {
             _logger.LogInfo("InitializePassword: Post");
+            studyId = Encoder.HtmlEncode(studyId);
 
             //Request.ApplicationPath;
             var consentDate = this.Request.Form["ConsentDate"].ToString();
