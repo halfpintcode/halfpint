@@ -483,6 +483,7 @@ $(document).ready(function () {
 
                     });
                     $('#btnInitialize').attr('disabled', false);
+                    data1.Message = message;
                     alert(data1.Message);
                     $('#divValidResults').append(message).slideDown();
                 }

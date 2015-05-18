@@ -2535,7 +2535,11 @@ namespace hpMvc.DataBase
 
         public static DTO GetSiteCodeForSiteId(int siteId)
         {
-            var dto = new DTO {ReturnValue = 1};
+            var dto = new DTO
+            {
+                ReturnValue = 1,
+                IsSuccessful = true
+            };
             var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
             SqlDataReader rdr = null;
             using (var conn = new SqlConnection(strConn))
@@ -2558,12 +2562,17 @@ namespace hpMvc.DataBase
                         var pos = rdr.GetOrdinal("SiteID");
                         dto.Bag = rdr.GetString(pos);
                     }
+                    else
+                    {
+                        dto.IsSuccessful = false;
+                    }
                     rdr.Close();
                     return dto;
                 }
                 catch (Exception ex)
                 {
                     Nlogger.LogError(ex);
+                    dto.IsSuccessful = false;
                     dto.Message = "Error getting the site code.  This error has been reported to the administrator.";
                     dto.ReturnValue = -1;
                     return dto;

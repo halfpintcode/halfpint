@@ -760,6 +760,12 @@ namespace hpMvc.Controllers
             fileName = Encoder.HtmlEncode(fileName);
             var dto = DbUtils.GetSiteCodeForSiteId(int.Parse(site));
 
+            if (!dto.IsSuccessful)
+            {
+                _nlogger.LogError("GetSavedChecksDownload failed: " + fileName);
+                return null;
+            }
+
             var folderPath = ConfigurationManager.AppSettings["ChecksUploadPath"].ToString();
             var path = Path.Combine(folderPath, dto.Bag.ToString());
 
