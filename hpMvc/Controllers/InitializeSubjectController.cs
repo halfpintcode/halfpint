@@ -55,16 +55,30 @@ namespace hpMvc.Controllers
         [HttpPost]
         public ActionResult Initialize(string studyId)
         {
+            var messages = new List<ValidationMessages>();
+            var dto = new InitializeDTO { IsSuccessful = true, ValidMessages = messages };
+
             studyId = Encoder.HtmlEncode(studyId);
+            
+            if (DbUtils.IsStudyIdValid(studyId) != 1)
+            {
+                dto.IsSuccessful = false;
+                messages.Add(new ValidationMessages
+                {
+                    FieldName = "invalidStudyId",
+                    DisplayName = "Study ID",
+                    Message = "is invalid"
+                });
+                _logger.LogInfo("InitializeSubject.Initialize - invalid study id: " + studyId);
+                return Json(dto);
+            }
             
             _logger.LogInfo("InitializeSubject.Initialize - Post: " + studyId);
             
             var siteId = DbUtils.GetSiteidIdForUser(User.Identity.Name);
             var sensorType = int.Parse( Request.Params["sensorType"]);  //DbUtils.GetSiteSensor(siteId);
 
-            var messages = new List<ValidationMessages>();
-            var dto = new InitializeDTO {IsSuccessful = true, ValidMessages = messages};
-
+            
             SSInsertionData ssInsert;
 
             _logger.LogInfo("InitializeSubject.Initialize - validation: " + studyId);
