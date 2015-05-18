@@ -53,7 +53,7 @@ $(document).ready(function () {
 
     $("input:radio[name=onInsulinYesNo]").click(function () {
         var value = $(this).val();
-        if (value == "yes") {
+        if (value === "yes") {
             $('#onInsulinYes').show();
             $('#onInsulinNo').hide();
         } else {
@@ -64,7 +64,7 @@ $(document).ready(function () {
 
     $("input:radio[name=cafpintYesNo]").click(function () {
         var value = $(this).val();
-        if (value == "yes") {
+        if (value === "yes") {
             $('#divCafpintYes').show();
         } else {
             $('#divCafpintYes').hide();
@@ -73,7 +73,7 @@ $(document).ready(function () {
 
     $("input:radio[name=cafpintYes]").click(function () {
         var value = $(this).val();
-        if (value == "yes") {
+        if (value === "yes") {
             $('#divInr3Yes').show();
             $('#divInr3No').hide();
         } else {
@@ -104,16 +104,16 @@ $(document).ready(function () {
                     $('#divLogin').slideUp();
                     $('#divMain').slideDown();
                     $('#lnkInfo').parent().addClass("sfHover");
-                    if (sensorType == "0") {
+                    if (sensorType === "0") {
                         $('#divSensor').hide();
                         $('#liSensor').hide();
                         $('.sensorInfo').hide();
                     }
-                    else if (sensorType == "1") {
+                    else if (sensorType === "1") {
                         $('#divDexcomVids').hide();
                         $('#divMedtronicVids').show();
                     }
-                    else if (sensorType == "2") {
+                    else if (sensorType === "2") {
                         $('#h3SensorTitle').text('Start Dexcom Sensor');
                         $('#lnkSensor').text('Start Dexcom Sensor');
                         $('#lblSensorDate').text('Receiver Date');
@@ -125,11 +125,11 @@ $(document).ready(function () {
                         $('#divDexcomVids').show();
                         $('#divMedtronicVids').hide();
                     }
-                    if (useCafpint == "False") {
+                    if (useCafpint === "False") {
                         $('#divCafpint').hide();
                         $('#liCafpint').hide();
                     }
-                    if (useVampjr == "False") {
+                    if (useVampjr === "False") {
                         $('#divVamp').hide();
                         $('#liVamp').hide();
                     }
@@ -156,12 +156,12 @@ $(document).ready(function () {
                 $('#lnkInstruc').parent().addClass("sfHover");
                 break;
             case "btnInstrucNext":
-                if (useCafpint == "True") {
+                if (useCafpint === "True") {
                     $('#lnkCafpint').click();
                     $('#lnkCafpint').parent().addClass("sfHover");
                 } else {
 
-                    if (sensorType == "0") {
+                    if (sensorType === "0") {
                         $('#lnkParams').click();
                         $('#lnkParams').parent().addClass("sfHover");
                     } else {
@@ -171,7 +171,7 @@ $(document).ready(function () {
                 }
                 break;
             case "btnCafpintNext":
-                if (sensorType == "0") {
+                if (sensorType === "0") {
                     $('#lnkParams').click();
                     $('#lnkParams').parent().addClass("sfHover");
                 } else {
@@ -184,7 +184,7 @@ $(document).ready(function () {
                 $('#lnkParams').parent().addClass("sfHover");
                 break;
             case "btnParamsNext":
-                if (useVampjr == "True") {
+                if (useVampjr === "True") {
                     $('#lnkVamp').click();
                     $('#lnkVamp').parent().addClass("sfHover");
                 } else {
@@ -242,60 +242,9 @@ $(document).ready(function () {
         $('#startDownloadDialog').dialog('close');
     });
 
-    $('#btnInitialize').click(function () {
-        if (!validate()) {
-            return;
-        }
-
-        $('#btnInitialize').attr('disabled', 'disabled');
-
-        $('#divValidResults').empty();
-
-        var url = urlRoot + '/InitializeSubject/Initialize/' + studyId;
-        var date = new Date();
-        var sDate = date.getMonth() + 1 + '/' + date.getDate() + '/' + date.getFullYear();
-        var sTime = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
-
-        $('#randDate').val(sDate);
-        $('#randTime').val(sTime);
-        var data = $("form").serialize();
-        $.ajax({
-            url: url,
-            type: 'POST',
-            data: data,
-            success: function (data1) {
-                if (data1.IsSuccessful) {
-                    //window.location = urlRoot + '/InitializeSubject/InitializeSS/' + studyID;
-                    //                    setTimeout(function () {
-                    //                        window.location = urlRoot
-                    //                    }, 30000);
-
-                    $('#startDownloadDialog').dialog(
-                        {
-                            title: 'Download CHECKS',
-                            height: 300,
-                            width: 600,
-                            show: 'blind',
-                            close: downloadDialogClose,
-                            hide: 'explode'
-                        });
-                    $('#startDownloadDialog').dialog('open');
-                    $('#altDownload').show();
-                }
-                else {
-                    var message = "<p>Summary of invalid entries</p><hr/>";
-                    $.each(data1.ValidMessages, function (index, d) {
-                        message = message +
-                            "<p class='validError'>" + "*" + d.DisplayName + " " + d.Message + "</p>";
-
-                    });
-                    $('#btnInitialize').attr('disabled', false);
-                    alert(data1.Message);
-                    $('#divValidResults').append(message).slideDown();
-                }
-            }
-        });
-    });
+    function destroyDialog() {
+        $('#downloadDialog').dialog("destroy");
+    }
 
     function downloadDialogClose() {
         $('#downloadDialog').dialog(
@@ -311,16 +260,6 @@ $(document).ready(function () {
         setTimeout(destroyDialog, 5000);
     }
 
-    function destroyDialog() {
-        $('#downloadDialog').dialog("destroy");
-    }
-
-    $('#alnkAltDownload').click(function (e) {
-        e.preventDefault();
-        var url = urlRoot + '/InitializeSubject/AlternateSSDownload/' + studyId;
-        window.location.href = url;
-    });
-
     function validate() {
         var val = $("input:radio[name=onInsulinYesNo]:checked").val();
         if (!val) {
@@ -328,7 +267,7 @@ $(document).ready(function () {
             return false;
         }
 
-        if (useCafpint == "True") {
+        if (useCafpint === "True") {
             val = $("input:radio[name=cafpintYesNo]:checked").val();
             if (!val) {
                 alert('CAF-PINT question requires an answer');
@@ -336,7 +275,7 @@ $(document).ready(function () {
                 $('#divCafpint').show();
                 return false;
             }
-            if (val == "yes") {
+            if (val === "yes") {
                 val = $("input:radio[name=cafpintYes]:checked").val();
                 if (!val) {
                     alert('All CAF-PINT questions require an answer');
@@ -344,7 +283,7 @@ $(document).ready(function () {
                     $('#divCafpint').show();
                     return false;
                 }
-                if (val != "yes") {
+                if (val !== "yes") {
                     val = $("#cafPintId").val();
                     if (!val) {
                         alert('Enter the CAF-PINT Id');
@@ -476,7 +415,7 @@ $(document).ready(function () {
             return false;
         }
 
-        if (useVampjr == "True") {
+        if (useVampjr === "True") {
             if (!($('#chkVamp').is(':checked'))) {
                 alert('Placing the Vamp Jr is required');
                 $('.mod').hide();
@@ -495,6 +434,72 @@ $(document).ready(function () {
         }
         return true;
     }
+
+    $('#btnInitialize').click(function () {
+        if (!validate()) {
+            return;
+        }
+
+        $('#btnInitialize').attr('disabled', 'disabled');
+
+        $('#divValidResults').empty();
+
+        var url = urlRoot + '/InitializeSubject/Initialize/' + studyId;
+        var date = new Date();
+        var sDate = date.getMonth() + 1 + '/' + date.getDate() + '/' + date.getFullYear();
+        var sTime = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
+
+        $('#randDate').val(sDate);
+        $('#randTime').val(sTime);
+        var data = $("form").serialize();
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: data,
+            success: function (data1) {
+                if (data1.IsSuccessful) {
+                    //window.location = urlRoot + '/InitializeSubject/InitializeSS/' + studyID;
+                    //                    setTimeout(function () {
+                    //                        window.location = urlRoot
+                    //                    }, 30000);
+
+                    $('#startDownloadDialog').dialog(
+                        {
+                            title: 'Download CHECKS',
+                            height: 300,
+                            width: 600,
+                            show: 'blind',
+                            close: downloadDialogClose,
+                            hide: 'explode'
+                        });
+                    $('#startDownloadDialog').dialog('open');
+                    $('#altDownload').show();
+                }
+                else {
+                    var message = "<p>Summary of invalid entries</p><hr/>";
+                    $.each(data1.ValidMessages, function (index, d) {
+                        message = message +
+                            "<p class='validError'>" + "*" + d.DisplayName + " " + d.Message + "</p>";
+
+                    });
+                    $('#btnInitialize').attr('disabled', false);
+                    alert(data1.Message);
+                    $('#divValidResults').append(message).slideDown();
+                }
+            }
+        });
+    });
+
+    
+
+    
+    $('#alnkAltDownload').click(function (e) {
+        e.preventDefault();
+        var url = urlRoot + '/InitializeSubject/AlternateSSDownload/' + studyId;
+        window.location.href = url;
+    });
+
+    
 
 });
 
