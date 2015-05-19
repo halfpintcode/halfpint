@@ -244,25 +244,33 @@ namespace hpMvc.Controllers
 
         
         [HttpPost]
-        public ActionResult ResetUserPassword(string userName, ResetPasswordModel rpm, bool reset)
+        public ActionResult ResetUserPassword([Bind(Include = "NewPassword,ConfirmPassword," +
+                                                               "UserName") ]ResetPasswordModel rpm, bool reset)
         {
-            userName = Encoder.HtmlEncode(userName);
-            bool result = false;
-            var user = Membership.GetUser(userName);
-            
-            if (reset)                            
-                result = UserRolesUtils.ResetForgotPassword(user, rpm.NewPassword);
-            else
-                result = UserRolesUtils.ResetPassword(userName, rpm.NewPassword);
-            
-            _nlogger.LogInfo("ResetUserPassword Post - user: " + userName + ", new pasword: " + rpm.NewPassword);
+            if (ModelState.IsValid)
+            {
+                bool result = false;
+                var user = Membership.GetUser(rpm.UserName);
 
-            var u = new UrlHelper(this.Request.RequestContext);
-            string url = "http://" + this.Request.Url.Host + u.RouteUrl("Default", new { Controller = "Account", Action = "Logon" });
-            
-            Utility.SendPasswordResetMail(new string[] { user.Email }, null, rpm.NewPassword, reset, Server, url);
-                        
-            return Json(result);
+                if (reset)
+                    result = UserRolesUtils.ResetForgotPassword(user, rpm.NewPassword);
+                else
+                    result = UserRolesUtils.ResetPassword(rpm.UserName, rpm.NewPassword);
+
+                _nlogger.LogInfo("ResetUserPassword Post - user: " + rpm.UserName + ", new pasword: " + rpm.NewPassword);
+
+                var u = new UrlHelper(this.Request.RequestContext);
+                string url = "http://" + this.Request.Url.Host +
+                             u.RouteUrl("Default", new {Controller = "Account", Action = "Logon"});
+
+                Utility.SendPasswordResetMail(new string[] {user.Email}, null, rpm.NewPassword, reset, Server, url);
+
+                return Json(result);
+            }
+            else
+            {
+                return (null);
+            }
         }
         #endregion
 
@@ -315,7 +323,7 @@ namespace hpMvc.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddStaff(StaffModel model)
+        public ActionResult AddStaff([Bind(Exclude = "Active,SendEmail" ) ]StaffModel model)
         {
             if (model.Role == "Select a role")
             {
@@ -407,7 +415,7 @@ namespace hpMvc.Controllers
         }
         
         [HttpPost]
-        public ActionResult AddUser(AddUserModel model, string SelectedSite)
+        public ActionResult AddUser([Bind(Exclude = "Site")]AddUserModel model)
         {
             _nlogger.LogInfo("Admin.AddUser - post");
             bool bSendEmail = Request.Params["SendEmail"] != null;
@@ -423,7 +431,7 @@ namespace hpMvc.Controllers
                 if (createStatus == MembershipCreateStatus.Success)
                 {   
                     //FormsAuthentication.SetAuthCookie(model.UserName, false /* createPersistentCookie */);                    
-                    if (!DbUtils.AddUserSite(model.UserName, int.Parse(SelectedSite)))
+                    if (!DbUtils.AddUserSite(model.UserName, model.SelectedSite))
                     {
                         throw new Exception("There was an error adding the user and site to the database");
                     }
@@ -438,7 +446,7 @@ namespace hpMvc.Controllers
                     if(bSendEmail)
                         Utility.SendAccountCreatedMail(new string[] { user.Email }, null, password, model.UserName, Utility.GetSiteLogonUrl(this.Request), this.Server);
 
-                    _nlogger.LogInfo("AddUser - userName: " + model.UserName + ", site: " + SelectedSite + ", password: " + password);
+                    _nlogger.LogInfo("AddUser - userName: " + model.UserName + ", site: " + model.SelectedSite + ", password: " + password);
                     return PartialView("AddUserSuccessPartial");
                 }
                 else
@@ -565,7 +573,9 @@ namespace hpMvc.Controllers
         }
 
         [HttpPost]
-        public ActionResult UpdateStaffInformation(StaffEditModel model)
+        public ActionResult UpdateStaffInformation([Bind(Exclude = "SiteID,OldRole,OldActive,SendEmail," +
+                            "UserName,OldUserName,OldEmail,OldEmployeeID," +
+                            "PostTestsCompleted,PostTestsCompletedHistory")]StaffEditModel model)
         {            
             //validate model
             if (ModelState.IsValid)
