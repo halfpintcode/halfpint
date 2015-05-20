@@ -58,7 +58,7 @@ namespace hpMvc.Infrastructure
                     sw.Write(newLine);
                 }
                 sw.Flush();
-
+                sw.Close();
                 return stream;
             }
         }

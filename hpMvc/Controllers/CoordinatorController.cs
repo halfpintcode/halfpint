@@ -186,24 +186,33 @@ namespace hpMvc.Controllers
         }
 
         [HttpPost]
-        public ActionResult ResetSitePassword(SiteGerenicNurse nurseUser)
+        public ActionResult ResetSitePassword([Bind(Include = "UserName, UserPassword")]SiteGerenicNurse nurseUser)
         {
-            if (nurseUser.UserName.Trim().Length == 0)
-                return Json("This is not a valid user name;");
+            if (ModelState.IsValid)
+            {
 
 
-            var user = Membership.GetUser(nurseUser.UserName);
-            if(user == null)
-                return Json("This is not a valid user name;");
+                if (nurseUser.UserName.Trim().Length == 0)
+                    return Json("This is not a valid user name;");
 
-            if (user.IsLockedOut)
-                user.UnlockUser();
 
-            string resetPassword = user.ResetPassword();
-            user.ChangePassword(resetPassword, nurseUser.UserPassword);
+                var user = Membership.GetUser(nurseUser.UserName);
+                if (user == null)
+                    return Json("This is not a valid user name;");
 
-            _nlogger.LogInfo("ResetSitePassword, generic user: " + nurseUser.UserName);
-            return Json("Generic nurse account has been reset!");
+                if (user.IsLockedOut)
+                    user.UnlockUser();
+
+                string resetPassword = user.ResetPassword();
+                user.ChangePassword(resetPassword, nurseUser.UserPassword);
+
+                _nlogger.LogInfo("ResetSitePassword, generic user: " + nurseUser.UserName);
+                return Json("Generic nurse account has been reset!");
+            }
+            else
+            {
+                return null;
+            }
         }
 
         [HttpPost]
@@ -429,7 +438,9 @@ namespace hpMvc.Controllers
         }
 
         [HttpPost]
-        public ActionResult UpdateStaffInformation(StaffEditModel model)
+        public ActionResult UpdateStaffInformation([Bind(Exclude = "SiteID,OldRole,OldActive,SendEmail," +
+                            "UserName,OldUserName,OldEmail,OldEmployeeID," +
+                            "PostTestsCompleted,PostTestsCompletedHistory")]StaffEditModel model)
         {   
             //validate model
             if (ModelState.IsValid)
