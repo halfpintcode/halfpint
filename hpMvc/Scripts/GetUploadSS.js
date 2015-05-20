@@ -1,11 +1,11 @@
 ﻿/// <reference path="jquery-1.7.1-vsdoc.js" />
 
 
-$(function () {
+$(function() {
     $('#btnDownload').attr('disabled', 'disabled');
 
 
-    $('#Sites').change(function () {
+    $('#Sites').change(function() {
         var selectedVal = $(this).val();
         if (selectedVal === 0) {
             $('#Files').empty();
@@ -16,14 +16,14 @@ $(function () {
 
         $.post(url + '',
             { site: selectedVal },
-            function (data) {
+            function(data) {
                 $('#Files').empty();
                 if (!data.length) {
                     $('#Files').append("<option value=''>No files found</option>");
                     $('#btnDownload').attr('disabled', 'disabled');
                 } else {
                     $('#btnDownload').attr('disabled', false);
-                    $.each(data, function (index, d) {
+                    $.each(data, function(index, d) {
                         $('#Files').append("<option value='" + d + "'>" + d + "</option>");
                     });
                 }
@@ -31,7 +31,7 @@ $(function () {
 
     });
 
-    $('#btnDownload').click(function () {
+    $('#btnDownload').click(function() {
         var selectedSite = $('#Sites').val();
         var selectedFile = $('#Files').val();
 
@@ -39,4 +39,4 @@ $(function () {
         window.location.href = url;
     });
 
-})
+});

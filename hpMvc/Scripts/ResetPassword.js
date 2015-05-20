@@ -10,32 +10,40 @@ $(function () {
         }
     });
 
-    $('#btnSave').click(function () {
-        if (!validate()) {
-            return;
+    function containsNumeric(text) {
+        var temp = text;
+        for (var i = 0; i < temp.length; i++) {
+            var c = temp.charAt(i);
+            if ($.isNumeric(c)) {
+                return true;
+            }
         }
-        var user = $.trim($('#UserName').val());
-        var pwd = $.trim($('#NewPassword').val());
-        var url = urlRoot + '/Account/ResetPassword/';
-        $.post(url,
-            { userName: user, NewPassword: pwd },
-            function (data) {
-                if (data) {
-                    alert('Password has been reset!');
-                    window.location = urlRoot + '/Home/Index';
-                }
-            });
-    });
+        return false;
+    };
+
+    function containsCapital(text) {
+        var temp = text;
+        for (var i = 0; i < temp.length; i++) {
+            var c = temp.charAt(i);
+            if ($.isNumeric(c)) {
+                continue;
+            }
+            if (c === c.toUpperCase()) {
+                return true;
+            }
+        }
+        return false;
+    };
 
     function validate() {
         var newPassword = $.trim($('#NewPassword').val());
         if ($.trim(newPassword).length === 0) {
-            alert('New password is required')
+            alert('New password is required');
             return false;
         }
         var confirmPassword = $.trim($('#ConfirmPassword').val());
         if ($.trim(confirmPassword).length === 0) {
-            alert('New confirm password is required')
+            alert('New confirm password is required');
             return false;
         }
 
@@ -56,34 +64,24 @@ $(function () {
         return true;
     }
 
-    function containsNumeric(text) {
-        var bContains = false;
-        var temp = text;
-        for (var i = 0; i < temp.length; i++) {
-            var c = temp.charAt(i);
-            if ($.isNumeric(c)) {
-                return true;
-            }
+    $('#btnSave').click(function () {
+        if (! validate()) {
+            return;
         }
-        if (!bContains) {
-            return false;
-        }
-    }
+        var user = $.trim($('#UserName').val());
+        var pwd = $.trim($('#NewPassword').val());
+        var cPwd = $.trim($('#ConfirmPassword').val());
+        var url = window.urlRoot + '/Account/ResetPassword/';
+        $.post(url,
+            { userName: user, NewPassword: pwd, ConfirmPassword: cPwd },
+            function (data) {
+                if (data) {
+                    alert('Password has been reset!');
+                    window.location = window.urlRoot + '/Home/Index';
+                } else {
+                    alert("Could not reset password!");
+                };
+            });
+    });
 
-    function containsCapital(text) {
-        var bContains = false;
-        var temp = text;
-        for (var i = 0; i < temp.length; i++) {
-            var c = temp.charAt(i);
-            if ($.isNumeric(c)) {
-                continue;
-            }
-            if (c === c.toUpperCase()) {
-                return true;
-            }
-        }
-        if (!bContains) {
-            return false;
-        }
-    }
 });

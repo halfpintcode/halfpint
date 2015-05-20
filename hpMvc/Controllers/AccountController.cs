@@ -21,7 +21,7 @@ namespace hpMvc.Controllers
         }
                 
         [HttpPost]
-        public ActionResult LogOn(LogOnModel model, string returnUrl)
+        public ActionResult LogOn([Bind(Include = "UserName,Password,RemberMe")]LogOnModel model, string returnUrl)
         {
             nlogger.LogInfo("Logon Post - user:" + model.UserName);
             if (ModelState.IsValid)
@@ -149,21 +149,29 @@ namespace hpMvc.Controllers
 
         [Authorize]
         [HttpPost]
-        public ActionResult ResetPassword(string userName, ResetPasswordModel rpm)
+        public ActionResult ResetPassword(string userName, [Bind(Include = "NewPassword, UserName, ConfirmPassword")] ResetPasswordModel rpm)
         {
-            userName = Encoder.HtmlEncode(userName);
+            if (ModelState.IsValid)
+            {
+                userName = Encoder.HtmlEncode(userName);
 
-            bool result = UserRolesUtils.ResetPassword(userName, rpm.NewPassword);
+                bool result = UserRolesUtils.ResetPassword(userName, rpm.NewPassword);
 
-            var user = Membership.GetUser(userName);
+                var user = Membership.GetUser(userName);
 
-            var u = new UrlHelper(this.Request.RequestContext);
-            string url = "http://" + this.Request.Url.Host + u.RouteUrl("Default", new { Controller = "Account", Action = "Logon" });
-            
-            Utility.SendPasswordResetMail(new string[] { user.Email }, null, rpm.NewPassword, false, Server, url);
+                var u = new UrlHelper(this.Request.RequestContext);
+                string url = "http://" + this.Request.Url.Host +
+                             u.RouteUrl("Default", new {Controller = "Account", Action = "Logon"});
 
-            nlogger.LogInfo("ResetPassword - user:" + userName);
-            return Json(result);
+                Utility.SendPasswordResetMail(new string[] {user.Email}, null, rpm.NewPassword, false, Server, url);
+
+                nlogger.LogInfo("ResetPassword - user:" + userName);
+                return Json(result);
+            }
+            else
+            {
+                return Json(null);
+            }
         }
         #endregion reset password
         

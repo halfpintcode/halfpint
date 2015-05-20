@@ -199,63 +199,78 @@ namespace hpMvc.Controllers
             return Json(addl);
         }
 
-        public JsonResult AddNewFormula(EnteralFormula ef)
+        public JsonResult AddNewFormula([Bind(Exclude = "ID")]EnteralFormula ef)
         {
             DTO dto = new DTO();
-
-            if (CalorieCalc.IsFormulaNameDuplicate(ef.Name) == 1)
+            if (ModelState.IsValid)
             {
-                dto.ReturnValue = 0;
-                dto.Message = ef.Name + " is already in the list!";
+                if (CalorieCalc.IsFormulaNameDuplicate(ef.Name) == 1)
+                {
+                    dto.ReturnValue = 0;
+                    dto.Message = ef.Name + " is already in the list!";
+                }
+                else
+                {
+                    dto = CalorieCalc.AddFormula(ef);
+
+                    var siteId = DbUtils.GetSiteidIdForUser(User.Identity.Name);
+                    var staff = NotificationUtils.GetStaffForEvent(4, siteId);
+
+                    string siteName = DbUtils.GetSiteNameForUser(User.Identity.Name);
+
+                    var u = new UrlHelper(this.Request.RequestContext);
+                    string url = "http://" + this.Request.Url.Host +
+                                 u.RouteUrl("Default", new {Controller = "Account", Action = "Logon"});
+
+                    Utility.SendFormulaAddeddMail(staff.ToArray(), null, ef, User.Identity.Name, siteName, Server, url);
+                }
+
+                dto.Bag = ef;
+                return Json(dto);
             }
             else
             {
-                dto = CalorieCalc.AddFormula(ef);
-
-                var siteId = DbUtils.GetSiteidIdForUser(User.Identity.Name);
-                var staff = NotificationUtils.GetStaffForEvent(4, siteId);
-                
-                string siteName = DbUtils.GetSiteNameForUser(User.Identity.Name);
-
-                var u = new UrlHelper(this.Request.RequestContext);
-                string url = "http://" + this.Request.Url.Host + u.RouteUrl("Default", new { Controller = "Account", Action = "Logon" });
-            
-                Utility.SendFormulaAddeddMail(staff.ToArray(), null, ef, User.Identity.Name, siteName, Server, url);
+                return null;
             }
-           
-            dto.Bag = ef;
-            return Json(dto);
         }
 
-        public JsonResult AddNewAdditive(Additive add)
+        public JsonResult AddNewAdditive([Bind(Exclude = "ID")]Additive add)
         {
-            DTO dto = new DTO();
-
-            if (CalorieCalc.IsAdditiveNameDuplicate(add.Name) == 1)
+            if (ModelState.IsValid)
             {
-                dto.ReturnValue = 0;
-                dto.Message = add.Name + " is already in the list!";
+                DTO dto = new DTO();
+
+                if (CalorieCalc.IsAdditiveNameDuplicate(add.Name) == 1)
+                {
+                    dto.ReturnValue = 0;
+                    dto.Message = add.Name + " is already in the list!";
+                }
+                else
+                {
+                    dto = CalorieCalc.AddAdditive(add);
+
+                    var siteId = DbUtils.GetSiteidIdForUser(User.Identity.Name);
+                    var staff = NotificationUtils.GetStaffForEvent(5, siteId);
+
+                    string siteName = DbUtils.GetSiteNameForUser(User.Identity.Name);
+
+                    var u = new UrlHelper(this.Request.RequestContext);
+
+                    string url = "http://" + this.Request.Url.Host +
+                                 u.RouteUrl("Default", new {Controller = "Account", Action = "Logon"});
+                    Utility.SendAdditiveAddeddMail(staff.ToArray(), null, add, User.Identity.Name, siteName, Server, url);
+                }
+
+                if (dto.ReturnValue == -1)
+                    dto.Message = "There was an error adding this additive.  It has been reported to the web master!";
+
+                dto.Bag = add;
+                return Json(dto);
             }
             else
             {
-                dto = CalorieCalc.AddAdditive(add);
-                
-                var siteId = DbUtils.GetSiteidIdForUser(User.Identity.Name);
-                var staff = NotificationUtils.GetStaffForEvent(5, siteId);
-                
-                string siteName = DbUtils.GetSiteNameForUser(User.Identity.Name);
-
-                var u = new UrlHelper(this.Request.RequestContext);
-
-                string url = "http://" + this.Request.Url.Host + u.RouteUrl("Default", new { Controller = "Account", Action = "Logon" });            
-                Utility.SendAdditiveAddeddMail(staff.ToArray(), null, add, User.Identity.Name, siteName, Server, url);
+                return null;
             }
-
-            if (dto.ReturnValue == -1)
-                dto.Message = "There was an error adding this additive.  It has been reported to the web master!";
-            
-            dto.Bag = add;
-            return Json(dto);
         }
 
         public JsonResult IsCaclDateDuplicate(int studyId, string calcDate)
@@ -449,7 +464,7 @@ namespace hpMvc.Controllers
         }
 
         [HttpPost]
-        public ActionResult AdditiveDetails(Additive additive)
+        public ActionResult AdditiveDetails([Bind(Exclude = "Units")]Additive additive)
         {
             if (ModelState.IsValid)
             {
@@ -466,7 +481,8 @@ namespace hpMvc.Controllers
         }
 
         [HttpPost]
-        public ActionResult FormulaDetails(EnteralFormula enteralFormula)
+        public ActionResult FormulaDetails([Bind(Include = "ID, Name, Kcal_ml, ProteinKcal," +
+                                                           "ChoKcal, LipidKcal")]EnteralFormula enteralFormula)
         {
             if (ModelState.IsValid)
             {

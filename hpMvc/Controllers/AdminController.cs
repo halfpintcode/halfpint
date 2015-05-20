@@ -768,6 +768,11 @@ namespace hpMvc.Controllers
         {
             site = Encoder.HtmlEncode(site);
             fileName = Encoder.HtmlEncode(fileName);
+            if (!fileName.EndsWith(".xlsm"))
+            {
+                _nlogger.LogError("GetSavedChecksDownload - invalid file: " + fileName);
+                return null;
+            }
             var dto = DbUtils.GetSiteCodeForSiteId(int.Parse(site));
 
             if (!dto.IsSuccessful)
@@ -775,7 +780,7 @@ namespace hpMvc.Controllers
                 _nlogger.LogError("GetSavedChecksDownload failed: " + fileName);
                 return null;
             }
-
+            
             var folderPath = ConfigurationManager.AppSettings["ChecksUploadPath"].ToString();
             var path = Path.Combine(folderPath, dto.Bag.ToString());
 
