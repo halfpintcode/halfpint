@@ -25,40 +25,48 @@ namespace hpMvc.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
-        public JsonResult Save(InformPageModel ifp)
+        public JsonResult Save([Bind(Include = "HeaderContent," +
+                                               "MainContent,FooterContent")]InformPageModel ifp)
         {
-            if(ifp.FooterContent == null)
-                ifp.FooterContent = "<p></p>";
-            else 
+            if (ModelState.IsValid)
             {
-                if (ifp.FooterContent.Length == 0)
+                if (ifp.FooterContent == null)
                     ifp.FooterContent = "<p></p>";
-            }
-            if (ifp.HeaderContent == null)
-                ifp.HeaderContent = "<p></p>";
-            else
-            {
-                if (ifp.HeaderContent.Length == 0)
+                else
+                {
+                    if (ifp.FooterContent.Length == 0)
+                        ifp.FooterContent = "<p></p>";
+                }
+                if (ifp.HeaderContent == null)
                     ifp.HeaderContent = "<p></p>";
+                else
+                {
+                    if (ifp.HeaderContent.Length == 0)
+                        ifp.HeaderContent = "<p></p>";
+                }
+                if (ifp.MainContent == null)
+                    ifp.MainContent = "<p></p>";
+                else
+                {
+                    if (ifp.MainContent.Length == 0)
+                        ifp.MainContent = "<p></p>";
+                }
+
+                //check for not allowed input
+                DTO dto = DbInform.ValidateInput(ifp);
+
+                int iRetval = 0;
+
+
+                if (dto.ReturnValue == 1)
+                    iRetval = DbInform.SaveMeetingsPage(ifp);
+
+                return Json(dto);
             }
-            if (ifp.MainContent == null)
-                ifp.MainContent = "<p></p>";
             else
             {
-                if (ifp.MainContent.Length == 0)
-                    ifp.MainContent = "<p></p>";
+                return null;
             }
-
-            //check for not allowed input
-            DTO dto = DbInform.ValidateInput(ifp);
-            
-            int iRetval = 0;
-            
-
-            if (dto.ReturnValue == 1)
-                iRetval = DbInform.SaveMeetingsPage(ifp);
-
-            return Json(dto);
         }
 
     }

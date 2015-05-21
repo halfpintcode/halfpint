@@ -28,7 +28,7 @@ namespace hpMvc.Controllers
         }
 
         [HttpPost]
-        public ActionResult SiteDetails(SiteInfo siteInfo)
+        public ActionResult SiteDetails([Bind(Exclude = "HasRandomizations,HasStudyIds")]SiteInfo siteInfo)
         {
             if (ModelState.IsValid)
             {
@@ -54,7 +54,7 @@ namespace hpMvc.Controllers
         }
 
         [HttpPost]
-        public ActionResult Add(IList<HttpPostedFileBase> files, SiteInfo siteInfo)
+        public ActionResult Add(IList<HttpPostedFileBase> files, [Bind(Exclude = "Id")]SiteInfo siteInfo)
         {
             if (ModelState.IsValid)
             {
@@ -111,7 +111,7 @@ namespace hpMvc.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddInsulinConcentration(InsulinConcentration ic)
+        public ActionResult AddInsulinConcentration([Bind(Exclude = "Id, IsUsed")]InsulinConcentration ic)
         {
             if(ModelState.IsValid)
             {
@@ -132,7 +132,7 @@ namespace hpMvc.Controllers
         }
 
         [HttpPost]
-        public ActionResult EditInsulinConcentration(InsulinConcentration ic)
+        public ActionResult EditInsulinConcentration([Bind(Exclude = "IsUsed")]InsulinConcentration ic)
         {
             if (ModelState.IsValid)
             {

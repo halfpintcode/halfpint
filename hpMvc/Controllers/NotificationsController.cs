@@ -23,7 +23,7 @@ namespace hpMvc.Controllers
         }
 
         [HttpPost]
-        public ActionResult Event(NotificationEvent evnt)
+        public ActionResult Event([Bind(Include = "Name, Active, Id")]NotificationEvent evnt)
         {
             if (ModelState.IsValid)
             {
@@ -43,7 +43,7 @@ namespace hpMvc.Controllers
         }
 
         [HttpPost]
-        public ActionResult Add(NotificationEvent evnt)
+        public ActionResult Add([Bind(Include = "Name")]NotificationEvent evnt)
         {
             if (ModelState.IsValid)
             {
@@ -104,7 +104,8 @@ namespace hpMvc.Controllers
         }
 
         [HttpPost]
-        public ActionResult StaffSubscriptionsChange(StaffSubscriptions subs)
+        public ActionResult StaffSubscriptionsChange([Bind(Include = "StaffId," +
+                                                                     "StaffName,NotificationEvents")]StaffSubscriptions subs)
         {
             if (ModelState.IsValid)
             {
