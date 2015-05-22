@@ -328,7 +328,8 @@ namespace hpMvc.Controllers
             if (model.Role == "Select a role")
             {
                 ModelState["Role"].Errors.Add("Role is required");
-            }            
+            } 
+
             //validate model
             if (ModelState.IsValid)
             {
@@ -343,7 +344,7 @@ namespace hpMvc.Controllers
                 return View("NewStaffConfirmation", dto);
             }
 
-
+            
             List<Site> sites = new List<Site>();
 
             sites = DbUtils.GetSitesActive();
