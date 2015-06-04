@@ -9,7 +9,7 @@ namespace hpMvc.Controllers
 {
     public class SearchController : Controller
     {
-        private const string RootFolder = @"C:\Dropbox\HalfPint Website Docs Library";
+        private const string RootFolder = @"C:\Dropbox.New\Dropbox\HalfPint Website Docs Library";
 
 
         public JsonResult GetSearchResults(string criteria)

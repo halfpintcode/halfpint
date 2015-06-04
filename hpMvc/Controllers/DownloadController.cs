@@ -26,7 +26,7 @@ namespace hpMvc.Controllers
                 GetSiteFileNameAndFolder(ref fileName, ref folder);
             }
 
-            var docPath = @"C:\Dropbox\HalfPint Website Docs Library";
+            var docPath = @"C:\Dropbox.New\Dropbox\HalfPint Website Docs Library";
             if (folder != null)
             {
                 if (folder.Length > 0)
