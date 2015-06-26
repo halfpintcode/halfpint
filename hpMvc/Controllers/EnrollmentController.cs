@@ -23,6 +23,11 @@ namespace hpMvc.Controllers
             return View();
         }
 
+        public ActionResult Error()
+        {
+            return View();
+        }
+
         [HttpPost]
         [ValidateInput(false)]
         public ActionResult Save(HttpPostedFileBase file,[Bind(Include =
@@ -40,14 +45,22 @@ namespace hpMvc.Controllers
 
                 //check for not allowed input
                 DTO dto = DbInform.ValidateInput(ecm);
-                var iRetval = 0;
 
                 if (dto.ReturnValue == 1)
-                    iRetval = DbInform.SaveStaffEnrollmentPage(ecm);
-
-                if (iRetval != 1)
                 {
+                    var iRetval = DbInform.SaveStaffEnrollmentPage(ecm);
+
+                    if (iRetval != 1)
+                    {
+                        
+                    }
                 }
+                else
+                {
+                    TempData["message"] = dto.Message;
+                    return RedirectToAction("Error");
+                }
+
 
                 return RedirectToAction("SaveSuccess");
             }

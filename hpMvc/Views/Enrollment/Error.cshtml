@@ -1,0 +1,18 @@
+﻿@{
+    ViewBag.Title = "Save Enrollment Content Error";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit Enrollment Content Not Saved</h2>
+
+<p>
+    The enrollment content was not saved due to the following error!<br/>
+    @this.TempData["message"].ToString()
+</p>
+
+
+
+<br />
+@Html.RouteLink("Back to edit enrollment content", new { controller = "Enrollment", Action = "Edit" })
+
+

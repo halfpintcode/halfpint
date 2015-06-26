@@ -268,11 +268,12 @@ namespace hpMvc.DataBase
         public static DTO ValidateInput(InformPageModel ifp)
         {
             string message = "";
-            var dto = new DTO { ReturnValue = 1 };
+            var dto = new DTO { ReturnValue = 1,IsSuccessful = true};
             string headerContent = ifp.HeaderContent.ToLower();
             if (!IsValidContent(headerContent, ref message))
             {
                 dto.Message = "Header Content: " + message;
+                dto.IsSuccessful = false;
                 dto.ReturnValue = 0;
                 return dto;
             }
@@ -281,6 +282,7 @@ namespace hpMvc.DataBase
             if (!IsValidContent(mainContent, ref message))
             {
                 dto.Message = "Main Content: " + message;
+                dto.IsSuccessful = false;
                 dto.ReturnValue = 0;
                 return dto;
             }
@@ -289,6 +291,7 @@ namespace hpMvc.DataBase
             if (!IsValidContent(footerContent, ref message))
             {
                 dto.Message = "Footer Content: " + message;
+                dto.IsSuccessful = false;
                 dto.ReturnValue = 0;
                 return dto;
             }
