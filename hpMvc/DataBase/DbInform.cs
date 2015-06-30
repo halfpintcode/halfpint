@@ -311,7 +311,8 @@ namespace hpMvc.DataBase
                     continue;
 
                 int pos = s.IndexOf('>');
-                string sPart = s.Substring(0, pos).Trim().ToLower();
+                string sPart = s.Substring(0, pos).Trim().ToLower().Trim();
+                
                 if (sPart.Contains("script"))
                 {
                     message = "No scritps allowed!";
@@ -320,15 +321,15 @@ namespace hpMvc.DataBase
 
                 if (s.StartsWith("a"))
                     continue;
-
-                if (!IsValidTag(sPart, ref message))
+                
+                if (!IsValidTagAttribute(sPart, ref message))
                     return false;
                 
 
             }
             return true;
         }
-
+        
         //private static bool IsValidAnchor(string sAnchor, ref string message)
         //{
         //    //int pos = 0;
@@ -349,9 +350,79 @@ namespace hpMvc.DataBase
         //    return true;
         //}
 
+        private static bool IsValidTagAttribute(string sPart, ref string message)
+        {
+            var parts = sPart.Split(' ');
+            //the first ele sb the tag
+            if (parts.Length > 0)
+            {
+                if (! IsValidTag(parts[0], ref message))
+                {
+                    return false;
+                }
+
+                
+                if (parts.Length > 1)
+                {
+                    //the tag is valid, now validate the attributes
+                    //get the length of the tag
+                    var len = parts[0].Length;
+                    var sAttrs = sPart.Substring(len + 1);
+
+                    var attrParts = sAttrs.Split('=');
+                    if (attrParts.Length < 1)
+                    {
+                        message = "The attributes, " + sAttrs + " are not in a valid format";
+                        return false;
+                    }
+
+                    if (attrParts.Length > 3)
+                    {
+                        message = "The attributes, " + sAttrs + " are not in a valid format";
+                        return false;
+                    }
+
+                    if (!IsValidAttribute(attrParts[0]))
+                    {
+                        message = "The attribute, " + attrParts[0] + " is not valid";
+                        return false;
+                    }
+
+                    //check for more than 1 attr
+                    if (attrParts.Length == 3)
+                    {
+                        //get the last part here
+                        var parts2 = attrParts[1].Split(' ');
+                        var attr2 = parts2[parts2.Length - 1];
+                        if (!IsValidAttribute(attr2))
+                        {
+                            message = "The attribute, " + attr2 + " is not valid";
+                            return false;
+                        }
+
+                    }
+                }
+
+            }
+            return true;
+        }
+
+        private static bool IsValidAttribute(string attrPart)
+        {
+            string[] validTags = { "title", "style" };
+            if (validTags.Any(s => attrPart == s))
+            {
+                return true;
+            }
+            
+            return false;
+        }
+
         private static bool IsValidTag(string tag, ref string message)
         {
-            string[] validTags = {"p","ul","li","strong","h1","h2","h3","h4" }; 
+            string[] validTags = {"div","p","ul","li","strong","h1","h2","h3","h4" }; 
+            
+            
             if (validTags.Any(s => tag == s))
             {
                 return true;
