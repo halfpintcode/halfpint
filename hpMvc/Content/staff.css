@@ -5,9 +5,7 @@
 #divSideBar2
 {    
     float:left;
-    margin-right:0px;
     padding-right:5px;
-    border-right: 1px solid #DEDEDE;
 }
 #divBarMenu
 {    
@@ -30,7 +28,7 @@
 }
 #divAnnounce {
     float: left;
-    margin-left: 15px;
+    margin-left: 190px;
     overflow: scroll;
     height: 250px;
     width: 780px;
@@ -44,7 +42,7 @@
     float: left;
     width: 555px;
     height: 290px;
-    margin-left: -20px;
+    margin-left: -18px;
     
 }
 .enrollmentContent 
@@ -53,7 +51,7 @@
     float: left;
     text-align: left;
     height: 280px;
-    width: 238px;
+    width: 236px;
 }
 .enrollmentContent ul {
     margin-left: 15px;
