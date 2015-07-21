@@ -310,6 +310,14 @@ namespace hpMvc.DataBase
                 if (s.StartsWith("/"))
                     continue;
 
+                if (s.ToLower().StartsWith("img"))
+                {
+                    if (!IsValidImageSource(s))
+                    {
+                        message = "invalid source value for img tag";
+                    }
+                }
+
                 int pos = s.IndexOf('>');
                 string sPart = s.Substring(0, pos).Trim().ToLower().Trim();
                 
@@ -329,7 +337,25 @@ namespace hpMvc.DataBase
             }
             return true;
         }
-        
+
+        private static bool IsValidImageSource(string img)
+        {
+            string[] a1 = img.Split(' ');
+            foreach (string s in a1)
+            {
+                if (s.ToLower().StartsWith("src"))
+                {
+                    var pos = s.IndexOf("=", StringComparison.InvariantCulture);
+                    string src = s.Substring(pos+1);
+                    src = src.Replace("'", "");
+                    if (src.ToLower().StartsWith("content"))
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
         //private static bool IsValidAnchor(string sAnchor, ref string message)
         //{
         //    //int pos = 0;
@@ -352,64 +378,69 @@ namespace hpMvc.DataBase
 
         private static bool IsValidTagAttribute(string sPart, ref string message)
         {
-            var parts = sPart.Split(' ');
-            //the first ele sb the tag
-            if (parts.Length > 0)
+
+            var pos = sPart.IndexOf(" ", StringComparison.InvariantCulture);
+            var tag = "";
+            if (pos == -1)
+                tag = sPart;
+            else
             {
-                if (! IsValidTag(parts[0], ref message))
+                tag = sPart.Substring(0, pos);
+            }
+                
+
+            if (!IsValidTag(tag, ref message))
+            {
+                return false;
+            }
+            
+            var attrsPart = sPart.Substring(pos+1);
+            //var attrs = attrsPart.Split('=');
+            var attrCount = GetAttrCount(attrsPart);
+
+            for (var i = 0; i < attrCount-1; i++)
+            {
+
+                pos = attrsPart.IndexOf("=", StringComparison.InvariantCulture);
+                var attr = attrsPart.Substring(0, pos);
+
+                if (!IsValidAttribute(attr))
                 {
+                    message = "The attribute, " + attr + " is not valid";
                     return false;
                 }
 
-                
-                if (parts.Length > 1)
-                {
-                    //the tag is valid, now validate the attributes
-                    //get the length of the tag
-                    var len = parts[0].Length;
-                    var sAttrs = sPart.Substring(len + 1);
-
-                    var attrParts = sAttrs.Split('=');
-                    if (attrParts.Length < 1)
-                    {
-                        message = "The attributes, " + sAttrs + " are not in a valid format";
-                        return false;
-                    }
-
-                    if (attrParts.Length > 3)
-                    {
-                        message = "The attributes, " + sAttrs + " are not in a valid format";
-                        return false;
-                    }
-
-                    if (!IsValidAttribute(attrParts[0]))
-                    {
-                        message = "The attribute, " + attrParts[0] + " is not valid";
-                        return false;
-                    }
-
-                    //check for more than 1 attr
-                    if (attrParts.Length == 3)
-                    {
-                        //get the last part here
-                        var parts2 = attrParts[1].Split(' ');
-                        var attr2 = parts2[parts2.Length - 1];
-                        if (!IsValidAttribute(attr2))
-                        {
-                            message = "The attribute, " + attr2 + " is not valid";
-                            return false;
-                        }
-
-                    }
-                }
-
+                attrsPart = GetNextAttrVal(attrsPart, pos);
             }
             return true;
         }
 
+        private static string GetNextAttrVal(string attrsPart, int pos)
+        {
+            var pos2 = attrsPart.IndexOf("=", pos + 1, StringComparison.InvariantCulture);
+            return GetAttrStartPos(attrsPart, pos2);
+        }
+
+        private static string GetAttrStartPos(string attrsPart, int pos2)
+        {
+            for (var i = pos2; i < attrsPart.Length; i--)
+            {
+                if (attrsPart[i] == ' ')
+                {
+                    return attrsPart.Substring(i+1);
+                }
+            }
+            return "";
+        }
+
+        private static int GetAttrCount(string attrsPart)
+        {
+            return attrsPart.Count(c => c == '=');
+        }
+
         private static bool IsValidAttribute(string attrPart)
         {
-            string[] validTags = { "title", "style" };
+            string[] validTags = { "title", "style", "src", "width", "height" };
             if (validTags.Any(s => attrPart == s))
             {
                 return true;
@@ -420,9 +451,8 @@ namespace hpMvc.DataBase
 
         private static bool IsValidTag(string tag, ref string message)
         {
-            string[] validTags = {"div","p","ul","li","strong","h1","h2","h3","h4" }; 
-            
-            
+            string[] validTags = {"img","div","p","ul","li","strong","h1","h2","h3","h4" };
+
             if (validTags.Any(s => tag == s))
             {
                 return true;
