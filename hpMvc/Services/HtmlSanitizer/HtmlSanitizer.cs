@@ -97,12 +97,16 @@ namespace hpMvc.Services.HtmlSanitizer
                     }
                     if (attr == "href")
                     {
+                        if (val.StartsWith("https://halfpintstudy.org"))
+                            return true;
+
                         if (!HrefWhiteList.Contains(val))
                         {
                             message = "invalid href attribute";
                             return false;
                         }
                     }
+
                     if (attr == "src")
                     {
                         if (!val.StartsWith("content/images"))
