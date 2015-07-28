@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Configuration;
 using System.Data.SqlClient;
+using HtmlAgilityPack;
 using System.Linq;
 using hpMvc.Infrastructure.Logging;
 using hpMvc.Models;
+using hpMvc.Services.HtmlSanitizer;
 
 namespace hpMvc.DataBase
 {
@@ -247,20 +249,35 @@ namespace hpMvc.DataBase
             string message = "";
             var dto = new DTO {ReturnValue = 1};
             string enrollmentContent = ecm.EnrollmentContent.ToLower();
-            if (!IsValidContent(enrollmentContent, ref message))
+
+            HtmlSanitizer sanitizer = new HtmlSanitizer();
+            if (!sanitizer.Sanitize(enrollmentContent, out message))
             {
                 dto.Message = "Enrollment Content: " + message;
                 dto.ReturnValue = 0;
                 return dto;
             }
 
+            //if (!IsValidContent(enrollmentContent, ref message))
+            //{
+            //    dto.Message = "Enrollment Content: " + message;
+            //    dto.ReturnValue = 0;
+            //    return dto;
+            //}
+
             string announcementContent = ecm.AnnouncementContent.ToLower();
-            if (!IsValidContent(announcementContent, ref message))
+            if (!sanitizer.Sanitize(announcementContent, out message))
             {
-                dto.Message = "Announcement Content: " + message; 
+                dto.Message = "Announcement Content: " + message;
                 dto.ReturnValue = 0;
                 return dto;
             }
+            //if (!IsValidContent(announcementContent, ref message))
+            //{
+            //    dto.Message = "Announcement Content: " + message; 
+            //    dto.ReturnValue = 0;
+            //    return dto;
+            //}
             
             return dto;
         }
