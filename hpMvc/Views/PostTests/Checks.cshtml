@@ -8,26 +8,22 @@
 
 <h2>Online Videos and Testing - CHECKS</h2>
 <hr />
-<form action="" method="post">    
-    @Html.Hidden("name", (object)@ViewBag.Name);
-    @Html.Hidden("id", (object)@ViewBag.ID);
-    @Html.Hidden("test", (object)@ViewBag.Test);
-    @Html.Hidden("completed", (object)@ViewBag.Completed);
-    @*<input id="name" name="name" type="hidden" value='@ViewBag.Name'/>
-    <input id="id" name="id" type="hidden" value='@ViewBag.ID'/>
-    <input id="test" name="test" type="hidden" value='@ViewBag.Test'/>
-    <input id="completed" name="completed" type="hidden" value='@ViewBag.Completed'/>*@
+<form action="" method="post">
+    @Html.Hidden("name", (object)@ViewBag.Name)
+    @Html.Hidden("id", (object)@ViewBag.ID)
+    @Html.Hidden("test", (object)@ViewBag.Test)
+    @Html.Hidden("completed", (object)@ViewBag.Completed)
+    
     <p id="testIntro">
         After viewing the video, click on the 'Take the test' link (below the video). You must answer all questions correctly.
     </p>
-    <iframe src="//player.vimeo.com/video/35991973?title=0&amp;byline=0&amp;portrait=0" 
-			width="533" height="300" 
-			frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen>
-	</iframe>
-	<p>
-		Module 6: Using the CHECKS Insulin Infusion Algorithm
-	</p>							
-	<a href="" id="showHideTest">Take the test</a>
+    <iframe src="//player.vimeo.com/video/35991973?title=0&amp;byline=0&amp;portrait=0"
+            width="533" height="300"
+            frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+    <p>
+        Module 6: Using the CHECKS Insulin Infusion Algorithm
+    </p>
+    <a href="" id="showHideTest">Take the test</a>
     <div id="testForm">
         <div class="question">
             1) <span class="questionText">The CHECKS timer has counted down to 00:00 and my next glucose entry is due.</span>
@@ -36,33 +32,33 @@
         <div class="answer">
             <span class="spanswer"> a) </span> <input type="radio" name="question1" value="a" />  <span>A glucometer glucose is due for </span><span class="underline">every</span>
             <span>entry so I first draw the blood and obtain the glucose BG</span>
-            <br /><span class="answerTextOver">result from the glucometer and insert the result in the Glucometer Glucose box in CHECKS.</span>            
+            <br /><span class="answerTextOver">result from the glucometer and insert the result in the Glucometer Glucose box in CHECKS.</span>
         </div>
-        <br/>
+        <br />
         <div class="answer">
             <span class="spanswer"> b) </span> <input type="radio" name="question1" value="b" />  <span>A glucometer glucose </span><span class="underline">may not</span>
             <span> be required, so I first go to the receiver and find the current</span>
             <br /><span class="answerTextOver"> Sensor reading, then insert that value into the Sensor Glucose box in CHECKS. I will then be </span>
             <br /><span class="answerTextOver">instructed regarding whether or not I need a Glucometer Glucose as well. If so, I will draw from </span>
             <br /><span class="answerTextOver">the line and insert the blood glucose value from the study glucometer into the Glucometer Glucose </span>
-            <br /><span class="answerTextOver">box in CHECKS. </span>             
+            <br /><span class="answerTextOver">box in CHECKS. </span>
         </div>
-        <br/>
+        <br />
         <div class="question">
-            2) <span class="questionText">If CHECKS is requesting that I input a sensor glucose (SG) but I do not have one, what should I enter </span>
+            2) <span class="questionText">If CHECKS is requesting that I input a Sensor Glucose but I do not have one, what should I enter </span>
             <br /><span class="questionTextOver">into that field?</span>
         </div>
         <br />
         <div class="answer">
-            <span class="spanswer"> a) </span> <input type="radio" name="question2" value="a" />  <span>Leave field blank</span>            
+            <span class="spanswer"> a) </span> <input type="radio" name="question2" value="a" />  <span>Leave field blank</span>
         </div>
         <br />
         <div class="answer">
             <span class="spanswer"> b) </span> <input type="radio" name="question2" value="b" />  Enter 'Do not have one'
-        </div >
+        </div>
         <br />
         <div class="answer">
-            <span class="spanswer"> c) </span> <input type="radio" name="question2" value="c" />  Enter 'NA'    
+            <span class="spanswer"> c) </span> <input type="radio" name="question2" value="c" />  Enter 'NA'
         </div>
         <br />
         <div class="question">
@@ -70,13 +66,13 @@
         </div>
         <br />
         <div class="answer">
-            <span class="spanswer"> a)</span> <input type="radio" name="question3" value="a" />	I have been asked to attend a 1 hour presentation on a new device to be used on the unit and my 
-            <br /><span class="answerTextOver">patient is being covered by another nurse</span>            
+            <span class="spanswer"> a)</span> <input type="radio" name="question3" value="a" />	I have been asked to attend a 1 hour presentation on a new device to be used on the unit and my
+            <br /><span class="answerTextOver">patient is being covered by another nurse</span>
         </div>
         <br />
-        <div class="answer">  
-            <span class="spanswer"> b)</span> <input type="radio" name="question3" value="b" />	My patient will be leaving the unit temporarily for an angiogram that is anticipated to require 2-3 
-            <br /><span class="answerTextOver">hours</span>              
+        <div class="answer">
+            <span class="spanswer"> b)</span> <input type="radio" name="question3" value="b" />	My patient will be leaving the unit temporarily for an angiogram that is anticipated to require 2-3
+            <br /><span class="answerTextOver">hours</span>
         </div>
         <br />
         <div class="question">
@@ -84,33 +80,34 @@
         </div>
         <br />
         <div class="answer">
-            <span class="spanswer"> a) </span> <input type="radio" name="question4" value="a" />   2 minutes            
-        </div>
-        <br />
-        <div class="answer">  
-            <span class="spanswer"> b) </span> <input type="radio" name="question4" value="b" />  5 minutes              
+            <span class="spanswer"> a) </span> <input type="radio" name="question4" value="a" />   2 minutes
         </div>
         <br />
         <div class="answer">
-            <span class="spanswer"> c) </span> <input type="radio" name="question4" value="c" />  10 minutes   
+            <span class="spanswer"> b) </span> <input type="radio" name="question4" value="b" />  5 minutes
+        </div>
+        <br />
+        <div class="answer">
+            <span class="spanswer"> c) </span> <input type="radio" name="question4" value="c" />  10 minutes
         </div>
         <br />
         <div class="question">
-            5) <span class="questionText">If the continuous glucose monitor alarms for a "LOW" blood glucose before your next sensor entry is due,</span> 
-            <br /><span class="questionTextOver">what should you do?</span> 
+            5) <span class="questionText">If the continuous glucose monitor alarms for a "LOW" blood glucose, "70 mg/dl" or "55 mg/dl", before your</span>
+            <br /><span class="questionTextOver">next sensor entry is due, what should you do?</span>
         </div>
         <br />
         <div class="answer">
-            <span class="spanswer"> a) </span> <input type="radio" name="question5" value="a" /> Click the comment button in CHECKS and write that the glucose monitor was alarming           
-        </div>
-        <br />
-        <div class="answer">  
-            <span class="spanswer"> b) </span> <input type="radio" name="question5" value="b" /> Page the Study Coordinator              
+            <span class="spanswer"> a) </span> <input type="radio" name="question5" value="a" /> Click the comment button in CHECKS and write that the glucose monitor was alarming
         </div>
         <br />
         <div class="answer">
-            <span class="spanswer"> c) </span> <input type="radio" name="question5" value="c" /> Click the Early Glucose Entry button in CHECKS and enter the current sensor glucose, then follow  
-            <br /><span class="answerTextOver">the CHECKS algorithm’s next recommendation</span>   
+            <span class="spanswer"> b) </span> <input type="radio" name="question5" value="b" /> Page the Study Coordinator
+        </div>
+        <br />
+        <div class="answer">
+            <span class="spanswer"> c) </span> <input type="radio" name="question5" value="c" /> Click the Early Glucose Entry button in CHECKS and press the center button on the receiver to
+            <br /><span class="answerTextOver">read the current sensor glucose then enter the current sensor glucose into CHECKS.  Next, follow</span>
+            <br /><span class="answerTextOver">the CHECKS algorithm’s recommendation</span>
         </div>
         <br />
         <div class="answer">
@@ -118,26 +115,27 @@
         </div>
         <br />
         <div class="question">
-            6) <span class="questionText">If you are about to administer a dose of acetaminophen, what additional step should you take?</span>
+            6) <span class="questionText">The clinical team caring for my HALF-PINT patient has changed the carrier fluids from 25% dextrose to</span>
+            <br/><span class="questionTextOver">10% dextrose, and switched the patient from enteral to parenteral feeds as extubation is planned to</span>
+            <br/><span class="questionTextOver">occur later today. My patient is currently receiving CHECKS recommended insulin. Is there anything I</span>
+            <br /><span class="questionTextOver">need to do to keep the patient safe following this change?</span>
         </div>
         <br />
         <div class="answer">
-            <span class="spanswer"> a) </span> <input type="radio" name="question6" value="a" /> None – the Dexcom sensor is not sensitive to acetaminophen; sensor readings will be accurate           
-        </div>
-        <br />
-        <div class="answer">  
-            <span class="spanswer"> b) </span> <input type="radio" name="question6" value="b" /> Page the Study Coordinator and notify him/her of the dose, route and time of acetaminophen              
+            <span class="spanswer"> a) </span> <input type="radio" name="question6" value="a" /> No, CHECKS will be aware of this glucose infusion change and calculate insulin doses accordingly.
         </div>
         <br />
         <div class="answer">
-            <span class="spanswer"> c) </span> <input type="radio" name="question6" value="c" /> Click the “ACETAMINOPHEN” button on the CHECKS screen, supply the requested information,   
-            <br /><span class="answerTextOver">and do not input sensor data for several hours until requested – use BLOOD glucose data only </span>   
-            <br /><span class="answerTextOver">(the Dexcom sensor is very sensitive to acetaminophen and can result in false high sensor readings)
- </span>   
+            <span class="spanswer"> b) </span> <input type="radio" name="question6" value="c" /> CHECKS will not have this clinical information and therefore will not be able to take this
+            <br/><span class="answerTextOver">into consideration when calculating insulin rates. Utilize sound clinical judgement when determining</span>
+            <br/><span class="answerTextOver">whether to accept or override insulin recommendations. Additionally, the “Early Glucose Entry”</span>
+            <br/><span class="answerTextOver">function is available if you would like to check a blood glucose and potentially decrease the</span>
+            <br/><span class="answerTextOver">current insulin rate sooner than CHECKS will request the next entry.</span>
         </div>
         <br />
-        <input type="button" id="btnSubmit" value="Submit Answers" />       
-    </div> 
-    <br />   
-    @Html.ActionLink("Back to tests menu", "Initialize",  new { Controller = "PostTests", id = @ViewBag.ID })
+        <input type="button" id="btnSubmit" value="Submit Answers" />
+    </div>
+    <br />
+    @Html.ActionLink("Back to tests menu", "Initialize", new { Controller = "PostTests", id = @ViewBag.ID })
 </form>
+

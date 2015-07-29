@@ -23,10 +23,10 @@
 
 <div id="testForm">
     <form action="" method="post">
-        @Html.Hidden("name", (object)@ViewBag.Name);
-        @Html.Hidden("id", (object)@ViewBag.ID);
-        @Html.Hidden("test", (object)@ViewBag.Test);
-        @Html.Hidden("completed", (object)@ViewBag.Completed);
+        @Html.Hidden("name", (object)@ViewBag.Name)
+        @Html.Hidden("id", (object)@ViewBag.ID)
+        @Html.Hidden("test", (object)@ViewBag.Test)
+        @Html.Hidden("completed", (object)@ViewBag.Completed)
         
         <div class="question">
             1) <span class="questionText"> If CHECKS or the Dexcom G4 receiver (you will see an image of a drop of blood on the receiver screen) </span>
@@ -34,8 +34,8 @@
         </div>
         <br />
         <div class="answer">
-            <span class="spanswer"> a) </span> <input type="radio" name="question1" value="a" />  Input the current sensor glucose reading from the receiver manually into the receiver. Hit the small
-            <br /><span class="answerTextOver"> round “Select” button, scroll to highlight “Enter BG”, then press the “Select” button. Enter the reading </span>            
+            <span class="spanswer"> a) </span> <input type="radio" name="question1" value="a"/> Input the current sensor glucose reading from the receiver manually into the receiver. Hit the small
+            <br /><span class="answerTextOver"> round “Select” button, scroll to highlight “Enter BG”, then press the “Select” button. Enter the reading</span>            
             <br /><span class="answerTextOver">by using the “Up” or “Down” button and press the “Select” button again.  Confirm the reading when </span>
             <br /><span class="answerTextOver">prompted by again pressing the “Select button. Insert this value into CHECKS as well.</span>
         </div>
@@ -53,14 +53,19 @@
         </div>
         <br />
         <div class="answer">
-            <span class="spanswer"> a) </span> <input type="radio" name="question2" value="a" />  This indicates that the patient’s glucose is expected to decrease soon. Draw the next sample when due 
-            <br /><span class="answerTextOver">and continue to follow the CHECKS recommendations.</span>            
+            <span class="spanswer"> a) </span> <input type="radio" name="question2" value="a" />  This message is an alert that indicates the patient’s glucose is expected to decrease soon.
+            <br/><span class="answerTextOver">First, press the center button to clear the message and see the current sensor reading. Next, draw</span>
+            <br/><span class="answerTextOver">the next sample when due and continue to follow the CHECKS recommendations.</span>            
         </div>
         <br/>
         <div class="answer">  
-            <span class="spanswer"> b) </span> <input type="radio" name="question2" value="b" />  This indicates that the patient’s sensor glucose reading is at or approaching 70 mg/dL. Draw a blood 
-            <br /><span class="answerTextOver">sample and enter the result into CHECKS, using the “Early Glucose Entry” button if needed. Follow</span>
-            <br /><span class="answerTextOver">the CHECKS recommendations.</span>
+            <span class="spanswer"> b) </span> <input type="radio" name="question2" value="b" />  This message is an alert that indicates that the patient’s sensor glucose reading is at or
+            <br/><span class="answerTextOver">approaching 70 mg/dl, or lower. First, press the center 	button to clear the message and view the</span>
+            <br/><span class="answerTextOver">current sensor reading. Next, draw a blood sample and enter the result into CHECKS, using the</span>
+            <br/><span class="answerTextOver">“Early Glucose Entry” button if needed. Follow the CHECKS recommendations. Please periodically</span>
+            <br/><span class="answerTextOver">check the receiver for alerts such as “Low”, 70 mg/dL” and “55 mg/dL” which indicate that the</span>
+            <br/><span class="answerTextOver">sensor glucose reading is low and intervention may be required before the clock on CHECKS</span>
+            <br/><span class="answerTextOver">indicates a sensor reading is due to be entered.</span>
         </div>
         <br />
         <div class="question">
