@@ -13,7 +13,7 @@
     @Html.Hidden("id", (object)@ViewBag.ID)
     @Html.Hidden("test", (object)@ViewBag.Test)
     @Html.Hidden("completed", (object)@ViewBag.Completed)
-    
+
     <p id="testIntro">
         After viewing the video, click on the 'Take the test' link (below the video). You must answer all questions correctly.
     </p>
@@ -116,8 +116,8 @@
         <br />
         <div class="question">
             6) <span class="questionText">The clinical team caring for my HALF-PINT patient has changed the carrier fluids from 25% dextrose to</span>
-            <br/><span class="questionTextOver">10% dextrose, and switched the patient from enteral to parenteral feeds as extubation is planned to</span>
-            <br/><span class="questionTextOver">occur later today. My patient is currently receiving CHECKS recommended insulin. Is there anything I</span>
+            <br /><span class="questionTextOver">10% dextrose, and switched the patient from enteral to parenteral feeds as extubation is planned to</span>
+            <br /><span class="questionTextOver">occur later today. My patient is currently receiving CHECKS recommended insulin. Is there anything I</span>
             <br /><span class="questionTextOver">need to do to keep the patient safe following this change?</span>
         </div>
         <br />
@@ -126,11 +126,29 @@
         </div>
         <br />
         <div class="answer">
-            <span class="spanswer"> b) </span> <input type="radio" name="question6" value="c" /> CHECKS will not have this clinical information and therefore will not be able to take this
-            <br/><span class="answerTextOver">into consideration when calculating insulin rates. Utilize sound clinical judgement when determining</span>
-            <br/><span class="answerTextOver">whether to accept or override insulin recommendations. Additionally, the “Early Glucose Entry”</span>
-            <br/><span class="answerTextOver">function is available if you would like to check a blood glucose and potentially decrease the</span>
-            <br/><span class="answerTextOver">current insulin rate sooner than CHECKS will request the next entry.</span>
+            <span class="spanswer"> b) </span> <input type="radio" name="question6" value="b" /> CHECKS will not have this clinical information and therefore will not be able to take this
+            <br /><span class="answerTextOver">into consideration when calculating insulin rates. Utilize sound clinical judgement when determining</span>
+            <br /><span class="answerTextOver">whether to accept or override insulin recommendations. Additionally, the “Early Glucose Entry”</span>
+            <br /><span class="answerTextOver">function is available if you would like to check a blood glucose and potentially decrease the</span>
+            <br /><span class="answerTextOver">current insulin rate sooner than CHECKS will request the next entry.</span>
+        </div>
+        <br />
+        <div class="question">
+            7) <span class="questionText">If you are about to administer a dose of acetaminophen, what additional step 	should you take?</span>
+        </div>
+        <br/>
+        <div class="answer">
+            <span class="spanswer"> a) </span> <input type="radio" name="question6" value="a" />None – the Dexcom sensor is not sensitive to acetaminophen; sensor readings will be accurate.
+        </div>
+        <br />
+        <div class="answer">
+            <span class="spanswer"> b) </span> <input type="radio" name="question6" value="b" />Page the Study Coordinator and notify him/her of the dose, route and time of acetaminophen.
+        </div>
+        <br />
+        <div class="answer">
+            <span class="spanswer"> c) </span> <input type="radio" name="question5" value="c" />Click the “ACETAMINOPHEN” button on the CHECKS screen, supply the requested information,
+            <br /><span class="answerTextOver">and do not input sensor data for several hours until requested – use BLOOD glucose data only </span>
+            <br /><span class="answerTextOver">(the Dexcom sensor is very sensitive to acetaminophen and can result in false high sensor readings).</span>
         </div>
         <br />
         <input type="button" id="btnSubmit" value="Submit Answers" />
