@@ -131,6 +131,7 @@ namespace hpMvc.PostTestService
                         case "15":
                         case "18":
                         case "21":
+                        case "30":
                         case "33":
                             //make sure they are nova net certified
                             if (!postTestNextDue.IsNovaStatStripTested)
@@ -522,6 +523,7 @@ namespace hpMvc.PostTestService
                         case "15":
                         case "18":
                         case "21":
+                        case "30":
                         case "33":
                             if (!ptnd.IsNovaStatStripTested)
                                 test = "NovaStatStrip ";
