@@ -323,7 +323,7 @@ namespace hpMvc.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddStaff([Bind(Exclude = "Active,SendEmail" ) ]StaffModel model)
+        public ActionResult AddStaff(StaffModel model)
         {
             if (model.Role == "Select a role")
             {
