@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -24,6 +25,7 @@ namespace hpMvc.Controllers
         public ActionResult SiteDetails(string id)
         {
             var site = DbUtils.GetSiteInfoForSite(id);
+
             return View(site);
         }
 
@@ -42,6 +44,37 @@ namespace hpMvc.Controllers
             {
                 return View(siteInfo);
             }
+        }
+
+        public ActionResult AddAdditionalStudyIds(string siteId)
+        {
+            if (TempData["Error"] != null)
+            {
+                ViewBag.Error = "error";
+            }
+            if (siteId == null)
+                siteId = "";
+
+            List<Site> sites = new List<Site>();
+
+            sites = DbUtils.GetSitesActive();
+            if (sites.Count == 0)
+                throw new Exception("There was an error retreiving the sites list from the database");
+            sites.Insert(0, new Site { ID = 0, Name = "Select a site", SiteID = "" });
+            
+            ViewBag.Sites = new SelectList(sites, "ID", "Name", siteId);
+
+            return View();
+
+        }
+
+        [HttpPost]
+        public ActionResult AddAdditionalStudyIds(IList<HttpPostedFileBase> files)
+        {
+            var siteId = Request.Form["Sites"];
+            TempData["Error"] = true;
+            ModelState.AddModelError("", "Ooops, failed");
+            return RedirectToAction("AddAdditionalStudyIds", new{siteId = siteId}) ;
         }
 
         public ActionResult Add()

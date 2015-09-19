@@ -1,0 +1,27 @@
+﻿@{
+    ViewBag.Title = "Add Additional Study Id's";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Add Additional Study Id's</h2>
+
+@using (Html.BeginForm("AddAdditionalStudyIds", "Sites", FormMethod.Post, new {enctype = "multipart/form-data"}))
+{
+    <span>Select a site:&nbsp;</span>
+    @Html.DropDownList("Sites")
+    <br/>
+    <br/>
+    <div>
+        <span class="lblFile">Select the study id's import file: </span>
+        <span class="col3">
+            <input type="file" value="Select File" name="files" id="files_0" />
+        </span>
+        <br/>
+        <input type="submit" value="Submit"/>
+        <div>
+            @Html.ValidationSummary()
+            @ViewBag.error
+        </div>
+
+    </div>
+}

@@ -7,7 +7,8 @@
 
 
 <ul id="ulMainMenu">
-	<li>@Html.ActionLink("InForm Admin", "Edit", "Inform")</li>	
-    <li>@Html.ActionLink("Show Randomized Studies", "RandomizedStudies")</li>	
-    <li>@Html.RouteLink("Sites", new { Action = "Index",Controller = "Sites" })</li>		
+    <li>@Html.ActionLink("InForm Admin", "Edit", "Inform")</li>
+    <li>@Html.ActionLink("Show Randomized Studies", "RandomizedStudies")</li>
+    <li>@Html.RouteLink("Sites", new {Action = "Index", Controller = "Sites"})</li>
+    <li>@Html.RouteLink("Sites - Add Additional Study Id's", new { Action = "AddAdditionalStudyIds", Controller = "Sites" })</li>
 </ul>

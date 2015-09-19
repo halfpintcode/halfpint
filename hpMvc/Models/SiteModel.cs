@@ -77,4 +77,11 @@ namespace hpMvc.Models
         public bool UseVampjr { get; set; }
         public bool UseCalfpint { get; set; }
     }
+
+    public class AddStudyIds
+    {
+        public string SiteId { get; set; }
+        public IEnumerable<Site> Sites { get; set; }
+        public string Message { get; set; }
+    }
 }
