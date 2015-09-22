@@ -10,10 +10,88 @@ namespace hpMvc.Business
 {
     public static class Site
     {
+        public static MessageListDTO AddAdditionalStudyIds(IList<HttpPostedFileBase> files, AddAdditionalStudyIdsModel model, string siteCode)
+        {
+            var dto = new MessageListDTO {ReturnValue = 1};
+            
+            //check for file
+            if (files[0] == null)
+            {
+                dto.Dictionary.Add("file", "*You must select a file");
+                dto.ReturnValue = 0;
+                return dto;
+            }
+
+            var file = files[0];
+            if (!file.FileName.ToLower().StartsWith("studyids"))
+            {
+                dto.Dictionary.Add("importFiles", "*The study id's import file name is not correct, it must be named: studyids" + siteCode + "_firstId-lastId.cvs example:studyids" + siteCode + "_2501-5000");
+                dto.ReturnValue = 0;
+                return dto;
+            }
+            
+            var aParts = file.FileName.Split('_');
+            if (!aParts[0].EndsWith(siteCode))
+            {
+                dto.Dictionary.Add("importFiles", "*The study id's import file does not contain the correct site id, the correct site id is " + siteCode);
+                dto.ReturnValue = 0;
+                return dto;
+            }
+            var bParts = aParts[1].Split('-');
+            int lowId;
+            int highId;
+            if (!int.TryParse(bParts[0], out lowId))
+            {
+                dto.Dictionary.Add("importFiles", "*The study id's import file name is not correct, it must be named: studyids" + siteCode + "_firstId-lastId.cvs example:studyids" + siteCode + "_2501-5000");
+                dto.ReturnValue = 0;
+                return dto;   
+            }
+            var sHigh = bParts[1].Split('.')[0];
+            if (!int.TryParse(sHigh, out highId))
+            {
+                dto.Dictionary.Add("importFiles", "*The study id's import file name is not correct, it must be named: studyids" + siteCode + "_firstId-lastId.cvs example:studyids" + siteCode + "_2501-5000");
+                dto.ReturnValue = 0;
+                return dto;
+            }
+
+            if (lowId > highId)
+            {
+                dto.Dictionary.Add("importFiles", "*The study id's import file name is not correct, it must be named: studyids" + siteCode + "_firstId-lastId.cvs example:studyids" + siteCode + "_2501-5000");
+                dto.ReturnValue = 0;
+                return dto;
+            }
+
+            //check format and parse
+            var studyidLines = CheckFileFormatAdditionalStudyId(files[0], siteCode, dto, lowId, highId);
+            if (dto.ReturnValue == 0)
+            {
+                dto.ReturnValue = 0;
+                return dto;
+            }
+            
+            //check to see if id's already exist in the db
+            if (DbUtils.IsStudyIdDuplicate(studyidLines[0]))
+            {
+                dto.Dictionary.Add("importFiles", "*The study id " + studyidLines[0] + " is already in the database.  Make sure these study id's are not in the database.");
+                dto.ReturnValue = 0;
+                return dto;
+            }
+
+            if (!AddStudyidsToDb(studyidLines, int.Parse(model.SiteId), dto))
+            {
+                dto.ReturnValue = 0;
+                return dto;
+            }
+            
+            return dto;
+        }
+
+
         public static MessageListDTO Add(IList<HttpPostedFileBase> files, SiteInfo siteInfo, Uri url )
         {
             var dto = new MessageListDTO { ReturnValue = 1 };
 
+            //this is used to mark all randomizaions as arm 1 for the test site
             bool isTestSite = url.LocalPath.Contains("hpTest");
 
             using (var scope = new TransactionScope())
@@ -65,7 +143,7 @@ namespace hpMvc.Business
                         return dto;
                     }
                     
-                    //study ids import file
+                    //randomization import file
                     fileName = files[1].FileName.ToLower();
 
                     if (!fileName.Contains("randomizations"))
@@ -201,7 +279,53 @@ namespace hpMvc.Business
             }
             return true;
         }
-        
+
+        private static List<string> CheckFileFormatAdditionalStudyId(HttpPostedFileBase file, string siteCode, MessageListDTO dto, int low, int high)
+        {
+            using (var srdr = new StreamReader(file.InputStream))
+            {
+                var count = low;
+                var lines = new List<string>();
+                while (true)
+                {
+                    var line = srdr.ReadLine();
+
+                    if (line == null)
+                        break;
+                    if (line.Length == 0)
+                        continue;
+
+                    var sParts = line.Split(new string[] { "-" }, StringSplitOptions.None);
+                    string sPartSiteId = sParts[0];
+                    if (sPartSiteId != siteCode)
+                    {
+                        dto.Dictionary.Add("importFiles", "The study id's do not begin with the correct site id. They begin with " + sPartSiteId + ", they should begin with " + siteCode + ".");
+                        dto.ReturnValue = 0;
+                        return null;
+                    }
+
+                    int id;
+                    if (int.TryParse(sParts[1], out id))
+                    {
+                        if (id != count)
+                        {
+                            dto.Dictionary.Add("importFiles", "The study id's are not in consecutive order or does not start with " + low  + ", there is a problem on study id " + count);
+                            dto.ReturnValue = 0;
+                            return null;
+                        }
+                    }
+                    else
+                    {
+                        dto.Dictionary.Add("importFiles", "There is a problem with the study id's, the problem seems to be with study id " + count);
+                        dto.ReturnValue = 0;
+                        return null;
+                    }
+                    lines.Add(line.Trim());
+                    count++;
+                }
+                return lines;
+            }
+        }
         private static List<string> CheckFileFormatStudyId(HttpPostedFileBase file, string siteId, MessageListDTO dto)
         {
             using (var srdr = new StreamReader(file.InputStream))
@@ -233,11 +357,7 @@ namespace hpMvc.Business
                 return lines;
             }
         }
-
-        public static bool ImportRandomizatioFile()
-        {
-            return true;
-        }
+        
     }
     
     public class RandomizationLines

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
+using DocumentFormat.OpenXml.Wordprocessing;
 
 namespace hpMvc.Models
 {
@@ -78,10 +80,13 @@ namespace hpMvc.Models
         public bool UseCalfpint { get; set; }
     }
 
-    public class AddStudyIds
+    public class AddAdditionalStudyIdsModel
     {
         public string SiteId { get; set; }
-        public IEnumerable<Site> Sites { get; set; }
+        //public List<Site> Sites { get; set; }  
+        public IEnumerable<SelectListItem> Sites { get; set;} 
         public string Message { get; set; }
+        public string MaxId { get; set; }
+        public string SiteCode { get; set; }
     }
 }

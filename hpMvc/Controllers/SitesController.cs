@@ -48,33 +48,58 @@ namespace hpMvc.Controllers
 
         public ActionResult AddAdditionalStudyIds(string siteId)
         {
-            if (TempData["Error"] != null)
-            {
-                ViewBag.Error = "error";
-            }
             if (siteId == null)
                 siteId = "";
-
-            List<Site> sites = new List<Site>();
-
-            sites = DbUtils.GetSitesActive();
-            if (sites.Count == 0)
-                throw new Exception("There was an error retreiving the sites list from the database");
-            sites.Insert(0, new Site { ID = 0, Name = "Select a site", SiteID = "" });
             
-            ViewBag.Sites = new SelectList(sites, "ID", "Name", siteId);
+            var sites = DbUtils.GetSitesActive();
+            sites.Insert(0, new Site { ID = 0, Name = "Select a site", SiteID = "" });
+            var selectList = DbUtils.GetSitesActiveListItems(sites);
 
-            return View();
+            var model = new AddAdditionalStudyIdsModel {Sites = selectList, SiteId = siteId};
 
+            return View(model);
         }
 
         [HttpPost]
-        public ActionResult AddAdditionalStudyIds(IList<HttpPostedFileBase> files)
+        public ActionResult AddAdditionalStudyIds(AddAdditionalStudyIdsModel model, IList<HttpPostedFileBase> files)
         {
-            var siteId = Request.Form["Sites"];
-            TempData["Error"] = true;
-            ModelState.AddModelError("", "Ooops, failed");
-            return RedirectToAction("AddAdditionalStudyIds", new{siteId = siteId}) ;
+            var isError = false;
+
+            if (model.SiteId == "0" || string.IsNullOrEmpty(model.SiteId))
+            {
+                ModelState.AddModelError("site", "*You must select a site");
+                isError = true;
+            }
+
+            var siteCode = DbUtils.GetSiteCodeForSite(int.Parse(model.SiteId));
+
+            if (!isError)
+            {
+                var dto = Business.Site.AddAdditionalStudyIds(files, model, siteCode);
+
+                if (dto.ReturnValue == 0)
+                {
+                    foreach (var d in dto.Dictionary)
+                    {
+                        ModelState.AddModelError(d.Key, d.Value);
+                    }
+                    isError = true;
+                }
+            }
+
+            if (!isError) return RedirectToAction("AddAdditionalStudyIdsConfirmSuccess");
+
+            var sites = DbUtils.GetSitesActive();
+            sites.Insert(0, new Site { ID = 0, Name = "Select a site", SiteID = "" });
+            var selectList = DbUtils.GetSitesActiveListItems(sites);
+            model.Sites = selectList;
+
+            return View(model);
+        }
+
+        public ActionResult AddAdditionalStudyIdsConfirmSuccess()
+        {
+            return View();
         }
 
         public ActionResult Add()

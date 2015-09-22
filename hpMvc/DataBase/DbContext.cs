@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Data.SqlClient;
 using System.Configuration;
+using System.Web.Mvc;
 using hpMvc.Infrastructure.Logging;
 using System.Web.Security;
 using hpMvc.Models;
@@ -1077,6 +1078,36 @@ namespace hpMvc.DataBase
                     return -1;
                 }
             }
+        }
+
+        public static bool IsStudyIdDuplicate(string studyId)
+        {
+            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            using (var conn = new SqlConnection(strConn))
+            {
+                try
+                {
+                    var cmd = new SqlCommand("", conn)
+                    {
+                        CommandType = CommandType.StoredProcedure,
+                        CommandText = ("IsStudyIdDuplicate")
+                    };
+                    var param = new SqlParameter("@studyId", studyId);
+                    cmd.Parameters.Add(param);
+
+                    conn.Open();
+                    var count = (Int32)cmd.ExecuteScalar();
+                    if (count == 1)
+                        return true;
+                    return false;
+                }
+                catch (Exception ex)
+                {
+                    Nlogger.LogError(ex);
+                }
+            }
+
+            return false;
         }
 
         public static int IsSiteNameDuplicate(string name)
@@ -2266,10 +2297,10 @@ namespace hpMvc.DataBase
                 {
                     //throw new Exception("Opps");
                     var cmd = new SqlCommand("", conn)
-                                  {
-                                      CommandType = CommandType.StoredProcedure,
-                                      CommandText = "GetSitesActive"
-                                  };
+                    {
+                        CommandType = CommandType.StoredProcedure,
+                        CommandText = "GetSitesActive"
+                    };
 
                     conn.Open();
                     rdr = cmd.ExecuteReader();
@@ -2299,6 +2330,19 @@ namespace hpMvc.DataBase
             }
 
             return sites;
+        }
+        public static List<SelectListItem> GetSitesActiveListItems(List<Site> sites)
+        {
+            var list = new List<SelectListItem>();
+            foreach (var site in sites)
+            {
+                var item = new SelectListItem();
+                item.Value = site.ID.ToString();
+                item.Text = site.Name;
+                list.Add(item);
+            }
+
+            return list;
         }
         
         public static int RemoveUser(string userName)
@@ -3647,5 +3691,7 @@ namespace hpMvc.DataBase
             }
             return hash;
         }
+
+        
     }
 }
