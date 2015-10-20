@@ -130,8 +130,12 @@ namespace hpMvc.DataBase
             string siteName, HttpServerUtilityBase server, string url, string arm, string cafpintId, DateTime dateRandomized)
 		{
 			const string subject = "Halfpint - New Study Initialized Added";
-            if (!url.Contains("hpProd"))
+		    if (!url.Contains("hpProd"))
+		    {
                 studyId = "T" + studyId;
+		        
+		    }
+                
 
             string bodyHeader = "<h3 style='display:inline-block;background-color:Aqua;text-align: center;'>" + userName + " from " + siteName + " has initialized a new subject, ID: <strong>" +
 				studyId + " (" + arm + ")</strong></h3>";

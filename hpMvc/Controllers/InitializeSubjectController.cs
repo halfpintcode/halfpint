@@ -189,9 +189,14 @@ namespace hpMvc.Controllers
                         // don't let notifications error stop initialization process
                         try
                         {
-                            Utility.SendStudyInitializedMail(staff.ToArray(), null, studyId, User.Identity.Name, siteName,
-                                                             Server, url, ssInsert.Arm, cafpintId, dateRandomized);
-
+                            if (!url.Contains("hpProd"))
+                            {
+                                staff.Clear();
+                                staff.Add("j.rezuke@verizon.net");
+                                staff.Add("Jamin.Alexander@childrens.harvard.edu");
+                            }
+                            Utility.SendStudyInitializedMail(staff.ToArray(), null, studyId, User.Identity.Name,
+                                    siteName, Server, url, ssInsert.Arm, cafpintId, dateRandomized);
                             _logger.LogInfo("InitializeSubject.Initialize - notifications sent: " + studyId);
                         }
                         catch (Exception ex)
