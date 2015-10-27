@@ -25,6 +25,11 @@ namespace hpMvc.Controllers
         public ActionResult SiteDetails(string id)
         {
             var site = DbUtils.GetSiteInfoForSite(id);
+            
+            List<SelectListItem> items = new List<SelectListItem>();
+            items.Add(new SelectListItem { Text = "English", Value = "0" });
+            items.Add(new SelectListItem { Text = "French", Value = "1" });
+            ViewBag.Language = new SelectList(items, "Value", "Text", site.Language);
 
             return View(site);
         }
@@ -32,6 +37,11 @@ namespace hpMvc.Controllers
         [HttpPost]
         public ActionResult SiteDetails([Bind(Exclude = "HasRandomizations,HasStudyIds")]SiteInfo siteInfo)
         {
+            List<SelectListItem> items = new List<SelectListItem>();
+            items.Add(new SelectListItem { Text = "English", Value = "0" });
+            items.Add(new SelectListItem { Text = "French", Value = "1" });
+            ViewBag.Language = new SelectList(items, "Value", "Text", siteInfo.Language);
+
             if (ModelState.IsValid)
             {
                 var retVal = DbUtils.SaveSiteInfo(siteInfo);
@@ -108,6 +118,10 @@ namespace hpMvc.Controllers
             siteInfo.IsActive = true;
             siteInfo.UseCalfpint = true;
             siteInfo.UseVampjr = true;
+            List<SelectListItem> items = new List<SelectListItem>();
+            items.Add(new SelectListItem { Text = "English", Value = "0" });
+            items.Add(new SelectListItem { Text = "French", Value = "1" });
+            ViewBag.Language = items;
             return View(siteInfo);
         }
 
@@ -119,6 +133,11 @@ namespace hpMvc.Controllers
                 //everyone is using dexcom at the moment
                 //we might want to let dcc select this in the future
                 siteInfo.Sensor = 2;
+                
+                List<SelectListItem> items = new List<SelectListItem>();
+                items.Add(new SelectListItem { Text = "English", Value = "0" });
+                items.Add(new SelectListItem { Text = "French", Value = "1" });
+                ViewBag.Language = items;
 
                 var retVal = Business.Site.Add(files, siteInfo, Request.Url);
                 if (retVal.ReturnValue == 0)

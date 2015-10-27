@@ -2009,6 +2009,8 @@ namespace hpMvc.DataBase
                         site.UseVampjr = rdr.GetBoolean(pos);
                         pos = rdr.GetOrdinal("UseCalfpint");
                         site.UseCalfpint = rdr.GetBoolean(pos);
+                        pos = rdr.GetOrdinal("Language");
+                        site.Language = rdr.GetInt32(pos);
                     }
                     rdr.Close();
                     conn.Close();
@@ -3366,6 +3368,9 @@ namespace hpMvc.DataBase
                         param = new SqlParameter("@sensor", siteInfo.Sensor);
                         cmd.Parameters.Add(param);
 
+                        param = new SqlParameter("@language", siteInfo.Language);
+                        cmd.Parameters.Add(param);
+
                         param = string.IsNullOrEmpty(siteInfo.AcctPassword) ? new SqlParameter("@acctPassword", DBNull.Value) : new SqlParameter("@acctPassword", siteInfo.AcctPassword);
                         cmd.Parameters.Add(param);
 
@@ -3566,6 +3571,9 @@ namespace hpMvc.DataBase
                         cmd.Parameters.Add(param);
 
                         param = new SqlParameter("@sensor", siteInfo.Sensor);
+                        cmd.Parameters.Add(param);
+
+                        param = new SqlParameter("@language", siteInfo.Language);
                         cmd.Parameters.Add(param);
 
                         param = new SqlParameter("@Identity", SqlDbType.Int, 0, "ID")

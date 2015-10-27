@@ -27,6 +27,7 @@ namespace hpMvc.Models
         public bool HasStudyIds { get; set; }
         public bool UseVampjr { get; set; }
         public bool UseCalfpint { get; set; }
+        public int Language { get; set; }
         public List<InsulinConcentration> InsulinConcentrations { get; set; }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

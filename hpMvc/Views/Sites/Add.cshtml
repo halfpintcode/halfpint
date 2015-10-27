@@ -94,42 +94,42 @@
     <div>
         @Html.ValidationSummary()    
     </div>
-    
+
     <fieldset>
         <legend>Site Details</legend>
         <div>
             <span class="lbleditor">Short Name:</span>
-            <span class="col2"> 
+            <span class="col2">
                 @Html.EditorFor(model => model.Name)
                 @Html.ValidationMessageFor(model => model.Name)
             </span>
         </div>
-        
+
         <div>
             <span class="lbleditor">Long Name:</span>
-            <span class="col2"> 
+            <span class="col2">
                 @Html.EditorFor(model => model.LongName)
                 @Html.ValidationMessageFor(model => model.LongName)
             </span>
         </div>
-        
+
         <div>
             <span class="lbleditor">Nurse User Name:</span>
-            <span class="col2"> 
+            <span class="col2">
                 @Html.EditorFor(model => model.AcctUserName)
             </span>
         </div>
-        
+
         <div>
             <span class="lbleditor">Nurse Password:</span>
-            <span class="col2"> 
+            <span class="col2">
                 @Html.EditorFor(model => model.AcctPassword)
             </span>
         </div>
 
         <div>
             <span class="lbleditor">SiteID:</span>
-            <span class="col2"> 
+            <span class="col2">
                 @Html.EditorFor(model => model.SiteId)
                 @Html.ValidationMessageFor(model => model.SiteId)
             </span>
@@ -137,55 +137,62 @@
 
         <div>
             <span class="lbleditor">Is Employee Id Required:</span>
-            <span class="col2"> 
+            <span class="col2">
                 @Html.EditorFor(model => model.IsEmployeeIdRequired)
             </span>
         </div>
-    
+
         <div>
             <span class="lbleditor">Employee Id RegEx:</span>
-            <span class="col2"> 
+            <span class="col2">
                 @Html.EditorFor(model => model.EmployeeIdRegEx)
-                @Html.ValidationMessageFor(model => model.EmployeeIdRegEx) 
+                @Html.ValidationMessageFor(model => model.EmployeeIdRegEx)
             </span>
         </div>
-        
+
         <div>
             <span class="lbleditor">Employee Id Message:</span>
-            <span class="col2"> 
+            <span class="col2">
                 @Html.EditorFor(model => model.EmployeeIdMessage)
                 @Html.ValidationMessageFor(model => model.EmployeeIdMessage)
             </span>
         </div>
 
         <div>
+            <span class="lbleditor">Language:</span>
+            <span class="col2">
+                @Html.DropDownList("Language")
+            </span>
+        </div>
+
+        <div>
             <span class="lbleditor">Active:</span>
-            <span class="col2"> 
+            <span class="col2">
                 @Html.EditorFor(model => model.IsActive)
             </span>
         </div>
-        
+
         <div>
             <span class="lbleditor">Use Vamp Jr.:</span>
-            <span class="col2"> 
+            <span class="col2">
                 @Html.EditorFor(model => model.UseVampjr)
             </span>
         </div>
-        
+
         <div>
             <span class="lbleditor">Use CAF-PINT:</span>
-            <span class="col2"> 
+            <span class="col2">
                 @Html.EditorFor(model => model.UseCalfpint)
             </span>
         </div>
 
         @*<div>
-            <span class="lbleditor">Use Sensor:</span>
-            <span class="col2"> 
-                @Html.EditorFor(model => model.Sensor)
-            </span>
-        </div>*@
-        
+                <span class="lbleditor">Use Sensor:</span>
+                <span class="col2">
+                    @Html.EditorFor(model => model.Sensor)
+                </span>
+            </div>*@
+
         <div>
             <span class="underline">Insulin Concentrations Used:</span>
             @for (int i = 0; i < @Model.InsulinConcentrations.Count; i++)
@@ -198,7 +205,7 @@
                     @Html.EditorFor(m => @Model.InsulinConcentrations[i].IsUsed)
                 </div>
             }
-            
+
         </div>
         <div><span class="underline">Randomization and Study Id Import Files :</span></div>
         <div>
@@ -206,16 +213,16 @@
             <span class="col3">
                 <input type="file" value="Select File" name="files" id="files_0" />
             </span>
-            <br/>
+            <br />
             <span class="lblFile">Select the radomization import file: </span>
             <span class="col3">
                 <input type="file" name="files" id="files_1" />
             </span>
         </div>
-        
+
         @*<div id="pleasewait">
-            Please wait...  This could take a few minutes.  You will be redirected to a confirmation page when finished.
-        </div>*@
+                Please wait...  This could take a few minutes.  You will be redirected to a confirmation page when finished.
+            </div>*@
         <p>
             <input type="submit" id="btnSubmit" value="Submit" />
         </p>
