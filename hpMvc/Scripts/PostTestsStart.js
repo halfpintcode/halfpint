@@ -12,6 +12,84 @@ $(function () {
 			   .ajaxStop(function () { $(this).hide(); });
 
 
+    function isEmployeeIdDuplicate() {
+        var retVal = false;
+
+        $.ajax({
+            async: false,
+            url: window.urlRoot + '/PostTests/IsUserEmployeeIdDuplicate/?employeeID=' + empId,
+            type: 'POST',
+            data: {},
+            success: function (data) {
+                if (data.ReturnValue === 1) {
+                    if (siteId === '13') {
+                        var nextNum = data.Bag;
+                        alert('This employee ID is being used, the Halfpint website will use ' + nextNum + ' as your Halfpint employee Id');
+                        $('#empID').val(nextNum);
+                        empId = nextNum;
+                        retVal = false;
+                    }
+                    else {
+                        alert('This employee ID is being used by ' + data.Message + '!\nIf this is you then select your name from the list.\nIf it\'s not you then contact the coordinator.');
+                        retVal = true;
+                    }
+                }
+                if (data.ReturnValue === -1) {
+                    alert('There was an error cheking the database for a duplicate employee ID.\nPlease contact the coordinator if this error continues.');
+                    retVal = false;
+                }
+            }
+        });
+
+        return retVal;
+    }
+
+    function isNameSelected() {
+        var userName = "";
+        var val = "";
+
+        //if selected from list
+        if ($('#listName').is(':visible')) {
+            val = $('#Users').val();
+            if (val === '0') {
+                //e.preventDefault();
+                alert('Select your name from the list');
+                return userName;
+            }
+            userName = $("option:selected", $('#Users')).text();
+        }
+        else {
+            //check first and last names
+            var fName = $('#firstName').val();
+            var lName = $('#lastName').val();
+
+            userName = $.trim(fName) + ' ' + $.trim(lName);
+        }
+        return userName;
+    }
+
+    //made as an async funtion because this is used in validation
+    function isEmailDuplicate(email) {
+        var retVal = false;
+        $.ajax({
+            async: false,
+            url: window.urlRoot + '/PostTests/IsUserEmailDuplicate/?email=' + email,
+            type: 'POST',
+            data: {},
+            success: function (data) {
+                if (data.ReturnValue === 1) {
+                    alert('This email is being used by ' + data.Message + '!\nIf this is you then select your name from the list.\nIf it\'s not you then contact the coordinator.');
+                    retVal = true;
+                }
+                if (data.ReturnValue === -1) {
+                    alert('There was an error cheking the database for a duplicate email.\nPlease contact the coordinator if this error continues.');
+                    retVal = false;
+                }
+            }
+        });
+        return retVal;
+    }
+
     //employee id is site specific
     var empIdReq = $('#empIDRequired').val();
     if (empIdReq === "true") {
@@ -227,12 +305,13 @@ $(function () {
         var name = $("option:selected", $('#Users')).text();
         var id = $('#Users').val();
         var siteCode = $('#siteCode').val();
+        
         var srcUrlCheck = window.urlRoot + "/Content/images/check2.jpg";
         var imgCheck = '<img alt="" src=' + srcUrlCheck + ' />';
         var srcUrlX = window.urlRoot + "/Content/images/x.jpg";
         var imgX = '<img alt="" src=' + srcUrlX + ' />';
 
-        var completed = '';
+        //var completed = '';
         $.ajax({
             url: url,
             type: 'POST',
@@ -278,13 +357,14 @@ $(function () {
     $('#testMenu ul').on('click', "li", function () {
         var test = ($(this).attr("id"));
         var userName = isNameSelected();
+        var siteLanguage = $('#siteLanguage').val();
 
         if (userName.length === 0) {
             alert('Select or create a name');
             return;
         }
         var id = $('#Users').val();
-        var path = window.urlRoot + '/PostTests/' + test + '/' + id + '?name=' + userName;
+        var path = window.urlRoot + '/PostTests/' + test + '/' + id + '?name=' + userName + '&language=' + siteLanguage;
         if ($(this).hasClass('completed')) {
             path = path + '&completed=true';
         }
@@ -292,9 +372,13 @@ $(function () {
         window.location = path;
     });
 
+    
+
+
     $('.aLnk').click(function (e) {
 
         var userName = isNameSelected();
+        var siteLanguage = $('#siteLanguage').val();
 
         if (userName.length === 0) {
             e.preventDefault();
@@ -303,7 +387,7 @@ $(function () {
         }
 
         var id = $('#Users').val();
-        var path = window.urlRoot + '/PostTests/' + $(this).parent().attr('id') + '/' + id + '?name=' + userName;
+        var path = window.urlRoot + '/PostTests/' + $(this).parent().attr('id') + '/' + id + '?name=' + userName + '&language=' + siteLanguage;
         if ($(this).parent().hasClass('completed')) {
             path = path + '&completed=true';
         }
@@ -313,29 +397,7 @@ $(function () {
 
     });
 
-    function isNameSelected() {
-        var userName = '';
-        var val = '';
-
-        //if selected from list
-        if ($('#listName').is(':visible')) {
-            val = $('#Users').val();
-            if (val === '0') {
-                //e.preventDefault();
-                alert('Select your name from the list');
-                return userName;
-            }
-            userName = $("option:selected", $('#Users')).text();
-        }
-        else {
-            //check first and last names
-            var fName = $('#firstName').val();
-            var lName = $('#lastName').val();
-
-            userName = $.trim(fName) + ' ' + $.trim(lName);
-        }
-        return userName;
-    }
+    
 
     $('#email').blur(function () {
         var email = $.trim($('#email').val());
@@ -345,77 +407,6 @@ $(function () {
         }
         isEmailDuplicate(email);
     });
-
-    //made as an async funtion because this is used in validation
-    function isEmailDuplicate(email) {
-        var retVal = false;
-        $.ajax({
-            async: false,
-            url: window.urlRoot + '/PostTests/IsUserEmailDuplicate/?email=' + email,
-            type: 'POST',
-            data: {},
-            success: function (data) {
-                if (data.ReturnValue == 1) {
-                    alert('This email is being used by ' + data.Message + '!\nIf this is you then select your name from the list.\nIf it\'s not you then contact the coordinator.');
-                    retVal = true;
-                }
-                if (data.ReturnValue == -1) {
-                    alert('There was an error cheking the database for a duplicate email.\nPlease contact the coordinator if this error continues.');
-                    retVal = false;
-                }
-            }
-        });
-        return retVal;
-    }
-
-    //    $('#empID').blur(function () {
-    //        console.log('blur');
-    //        validationTimer = setTimeout(function () {
-    //            validationTimer = null;
-    //            console.log('validationTimer');
-    //            console.log('in blur - wasCreateClicked:' + wasCreateClicked);
-    //            if (wasCreateClicked) {
-    //                return;
-    //            }
-    //            var empId = $.trim($('#empID').val());
-    //            if (empId.length === 0) {
-    //                return;
-    //            }
-    //            isEmployeeIdDuplicate(empId);
-    //        }, 200);
-    //    });
-
-    function isEmployeeIdDuplicate() {
-        var retVal = false;
-
-        $.ajax({
-            async: false,
-            url: window.urlRoot + '/PostTests/IsUserEmployeeIdDuplicate/?employeeID=' + empId,
-            type: 'POST',
-            data: {},
-            success: function (data) {
-                if (data.ReturnValue == 1) {
-                    if (siteId === '13') {
-                        var nextNum = data.Bag;
-                        alert('This employee ID is being used, the Halfpint website will use ' + nextNum + ' as your Halfpint employee Id');
-                        $('#empID').val(nextNum);
-                        empId = nextNum;
-                        retVal = false;
-                    }
-                    else {
-                        alert('This employee ID is being used by ' + data.Message + '!\nIf this is you then select your name from the list.\nIf it\'s not you then contact the coordinator.');
-                        retVal = true;
-                    }
-                }
-                if (data.ReturnValue == -1) {
-                    alert('There was an error cheking the database for a duplicate employee ID.\nPlease contact the coordinator if this error continues.');
-                    retVal = false;
-                }
-            }
-        });
-
-        return retVal;
-    }
 });
 
 

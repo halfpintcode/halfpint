@@ -25,6 +25,10 @@ namespace hpMvc.Controllers
 
         public ActionResult Temp()
         {
+            var lang = this.Request.QueryString["lang"];
+            if ( lang!=null)
+                return View("lang");
+            
             return View();
         }
 

@@ -2702,6 +2702,8 @@ namespace hpMvc.DataBase
                         si.Name = rdr.GetString(pos);
                         pos = rdr.GetOrdinal("SiteID");
                         si.SiteId = rdr.GetString(pos);
+                        pos = rdr.GetOrdinal("Language");
+                        si.Language = rdr.GetInt32(pos);
                     }
                     rdr.Close();
                     return si;

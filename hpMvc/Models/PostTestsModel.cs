@@ -55,6 +55,7 @@ namespace hpMvc.Models
         public int SiteId { get; set; }
         public string SiteCode { get; set; }
         public string Email { get; set; }
+        public int Language { get; set; }
     }
 
     public class PostTestView

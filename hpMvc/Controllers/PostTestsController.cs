@@ -33,9 +33,11 @@ namespace hpMvc.Controllers
                 return RedirectToRoute(new {Controller = "Staff"});
 
             model.UserId = int.Parse(id);
-
-            model.SiteId = DbUtils.GetSiteidIdForUser(User.Identity.Name);
-            model.SiteCode = DbUtils.GetSiteCodeForUser(User.Identity.Name);
+            
+            var si = DbUtils.GetSiteInfoForUser(User.Identity.Name);
+            model.SiteId = si.Id;
+            model.SiteCode = si.SiteId;
+            model.Language = si.Language;
 
             var users = DbPostTestsUtils.GetStaffTestUsersForSite(model.SiteId);
 
@@ -122,6 +124,7 @@ namespace hpMvc.Controllers
         {
             var staffId = Request.Params["ID"];
             var siteCode = Request.Params["SiteCode"];
+            //var siteLanguage = Request.Params["SiteLanguage"];
             var tests = DbPostTestsUtils.GetStaffPostTestsCompletedCurrentAndActive(staffId, siteCode);
             var email = DbPostTestsUtils.GetPostTestStaffEmail(staffId);
 
@@ -155,7 +158,7 @@ namespace hpMvc.Controllers
             return Json("");
         }
 
-        public ActionResult Checks(string id, string name)
+        public ActionResult Checks(string id, string name, string language)
         {
             id = Encoder.HtmlEncode(id);
             name = Encoder.HtmlEncode(name);
@@ -164,7 +167,8 @@ namespace hpMvc.Controllers
             ViewBag.ID = id;
 
             ViewBag.Completed = Request.Params["completed"] != null ? "true" : "false";
-                        
+            if(language == "1")
+                return View("ChecksF");
             return View();
         }
         

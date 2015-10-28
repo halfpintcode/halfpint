@@ -889,6 +889,7 @@
     <Content Include="Views\Enrollment\Error.cshtml" />
     <Content Include="Views\Sites\AddAdditionalStudyIds.cshtml" />
     <Content Include="Views\Sites\AddAdditionalStudyIdsConfirmSuccess.cshtml" />
+    <Content Include="Views\PostTests\ChecksF.cshtml" />
     <None Include="_bin_deployableAssemblies\Microsoft.Web.Infrastructure.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.Razor.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.dll" />
