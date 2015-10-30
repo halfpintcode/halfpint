@@ -890,6 +890,10 @@
     <Content Include="Views\Sites\AddAdditionalStudyIds.cshtml" />
     <Content Include="Views\Sites\AddAdditionalStudyIdsConfirmSuccess.cshtml" />
     <Content Include="Views\PostTests\ChecksF.cshtml" />
+    <Content Include="Views\PostTests\OverviewF.cshtml" />
+    <Content Include="Views\PostTests\VampJrF.cshtml" />
+    <Content Include="Views\PostTests\DexcomG4ReceiverF.cshtml" />
+    <Content Include="Views\PostTests\NovaStatStripF.cshtml" />
     <None Include="_bin_deployableAssemblies\Microsoft.Web.Infrastructure.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.Razor.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.dll" />

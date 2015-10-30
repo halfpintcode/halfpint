@@ -1,0 +1,82 @@
+﻿@{
+    ViewBag.Title = "Overview";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="@Url.Content("~/Content/Posttest.css")" rel="stylesheet" type="text/css" />
+<script src="@Url.Content("~/Scripts/PostTest.js")" type="text/javascript"></script>
+
+<h2>Online Videos and Testing - Overview</h2>
+<hr />
+<form action="" method="post">
+    @Html.Hidden("name", (object)@ViewBag.Name)
+    @Html.Hidden("id", (object)@ViewBag.ID)
+    @Html.Hidden("test", (object)@ViewBag.Test)
+    @Html.Hidden("completed", (object)@ViewBag.Completed)
+    <p id="testIntro">
+        After viewing the video, click on the 'Take the test' link (below the video). You must answer all questions correctly.
+    </p>
+    @*<iframe src="//player.vimeo.com/video/37407188?title=0&amp;byline=0&amp;portrait=0"
+                width="533" height="300"
+                frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen>
+        </iframe>*@
+    <iframe src="https://player.vimeo.com/video/139504044" width="500" height="281" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+    <p>
+        Module 1: Half Pint Study Overview
+    </p>
+    <a href="" id="showHideTest">Take the test</a>
+    <div id="testForm">
+        <div class="question">
+            1) <span class="questionText">1)	Si je prends soin d'un patient qui a consenti à l’étude HALF-PINT, mais n’a pas encore été</span>
+            <br /> <span class="questionTextOver"> randomisé, que dois-je faire si le patient a une glycémie > 150 mg / dL?</span>
+        </div>
+        <br />
+        <div class="answer">
+            <span class="spanswer"> a) </span> <input type="radio" name="question1" value="a" />  Rien, ceci est attendu
+        </div>
+        <br />
+        <div class="answer">
+            <span class="spanswer"> b) </span> <input type="radio" name="question1" value="b" />  Contacter le coordonnateur de l'étude HALF-PINT
+        </div>
+        <br />
+        <div class="answer">
+            <span class="spanswer"> c) </span> <input type="radio" name="question1" value="c" />  Confirmer la mesure avec un autre test BG selon la méthode standard de test de glycémie de
+            <br /><span class="answerTextOver">votre institution. Si celui-là est aussi ≥ 150 mg / dL, le patient sera randomisé.</span>
+        </div>
+        <br />
+        <div class="question">
+            2) <span class="questionText">2)	Il y a des preuves accablantes que le contrôle strict de la glycémie dans une gamme de</span>
+            <br /><span class="questionTextOver">80-110 mg / dL est idéal pour la population pédiatrique en soins intensifs</span>
+        </div>
+        <br />
+        <div class="answer">
+            <input type="radio" name="question2" value="Yes" /> Vrai
+        </div>
+        <br />
+        <div class="answer">
+            <input type="radio" name="question2" value="No" /> Faux
+        </div>
+        <br />
+        <div class="question">
+            3) <span class="questionText">3)	Après la randomisation, quel lecteur de glycémie puis-je utiliser pour entrer les mesures de glucose </span>
+            <br /><span class="questionTextOver">sanguin dans CHECKS (feuille de travailde l'étude pour la perfusion d'insuline)?</span>
+
+        </div>
+        <br />
+        <div class="answer">
+            <span class="spanswer"> a) </span> <input type="radio" name="question3" value="a" />  Nova StatStrip
+        </div>
+        <br />
+        <div class="answer">
+            <span class="spanswer"> b) </span> <input type="radio" name="question3" value="b" />  Lecteur de glucose de l’hôpital
+        </div>
+        <br />
+        <div class="answer">
+            <span class="spanswer"> c) </span> <input type="radio" name="question3" value="c" />  N’importe quel des deux
+        </div>
+        <br />
+        <input type="button" id="btnSubmit" value="Submit Answers" />
+    </div>
+    <br />
+    @Html.ActionLink("Back to tests menu", "Initialize", new { Controller = "PostTests", id = @ViewBag.ID })
+</form>

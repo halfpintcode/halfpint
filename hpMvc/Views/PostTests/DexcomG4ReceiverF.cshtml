@@ -1,0 +1,122 @@
+﻿@{
+    ViewBag.Title = "Dexcom G4R eceiver";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="@Url.Content("~/Content/Posttest.css")" rel="stylesheet" type="text/css" />
+<script src="@Url.Content("~/Scripts/PostTest.js")" type="text/javascript"></script>
+
+<h3>Online Videos and Testing - Dexcom G4 Receiver</h3>
+<hr />
+<p id="testIntro">
+    After viewing the video, click on the 'Take the test' link (below the video). You must answer all questions correctly.
+</p>
+@*<iframe src="//player.vimeo.com/video/57688188?title=0&amp;byline=0&amp;portrait=0"
+                                width="533" height="300"
+                                frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen>
+    </iframe>*@
+<iframe src="https://player.vimeo.com/video/139509331" width="500" height="375" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+<p>
+    Dexcom G4 Receiver Video
+</p>
+<div>
+    <a href="" id="showHideTest">Take the test</a>
+</div>
+
+<div id="testForm">
+    <form action="" method="post">
+        @Html.Hidden("name", (object)@ViewBag.Name)
+        @Html.Hidden("id", (object)@ViewBag.ID)
+        @Html.Hidden("test", (object)@ViewBag.Test)
+        @Html.Hidden("completed", (object)@ViewBag.Completed)
+
+        <div class="question">
+            1) <span class="questionText"> SI le CHECKS ou le récepteur du Dexcom G4 (une image d’une goutte de sang apparaîtra à l’écran sur du </span>
+            <br /><span class="questionTextOver">récepteur) requiert une "calibration", que dois-je faire?  </span>
+        </div>
+        <br />
+        <div class="answer">
+            <span class="spanswer"> a) </span> <input type="radio" name="question1" value="a" /> Entrez les valeurs de glucose du capteur à partir du récepteur manuellement dans le récepteur. 
+            <br /><span class="answerTextOver">Appuyez sur le petit bouton circulaire "Sélectionner", faites défiler les options pour mettre en</span>
+            <br /><span class="answerTextOver">surbrillance "Entrer la glycémie", puis appuyez sur le bouton "Sélectionner". Inscrivez les valeurs</span>
+            <br/><span class="answerTextOver">en utilisant les boutons "Haut" ou "Bas" et appuyer sur le bouton  "Sélectionner" de nouveau.</span>
+            <br/><span class="answerTextOver">Confirmez la lecture, lorsque demandé, en appuyant de nouveau sur le bouton "Sélectionner".</span>
+            <br /><span class="answerTextOver">Inscrivez cette valeur également dans le CHECKS.</span>
+        </div>
+        <br />
+        <div class="answer">
+            <span class="spanswer"> b) </span> <input type="radio" name="question1" value="b" />  Prenez une mesure de la glycémie sanguine en utilisant le VAMP et le glucomètre de l’étude. 
+            <br /><span class="answerTextOver">Inscrivez dans le récepteur du Dexcom : appuyez sur le petit bouton circulaire "Sélectionner",</span>
+            <br /><span class="answerTextOver">faites défiler les options pour mettre en surbrillance "Entrer la glycémie", puis appuyez sur le</span>
+            <br /><span class="answerTextOver">bouton "Sélectionner". Inscrivez les mesures en utilisant les boutons "Haut" ou "Bas" et appuyer</span>
+            <br/><span class="answerTextOver">sur le bouton "Sélectionner" de nouveau. Confirmez la lecture, lorsque demandé, en appuyant de</span>
+            <br /><span class="answerTextOver">nouveau sur le bouton "Sélectionner". Inscrivez cette valeur également dans le CHECKS. </span>
+        </div>
+        <br />
+        <div class="question">
+            2) <span class="questionText"> L’émetteur du Dexcom indique "Bas". Que dois-je faire maintenant? </span>
+        </div>
+        <br />
+        <div class="answer">
+            <span class="spanswer"> a) </span> <input type="radio" name="question2" value="a" />  Ce message est une alerte qui indique que la glycémie du patient s’apprête à diminuer bientôt. 
+            <br /><span class="answerTextOver">En premier lieu, appuyez sur le bouton central pour effacer le message et pour faire une lecture</span>
+            <br/><span class="answerTextOver">actuelle du capteur. Ensuite, prélevez le prochain échantillon lorsque nécessaire et continuez à</span>
+            <br /><span class="answerTextOver">suivre les recommandations du CHECKS. </span>
+        </div>
+        <br />
+        <div class="answer">
+            <span class="spanswer"> b) </span> <input type="radio" name="question2" value="b" />  Ce message est une alerte qui indique que les mesures du capteur de glucose du patient est ou
+            <br /><span class="answerTextOver">est proche de 70 mg/dL, ou inférieur. En premier lieu, appuyez le bouton central pour effacer le</span>
+            <br /><span class="answerTextOver">message et visionner la mesure actuelle du capteur. Ensuite, prélever un échantillon sanguin et</span>
+            <br /><span class="answerTextOver">entrer les résultats dans le CHECKS, utilisant le bouton "Entrée de glucose anticipée", lorsque</span>
+            <br /><span class="answerTextOver">nécessaire. Suivez les instructions du CHECKS. SVP, vérifiez périodiquement le récepteur pour les</span>
+            <br /><span class="answerTextOver">alertes telles que "Bas", "70 mg/dL" et "55 mg mg/dL", qui indique que la mesure du capteur de</span>
+            <br/><span class="answerTextOver">glucose est basse et qu’une intervention pourrait être requise avant que l’heure sur le CHECKS</span>
+            <br /><span class="answerTextOver">annonce qu’une lecture du capteur doit être saisie.</span>
+        </div>
+        <br />
+        <div class="question">
+            3) <span class="questionText"> Certaines données laissent prétendre que le capteur du Dexcom G4 serait sensible à l’acétaminophène,</span>
+            <br /><span class="questionTextOver">indiquant possiblement une lecture faussement élevée du glucose. Si j’administre l’acétaminophène</span>
+            <br /><span class="questionTextOver">(toute voie) à mon patient, que devrais-je faire ensuite?</span>
+        </div>
+        <br />
+        <div class="answer">
+            <span class="spanswer"> a) </span> <input type="radio" name="question3" value="a" />  Entrer un commentaire dans le CHECKS indiquant la date, l’heure, la dose ainsi que la voie 
+            <br /><span class="answerTextOver">d’administration de l’acétaminophène. Ceci suspendra pour quelques heures la nécessité de faire des</span>
+            <br /><span class="answerTextOver">lectures sur le capteur de glucose. </span>
+        </div>
+        <br />
+        <div class="answer">
+            <span class="spanswer"> b) </span> <input type="radio" name="question3" value="b" />  Appuyer sur le bouton "ACÉTAMINOPHÈNE" sur l’écran du CHECKS sous la minuterie et indiquer 
+            <br /><span class="answerTextOver">la date, l’heure, la dose et la voie d’administration, puis continuer à suivre les instructions</span>
+            <br /><span class="answerTextOver">du CHECKS. Ceci suspendra pour quelques heures la nécessité de faire des lectures sur le capteur</span>
+            <br /><span class="answerTextOver">de glucose.</span>
+        </div>
+        <br />
+        <div class="answer">
+            <span class="spanswer"> c) </span> <input type="radio" name="question3" value="c" />  Contacter par téléavertisseur le personnel de recherche pour les informer de la dose.
+        </div>
+        <br />
+        <div class="question">
+            4) <span class="questionText"> Quand un capteur est en processus de retrait, quelles composantes sont jetables?  </span>
+        </div>
+        <br />
+        <div class="answer">
+            <span class="spanswer"> a) </span> <input type="radio" name="question4" value="a" />  Aucune – le capteur, l’émetteur et le récepteur sont nettoyés adéquatement et utilisés chez les 
+            <br /><span class="answerTextOver"> prochains patients.</span>
+        </div>
+        <br />
+        <div class="answer">
+            <span class="spanswer"> b) </span> <input type="radio" name="question4" value="b" />  Uniquement le capteur et l’émetteur; le récepteur (appareil similaire à un iPod) est nettoyé et 
+            <br /><span class="answerTextOver">utilisé chez les prochains patients.</span>
+        </div>
+        <br />
+        <div class="answer">
+            <span class="spanswer"> c) </span> <input type="radio" name="question4" value="c" />  Uniquement le capteur; le récepteur (appareil similaire à un iPod) et l’émetteur (pièce attachée 
+            <br /><span class="answerTextOver">au capteur) sont nettoyés et seront utilisés de nouveau chez les prochains patients.</span>
+        </div>
+        <br />
+        <input type="button" id="btnSubmit" value="Submit Answers" />
+    </form>
+</div>
+@Html.ActionLink("Back to tests menu", "Initialize", new { Controller = "PostTests", id = @ViewBag.ID })  

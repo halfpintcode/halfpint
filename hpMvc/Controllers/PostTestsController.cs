@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
+using DocumentFormat.OpenXml.Wordprocessing;
 using hpMvc.DataBase;
 using hpMvc.Helpers;
 using hpMvc.Infrastructure.Logging;
@@ -243,7 +244,7 @@ namespace hpMvc.Controllers
             return Json(dto);
         }
 
-        public ActionResult Overview(string id, string name)
+        public ActionResult Overview(string id, string name, string language)
         {
             id = Encoder.HtmlEncode(id);
             name = Encoder.HtmlEncode(name);
@@ -253,7 +254,8 @@ namespace hpMvc.Controllers
             ViewBag.ID = id;
 
             ViewBag.Completed = Request.Params["completed"] != null ? "true" : "false";
-
+            if (language == "1")
+                return View("OverviewF");
                      
             return View();
         }
@@ -286,7 +288,7 @@ namespace hpMvc.Controllers
             return Json(dto);
         }
 
-        public ActionResult NovaStatStrip(string id, string name)
+        public ActionResult NovaStatStrip(string id, string name, string language)
         {
             id = Encoder.HtmlEncode(id);
             name = Encoder.HtmlEncode(name);
@@ -295,7 +297,8 @@ namespace hpMvc.Controllers
             ViewBag.ID = id;
 
             ViewBag.Completed = Request.Params["completed"] != null ? "true" : "false";
-
+            if (language == "1")
+                return View("NovaStatStripF");
                      
             return View();
         }
@@ -328,7 +331,7 @@ namespace hpMvc.Controllers
             return Json(dto);
         }
 
-        public ActionResult VampJr(string id, string name)
+        public ActionResult VampJr(string id, string name, string language)
         {
             id = Encoder.HtmlEncode(id);
             name = Encoder.HtmlEncode(name);
@@ -338,6 +341,8 @@ namespace hpMvc.Controllers
             ViewBag.ID = id;
             
             ViewBag.Completed = Request.Params["completed"] != null ? "true" : "false";
+            if (language == "1")
+                return View("VampJrF");
 
             return View();
         }
@@ -417,7 +422,7 @@ namespace hpMvc.Controllers
             return Json(dto);
         }
 
-        public ActionResult DexcomG4Receiver(string id, string name)
+        public ActionResult DexcomG4Receiver(string id, string name, string language  )
         {
             id = Encoder.HtmlEncode(id);
             name = Encoder.HtmlEncode(name);
@@ -427,7 +432,8 @@ namespace hpMvc.Controllers
             ViewBag.ID = id;
 
             ViewBag.Completed = Request.Params["completed"] != null ? "true" : "false";
-
+            if(language=="1")
+                return View("DexcomG4ReceiverF");
             return View();
         }
 
