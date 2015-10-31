@@ -2579,6 +2579,47 @@ namespace hpMvc.DataBase
 
         }
 
+        public static int GetSiteLanguage(int siteId)
+        {
+            var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            SqlDataReader rdr = null;
+            using (var conn = new SqlConnection(strConn))
+            {
+                try
+                {
+                    var cmd = new SqlCommand("", conn)
+                    {
+                        CommandType = CommandType.StoredProcedure,
+                        CommandText = "GetSiteLanguage"
+                    };
+
+                    var param = new SqlParameter("@siteID", siteId);
+                    cmd.Parameters.Add(param);
+
+                    conn.Open();
+                    rdr = cmd.ExecuteReader();
+                    if (rdr.Read())
+                    {
+                        var pos = rdr.GetOrdinal("Language");
+                        return rdr.GetInt32(pos);
+                    }
+                    
+                    rdr.Close();
+                    return 0;
+                }
+                catch (Exception ex)
+                {
+                    Nlogger.LogError(ex);
+                    return -1;
+                }
+                finally
+                {
+                    if (rdr != null)
+                        rdr.Close();
+                }
+            }
+        }
+
         public static DTO GetSiteCodeForSiteId(int siteId)
         {
             var dto = new DTO

@@ -76,7 +76,8 @@ namespace hpMvc.Controllers
             _logger.LogInfo("InitializeSubject.Initialize - Post: " + studyId);
             
             var siteId = DbUtils.GetSiteidIdForUser(User.Identity.Name);
-            var sensorType = int.Parse( Request.Params["sensorType"]);  //DbUtils.GetSiteSensor(siteId);
+            var language = DbUtils.GetSiteLanguage(siteId);
+            var sensorType = int.Parse( Request.Params["sensorType"]); 
 
             
             SSInsertionData ssInsert;
@@ -159,7 +160,7 @@ namespace hpMvc.Controllers
                 {
                     _logger.LogInfo("InitializeSubject.Initialize - Randomization set");
                     _logger.LogInfo("InitializeSubject.InitializeSs - CHECKS inititalization");
-                    if (! SsUtils.InitializeSs(Request.PhysicalApplicationPath, studyId, ssInsert, sensorType))
+                    if (! SsUtils.InitializeSs(Request.PhysicalApplicationPath, studyId, ssInsert, sensorType, language))
                     {
                         dto.IsSuccessful = false;
                         dto.Message = "Could not initialized CHECKS";

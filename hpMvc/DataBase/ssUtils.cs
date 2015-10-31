@@ -266,7 +266,7 @@ namespace hpMvc.DataBase
             return list;
         }
 
-        public static bool InitializeSs(string physicalAppPath, string studyId, SSInsertionData ssInsert, int sensorType)
+        public static bool InitializeSs(string physicalAppPath, string studyId, SSInsertionData ssInsert, int sensorType, int language)
         {
             physicalAppPath = Encoder.HtmlEncode(physicalAppPath);
             studyId = Encoder.HtmlEncode(studyId);
@@ -309,11 +309,12 @@ namespace hpMvc.DataBase
                     UpdateValue(wbPart, "E5", ssInsert.TargetLow, 0, false, "ParameterDefaults");
                     UpdateValue(wbPart, "D6", ssInsert.TargetHigh, 0, false, "ParameterDefaults");
                     UpdateValue(wbPart, "E6", ssInsert.TargetHigh, 0, false, "ParameterDefaults");
-
+                    
                     UpdateValue(wbPart, "D47", iGGonlyModeOn.ToString(), 0, false, "ParameterDefaults");
                     UpdateValue(wbPart, "D49", iSensorType.ToString(), 0, false, "ParameterDefaults");
                     UpdateValue(wbPart, "D50", "", 0, false, "ParameterDefaults");
                     UpdateValue(wbPart, "D51", "", 0, false, "ParameterDefaults");
+                    UpdateValue(wbPart, "D53", language.ToString(), 0, false, "ParameterDefaults");
 
                     if (sensorType > 0)
                     {
