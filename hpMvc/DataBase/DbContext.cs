@@ -1188,7 +1188,7 @@ namespace hpMvc.DataBase
 
                     conn.Open();
                     var count = (Int32) cmd.ExecuteScalar();
-                    if (count == 1)
+                    if (count > 0)
                         return 1;
                     return 0;
                 }
