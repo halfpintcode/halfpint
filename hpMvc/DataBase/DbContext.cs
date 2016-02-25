@@ -2347,6 +2347,12 @@ namespace hpMvc.DataBase
             return list;
         }
         
+        /// <summary>
+        /// Removes the username record from UserSite
+        /// and removes the user from the membership table
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <returns></returns>
         public static int RemoveUser(string userName)
         {
             String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
