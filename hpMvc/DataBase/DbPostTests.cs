@@ -1151,7 +1151,7 @@ namespace hpMvc.DataBase
                                 continue;
                         }
 
-                        if (siteCode == "15" || siteCode == "18" || siteCode == "21" || siteCode == "30" || siteCode == "33")
+                        if (siteCode == "15" || siteCode == "18" || siteCode == "21" || siteCode == "30" || siteCode == "33" || siteCode == "36")
                         {
                             if (testName == "VampJr")
                                 continue;
