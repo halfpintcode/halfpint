@@ -107,10 +107,16 @@ namespace hpMvc.Controllers
 
             var stream = ListToCsvUtils.ListToCsvStream(list);
 
+            if (stream == null)
+            {
+                RedirectToAction("SelectChecksGgReportSubject");
+            }
+
             stream.Seek(0, SeekOrigin.Begin);
 
-            return File(stream, "text/plain", subjectId.TrimEnd() + "_" + startDate.Replace("/", "-") + "_" + endDate.Replace("/", "-") + ".csv");
-         }
+            return File(stream, "text/plain",
+                subjectId.TrimEnd() + "_" + startDate.Replace("/", "-") + "_" + endDate.Replace("/", "-") + ".csv");
+        }
         public ActionResult GetChecksGgReport()
         {
             //var subjectId = Request.Params["subjectId"];

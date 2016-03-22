@@ -29,6 +29,7 @@ namespace hpMvc.Controllers
             List<SelectListItem> items = new List<SelectListItem>();
             items.Add(new SelectListItem { Text = "English", Value = "0" });
             items.Add(new SelectListItem { Text = "French", Value = "1" });
+            items.Add(new SelectListItem { Text = "Metric", Value = "2" });
             ViewBag.Language = new SelectList(items, "Value", "Text", site.Language);
 
             return View(site);
@@ -40,6 +41,7 @@ namespace hpMvc.Controllers
             List<SelectListItem> items = new List<SelectListItem>();
             items.Add(new SelectListItem { Text = "English", Value = "0" });
             items.Add(new SelectListItem { Text = "French", Value = "1" });
+            items.Add(new SelectListItem { Text = "Metric", Value = "2" });
             ViewBag.Language = new SelectList(items, "Value", "Text", siteInfo.Language);
 
             if (ModelState.IsValid)
@@ -121,6 +123,7 @@ namespace hpMvc.Controllers
             List<SelectListItem> items = new List<SelectListItem>();
             items.Add(new SelectListItem { Text = "English", Value = "0" });
             items.Add(new SelectListItem { Text = "French", Value = "1" });
+            items.Add(new SelectListItem { Text = "Metric", Value = "2" });
             ViewBag.Language = items;
             return View(siteInfo);
         }
@@ -137,6 +140,7 @@ namespace hpMvc.Controllers
                 List<SelectListItem> items = new List<SelectListItem>();
                 items.Add(new SelectListItem { Text = "English", Value = "0" });
                 items.Add(new SelectListItem { Text = "French", Value = "1" });
+                items.Add(new SelectListItem { Text = "Metric", Value = "2" });
                 ViewBag.Language = items;
 
                 var retVal = Business.Site.Add(files, siteInfo, Request.Url);
