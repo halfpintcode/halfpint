@@ -3,9 +3,14 @@
   <siteMapNode title="QuickLinks">
     <siteMapNode title="Staff Quick Links" class="QuickLinks">      
     </siteMapNode>
+    <siteMapNode title="ND Secure Fax #">
+      <siteMapNode title="877 353-7698" class="StaffOnly" />
+      
+    </siteMapNode>
     <siteMapNode title="Nurse Workload Survey"
                  url ="~/Staff/Files/NurseSurvey"
                   />
+    
     <siteMapNode title="Important Contacts">
       <siteMapNode title="National Contacts" controller="Download" action="GetFile" fileName="HalfPint National Contact Info.pdf" folder="Quick Links~Important Contacts" class="StaffOnly" />
       <siteMapNode title="Local Contacts - Boston" controller="Download" action="GetFile" fileName="HalfPint Local Contact Info-Boston.pdf" folder="Quick Links~Important Contacts" />
