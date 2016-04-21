@@ -98,8 +98,8 @@ $(function () {
     if (path.indexOf('Staff') > -1 || path.indexOf('CalorieCalc') > -1 || path.indexOf('InitializeSubject') > -1 || path.indexOf('PostTests') > -1) {
         target = 'Staff';
     }
-    if (path.indexOf('Families') > -1) {
-        target = 'Families';
+    if (path.indexOf('Parents') > -1) {
+        target = 'Parents';
     }
     if (path.indexOf('Admin') > -1) {
         target = 'Admin';
