@@ -77,6 +77,9 @@ namespace hpMvc.Controllers
                 case ".msi":
                     contentType = "application/msi";
                     break;
+                case ".mp4":
+                    contentType = "video/mp4";
+                    break;
             }
 
             nlogger.LogInfo("Download.GetFile: " + fileName);
