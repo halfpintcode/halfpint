@@ -93,24 +93,27 @@ $(function () {
     });
 
     $('#ulMainMenu').children().removeClass('current_page_item');
-    var path = this.location.pathname;
+    var path = this.location.pathname.toLowerCase();
     var target = "";
-    if (path.indexOf('Staff') > -1 || path.indexOf('CalorieCalc') > -1 || path.indexOf('InitializeSubject') > -1 || path.indexOf('PostTests') > -1) {
+    if (path.indexOf('staff') > -1 || path.indexOf('CalorieCalc') > -1 || path.indexOf('InitializeSubject') > -1 || path.indexOf('PostTests') > -1) {
         target = 'Staff';
     }
-    if (path.indexOf('Families') > -1) {
+    if (path.indexOf('families') > -1) {
         target = 'Families';
     }
-    if (path.indexOf('Admin') > -1) {
+    if (path.indexOf('familias') > -1) {
+        target = 'Familias ';
+    }
+    if (path.indexOf('admin') > -1) {
         target = 'Admin';
     }
-    if (path.indexOf('Coordinator') > -1) {
+    if (path.indexOf('coordinator') > -1) {
         target = 'Coordinator';
     }
-    if (path.indexOf('Dcc') > -1) {
+    if (path.indexOf('dcc') > -1) {
         target = 'DCC';
     }
-    if (path.indexOf('Account') > -1) {
+    if (path.indexOf('account') > -1) {
         return;
     }
 
@@ -119,7 +122,8 @@ $(function () {
     } else {
 
         $('#ulMainMenu li').each(function () {
-            if ($(this).text() === target) {
+            var innerText = $(this).text();
+            if (innerText === target) {
                 $(this).addClass('current_page_item');
             }
         });

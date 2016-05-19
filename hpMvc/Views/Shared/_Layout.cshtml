@@ -68,20 +68,26 @@ Released   : 20090918
 		@if (IsSectionDefined("Menu"))
 		{ 
 			@RenderSection("Menu")
-		}
-		else
-		{
-		    var routValues = new RouteValueDictionary();
-            routValues.Add("folder", ""); 
-			<ul id="ulMainMenu">
-				<li>@Html.ActionLink("Home", "Index", "Home")</li>
-				<li>@Html.ActionLink("Families", "Index", "Families")</li>
-                <li>@Html.ActionLink("Staff", "Index", "Staff")</li>								
-				<li id="dccLink">@Html.ActionLink("DCC", "Index", "Dcc")</li>
+        }
+        else
+        {
+            var routValues = new RouteValueDictionary();
+            routValues.Add("folder", "");
+            <ul id="ulMainMenu">
+                <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                @if (Request.FilePath.Contains("Familias") || Request.FilePath.Contains("familias"))
+                {
+                    <li>@Html.ActionLink("Familias", "Index", "Familias") </li>
+                }
+                else
+                {
+                    <li>@Html.ActionLink("Families", "Index", "Families")</li>
+                }
+                <li>@Html.ActionLink("Staff", "Index", "Staff")</li>
+                <li id="dccLink">@Html.ActionLink("DCC", "Index", "Dcc")</li>
                 <li id="coordLink">@Html.ActionLink("Coordinator", "Index", "Coordinator")</li>
                 <li id="adminLink">@Html.ActionLink("Admin", "Index", "Admin")</li>
-			</ul>
-		}        
+            </ul>}        
 	</div>
 	<!-- end #menu -->
 	

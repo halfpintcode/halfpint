@@ -115,6 +115,7 @@
     <Compile Include="Controllers\EmailController.cs" />
     <Compile Include="Controllers\EnrollmentController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\FamiliasController.cs" />
     <Compile Include="Controllers\FamiliesController.cs" />
     <Compile Include="Controllers\DownloadController.cs" />
     <Compile Include="Controllers\FileManagerController.cs" />
@@ -897,6 +898,7 @@
     <Content Include="Views\PostTests\DexcomG4ReceiverF.cshtml" />
     <Content Include="Views\PostTests\NovaStatStripF.cshtml" />
     <Content Include="Views\Parents\Index.cshtml" />
+    <Content Include="Views\Familias\Index.cshtml" />
     <None Include="_bin_deployableAssemblies\Microsoft.Web.Infrastructure.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.Razor.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.dll" />
