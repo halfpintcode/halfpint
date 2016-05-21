@@ -18,7 +18,7 @@ namespace hpMvc.Controllers
             return View();
         }
                 
-        public ActionResult RandomizedStudies()
+        public ActionResult RandomizedStudies(string siteID)
         {
             List<Site> sites = new List<Site>();
 
@@ -28,7 +28,16 @@ namespace hpMvc.Controllers
             sites.Insert(0, new Site { ID = 0, Name = "Select a site", SiteID = "" });
             ViewBag.Sites = new SelectList(sites, "ID", "Name");
 
-            var list = DbUtils.GetAllRandomizedStudies();            
+            List<Randomization> list = null;
+            if (string.IsNullOrEmpty(siteID))
+            {
+                list = DbUtils.GetAllRandomizedStudies();
+            }
+            else
+            {
+                list = DbUtils.GetSiteRandomizedStudies(int.Parse(siteID));
+            }
+                        
             return View(list);
         }
 

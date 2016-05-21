@@ -198,6 +198,7 @@ namespace hpMvc.DataBase
             }
             return srl;
         }
+                
         public static List<Randomization> GetAllRandomizedStudies()
         {
             SqlDataReader rdr = null;

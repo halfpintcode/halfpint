@@ -572,6 +572,7 @@
     <Content Include="Scripts\jquery-ui-1.10.3.min.js" />
     <Content Include="Scripts\postTestAdd.js" />
     <Content Include="Scripts\RandomizedChecksRowsCompleted.js" />
+    <Content Include="Scripts\RandomizedStudies.js" />
     <Content Include="Scripts\resetGenericNurseAccount.js" />
     <Content Include="Scripts\sites.js" />
     <Content Include="Scripts\StaffEnrollmentContent.js" />
