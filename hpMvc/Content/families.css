@@ -1,0 +1,163 @@
+
+#row1 h1{
+	color:#60c477;
+	font-family: 'Stardos Stencil', cursive;
+	font-size: 225%;
+	text-decoration: underline;
+	line-height: 30px;
+}
+#row1{
+	width: 750px;
+	margin: 20px 10px 20px 200px;
+	padding: 0px;
+	position: relative;
+}
+#lanSelector{
+	list-style-type: none;
+	height: 30px;
+	background-color: #a6cacb;
+	position: absolute;
+	bottom: 0;
+	right: -20px;
+	margin: 0px;	
+	padding: 0px 5px;
+	border-width: 2px;
+	border-style: solid;
+	border-color: #6ba8a9;
+}
+#lanSelector li{
+	margin: 0px;
+	padding: 0px;
+	text-decoration: none;
+	color: white;
+	position: relative;
+	font-size: 130%;
+	font-family: 'Stardos Stencil', cursive;
+	height: 32px;
+	line-height: 32px;
+	display: block;
+}
+#lanSelector li .languages{
+	display: none;
+	position: absolute;
+	z-index: 9;
+	left: 51px;
+	top: 98%;
+	padding: 0;
+	margin: 0;
+	width: 168px;
+	height: 30px;
+}
+#lanSelector .languages li{
+	display: block;
+	width: 100px;
+	height: 40px;
+	margin: 0px;
+	padding: 0px;
+	border-width: 1px;
+	border-color: #6ba8a9;
+	border-style: solid;
+}
+#lanSelector .languages li a{
+	display: block;
+	line-height: 32px;
+	height: 32px;
+	font-size: 70%;
+	text-align: center;
+	background-color: white;
+	color: #6ba8a9;
+	padding: 4px 0px;
+	margin: 0px;
+	text-decoration: none;
+	transition: background 0.6s ease, padding 0.8s linear;
+}
+#lanSelector .languages li a:hover{
+	background-color: #6ba8a9;
+	color: white;
+}
+#lanSelector #spanish, #lanSelector #french{
+	border-bottom: none;
+}
+#row2{
+	width: 915px;
+	height: 400px;
+	display: block;
+	margin-top: 20px;
+	padding: 0px;
+	position: relative;
+}
+#hpInfo{
+	position: absolute;
+	top: 10px;
+	left: 20px;
+	display: block;
+	width: 600px;
+	height: 350px;
+	margin: 0;
+	padding: 5px;
+	background-color: #d1e6e4;
+}
+#hpInfo p{
+	color: black;
+}
+#enrollment{
+	position: absolute;
+	left: 680px;
+	top: 10px;
+	width: 250px;
+	height: 350px;
+	margin: 0px;
+	display: block;
+	padding: 5px;
+}
+#enrollment h2{
+	font-size: 170%;
+	text-align: center;
+}
+#row3, #row4{
+	margin-left: auto;
+	margin-right: auto;
+}
+#row3{
+	width:915px;
+	height: 345px;
+	margin-top: 30px;
+	position: relative;
+	vertical-align: top;
+}
+#row3 #slideshow {
+	display: block;
+	position: absolute;
+	left: 20px;
+	top: 10px;
+	width: 550px;
+	height: 300px;
+}
+#row4{
+	width: 915px;
+	height: 330px;
+	margin-top: 75px;
+}
+#checks{
+	width: 400px;
+	padding: 0px;
+	margin-left: 100px;
+	position: absolute;
+	left: 390px;
+	top: 29px;
+	border-width: 2px;
+	border-color: #BDD2D9;
+	border-style: groove;
+}
+#checks p, #glucoseTrend p{
+	font-size: 100%;
+	margin-top: 5px;
+	margin-bottom: 0px;
+	text-align: left;
+	padding-left: 5px;
+	padding-bottom: 5px;
+}
+#glucoseTrend{
+	width: 950px;
+	padding: 0px;
+}

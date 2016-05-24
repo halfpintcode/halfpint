@@ -198,7 +198,45 @@ namespace hpMvc.DataBase
             }
             return srl;
         }
-                
+
+        public static int GetRandomizedSubjectsCount()
+        {
+            int retVal = 0;
+            SqlDataReader rdr = null;
+            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            using (var conn = new SqlConnection(strConn))
+            {
+                try
+                {
+                    var cmd = new SqlCommand("", conn)
+                    {
+                        CommandType = System.Data.CommandType.StoredProcedure,
+                        CommandText = ("GetRandomizedSubjectsCount")
+                    };
+
+                    conn.Open();
+                    rdr = cmd.ExecuteReader();
+
+                    if (rdr.Read())
+                    {
+                        int pos = rdr.GetOrdinal("numRand");
+                        retVal = rdr.GetInt32(pos);
+                    }
+                    rdr.Close();
+                    return retVal;
+                }
+                catch (Exception ex)
+                {
+                    Nlogger.LogError(ex);
+                    return 0;
+                }
+                finally
+                {
+                    if (rdr != null)
+                        rdr.Close();
+                }
+            }
+        }
         public static List<Randomization> GetAllRandomizedStudies()
         {
             SqlDataReader rdr = null;

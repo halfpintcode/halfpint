@@ -1,4 +1,5 @@
 ﻿using System.Web.Mvc;
+using hpMvc.DataBase;
 
 namespace hpMvc.Controllers
 {
@@ -9,7 +10,9 @@ namespace hpMvc.Controllers
 
         public ActionResult Index()
         {
-            return View();
+            int count = DbUtils.GetRandomizedSubjectsCount();
+
+            return View(count);
         }
 
     }

@@ -1,5 +1,72 @@
-﻿@{
-    ViewBag.Title = "Index";
+﻿@model int 
+@{
+    ViewBag.Title = "HALF-PINT Families";
 }
+<div id="row1">
+	<h1>
+		Welcome to the HALF-PINT Family Page!
+	</h1>
+	<ul id="lanSelector">
+		<li>Language: English
+		<ul class="languages">
+			<li id="spanish"><a href="#">Español</a></li>
+			<li id="french"><a href="#">Français</a></li>
+			<li><a href="#">العربية</a></li>
+		</ul>
+		</li>
+	</ul>
+</div>
+<div id="row2">
+	<div id="hpInfo">
+		<p>Insert blerb about HALF-PINT here...</p>
+	</div>
+	<div id="enrollment">
+		<h2>
+			HALF-PINT Progress
+		</h2>
+		<div id="goal-thermometer"></div>
+	</div>
+</div>
 
-<h2>Families</h2>
+<div id="row3">
+	<div id="slideshow">
+		<ul class="bxslider">
+		  <li><img src="@Url.Content("~/Content/Images/crewSlideshow/bchTeam.jpg")" title="Boston Children's Hospital"/></li>
+		  <li><img src="@Url.Content("~/Content/Images/crewSlideshow/chopTeam.jpg")" title="Children's Hospital of Philadelphia" /></li>
+		  <li><img src="@Url.Content("~/Content/Images/crewSlideshow/fiorTeam.jpg")" title="The Children's Hospital at Montefiore" /></li>
+		  <li><img src="@Url.Content("~/Content/Images/crewSlideshow/aidpTeam.jpg")" title="Nemours/Alfred I. DuPont Hospital for Children" /></li>
+		</ul>
+	</div>
+	<div id="checks"> <a href="@Url.Content("~/Content/Images/fullChecks.png")" class="cb" title="CHECKS: An Excel based User Interface for Bedside Nurses"><img src="@Url.Content("~/Content/Images/checks.png")"></a><p>CHECKS is an excel based program that gives treatment recommendations to bedside nurses based on the child's blood glucose. The program also encorporates a trend of the patient's blood glucose so that bedside nurses have a complete picture of how their patient is doing.</p>
+	</div>
+</div>
+<div id="row4">
+	<div id="glucoseTrend"> <a href="@Url.Content("~/Content/Images/fullGlucose.jpg")" class="cb" title="Patient Glucose Trend with target range of 80 - 110 mg/dL"><img src="@Url.Content("~/Content/Images/snapGlucose.jpg")"></a><p>To ensure we are always giving the highest quality of care, we routinely review patients' glucose trends to further optimize our treatment algorithm.</p></div>
+</div>
+
+
+<link href="@Url.Content("~/Content/families.css")" rel="stylesheet" type="text/css">
+<link href="@Url.Content("~/Content/jquery.bxslider.css")" rel="stylesheet" type="text/css">
+<link href='https://fonts.googleapis.com/css?family=Stardos+Stencil' rel='stylesheet' type='text/css'>
+<link href="@Url.Content("~/Content/goal-thermometer.css")" rel="stylesheet" type="text/css">
+<script src="@Url.Content("~/Scripts/jquery.colorbox.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.colorbox-min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.bxslider.min.js")"></script>
+<script src="@Url.Content("~/Scripts/goal-thermometer.js")" type="text/javascript"></script>
+<script>
+	var currentAmount = @Model;
+	$(document).ready(function(){
+		$('.bxslider').bxSlider({
+			mode: 'fade',
+			captions: true
+		});
+		$(".cb").colorbox({rel: 'gal1'});
+		$('#lanSelector li').hover(function(){
+				$(this).children("ul").slideDown("fast");
+				},
+				function(){
+				$(this).children("ul").slideUp("fast");
+				}
+		);
+	});
+</script>
