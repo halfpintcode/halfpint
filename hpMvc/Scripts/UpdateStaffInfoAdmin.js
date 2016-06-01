@@ -2,6 +2,8 @@
 $(function () {
     $('#Sites').val($('#SiteID').val());
     var isValid = $('#IsValid').val();
+    var phoneFormat = $('#phoneFormat').val();
+    var phoneMessage = $('#phoneMessage').val();
 
     $('#Sites').change(function () {
         var site = $(this).val();
@@ -14,6 +16,8 @@ $(function () {
             $('#empIDRequired').val("");
             $('#empIDRegex').val("");
             $('#empIDMessage').val("");
+            $('#phoneFormat').val("");
+            $('#phoneMessage').val("");
         }
         else {
             siteChange(site);
@@ -32,12 +36,18 @@ $(function () {
                         $('#empIDRequired').val("true");
                         $('#empIDRegex').val(data.Stuff[1].Value);
                         $('#empIDMessage').val(data.Stuff[2].Value);
+                        $('#phoneFormat').val(data.Stuff[3].Value);
+                        $('#phoneMessage').val(data.Stuff[4].Value);
                     }
                     else {
                         $('#empIDRequired').val("");
                         $('#empIDRegex').val("");
                         $('#empIDMessage').text("");
+                        $('#phoneFormat').val(data.Stuff[3].Value);
+                        $('#phoneMessage').val(data.Stuff[4].Value);
                     }
+
+                    $('#Phone').mask($('#phoneFormat').val());
                 }
                 getStaffList(site);
             }
@@ -79,7 +89,7 @@ $(function () {
     });
 
     if (isValid == "false") {
-        $('#Phone').mask("999-999-9999");
+        //$('#Phone').mask(phoneFormat);
 
         $('#btnCancel').click(function () {
             window.location = urlRoot + '/Admin/Index';
@@ -367,7 +377,7 @@ $(function () {
                         $('#siteSpecific').hide();
                     }
 
-                    $('#Phone').mask("999-999-9999");
+                    //$('#Phone').mask(phoneFormat);
 
                     $('#btnCancel').click(function () {
                         window.location = window.urlRoot + '/Admin/Index';

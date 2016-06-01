@@ -136,7 +136,7 @@ namespace hpMvc.Controllers
                 //everyone is using dexcom at the moment
                 //we might want to let dcc select this in the future
                 siteInfo.Sensor = 2;
-                
+                siteInfo.PhoneFormat = "999-999-9999";
                 List<SelectListItem> items = new List<SelectListItem>();
                 items.Add(new SelectListItem { Text = "English", Value = "0" });
                 items.Add(new SelectListItem { Text = "French", Value = "1" });

@@ -781,6 +781,10 @@ namespace hpMvc.DataBase
                         string message = rdr.GetString(pos);
                         dto.Stuff.EmpIDMessage = message;
                     }
+                    pos = rdr.GetOrdinal("PhoneFormat");
+                    dto.Stuff.PhoneFormat = rdr.GetString(pos);
+                    dto.Stuff.PhoneMessage = "phone format: " + dto.Stuff.PhoneFormat; 
+
                     rdr.Close();
                 }
                 catch (Exception ex)

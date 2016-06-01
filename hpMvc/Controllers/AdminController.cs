@@ -564,6 +564,9 @@ namespace hpMvc.Controllers
                 ViewBag.EmpMessage = "";
             }
 
+            ViewBag.PhoneMessage = retDto.Stuff.PhoneMessage;
+            ViewBag.PhoneFormat = retDto.Stuff.PhoneFormat;
+
             var list = DbUtils.GetStaffLookupForSite(site.ToString());
             list.Insert(0, new Site { ID = 0, Name = "Select a member", SiteID = "" });            
             ViewBag.Users = new SelectList(list, "ID", "Name");
@@ -645,6 +648,9 @@ namespace hpMvc.Controllers
                 ViewBag.EmpRegex = "";
                 ViewBag.EmpMessage = "";
             }
+
+            ViewBag.PhoneMessage = retDto.Stuff.PhoneMessage;
+            ViewBag.PhoneFormat = retDto.Stuff.PhoneFormat;
 
             var list = DbUtils.GetStaffLookupForSite(site.ToString());
             list.Insert(0, new Site { ID = 0, Name = "Select a member", SiteID = "" });

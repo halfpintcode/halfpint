@@ -123,6 +123,13 @@
         </div>
 
         <div>
+            <span class="lbleditor">Phone Format:</span>
+            <span class="col2">
+                @Html.EditorFor(model => model.PhoneFormat) (Use 9 for digits - spaces are allowed)
+            </span>
+        </div>
+
+        <div>
             <span class="lbleditor">Active:</span>
             <span class="col2"> 
                 @Html.EditorFor(model => model.IsActive)

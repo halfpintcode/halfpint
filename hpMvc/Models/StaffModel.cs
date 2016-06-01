@@ -25,8 +25,7 @@ namespace hpMvc.Models
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
         public string EmployeeID { get; set; }
-        [Required]
-        [DataType(DataType.PhoneNumber)]
+        [Required]        
         public string Phone { get; set; }
         public bool NovaStatStrip { get; set; }
         public DateTime? NovaStatStripDoc { get; set; }
@@ -62,7 +61,6 @@ namespace hpMvc.Models
         public string OldEmail { get; set; }
         public string EmployeeID { get; set; }
         public string OldEmployeeID { get; set; }  
-        [DataType(DataType.PhoneNumber)]
         public string Phone { get; set; }
         public bool NovaStatStrip { get; set; }
         public DateTime? NovaStatStripDoc { get; set; }

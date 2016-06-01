@@ -1,5 +1,6 @@
 ﻿/// <reference path="jquery-1.7.1-vsdoc.js" />
 $(function () {
+
     $('#Phone').mask("999-999-9999");
 
     //this is for the http post
@@ -50,6 +51,8 @@ $(function () {
             $('#empIDRequired').val("");
             $('#empIDRegex').val("");
             $('#empIDMessage').val("");
+            $('#phoneFormat').val("");
+            $('#phoneMessage').val("");
             $('#siteSpecific').hide();
         }
         else {
@@ -66,20 +69,26 @@ $(function () {
             success: function (data) {
 
                 if (data.IsSuccessful) {
+                    
                     if (data.Stuff[0].Value === "true") {
                         $('#empIDRequired').val("true");
                         $('#empIDRegex').val(data.Stuff[1].Value);
                         $('#empIDMessage').val(data.Stuff[2].Value);
+                        $('#phoneFormat').val(data.Stuff[3].Value);
+                        $('#phoneMessage').val(data.Stuff[4].Value);
                         $('#siteSpecific').show();
                         $('#empIDmessage').hide();
                     }
                     else {
+                        $('#phoneFormat').val(data.Stuff[3].Value);
+                        $('#phoneMessage').val(data.Stuff[4].Value);
                         $('#EmployeeID').val("");
                         $('#empIDRequired').val("");
                         $('#empIDRegex').val("");
                         $('#empIDMessage').text("");
                         $('#siteSpecific').hide();
                     }
+                    $('#Phone').mask($('#phoneFormat').val());
                 }
 
             }

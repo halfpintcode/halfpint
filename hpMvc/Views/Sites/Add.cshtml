@@ -159,9 +159,24 @@
         </div>
 
         <div>
+            <span class="lbleditor">Employee Id Message:</span>
+            <span class="col2">
+                @Html.EditorFor(model => model.EmployeeIdMessage)
+                @Html.ValidationMessageFor(model => model.EmployeeIdMessage)
+            </span>
+        </div>
+
+        <div>
             <span class="lbleditor">Language:</span>
             <span class="col2">
                 @Html.DropDownList("Language")
+            </span>
+        </div>
+
+        <div>
+            <span class="lbleditor">Phone Format:</span>
+            <span class="col2">
+                @Html.EditorFor(model => model.PhoneFormat) (Use 9 for digits - spaces are allowed)
             </span>
         </div>
 

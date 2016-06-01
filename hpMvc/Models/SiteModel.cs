@@ -18,6 +18,7 @@ namespace hpMvc.Models
         public string LongName { get; set; }
         public bool IsEmployeeIdRequired { get; set; }
         public string EmployeeIdRegEx { get; set; }
+        public string PhoneFormat { get; set; }
         public string EmployeeIdMessage { get; set; }
         public string AcctPassword { get; set; }
         public string AcctUserName { get; set; }

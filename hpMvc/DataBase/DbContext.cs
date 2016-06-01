@@ -2038,7 +2038,8 @@ namespace hpMvc.DataBase
                         site.AcctPassword = rdr.IsDBNull(pos) ? "" : rdr.GetString(pos);
                         pos = rdr.GetOrdinal("AcctUserName");
                         site.AcctUserName = rdr.IsDBNull(pos) ? "" : rdr.GetString(pos);
-
+                        pos = rdr.GetOrdinal("PhoneFormat");
+                        site.PhoneFormat = rdr.IsDBNull(pos) ? "" : rdr.GetString(pos);
                         pos = rdr.GetOrdinal("Active");
                         site.IsActive = rdr.GetBoolean(pos);
                         pos = rdr.GetOrdinal("Sensor");
@@ -2170,7 +2171,7 @@ namespace hpMvc.DataBase
                         insCon.Concentration = rdr.GetDouble(pos).ToString("0.0#");
                         insCon.IsUsed = false;
                         site.InsulinConcentrations.Add(insCon);
-
+                        site.PhoneFormat = "999-999-9999";
                     }
                     rdr.Close();
                     
@@ -3459,6 +3460,9 @@ namespace hpMvc.DataBase
                         param = new SqlParameter("@language", siteInfo.Language);
                         cmd.Parameters.Add(param);
 
+                        param = siteInfo.PhoneFormat == null ? new SqlParameter("@phoneFormat", "") : new SqlParameter("@phoneFormat", siteInfo.PhoneFormat);
+                        cmd.Parameters.Add(param);
+
                         param = string.IsNullOrEmpty(siteInfo.AcctPassword) ? new SqlParameter("@acctPassword", DBNull.Value) : new SqlParameter("@acctPassword", siteInfo.AcctPassword);
                         cmd.Parameters.Add(param);
 
@@ -3662,6 +3666,9 @@ namespace hpMvc.DataBase
                         cmd.Parameters.Add(param);
 
                         param = new SqlParameter("@language", siteInfo.Language);
+                        cmd.Parameters.Add(param);
+
+                        param = String.IsNullOrEmpty(siteInfo.PhoneFormat) ? new SqlParameter("@phoneFormat", "999-999-9999") : new SqlParameter("@phoneFormat", siteInfo.PhoneFormat);
                         cmd.Parameters.Add(param);
 
                         param = new SqlParameter("@Identity", SqlDbType.Int, 0, "ID")

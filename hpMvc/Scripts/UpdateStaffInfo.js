@@ -2,9 +2,10 @@
 $(function () {
     $('#Sites').val($('#SiteID').val());
     var isValid = $('#IsValid').val();
+    var phoneFormat = $('#phoneFormat').val();
 
     if (isValid === "false") {
-        $('#Phone').mask("999-999-9999");
+        $('#Phone').mask(phoneFormat);
 
         $('#btnCancel').click(function () {
             window.location = urlRoot + '/Coordinator/Index';
@@ -299,7 +300,7 @@ $(function () {
                         $('#siteSpecific').hide();
                     }
 
-                    $('#Phone').mask("999-999-9999");
+                    $('#Phone').mask(phoneFormat);
 
                     $('#btnCancel').click(function () {
                         window.location = urlRoot + '/Coordinator/Index';
