@@ -18,7 +18,7 @@
 </div>
 <div id="row2">
 	<div id="hpInfo">
-		<p>Insert blerb about HALF-PINT here...</p>
+		<p>Insert blurb about HALF-PINT here...</p>
 	</div>
 	<div id="enrollment">
 		<h2>
@@ -31,34 +31,577 @@
 <div id="row3">
 	<div id="slideshow">
 		<ul class="bxslider">
-		  <li><img src="@Url.Content("~/Content/Images/crewSlideshow/bchTeam.jpg")" title="Boston Children's Hospital"/></li>
-		  <li><img src="@Url.Content("~/Content/Images/crewSlideshow/chopTeam.jpg")" title="Children's Hospital of Philadelphia" /></li>
-		  <li><img src="@Url.Content("~/Content/Images/crewSlideshow/fiorTeam.jpg")" title="The Children's Hospital at Montefiore" /></li>
-		  <li><img src="@Url.Content("~/Content/Images/crewSlideshow/aidpTeam.jpg")" title="Nemours/Alfred I. DuPont Hospital for Children" /></li>
+		  <li><a href="http://www.childrenshospital.org/" target="_blank"><img src="@Url.Content("~/Content/Images/crewSlideshow/bchTeam.jpg")" title="Boston Children's Hospital"/></a></li>
+		  <li><a href="http://www.chop.edu/" target="_blank"><img src="@Url.Content("~/Content/Images/crewSlideshow/chopTeam.jpg")" title="Children's Hospital of Philadelphia" /></a></li>
+		  <li><a href="http://www.cham.org/" target="_blank"><img src="@Url.Content("~/Content/Images/crewSlideshow/fiorTeam.jpg")" title="The Children's Hospital at Montefiore" /></a></li>
+		  <li><a href="http://www.nemours.org/locations/nemours-dupont.html" target="_blank"><img src="@Url.Content("~/Content/Images/crewSlideshow/aidpTeam.jpg")" title="Nemours/Alfred I. DuPont Hospital for Children" /></a></li>
+		  <li><a href="http://www.childrenshospitaloakland.org/main/home.aspx" target="_blank"><img src="@Url.Content("~/Content/Images/crewSlideshow/choTeam.jpg")" title="Children's Hospital & Research Center of Oakland" /></a></li>
 		</ul>
 	</div>
-	<div id="checks"> <a href="@Url.Content("~/Content/Images/fullChecks.png")" class="cb" title="CHECKS: An Excel based User Interface for Bedside Nurses"><img src="@Url.Content("~/Content/Images/checks.png")"></a><p>CHECKS is an excel based program that gives treatment recommendations to bedside nurses based on the child's blood glucose. The program also encorporates a trend of the patient's blood glucose so that bedside nurses have a complete picture of how their patient is doing.</p>
+	<div id="hpCrew">
+		<h2>Meet the HALF-PINT Teams</h2>
+		<p>Another blurb here...</p>
 	</div>
 </div>
 <div id="row4">
-	<div id="glucoseTrend"> <a href="@Url.Content("~/Content/Images/fullGlucose.jpg")" class="cb" title="Patient Glucose Trend with target range of 80 - 110 mg/dL"><img src="@Url.Content("~/Content/Images/snapGlucose.jpg")"></a><p>To ensure we are always giving the highest quality of care, we routinely review patients' glucose trends to further optimize our treatment algorithm.</p></div>
+	<div id="familyMenu">
+		<ul>
+			<li class="first"><a id="hpOrigin" class="sideLink" href="#">HALF-PINT Origin</a></li>
+			<li id="active"><a id="hpLocation" class="sideLink" href="#">Where are we?</a></li>
+			<li><a id="hpDescribe" class="sideLink" href="#">What is CHECKS?</a></li>
+			<li><a id="hpND" class="sideLink" href="#">ND Follow-up</a></li>
+			<li><a id="hpFam" class="sideLink" href="#">HALF-PINT Families</a></li>
+			<li><a id="hpGlucose" class="sideLink" href="#">Glucose Trend</a></li>
+			<li><a id="hpContact" class="sideLink" href="#">Contact Us</a></li>
+		</ul>
+	</div>
+	<div id="hpOriginInfo"></div>
+	<div id="hpLocationInfo"></div>
+	<div id="hpDescribeInfo"></div>
+	<div id="hpNDInfo"> <h2>Neurodevelopmental Assessment</h2> <p>The Neurodevelopmental Assessment is a series of questionnaires used to assess your child's baseline mental status and compare his or her baseline to a follow-up assessment performed by our investigative team at the <a href="http://www.cumc.columbia.edu/dept/sergievsky/" target='_blank'>Sergievsky Center</a> at Columbia University. The baseline assessment is composed of two surveys, <a href="http://www.aseba.org/support/parent_information.html" target='_blank'>The Child Behavior Checklist (CBCL)</a> and the <a href="http://www.pedsql.org/about_pedsql.html" target='_blank'>Pediatric Quality of Life Inventory Generic Core Scales (PedsQL)</a>. <br /> <br />If you agree to participate in the HALF-PINT trial, one of our team members will ask you complete these two surveys during your stay in the ICU. The follow-up assessment will be done over a telephone interview about a year after your child leaves the ICU. Not everyone who completes the baseline assessment will be called. For those who agree or have already agreed to participate in the HALF-PINT trial, you will receive a postcard in the mail reminding you of the follow-up assessment.</p>
+	</div>
+	<div id="hpFamInfo"></div>
+	<div id="hpGlucoseInfo"></div>
+	<div id="hpContactInfo">hi der</div>
 </div>
-
+	<!--
+		<div id="glucoseTrend"> <a href="@Url.Content("~/Content/Images/fullGlucose.jpg")" class="cb" title="Patient Glucose Trend with target range of 80 - 110 mg/dL"><img src="@Url.Content("~/Content/Images/snapGlucose.jpg")"></a><p>To ensure we are always giving the highest quality of care, we routinely review patients' glucose trends to further optimize our treatment algorithm.</p></div>
+	<div id="checks"> <a href="@Url.Content("~/Content/Images/fullChecks.png")" class="cb" title="CHECKS: An Excel based User Interface for Bedside Nurses"><img src="@Url.Content("~/Content/Images/checks.png")"></a><p>CHECKS is an excel based program that gives treatment recommendations to bedside nurses based on the child's blood glucose. The program also encorporates a trend of the patient's blood glucose so that bedside nurses have a complete picture of how their patient is doing.</p>
+	</div>
+	-->
 
 <link href="@Url.Content("~/Content/families.css")" rel="stylesheet" type="text/css">
 <link href="@Url.Content("~/Content/jquery.bxslider.css")" rel="stylesheet" type="text/css">
-<link href='https://fonts.googleapis.com/css?family=Stardos+Stencil' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Lora' rel='stylesheet' type='text/css'>
 <link href="@Url.Content("~/Content/goal-thermometer.css")" rel="stylesheet" type="text/css">
 <script src="@Url.Content("~/Scripts/jquery.colorbox.js")" type="text/javascript"></script>
 <script src="@Url.Content("~/Scripts/jquery.colorbox-min.js")" type="text/javascript"></script>
 <script src="@Url.Content("~/Scripts/jquery.bxslider.min.js")"></script>
 <script src="@Url.Content("~/Scripts/goal-thermometer.js")" type="text/javascript"></script>
 <script>
+	function initMap() {
+		  var centerLocation = {lat: 21.94304, lng: 22.10546};
+		  var bostonLocation = {lat: 42.337236, lng: -71.10577900000001};
+		  var chopLocation = {lat: 39.948828, lng: -75.194016};
+		  var columbiaLocation = {lat: 40.839776, lng: -73.941424};
+		  var cinnLocation = {lat: 39.140976, lng: -84.5012};
+		  var melbourneLocation = {lat: -37.793947, lng: 144.948728};
+		  var psuLocation = {lat: 40.26372400000001, lng: -76.675773};
+		  var wmcLocation = {lat: 41.086652, lng: -73.805834};
+		  var chlaLocation = {lat: 34.097538, lng: -118.29006300000002};
+		  var wchobLocation = {lat: 42.909358, lng: -78.875241};
+		  var mcdLocation = {lat: 32.912018, lng: -96.773698};
+		  var dukeLocation = {lat: 36.007055, lng: -78.937184};
+		  var yaleLocation = {lat: 41.304278, lng: -72.936447};
+		  var pmcLocation = {lat: 40.771132, lng: -111.838786};
+		  var uolLocation = {lat: 38.248432, lng: -85.749672};
+		  var chocLocation = {lat: 33.780751, lng: -117.86544899999998};
+		  var ummcLocation = {lat: 39.28786, lng: -76.624818};
+		  var luriLocation = {lat: 41.896305, lng: -87.621743};
+		  var jhuLocation = {lat: 39.297594, lng: -76.5936};
+		  var ucsfoLocation = {lat: 37.837031, lng: -122.267324};
+		  var choaLocation = {lat: 33.793985, lng: -84.319689};
+		  var mottLocation = {lat: 42.28186, lng: -83.727567};
+		  var uclaLocation = {lat: 34.06661, lng: -118.446321};
+		  var cmcLocation = {lat: 32.809501, lng: -96.837669};
+		  var uchiLocation = {lat: 41.790362, lng: -87.604601};
+		  var aidpLocation = {lat: 39.779347, lng: -75.555223};
+		  var cohenLocation = {lat: 40.754213, lng: -73.708482};
+		  var montLocation = {lat: 40.880283, lng: -73.878971};
+		  var ucsfLocation = {lat: 37.764725, lng: -122.39051};
+		  var millLocation = {lat: 33.808048, lng: -118.186769};
+		  var stlLocation = {lat: 38.637844, lng: -90.265016};
+		  var seaLocation = {lat: 47.662581, lng: -122.28238200000001};
+		  var stanLocation = {lat: 37.436088, lng: -122.175022};
+		  var soaLocation = {lat: 29.428019, lng: -98.498482};
+		  var chouLocation = {lat: 29.707839999999997, lng: -95.401379};
+		  var stjLocation = {lat: 45.503172, lng: -73.624862};
+		  var cmftLocation = {lat: 53.46131900000001, lng: -2.224452};
+		  var schLocation = {lat: 50.93347, lng: -1.434215};
+		  var cuhLocation = {lat: 52.17481000000001, lng: 0.140768};
+		  
+		  
+
+		  var map = new google.maps.Map(document.getElementById('hpLocationInfo'), {
+			center: centerLocation,
+			scrollwheel: true,
+			zoom: 2
+		  });
+		  
+		  var infowindow = new google.maps.InfoWindow({ content: ''});
+
+		  var chopmarker = new google.maps.Marker({
+			position: chopLocation,
+			map: map,
+			icon: "@Url.Content("~/Content/Images/hpMapMarkers/CHOP.png")",
+			title: "Children's Hospital of Philadelphia"
+		  });
+		  
+		  google.maps.event.addListener(chopmarker, 'click', function (){
+			infowindow.setContent("<p class='mapSiteInfo'>Site Status: <span class='siteActive'>Active</span><br />Hospital:<a class='mapLink' href='http://www.chop.edu/'target='_blank'> Children's Hospital of Philadelphia</a><br /> Study PI: <a class='mapLink' href='http://www.chop.edu/doctors/nadkarni-vinay-m#.VmixSEorKCg' target='_blank'>Vinay M. Nadkarni, MD</a><br />Site PI: <a class='mapLink' href='http://www.chop.edu/doctors/srinivasan-vijay#.VrpNrvkrJhE' target='_blank'>Vijay Srinivasan, MD</a></p>");
+			infowindow.open(map, chopmarker);
+		  });
+		  
+		  var bchmarker = new google.maps.Marker({
+			position: bostonLocation,
+			map: map,
+			icon: "@Url.Content("~/Content/Images/hpMapMarkers/chb.png")",
+			title: "Boston Children's Hospital"
+		  });
+		  
+		  google.maps.event.addListener(bchmarker, 'click', function (){
+			infowindow.setContent("<p class='mapSiteInfo'>Site Status: <span class='siteActive'>Active</span><br />Hospital:<a class='mapLink' href='http://www.childrenshospital.org/'target='_blank'> Boston Children's</a><br /> Study PI's: <a class='mapLink' href='http://www.childrenshospital.org/doctors/michael-agus' target='_blank'>Michael Agus, MD</a>, <a class='mapLink' href='http://www.hsph.harvard.edu/david-wypij/' target='_blank'>David Wypij, PhD</a></p>");
+			infowindow.open(map, bchmarker);
+		  });
+		  
+		  var colmarker = new google.maps.Marker({
+			position: columbiaLocation,
+			map: map,
+			icon: "@Url.Content("~/Content/Images/hpMapMarkers/columbia.png")",
+			title: "NewYork-Presbyterian Morgan Stanley Children's Hospital"
+		  });
+		  
+		  google.maps.event.addListener(colmarker, 'click', function (){
+			infowindow.setContent("<p class='mapSiteInfo'>Site Status: <span class='siteActive'>Active</span><br />Hospital:<a class='mapLink' href='http://childrensnyp.org/mschony/index.html'target='_blank'> Morgan Stanley Children's Hospital of New York</a><br /> Site PI: <a class='mapLink' href='http://www.cumc.columbia.edu/pediatrics/division/critical-care-medicine/faculty#biagas' target='_blank'>Katherine Biagas, MD</a></p>");
+			infowindow.open(map, colmarker);
+		  });
+		  
+		  var cinnmarker = new google.maps.Marker({
+			position: cinnLocation,
+			map: map,
+			icon: "@Url.Content("~/Content/Images/hpMapMarkers/cinn.png")",
+			title: "Cincinnati Childrens Hospital Medical Center"
+		  });
+		  
+		  google.maps.event.addListener(cinnmarker, 'click', function (){
+			infowindow.setContent("<p class='mapSiteInfo'>Site Status: <span class='siteActive'>Active</span><br />Hospital:<a class='mapLink' href='http://www.cincinnatichildrens.org/default/'target='_blank'> Cincinnati Children's Hospital Medical Center</a><br /> Site PI: <a class='mapLink' href='http://www.cincinnatichildrens.org/bio/c/ranjit-chima/' target='_blank'>Ranjit S. Chima, MD</a></p>");
+			infowindow.open(map, cinnmarker);
+		  });
+		  
+		  var melmarker = new google.maps.Marker({
+			position: melbourneLocation,
+			map: map,
+			icon: "@Url.Content("~/Content/Images/hpMapMarkers/melbourne.png")",
+			title: "The Royal Children's Hospital Melbourne"
+		  });
+		  
+		  google.maps.event.addListener(melmarker, 'click', function (){
+			infowindow.setContent("<p class='mapSiteInfo'>Site Status: <span class='siteStandby'>Standby</span><br />Hospital:<a class='mapLink' href='http://www.rch.org.au/home/'target='_blank'> The Royal Children's Hospital</a><br /> Site PI: <a class='mapLink' href='http://www.rch.org.au/picu/' target='_blank'>Thomas Rozen, MD</a></p>");
+			infowindow.open(map, melmarker);
+		  });
+
+		  var psumarker = new google.maps.Marker({
+			position: psuLocation,
+			map: map,
+			icon: "@Url.Content("~/Content/Images/hpMapMarkers/PSU.png")",
+			title: "Penn State Milton S. Hershey Medical Center"
+		  });
+		  
+		  google.maps.event.addListener(psumarker, 'click', function (){
+			infowindow.setContent("<p class='mapSiteInfo'>Site Status: <span class='siteActive'>Active</span><br />Hospital:<a class='mapLink' href='http://www.pennstatehershey.org/web/childrens'target='_blank'> PennState Hershey Children's Hospital</a><br /> Site PI: <a class='mapLink' href='http://www.pennstatehershey.org/findaprovider/provider/553' target='_blank'>Neal Thomas, MD, M.Sc</a></p>");
+			infowindow.open(map, psumarker);
+		  });
+		  
+		  var wmcmarker = new google.maps.Marker({
+			position: wmcLocation,
+			map: map,
+			icon: "@Url.Content("~/Content/Images/hpMapMarkers/wmc.png")",
+			title: "Westchester Medical Center"
+		  });
+		  
+		  google.maps.event.addListener(wmcmarker, 'click', function (){
+			infowindow.setContent("<p class='mapSiteInfo'>Site Status: <span class='siteActive'>Active</span><br />Hospital:<a class='mapLink' href='http://www.westchestermedicalcenter.com/mfch'target='_blank'> Westchester Medical Center</a><br /> Site PI's: <a class='mapLink' href='http://cwpw.org/directory/simon-li/' target='_blank'>Simon Li, MD, MPH</a>, <a class='mapLink' href='http://cwpw.org/directory/alan-pinto/' target='_blank'>Alan Pinto, MD</a></p>");
+			infowindow.open(map, wmcmarker);
+		  });
+		  
+		  var chlamarker = new google.maps.Marker({
+			position: chlaLocation,
+			map: map,
+			icon: "@Url.Content("~/Content/Images/hpMapMarkers/chla.png")",
+			title: "Children's Hospital Los Angeles"
+		  });
+		  
+		  google.maps.event.addListener(chlamarker, 'click', function (){
+			infowindow.setContent("<p class='mapSiteInfo'>Site Status: <span class='siteActive'>Active</span><br />Hospital:<a class='mapLink' href='http://www.chla.org/'target='_blank'> Children's Hospital of Los Angeles</a><br /> Site PI: <a class='mapLink' href='http://www.chla.org/profile/christopher-newth-md' target='_blank'>Christopher J.L. Newth, MD</a></p>");
+			infowindow.open(map, chlamarker);
+		  });
+		  
+		  var wchobmarker = new google.maps.Marker({
+			position: wchobLocation,
+			map: map,
+			icon: "@Url.Content("~/Content/Images/hpMapMarkers/wchob.png")",
+			title: "Women & Children's Hospital of Buffalo"
+		  });
+		  
+		  google.maps.event.addListener(wchobmarker, 'click', function (){
+			infowindow.setContent("<p class='mapSiteInfo'>Site Status: <span class='siteActive'>Active</span><br />Hospital:<a class='mapLink' href='http://www.kaleidahealth.org/childrens/'target='_blank'> Women and Children's Hospital of Buffalo</a><br /> Site PI: <a class='mapLink' href='https://medicine.buffalo.edu/faculty/profile.html?ubit=albrooks' target='_blank'>Amanda Hassinger, MD MS</a></p>");
+			infowindow.open(map, wchobmarker);
+		  });
+		  
+		  var mcdmarker = new google.maps.Marker({
+			position: mcdLocation,
+			map: map,
+			icon: "@Url.Content("~/Content/Images/hpMapMarkers/mcd.png")",
+			title: "Medical City Dallas Hospital"
+		  });
+		  
+		  google.maps.event.addListener(mcdmarker, 'click', function (){
+			infowindow.setContent("<p class='mapSiteInfo'>Site Status: <span class='siteActive'>Active</span><br />Hospital:<a class='mapLink' href='http://mcchildrenshospital.com/'target='_blank'> Medical City Children's Dallas</a><br /> Site PI: <a class='mapLink' href='http://medicalcityhospital.com/physicians/profile/Gokul-K-Bysani-MD' target='_blank'>Kris Bysani, MD</a></p>");
+			infowindow.open(map, mcdmarker);
+		  });
+		  
+		  var dukemarker = new google.maps.Marker({
+			position: dukeLocation,
+			map: map,
+			icon: "@Url.Content("~/Content/Images/hpMapMarkers/duke.png")",
+			title: "Duke Children's Hospital & Health Center"
+		  });
+		  
+		  google.maps.event.addListener(dukemarker, 'click', function (){
+			infowindow.setContent("<p class='mapSiteInfo'>Site Status: <span class='siteActive'>Active</span><br />Hospital:<a class='mapLink' href='http://www.dukechildrens.org/'target='_blank'> Duke Children's Hospital and Health Center</a><br /> Site PI: <a class='mapLink' href='http://pediatrics.duke.edu/faculty/details/0437345' target='_blank'>Kyle Rehder, MD</a></p>");
+			infowindow.open(map, dukemarker);
+		  });
+		  
+		  var yalemarker = new google.maps.Marker({
+			position: yaleLocation,
+			map: map,
+			icon: "@Url.Content("~/Content/Images/hpMapMarkers/yale.png")",
+			title: "Yale-New Haven Children's Hospital"
+		  });
+		  
+		  google.maps.event.addListener(yalemarker, 'click', function (){
+			infowindow.setContent("<p class='mapSiteInfo'>Site Status: <span class='siteActive'>Active</span><br />Hospital:<a class='mapLink' href='https://www.ynhh.org/childrens-hospital.aspx'target='_blank'> Yale - New Haven Children's Hospital</a><br /> Site PI's: <a class='mapLink' href='https://medicine.yale.edu/pediatrics/critical/people/sarah_kandil.profile' target='_blank'>Sarah Kandil, MD</a>, <a class='mapLink' href='https://medicine.yale.edu/pediatrics/critical/people/vince_faustino.profile' target='_blank'>Vincent Faustino, MD, MHS</a></p>");
+			infowindow.open(map, yalemarker);
+		  });
+		  
+		  var pmcmarker = new google.maps.Marker({
+			position: pmcLocation,
+			map: map,
+			icon: "@Url.Content("~/Content/Images/hpMapMarkers/pmc.png")",
+			title: "Primary Children’s Medical Center"
+		  });
+		  
+		  google.maps.event.addListener(pmcmarker, 'click', function (){
+			infowindow.setContent("<p class='mapSiteInfo'>Site Status: <span class='siteActive'>Active</span><br />Hospital:<a class='mapLink' href='https://intermountainhealthcare.org/locations/primary-childrens-hospital/'target='_blank'> Primary Children's Medical Center</a><br /> Site PI: <a class='mapLink' href='https://intermountainhealthcare.org/locations/primary-childrens-hospital/medical-providers/doctor%20detail?Doctor=ff68b7a4-c285-4dea-a5ae-80ca221ee5ff' target='_blank'>Ellie L. Hirshberg, MD</a></p>");
+			infowindow.open(map, pmcmarker);
+		  });
+		  
+		  var uolmarker = new google.maps.Marker({
+			position: uolLocation,
+			map: map,
+			icon: "@Url.Content("~/Content/Images/hpMapMarkers/uol.png")",
+			title: "Kosair Children's Hospital"
+		  });
+		  
+		  google.maps.event.addListener(uolmarker, 'click', function (){
+			infowindow.setContent("<p class='mapSiteInfo'>Site Status: <span class='siteActive'>Active</span><br />Hospital:<a class='mapLink' href='https://kosairchildrenshospital.com/Pages/Home.aspx'target='_blank'> University of Louisville Kosair Children's Hospital</a><br /> Site PI's: <a class='mapLink' href='https://kosairchildrenshospital.com/provider/janice-e-sullivan-md-critical-care' target='_blank'>Janice E. Sullivan, MD</a>, <a class='mapLink' href='https://kosairchildrenshospital.com/provider/kupper-wintergerst-md-endocrinology' target='_blank'>Kupper Wintergerst, MD</a></p>");
+			infowindow.open(map, uolmarker);
+		  });
+		  
+		  var chocmarker = new google.maps.Marker({
+			position: chocLocation,
+			map: map,
+			icon: "@Url.Content("~/Content/Images/hpMapMarkers/choc.png")",
+			title: "Choc Children's Hospital"
+		  });
+		  
+		  google.maps.event.addListener(chocmarker, 'click', function (){
+			infowindow.setContent("<p class='mapSiteInfo'>Site Status: <span class='siteActive'>Active</span><br />Hospital:<a class='mapLink' href='http://www.choc.org/'target='_blank'> Children's Hospital of Orange County</a><br /> Site PI: <a class='mapLink' href='http://providers.choc.org/findadoc/index.cfm?id=P00348&pid=1255' target='_blank'>Adam Schwarz, MD</a></p>");
+			infowindow.open(map, chocmarker);
+		  });
+		  
+		  var ummcmarker = new google.maps.Marker({
+			position: ummcLocation,
+			map: map,
+			icon: "@Url.Content("~/Content/Images/hpMapMarkers/ummc.png")",
+			title: "University of Maryland Medical Center"
+		  });
+		  
+		  google.maps.event.addListener(ummcmarker, 'click', function (){
+			infowindow.setContent("<p class='mapSiteInfo'>Site Status: <span class='siteActive'>Active</span><br />Hospital:<a class='mapLink' href='http://umm.edu/programs/childrens'target='_blank'> University of Maryland Medical Center</a><br /> Site PI: <a class='mapLink' href='http://findadoctor.umm.edu/Details/23916' target='_blank'>Dayanand Bagdure, MD, MPH</a></p>");
+			infowindow.open(map, ummcmarker);
+		  });
+		  
+		  var lurimarker = new google.maps.Marker({
+			position: luriLocation,
+			map: map,
+			icon: "@Url.Content("~/Content/Images/hpMapMarkers/luri.png")",
+			title: "Ann & Robert H. Lurie Children's Hospital of Chicago"
+		  });
+		  
+		  google.maps.event.addListener(lurimarker, 'click', function (){
+			infowindow.setContent("<p class='mapSiteInfo'>Site Status: <span class='siteActive'>Active</span><br />Hospital:<a class='mapLink' href='https://www.luriechildrens.org/en-us/Pages/index.aspx'target='_blank'> Ann & Robert H. Lurie Children's Hospital of Chicago</a><br /> Site PI: <a class='mapLink' href='https://www.luriechildrens.org/en-us/care-services/find-a-doctor/Pages/Marsillio_Lauren_3270.aspx' target='_blank'>Lauren Marsillio, MD</a></p>");
+			infowindow.open(map, lurimarker);
+		  });
+		  
+		  var jhumarker = new google.maps.Marker({
+			position: jhuLocation,
+			map: map,
+			icon: "@Url.Content("~/Content/Images/hpMapMarkers/jhu.png")",
+			title: "Johns Hopkins Hospital"
+		  });
+		  
+		  google.maps.event.addListener(jhumarker, 'click', function (){
+			infowindow.setContent("<p class='mapSiteInfo'>Site Status: <span class='siteActive'>Active</span><br />Hospital:<a class='mapLink' href='http://www.hopkinschildrens.org/'target='_blank'> Johns Hopkins Children's Center</a><br /> Site PI: <a class='mapLink' href='http://www.hopkinsmedicine.org/anesthesiology_critical_care_medicine/research/experts/research_faculty/bios/fackler.html' target='_blank'>James C. Fackler, MD</a></p>");
+			infowindow.open(map, jhumarker);
+		  });
+		  
+		  var ucsfomarker = new google.maps.Marker({
+			position: ucsfoLocation,
+			map: map,
+			icon: "@Url.Content("~/Content/Images/hpMapMarkers/ucsf.png")",
+			title: "UCSF Benioff Children's Hospital Oakland"
+		  });
+		  
+		  google.maps.event.addListener(ucsfomarker, 'click', function (){
+			infowindow.setContent("<p class='mapSiteInfo'>Site Status: <span class='siteActive'>Active</span><br />Hospital:<a class='mapLink' href='http://www.childrenshospitaloakland.org/main/home.aspx'target='_blank'> Children's Hospital & Research Center of Oakland</a><br /> Site PI: <a class='mapLink' href='http://www.childrenshospitaloakland.org/main/find-a-doctor/cvijanovich-natalie-z-md-61.aspx' target='_blank'>Natalie Cvijanovich, MD</a></p>");
+			infowindow.open(map, ucsfomarker);
+		  });
+		  
+		  var choamarker = new google.maps.Marker({
+			position: choaLocation,
+			map: map,
+			icon: "@Url.Content("~/Content/Images/hpMapMarkers/choa.png")",
+			title: "Children's Healthcare of Atlanta at Egleston"
+		  });
+		  
+		  google.maps.event.addListener(choamarker, 'click', function (){
+			infowindow.setContent("<p class='mapSiteInfo'>Site Status: <span class='siteActive'>Active</span><br />Hospital:<a class='mapLink' href='http://www.choa.org/#Mh9OuoKewKBhB6wp.97'target='_blank'> Children's Healthcare of Atlanta</a><br /> Site PI: <a class='mapLink' href='http://www.choa.org/Childrens-Hospital-Services/Critical-Care/Pediatric-Intensive-Care/PICU-Physicians/Nga-Pham#6kf0uaxyvcY5GjzV.97' target='_blank'>Nga Pham, MD, F.A.A.P.</a></p>");
+			infowindow.open(map, choamarker);
+		  });
+		  
+		  var mottmarker = new google.maps.Marker({
+			position: mottLocation,
+			map: map,
+			icon: "@Url.Content("~/Content/Images/hpMapMarkers/mott.png")",
+			title: "C.S. Mott Children's Hospital"
+		  });
+		  
+		  google.maps.event.addListener(mottmarker, 'click', function (){
+			infowindow.setContent("<p class='mapSiteInfo'>Site Status: <span class='siteActive'>Active</span><br />Hospital:<a class='mapLink' href='http://www.mottchildren.org/'target='_blank'> C.S. Mott Children's Hospital</a><br /> Site PI: <a class='mapLink' href='http://www.mottchildren.org/profile/4087/heidi-rosanna-flori-md' target='_blank'>Heidi Flori, MD</a></p>");
+			infowindow.open(map, mottmarker);
+		  });
+		  
+		  var uclamarker = new google.maps.Marker({
+			position: uclaLocation,
+			map: map,
+			icon: "@Url.Content("~/Content/Images/hpMapMarkers/ucla.png")",
+			title: "Mattel Children's Hospital UCLA"
+		  });
+		  
+		  google.maps.event.addListener(uclamarker, 'click', function (){
+			infowindow.setContent("<p class='mapSiteInfo'>Site Status: <span class='siteActive'>Active</span><br />Hospital:<a class='mapLink' href='https://www.uclahealth.org/mattel/Pages/default.aspx'target='_blank'> Mattel Children's Hospital</a><br /> Site PI: <a class='mapLink' href='https://www.uclahealth.org/provider/myke-federman-md' target='_blank'>Myke Federman, MD</a></p>");
+			infowindow.open(map, uclamarker);
+		  });
+		  
+		  var cmcmarker = new google.maps.Marker({
+			position: cmcLocation,
+			map: map,
+			icon: "@Url.Content("~/Content/Images/hpMapMarkers/cmc.png")",
+			title: "Children's Medical Center Dallas"
+		  });
+		  
+		  google.maps.event.addListener(cmcmarker, 'click', function (){
+			infowindow.setContent("<p class='mapSiteInfo'>Site Status: <span class='siteActive'>Active</span><br />Hospital:<a class='mapLink' href='https://www.childrens.com/'target='_blank'> Children's Medical Center Dallas</a><br /> Site PI: <a class='mapLink' href='https://www.childrens.com/doctor-profile/peter-m-luckett' target='_blank'>Peter Luckett, MD</a></p>");
+			infowindow.open(map, cmcmarker);
+		  });
+		  
+		  var uchimarker = new google.maps.Marker({
+			position: uchiLocation,
+			map: map,
+			icon: "@Url.Content("~/Content/Images/hpMapMarkers/uchi.png")",
+			title: "University of Chicago Medicine Comer Children's Hospital"
+		  });
+		  
+		  google.maps.event.addListener(uchimarker, 'click', function (){
+			infowindow.setContent("<p class='mapSiteInfo'>Site Status: <span class='siteActive'>Active</span><br />Hospital:<a class='mapLink' href='http://www.uchicagokidshospital.org/'target='_blank'> University of Chicago Comer Children's Hospital</a><br /> Site PI: <a class='mapLink' href='http://www.uchicagokidshospital.org/physicians/neethi-pinto.html' target='_blank'>Neethi Pinto, MD, MS</a></p>");
+			infowindow.open(map, uchimarker);
+		  });
+		  
+		  var aidpmarker = new google.maps.Marker({
+			position: aidpLocation,
+			map: map,
+			icon: "@Url.Content("~/Content/Images/hpMapMarkers/aidp.png")",
+			title: "Nemours/Alfred I. duPont Hospital for Children"
+		  });
+		  
+		  google.maps.event.addListener(aidpmarker, 'click', function (){
+			infowindow.setContent("<p class='mapSiteInfo'>Site Status: <span class='siteActive'>Active</span><br />Hospital:<a class='mapLink' href='http://www.nemours.org/locations/nemours-dupont.html'target='_blank'> Nemours/Alfred I. DuPont Hospital for Children</a><br /> Site PI: <a class='mapLink' href='http://findaprovider.nemours.org/Search/Profile/62919/Dr-Shirley-Viteri' target='_blank'>Shirley D. Viteri, MD</a></p>");
+			infowindow.open(map, aidpmarker);
+		  });
+		  
+		  var cohenmarker = new google.maps.Marker({
+			position: cohenLocation,
+			map: map,
+			icon: "@Url.Content("~/Content/Images/hpMapMarkers/cohen.png")",
+			title: "Cohen Children’s Medical Center"
+		  });
+		  
+		  google.maps.event.addListener(cohenmarker, 'click', function (){
+			infowindow.setContent("<p class='mapSiteInfo'>Site Status: <span class='siteActive'>Active</span><br />Hospital:<a class='mapLink' href='http://ccmc.northshorelij.com/'target='_blank'> Cohen Children's Medical Center</a><br /> Site PI: <a class='mapLink' href='https://www.northshorelij.com/find-care/find-a-doctor/pediatrics/dr-james-brandon-schneider-md-11346141' target='_blank'>James B. Schneider, MD</a></p>");
+			infowindow.open(map, cohenmarker);
+		  });
+		  
+		  var montmarker = new google.maps.Marker({
+			position: montLocation,
+			map: map,
+			icon: "@Url.Content("~/Content/Images/hpMapMarkers/mont.png")",
+			title: "The Children's Hospital at Montefiore"
+		  });
+		  
+		  google.maps.event.addListener(montmarker, 'click', function (){
+			infowindow.setContent("<p class='mapSiteInfo'>Site Status: <span class='siteActive'>Active</span><br />Hospital:<a class='mapLink' href='http://www.cham.org/'target='_blank'> The Children's Hospital at Montefiore</a><br /> Site PI: <a class='mapLink' href='http://www.montefiore.org/body.cfm?id=1735&action=detail&ref=4862' target='_blank'>Shivanand S. Medar, MD</a></p>");
+			infowindow.open(map, montmarker);
+		  });
+		  
+		  var ucsfmarker = new google.maps.Marker({
+			position: ucsfLocation,
+			map: map,
+			icon: "@Url.Content("~/Content/Images/hpMapMarkers/ucsf.png")",
+			title: "UCSF Benioff Children's Hospital"
+		  });
+		  
+		  google.maps.event.addListener(ucsfmarker, 'click', function (){
+			infowindow.setContent("<p class='mapSiteInfo'>Site Status: <span class='siteActive'>Active</span><br />Hospital:<a class='mapLink' href='https://www.ucsfbenioffchildrens.org/'target='_blank'> UCSF Benioff Children's Hospital</a><br /> Site PI: <a class='mapLink' href='https://pediatrics.ucsf.edu/faculty/patrick-mcquillen-md' target='_blank'>Patrick McQuillen, MD</a></p>");
+			infowindow.open(map, ucsfmarker);
+		  });
+		  
+		  var millmarker = new google.maps.Marker({
+			position: millLocation,
+			map: map,
+			icon: "@Url.Content("~/Content/Images/hpMapMarkers/mill.png")",
+			title: "Miller Childrens Hospital"
+		  });
+		  
+		  google.maps.event.addListener(millmarker, 'click', function (){
+			infowindow.setContent("<p class='mapSiteInfo'>Site Status: <span class='siteActive'>Active</span><br />Hospital:<a class='mapLink' href='http://www.millerchildrenshospitallb.org/'target='_blank'> Miller Children's Hospital</a><br /> Site PI: <a class='mapLink' href='http://www.memorialcare.org/find-doctors/physician/christopher-j-babbitt-md' target='_blank'>Christopher Babbitt, MD</a></p>");
+			infowindow.open(map, millmarker);
+		  });
+		  
+		  var stlmarker = new google.maps.Marker({
+			position: stlLocation,
+			map: map,
+			icon: "@Url.Content("~/Content/Images/hpMapMarkers/stl.png")",
+			title: "St. Louis Children's Hospital"
+		  });
+		  
+		  google.maps.event.addListener(stlmarker, 'click', function (){
+			infowindow.setContent("<p class='mapSiteInfo'>Site Status: <span class='siteActive'>Active</span><br />Hospital:<a class='mapLink' href='http://www.stlouischildrens.org'target='_blank'> St. Louis Children's Hospital</a><br /> Site PI: <a class='mapLink' href='http://www.stlouischildrens.org/our-services/physicians/john-c-lin-md' target='_blank'>John C. Lin, MD</a></p>");
+			infowindow.open(map, stlmarker);
+		  });
+		  
+		  var seamarker = new google.maps.Marker({
+			position: seaLocation,
+			map: map,
+			icon: "@Url.Content("~/Content/Images/hpMapMarkers/sea.png")",
+			title: "Seattle Children's"
+		  });
+		  
+		  google.maps.event.addListener(seamarker, 'click', function (){
+			infowindow.setContent("<p class='mapSiteInfo'>Site Status: <span class='siteActive'>Active</span><br />Hospital:<a class='mapLink' href='https://www.seattlechildrens.org/'target='_blank'> Seattle Children's Hospital</a><br /> Site PI: <a class='mapLink' href='http://www.seattlechildrens.org/medical-staff/ofer-yanay/' target='_blank'>Ofer Yanay, MD</a></p>");
+			infowindow.open(map, seamarker);
+		  });
+		  
+		   var stanmarker = new google.maps.Marker({
+			position: stanLocation,
+			map: map,
+			icon: "@Url.Content("~/Content/Images/hpMapMarkers/stan.png")",
+			title: "Lucile Packard Children's Hospital Stanford"
+		  });
+		  
+		  google.maps.event.addListener(stanmarker, 'click', function (){
+			infowindow.setContent("<p class='mapSiteInfo'>Site Status: <span class='siteStandby'>Standby</span><br />Hospital:<a class='mapLink' href='http://www.stanfordchildrens.org/'target='_blank'> Lucile Packard Children's Hospital Stanford</a><br /> Site PI: <a class='mapLink' href='http://www.stanfordchildrens.org/en/doctor/default?id=elora-hussain' target='_blank'>Elora Hussain, MD</a></p>");
+			infowindow.open(map, stanmarker);
+		  });
+		 
+		  var soamarker = new google.maps.Marker({
+			position: soaLocation,
+			map: map,
+			icon: "@Url.Content("~/Content/Images/hpMapMarkers/soa.png")",
+			title: "Children's Hospital of San Antonio"
+		  });
+		  
+		  google.maps.event.addListener(soamarker, 'click', function (){
+			infowindow.setContent("<p class='mapSiteInfo'>Site Status: <span class='siteStandby'>Standby</span><br />Hospital:<a class='mapLink' href='http://www.chofsa.org/'target='_blank'> Children's Hospital of San Antonio</a><br /> Site PI: <a class='mapLink' href='http://www.chofsa.org/network' target='_blank'>Utpal Bhalala, MD, F.A.A.P.</a></p>");
+			infowindow.open(map, soamarker);
+		  });
+		  
+		  var choumarker = new google.maps.Marker({
+			position: chouLocation,
+			map: map,
+			icon: "@Url.Content("~/Content/Images/hpMapMarkers/chou.png")",
+			title: "Texas Children's Hospital"
+		  });
+		  
+		  google.maps.event.addListener(choumarker, 'click', function (){
+			infowindow.setContent("<p class='mapSiteInfo'>Site Status: <span class='siteStandby'>Standby</span><br />Hospital:<a class='mapLink' href='http://www.texaschildrens.org/'target='_blank'> Texas Children's Hospital</a><br /> Site PI: <a class='mapLink' href='http://www.texaschildrens.org/find-a-doctor/laura-l-loftis-md' target='_blank'>Laura Loftis, MD</a></p>");
+			infowindow.open(map, choumarker);
+		  });
+		  
+		  var stjmarker = new google.maps.Marker({
+			position: stjLocation,
+			map: map,
+			icon: "@Url.Content("~/Content/Images/hpMapMarkers/stj.png")",
+			title: "CHU Sainte-Justine"
+		  });
+		  
+		  google.maps.event.addListener(stjmarker, 'click', function (){
+			infowindow.setContent("<p class='mapSiteInfo'>Site Status: <span class='siteStandby'>Standby</span><br />Hospital:<a class='mapLink' href='https://www.chusj.org/fr/accueil'target='_blank'> CHU Sainte-Justine</a><br /> Site PI: <a class='mapLink' href='http://www.ccctg.ca/Members/BIO/Philippe-Jouvet.aspx?ext=.' target='_blank'>Philippe Jouvet, MD</a></p>");
+			infowindow.open(map, stjmarker);
+		  });
+		  
+		  var cuhmarker = new google.maps.Marker({
+			position: cuhLocation,
+			map: map,
+			icon: "@Url.Content("~/Content/Images/hpMapMarkers/cuh.png")",
+			title: "Addenbrooke's Hospital"
+		  });
+		  
+		  google.maps.event.addListener(cuhmarker, 'click', function (){
+			infowindow.setContent("<p class='mapSiteInfo'>Site Status: <span class='siteStandby'>Standby</span><br />Hospital:<a class='mapLink' href='http://www.cuh.org.uk/addenbrookes-hospital'target='_blank'> Addenbrooke's Hospital</a><br /> Site PI: <a class='mapLink' href='http://paediatrics.medschl.cam.ac.uk/paediatric-research-at-addenbrookes/paediatric-intensive-care/' target='_blank'>Ricardo Branco, MD</a></p>");
+			infowindow.open(map, cuhmarker);
+		  });
+		  
+		  var schmarker = new google.maps.Marker({
+			position: schLocation,
+			map: map,
+			icon: "@Url.Content("~/Content/Images/hpMapMarkers/sch.png")",
+			title: "Southampton Children's Hospital"
+		  });
+		  
+		  google.maps.event.addListener(schmarker, 'click', function (){
+			infowindow.setContent("<p class='mapSiteInfo'>Site Status: <span class='siteStandby'>Standby</span><br />Hospital:<a class='mapLink' href='http://www.uhs.nhs.uk/Ourhospitals/SCH/SouthamptonChildrensHospital.aspx'target='_blank'> Southampton Children's Hospital</a><br /> Site PI: <a class='mapLink' href='http://www.uhs.nhs.uk/ContactUs/Directoryofconsultants/Consultants-by-service/Children-and-young-adult-consultants/Intensive-care/PappachanDrJohn.aspx' target='_blank'>John Pappachan, MD</a></p>");
+			infowindow.open(map, schmarker);
+		  });
+		  
+		  var cmftmarker = new google.maps.Marker({
+			position: cmftLocation,
+			map: map,
+			icon: "@Url.Content("~/Content/Images/hpMapMarkers/cmft.png")",
+			title: "Royal Manchester Children's Hospital"
+		  });
+		  
+		  google.maps.event.addListener(cmftmarker, 'click', function (){
+			infowindow.setContent("<p class='mapSiteInfo'>Site Status: <span class='siteStandby'>Standby</span><br />Hospital:<a class='mapLink' href='http://www.cmft.nhs.uk/childrens-hospitals'target='_blank'> Royal Manchester Children's Hospital</a><br /> Site PI: <a class='mapLink' href='http://www.cmft.nhs.uk/childrens-hospitals/our-services/critical-care/dr-stephen-playfor' target='_blank'>Stephen Playfor, MD</a></p>");
+			infowindow.open(map, cmftmarker);
+		  });
+		  
+		  
+		  
+		}
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?callback=initMap" async defer></script>
+<script>
 	var currentAmount = @Model;
 	$(document).ready(function(){
 		$('.bxslider').bxSlider({
 			mode: 'fade',
-			captions: true
+			auto: true,
+			autoControls: true,
+			captions: true,
+			autoHover: true,
+			pause: 6000
+			
 		});
 		$(".cb").colorbox({rel: 'gal1'});
 		$('#lanSelector li').hover(function(){
@@ -68,5 +611,13 @@
 				$(this).children("ul").slideUp("fast");
 				}
 		);
+		$('a.sideLink').click(function(e){
+			e.preventDefault();
+			var oldSelect = $("#active a").attr('id') + "Info";
+			$("#" + oldSelect).css('visibility', 'hidden');
+			$("#" + this.id + "Info").css('visibility', 'visible');
+			$("#active").removeAttr('id');
+			$("#" + this.id).parent().attr('id', 'active');
+		});	
 	});
 </script>

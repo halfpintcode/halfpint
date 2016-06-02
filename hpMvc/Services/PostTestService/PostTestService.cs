@@ -134,6 +134,7 @@ namespace hpMvc.PostTestService
                         case "30":
                         case "33":
                         case "36":
+                        case "40":
                             //make sure they are nova net certified
                             if (!postTestNextDue.IsNovaStatStripTested)
                             {
@@ -527,6 +528,7 @@ namespace hpMvc.PostTestService
                         case "30":
                         case "33":
                         case "36":
+                        case "40":
                             if (!ptnd.IsNovaStatStripTested)
                                 test = "NovaStatStrip ";
                             break;
@@ -996,7 +998,7 @@ namespace hpMvc.PostTestService
                             ptnd.TestsNotCompleted.Remove("NovaStatStrip");
                         }
 
-                        if (siteCode == "15" || siteCode == "18" || siteCode == "21" || siteCode == "33" || siteCode == "36")
+                        if (siteCode == "15" || siteCode == "18" || siteCode == "21" || siteCode == "33" || siteCode == "36" || siteCode == "40")
                         {
                             ptnd.TestsNotCompleted.Remove("VampJr");
                         }

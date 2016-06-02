@@ -1,7 +1,10 @@
 ﻿/// <reference path="jquery-1.7.1-vsdoc.js" />
 $(function () {
 
-    $('#Phone').mask("999-999-9999");
+    var phoneFormat = "999-999-9999";
+
+    $('#Phone').mask(phoneFormat);
+
 
     //this is for the http post
     var siteVal = $('#Sites').val();
@@ -75,12 +78,14 @@ $(function () {
                         $('#empIDRegex').val(data.Stuff[1].Value);
                         $('#empIDMessage').val(data.Stuff[2].Value);
                         $('#phoneFormat').val(data.Stuff[3].Value);
+                        phoneFormat = $('#phoneFormat').val();
                         $('#phoneMessage').val(data.Stuff[4].Value);
                         $('#siteSpecific').show();
                         $('#empIDmessage').hide();
                     }
                     else {
                         $('#phoneFormat').val(data.Stuff[3].Value);
+                        phoneFormat = $('#phoneFormat').val();
                         $('#phoneMessage').val(data.Stuff[4].Value);
                         $('#EmployeeID').val("");
                         $('#empIDRequired').val("");
@@ -88,7 +93,7 @@ $(function () {
                         $('#empIDMessage').text("");
                         $('#siteSpecific').hide();
                     }
-                    $('#Phone').mask($('#phoneFormat').val());
+                    $('#Phone').mask(phoneFormat);
                 }
 
             }

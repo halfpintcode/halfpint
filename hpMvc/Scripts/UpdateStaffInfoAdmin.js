@@ -37,6 +37,7 @@ $(function () {
                         $('#empIDRegex').val(data.Stuff[1].Value);
                         $('#empIDMessage').val(data.Stuff[2].Value);
                         $('#phoneFormat').val(data.Stuff[3].Value);
+                        phoneFormat = $('#phoneFormat').val();
                         $('#phoneMessage').val(data.Stuff[4].Value);
                     }
                     else {
@@ -44,10 +45,11 @@ $(function () {
                         $('#empIDRegex').val("");
                         $('#empIDMessage').text("");
                         $('#phoneFormat').val(data.Stuff[3].Value);
+                        phoneFormat = $('#phoneFormat').val();
                         $('#phoneMessage').val(data.Stuff[4].Value);
                     }
 
-                    $('#Phone').mask($('#phoneFormat').val());
+                    $('#Phone').mask(phoneFormat);
                 }
                 getStaffList(site);
             }
@@ -89,7 +91,7 @@ $(function () {
     });
 
     if (isValid == "false") {
-        //$('#Phone').mask(phoneFormat);
+        $('#Phone').mask(phoneFormat);
 
         $('#btnCancel').click(function () {
             window.location = urlRoot + '/Admin/Index';
@@ -377,7 +379,7 @@ $(function () {
                         $('#siteSpecific').hide();
                     }
 
-                    //$('#Phone').mask(phoneFormat);
+                    $('#Phone').mask(phoneFormat);
 
                     $('#btnCancel').click(function () {
                         window.location = window.urlRoot + '/Admin/Index';
