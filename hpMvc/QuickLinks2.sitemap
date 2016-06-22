@@ -61,7 +61,8 @@
     <siteMapNode title="Password Look-up" controller="Staff" action="GetInitializePassword" class="StaffOnly" />
     <siteMapNode title="Initialize Subject" controller="InitializeSubject" action="Initialize" />
     <siteMapNode title="Recover CHECKS file" controller="Staff" action="RecoverChecksSS" class="StaffOnly" />
-    <siteMapNode title="InForm" url="https://study.tch.harvard.edu/halfpint" class="StaffOnly" />
+    <siteMapNode title="InForm (US)" url="https://study.tch.harvard.edu/halfpint" class="StaffOnly" />
+    <siteMapNode title="InForm (CA/UK/AU)" url="https://study.tch.harvard.edu/halfpintint" class="StaffOnly" />
     <siteMapNode title="Calorie Calculator" class="StaffOnly NotDcc">
       <siteMapNode title="Calorie Calculator SOP" controller="Download" action="GetFile" fileName="Calorie Calculator SOP.pdf" folder="Study Management~Standard Operating Procedures~Calorie Calculator" />
       <siteMapNode title="New Caloric Entry" controller="CalorieCalc" action="Index" />

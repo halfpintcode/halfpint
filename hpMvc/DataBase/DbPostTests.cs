@@ -1042,7 +1042,7 @@ namespace hpMvc.DataBase
                                 continue;
                         }
 
-                        if (siteCode == "15" || siteCode == "18" || siteCode == "21" || siteCode == "30" || siteCode == "33" || siteCode == "36" || siteCode == "40")
+                        if (siteCode == "15" || siteCode == "18" || siteCode == "21" || siteCode == "30" || siteCode == "33" || siteCode == "36" || siteCode == "40" || siteCode == "43")
                         {
                             if (testName == "VampJr")
                                 continue;
@@ -1155,7 +1155,7 @@ namespace hpMvc.DataBase
                                 continue;
                         }
 
-                        if (siteCode == "15" || siteCode == "18" || siteCode == "21" || siteCode == "30" || siteCode == "33" || siteCode == "36" || siteCode == "40")
+                        if (siteCode == "15" || siteCode == "18" || siteCode == "21" || siteCode == "30" || siteCode == "33" || siteCode == "36" || siteCode == "40" || siteCode == "43")
                         {
                             if (testName == "VampJr")
                                 continue;
