@@ -8,7 +8,7 @@ namespace hpMvc.Models
 {
     public class FamilyContactsModel
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
         [Required]
         public string FirstName { get; set; }
         [Required]
@@ -16,6 +16,7 @@ namespace hpMvc.Models
         [Required]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
+        [DataType(DataType.MultilineText)]
         public string Comment { get; set; }
     }
 }

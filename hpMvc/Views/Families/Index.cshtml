@@ -173,30 +173,42 @@
         {
             <h2>Contact Form</h2>
             @Html.ValidationSummary(true)
-                <p id="contactDescribe">
-                    If there is anything you would like us to change or add to the family website, please send us your thoughts! Enter your name and email address below with any comments you have in the text box, then click submit. We will receive an email with your comments and you will receive a confirmation email indicating we have received your comments.
-                </p>
-                <div>
-                    <div class="parentInfo top">
-                        First Name:
-                        <input type="text" name="firstName" id="firstName" form="contactFamily" />
-                    </div>
-                    <div class="parentInfo">
-                        Last Name:
-                        <input type="text" name="lastName" id="lastName" form="contactFamily" />
-                    </div>
-                    <div class="parentInfo">
-                        Email Address:
-                        <input type="email" name="email" id="parentAddress" form="contactFamily" placeholder="Your email address..." />
-                    </div>
+            <p id="contactDescribe">
+                If there is anything you would like us to change or add to the family website, please send us your thoughts! Enter your name and email address below with any comments you have in the text box, then click submit. We will receive an email with your comments and you will receive a confirmation email indicating we have received your comments.
+            </p>
+            <div>
+                <div class="parentInfo top">
+                    First Name:
+                    <span class="col2">
+                        @Html.EditorFor(model => model.FamilyContact.FirstName)
+                    </span>
                 </div>
-                <div>
-                    <textarea rows="20" cols="70" name="comments" form="contactFamily" placeholder="Please type your comments here..." id="parentComments"></textarea>
+                <div class="parentInfo">
+                    Last Name:
+                    <span class="col2">
+                        @Html.EditorFor(model => model.FamilyContact.LastName)
+                    </span>
+
                 </div>
-                <div id="sendComments">
-                    <input type="submit" value="Submit" />
+                <div class="parentInfo">
+                    Email Address:
+                    <span class="col2">
+                        @Html.EditorFor(model => model.FamilyContact.Email)
+                    </span>
                 </div>
-            
+            </div>
+            <div>
+                Comments:
+                <span class="col2">
+                    @Html.TextAreaFor(model => model.FamilyContact.Comment, 10, 100, new{} )
+                    
+                </span>
+
+            </div>
+            <div id="sendComments">
+                <input type="submit" value="Submit" />
+            </div>
+
         }
 
     </div>
