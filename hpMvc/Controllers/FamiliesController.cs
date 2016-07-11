@@ -1,5 +1,8 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 using hpMvc.DataBase;
+using hpMvc.Models;
+using hpMvc.ViewModels;
 
 namespace hpMvc.Controllers
 {
@@ -12,7 +15,20 @@ namespace hpMvc.Controllers
         {
             int count = DbUtils.GetRandomizedSubjectsCount();
 
-            return View(count);
+            var contact = new FamilyContactsModel();
+
+            var vm = new FamiliesViewModel();
+            vm.RandomizedCount = count;
+            vm.FamilyContact = contact;
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        public ActionResult Index(FamiliesViewModel vm)
+        {
+            
+            return View(vm);
         }
 
     }
