@@ -17,6 +17,7 @@ namespace hpMvc.Models
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
         [DataType(DataType.MultilineText)]
+        [Required]
         public string Comment { get; set; }
     }
 }

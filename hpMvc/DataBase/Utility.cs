@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Web;
 using System.Net.Mail;
@@ -106,6 +107,11 @@ namespace hpMvc.DataBase
             SendHtmlEmail(subject, toAddress, ccAddress, sbBody.ToString(), server, siteUrl, "");
         }
 
+        public static void SendFamilyContactMail(string[] toAddress, string[] ccAddress, string url, HttpServerUtilityBase server, string body, string subject)
+        {
+            string bodyHeader = "<h3 style='display:inline-block;background-color:Aqua;text-align:center;'>Families Contact Email</h3>";
+            SendHtmlEmail(subject, toAddress, ccAddress, body, server, url, bodyHeader);
+        }
 		public static void SendBroadcastMail(string[] toAddress, string[] ccAddress, string url, HttpServerUtilityBase server, string subject, string body)
 		{
 			string bodyHeader = "<h3 style='display:inline-block;background-color:Aqua;text-align:center;'>This is a Halfpint broadcast email</h3>";
@@ -324,7 +330,8 @@ namespace hpMvc.DataBase
 			sb.Append("<table style='margin-left:0px;'>");
 			sb.Append(body);
 			sb.Append("</table>");
-			sb.Append("<br/><br/>" + url);
+			if(!string.IsNullOrEmpty(url))
+                sb.Append("<br/><br/>" + url);
 			sb.Append("</div>");
 			sb.Append("</body>");            
 			sb.Append("</html>");
