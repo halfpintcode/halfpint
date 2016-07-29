@@ -1,6 +1,6 @@
 ﻿@model hpMvc.ViewModels.FamiliesViewModel
 @{
-    ViewBag.Title = "HALF-PINT Familias";
+    ViewBag.Title = "HALF-PINT - Des Familles";
 }
 <script> var currentAmount = @Model.RandomizedCount;</script>
 <div id="row1">
@@ -9,9 +9,9 @@
         <li>
             La langue: Français
             <ul class="languages">
-                <li id="english">@Html.ActionLink("English", "Families")</li>
+                <li id="english">@Html.ActionLink("English", "Index", new { Controller = "Families" })</li>
                 <li id="spanish"><a href="#">Español</a></li>
-                <li id="french">@Html.ActionLink("Français", "Familias")</li>
+                <li id="french">@Html.ActionLink("Français", "Index", new { Controller = "DesFamilles" })</li>
                 <li><a href="#">العربية</a></li>
             </ul>
         </li>
@@ -214,7 +214,7 @@
     </div>
 </div>
 
-<link href="@Url.Content("~/Content/families_english.css")" rel="stylesheet" type="text/css">
+<link href="@Url.Content("~/Content/families_french.css")" rel="stylesheet" type="text/css">
 <link href="@Url.Content("~/Content/jquery.bxslider.css")" rel="stylesheet" type="text/css">
 <link href='https://fonts.googleapis.com/css?family=Lora' rel='stylesheet' type='text/css'>
 <link href="@Url.Content("~/Content/goal-thermometer.css")" rel="stylesheet" type="text/css">

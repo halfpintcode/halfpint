@@ -1,0 +1,12 @@
+﻿@{
+    ViewBag.Title = "Image Upload Success";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Image Upload</h2>
+<p>
+    The image was uploaded successfully!
+</p>
+
+<br />
+@Html.RouteLink("Back to Admin", new { controller="Admin", Action = "Index" })

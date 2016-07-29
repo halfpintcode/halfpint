@@ -42,11 +42,10 @@ namespace hpMvc.Controllers
         {
             if (file != null && file.ContentLength > 0)
             {
-                string path;
                 var fileName = Path.GetFileName(file.FileName);
                 if (fileName != null)
                 {
-                    path = Path.Combine(Server.MapPath("~/Docs"), fileName);
+                    var path = Path.Combine(Server.MapPath("~/Docs"), fileName);
                     file.SaveAs(path);
                 }
             }
@@ -59,7 +58,7 @@ namespace hpMvc.Controllers
         {
             return View();
         }
-
+        
         public ActionResult TemplateUploadSuccess()
         {
             return View();
@@ -93,6 +92,44 @@ namespace hpMvc.Controllers
             return RedirectToAction("TemplateUploadSuccess");
         }
 
+        [Authorize(Roles = "Admin")]
+        public ActionResult ImageUpload()
+        {
+            return View();
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        public ActionResult ImageUpload(HttpPostedFileBase file)
+        {
+            try
+            {
+                //throw new Exception("This is a test error!");
+                if (file != null && file.ContentLength > 0)
+                {
+                    var fileName = "Checks_tmpl.xlsm";
+                    var path = Path.Combine(Server.MapPath("~/content/images"), fileName);
+                    file.SaveAs(path);
+                }
+            }
+            catch (Exception ex)
+            {
+                nlogger.LogError(ex.Message);
+                return RedirectToAction("ImageUploadFailed");
+            }
+
+            return RedirectToAction("ImageUploadSuccess");
+        }
+
+        public ActionResult ImageUploadSuccess()
+        {
+            return View();
+        }
+
+        public ActionResult ImageUploadFailed()
+        {
+            return View();
+        }
         //[Authorize(Roles = "Admin")]
         //public ActionResult ChecksUpload(HttpPostedFileBase file)
         //{
