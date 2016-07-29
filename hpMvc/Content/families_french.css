@@ -1,0 +1,712 @@
+img {
+    border-width: 0;
+}
+
+#row1 h1 {
+    color: #60c477;
+    font-family: 'Lora', serif;
+    font-size: 280%;
+    font-weight: bold;
+    line-height: 30px;
+}
+
+#row1 {
+    width: 750px;
+    margin: 20px 10px 20px 10px;
+    padding: 0px;
+    position: relative;
+}
+
+#lanSelector {
+    list-style-type: none;
+    height: 30px;
+    background-color: #a6cacb;
+    position: absolute;
+    bottom: 0;
+    right: -150px;
+    margin: 0px;
+    padding: 0px 5px;
+    border-width: 2px;
+    border-style: solid;
+    border-color: #6ba8a9;
+}
+
+    #lanSelector li {
+        margin: 0px;
+        padding: 0px;
+        text-decoration: none;
+        color: white;
+        position: relative;
+        font-size: 130%;
+        font-family: 'Lora', serif;
+        height: 32px;
+        line-height: 32px;
+        display: block;
+    }
+
+        #lanSelector li .languages {
+            display: none;
+            position: absolute;
+            z-index: 9;
+            left: 65px;
+            top: 98%;
+            padding: 0;
+            margin: 0;
+            width: 168px;
+            height: 30px;
+        }
+
+    #lanSelector .languages li {
+        display: block;
+        width: 100px;
+        height: 40px;
+        margin: 0px;
+        padding: 0px;
+        border-width: 1px;
+        border-color: #6ba8a9;
+        border-style: solid;
+    }
+
+        #lanSelector .languages li a {
+            display: block;
+            line-height: 32px;
+            height: 32px;
+            font-size: 70%;
+            text-align: center;
+            background-color: white;
+            color: #6ba8a9;
+            padding: 4px 0px;
+            margin: 0px;
+            text-decoration: none;
+            transition: background 0.6s ease, padding 0.8s linear;
+            font-family: 'Lora', serif;
+        }
+
+            #lanSelector .languages li a:hover {
+                background-color: #6ba8a9;
+                color: white;
+                font-family: 'Lora', serif;
+            }
+
+    #lanSelector #spanish, #lanSelector #english {
+        border-bottom: none;
+    }
+
+#row2 {
+    width: 950px;
+    height: 320px;
+    display: block;
+    margin-top: 30px;
+    margin-right: 0px;
+    padding: 0px;
+}
+
+#familyImage {
+    display: inline-block;
+    float: left;
+    width: 260px;
+    height: 252px;
+    margin: 0px;
+    margin-top: 0px;
+}
+
+#hpInfo {
+    display: inline-block;
+    width: 640px;
+    float: left;
+    line-height: 22px;
+    font-family: 'Lora', serif;
+    font-size: 110%;
+    height: 260px;
+    margin: 0;
+    margin-left: 25px;
+    background-color: #EDF7F5;
+    border-radius: 10px;
+}
+
+    #hpInfo p {
+        color: #5A554E;
+        padding: 8px 12px;
+    }
+
+#enrollment {
+    width: 280px;
+    height: 400px;
+    margin: 0px;
+    display: block;
+    padding: 5px;
+    position: absolute;
+    left: 670px;
+}
+
+    #enrollment h2 {
+        font-size: 170%;
+        width: 280px;
+        display: block;
+        margin-bottom: 20px;
+        text-align: center;
+        color: #c4607b;
+        font-weight: bold;
+        font-family: 'Lora', serif;
+    }
+
+#row3 {
+    width: 915px;
+    height: 420px;
+    margin: 0px;
+    position: relative;
+    margin-right: 0px;
+}
+
+    #row3 #slideshow {
+        display: block;
+        width: 500px;
+        height: 300px;
+    }
+
+    #row3 #hpCrew {
+        display: block;
+        width: 500px;
+        height: 420px;
+        margin: 0px;
+        position: absolute;
+        left: 60px;
+        top: 0px;
+    }
+
+#hpCrew h2 {
+    font-size: 220%;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #FFC04C;
+    font-weight: bold;
+    font-family: 'Lora', serif;
+}
+
+#hpCrew p {
+    padding: 5px;
+    font-size: 120%;
+    width: 380px;
+    text-align: center;
+    margin-top: 10px;
+    font-family: 'Lora', serif;
+}
+
+#row4 {
+    width: 915px;
+    height: 450px;
+}
+
+#row5 {
+    width: 915px;
+    height: 1130px;
+    margin: 0px;
+    margin-top: 35px;
+    position: relative;
+}
+
+#familyMenu {
+    display: block;
+    margin: 0px;
+    position: absolute;
+    top: 140px;
+    left: 20px;
+}
+
+    #familyMenu li a {
+        text-decoration: none;
+        width: 100%;
+        height: 100%;
+        display: block;
+        text-align: center;
+        line-height: 40px;
+        color: #6ba8a9;
+    }
+
+    #familyMenu li.first {
+        margin-top: 10px;
+    }
+
+    #familyMenu li:hover {
+        background-color: #6ba8a9;
+    }
+
+        #familyMenu li:hover a {
+            color: white;
+        }
+
+    #familyMenu li {
+        margin-top: 30px;
+        height: 40px;
+        border: 2px solid #7A797A;
+        padding: 3px;
+        border-radius: 6px;
+        transition: background 0.4s ease, padding 0.4s linear;
+        font-family: Tahoma, Geneva, sans-serif;
+        background-color: white;
+    }
+
+    #familyMenu #active {
+        background-color: #6ba8a9;
+    }
+
+        #familyMenu #active a {
+            color: white;
+        }
+
+#hpOriginInfo, #hpDescribeInfo, #hpNDInfo, #hpFamInfo, #hpSensorInfo, #hpContactInfo {
+    display: none;
+    position: absolute;
+    left: 200px;
+    top: 50px;
+    width: 720px;
+    height: 500px;
+}
+
+#hpFamInfo {
+    top: 10px;
+}
+
+#hpOriginInfo {
+    position: absolute;
+    display: block;
+    top: 10px;
+    height: 650px;
+}
+
+    #hpOriginInfo #originText p sup.supOrigin {
+        line-height: 0;
+    }
+
+#mapHeader {
+    width: 1000px;
+    text-align: center;
+    margin-bottom: 30px;
+    font-family: 'Lora', serif;
+    font-size: 220%;
+    font-weight: bold;
+    color: #83CFCC;
+}
+
+#hpMap {
+    box-shadow: 0 0 0 3px #20409D, 0 0 0 4px #4c66b0, 0 0 0 5px #8f9fce, 0 0 0 7px #d2d8eb;
+    -webkit-box-shadow: 0 0 0 3px #20409D, 0 0 0 4px #4c66b0, 0 0 0 5px #8f9fce, 0 0 0 7px #d2d8eb;
+    -moz-box-shadow: 0 0 0 3px #20409D, 0 0 0 4px #4c66b0, 0 0 0 5px #8f9fce, 0 0 0 7px #d2d8eb;
+    width: 850px;
+    height: 350px;
+    margin-left: 75px;
+}
+
+#hpContactInfo {
+    width: 515px;
+    height: 650px;
+    margin-left: 80px;
+    
+}
+.fieldset {
+    line-height: 25px;
+}
+.lbleditor {
+    width: 160px;
+    display: inline-block;
+}
+
+.col2 {
+    display: inline-block;
+    margin-left: 5px;
+}
+
+.text-box {
+    width: 500px;
+}
+
+#hpOriginInfo div.investImage {
+    display: block;
+    height: 200px;
+    width: 150px;
+    border-radius: 18px;
+    box-shadow: 4px 4px 7px rgba(0, 0, 0, 0.6);
+    -webkit-box-shadow: 4px 4px 7px rgba(0, 0, 0, 0.6);
+    -moz-box-shadow: 4px 4px 7px rgba(0, 0, 0, 0.6);
+    overflow: hidden;
+}
+
+#hpOriginInfo div.investigator {
+    display: block;
+    width: 150px;
+    height: 300px;
+    float: left;
+    margin-left: 40px;
+}
+
+    #hpOriginInfo div.investigator.first {
+        margin-left: 0px;
+    }
+
+#hpOriginInfo a {
+    font-family: 'Lora', serif;
+    text-decoration: none;
+    color: blue;
+    text-align: center;
+}
+
+#hpOriginInfo div.investigator h4 {
+    margin-bottom: 0px;
+    font-weight: bold;
+}
+
+#hpOriginInfo a:hover {
+    color: green;
+}
+
+#hpOriginInfo a:visited {
+    color: purple;
+}
+
+#hpOriginInfo div.investigator h5 {
+    font-size: 65%;
+    font-family: 'Lora', serif;
+    text-align: center;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+#hpOriginInfo #originText {
+    width: 90%;
+    margin-left: 5%;
+    height: 420px;
+    float: left;
+}
+
+    #hpOriginInfo #originText p {
+        font-family: 'Lora', serif;
+        font-size: 110%;
+        line-height: 22px;
+        background-color: #EDF7F5;
+        padding: 10px 20px;
+        border-radius: 10px;
+    }
+
+span.siteActive {
+    color: green;
+}
+
+span.siteStandby {
+    color: gold;
+}
+
+p.mapSiteInfo {
+    line-height: 18px;
+    margin: 0px;
+}
+
+    p.mapSiteInfo a.mapLink {
+        text-decoration: none;
+        color: blue;
+    }
+
+#hpDescribeInfo .checksgif {
+    float: left;
+}
+
+#screenDiv {
+    float: left;
+    width: 329px;
+    height: 228px;
+}
+
+    #screenDiv h3 {
+        text-align: center;
+        width: 240px;
+        margin-left: 55px;
+        margin-top: 5px;
+        margin-bottom: 10px;
+        font-family: 'Lora', serif;
+        font-weight: bold;
+    }
+
+#screenshots {
+    display: block;
+    margin-left: 25px;
+    width: 300px;
+    height: 155 px;
+    background: #F2FCFA;
+    border-radius: 5px;
+    border: 3px solid #a0e8da;
+}
+
+    #screenshots p {
+        margin-left: 10px;
+        margin-top: 5px;
+        font-family: 'Lora', serif;
+    }
+
+img.checksgif {
+    box-shadow: 0 0 0 3px #578860, 0 0 0 7px #cfddd2;
+    -webkit-box-shadow: 0 0 0 3px #578860, 0 0 0 7px #cfddd2;
+    -moz-box-shadow: 0 0 0 3px #578860, 0 0 0 7px #cfddd2;
+}
+
+a.checksScreen {
+    margin-right: 25px;
+    transition: all .2s ease-in-out;
+    margin-top: 17px;
+    display: inline-block;
+    width: 75px;
+    height: 46px;
+    text-decoration: none;
+    box-shadow: 0 0 8px #515a5c;
+    -webkit-box-shadow: 0 0 8px #515a5c;
+    -moz-box-shadow: 0 0 8px #515a5c;
+}
+
+    a.checksScreen img {
+        height: 100%;
+    }
+
+    a.checksScreen:hover {
+        transform: scale(1.2);
+    }
+
+    a.checksScreen.last {
+        margin-right: 0px;
+    }
+
+    a.checksScreen.first {
+        margin-left: 10px;
+    }
+
+    a.checksScreen.bottom {
+        margin-bottom: 17px;
+    }
+
+#checksInfo {
+    width: 100%;
+    height: 260px;
+    display: block;
+    float: left;
+    margin-top: 7px;
+}
+
+    #checksInfo p {
+        font-family: 'Lora', serif;
+        padding: 8px;
+        margin: 0px;
+        margin-top: 30px;
+        line-height: 22px;
+        font-size: 110%;
+        color: #3e3b36;
+        background: #F2FCFA;
+        border: 3px solid #a0e8da;
+        border-radius: 5px;
+    }
+
+        #checksInfo p.top {
+            margin-top: 35px;
+        }
+
+    #hpNDInfo a, #checksInfo a {
+        text-decoration: none;
+        color: blue;
+    }
+
+        #hpNDInfo a:visited, #checksInfo a:visited {
+            color: purple;
+        }
+
+        #hpNDInfo a:hover, #checksInfo a:hover {
+            color: green;
+        }
+
+#hpNDInfo h2 {
+    width: 550px;
+    text-align: center;
+    margin-left: 70px;
+    margin-right: 110px;
+    margin-bottom: 30px;
+    font-family: 'Lora', serif;
+    color: #77cbff;
+    font-weight: bold;
+}
+
+#hpNDInfo #neuroDetail {
+    width: 600px;
+    margin: auto;
+    margin-bottom: 30px;
+}
+
+    #hpNDInfo #neuroDetail p {
+        color: black;
+        padding: 10px;
+        font-size: 110%;
+        line-height: 22px;
+        margin: 0px;
+        font-family: 'Lora', serif;
+        background-color: #F5F5F5;
+        border: 4px double #77cbff;
+    }
+
+#hpNDInfo #postcard {
+    width: 388px;
+    height: 300px;
+    margin: auto;
+}
+
+#hpSensorInfo #sensor, #hpSensorInfo #receiver {
+    display: block;
+    width: 360px;
+    height: 500px;
+    float: left;
+}
+
+    #hpSensorInfo #sensor h2, #hpSensorInfo #receiver h2 {
+        font-family: 'Lora', serif;
+        color: #b9ce66;
+        font-weight: bold;
+        text-align: center;
+        font-size: 200%;
+    }
+
+    #hpSensorInfo #sensor img, #hpSensorInfo #receiver img {
+        margin-left: 55px;
+    }
+
+    #hpSensorInfo #receiver img {
+        margin-top: 50px;
+    }
+
+    #hpSensorInfo #receiver ul, #hpSensorInfo #sensor ul {
+        list-style-type: square;
+        width: 330px;
+        height: 200px;
+        color: black;
+        padding: 6px;
+        font-size: 120%;
+        font-family: 'Lora', serif;
+    }
+
+    #hpSensorInfo #receiver ul {
+        margin-top: 54px;
+        margin-left: 20px;
+    }
+
+    #hpSensorInfo #sensor ul {
+        margin-top: 20px;
+    }
+
+    #hpSensorInfo #receiver li, #hpSensorInfo #sensor li {
+        margin-bottom: 13px;
+    }
+
+#hpSensorInfo #moreInfoDexcom {
+    float: left;
+    margin-top: 75px;
+}
+
+    #hpSensorInfo #moreInfoDexcom p {
+        margin-bottom: 0px;
+    }
+
+    #hpSensorInfo #moreInfoDexcom a {
+        color: blue;
+        font-family: 'Lora', serif;
+        text-decoration: none;
+    }
+
+        #hpSensorInfo #moreInfoDexcom a:hover {
+            color: green;
+        }
+
+        #hpSensorInfo #moreInfoDexcom a:visited {
+            color: purple;
+        }
+
+#hpFamInfo h2 {
+    width: 720px;
+    text-align: center;
+    display: block;
+    color: #83C88F;
+    font-family: 'Lora', serif;
+    font-weight: bold;
+    margin-bottom: 40px;
+}
+
+#hpFamInfo #palisiPhoto {
+    display: block;
+    width: 450px;
+    margin: 20px 135px;
+    box-shadow: 6px 6px 7px rgba(0, 0, 0, 0.6);
+    -moz-box-shadow: 6px 6px 7px rgba(0, 0, 0, 0.6);
+    -webkit-box-shadow: 6px 6px 7px rgba(0, 0, 0, 0.6);
+}
+
+#hpFamInfo #palisi_info {
+    display: block;
+    width: 650px;
+    margin-left: 50px;
+    margin-right: 50px;
+    margin-top: 40px;
+}
+
+    #hpFamInfo #palisi_info p {
+        font-family: 'Lora', serif;
+        line-height: 22px;
+        font-size: 110%;
+        border-radius: 50px/15px;
+        background-color: #D7F69E;
+        padding: 20px;
+    }
+
+#hpFamInfo a {
+    color: blue;
+    text-decoration: none;
+}
+
+    #hpFamInfo a:hover {
+        color: green;
+    }
+
+    #hpFamInfo a:visited {
+        color: purple;
+    }
+
+form h2 {
+    width: 515px;
+    margin-bottom: 30px;
+    text-align: center;
+    font-family: 'Lora', serif;
+    color: #C294C7;
+    font-weight: bold;
+}
+
+form input {
+    font-family: 'Lora', serif;
+}
+
+form div.parentInfo {
+    font-family: 'Lora', serif;
+}
+
+form div.parentInfo.top {
+    margin-top: 15px;
+}
+
+form textarea {
+    outline: none;
+    resize: none;
+    height: 160px;
+    width: 509px;
+    display: block;
+	font-family: 'Lora', serif;
+}
+
+form #contactDescribe {
+    width: 435px;
+    margin: auto;
+    line-height: 22px;
+    font-size: 110%;
+    font-family: 'Lora', serif;
+    padding: 5px 10px;
+    border-radius: 10px;
+    background-color: #EDF7F5;
+}
