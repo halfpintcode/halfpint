@@ -115,6 +115,7 @@
     <Compile Include="Controllers\EnrollmentController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\FamiliasController.cs" />
+    <Compile Include="Controllers\أسرController.cs" />
     <Compile Include="Controllers\FamiliesController.cs" />
     <Compile Include="Controllers\DownloadController.cs" />
     <Compile Include="Controllers\DesFamillesController.cs" />
@@ -968,6 +969,9 @@
     <Content Include="Views\FileManager\Upload.cshtml" />
     <Content Include="Views\FileManager\UploadAjax.cshtml" />
     <Content Include="Views\FileManager\UploadTest.cshtml" />
+    <Content Include="Views\Familias\ContactConfirmation.cshtml" />
+    <Content Include="Views\أسر\ContactConfirmation.cshtml" />
+    <Content Include="Views\أسر\Index.cshtml" />
     <None Include="_bin_deployableAssemblies\Microsoft.Web.Infrastructure.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.Razor.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.dll" />

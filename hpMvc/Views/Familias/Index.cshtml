@@ -7,11 +7,11 @@
     <h1>Page Famille HALF-PINT</h1>
     <ul id="lanSelector">
         <li>
-            La langue: Français
+            Idioma: Español
             <ul class="languages">
-                <li id="english">@Html.ActionLink("English", "Families")</li>
-                <li id="spanish"><a href="#">Español</a></li>
-                <li id="french">@Html.ActionLink("Français", "Familias")</li>
+                <li id="english">@Html.ActionLink("English", "Index", new { Controller = "Families" })</li>
+                <li id="spanish">@Html.ActionLink("Español", "Index", new { Controller = "Familias" })</li>
+                <li id="french">@Html.ActionLink("Français", "Index", new { Controller = "DesFamilles" })</li>
                 <li><a href="#">العربية</a></li>
             </ul>
         </li>
@@ -23,14 +23,14 @@
     </div>
     <div id="hpInfo">
         <p>
-            Bienvenue à la page Famille de l’étude de HALF-PINT! Chez HALF-PINT nous savons que vous et votre enfant êtes dépassés par le soin et la recherche qui se font autour de vous, et nous espérons que cette page répond à toutes les questions que vous pourriez avoir au sujet de l’étude à laquelle participe votre enfant.<br /><br />Actuellement, HALF-PINT a recruté
-            <script type="text/javascript">document.write(currentAmount);</script> patients dans plus de 30 centres à travers les États-Unis et le monde. Nous planifions de recruter 1414 enfants et de compléter cette étude à la fin de l’été 2018. Si vous avez des commentaires au sujet de la page famille, ou si vous avez d’autres questions concernant l’étude de HALF-PINT, veuillez cliquer sur le bouton « Contactez-nous » au bas de la page et nous vous répondrons dès que possible. Merci de l’intérêt que vous portez à notre essai clinique!
+            ¡Bienvenido a la Página de la Familia del Estudio HALF-PINT! En HALF-PINT sabemos que toda la atención médica e investigaciones a su alrededor puede ser agobiante tanto para usted como para su hijo, por ello, esperamos que está página responda cualquier pregunta que pueda tener sobre el estudio en que está participando su hijo.<br /><br />Actualmente, HALF-PINT ha inscrito a
+            <script type="text/javascript">document.write(currentAmount);</script> pacientes en más de 30 centros en Estados Unidos y en todo el mundo. Tenemos la intención de inscribir a 1,414 niños y completar el estudio a finales del verano de 2018. Si tiene algún comentario sobre la página de la familia, o aún tienen preguntas relacionadas con el estudio HALF-PINT, por favor haga clic en el botón "Contáctenos" en el parte inferior de la página y nosotros le responderemos tan pronto como sea posible. ¡Gracias por su interés en nuestro ensayo clínico!
         </p>
     </div>
 </div>
 <div id="row3">
     <div id="hpCrew">
-        <h2>Rencontrer les équipes<br />de HALF-PINT</h2>
+        <h2>Conózca a los equipos de HALF-PINT</h2>
         <div id="slideshow">
             <ul class="bxslider">
                 <li><a href="http://www.childrenshospital.org/" target="_blank"><img src="@Url.Content("~/Content/Images/crewSlideshow/bchTeam.jpg")" title="Boston Children's Hospital" /></a></li>
@@ -43,24 +43,24 @@
         </div>
     </div>
     <div id="enrollment">
-        <h2>Progrès de HALF-PINT</h2>
+        <h2>Evolución de HALF-PINT</h2>
         <div id="goal-thermometer"></div>
     </div>
 </div>
 <div id="row4">
-    <h2 id="mapHeader">Hôpitaux participants de HALF-PINT</h2>
+    <h2 id="mapHeader">Hospitales participantes en HALF-PINT</h2>
     <div id="hpMap">
     </div>
 </div>
 <div id="row5">
     <div id="familyMenu">
         <ul>
-            <li id="active" class="first"><a id="hpOrigin" class="sideLink" href="#">Origine de HALF-PINT</a></li>
-            <li><a id="hpDescribe" class="sideLink" href="#">Programme CHECKS</a></li>
-            <li><a id="hpSensor" class="sideLink" href="#">Détecteur Dexcom</a></li>
-            <li><a id="hpND" class="sideLink" href="#">Enquête de suivi</a></li>
-            <li><a id="hpFam" class="sideLink" href="#">Parents HALF-PINT</a></li>
-            <li><a id="hpContact" class="sideLink" href="#">Contactez nous</a></li>
+            <li id="active" class="first"><a id="hpOrigin" class="sideLink" href="#">Origen de HALF-PINT</a></li>
+            <li><a id="hpDescribe" class="sideLink" href="#">Programa CHECKS</a></li>
+            <li><a id="hpSensor" class="sideLink" href="#">Sensor Dexcom</a></li>
+            <li><a id="hpND" class="sideLink" href="#">Encuesta de seguimiento</a></li>
+            <li><a id="hpFam" class="sideLink" href="#">Padres HALF-PINT</a></li>
+            <li><a id="hpContact" class="sideLink" href="#">Contáctenos</a></li>
         </ul>
     </div>
     <div id="hpOriginInfo">
@@ -69,136 +69,136 @@
                 <img src="@Url.Content("~/Content/Images/investigators/michael.jpg")" title="Michael Agus, MD">
             </div>
             <a href="http://www.childrenshospital.org/doctors/michael-agus" target="_blank"><h4>Michael Agus, MD</h4></a>
-            <h5>Chercheur principal,<br />Chercheur principal</h5>
+            <h5>Investigador Principal,<br />Centro de Coordinación Clínica</h5>
         </div>
         <div class="investigator">
             <div class="investImage">
                 <img src="@Url.Content("~/Content/Images/investigators/vinay.jpg")" title="Vinay Nadkarni, MD">
             </div>
             <a href="http://www.chop.edu/doctors/nadkarni-vinay-m#.V1ctEvkrKCg" target="_blank"><h4>Vinay Nadkarni, MD</h4></a>
-            <h5>Chercheur principal,<br />Chercheur principal</h5>
+            <h5>Investigador Principal,<br />Centro de Coordinación Clínica</h5>
         </div>
         <div class="investigator">
             <div class="investImage">
                 <img src="@Url.Content("~/Content/Images/investigators/david.jpg")" title="David Wypij, PhD">
             </div>
             <a href="https://www.hsph.harvard.edu/david-wypij/" target="_blank"><h4>David Wypij, PhD</h4></a>
-            <h5>Chercheur principal,<br />Centre de coordination des données</h5>
+            <h5>Investigador Principal,<br />Centro de Coordinación de Datos</h5>
         </div>
         <div class="investigator">
             <div class="investImage">
                 <img src="@Url.Content("~/Content/Images/investigators/garry.jpg")" title="Garry Steil, PhD">
             </div>
             <a href="http://www.childrenshospital.org/researchers/garry-steil" target="_blank"><h4>Garry Steil, PhD</h4></a>
-            <h5>Chercheur associé,<br />Chercheur principal</h5>
+            <h5>Co-investigador,<br />Centro de Coordinación Clínica</h5>
         </div>
         <div id="originText">
-            <p>L’hyperglycémie, un état de taux élevés de glucose dans le sang, est souvent observée chez les enfants très malades. De nombreux docteurs qui traitent leurs patients au service de soins intensifs utilisent l’insuline, une substance que notre corps produit naturellement pour réduire cette hyperglycémie. L’essai de HALF-PINT est conçu pour aider les docteurs à savoir quelle plage de glycémie doit être ciblée chez les enfants pour les aider à récupérer plus rapidement de leur maladie.<br /><br />La glycémie des patients au service des soins intensifs a été l’objet de notre recherche intensive au cours des deux dernières décennies, mais l’essentiel de cette recherche a été fait auprès de patients adultes. Dans les essais pédiatriques, une étude clinique a montré que les enfants avaient plus de chances de survivre et de passer moins de temps en unité de soins intensifs lorsque leur hypoglycémie était abaissée avec l’insuline; cependant, ce traitement augmentait la possibilité d’une grave hypoglycémie (bas taux de glucose) <sup class="supOrigin"><a href="http://www.sciencedirect.com/science/article/pii/S0140673609600441" target="_blank">1</a></sup>. Un des principaux chercheurs de HALF-PINT, le Dr. Michael Agus, a mené une étude dans le service de soins intensifs de cardiologie pour traiter les enfants atteints d’hyperglycémie et a démontré le taux le plus bas d’hypoglycémie grave comparé à tous les autres essais cliniques randomisés précédents <sup class="supOrigin"><a href="http://www.nejm.org/doi/pdf/10.1056/NEJMoa1206044" target="_blank">2</a></sup>. Cependant, il semble que le contrôle serré de la glycémie ne soit pas meilleur dans l’unité de soins intensifs de cardiologie ne soit pas meilleur qu’avec les méthodes existantes de soins.<br /><br />Les enfants en unité de soins intensifs médicale sont atteints de différentes sortes de maladies que ceux en unité de soins intensifs de cardiologie. Il est important pour nous de faire l’étude de HALF-PINT pour trouver s’il y a des avantages pour le contrôle de la glycémie chez ses enfants ou si le traitement ne fait aucune différence. HALF-PINT recrute des enfants qui ont besoin de médicaments pour une pression artérielle faible, ou ont besoin d’une machine pour respirer. Ces enfants sont parmi les plus malades de et passent la plupart de leur temps en unité de soins intensifs <sup class="supOrigin"><a href="http://www.sciencedirect.com/science/article/pii/S0022347696704250" target="_blank">3</a>,<a href="http://www.ncbi.nlm.nih.gov/pubmed/12541154" target="_blank">4</a></sup>. Le Dr. Agus (Boston Children's Hospital) et le Dr. Vinay Nadkarni (Children's Hospital of Philadelphia) ont conçu l’étude de HALF-PINT pour voir si le traitement de l’hyperglycémie chez ses enfants augmente leurs chances de survie et raccourcit leur séjour en unité de soins intensifs. HALF-PINT utilise un programme informatique (nommé « CHECKS ») développé par le Dr. Garry Steil, un expert en biologie de l’insuline au Boston Children's, pour traiter l’hyperglycémie efficacement et en toute sécurité. Le Dr. David Wypij, aussi au Boston Children's, et le chercheur principal qui dirige l’équipe de biostatistiques pour HALF-PINT; il mène une brillante carrière en coordination de données statistiques pour des études multicentriques comme HALF-PINT.</p>
+            <p>Hiperglucemia, una enfermedad caracterizada por altos niveles de azúcar en la sangre, se presenta a menudo en niños muy enfermos. Muchos médicos que tratan a pacientes en la Unidad de Cuidados Intensivos (UCI) utilizan la insulina, una sustancia que nuestro cuerpo produce naturalmente, para reducir estos niveles de azúcar en la sangre. El ensayo HALF-PINT ha sido diseñado para ayudar a los médicos a determinar qué niveles de azúcar en la sangre deben establecer como objetivo para ayudar a que los niños se recuperen más rápidamente de su enfermedad.<br /><br />El nivel de azúcar en la sangre de los pacientes en la UCI ha sido objeto de intensas investigaciones durante las últimas dos décadas, pero la mayor parte de estas investigaciones se realizaron en pacientes adultos. En los ensayos pediátricos, un estudio clínico concluyó que los niños tenían más probabilidades de sobrevivir y permanecer menos tiempo en la UCI cuando los niveles elevados de azúcar en la sangre se reducían con insulina; sin embargo, este tratamiento aumentó la posibilidad de hipoglucemia severa (bajo nivel de azúcar en la sangre) <sup class="supOrigin"><a href="http://www.sciencedirect.com/science/article/pii/S0140673609600441" target="_blank">1</a></sup>. Uno de los principales investigadores de HALF-PINT, el Dr. Michael Agus, realizó un estudio sobre el control de los niveles elevados de azúcar en la sangre en la unidad pediátrica de cuidados intensivos cardíacos que dio como resultado la tasa más baja de hipoglucemia grave en comparación con todos los demás ensayos clínicos aleatorizados previos <sup class="supOrigin"><a href="http://www.nejm.org/doi/pdf/10.1056/NEJMoa1206044" target="_blank">2</a></sup>. Sin embargo, parece que el control estricto del azúcar en la sangre en la UCI cardíacos, no es mejor que los métodos tradicionales existentes.<br /><br />Los niños en las unidades pediátricas de cuidados intensivos (no cardíacos) tienen más diversidad de enfermedades que los niños de las unidades pediátricas de cuidados intensivos cardíacos. Es importante para nosotros realizar el estudio HALF-PINT para determinar si existen beneficios al controlar el azúcar en la sangre de estos niños, o si el tratamiento no cambia la situación. HALF-PINT inscribe a los niños que necesitan medicamentos para la presión arterial debido a que su presión arterial es baja o se encuentran en una máquina para ayudarles a respirar. Estos niños se encuentran entre los más enfermos y permanecen más tiempo en la UCI <sup class="supOrigin"><a href="http://www.sciencedirect.com/science/article/pii/S0022347696704250" target="_blank">3</a>,<a href="http://www.ncbi.nlm.nih.gov/pubmed/12541154" target="_blank">4</a></sup>. El Dr. Agus (Hospital Infantil de Boston) y el Dr. Vinay Nadkarni (Hospital Infantil de Filadelfia) diseñaron el estudio HALF-PINT para determinar si el tratamiento de la hiperglucemia en estos niños mejora sus posibilidades de supervivencia y acorta su estancia en la UCI. HALF-PINT utiliza un programa informático (llamado "CHECKS") desarrollado por el Dr. Garry Steil, un experto en la biología de la insulina del Boston Children’s, para tratar con seguridad y eficacia el azúcar en la sangre. El Dr. David Wypij, también del Boston Children's, es el investigador principal que dirige el equipo de bioestadística de HALF-PINT y tiene una trayectoria destacada en la coordinación de estadística y datos para estudios multicéntricos como el HALF-PINT.</p>
         </div>
     </div>
     <div id="hpDescribeInfo">
         <img class="checksgif" src="@Url.Content("~/Content/Images/CHECKS_short.gif")" title="CHECKS">
         <div id="screenDiv">
-            <h3>Captures d’écran CHECKS</h3>
+            <h3>Capturas de pantalla de CHECKS</h3>
             <div id="screenshots">
-                <a href="@Url.Content("~/Content/Images/checksPhotos/checks_1.jpg")" class="checksScreen first" title="Taux de glycémie 80 à 110 mg/dL (4,4 à 6,1 mmol/L)">
+                <a href="@Url.Content("~/Content/Images/checksPhotos/checks_1.jpg")" class="checksScreen first" title="Rango de azúcar en la sangre de 80-110 mg/dL (4,4-6,1 mmol/L)">
                     <img src="@Url.Content("~/Content/Images/checksPhotos/checks_1.jpg")" width="75">
                 </a>
-                <a href="@Url.Content("~/Content/Images/checksPhotos/checks_2.jpg")" class="checksScreen" title="Taux de glycémie 150 à 180 mg/dL (8,3 à 10 mmol/L)">
+                <a href="@Url.Content("~/Content/Images/checksPhotos/checks_2.jpg")" class="checksScreen" title="Rango de azúcar en la sangre de 150-180 mg/dL (8,3 a 10 mmol/L)">
                     <img src="@Url.Content("~/Content/Images/checksPhotos/checks_2.jpg")" width="75">
                 </a>
-                <a href="@Url.Content("~/Content/Images/checksPhotos/checks_3.jpg")" class="checksScreen last" title="Taux de glycémie 80 à 110 mg/dL (4,4 à 6,1 mmol/L)">
+                <a href="@Url.Content("~/Content/Images/checksPhotos/checks_3.jpg")" class="checksScreen last" title="Rango de azúcar en la sangre de 80-110 mg/dL (4,4-6,1 mmol/L)">
                     <img src="@Url.Content("~/Content/Images/checksPhotos/checks_3.jpg")" width="75">
                 </a>
-                <a href="@Url.Content("~/Content/Images/checksPhotos/checks_4.jpg")" class="checksScreen first bottom" title="Contourner les options de l’insuline">
+                <a href="@Url.Content("~/Content/Images/checksPhotos/checks_4.jpg")" class="checksScreen first bottom" title="Opciones de sustitución de insulina">
                     <img src="@Url.Content("~/Content/Images/checksPhotos/checks_4.jpg")" width="75">
                 </a>
-                <a href="@Url.Content("~/Content/Images/checksPhotos/checks_5.jpg")" class="checksScreen bottom" title="Registre historique détaillé">
+                <a href="@Url.Content("~/Content/Images/checksPhotos/checks_5.jpg")" class="checksScreen bottom" title="Registro detallado del historial">
                     <img src="@Url.Content("~/Content/Images/checksPhotos/checks_5.jpg")" width="75">
                 </a>
-                <a href="@Url.Content("~/Content/Images/checksPhotos/checks_6.jpg")" class="checksScreen last bottom" title="Saisie précoce de la glycémie">
+                <a href="@Url.Content("~/Content/Images/checksPhotos/checks_6.jpg")" class="checksScreen last bottom" title="Registro anticipado del azúcar en la sangre">
                     <img src="@Url.Content("~/Content/Images/checksPhotos/checks_6.jpg")" width="75">
                 </a>
             </div>
         </div>
         <div id="checksInfo">
-            <p class="top">CHECKS (Tableau de l’euglycémie pour les enfants à l'hôpital pour enfants) est une application Microsoft Excel qui recommande les doses d’insuline en réponse au changement de glycémie d’un patient en unité de soins intensifs. CHECKS a été étudié chez plus de 1000 patients d’unité de soins intensifs et utilise les méthodes développées par le <a href="http://www.childrenshospital.org/researchers/garry-steil" target="_blank">Dr. Garry Steil</a> pour recommander combien d’insuline votre enfant doit recevoir. L’application est conçue pour maintenir le taux de glycémie de votre enfant dans une plage donnée. Chez HALF-PINT, ce taux de glycémie est assigné aléatoirement au début de l’étude : 80 à 110 mg/dL (4,4 à 6,1 mmol/L) or 150 à 180 mg/dL (8,3 à 10 mmol/L). Les valeurs de glycémie de votre enfant sont aussi inscrites sur un graphique pour qu’elles puissent être vues par le personnel soignant.</p>
-            <p>CHECKS offre plusieurs fonctionnalités, y compris de donner au personnel soignant l’option de contourner les recommandations de doses d’insuline, de suspendre le programme, de saisir les valeurs de glycémie plutôt que prévu et d’afficher un historique détaillé de chaque valeur saisie dans CHECKS. Le personnel soignant peut contourner les recommandations chaque fois qu’il pense que la recommandation n’est pas dans le meilleur intérêt de votre enfant. Si les symptômes de votre enfant sont trop graves poursuivre l’étude de HALF-PINT de façon sécuritaire, le personnel soignant peut suspendre CHECKS ; il peut aussi le faire si votre enfant quitte l’unité de soins intensifs pour une intervention médicale ou une opération.</p>
+            <p class="top">CHECKS (Planilla de euglucemia (nivel normal de azúcar en la sangre) para Niños del Children's Hospital) es una aplicación basada en Microsoft Excel que recomienda las dosis de insulina en respuesta a los cambios en los niveles de azúcar en la sangre de un paciente de la UCI. CHECKS ha sido analizado en más de 1,000 pacientes de la UCI y utiliza métodos desarrollados por el <a href="http://www.childrenshospital.org/researchers/garry-steil" target="_blank">Dr. Garry Steil</a> para recomendar la cantidad de insulina que su niño debe recibir. La aplicación está diseñada para mantener el nivel de azúcar en la sangre de su hijo dentro de un rango objetivo. Para HALF-PINT, este rango de azúcar en la sangre se asigna al azar al comienzo del estudio: 80-110 mg/dL (4.4-6.1 mmol/L) o 150-180 mg/dL (8.3 a 10 mmol/L). Los valores de azúcar en la sangre de su hijo también se trazan en un gráfico para que el personal médico de cabecera pueda consultarlo.</p>
+            <p>CHECKS tiene numerosas funciones, entre otras, darle la opción al personal médico de cabecera de dejar sin efecto las recomendaciones de dosis de insulina, interrumpir el programa, ingresar valores de azúcar en la sangre antes de lo esperado, y ver un historial detallado de cada valor ingresado en CHECKS. El personal médico de cabecera puede dejar sin efecto las recomendaciones en cualquier momento si consideran que éstas van en contra de lo que es mejor para el niño. Si los síntomas del niño son demasiado graves como para continuar en el estudio HALF-PINT de forma segura, el personal médico de cabecera puede interrumpir CHECKS; El personal médico de cabecera también puede interrumpir CHECKS si su hijo abandona la UCI para un procedimiento o una operación.</p>
         </div>
     </div>
     <div id="hpNDInfo">
-        <h2>Enquête de suivi</h2>
+        <h2>Encuesta de seguimiento</h2>
         <div id="neuroDetail">
-            <p>Un des buts de l’étude de HALF-PINT est d’identifier les différences entre la santé de votre enfant avant son admission en unité de soins intensifs et sa santé après avoir participé à notre étude. Notre personnel a demandé aux parents d’enfants entre 2 et 16 ans le jour où ils sont entrés dans l’étude de remplir de questionnaire au sujet des comportements courants de l’enfant, de son développement et de sa qualité de vie avant qu’il devienne malade.<br /><br />Si vous reçu ce questionnaire, peu après que votre enfant ait quitté l’hôpital, vous recevrez une carte postale expliquant que <u>vous pourriez être appelés</u> par notre personnel de l’étude à <a href='http://www.cumc.columbia.edu/dept/sergievsky/' target=”_blank”>l’université Columbia</a> pour une enquête de suivi au sujet de la santé courante de votre enfant. Ce n’est pas tout le monde qui a participé à l’étude qui sera appelé. Nous sélectionnons aléatoirement (comme à pile ou face) les familles à appeler pour l’enquête de suivi. Si vous recevez une seconde carte postale dans le courrier (voir ci-dessous), cela signifie que le personnel de l’étude à l’université Columbia <u>vous appellera</u> dans quelques mois concernant l’enquête de suivi.</p>
+            <p>Uno de los objetivos del estudio HALF-PINT es establecer las diferencias entre el estado de salud con el que su hijo ingresó a la UCI y su estado de salud después de participar en nuestro estudio. Nuestro personal les solicitó a los padres de los niños que a la fecha de ingreso en el estudio HALF-PINT tenían entre 2 y 16 años de edad que llenaran dos cuestionarios sobre comportamientos habitual, el desarrollo y la calidad de vida del niño antes de que se enfermara.<br /><br />En caso de que haya recibido estos cuestionarios, poco después de que el niño salga del hospital, usted recibirá una tarjeta postal informándole que <u>es posible que reciba una llamada</u> de nuestro personal del estudio de la <a href='http://www.cumc.columbia.edu/dept/sergievsky/' target=”_blank”>Universidad de Columbia</a> para una encuesta de seguimiento sobre el estado de salud actual de su hijo. No todo el mundo que participe en nuestro estudio recibirá la llamada. Nosotros seleccionaremos aleatoriamente (como al lanzar una moneda) a las familias que llamaremos para la encuesta de seguimiento. Si recibe una segunda tarjeta postal (ver más abajo), esto significa que nuestro personal del estudio de la Universidad de Columbia <u>le llamará</u> dentro de unos meses con respecto a la encuesta de seguimiento.</p>
         </div>
         <div id="postcard">
-            <img src="@Url.Content("~/Content/Images/follow_upCard.jpg")" title="Carte postale d’enquête de suivi">
+            <img src="@Url.Content("~/Content/Images/follow_upCard.jpg")" title="Encuesta de seguimiento – tarjeta postal">
         </div>
     </div>
     <div id="hpFamInfo">
-        <h2>Parents de HALF-PINT à PALISI</h2>
+        <h2>Padres HALF-PINT en PALISI</h2>
         <div id="palisiPhoto">
             <img src="@Url.Content("~/Content/Images/parents_palisi.jpg")" title="Parents at PALISI">
         </div>
         <div id="palisi_info">
-            <p>Une part importante de notre mission est de faire de notre mieux pour vous expliquer notre étude, à vous, votre enfant et votre famille, et pour vous garder informés de nos progrès. Nous pensons que ceci est important avant que vous commenciez l’étude, pendant l’étude et même après la participation de votre enfant. Pour cette raison, nous avons invité un groupe de parents dont les enfants ont participé à l’étude à parler à notre rencontre annuelle de chercheurs à la conférence Pediatric Acute Lung Injury Sepsis Investigators (<a href="http://www.palisi.org/" target="_blank">PALISI</a>), chercheurs de sepsie et du syndrome respiratoire aigu chez les enfants. PALISI est une organisation de chercheurs cliniques à travers l’Amérique du Nord qui tente de trouver de nouveaux moyens de traiter les symptômes parfois mortels qui affectent les nourrissons et les enfants en unité de soins intensifs. Nous en avons appris beaucoup sur ce que les parents ont à dire et c’est pour répondre à leurs suggestions que cette page famille a été développée.<br /><br />Chaque parent qui a parlé à PALISI a exprimé le désir de voir plus d’informations au sujet de l’essai de HALF-PINT au moment où leur enfant a été recruté ainsi qu’après son départ de l’unité de soins intensifs. Nous espérons que cette page sera une précieuse source d’information pour vous, les parents des enfants qui ont participé à notre étude. Si vous avez des réflexions sur de l’information supplémentaire que vous désireriez voir, ou sur la façon dont nous pourrions améliorer notre site Web, veuillez cliquer sur le bouton « Contactez nous » à votre gauche, saisissez vos commentaires dans la zone de texte, et un courriel nous sera envoyé avec vos réflexions!</p>
+            <p>Una parte importante de nuestra misión es hacer todo lo que este a nuestro alcance para explicarle a usted, a su hijo y a su familia nuestro estudio y mantenerle informado sobre nuestros avances. Creemos que esto es importante antes de iniciar el estudio, durante el estudio, e incluso después de su hijo haya participado. Por esta razón hemos invitado a un grupo de padres de niños que participaron en el estudio para hablar en nuestra reunión anual de investigadores en la conferencia de investigadores de lesión pulmonar aguda y septicemia en pacientes pediátricos (<a href="http://www.palisi.org/" target="_blank">PALISI</a>). PALISI es una organización de investigadores clínicos de América del Norte que tratan de encontrar nuevas formas para tratar los síntomas que amenazan la vida que afectan a los lactantes y los niños en la UCI. Hemos aprendido mucho de los comentarios de estos padres, y una de las principales razones por las que se ha desarrollado esta página de la familia es para hacer atender sus sugerencias.<br /><br />Cada padre que habló en PALISI expresó el deseo de ver más información sobre el ensayo HALF-PINT, mientras su hijo estaba participando en el estudio, así como después de haber abandonado la UCI. Esperamos que esta página sea una fuente valiosa de información para ustedes, los padres de los niños que participan en nuestro estudio. Si usted tiene alguna idea sobre qué información adicional que le gustaría ver o cómo podemos mejorar nuestra página web, por favor haga clic en el botón "Contacto" a su izquierda, introduzca sus comentarios en el cuadro de texto y un correo electrónico nos será enviado con sus ideas.</p>
         </div>
     </div>
     <div id="hpSensorInfo">
         <div id="sensor">
-            <h2>Capteur Dexcom G4</h2>
+            <h2>Sensor G4 Dexcom</h2>
             <img src="@Url.Content("~/Content/Images/dexcomSensor.jpg")" title="Dexcom G4 Sensor">
             <ul>
-                <li>Mesure les taux de glucose dans le fluide juste sous la peau et non dans les vaisseaux sanguins</li>
-                <li>Le diamètre du fil du capteur est environ le même que 2 cheveux</li>
-                <li>Alors les endroits où le capteur peut être inséré sont : l’abdomen, le bras et la cuisse</li>
-                <li>Seul un personnel formé peut insérer les capteurs</li>
+                <li>Mide los niveles de azúcar en el fluido debajo de la piel, no en los vasos sanguíneos</li>
+                <li>El ancho del cable sensor es de aproximadamente igual al de dos cabellos humanos</li>
+                <li>Sitios en los que el sensor puede insertarse: abdomen, parte superior del brazo y el muslo</li>
+                <li>Los sensores son insertados únicamente por personal capacitado</li>
             </ul>
         </div>
         <div id="receiver">
-            <h2>Récepteur Dexcom G4</h2>
+            <h2>Receptor G4 Dexcom</h2>
             <img src="@Url.Content("~/Content/Images/dexcomReceiver.png")" title="Dexcom G4 Receiver">
             <ul>
-                <li>Reçoit les données sans fil depuis le capteur jusqu’à une distance de 6 m (20 pi)</li>
-                <li>Les taux de glucose sont mis à jour sur l’écran toutes les 5 minutes</li>
-                <li>Une flèche de tendance indique au personnel soignant comment la glycémie devrait changer</li>
-                <li>Une alarme se déclenchera si le taux de glucose chute trop bas</li>
+                <li>Recibe los datos de forma inalámbrica desde el sensor, hasta una distancia de 20 pies</li>
+                <li>Los niveles de azúcar se actualizan en la pantalla cada 5 minutos</li>
+                <li>Una flecha de tendencia le indica al personal al lado de la cama del paciente cómo es probable que cambie el nivel de azúcar</li>
+                <li>Una alarma se activa si el nivel de azúcar baja demasiado</li>
             </ul>
         </div>
         <div id="moreInfoDexcom">
-            <p>Pour plus de renseignements au sujet du capteur et du récepteur que nous utilisons dans l’essai de HALF-PINT, <a href="https://www.dexcom.com/dexcom-g4-platinum-share" target="_blank">cliquez ici</a> pour visiter Dexcom.com</p>
+            <p>Para obtener más información sobre el sensor y el receptor que utilizamos en el ensayo HALF-PINT, por favor haga <a href="https://www.dexcom.com/dexcom-g4-platinum-share" target="_blank">clic aquí</a> para visitar Dexcom.com</p>
         </div>
     </div>
     <div id="hpContactInfo">
         @using (Html.BeginForm())
         {
-            <h2>Formulaire de contact</h2>
+            <h2>Formulario de contacto</h2>
             @Html.ValidationSummary(true)
             <p id="contactDescribe">
-                Si vous désirez que nous changions ou ajoutions quelque chose au site Web de la famille, veuillez nous faire part de vos réflexions! Saisissez votre nom et votre adresse courriel ci-dessous avec vos commentaires, puis cliquez sur soumettre. Nous recevrons un courriel avec vos commentaires et vous recevrez un courriel de confirmation indiquant que nous les avons reçus.
+                Si hay algo que desea que modifiquemos o adicionemos a la página web de la familia, ¡envíenos sus ideas! Ingrese su nombre y dirección de correo electrónico con cualquier comentario que tenga en el cuadro de texto, a continuación, haga clic en enviar. Recibiremos un correo electrónico con sus comentarios y usted recibirá un correo electrónico de confirmación que indica que hemos recibido sus comentarios.
             </p>
             <div class="fieldset">
                 <div class="parentInfo top">
-                    <span class="lbleditor">Prénom :</span>
+                    <span class="lbleditor">Nombre:</span>
                     <span class="col2">
                         @Html.EditorFor(model => model.FamilyContact.FirstName)
                     </span>
                 </div>
                 <div class="parentInfo">
-                    Nom de famille :
+                    Apellido:
                     <span class="col2">
                         @Html.EditorFor(model => model.FamilyContact.LastName)
                     </span>
 
                 </div>
                 <div class="parentInfo">
-                    Adresse courriel :
+                    Dirección de correo electrónico:
                     <span class="col2">
                         @Html.EditorFor(model => model.FamilyContact.Email)
                     </span>
                 </div>
                 <div>
-                    Commentaires:
+                    Comentarios:
                     <span class="col2">
                         @Html.TextAreaFor(model => model.FamilyContact.Comment, 5, 62, new { })
 
@@ -208,13 +208,15 @@
             </div>
 
             <div id="sendComments">
-                <input type="submit" value="Soumettre" />
+                <input type="submit" value="Enviar" />
             </div>
+
         }
+
     </div>
 </div>
 
-<link href="@Url.Content("~/Content/families_english.css")" rel="stylesheet" type="text/css">
+<link href="@Url.Content("~/Content/families_spanish.css")" rel="stylesheet" type="text/css">
 <link href="@Url.Content("~/Content/jquery.bxslider.css")" rel="stylesheet" type="text/css">
 <link href='https://fonts.googleapis.com/css?family=Lora' rel='stylesheet' type='text/css'>
 <link href="@Url.Content("~/Content/goal-thermometer.css")" rel="stylesheet" type="text/css">
