@@ -17,6 +17,7 @@
         <siteMapNode title="Download CHECKS Template" controller="Admin" action="DownloadChecksTemplate" />
         <siteMapNode title="Download a Saved Sensor File" controller="Admin" action="GetSavedSensorInfo" />
       </siteMapNode>
+      <siteMapNode title="Image Upload" controller="FileManager" action="ImageUpload" />
       <siteMapNode title="Randomization">
         <siteMapNode title="Show Randomized Studies" controller="Dcc" action="RandomizedStudies" />
         <siteMapNode title="Show Study IDs Not Randomized" controller="Coordinator" action="StudyIdsNotRandomized" />

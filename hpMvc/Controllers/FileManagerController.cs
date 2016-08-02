@@ -107,7 +107,7 @@ namespace hpMvc.Controllers
                 //throw new Exception("This is a test error!");
                 if (file != null && file.ContentLength > 0)
                 {
-                    var fileName = "Checks_tmpl.xlsm";
+                    var fileName = file.FileName;
                     var path = Path.Combine(Server.MapPath("~/content/images"), fileName);
                     file.SaveAs(path);
                 }
