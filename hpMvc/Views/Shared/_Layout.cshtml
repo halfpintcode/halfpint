@@ -79,6 +79,14 @@ Released   : 20090918
                 {
                     <li>@Html.ActionLink("Familias", "Index", "Familias") </li>
                 }
+                else if (Request.FilePath.Contains("DesFamilles") || Request.FilePath.Contains("familias"))
+                {
+                    <li>@Html.ActionLink("DesFamilles", "Index", "DesFamilles") </li>
+                }
+                else if (Request.FilePath.Contains("FamiliesArabic") || Request.FilePath.Contains("familias"))
+                {
+                    <li>@Html.ActionLink("FamiliesArabic", "Index", "FamiliesArabic") </li>
+                }
                 else
                 {
                     <li>@Html.ActionLink("Families", "Index", "Families")</li>

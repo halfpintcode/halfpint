@@ -7,7 +7,7 @@ using hpMvc.DataBase;
 
 namespace hpMvc.Controllers
 {
-    public class أسرController : Controller
+    public class FamiliesArabicController : Controller
     {
         //
         // GET: /Families/
@@ -32,11 +32,11 @@ namespace hpMvc.Controllers
             {
                 FamiliesBusiness.AddFamiliesContact(vm.FamilyContact);
                 var u = new UrlHelper(this.Request.RequestContext);
-                string url = "http://" + Request.Url.Host + u.RouteUrl("Default", new { Controller = "Families", Action = "Index" });
+                string url = "http://" + Request.Url.Host + u.RouteUrl("Default", new { Controller = "FamiliesArabic", Action = "Index" });
                 
                 FamiliesBusiness.ProcessEmails(vm.FamilyContact,url,Server);
                 
-                return RedirectToAction("ContactConfirmation", "Families", new {fvm = vm});
+                return RedirectToAction("ContactConfirmation", "FamiliesArabic", new {fvm = vm});
             }
             else
             {

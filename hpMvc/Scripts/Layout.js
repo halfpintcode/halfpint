@@ -104,6 +104,12 @@ $(function () {
     if (path.indexOf('familias') > -1) {
         target = 'Familias ';
     }
+    if (path.indexOf('desfamilles') > -1) {
+        target = 'DesFamilles ';
+    }
+    if (path.indexOf('familiesarabic') > -1) {
+        target = 'FamiliesArabic ';
+    }
     if (path.indexOf('admin') > -1) {
         target = 'Admin';
     }

@@ -115,7 +115,7 @@
     <Compile Include="Controllers\EnrollmentController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\FamiliasController.cs" />
-    <Compile Include="Controllers\أسرController.cs" />
+    <Compile Include="Controllers\FamiliesArabicController.cs" />
     <Compile Include="Controllers\FamiliesController.cs" />
     <Compile Include="Controllers\DownloadController.cs" />
     <Compile Include="Controllers\DesFamillesController.cs" />
@@ -409,7 +409,10 @@
     <Content Include="Content\CompleteSubject.css" />
     <Content Include="Content\CoordInitialize.css" />
     <Content Include="Content\buttons.css" />
+    <Content Include="Content\families_arabic.css" />
     <Content Include="Content\families_english.css" />
+    <Content Include="Content\families_french.css" />
+    <Content Include="Content\families_spanish.css" />
     <Content Include="Content\FortAwesome-Font-Awesome-13d5dd3\.gitignore" />
     <Content Include="Content\FortAwesome-Font-Awesome-13d5dd3\css\font-awesome-ie7.min.css" />
     <Content Include="Content\FortAwesome-Font-Awesome-13d5dd3\css\font-awesome.css" />
@@ -970,8 +973,8 @@
     <Content Include="Views\FileManager\UploadAjax.cshtml" />
     <Content Include="Views\FileManager\UploadTest.cshtml" />
     <Content Include="Views\Familias\ContactConfirmation.cshtml" />
-    <Content Include="Views\أسر\ContactConfirmation.cshtml" />
-    <Content Include="Views\أسر\Index.cshtml" />
+    <Content Include="Views\FamiliesArabic\ContactConfirmation.cshtml" />
+    <Content Include="Views\FamiliesArabic\Index.cshtml" />
     <None Include="_bin_deployableAssemblies\Microsoft.Web.Infrastructure.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.Razor.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.dll" />

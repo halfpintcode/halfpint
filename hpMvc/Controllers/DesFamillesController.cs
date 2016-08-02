@@ -34,11 +34,11 @@ namespace hpMvc.Controllers
             {
                 FamiliesBusiness.AddFamiliesContact(vm.FamilyContact);
                 var u = new UrlHelper(this.Request.RequestContext);
-                string url = "http://" + Request.Url.Host + u.RouteUrl("Default", new { Controller = "Familles", Action = "Index" });
+                string url = "http://" + Request.Url.Host + u.RouteUrl("Default", new { Controller = "DesFamilles", Action = "Index" });
 
                 FamiliesBusiness.ProcessEmails(vm.FamilyContact, url, Server);
 
-                return RedirectToAction("ContactConfirmation", "Familles", new { fvm = vm });
+                return RedirectToAction("ContactConfirmation", "DesFamilles", new { fvm = vm });
             }
             else
             {
