@@ -180,6 +180,7 @@
     <Compile Include="Models\ValidationExtensions.cs" />
     <Compile Include="Reports\RandomizedSubjectsChecksCompletedRows\ChecksRowInfo.cs" />
     <Compile Include="Services\CgmImportService\CgmImportService.cs" />
+    <Compile Include="Services\GIRUpdateService\GIRUpdateService.cs" />
     <Compile Include="Services\HtmlSanitizer\HtmlSanitizer.cs" />
     <Compile Include="Services\PostTestService\PostTestService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

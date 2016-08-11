@@ -547,9 +547,11 @@ a.checksScreen {
     }
 
 #hpNDInfo #postcard {
-    width: 388px;
-    height: 300px;
-    margin: auto;
+	width: 100%;
+}
+#hpNDInfo #postcard img{
+	margin: auto;
+	display: block;
 }
 
 #hpSensorInfo #sensor, #hpSensorInfo #receiver {

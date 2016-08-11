@@ -199,7 +199,7 @@ img {
 
 #row5 {
     width: 915px;
-    height: 955px;
+    height: 975px;
     margin: 0px;
     margin-top: 35px;
     position: relative;
@@ -547,9 +547,11 @@ a.checksScreen {
     }
 
 #hpNDInfo #postcard {
-    width: 388px;
-    height: 300px;
-    margin: auto;
+	width: 100%;
+}
+#hpNDInfo #postcard img{
+	margin: auto;
+	display: block;
 }
 
 #hpSensorInfo #sensor, #hpSensorInfo #receiver {
@@ -670,7 +672,7 @@ a.checksScreen {
         color: purple;
     }
 
-#contactFamily h2 {
+form h2 {
     width: 515px;
     margin-bottom: 30px;
     text-align: center;
@@ -679,35 +681,28 @@ a.checksScreen {
     font-weight: bold;
 }
 
-#contactFamily input {
-    margin-left: 8px;
+form input {
     font-family: 'Lora', serif;
 }
 
-#contactFamily div.parentInfo {
+form div.parentInfo {
     font-family: 'Lora', serif;
-    width: 515px;
-    margin-left: 120px;
 }
 
-    #contactFamily div.parentInfo.top {
-        margin-top: 0px;
-    }
+form div.parentInfo.top {
+    margin-top: 15px;
+}
 
-#contactFamily textarea {
+form textarea {
     outline: none;
     resize: none;
-    margin-top: 50px;
+    height: 160px;
     width: 509px;
     display: block;
+	font-family: 'Lora', serif;
 }
 
-#contactFamily #sendComments {
-    float: right;
-    margin-top: 10px;
-}
-
-#contactFamily #contactDescribe {
+form #contactDescribe {
     width: 435px;
     margin: auto;
     line-height: 22px;
@@ -716,14 +711,4 @@ a.checksScreen {
     padding: 5px 10px;
     border-radius: 10px;
     background-color: #EDF7F5;
-}
-
-#contactFamily div {
-    float: left;
-    margin-top: 30px;
-}
-
-#contactFamily #parentComments {
-    margin-top: 0px;
-    font-family: 'Lora', serif;
 }

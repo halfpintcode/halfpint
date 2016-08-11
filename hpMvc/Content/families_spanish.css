@@ -48,7 +48,7 @@ img {
             display: none;
             position: absolute;
             z-index: 9;
-            left: 58px;
+            left: 40px;
             top: 98%;
             padding: 0;
             margin: 0;
@@ -550,11 +550,12 @@ a.checksScreen {
     }
 
 #hpNDInfo #postcard {
-    width: 388px;
-    height: 300px;
-    margin: auto;
+	width: 100%;
 }
-
+#hpNDInfo #postcard img{
+	margin: auto;
+	display: block;
+}
 #hpSensorInfo #sensor, #hpSensorInfo #receiver {
     display: block;
     width: 360px;
