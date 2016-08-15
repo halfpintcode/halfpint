@@ -199,7 +199,55 @@ namespace hpMvc.DataBase
             }
             return 1;
         }
-        
+
+        public static List<CalStudyInfo> GetCalStudyInfoAll()
+        {
+            var csil = new List<CalStudyInfo>();
+            var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+
+            using (var conn = new SqlConnection(strConn))
+            {
+                try
+                {
+                    var cmd = new SqlCommand("", conn)
+                    {
+                        CommandType = System.Data.CommandType.StoredProcedure,
+                        CommandText = "GetCallStudyInfoAll"
+                    };
+                   
+                    conn.Open();
+                    var rdr = cmd.ExecuteReader();
+                    while (rdr.Read())
+                    {
+                        var csi = new CalStudyInfo();
+                        var pos = rdr.GetOrdinal("ID");
+                        csi.Id = rdr.GetInt32(pos);
+
+                        pos = rdr.GetOrdinal("Hours");
+                        csi.Hours = rdr.IsDBNull(pos) ? 0 : rdr.GetInt32(pos);
+
+                        pos = rdr.GetOrdinal("StudyID");
+                        csi.StudyId = rdr.GetInt32(pos);
+
+                        pos = rdr.GetOrdinal("CalcWeight");
+                        csi.Weight = rdr.GetDouble(pos);
+
+                        pos = rdr.GetOrdinal("CalcDate");
+                        csi.CalcDate = rdr.GetDateTime(pos).ToString("MM/dd/yyyy");
+
+                        csil.Add(csi);
+                    }
+                    rdr.Close();
+                }
+                catch (Exception ex)
+                {
+                    Nlogger.LogError(ex);
+                    return null;
+                }
+            }
+            return csil;
+
+        }
         public static CalStudyInfo GetCalStudyInfo(string id)
         {
             var csi = new CalStudyInfo();
@@ -1648,6 +1696,51 @@ namespace hpMvc.DataBase
                 {
                     Nlogger.LogError(ex);
                     return -1;
+                }
+            }
+        }
+
+        public static void GetFormularData(CalEnteral ent)
+        {
+            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            using (var conn = new SqlConnection(strConn))
+            {
+                try
+                {
+                    var cmd = new SqlCommand("", conn)
+                    {
+                        CommandType = System.Data.CommandType.StoredProcedure,
+                        CommandText = "GetFormula"
+                    };
+                    var param = new SqlParameter("@id", ent.FormulaID.ToString());
+                    cmd.Parameters.Add(param);
+
+                    conn.Open();
+                    var rdr = cmd.ExecuteReader();
+                    
+                    while (rdr.Read())
+                    {
+                        int pos = rdr.GetOrdinal("Kcal/mL");
+                        ent.KcalMl = !rdr.IsDBNull(pos) ? rdr.GetDouble(pos) : 0;
+
+                        pos = rdr.GetOrdinal("CHO % of kcal");
+                        ent.ChoPercent = rdr.GetDouble(pos);
+
+                        pos = rdr.GetOrdinal("Protein % of kcal");
+                        ent.ProteinPercent = rdr.GetDouble(pos);
+
+                        pos = rdr.GetOrdinal("Lipid % of kcal");
+                        ent.LipidPercent = rdr.GetDouble(pos);
+
+                    }
+                    rdr.Close();
+
+                    return;
+                }
+                catch (Exception ex)
+                {
+                    Nlogger.LogError(ex);
+                    return;
                 }
             }
         }

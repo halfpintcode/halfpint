@@ -15,6 +15,7 @@ using hpMvc.Reports.RandomizedSubjectsChecksCompletedRows;
 using hpMvc.Services.CgmImportService;
 using Microsoft.Security.Application;
 using Telerik.Web.Mvc;
+using hpMvc.Services.GIRUpdateService;
 
 namespace hpMvc.Controllers
 {
@@ -908,6 +909,19 @@ namespace hpMvc.Controllers
             var mUsers = DbUtils.GetAllUserInfo(); 
             
             return View(mUsers);
+        }
+
+        public ActionResult RecalculateGIRAll()
+        {
+            
+            return View();
+        }
+
+        [HttpPost]
+        public JsonResult RecalculateGIR(object obj)
+        {
+            GIRUpdateService.UpdateAll();
+            return Json("");
         }
 
         public ActionResult PostTestsService()

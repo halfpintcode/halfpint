@@ -187,6 +187,7 @@ namespace hpMvc.Controllers
             return Json(cad);
         }
 
+        
         public JsonResult GetFormulaData()
         {
             var efl = CalorieCalc.GetFormulaList();
