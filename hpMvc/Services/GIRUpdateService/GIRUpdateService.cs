@@ -19,6 +19,11 @@ namespace hpMvc.Services.GIRUpdateService
             return true;
         }
 
+        public static bool UpdateForCalStudyId(string id)
+        {
+
+            return true;
+        }
         public static bool UpdateForCalStudyInfo(CalStudyInfo csi)
         {
             var allData = GetAllDataForRecalc(csi.StudyId.ToString(), csi.CalcDate);
@@ -29,7 +34,7 @@ namespace hpMvc.Services.GIRUpdateService
             double totEnProtein = 0;
             double totEnCho = 0;
             double totEnLipid = 0;
-
+            
             foreach(var ci in allData.calInfusionCol)
             {
                 foreach(var vol in ci.Volumes)
@@ -41,9 +46,9 @@ namespace hpMvc.Services.GIRUpdateService
             foreach(var par in allData.calParenterals)
             {
                 double lipVal = 0;
-                totParenProtein += par.AminoPercent * 0.04 * par.Volume;
+                totParenProtein += par.AminoPercent  * par.Volume;
                 if(par.DexPercent >0){
-                    totParenCho += par.DexPercent * 0.034 * par.Volume;
+                    totParenCho += par.DexPercent *  par.Volume;
                 }
                 else
                 {
@@ -73,6 +78,23 @@ namespace hpMvc.Services.GIRUpdateService
                 totEnLipid += kCals * (ent.LipidPercent / 100);
             }
 
+            foreach(var add in allData.calAdditives)
+            {
+                var kCals = add.KcalUnit * add.Volume;
+                totEnProtein += kCals * (add.ProteinPercent / 100);
+                totEnCho += kCals * (add.ChoPercent / 100);
+                totEnLipid += kCals * (add.LipidPercent / 100);
+            }
+
+            //calculate gir
+            var totalEntPar = totParenProtein + totParenCho + totParenLipid +
+                totEnProtein + totEnCho + totEnLipid;
+            
+            var choKcals = totEnCho;
+            var choMg = (choKcals / 4) * 1000;
+            var dexKal = totInfusions + totParenCho;
+            var dexMg = (dexKal / 3.4) * 1000;
+            var gir = ((choMg + dexMg) / csi.Weight) / (csi.Hours * 60); 
             return true;
         }
         
@@ -111,6 +133,10 @@ namespace hpMvc.Services.GIRUpdateService
                 CalorieCalc.GetFormularData(ent);
             }
             var cal = CalorieCalc.GetCalAdditivesData(calStudyID);
+            foreach(var add in cal)
+            {
+                CalorieCalc.GetAdditiveData(add);
+            }
             var con = CalorieCalc.GetCalOtherNutrition(calStudyID);
 
 

@@ -283,6 +283,12 @@ namespace hpMvc.DataBase
                         pos = rdr.GetOrdinal("CalcDate");
                         csi.CalcDate = rdr.GetDateTime(pos).ToString("MM/dd/yyyy");
 
+                        pos = rdr.GetOrdinal("Gir");
+                        csi.Gir = rdr.IsDBNull(pos) ? 0 : rdr.GetDouble(pos);
+
+                        pos = rdr.GetOrdinal("TotalCals");
+                        csi.TotalCals = rdr.IsDBNull(pos) ? 0 : rdr.GetInt32(pos);
+
                     }
                     rdr.Close();
                 }
@@ -1450,6 +1456,56 @@ namespace hpMvc.DataBase
             return efl;
         }
 
+        public static void GetAdditiveData(CalAdditive cal)
+        {
+            var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            using (var conn = new SqlConnection(strConn))
+            {
+                try
+                {
+                    var cmd = new SqlCommand("", conn)
+                    {
+                        CommandType = System.Data.CommandType.StoredProcedure,
+                        CommandText = "GetAdditive"
+                    };
+                    var param = new SqlParameter("@id", cal.AdditiveID);
+                    cmd.Parameters.Add(param);
+
+                    conn.Open();
+                    var rdr = cmd.ExecuteReader();
+                    var additive = new Additive();
+
+                    while (rdr.Read())
+                    {
+                        
+                        var pos = rdr.GetOrdinal("Kcal/unit");
+                        cal.KcalUnit = !rdr.IsDBNull(pos) ? rdr.GetDouble(pos) : 0;
+
+                        pos = rdr.GetOrdinal("CHO % of kcal");
+                        cal.ChoPercent = rdr.GetDouble(pos);
+
+                        pos = rdr.GetOrdinal("Protein % of kcal");
+                        cal.ProteinPercent = rdr.GetDouble(pos);
+
+                        pos = rdr.GetOrdinal("Lipid % of kcal");
+                        cal.LipidPercent = rdr.GetDouble(pos);
+
+                        pos = rdr.GetOrdinal("Unit");
+                        cal.Unit = rdr.GetInt32(pos);                        
+
+                    }
+                    rdr.Close();
+
+                    return;
+                }
+                catch (Exception ex)
+                {
+                    Nlogger.LogError(ex);
+                    return;
+                }
+            }
+
+        }
         public static Additive GetAdditive(string id)
         {
             var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();

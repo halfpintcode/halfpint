@@ -65,6 +65,11 @@ namespace hpMvc.Models
         public int CalStudyID { get; set; }
         public int AdditiveID { get; set; }
         public double Volume { get; set; }
+        public double KcalUnit { get; set; }
+        public double ProteinPercent { get; set; }
+        public double ChoPercent { get; set; }
+        public double LipidPercent { get; set; }
+        public int Unit { get; set; }
     }
         
     public class CalInfusionDex

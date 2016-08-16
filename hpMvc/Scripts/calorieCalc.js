@@ -4,6 +4,11 @@ $(function () {
     var resultsTotalFloat = 0;
     var resultsTotalInt = 0;
     var infusionTotalFloat = 0;
+    var totDexKcal;
+    var totDexMg;
+    var totChoMg;
+    var totEnteralParenteral;
+    
     var pnChoFloat = 0;
     var pnProteinFloat = 0;
     var pnLipidFloat = 0;
@@ -11,6 +16,7 @@ $(function () {
     var enProteinFloat = 0;
     var enLipidFloat = 0;
     
+
     var tempId = 0;
     var gir = 0;
     var hours, weight;
@@ -1203,9 +1209,11 @@ $(function () {
                     parLip = val3.LipidPercent;
                     parVol = val3.Volume;
                     if (parDex > 0) {
-                        parProteinKcal = Math.round(parAmi * 0.04 * parVol);
+                        //parProteinKcal = Math.round(parAmi * 0.04 * parVol);
+                        parProteinKcal = parAmi * parVol;
                         pnProteinFloat = pnProteinFloat + parProteinKcal;
-                        parChoKcal = Math.round(parDex * 0.034 * parVol);
+                        //parChoKcal = Math.round(parDex * 0.034 * parVol);
+                        parChoKcal = parDex * parVol;
                         pnChoFloat = pnChoFloat + parChoKcal;
                         optText = "Dextrose:" + parDex + "%, Amino Acid:" + parAmi + "%, Volume:" + parVol + "mL";
                         tempId++;
@@ -1228,7 +1236,7 @@ $(function () {
                                 parLipVal = 3.0;
                                 break;
                         }
-                        parLipidKcal = Math.round(parLipVal * parVol);
+                        parLipidKcal = (parLipVal * parVol);
                         pnLipidFloat = pnLipidFloat + parLipidKcal;
                         optText = "Lipid Concentration:" + parLip + "%, Volume:" + parVol + "mL";
                         tempId++;
@@ -1265,9 +1273,9 @@ $(function () {
                     var option3 = $("#selEnteral option:last-child");
                     option3.data('enteral', { protein: enProteinKcal, cho: enChoKcal, lipid: enLipidKcal, volume: vol });
 
-                    enProteinFloat = enProteinFloat + Math.round(enProteinKcal);
-                    enChoFloat = enChoFloat + Math.round(enChoKcal);
-                    enLipidFloat = enLipidFloat + Math.round(enLipidKcal);
+                    enProteinFloat = enProteinFloat + enProteinKcal;
+                    enChoFloat = enChoFloat + enChoKcal;
+                    enLipidFloat = enLipidFloat + enLipidKcal;
                 });
                 $.each(rdata.calAdditives, function (index, val) {
                     var additiveId = val.AdditiveID;
@@ -1295,9 +1303,9 @@ $(function () {
                     var option3 = $("#selAdditive option:last-child");
                     option3.data('additive', { protein: enProteinKcal, cho: enChoKcal, lipid: enLipidKcal, volume: vol });
 
-                    enProteinFloat = enProteinFloat + Math.round(enProteinKcal);
-                    enChoFloat = enChoFloat + Math.round(enChoKcal);
-                    enLipidFloat = enLipidFloat + Math.round(enLipidKcal);
+                    enProteinFloat = enProteinFloat + (enProteinKcal);
+                    enChoFloat = enChoFloat + (enChoKcal);
+                    enLipidFloat = enLipidFloat + (enLipidKcal);
                 });
 
                 $('#parenteralLipid').text(pnLipidFloat);
