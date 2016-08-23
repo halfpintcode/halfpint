@@ -5,8 +5,12 @@
 
 <h2>Recalculate GIR - Service</h2>
 <dir>
-    <span>Recalculate GIR For All Subjects</span>
+    <span>Enter the study Id: </span>
+    <input type="text" name="id" id="id" />
+    <span> and enter the entry date: </span>
+    <input type="text" name="calcDate" id="calcDate" />
+    <br />
     <input id="btnRecalc" type="button" value="Recalculte GIR" />
 </dir>
 <link href="@Url.Content("~/Content/postTestsService.css")" rel="stylesheet">
-<script src="@Url.Content("~/Scripts/recalculateGIRall.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/recalculateGIRid.js")" type="text/javascript"></script>

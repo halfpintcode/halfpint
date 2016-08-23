@@ -2719,6 +2719,34 @@ namespace hpMvc.DataBase
 
         }
 
+        public static int GetStudyIDFromSubjectId(string subjectId)
+        {
+            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            using (var conn = new SqlConnection(strConn))
+            {
+                try
+                {
+                    //throw new Exception("Test error");
+                    var cmd = new SqlCommand("", conn)
+                    {
+                        CommandType = System.Data.CommandType.StoredProcedure,
+                        CommandText = ("GetStudyIdFromSubjectId")
+                    };
+                    var param = new SqlParameter("@subjectId", subjectId);
+                    cmd.Parameters.Add(param);
+                    
+                    conn.Open();
+                    var id = (Int32)cmd.ExecuteScalar();
+                    return id;
+                }
+                catch (Exception ex)
+                {
+                    Nlogger.LogError(ex);
+                    return -1;
+                }
+            }
+        }
+
         public static int GetSiteidIdForUser(string userName)
         {
             var strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();

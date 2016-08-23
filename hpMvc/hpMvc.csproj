@@ -640,7 +640,8 @@
     <Content Include="Scripts\jquery-ui-1.10.3.min.js" />
     <Content Include="Scripts\postTestAdd.js" />
     <Content Include="Scripts\RandomizedChecksRowsCompleted.js" />
-    <Content Include="Scripts\recalculateGIR.js" />
+    <Content Include="Scripts\recalculateGIRid.js" />
+    <Content Include="Scripts\recalculateGIRall.js" />
     <Content Include="Scripts\resetGenericNurseAccount.js" />
     <Content Include="Scripts\sites.js" />
     <Content Include="Scripts\StaffEnrollmentContent.js" />
@@ -978,6 +979,7 @@
     <Content Include="Views\FamiliesArabic\ContactConfirmation.cshtml" />
     <Content Include="Views\FamiliesArabic\Index.cshtml" />
     <Content Include="Views\Admin\RecalculateGIRAll.cshtml" />
+    <Content Include="Views\Admin\RecalculateGIRbyId.cshtml" />
     <None Include="_bin_deployableAssemblies\Microsoft.Web.Infrastructure.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.Razor.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.dll" />

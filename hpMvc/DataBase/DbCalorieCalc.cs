@@ -1135,7 +1135,55 @@ namespace hpMvc.DataBase
                 }
             }
         }
-        
+
+        public static DTO UpdateCalStudyInfoGir(CalStudyInfo csi)
+        {
+            var dto = new DTO();
+
+            String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();
+            using (var conn = new SqlConnection(strConn))
+            {
+                try
+                {
+                    var cmd = new SqlCommand("", conn)
+                    {
+                        CommandType = System.Data.CommandType.StoredProcedure,
+                        CommandText = ("UpdateCalStudyInfoGir")
+                    };
+
+                    var param = new SqlParameter("@id", csi.Id);
+                    cmd.Parameters.Add(param);
+                    //param = new SqlParameter("@weight", csi.Weight);
+                    //cmd.Parameters.Add(param);
+                    param = new SqlParameter("@gir", csi.Gir);
+                    cmd.Parameters.Add(param);
+                    //param = new SqlParameter("@calcDate", csi.CalcDate);
+                    //cmd.Parameters.Add(param);
+                    //param = new SqlParameter("@totalCals", csi.TotalCals);
+                    //cmd.Parameters.Add(param);
+                    //param = new SqlParameter("@hours", csi.Hours);
+                    //cmd.Parameters.Add(param);
+
+
+                    conn.Open();
+
+                    cmd.ExecuteNonQuery();
+
+                    dto.ReturnValue = 1;
+                    dto.Bag = csi;
+
+                    return dto;
+                }
+                catch (Exception ex)
+                {
+                    Nlogger.LogError(ex);
+                    dto.Message = ex.Message;
+                    dto.ReturnValue = -1;
+                    return dto;
+                }
+            }
+        }
+
         public static int IsCalStudyInfoDuplicate(int studyId, string calcDate)
         {
              String strConn = ConfigurationManager.ConnectionStrings["Halfpint"].ToString();

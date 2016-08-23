@@ -33,7 +33,8 @@
       <siteMapNode title="Calorie Calculator">
         <siteMapNode title="Formula List" controller="CalorieCalc" action="FormulaList" />
         <siteMapNode title="Additive List" controller="CalorieCalc" action="AdditiveList" />
-        <siteMapNode title="Recalculate GIR" controller="Admin" action="RecalculateGIRAll" />
+        <siteMapNode title="Recalculate GIR - All" controller="Admin" action="RecalculateGIRAll" />
+        <siteMapNode title="Recalculate GIR - Id" controller="Admin" action="RecalculateGIRbyId" />
       </siteMapNode>
       <siteMapNode title="Reports">
         <siteMapNode title="CHECKS - Nova Blood Glucose Report"

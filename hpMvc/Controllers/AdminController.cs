@@ -924,6 +924,20 @@ namespace hpMvc.Controllers
             return Json("");
         }
 
+        public ActionResult RecalculateGIRbyId()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public JsonResult RecalculateGIRbyId(string subjectId, string calcDate)
+        {
+            var studyId = DbUtils.GetStudyIDFromSubjectId(subjectId);
+            var gir = GIRUpdateService.UpdateForStudyIdandDate(studyId.ToString(), calcDate);
+            return Json(gir);
+        }
+
+
         public ActionResult PostTestsService()
         {
             var sites = DbUtils.GetSitesActiveForNovanetList();

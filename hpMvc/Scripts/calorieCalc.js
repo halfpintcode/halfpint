@@ -1209,11 +1209,9 @@ $(function () {
                     parLip = val3.LipidPercent;
                     parVol = val3.Volume;
                     if (parDex > 0) {
-                        //parProteinKcal = Math.round(parAmi * 0.04 * parVol);
-                        parProteinKcal = parAmi * parVol;
+                        parProteinKcal = Math.round(parAmi * 0.04 * parVol);
                         pnProteinFloat = pnProteinFloat + parProteinKcal;
-                        //parChoKcal = Math.round(parDex * 0.034 * parVol);
-                        parChoKcal = parDex * parVol;
+                        parChoKcal = Math.round(parDex * 0.034 * parVol);
                         pnChoFloat = pnChoFloat + parChoKcal;
                         optText = "Dextrose:" + parDex + "%, Amino Acid:" + parAmi + "%, Volume:" + parVol + "mL";
                         tempId++;

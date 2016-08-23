@@ -14,17 +14,37 @@ namespace hpMvc.Services.GIRUpdateService
             var calStudyInfoList = CalorieCalc.GetCalStudyInfoAll();
             foreach(var calStudyInfo in calStudyInfoList)
             {
-                UpdateForCalStudyInfo(calStudyInfo);
+                if (calStudyInfo.Hours == null || calStudyInfo.Hours == 0 || calStudyInfo.Weight == null || calStudyInfo.Weight == 0)
+                {
+                    continue;
+                }
+                var gir = GetGirForCalStudyInfo(calStudyInfo);
+                var dto = CalorieCalc.UpdateCalStudyInfoGir(calStudyInfo);
             }
             return true;
         }
 
-        public static bool UpdateForCalStudyId(string id)
+        public static double UpdateForCalStudyId(string id)
         {
-
-            return true;
+            var calStudyInfo = CalorieCalc.GetCalStudyInfo(id);
+            var gir = GetGirForCalStudyInfo(calStudyInfo);
+            var dto = CalorieCalc.UpdateCalStudyInfoGir(calStudyInfo);
+            return gir;
         }
-        public static bool UpdateForCalStudyInfo(CalStudyInfo csi)
+
+        public static double UpdateForStudyIdandDate(string studyId, string calcDate)
+        {
+            var id = CalorieCalc.GetCalStudyId(studyId, calcDate);
+            var calStudyInfo = CalorieCalc.GetCalStudyInfo(id.ToString());
+            if (calStudyInfo.Hours == null || calStudyInfo.Hours == 0 || calStudyInfo.Weight == null || calStudyInfo.Weight == 0)
+            {
+                return 0;
+            }
+            var gir = GetGirForCalStudyInfo(calStudyInfo);
+            
+            return gir;
+        }
+        public static double GetGirForCalStudyInfo(CalStudyInfo csi)
         {
             var allData = GetAllDataForRecalc(csi.StudyId.ToString(), csi.CalcDate);
             double totInfusions = 0;
@@ -46,9 +66,9 @@ namespace hpMvc.Services.GIRUpdateService
             foreach(var par in allData.calParenterals)
             {
                 double lipVal = 0;
-                totParenProtein += par.AminoPercent  * par.Volume;
+                totParenProtein += (par.AminoPercent  * par.Volume * .04);
                 if(par.DexPercent >0){
-                    totParenCho += par.DexPercent *  par.Volume;
+                    totParenCho += (par.DexPercent *  par.Volume * .034);
                 }
                 else
                 {
@@ -94,8 +114,8 @@ namespace hpMvc.Services.GIRUpdateService
             var choMg = (choKcals / 4) * 1000;
             var dexKal = totInfusions + totParenCho;
             var dexMg = (dexKal / 3.4) * 1000;
-            var gir = ((choMg + dexMg) / csi.Weight) / (csi.Hours * 60); 
-            return true;
+            csi.Gir = ((choMg + dexMg) / csi.Weight) / (csi.Hours * 60); 
+            return csi.Gir;
         }
         
 
