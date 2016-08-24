@@ -1040,6 +1040,13 @@ $(function () {
     //#endregion
 
     //#region calculations
+    function DisplayFloatString(num, decimals) {
+        var s = num.toString();
+        var pos = s.indexOf(".");
+        return s.substring(0, pos + 2);
+
+    }
+
     function calculateGir() {
         if (initializing) {
             return;
@@ -1060,8 +1067,9 @@ $(function () {
             totMins = hours * 60;
             gir = ((totChoMg + totDexmg) / weight) / totMins;
             
+            var girD = DisplayFloatString(gir, 2);
         }
-        $('#gir').text(gir.toFixed(1));
+        $('#gir').text(girD);
     }
 
     function recalculateResultsTotal() {

@@ -41,7 +41,7 @@ namespace hpMvc.Services.GIRUpdateService
                 return 0;
             }
             var gir = GetGirForCalStudyInfo(calStudyInfo);
-            
+            var dto = CalorieCalc.UpdateCalStudyInfoGir(calStudyInfo);
             return gir;
         }
         public static double GetGirForCalStudyInfo(CalStudyInfo csi)
