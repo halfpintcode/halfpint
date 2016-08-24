@@ -1306,12 +1306,12 @@ $(function () {
                     enLipidFloat = enLipidFloat + (enLipidKcal);
                 });
 
-                $('#parenteralLipid').text(pnLipidFloat);
-                $('#parenteralCHO').text(pnChoFloat);
-                $('#parenteralProtein').text(pnProteinFloat);
-                $('#enteralProtein').text(enProteinFloat);
-                $('#enteralCHO').text(enChoFloat);
-                $('#enteralLipid').text(enLipidFloat);
+                $('#parenteralLipid').text(Math.round(pnLipidFloat));
+                $('#parenteralCHO').text(Math.round(pnChoFloat));
+                $('#parenteralProtein').text(Math.round(pnProteinFloat));
+                $('#enteralProtein').text(Math.round(enProteinFloat));
+                $('#enteralCHO').text(Math.round(enChoFloat));
+                $('#enteralLipid').text(Math.round(enLipidFloat));
                 recalculateResultsTotal();
             }
         });
