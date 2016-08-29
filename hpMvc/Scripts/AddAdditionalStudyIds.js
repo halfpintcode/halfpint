@@ -6,5 +6,6 @@ $(function() {
         $('#btnSubmit').attr('disabled', 'disabled');
         $('#spanWait').show();
         document.forms[0].submit();
+
     });
 })
