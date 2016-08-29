@@ -38,6 +38,7 @@
                 <li><a href="http://www.nemours.org/locations/nemours-dupont.html" target="_blank"><img src="@Url.Content("~/Content/Images/crewSlideshow/aidpTeam.jpg")" title="Nemours/Alfred I. DuPont Hospital for Children" /></a></li>
                 <li><a href="http://www.childrenshospitaloakland.org/main/home.aspx" target="_blank"><img src="@Url.Content("~/Content/Images/crewSlideshow/choTeam.jpg")" title="Children's Hospital & Research Center of Oakland" /></a></li>
                 <li><a href="https://kosairchildrenshospital.com/Pages/Home.aspx" target="_blank"><img src="@Url.Content("~/Content/Images/crewSlideshow/uolTeam.jpg")" title="Kosair Children's Hospital" /></a></li>
+				<li><a href="https://www.luriechildrens.org/en-us/Pages/index.aspx" target="_blank"><img src="@Url.Content("~/Content/Images/crewSlideshow/luriTeam.jpg")" title="Ann & Robert H. Lurie Children's Hospital of Chicago" /></a></li>
             </ul>
         </div>
     </div>
@@ -340,7 +341,7 @@
         });
 
         google.maps.event.addListener(melmarker, 'click', function (){
-            infowindow.setContent("<p class='mapSiteInfo' dir='rtl' lang='ar'>حالة الموقع: <span class='siteStandby'>استعداد</span><br />مستشفى:<a class='mapLink' dir='rtl' lang='ar' href='http://www.rch.org.au/home/'target='_blank'> The Royal Children's Hospital</a><br /> باحثو الموقع الرئيسيون: <a class='mapLink' dir='rtl' lang='ar' href='http://www.rch.org.au/picu/' target='_blank'>Thomas Rozen, MD</a></p>");
+            infowindow.setContent("<p class='mapSiteInfo' dir='rtl' lang='ar'>حالة الموقع: <span class='siteActive'>نشط</span><br />مستشفى:<a class='mapLink' dir='rtl' lang='ar' href='http://www.rch.org.au/home/'target='_blank'> The Royal Children's Hospital</a><br /> باحثو الموقع الرئيسيون: <a class='mapLink' dir='rtl' lang='ar' href='http://www.rch.org.au/picu/' target='_blank'>Thomas Rozen, MD</a></p>");
             infowindow.open(map, melmarker);
         });
 
